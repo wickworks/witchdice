@@ -6,7 +6,7 @@ import './Attack.scss';
 
 const initialAttackData =
 [
-  {dieCount: 1, dieType: 20, modifier: 0, timing: 'none', attackIcon: 'd4'},
+  {dieCount: 1, dieType: 20, modifier: 0, timing: 'none', attackIcon: 'd20'},
   {dieCount: 1, dieType: 8, modifier: 3, timing: 'all', attackIcon: 'fire'},
   {dieCount: 1, dieType: 6, modifier: 1, timing: 'first', attackIcon: 'necrotic'},
 ];
