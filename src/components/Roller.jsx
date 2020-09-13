@@ -5,7 +5,7 @@ const Roller = () => {
 
   return (
     <div className="Roller">
-      <h2>Roll</h2>
+      <button>Roll</button>
       <p>Advantage</p>
       <p>14 AC</p>
       <p>Total Damage: 21</p>

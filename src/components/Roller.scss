@@ -1,5 +1,12 @@
-@import '../assets';
+@import '../fonts';
 
 .Roller {
+  padding: 8px 20px;
 
+  button {
+    @include text_roll;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+  }
 }

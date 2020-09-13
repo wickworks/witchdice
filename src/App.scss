@@ -1,5 +1,6 @@
 @import 'assets';
+@import 'fonts';
 
 .App {
-  font-size: 20px;
+  @include text_default;
 }

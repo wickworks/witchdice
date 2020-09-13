@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import RollMod from './RollMod.jsx';
+import Roller from './Roller.jsx';
+
 import './Attack.scss';
 
 const initialRollData =
@@ -32,21 +34,25 @@ const Attack = () => {
   }
 
   return (
-    <div className="Attack">
-      <h2>Attack Action</h2>
+    <>
+      <div className="Attack">
+        <h2>Attack Action</h2>
 
-      <RollMod rollID={0} {...rollData[0]} {...rollFunctions} />
+        <RollMod rollID={0} {...rollData[0]} {...rollFunctions} />
 
-      <div className='attack-timing-labels'>
-        <div>All</div>
-        <div>First hit</div>
+        <div className='attack-timing-labels'>
+          <div>All</div>
+          <div>First hit</div>
+        </div>
+
+        <RollMod rollID={1} {...rollData[1]} {...rollFunctions} />
+        <RollMod rollID={2} {...rollData[2]} {...rollFunctions} />
+
+        <p>Add Damage Roll</p>
       </div>
 
-      <RollMod rollID={1} {...rollData[1]} {...rollFunctions} />
-      <RollMod rollID={2} {...rollData[2]} {...rollFunctions} />
-
-      <p>Add Damage Roll</p>
-    </div>
+      <Roller />
+    </>
   );
 }
 export default Attack ;

@@ -1,3 +1,4 @@
+@import '../fonts';
 
 .RollMod {
   display: flex;
@@ -12,12 +13,12 @@
     }
 
     input[type=number] {
+      @include text_default;
       width: 40px;
-      font-size: 20px;
     }
 
     select {
-      font-size: 20px;
+      @include text_default;
     }
 
     .asset {
