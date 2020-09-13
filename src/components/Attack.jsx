@@ -44,25 +44,25 @@ const Attack = () => {
   }
 
   const attackFunctions = {
-    setDieCount: (dieCount, id) => updateAttackData('dieCount',dieCount,id),
-    setDieType: (dieType, id) => updateAttackData('dieType',dieType,id),
-    setModifier: (modifier, id) => updateAttackData('modifier',modifier,id),
+    setDieCount: (dieCount, id) => updateAttackData('dieCount',parseInt(dieCount),id),
+    setDieType: (dieType, id) => updateAttackData('dieType',parseInt(dieType),id),
+    setModifier: (modifier, id) => updateAttackData('modifier',parseInt(modifier),id),
     setTiming: (timing, id) => updateAttackData('timing',timing,id),
     setDamageType: (damageType, id) => updateAttackData('damageType',damageType,id),
   }
 
   const damageFunctions = {
-    setDieCount: (dieCount, id) => updateDamageData('dieCount',dieCount,id),
-    setDieType: (dieType, id) => updateDamageData('dieType',dieType,id),
-    setModifier: (modifier, id) => updateDamageData('modifier',modifier,id),
+    setDieCount: (dieCount, id) => updateDamageData('dieCount',parseInt(dieCount),id),
+    setDieType: (dieType, id) => updateDamageData('dieType',parseInt(dieType),id),
+    setModifier: (modifier, id) => updateDamageData('modifier',parseInt(modifier),id),
     setTiming: (timing, id) => updateDamageData('timing',timing,id),
     setDamageType: (damageType, id) => updateDamageData('damageType',damageType,id),
   }
 
   const rollFunctions = {
     setHit: (hit, id) => updateRollData('hit',hit,id),
-    setRollOne: (rollOne, id) => updateRollData('rollOne',rollOne,id),
-    setRollTwo: (rollTwo, id) => updateRollData('rollTwo',rollTwo,id),
+    setRollOne: (rollOne, id) => updateRollData('rollOne',parseInt(rollOne),id),
+    setRollTwo: (rollTwo, id) => updateRollData('rollTwo',parseInt(rollTwo),id),
     setDamageData: (damageData, id) => updateRollData('damageData',damageData,id),
   }
 
@@ -85,10 +85,15 @@ const Attack = () => {
         const attack = damageData[attackID]
 
         for (let damageID = 0; damageID < attack.dieCount; damageID++) {
-          let damage = [attack.damageType, getRandomInt(attack.dieType) + attack.modifier]
+          let damage = [attack.damageType, getRandomInt(attack.dieType)]
           damageRollData.push(damage)
           console.log('     damage data: ', damage);
+        }
 
+        if (attack.modifier > 0) {
+          let damage = [attack.damageType, attack.modifier]
+          damageRollData.push(damage)
+          console.log('     damage modifier: ', damage);
         }
       }
       roll.damageRollData = damageRollData
