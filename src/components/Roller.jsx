@@ -13,7 +13,7 @@ const Roller = () => {
   const [rollData, setRollData] = useState(initialRollData);
   const [advantage, setAdvantage] = useState(false);
   const [disadvantage, setDisadvantage] = useState(false);
-  const [toHitAC, setToHitAC] = useState(0);
+  // const [toHitAC, setToHitAC] = useState(0);
 
   const updateRollData = (key, value, id) => {
     let newData = [...rollData]
@@ -23,6 +23,10 @@ const Roller = () => {
 
   const rollFunctions = {
     setHit: (hit, id) => updateRollData('hit', hit, id)
+  }
+
+  const generateNewRoll = () => {
+
   }
 
 
@@ -77,14 +81,14 @@ const Roller = () => {
               Disadvantage
             </label>
 
-            <label className="armor-class">
+            {/*<label className="armor-class">
               <input
                 type="number"
                 value={toHitAC}
                 onChange={e => setToHitAC(e.target.value)}
               />
               AC (optional)
-            </label>
+            </label>*/}
           </div>
         </div>
 

@@ -40,7 +40,6 @@ const Attack = () => {
           <div>First hit</div>
         </div>
 
-        <AttackMod attackID={0} {...attackData[1]} {...attackFunctions} />
         <AttackMod attackID={1} {...attackData[1]} {...attackFunctions} />
         <AttackMod attackID={2} {...attackData[2]} {...attackFunctions} />
 

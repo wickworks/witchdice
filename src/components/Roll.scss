@@ -11,15 +11,16 @@
   }
 
   input[type=checkbox] {
-    width: 20px;
-    height: 20px;
+    width: 28px;
+    height: 28px;
+    margin-right: 12px;
   }
 
   .d20-results {
     display: flex;
     flex-direction: column;
     width: 30px;
-    margin-right: 40px;
+    margin: 0 40px 0 4px;
 
     &.reverse { flex-direction: column-reverse; }
 
