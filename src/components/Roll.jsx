@@ -7,7 +7,7 @@ const Roll = ({...props }) => {
     rollID,
     hit, setHit,
     rollUse, rollDiscard,
-    damageData
+    damageRollData
   } = props;
 
   const useLowerRollClass =
@@ -37,7 +37,7 @@ const Roll = ({...props }) => {
 
       <div className="damage-container">
         { hit ?
-          damageData.map((damage, i) => {
+          damageRollData.map((damage, i) => {
             const icon = damage[0];
             const amount = damage[1];
 

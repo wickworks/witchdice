@@ -13,11 +13,11 @@
 }
 
 @mixin text_roll_used {
-  font-size: 22px;
+  font-size: 30px;
 }
 
 @mixin text_roll_discarded {
-  font-size: 14px;
+  font-size: 12px;
   font-style: italic;
   color: steelblue;
 }

@@ -10,7 +10,7 @@ const AttackMod = ({...props }) => {
     dieType, setDieType,
     modifier, setModifier,
     timing, setTiming,
-    attackIcon, setAttackIcon
+    damageType, setDamageType
   } = props;
 
   return (
@@ -23,7 +23,7 @@ const AttackMod = ({...props }) => {
           onChange={e => setDieCount(e.target.value, attackID)}
         />
 
-        <div className={`asset ${attackIcon}`} />
+        <div className={`asset ${damageType}`} />
 
         <span className='die-type'>d{dieType}</span>
 
@@ -39,7 +39,7 @@ const AttackMod = ({...props }) => {
 
       {(timing !== 'none') &&
         <RadioGroup
-          name="timing"
+          name={`timing-${attackID}`}
           className='timing-container'
           selectedValue={timing}
           onChange={(value) => { setTiming(value, attackID) }}
