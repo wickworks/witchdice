@@ -1,8 +1,8 @@
 import React from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
-import './RollMod.scss';
+import './AttackMod.scss';
 
-const RollMod = ({...props }) => {
+const AttackMod = ({...props }) => {
 
   const {
     rollID,
@@ -14,7 +14,7 @@ const RollMod = ({...props }) => {
   } = props;
 
   return (
-    <div className="RollMod">
+    <div className="AttackMod">
 
       <div className='numbers-container'>
         <input
@@ -51,4 +51,4 @@ const RollMod = ({...props }) => {
     </div>
   );
 }
-export default RollMod ;
+export default AttackMod ;
