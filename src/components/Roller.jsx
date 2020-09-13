@@ -12,7 +12,7 @@ const Roller = ({...props}) => {
 
   const [advantage, setAdvantage] = useState(false);
   const [disadvantage, setDisadvantage] = useState(false);
-  // const [toHitAC, setToHitAC] = useState(0);
+  const [toHitAC, setToHitAC] = useState(0);
 
 
   // calculate damage total & breakdown by type
@@ -68,14 +68,14 @@ const Roller = ({...props}) => {
               Disadvantage
             </label>
 
-            {/*<label className="armor-class">
+            <label className="armor-class">
               <input
                 type="number"
                 value={toHitAC}
                 onChange={e => setToHitAC(e.target.value)}
               />
               AC (optional)
-            </label>*/}
+            </label>
           </div>
         </div>
 
@@ -119,7 +119,14 @@ const Roller = ({...props}) => {
           }
 
           return (
-            <Roll rollID={i} rollUse={rollUse} rollDiscard={rollDiscard} {...data} {...rollFunctions} />
+            <Roll
+              rollID={i}
+              rollUse={rollUse}
+              rollDiscard={rollDiscard}
+              toHitAC={toHitAC}
+              {...data}
+              {...rollFunctions}
+            />
           )
         })}
 

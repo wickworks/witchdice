@@ -13,6 +13,8 @@ const AttackMod = ({...props }) => {
     damageType, setDamageType
   } = props;
 
+  const rollType = timing === 'none' ? 'Attack' : 'Damage';
+
   return (
     <div className="AttackMod">
 
@@ -34,10 +36,10 @@ const AttackMod = ({...props }) => {
           onChange={e => setModifier(e.target.value, attackID)}
         />
 
-        <span>Damage Modifier</span>
+        <span>{rollType} Mod</span>
       </div>
 
-      {(timing !== 'none') &&
+      {(rollType === 'Damage') &&
         <RadioGroup
           name={`timing-${attackID}`}
           className='timing-container'

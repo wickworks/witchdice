@@ -26,7 +26,7 @@ const Attack = () => {
   const [rollData, setRollData] = useState(initialRollData);
 
   const updateAttackData = (key, value) => {
-    let newData = {...damageData}
+    let newData = {...attackData}
     newData[key] = value
     setAttackData(newData);
   }
@@ -67,14 +67,14 @@ const Attack = () => {
   }
 
   function getRandomInt(max) {
-    return Math.floor(Math.random() * Math.floor(max));
+    return Math.floor(Math.random() * Math.floor(max)) + 1;
   }
 
   const generateNewRoll = () => {
     let data = []
 
     console.log('~~~~~ NEW ROLL ~~~~~');
-    let d20 = damageData[0]
+    let d20 = attackData
     for (let rollID = 0; rollID < d20.dieCount; rollID++) {
       let roll = {hit: false}
       roll.rollOne = getRandomInt(d20.dieType) + d20.modifier

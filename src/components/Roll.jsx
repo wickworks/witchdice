@@ -7,12 +7,19 @@ const Roll = ({...props }) => {
     rollID,
     hit, setHit,
     rollUse, rollDiscard,
+    toHitAC,
     damageRollData
   } = props;
 
   const useLowerRollClass =
     (rollUse < rollDiscard) ?
     'reverse' : '';
+
+  // if we're given a to-hit AC, set all the hits automatically
+  if (toHitAC > 0) {
+    const didhit = (rollUse >= toHitAC)
+    if (hit !== didhit) { setHit(didhit, rollID); }
+  }
 
   return (
     <div className="Roll">
@@ -22,6 +29,7 @@ const Roll = ({...props }) => {
         type="checkbox"
         checked={hit}
         onChange={() => setHit(!hit, rollID)}
+        disabled={(toHitAC > 0)}
       />
 
       <div className={`asset d20`} />
