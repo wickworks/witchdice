@@ -1,0 +1,62 @@
+@import '../fonts';
+
+.AddAttack {
+  .icons-container {
+    display: flex;
+    margin: 10px 0;
+
+    .dice .IconMenu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+
+      label {
+        min-width: 80px;
+      }
+    }
+
+    .types .IconMenu {
+      display: flex;
+      flex-wrap: wrap;
+
+      label {
+      }
+    }
+
+    .IconMenu {
+      label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px;
+
+        cursor: pointer;
+
+        .asset {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      input[type="radio"] {
+        position: absolute;
+        left: -99999999px;
+
+        &:checked+label {
+          background-color: #c1e0ff;
+        }
+      }
+    }
+
+    .horiz-divider {
+      width: 2px;
+      flex-shrink: 0;
+      background-color: darkgrey;
+      margin: 10px 30px;
+    }
+  }
+
+  .buttons-container {
+    display: flex;
+  }
+}

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AttackMod from './AttackMod.jsx';
+import AddAttack from './AddAttack.jsx';
 import Roller from './Roller.jsx';
 
 import './Attack.scss';
@@ -87,17 +88,17 @@ const Attack = () => {
         for (let damageID = 0; damageID < attack.dieCount; damageID++) {
           let damage = [attack.damageType, getRandomInt(attack.dieType)]
           damageRollData.push(damage)
-          console.log('     damage data: ', damage);
+          // console.log('     damage data: ', damage);
         }
 
         if (attack.modifier > 0) {
           let damage = [attack.damageType, attack.modifier]
           damageRollData.push(damage)
-          console.log('     damage modifier: ', damage);
+          // console.log('     damage modifier: ', damage);
         }
       }
       roll.damageRollData = damageRollData
-      console.log('  roll data: ', roll);
+      // console.log('  roll data: ', roll);
       data.push(roll)
     }
 
@@ -121,7 +122,7 @@ const Attack = () => {
         <AttackMod attackID={0} {...damageData[0]} {...damageFunctions} />
         <AttackMod attackID={1} {...damageData[1]} {...damageFunctions} />
 
-        <p>Add Damage Roll</p>
+        <AddAttack />
       </div>
 
       <Roller rollData={rollData} handleNewRoll={generateNewRoll} rollFunctions={rollFunctions} />

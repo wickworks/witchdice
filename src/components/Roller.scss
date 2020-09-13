@@ -6,6 +6,7 @@
   .controls-and-results {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     margin: 20px 0;
   }
 
