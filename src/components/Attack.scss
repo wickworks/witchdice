@@ -2,4 +2,15 @@
 .Attack {
   border: 1px solid black;
   padding: 8px 20px;
+
+  .attack-timing-labels {
+    display: flex;
+    width: 140px;
+    margin-left: auto;
+
+    div {
+      text-align: center;
+      width: 100%
+    }
+  }
 }

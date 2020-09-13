@@ -1,12 +1,41 @@
 
 .RollMod {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
 
-  height: 40px;
+  .numbers-container {
+    display: flex;
+    align-items: center;
 
-  .asset{
-    height: 40px;
-    width: 40px;
+    > * {
+      margin-right: 10px;
+    }
+
+    input[type=number] {
+      width: 40px;
+      font-size: 20px;
+    }
+
+    select {
+      font-size: 20px;
+    }
+
+    .asset {
+      height: 40px;
+      width: 40px;
+    }
+  }
+
+
+  .timing-container {
+    display: flex;
+    align-items: center;
+    width: 140px;
+
+    input {
+      width: 100%;
+      height: 20px;
+      margin: 0;
+    }
   }
 }
