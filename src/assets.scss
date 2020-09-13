@@ -5,6 +5,24 @@
   background-size: cover;
   background-position: center;
 
+  &.d4 { background-image: url('/assets/dice/d4.svg'); }
+  &.d6 { background-image: url('/assets/dice/d6.svg'); }
+  &.d8 { background-image: url('/assets/dice/d8.svg'); }
+  &.d10 { background-image: url('/assets/dice/d10.svg'); }
+  &.d12 { background-image: url('/assets/dice/d12.svg'); }
   &.d20 { background-image: url('/assets/dice/d20.svg'); }
+
+  &.acid { background-image: url('/assets/types/acid.svg'); }
+  &.bludgeoning { background-image: url('/assets/types/bludgeoning.svg'); }
+  &.cold { background-image: url('/assets/types/cold.svg'); }
   &.fire { background-image: url('/assets/types/fire.svg'); }
+  &.force { background-image: url('/assets/types/force.svg'); }
+  &.lightning { background-image: url('/assets/types/lightning.svg'); }
+  &.necrotic { background-image: url('/assets/types/necrotic.svg'); }
+  &.piercing { background-image: url('/assets/types/piercing.svg'); }
+  &.psychic { background-image: url('/assets/types/psychic.svg'); }
+  &.poison { background-image: url('/assets/types/poison.svg'); }
+  &.radiant { background-image: url('/assets/types/radiant.svg'); }
+  &.slashing { background-image: url('/assets/types/slashing.svg'); }
+  &.thunder { background-image: url('/assets/types/thunder.svg'); }
 }

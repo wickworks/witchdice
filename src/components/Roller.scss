@@ -57,19 +57,28 @@
   .results {
     display: flex;
 
-    ul.type-breakdown {
-      margin: 0 30px 0 0;
-      list-style: none;
+    .type-breakdown {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap-reverse;
+      max-height: 120px;
 
-      li {
+      margin: 0 30px 0 0;
+
+      .damage-type {
         display: flex;
         align-items: center;
-        margin: 10px 0;
+        margin: 0 0 10px 2px;
+
+        .amount {
+          text-align: right;
+          min-width: 40px;
+        }
 
         .asset {
-          width: 20px;
-          height: 20px;
-          margin-left: 8px;
+          width: 26px;
+          height: 26px;
+          margin-left: 4px;
         }
       }
     }

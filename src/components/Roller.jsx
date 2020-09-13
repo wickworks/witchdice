@@ -4,9 +4,9 @@ import './Roller.scss';
 
 const initialRollData =
 [
-  {hit: true, rollUse: 18, rollDiscard: 0, damageData: [['fire', 3],['fire', 8]]},
-  {hit: false, rollUse: 15, rollDiscard: 8, damageData: [['fire', 22],['fire', 4]]},
-  {hit: false, rollUse: 2, rollDiscard: 18, damageData: [['fire', 1],['fire', 3]]},
+  {hit: true, rollUse: 18, rollDiscard: 0, damageData: [['fire', 3],['slashing', 8],['piercing', 8],['psychic', 8]]},
+  {hit: false, rollUse: 15, rollDiscard: 8, damageData: [['necrotic', 22],['radiant', 4],['bludgeoning', 8],['thunder', 8]]},
+  {hit: false, rollUse: 2, rollDiscard: 18, damageData: [['poison', 1],['force', 1],['acid', 3],['cold', 8],['lightning', 8]]},
 ];
 
 const Roller = () => {
@@ -93,17 +93,17 @@ const Roller = () => {
         </div>
 
         <div className="results">
-          <ul className="type-breakdown">
+          <div className="type-breakdown">
             { Object.keys(damageBreakdown).map((type, i) => {
               return (
-                <li className="damage-breakdown" key={i}>
+                <div className="damage-type" key={i}>
                   <div className='amount'>{damageBreakdown[type]}</div>
                   <div className={`asset ${type}`} />
-                </li>
+                </div>
               )
             })}
 
-          </ul>
+          </div>
           <div className="total">
             <div className="label">Total Damage:</div>
             <div className="count">{damageTotal}</div>
