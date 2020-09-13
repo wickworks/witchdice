@@ -1,0 +1,10 @@
+
+.asset {
+  width: 64px;
+  height: 64px;
+  background-size: cover;
+  background-position: center;
+
+  &.d20 { background-image: url('/assets/dice/d20.svg'); }
+  &.fire { background-image: url('/assets/types/fire.svg'); }
+}

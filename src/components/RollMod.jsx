@@ -28,10 +28,6 @@ const RollMod = ({...props }) => {
   console.log('icon',rollIcon);
 
 
-  console.log('icon', rollIcon);
-  const iconPath = `/assets/damagetypes/${rollIcon}.svg`;
-  console.log('path', iconPath);
-
 
   return (
     <div className="RollMod">
@@ -41,7 +37,7 @@ const RollMod = ({...props }) => {
         onChange={e => setRollCount(e.target.value, rollID)}
       />
 
-      <img src={iconPath} alt={rollIcon} />
+      <div className={`asset ${rollIcon}`} />
 
       <span>{dieType}</span>
 
