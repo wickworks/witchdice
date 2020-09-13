@@ -15,17 +15,12 @@ const Attack = () => {
   const [attackData, setAttackData] = useState(initialAttackData);
 
   const updateAttackData = (key, value, id) => {
-    console.log('updating roll',id,' data ',key,'to',value);
-
     let newData = [...attackData]
     newData[id][key] = value
-
-    console.log('new data : ', newData);
-
     setAttackData(newData);
   }
 
-  const rollFunctions = {
+  const attackFunctions = {
     setDieCount: (dieCount, id) => updateAttackData('dieCount',dieCount,id),
     setDieType: (dieType, id) => updateAttackData('dieType',dieType,id),
     setModifier: (modifier, id) => updateAttackData('modifier',modifier,id),
@@ -38,15 +33,16 @@ const Attack = () => {
       <div className="Attack">
         <h2>Attack Action</h2>
 
-        <AttackMod rollID={0} {...attackData[0]} {...rollFunctions} />
+        <AttackMod attackID={0} {...attackData[0]} {...attackFunctions} />
 
         <div className='attack-timing-labels'>
           <div>All</div>
           <div>First hit</div>
         </div>
 
-        <AttackMod rollID={1} {...attackData[1]} {...rollFunctions} />
-        <AttackMod rollID={2} {...attackData[2]} {...rollFunctions} />
+        <AttackMod attackID={0} {...attackData[1]} {...attackFunctions} />
+        <AttackMod attackID={1} {...attackData[1]} {...attackFunctions} />
+        <AttackMod attackID={2} {...attackData[2]} {...attackFunctions} />
 
         <p>Add Damage Roll</p>
       </div>

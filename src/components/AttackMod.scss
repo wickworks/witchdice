@@ -17,13 +17,13 @@
       width: 40px;
     }
 
-    select {
-      @include text_default;
-    }
-
     .asset {
       height: 40px;
       width: 40px;
+    }
+
+    .die-type {
+      width: 30px;
     }
   }
 

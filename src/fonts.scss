@@ -4,10 +4,20 @@
   font-size: 16px;
 }
 
-@mixin text_roll {
+@mixin text_roll_button {
   font-size: 30px;
 }
 
 @mixin text_total {
   font-size: 80px;
+}
+
+@mixin text_roll_used {
+  font-size: 20px;
+}
+
+@mixin text_roll_discarded {
+  font-size: 14px;
+  font-style: italic;
+  color: steelblue;
 }

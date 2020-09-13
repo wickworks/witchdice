@@ -5,7 +5,7 @@ import './AttackMod.scss';
 const AttackMod = ({...props }) => {
 
   const {
-    rollID,
+    attackID,
     dieCount, setDieCount,
     dieType, setDieType,
     modifier, setModifier,
@@ -20,17 +20,18 @@ const AttackMod = ({...props }) => {
         <input
           type="number"
           value={dieCount}
-          onChange={e => setDieCount(e.target.value, rollID)}
+          onChange={e => setDieCount(e.target.value, attackID)}
         />
 
         <div className={`asset ${attackIcon}`} />
 
-        <span>d{dieType} +</span>
+        <span className='die-type'>d{dieType}</span>
 
+        <span className='plus'>+</span>
         <input
           type="number"
           value={modifier}
-          onChange={e => setModifier(e.target.value, rollID)}
+          onChange={e => setModifier(e.target.value, attackID)}
         />
 
         <span>Damage Modifier</span>
@@ -41,7 +42,7 @@ const AttackMod = ({...props }) => {
           name="timing"
           className='timing-container'
           selectedValue={timing}
-          onChange={(value) => { setTiming(value, rollID) }}
+          onChange={(value) => { setTiming(value, attackID) }}
         >
           <Radio value="all" />
           <Radio value="first" />

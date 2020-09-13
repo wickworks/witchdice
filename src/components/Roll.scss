@@ -1,0 +1,58 @@
+@import '../fonts';
+
+.Roll {
+  display: flex;
+  align-items: center;
+  padding: 10px 10px;
+
+  .asset.d20 {
+    width: 36px;
+    height: 36px;
+  }
+
+  input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+  }
+
+  .d20-results {
+    display: flex;
+    flex-direction: column;
+    width: 30px;
+    margin-right: 40px;
+
+    &.reverse { flex-direction: column-reverse; }
+
+    .roll-use { @include text_roll_used; }
+    .roll-discard { @include text_roll_discarded; }
+  }
+
+  .damage-container {
+    display: flex;
+    align-items: center;
+
+    .damage-roll {
+      display: flex;
+      align-items: center;
+
+      .asset {
+        width: 26px;
+        height: 26px;
+        margin-right: 6px;
+      }
+
+      .amount {
+        width: 36px;
+      }
+    }
+
+    // miss
+    hr {
+      width: 100px;
+      height: 2px;
+      border: none;
+      background-color: darkgrey;
+    }
+  }
+
+}

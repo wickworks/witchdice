@@ -13,7 +13,7 @@
     display: flex;
 
     button.new-roll {
-      @include text_roll;
+      @include text_roll_button;
       width: 100px;
       height: 100px;
       border-radius: 50%;
@@ -57,18 +57,32 @@
   .results {
     display: flex;
 
-    ul {
+    ul.type-breakdown {
       margin: 0 30px 0 0;
       list-style: none;
 
       li {
+        display: flex;
+        align-items: center;
         margin: 10px 0;
+
+        .asset {
+          width: 20px;
+          height: 20px;
+          margin-left: 8px;
+        }
       }
     }
 
     .total {
       text-align: center;
       .count { @include text_total; }
+    }
+  }
+
+  .rolls {
+    .hit-label {
+      padding-left: 12px;
     }
   }
 
