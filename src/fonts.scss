@@ -1,9 +1,13 @@
 
 
 @mixin text_default {
-  font-size: 20px;
+  font-size: 16px;
 }
 
 @mixin text_roll {
   font-size: 30px;
+}
+
+@mixin text_total {
+  font-size: 80px;
 }

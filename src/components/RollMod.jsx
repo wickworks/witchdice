@@ -6,11 +6,11 @@ const RollMod = ({...props }) => {
 
   const {
     rollID,
-    rollCount, setRollCount,
+    dieCount, setDieCount,
     dieType, setDieType,
     modifier, setModifier,
     timing, setTiming,
-    rollIcon, setRollIcon
+    attackIcon, setAttackIcon
   } = props;
 
   return (
@@ -19,11 +19,11 @@ const RollMod = ({...props }) => {
       <div className='numbers-container'>
         <input
           type="number"
-          value={rollCount}
-          onChange={e => setRollCount(e.target.value, rollID)}
+          value={dieCount}
+          onChange={e => setDieCount(e.target.value, rollID)}
         />
 
-        <div className={`asset ${rollIcon}`} />
+        <div className={`asset ${attackIcon}`} />
 
         <span>d{dieType} +</span>
 

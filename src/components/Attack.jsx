@@ -4,33 +4,33 @@ import Roller from './Roller.jsx';
 
 import './Attack.scss';
 
-const initialRollData =
+const initialAttackData =
 [
-  {rollCount: 1, dieType: 20, modifier: 0, timing: 'none', rollIcon: 'd20'},
-  {rollCount: 1, dieType: 8, modifier: 3, timing: 'all', rollIcon: 'fire'},
-  {rollCount: 1, dieType: 6, modifier: 1, timing: 'first', rollIcon: 'fire'},
+  {dieCount: 1, dieType: 20, modifier: 0, timing: 'none', attackIcon: 'd20'},
+  {dieCount: 1, dieType: 8, modifier: 3, timing: 'all', attackIcon: 'fire'},
+  {dieCount: 1, dieType: 6, modifier: 1, timing: 'first', attackIcon: 'fire'},
 ];
 
 const Attack = () => {
-  const [rollData, setRollData] = useState(initialRollData);
+  const [attackData, setAttackData] = useState(initialAttackData);
 
-  const updateRollData = (key, value, id) => {
+  const updateAttackData = (key, value, id) => {
     console.log('updating roll',id,' data ',key,'to',value);
 
-    let newData = [...rollData]
+    let newData = [...attackData]
     newData[id][key] = value
 
     console.log('new data : ', newData);
 
-    setRollData(newData);
+    setAttackData(newData);
   }
 
   const rollFunctions = {
-    setRollCount: (rollCount, id) => updateRollData('rollCount',rollCount,id),
-    setDieType: (dieType, id) => updateRollData('dieType',dieType,id),
-    setModifier: (modifier, id) => updateRollData('modifier',modifier,id),
-    setTiming: (timing, id) => updateRollData('timing',timing,id),
-    setRollIcon: (rollIcon, id) => updateRollData('rollIcon',rollIcon,id),
+    setDieCount: (dieCount, id) => updateAttackData('dieCount',dieCount,id),
+    setDieType: (dieType, id) => updateAttackData('dieType',dieType,id),
+    setModifier: (modifier, id) => updateAttackData('modifier',modifier,id),
+    setTiming: (timing, id) => updateAttackData('timing',timing,id),
+    setAttackIcon: (attackIcon, id) => updateAttackData('attackIcon',attackIcon,id),
   }
 
   return (
@@ -38,15 +38,15 @@ const Attack = () => {
       <div className="Attack">
         <h2>Attack Action</h2>
 
-        <RollMod rollID={0} {...rollData[0]} {...rollFunctions} />
+        <RollMod rollID={0} {...attackData[0]} {...rollFunctions} />
 
         <div className='attack-timing-labels'>
           <div>All</div>
           <div>First hit</div>
         </div>
 
-        <RollMod rollID={1} {...rollData[1]} {...rollFunctions} />
-        <RollMod rollID={2} {...rollData[2]} {...rollFunctions} />
+        <RollMod rollID={1} {...attackData[1]} {...rollFunctions} />
+        <RollMod rollID={2} {...attackData[2]} {...rollFunctions} />
 
         <p>Add Damage Roll</p>
       </div>
