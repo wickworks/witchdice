@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AttackMod from './AttackMod.jsx';
+import DamageSource from './DamageSource.jsx';
 import AddDamage from './AddDamage.jsx';
 import Roller from './Roller.jsx';
 
@@ -166,7 +166,7 @@ const Attack = () => {
       <div className="Attack">
         <h2>Attack Action</h2>
 
-        <AttackMod {...attackData} {...attackFunctions} />
+        <DamageSource {...attackData} {...attackFunctions} />
 
         <div className='attack-timing-labels'>
           <div>All</div>
@@ -175,7 +175,7 @@ const Attack = () => {
 
         { damageData.map((data, i) => {
           return (
-            <AttackMod
+            <DamageSource
               attackID={i}
               {...damageData[i]}
               {...damageFunctions}

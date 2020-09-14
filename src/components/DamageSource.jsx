@@ -1,8 +1,8 @@
 import React from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
-import './AttackMod.scss';
+import './DamageSource.scss';
 
-const AttackMod = ({...props }) => {
+const DamageSource = ({...props }) => {
 
   const {
     attackID,
@@ -21,7 +21,7 @@ const AttackMod = ({...props }) => {
   console.log('attack mod ',name, 'enabled ', enabled);
 
   return (
-    <div className="AttackMod">
+    <div className="DamageSource">
 
       {(rollType === 'Damage') &&
         <div className='meta-container'>
@@ -99,4 +99,4 @@ const AttackMod = ({...props }) => {
     </div>
   );
 }
-export default AttackMod ;
+export default DamageSource ;
