@@ -15,22 +15,21 @@ const initialAttackData =
   {dieCount: 1, dieType: 20, modifier: 0, timing: 'none', damageType: 'd20'};
 
 const defaultDamageData =
-  {dieCount: 1, dieType: 4, modifier: 0, timing: 'all', damageType: 'd6'};
+  {dieCount: 1, dieType: 4, modifier: 0, timing: 'all', damageType: 'd6', enabled: true, name: ''};
 
 const initialDamageData =
 [
-  {dieCount: 1, dieType: 8, modifier: 3, timing: 'all', damageType: 'fire'},
-  {dieCount: 1, dieType: 6, modifier: 1, timing: 'first', damageType: 'necrotic'},
+  {dieCount: 1, dieType: 8, modifier: 3, timing: 'all', damageType: 'slashing', enabled: true, name: 'Longsword...'},
+  {dieCount: 1, dieType: 6, modifier: 0, timing: 'first', damageType: 'necrotic', enabled: true, name: '...of DEATH'},
 ];
 
-
-
-const initialRollData =
-[
-  {hit: true, rollOne: 18, rollTwo: 1, damageRollData: [['fire', 3],['slashing', 8],['piercing', 8],['psychic', 8]]},
-  {hit: false, rollOne: 15, rollTwo: 8, damageRollData: [['necrotic', 22],['radiant', 4],['bludgeoning', 8],['thunder', 8]]},
-  {hit: false, rollOne: 2, rollTwo: 18, damageRollData: [['poison', 1],['force', 1],['acid', 3],['cold', 8],['lightning', 8]]},
-];
+const initialRollData = [];
+// {
+//   hit: true,
+//   rollOne: 18,
+//   rollTwo: 1,
+//   damageRollData: [[TYPE, AMOUNT, SOURCE_ID], ['fire', 6, 1]]
+// }
 
 const Attack = () => {
   const [attackData, setAttackData] = useState(initialAttackData);
@@ -72,6 +71,8 @@ const Attack = () => {
     setModifier: (modifier, id) => updateDamageData('modifier',parseInt(modifier),id),
     setTiming: (timing, id) => updateDamageData('timing',timing,id),
     setDamageType: (damageType, id) => updateDamageData('damageType',damageType,id),
+    setEnabled: (enabled, id) => updateDamageData('enabled',enabled,id),
+    setName: (name, id) => updateDamageData('name',name,id),
   }
 
   const rollFunctions = {
@@ -88,32 +89,40 @@ const Attack = () => {
   const generateNewRoll = () => {
     let data = []
 
-    console.log('~~~~~ NEW ROLL ~~~~~');
+    // console.log('~~~~~ NEW ROLL ~~~~~');
+
+    // EACH TO-HIT D20
     let d20 = attackData
     for (let rollID = 0; rollID < d20.dieCount; rollID++) {
       let roll = {hit: false}
       roll.rollOne = getRandomInt(d20.dieType) + d20.modifier
       roll.rollTwo = getRandomInt(d20.dieType) + d20.modifier
 
+      // EACH DAMAGE SOURCE
       let damageRollData = []
-      for (let attackID = 0; attackID < damageData.length; attackID++) {
-        const attack = damageData[attackID]
+      for (let sourceID = 0; sourceID < damageData.length; sourceID++) {
+        const source = damageData[sourceID]
 
-        for (let damageID = 0; damageID < attack.dieCount; damageID++) {
-          let damage = [attack.damageType, getRandomInt(attack.dieType)]
+        // EACH DIE IN THAT SOURCE
+        for (let damageID = 0; damageID < source.dieCount; damageID++) {
+          let damage = [
+            source.damageType,
+            getRandomInt(source.dieType),
+            sourceID
+          ]
+
           damageRollData.push(damage)
-          // console.log('     damage data: ', damage);
         }
 
-        if (attack.modifier > 0) {
-          let damage = [attack.damageType, attack.modifier]
+        // PLUS MODIFIER
+        if (source.modifier > 0) {
+          let damage = [source.damageType, source.modifier]
           damageRollData.push(damage)
-          // console.log('     damage modifier: ', damage);
         }
       }
       roll.damageRollData = damageRollData
-      // console.log('  roll data: ', roll);
       data.push(roll)
+      // console.log('  roll data: ', roll);
     }
 
     console.log('=====', data);

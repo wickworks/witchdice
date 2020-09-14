@@ -11,13 +11,34 @@ const AttackMod = ({...props }) => {
     modifier, setModifier,
     timing, setTiming,
     damageType, setDamageType,
+    enabled, setEnabled,
+    name, setName,
     onEdit
   } = props;
 
   const rollType = timing === 'none' ? 'Attack' : 'Damage';
 
+  console.log('attack mod ',name, 'enabled ', enabled);
+
   return (
     <div className="AttackMod">
+
+      {(rollType === 'Damage') &&
+        <div className='meta-container'>
+          <input
+            type="checkbox"
+            checked={enabled}
+            onChange={e => setEnabled(!enabled, attackID)}
+          />
+
+          <input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value, attackID)}
+            placeholder={'Damage name'}
+          />
+        </div>
+      }
 
       <div className='numbers-container'>
         { (dieType === 0) ? <>
@@ -28,7 +49,7 @@ const AttackMod = ({...props }) => {
           />
 
           <div
-            className={'asset flat clickable'}
+            className={`asset ${damageType} clickable`}
             onClick={() => onEdit(attackID)}
           />
 

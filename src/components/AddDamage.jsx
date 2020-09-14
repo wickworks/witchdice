@@ -15,7 +15,6 @@ const AddDamage = ({startingData, onCancel, onDelete, onAccept}) => {
     (startingData.dieType !== initialData.dieType ||
     startingData.damageType !== initialData.damageType)
   ) {
-    console.log('DETECT EDIT THING CHANGE');
     setInitialData(startingData);
     setDie(startingData.dieType);
     setType(startingData.damageType);

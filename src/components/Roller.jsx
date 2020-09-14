@@ -7,12 +7,15 @@ const Roller = ({...props}) => {
   const {
     rollData,
     handleNewRoll,
+    damageSourcesEnabled,
+    damageSourcesTiming,
     rollFunctions //this will get passed down to the RollMods
   } = props;
 
   const [advantage, setAdvantage] = useState(false);
   const [disadvantage, setDisadvantage] = useState(false);
   const [toHitAC, setToHitAC] = useState(0);
+
 
 
   // calculate damage total & breakdown by type

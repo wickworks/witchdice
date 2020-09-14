@@ -5,10 +5,24 @@
   justify-content: space-between;
   padding: 4px 0;
 
-  .numbers-container {
+  > * {
     display: flex;
     align-items: center;
+  }
 
+  .meta-container {
+    input[type=checkbox] {
+      width: 24px;
+      height: 24px;
+    }
+
+    input[type=text] {
+      @include text_default;
+      width: 200px;
+    }
+  }
+
+  .numbers-container {
     > * {
       margin-right: 10px;
     }
@@ -39,8 +53,6 @@
 
 
   .timing-container {
-    display: flex;
-    align-items: center;
     width: 140px;
 
     input {
