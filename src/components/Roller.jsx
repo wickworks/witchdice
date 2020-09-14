@@ -54,9 +54,12 @@ const Roller = ({...props}) => {
       <div className="controls-and-results">
 
         <div className="controls">
-          <button className="new-roll" onClick={() => handleNewRoll()}>
-            Roll
-          </button>
+          <div className="roll-container">
+            <button className="new-roll" onClick={() => handleNewRoll()}>
+                <div className='asset d20' />
+            </button>
+            Roll Attacks
+          </div>
 
           <div className="conditions">
             <label>

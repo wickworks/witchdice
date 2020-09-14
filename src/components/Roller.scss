@@ -13,17 +13,21 @@
   .controls {
     display: flex;
 
-    button.new-roll {
-      @include text_roll_button;
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
+    .roll-container {
+      
 
-      margin: 0 30px 0 20px;
-      cursor: pointer;
+      button.new-roll {
+        @include text_roll_button;
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
 
-      &:hover {
-        color: #505050;
+        margin: 0 30px 0 20px;
+        cursor: pointer;
+
+        &:hover {
+          color: #505050;
+        }
       }
     }
 

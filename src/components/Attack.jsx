@@ -15,7 +15,7 @@ const initialAttackData =
   {dieCount: 1, dieType: 20, modifier: 0, timing: 'none', damageType: 'd20', enabled: true, name: 'Attack roll'};
 
 const defaultDamageData =
-  {dieCount: 1, dieType: 4, modifier: 0, timing: 'all', damageType: 'fire', enabled: true, name: ''};
+  {dieCount: 1, dieType: 6, modifier: 0, timing: 'all', damageType: 'slashing', enabled: true, name: ''};
 
 const initialDamageData =
 [
