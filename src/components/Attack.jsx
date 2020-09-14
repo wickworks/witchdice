@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AttackMod from './AttackMod.jsx';
-import AddAttack from './AddAttack.jsx';
+import AddDamage from './AddDamage.jsx';
 import Roller from './Roller.jsx';
 
 import './Attack.scss';
 
+
+// TODO:
+// - reroll ones and twos
+// - maximized attacks
+// - crit on 18-19-20
+
 const initialAttackData =
   {dieCount: 1, dieType: 20, modifier: 0, timing: 'none', damageType: 'd20'};
+
+const defaultDamageData =
+  {dieCount: 1, dieType: 4, modifier: 0, timing: 'all', damageType: 'd6'};
 
 const initialDamageData =
 [
   {dieCount: 1, dieType: 8, modifier: 3, timing: 'all', damageType: 'fire'},
   {dieCount: 1, dieType: 6, modifier: 1, timing: 'first', damageType: 'necrotic'},
 ];
+
+
 
 const initialRollData =
 [
@@ -25,6 +36,9 @@ const Attack = () => {
   const [attackData, setAttackData] = useState(initialAttackData);
   const [damageData, setDamageData] = useState(initialDamageData);
   const [rollData, setRollData] = useState(initialRollData);
+
+  const [addDamageIsOpen, setAddDamageIsOpen] = useState(false);
+  const [editingDamageID, setEditingDamageID] = useState(null);
 
   const updateAttackData = (key, value) => {
     let newData = {...attackData}
@@ -106,6 +120,37 @@ const Attack = () => {
     setRollData(data);
   }
 
+  const createOrUpdateDamage = (die, type) => {
+    let newData = [...damageData];
+
+    if (editingDamageID === null) {
+      let newDamage = {...defaultDamageData}
+      newDamage.dieType = die;
+      newDamage.damageType = type;
+      newData.push(newDamage);
+
+    } else {
+      newData[editingDamageID].dieType = die
+      newData[editingDamageID].damageType = type
+    }
+
+    setDamageData(newData);
+  }
+
+  const editDamage = (damageID) => {
+    if (editingDamageID === damageID) { // already open; we clicked to close
+      setAddDamageIsOpen(false);
+    } else {
+      setEditingDamageID(damageID);
+      setAddDamageIsOpen(true);
+    }
+
+  }
+
+  // clear out the "we're editing this damage" whenever the panel closes
+  useEffect(() => {
+    if (!addDamageIsOpen) { setEditingDamageID(null) }
+  }, [addDamageIsOpen]);
 
   return (
     <>
@@ -119,10 +164,34 @@ const Attack = () => {
           <div>First hit</div>
         </div>
 
-        <AttackMod attackID={0} {...damageData[0]} {...damageFunctions} />
-        <AttackMod attackID={1} {...damageData[1]} {...damageFunctions} />
+        { damageData.map((data, i) => {
+          return (
+            <AttackMod
+              attackID={i}
+              {...damageData[i]}
+              {...damageFunctions}
+              onEdit={editDamage}
+              key={i}
+            />
+          )
+        })}
 
-        <AddAttack />
+        { addDamageIsOpen ?
+          <AddDamage
+            startingData={editingDamageID === null ? null : damageData[editingDamageID]}
+            onCancel={() => setAddDamageIsOpen(false)}
+            onDelete={() => setAddDamageIsOpen(false)}
+            onAccept={(die, type) => {
+              createOrUpdateDamage(die, type);
+              setAddDamageIsOpen(false);
+            }}
+          />
+          :
+          <button onClick={() => setAddDamageIsOpen(true)}>
+            Add Damage
+          </button>
+        }
+
       </div>
 
       <Roller rollData={rollData} handleNewRoll={generateNewRoll} rollFunctions={rollFunctions} />

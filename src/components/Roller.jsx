@@ -126,6 +126,7 @@ const Roller = ({...props}) => {
               toHitAC={toHitAC}
               {...data}
               {...rollFunctions}
+              key={i}
             />
           )
         })}

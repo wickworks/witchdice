@@ -10,7 +10,8 @@ const AttackMod = ({...props }) => {
     dieType, setDieType,
     modifier, setModifier,
     timing, setTiming,
-    damageType, setDamageType
+    damageType, setDamageType,
+    onEdit
   } = props;
 
   const rollType = timing === 'none' ? 'Attack' : 'Damage';
@@ -19,24 +20,47 @@ const AttackMod = ({...props }) => {
     <div className="AttackMod">
 
       <div className='numbers-container'>
-        <input
-          type="number"
-          value={dieCount}
-          onChange={e => setDieCount(e.target.value, attackID)}
-        />
+        { (dieType === 0) ? <>
+          <input
+            type="number"
+            value={modifier}
+            onChange={e => setModifier(e.target.value, attackID)}
+          />
 
-        <div className={`asset ${damageType}`} />
+          <div
+            className={'asset flat clickable'}
+            onClick={() => onEdit(attackID)}
+          />
 
-        <span className='die-type'>d{dieType}</span>
+          <span>Flat Damage</span>
+        </> : <>
+          <input
+            type="number"
+            value={dieCount}
+            onChange={e => setDieCount(e.target.value, attackID)}
+          />
 
-        <span className='plus'>+</span>
-        <input
-          type="number"
-          value={modifier}
-          onChange={e => setModifier(e.target.value, attackID)}
-        />
+          { rollType === 'Damage' ?
+            <div
+              className={`asset ${damageType} clickable`}
+              onClick={() => onEdit(attackID)}
+            />
+          :
+            <div className={`asset ${damageType}`} />
+          }
 
-        <span>{rollType} Mod</span>
+          <span className='die-type'>d{dieType}</span>
+
+          <span className='plus'>+</span>
+          <input
+            type="number"
+            value={modifier}
+            onChange={e => setModifier(e.target.value, attackID)}
+          />
+
+          <span>{rollType} Mod</span>
+        </>}
+
       </div>
 
       {(rollType === 'Damage') &&

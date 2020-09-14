@@ -1,6 +1,6 @@
 @import '../fonts';
 
-.AddAttack {
+.AddDamage {
   .icons-container {
     display: flex;
     margin: 10px 0;
@@ -10,17 +10,13 @@
       flex-wrap: wrap;
       justify-content: flex-end;
 
-      label {
-        min-width: 80px;
-      }
+      label { min-width: 80px; }
     }
 
     .types .IconMenu {
       display: flex;
       flex-wrap: wrap;
-
-      label {
-      }
+      margin-right: 60px;
     }
 
     .IconMenu {
@@ -42,9 +38,9 @@
         position: absolute;
         left: -99999999px;
 
-        &:checked+label {
-          background-color: #c1e0ff;
-        }
+        &:checked+label { background-color: #c1e0ff; }
+        &:hover+label { background-color: lightgrey; }
+        &:focus+label { background-color: lightblue; }
       }
     }
 
@@ -58,5 +54,15 @@
 
   .buttons-container {
     display: flex;
+
+    button {
+      @include text_default;
+      padding: 8px 30px;
+      cursor: pointer;
+    }
+
+    .delete { margin-left: auto; }
+    .accept { margin-right: 20px; }
+
   }
 }
