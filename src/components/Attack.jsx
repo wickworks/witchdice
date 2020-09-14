@@ -88,6 +88,7 @@ const Attack = () => {
   // =============== ROLLER FUNCTIONS ==================
 
   function getRandomInt(max) {
+    if (max === 0) {return 0}
     return Math.floor(Math.random() * Math.floor(max)) + 1;
   }
 
@@ -115,7 +116,7 @@ const Attack = () => {
             getRandomInt(source.dieType),
             sourceID
           ]
-          damageRollData.push(damage)
+          if (damage[1] > 0) { damageRollData.push(damage) }
         }
 
         // PLUS MODIFIER
@@ -184,6 +185,8 @@ const Attack = () => {
     newData.splice(damageID, 1);
     setDamageData(newData);
     setAddDamageIsOpen(false);
+
+    setRollData([]);
   }
 
   const renderAddDamage = (damageSourceID) => {
