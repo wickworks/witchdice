@@ -12,10 +12,10 @@ import './Attack.scss';
 // - crit on 18-19-20
 
 const initialAttackData =
-  {dieCount: 1, dieType: 20, modifier: 0, timing: 'none', damageType: 'd20'};
+  {dieCount: 1, dieType: 20, modifier: 0, timing: 'none', damageType: 'd20', enabled: true, name: 'Attack roll'};
 
 const defaultDamageData =
-  {dieCount: 1, dieType: 4, modifier: 0, timing: 'all', damageType: 'd6', enabled: true, name: ''};
+  {dieCount: 1, dieType: 4, modifier: 0, timing: 'all', damageType: 'fire', enabled: true, name: ''};
 
 const initialDamageData =
 [
@@ -38,6 +38,9 @@ const Attack = () => {
 
   const [addDamageIsOpen, setAddDamageIsOpen] = useState(false);
   const [editingDamageID, setEditingDamageID] = useState(null);
+
+
+  // =============== UPDATE DATA ===================
 
   const updateAttackData = (key, value) => {
     let newData = {...attackData}
@@ -82,6 +85,8 @@ const Attack = () => {
     setDamageData: (damageData, id) => updateRollData('damageData',damageData,id),
   }
 
+  // =============== ROLLER FUNCTIONS ==================
+
   function getRandomInt(max) {
     return Math.floor(Math.random() * Math.floor(max)) + 1;
   }
@@ -110,13 +115,16 @@ const Attack = () => {
             getRandomInt(source.dieType),
             sourceID
           ]
-
           damageRollData.push(damage)
         }
 
         // PLUS MODIFIER
         if (source.modifier > 0) {
-          let damage = [source.damageType, source.modifier]
+          let damage = [
+            source.damageType,
+            source.modifier,
+            sourceID
+          ]
           damageRollData.push(damage)
         }
       }
@@ -128,6 +136,25 @@ const Attack = () => {
     console.log('=====', data);
     setRollData(data);
   }
+
+  // returns an array of [true,false,true] corresponding to the current enabled states
+  function getDamageSourcesEnabled() {
+    let enabledData = [];
+    for (let sourceID = 0; sourceID < damageData.length; sourceID++) {
+      enabledData.push(damageData[sourceID].enabled);
+    }
+    return enabledData;
+  }
+
+  function getDamageSourcesTiming() {
+    let timingData = [];
+    for (let sourceID = 0; sourceID < damageData.length; sourceID++) {
+      timingData.push(damageData[sourceID].timing);
+    }
+    return timingData;
+  }
+
+  // =============== ADD / EDIT SOURCES =============
 
   const createOrUpdateDamage = (die, type) => {
     let newData = [...damageData];
@@ -160,6 +187,7 @@ const Attack = () => {
   useEffect(() => {
     if (!addDamageIsOpen) { setEditingDamageID(null) }
   }, [addDamageIsOpen]);
+
 
   return (
     <>
@@ -197,13 +225,18 @@ const Attack = () => {
           />
           :
           <button onClick={() => setAddDamageIsOpen(true)}>
-            Add Damage
+            Add Damage Source
           </button>
         }
 
       </div>
 
-      <Roller rollData={rollData} handleNewRoll={generateNewRoll} rollFunctions={rollFunctions} />
+      <Roller
+        rollData={rollData}
+        damageSourceData={damageData}
+        handleNewRoll={generateNewRoll}
+        rollFunctions={rollFunctions}
+      />
     </>
   );
 }

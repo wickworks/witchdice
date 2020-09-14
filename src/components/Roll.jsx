@@ -7,7 +7,8 @@ const Roll = ({...props }) => {
     rollID,
     hit, setHit,
     rollUse, rollDiscard,
-    toHitAC,
+    toHitAC, isFirstHit,
+    damageSourceData,
     damageRollData
   } = props;
 
@@ -48,9 +49,15 @@ const Roll = ({...props }) => {
           damageRollData.map((damage, i) => {
             const icon = damage[0];
             const amount = damage[1];
+            const sourceID = damage[2];
+
+            let disableClass = '';
+            if (!damageSourceData[sourceID].enabled) { disableClass = 'disabled'; }
+            if (damageSourceData[sourceID].timing === 'first' && !isFirstHit) { disableClass = 'hidden'; }
+            // disableClass = 'hidden';
 
             return (
-              <div className="damage-roll" key={i}>
+              <div className={`damage-roll ${disableClass}`} key={i}>
                 <div className={`asset ${icon}`} />
                 <div className='amount'>{amount}</div>
               </div>

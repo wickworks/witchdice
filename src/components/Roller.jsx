@@ -7,8 +7,7 @@ const Roller = ({...props}) => {
   const {
     rollData,
     handleNewRoll,
-    damageSourcesEnabled,
-    damageSourcesTiming,
+    damageSourceData,
     rollFunctions //this will get passed down to the RollMods
   } = props;
 
@@ -21,20 +20,29 @@ const Roller = ({...props}) => {
   // calculate damage total & breakdown by type
   let damageTotal = 0;
   let damageBreakdown = {};
+  let firstHitRollID = -1;
 
   for (let rollID = 0; rollID < rollData.length; rollID++) {
     if (rollData[rollID].hit) {
+      if (firstHitRollID === -1) { firstHitRollID = rollID; }
 
       const damageRollData = rollData[rollID].damageRollData;
-      for (let damID = 0; damID < damageRollData.length; damID++) {
-        const type = damageRollData[damID][0];
-        const amount = damageRollData[damID][1];
+      for (let damageRollID = 0; damageRollID < damageRollData.length; damageRollID++) {
+        const type = damageRollData[damageRollID][0];
+        const amount = damageRollData[damageRollID][1];
+        const sourceID = damageRollData[damageRollID][2];
 
-        damageTotal = damageTotal + amount;
-        if (type in damageBreakdown) {
-          damageBreakdown[type] = damageBreakdown[type] + amount
-        } else {
-          damageBreakdown[type] = amount
+        let applyDamage = true;
+        if (!damageSourceData[sourceID].enabled) { applyDamage = false; }
+        if (damageSourceData[sourceID].timing === 'first' && rollID !== firstHitRollID) { applyDamage = false; }
+
+        if (applyDamage) {
+          damageTotal = damageTotal + amount;
+          if (type in damageBreakdown) {
+            damageBreakdown[type] = damageBreakdown[type] + amount
+          } else {
+            damageBreakdown[type] = amount
+          }
         }
       }
     }
@@ -127,6 +135,8 @@ const Roller = ({...props}) => {
               rollUse={rollUse}
               rollDiscard={rollDiscard}
               toHitAC={toHitAC}
+              isFirstHit={i === firstHitRollID}
+              damageSourceData={damageSourceData}
               {...data}
               {...rollFunctions}
               key={i}

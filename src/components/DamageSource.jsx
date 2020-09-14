@@ -18,8 +18,6 @@ const DamageSource = ({...props }) => {
 
   const rollType = timing === 'none' ? 'Attack' : 'Damage';
 
-  console.log('attack mod ',name, 'enabled ', enabled);
-
   return (
     <div className="DamageSource">
 

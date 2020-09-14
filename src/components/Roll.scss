@@ -50,6 +50,13 @@
       .amount {
         width: 36px;
       }
+
+      &.disabled {
+        .asset { opacity: 25%; }
+        .amount { visibility: hidden; }
+      }
+
+      &.hidden { display: none; }
     }
 
     // miss
