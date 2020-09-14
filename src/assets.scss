@@ -4,6 +4,7 @@
   height: 64px;
   background-size: cover;
   background-position: center;
+  flex-shrink: 0;
 
   &.d4 { background-image: url('/assets/dice/d4.svg'); }
   &.d6 { background-image: url('/assets/dice/d6.svg'); }
@@ -26,4 +27,9 @@
   &.radiant { background-image: url('/assets/types/radiant.svg'); }
   &.slashing { background-image: url('/assets/types/slashing.svg'); }
   &.thunder { background-image: url('/assets/types/thunder.svg'); }
+
+  &.plus { background-image: url('/assets/plus.svg'); }
+  &.checkmark { background-image: url('/assets/checkmark.svg'); }
+  &.x { background-image: url('/assets/x.svg'); }
+  &.trash { background-image: url('/assets/trash.svg'); }
 }

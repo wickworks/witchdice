@@ -1,22 +1,61 @@
 @import '../fonts';
 
 .AddDamage {
+
+  &.extra-css .icons-container {
+    @media screen and (max-width: 600px) {
+      flex-direction: column;
+
+      .dice {
+        border-right: none;
+        .IconMenu { max-width: none; }
+      }
+
+      .types {
+        .IconMenu { max-width: none; }
+      }
+
+      .IconMenu { justify-content: center; }
+
+      .delete-container {
+        margin-left: 0;
+        button.delete { padding: 6px 40px; }
+      }
+    }
+  }
+
   .icons-container {
     display: flex;
-    margin: 10px 0;
+    align-items: center;
 
-    .dice .IconMenu {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-
-      label { min-width: 80px; }
+    > * {
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
 
-    .types .IconMenu {
-      display: flex;
-      flex-wrap: wrap;
-      margin-right: 60px;
+    .dice {
+      flex-shrink: 0;
+      border-right: 1px solid darkgrey;
+      margin-right: 18px;
+
+      .IconMenu {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 270px;
+
+        label { min-width: 80px; }
+      }
+    }
+
+    .types {
+      flex-shrink: 10;
+
+      .IconMenu {
+        display: flex;
+        flex-wrap: wrap;
+        max-width: 290px;
+
+      }
     }
 
     .IconMenu {
@@ -44,25 +83,23 @@
       }
     }
 
-    .horiz-divider {
-      width: 2px;
-      flex-shrink: 0;
-      background-color: darkgrey;
-      margin: 10px 30px;
+    .delete-container {
+      margin-left: auto;
+
+      button.delete {
+        @include text_default;
+        border: none;
+        background-color: lightgrey;
+        padding: 24px 6px;
+        cursor: pointer;
+
+        &:hover { background-color: grey; }
+
+        .asset {
+          width: 30px;
+          height: 30px;
+        }
+      }
     }
-  }
-
-  .buttons-container {
-    display: flex;
-
-    button {
-      @include text_default;
-      padding: 8px 30px;
-      cursor: pointer;
-    }
-
-    .delete { margin-left: auto; }
-    .accept { margin-right: 20px; }
-
   }
 }

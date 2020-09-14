@@ -156,31 +156,47 @@ const Attack = () => {
 
   // =============== ADD / EDIT SOURCES =============
 
-  const createOrUpdateDamage = (die, type) => {
-    let newData = [...damageData];
-
-    if (editingDamageID === null) {
-      let newDamage = {...defaultDamageData}
-      newDamage.dieType = die;
-      newDamage.damageType = type;
-      newData.push(newDamage);
-
-    } else {
-      newData[editingDamageID].dieType = die
-      newData[editingDamageID].damageType = type
-    }
-
-    setDamageData(newData);
-  }
-
-  const editDamage = (damageID) => {
+  const openEditForDamage = (damageID) => {
     if (editingDamageID === damageID) { // already open; we clicked to close
       setAddDamageIsOpen(false);
     } else {
       setEditingDamageID(damageID);
       setAddDamageIsOpen(true);
     }
+  }
 
+  const updateDamage = (die, type) => {
+    let newData = [...damageData];
+    newData[editingDamageID].dieType = die
+    newData[editingDamageID].damageType = type
+    setDamageData(newData);
+  }
+
+  const createDamage = () => {
+    let newData = [...damageData];
+    let newDamage = {...defaultDamageData}
+    newData.push(newDamage);
+    setDamageData(newData);
+  }
+
+  const deleteDamage = (damageID) => {
+    let newData = [...damageData];
+    newData.splice(damageID, 1);
+    setDamageData(newData);
+    setAddDamageIsOpen(false);
+  }
+
+  const renderAddDamage = (damageSourceID) => {
+    if (addDamageIsOpen && editingDamageID === damageSourceID) {
+      return (
+        <AddDamage
+          startingData={editingDamageID === null ? null : damageData[editingDamageID]}
+          onDelete={() => deleteDamage(damageSourceID)}
+          onAccept={(die, type) => updateDamage(die, type)}
+          onClose={() => setAddDamageIsOpen(false)}
+        />
+      )
+    }
   }
 
   // clear out the "we're editing this damage" whenever the panel closes
@@ -202,30 +218,34 @@ const Attack = () => {
         </div>
 
         { damageData.map((data, i) => {
+          const editClass = (editingDamageID === i) ? 'editing' : '';
+
           return (
-            <DamageSource
-              attackID={i}
-              {...damageData[i]}
-              {...damageFunctions}
-              onEdit={editDamage}
-              key={i}
-            />
+            <>
+              <DamageSource
+                attackID={i}
+                {...damageData[i]}
+                {...damageFunctions}
+                onEdit={openEditForDamage}
+                extraClass={editClass}
+                key={i}
+              />
+              {renderAddDamage(i)}
+            </>
           )
         })}
 
-        { addDamageIsOpen ?
-          <AddDamage
-            startingData={editingDamageID === null ? null : damageData[editingDamageID]}
-            onCancel={() => setAddDamageIsOpen(false)}
-            onDelete={() => setAddDamageIsOpen(false)}
-            onAccept={(die, type) => {
-              createOrUpdateDamage(die, type);
-              setAddDamageIsOpen(false);
+        {renderAddDamage(null)}
+        { !addDamageIsOpen &&
+          <button
+            className="add-damage-button"
+            onClick={() => {
+              openEditForDamage(damageData.length);
+              createDamage();
             }}
-          />
-          :
-          <button onClick={() => setAddDamageIsOpen(true)}>
-            Add Damage Source
+          >
+            <div className={`asset plus clickable`} />
+            <span>Add Damage Source</span>
           </button>
         }
 

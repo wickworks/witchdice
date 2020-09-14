@@ -4,7 +4,7 @@ import './AddDamage.scss';
 
 const defaultDamageData = { dieType: 6, damageType:'slashing' }
 
-const AddDamage = ({startingData, onCancel, onDelete, onAccept}) => {
+const AddDamage = ({startingData, onDelete, onAccept, onClose}) => {
   const [initialData, setInitialData] = useState(defaultDamageData)
   const [die, setDie] = useState(initialData.dieType);
   const [type, setType] = useState(initialData.damageType);
@@ -20,8 +20,18 @@ const AddDamage = ({startingData, onCancel, onDelete, onAccept}) => {
     setType(startingData.damageType);
   }
 
+  const handleChangeDie = (newDie) => {
+    setDie(newDie);
+    if (startingData !== null) { onAccept(newDie, type); } // do edits immediately
+  }
+
+  const handleChangeType = (newType) => {
+    setType(newType);
+    if (startingData !== null) { onAccept(die, newType); } // do edits immediately
+  }
+
   return (
-    <div className="AddDamage">
+    <div className="AddDamage extra-css">
       <div className='icons-container'>
 
         <div className='dice'>
@@ -29,37 +39,26 @@ const AddDamage = ({startingData, onCancel, onDelete, onAccept}) => {
             groupName={'select-die-type'}
             allIcons={[4,6,8,10,12,0]}
             selectedIcon={die}
-            setIcon={setDie}
+            setIcon={handleChangeDie}
             showLabels={true}
           />
         </div>
-
-        <div className='horiz-divider' />
 
         <div className='types'>
           <IconMenu
             groupName={'select-damage-type'}
             allIcons={['slashing','piercing','bludgeoning','fire','cold','lightning','thunder','acid','poison','psychic','necrotic','radiant','force']}
             selectedIcon={type}
-            setIcon={setType}
+            setIcon={handleChangeType}
             showLabels={false}
           />
         </div>
-      </div>
 
-      <div className='buttons-container'>
-        <button className='accept' onClick={() => onAccept(die, type)}>
-          Accept
-        </button>
-        <button className='cancel' onClick={() => onCancel()}>
-          Cancel
-        </button>
-
-        { (startingData !== null) &&
+        <div className='delete-container'>
           <button className='delete' onClick={() => onDelete()}>
-            Delete
+            <div className={'asset trash'} />
           </button>
-        }
+        </div>
       </div>
     </div>
   );

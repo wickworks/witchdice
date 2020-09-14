@@ -13,13 +13,13 @@ const DamageSource = ({...props }) => {
     damageType, setDamageType,
     enabled, setEnabled,
     name, setName,
-    onEdit
+    onEdit, extraClass
   } = props;
 
   const rollType = timing === 'none' ? 'Attack' : 'Damage';
 
   return (
-    <div className="DamageSource">
+    <div className={`DamageSource ${extraClass}`}>
 
       {(rollType === 'Damage') &&
         <div className='meta-container'>

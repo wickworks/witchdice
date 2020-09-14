@@ -23,6 +23,8 @@
   }
 
   .numbers-container {
+    width: 100%;
+
     > * {
       margin-right: 10px;
     }
@@ -51,9 +53,14 @@
     }
   }
 
+  &.editing {
+    .numbers-container .asset { background-color: lightblue; }
+  }
+
 
   .timing-container {
     width: 140px;
+    flex-shrink: 0;
 
     input {
       width: 100%;
