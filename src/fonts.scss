@@ -19,7 +19,7 @@
   color: white;
   font-weight: bold;
 }
-// 
+//
 // @mixin text_roll_button {
 //   font-size: 30px;
 // }
@@ -36,4 +36,8 @@
   font-size: 12px;
   font-style: italic;
   color: steelblue;
+}
+
+@mixin text_critical_hit {
+  font-size: 28px;
 }

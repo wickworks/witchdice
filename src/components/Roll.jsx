@@ -25,6 +25,10 @@ const Roll = ({
     if (hit !== didhit) { setHit(didhit, rollID); }
   }
 
+  // all critical hits are hits
+  if (isCrit && !hit) { setHit(true, rollID); }
+
+
   function renderDamageDice() {
     let diceElements = [];
 
@@ -50,7 +54,7 @@ const Roll = ({
             console.log('ROLL DAMAGE : ', amount);
 
             diceElements.push(
-              <div className={`damage-roll ${disableClass} ${rerollClass}`} key={i}>
+              <div className={`damage-roll ${disableClass} ${rerollClass}`} key={`${i}-${dicePoolIndex}`}>
                 <div className={`asset ${icon}`} />
                 <div className='amount'>{amount}</div>
               </div>
@@ -63,13 +67,7 @@ const Roll = ({
     return diceElements;
   }
 
-  //
-
-  function renderButt() {
-    return (
-      <div>BUTT</div>
-    );
-  }
+  const handleHitClick = () => { setHit(!hit, rollID) }
 
   return (
     <div className="Roll">
@@ -78,8 +76,8 @@ const Roll = ({
         name="hit"
         type="checkbox"
         checked={hit}
-        onChange={() => setHit(!hit, rollID)}
-        disabled={(toHitAC > 0)}
+        onChange={handleHitClick}
+        disabled={(toHitAC > 0 || isCrit)}
       />
 
       <div className={`asset d20`} />
@@ -98,6 +96,12 @@ const Roll = ({
           renderDamageDice()
         :
           <hr />
+        }
+      </div>
+
+      <div className="crit-container">
+        { isCrit &&
+          <>☠️ CRITICAL HIT ☠️</>
         }
       </div>
 

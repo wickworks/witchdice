@@ -22,18 +22,19 @@ const Roller = ({
   for (let rollID = 0; rollID < rollData.length; rollID++) {
     const roll = rollData[rollID];
     const damageSourceData = attackSourceData[roll.attackID].damageData
+    const isCrit = isRollCrit(roll);
 
     // console.log('damage source data for roll ', rollID);
     // console.log(JSON.stringify(damageSourceData);
 
-    if (roll.hit) {
+    if (roll.hit || isCrit) {
       if (firstHitRollID === -1) { firstHitRollID = rollID; }
       const isFirstHit = (rollID === firstHitRollID);
 
       // get both CRIT and REGULAR dice
       [roll.damageRollData, roll.critDamageRollData].forEach((dicePool, dicePoolIndex) => {
         // only include the crit dice pool if we got the critical hit
-        if (dicePoolIndex === 0 || isRollCrit(roll)) {
+        if (dicePoolIndex === 0 || isCrit) {
 
           const damageRollData = dicePool;
           for (let damageRollID = 0; damageRollID < damageRollData.length; damageRollID++) {
@@ -61,18 +62,30 @@ const Roller = ({
     }
   }
 
-  function isRollCrit(attackRoll) {
-    let isCrit = attackRoll.crit;
+  function isRollCrit(roll) {
+    let isCrit = false;
 
-    const rollSorted = [attackRoll.rollOne, attackRoll.rollTwo].sort((a,b)=>a-b);
+    const rollSorted = [roll.rollOne, roll.rollTwo].sort((a,b)=>a-b);
 
-    // check to see if we lost the crit due to disadvantage (or we never really had it)
+    // ADVANTAGE: use the higher roll's crit
     if (advantage && !disadvantage) {
-      // the higher one will have been the crit
+      if (roll.rollOne = rollSorted[0]) {
+        isCrit = roll.critOne
+      } else {
+        isCrit = roll.critTwo
+      }
+
+    // DISADVANTAGE: use the lower roll's crit
     } else if (disadvantage && !advantage) {
-      if (rollSorted[0] < rollSorted[1]) { isCrit = false; }
+      if (roll.rollOne = rollSorted[1]) {
+        isCrit = roll.critOne
+      } else {
+        isCrit = roll.critTwo
+      }
+
+    // NEUTRAL: use the first roll's crit
     } else {
-      if (attackRoll.rollOne < attackRoll.rollTwo) { isCrit = false; }
+      isCrit = roll.critOne
     }
 
     return isCrit;

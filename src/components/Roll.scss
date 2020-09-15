@@ -72,4 +72,10 @@
     }
   }
 
+  .crit-container {
+    @include text_critical_hit;
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
 }

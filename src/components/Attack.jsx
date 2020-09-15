@@ -36,7 +36,8 @@ const initialRollData = [];
 //   {
 //     attackID: 0,
 //     hit: true,
-//     crit: false;
+//     critOne: false;
+//     critTwo: false;
 //     rollOne: 18,
 //     rollTwo: 1,
 //     damageRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
@@ -104,21 +105,29 @@ const Attack = () => {
       // EACH TO-HIT D20
       let attackData = allAttackData[attackID]
       for (let rollID = 0; rollID < attackData.dieCount; rollID++) {
-        let roll = {attackID: attackID, crit: false, hit: false}
+        let roll = {attackID: attackID, hit: false, critOne: false, critTwo: false}
 
         // roll some d20s
         roll.rollOne = getRandomInt(20)
         roll.rollTwo = getRandomInt(20)
 
-        // did we crit?
-        if (roll.rollOne === 20 || roll.rollTwo === 20) { roll.crit = true }
+        // did we crit? (any of the damage sources have expanded crit ranges)
+        let critRange = 20;
+        for (let damageSourceID = 0; damageSourceID < attackData.damageData.length; damageSourceID++) {
+          const source = attackData.damageData[damageSourceID]
+          if (source.tags.includes('expandedcrit1')) {critRange = 19}
+          if (source.tags.includes('expandedcrit2')) {critRange = 18}
+        }
+
+        if (roll.rollOne >= critRange) { roll.critOne = true }
+        if (roll.rollTwo >= critRange) { roll.critTwo = true }
 
         // add the attack modifier
         roll.rollOne += attackData.modifier;
         roll.rollTwo += attackData.modifier;
 
         // EACH DAMAGE SOURCE
-        const damageData = allAttackData[attackID].damageData
+        const damageData = attackData.damageData
         let damageRollData = []
         let critDamageRollData = []
         for (let damageSourceID = 0; damageSourceID < damageData.length; damageSourceID++) {
