@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-// import {RadioGroup, Radio} from 'react-radio-group';
+import { Multiselect } from 'multiselect-react-dropdown';
 import './DamageSource.scss';
+import { allTags } from '../data.js';
 import DamageEdit from './DamageEdit.jsx';
 
 const DamageSource = ({
@@ -20,6 +21,25 @@ const DamageSource = ({
     if (!isEditing) { onEdit(damageID) }
   }
 
+  // =============== ADD / REMOVE TAG CRAP =============
+
+  let tagOptions = []; // [{name: 'First hit only', id: 'first'}, {name: 'Maximized damage', id: 'maximized'}]
+  for (const [key, value] of Object.entries(allTags)) {
+    tagOptions.push({name: value, id: key})
+  }
+
+  let selectedTags = [];
+  let selectedTagNames = [];
+  tags.map((tagKey, i) => {
+    selectedTags.push({name: allTags[tagKey], id: tagKey})
+    selectedTagNames.push(allTags[tagKey])
+  })
+
+  const handleTagUpdate = (selectedTags) => {
+    let newTags = []
+    selectedTags.map((tag) => { newTags.push(tag.id) })
+    setTags(newTags, attackID, damageID)
+  }
 
   return (
     <div className={`DamageSource ${editingClass}`} onClick={handleContainerClick} >
@@ -42,7 +62,7 @@ const DamageSource = ({
               :
                 <>
                   {dieCount}d{dieType}
-                  {modifier > 0 ? `+ ${modifier}` : ''}
+                  {modifier > 0 ? ` + ${modifier}` : ''}
                 </>
               }
             </div>
@@ -53,7 +73,7 @@ const DamageSource = ({
               {name.length > 0 ? name : 'damage'}
             </div>
 
-            <div className="tags">{tags.join(', ')}</div>
+            <div className="tags">{selectedTagNames.join(', ')}</div>
           </div>
         :
           <>
@@ -101,17 +121,22 @@ const DamageSource = ({
 
               <input
                 type="text"
+                className='damage-name'
                 value={name}
                 onChange={e => setName(e.target.value, attackID, damageID)}
-                placeholder={'Damage name'}
+                placeholder={'Damage source'}
               />
 
-              <input
-                type="text"
-                value={tags}
-                onChange={e => setTags(e.target.value, attackID, damageID)}
-                placeholder={'Tags'}
+              <Multiselect
+                options={tagOptions}
+                displayValue="name"
+                hidePlaceholder={true}
+                selectedValues={selectedTags}
+                closeIcon='cancel'
+                onSelect={(tag) => handleTagUpdate(tag)}
+                onRemove={(tag) => handleTagUpdate(tag)}
               />
+
 
             </>}
           </div>
@@ -134,4 +159,12 @@ const DamageSource = ({
     </div>
   );
 }
+
+// <input
+//   type="text"
+//   value={tags}
+//   onChange={e => setTags(e.target.value, attackID, damageID)}
+//   placeholder={'Tags'}
+// />
+
 export default DamageSource ;

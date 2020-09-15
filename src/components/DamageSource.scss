@@ -45,6 +45,12 @@
 
     .name {
       font-style: italic;
+      min-width: 120px;
+      margin-right: 12px;
+    }
+
+    .tags {
+      max-width: 280px;
     }
   }
 
@@ -63,6 +69,10 @@
       width: 40px;
     }
 
+    input.damage-name {
+      max-width: 100px;
+    }
+
     .asset {
       height: 26px;
       width: 26px;
@@ -79,6 +89,29 @@
 
     .die-type {
       width: 30px;
+    }
+
+    #multiselectContainerReact {
+      cursor: pointer;
+
+      &:hover {
+        background-color: lightgrey;
+      }
+
+      // the unnamed immediate container
+      > div {
+        padding: 0;
+      }
+
+      .chip {
+        margin: 4px;
+        padding-right: 4px;
+      }
+
+      input {
+        position: absolute;
+        left: -99999999px;
+      }
     }
   }
 
