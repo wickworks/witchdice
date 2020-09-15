@@ -98,13 +98,13 @@ const Attack = () => {
 
     // EACH ATTACK
     for (let attackID = 0; attackID < allAttackData.length; attackID++) {
-      let roll = {attackID: attackID, hit: false}
 
       // EACH TO-HIT D20
-      let attack = allAttackData[attackID]
-      for (let rollID = 0; rollID < attack.dieCount; rollID++) {
-        roll.rollOne = getRandomInt(20) + attack.modifier
-        roll.rollTwo = getRandomInt(20) + attack.modifier
+      let attackData = allAttackData[attackID]
+      for (let rollID = 0; rollID < attackData.dieCount; rollID++) {
+        let roll = {attackID: attackID, hit: false}
+        roll.rollOne = getRandomInt(20) + attackData.modifier
+        roll.rollTwo = getRandomInt(20) + attackData.modifier
 
         // EACH DAMAGE SOURCE
         const damageData = allAttackData[attackID].damageData
@@ -158,12 +158,14 @@ const Attack = () => {
     setAllAttackData(newData);
   }
 
+  console.log('');
+  console.log("Attack Data: ", JSON.stringify(allAttackData));
+  console.log("Roll Data: ", JSON.stringify(rollData));
+
+
   return (
     <>
       <div className="Attack">
-
-        {console.log("ATTACKDATA ", JSON.stringify(allAttackData))}
-
         <h2 className="character-name">Sneak-thief</h2>
 
         { allAttackData.map((data, i) => {

@@ -155,8 +155,6 @@ const AttackSource = ({attackID, attackData, attackFunctions}) => {
         </div>
 
         <div className='statblock'>
-          { console.log('DAMAGEDATA', JSON.stringify(damageData))}
-
           { damageData.map((data, i) => {
             const editClass = (editingDamageID === i) ? 'editing' : '';
             return (
