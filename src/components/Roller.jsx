@@ -14,27 +14,33 @@ const Roller = ({
   const [disadvantage, setDisadvantage] = useState(false);
   const [toHitAC, setToHitAC] = useState(0);
 
-
   // calculate damage total & breakdown by type
   let damageTotal = 0;
   let damageBreakdown = {};
   let firstHitRollID = -1;
 
   for (let rollID = 0; rollID < rollData.length; rollID++) {
-    const attackRoll = rollData[rollID];
+    const roll = rollData[rollID];
+    const damageSourceData = attackSourceData[roll.attackID].damageData
 
-    if (attackRoll.hit) {
+    // console.log('damage source data for roll ', rollID);
+    // console.log(JSON.stringify(damageSourceData);
+
+    if (roll.hit) {
       if (firstHitRollID === -1) { firstHitRollID = rollID; }
+      const isFirstHit = (rollID === firstHitRollID);
 
-      const damageRollData = attackRoll.damageRollData;
+      const damageRollData = roll.damageRollData;
       for (let damageRollID = 0; damageRollID < damageRollData.length; damageRollID++) {
         const type = damageRollData[damageRollID][0];
         const amount = damageRollData[damageRollID][1];
-        const sourceID = damageRollData[damageRollID][2];
+        const rerolled = damageRollData[damageRollID][2];
+        const sourceID = damageRollData[damageRollID][3];
+        const damageSource = damageSourceData[sourceID];
 
         let applyDamage = true;
-        // if (!damageSourceData[sourceID].enabled) { applyDamage = false; }
-        // if (damageSourceData[sourceID].timing === 'first' && rollID !== firstHitRollID) { applyDamage = false; }
+        if (!damageSource.enabled) { applyDamage = false; }
+        if (damageSource.tags.includes("first") && !isFirstHit) { applyDamage = false; }
 
         if (applyDamage) {
           damageTotal = damageTotal + amount;

@@ -38,7 +38,7 @@ const initialRollData = [];
 //     hit: true,
 //     rollOne: 18,
 //     rollTwo: 1,
-//     damageRollData: [[TYPE, AMOUNT, DAMAGE_ID], ['fire', 6, 1]]
+//     damageRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
 //   }, {
 //     ...
 //   }
@@ -114,12 +114,25 @@ const Attack = () => {
 
           // EACH DIE IN THAT SOURCE
           for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
+            let damageAmount = getRandomInt(source.dieType)
+            let rerolled = false;
+
+            // reroll damage?
+            if (
+              (source.tags.includes('reroll1') && damageAmount <= 1) ||
+              (source.tags.includes('reroll2') && damageAmount <= 2)
+            ) {
+              rerolled = true;
+              damageAmount = getRandomInt(source.dieType);
+            }
+
             let damage = [
               source.damageType,
-              getRandomInt(source.dieType),
+              damageAmount,
+              rerolled,
               damageSourceID
             ]
-            if (damage[1] > 0) { damageRollData.push(damage) }
+            if (damageAmount > 0) { damageRollData.push(damage) }
           }
 
           // PLUS MODIFIER
