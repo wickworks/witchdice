@@ -34,7 +34,7 @@ const Roller = ({...props}) => {
 
         let applyDamage = true;
         if (!damageSourceData[sourceID].enabled) { applyDamage = false; }
-        if (damageSourceData[sourceID].timing === 'first' && rollID !== firstHitRollID) { applyDamage = false; }
+        // if (damageSourceData[sourceID].timing === 'first' && rollID !== firstHitRollID) { applyDamage = false; }
 
         if (applyDamage) {
           damageTotal = damageTotal + amount;

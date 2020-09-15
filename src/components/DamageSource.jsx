@@ -5,68 +5,62 @@ import './DamageSource.scss';
 const DamageSource = ({...props }) => {
 
   const {
-    attackID,
+    attackID, damageID,
     dieCount, setDieCount,
     dieType, setDieType,
     modifier, setModifier,
-    timing, setTiming,
+    tags, setTags,
     damageType, setDamageType,
     enabled, setEnabled,
     name, setName,
     onEdit, extraClass
   } = props;
 
-  const rollType = timing === 'none' ? 'Attack' : 'Damage';
 
   return (
     <div className={`DamageSource ${extraClass}`}>
 
-      {(rollType === 'Damage') &&
-        <div className='meta-container'>
-          <input
-            type="checkbox"
-            checked={enabled}
-            onChange={e => setEnabled(!enabled, attackID)}
-          />
+      <div className='meta-container'>
+        <input
+          type="checkbox"
+          checked={enabled}
+          onChange={e => setEnabled(!enabled, attackID, damageID)}
+        />
 
-          <input
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value, attackID)}
-            placeholder={'Damage name'}
-          />
-        </div>
-      }
+        <input
+          type="text"
+          value={name}
+          onChange={e => setName(e.target.value, attackID, damageID)}
+          placeholder={'Damage name'}
+        />
+      </div>
 
       <div className='numbers-container'>
         { (dieType === 0) ? <>
           <input
             type="number"
             value={modifier}
-            onChange={e => setModifier(e.target.value, attackID)}
+            onChange={e => setModifier(e.target.value, attackID, damageID)}
           />
 
           <div
             className={`asset ${damageType} clickable`}
-            onClick={() => onEdit(attackID)}
+            onClick={() => onEdit(attackID, damageID)}
           />
 
           <span>Flat Damage</span>
         </> : <>
+
           <input
             type="number"
             value={dieCount}
-            onChange={e => setDieCount(e.target.value, attackID)}
+            onChange={e => setDieCount(e.target.value, attackID, damageID)}
           />
 
-          { rollType === 'Damage' ?
-            <div
-              className={`asset ${damageType} clickable`}
-              onClick={() => onEdit(attackID)}
-            />
-          :
-            <div className={`asset ${damageType}`} />
-          }
+          <div
+            className={`asset ${damageType} clickable`}
+            onClick={() => onEdit(attackID, damageID)}
+          />
 
           <span className='die-type'>d{dieType}</span>
 
@@ -74,25 +68,19 @@ const DamageSource = ({...props }) => {
           <input
             type="number"
             value={modifier}
-            onChange={e => setModifier(e.target.value, attackID)}
+            onChange={e => setModifier(e.target.value, attackID, damageID)}
           />
 
-          <span>{rollType} Mod</span>
         </>}
 
       </div>
 
-      {(rollType === 'Damage') &&
-        <RadioGroup
-          name={`timing-${attackID}`}
-          className='timing-container'
-          selectedValue={timing}
-          onChange={(value) => { setTiming(value, attackID) }}
-        >
-          <Radio value="all" />
-          <Radio value="first" />
-        </RadioGroup>
-      }
+      <input
+        type="text"
+        value={tags}
+        onChange={e => setTags(e.target.value, attackID, damageID)}
+        placeholder={'Tags'}
+      />
 
     </div>
   );

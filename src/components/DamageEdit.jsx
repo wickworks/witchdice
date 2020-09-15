@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
-import './AddDamage.scss';
+import './DamageEdit.scss';
 
 const defaultDamageData = { dieType: 6, damageType:'slashing' }
 
-const AddDamage = ({startingData, onDelete, onAccept, onClose}) => {
+const DamageEdit = ({startingData, onDelete, onAccept, onClose}) => {
   const [initialData, setInitialData] = useState(defaultDamageData)
   const [die, setDie] = useState(initialData.dieType);
   const [type, setType] = useState(initialData.damageType);
@@ -31,7 +31,7 @@ const AddDamage = ({startingData, onDelete, onAccept, onClose}) => {
   }
 
   return (
-    <div className="AddDamage extra-css">
+    <div className="DamageEdit extra-css">
       <div className='icons-container'>
 
         <div className='dice'>
@@ -108,4 +108,4 @@ const IconMenu = (props) => {
   )
 }
 
-export default AddDamage;
+export default DamageEdit;

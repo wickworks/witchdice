@@ -53,7 +53,7 @@ const Roll = ({...props }) => {
 
             let disableClass = '';
             if (!damageSourceData[sourceID].enabled) { disableClass = 'disabled'; }
-            if (damageSourceData[sourceID].timing === 'first' && !isFirstHit) { disableClass = 'hidden'; }
+            // if (damageSourceData[sourceID].timing === 'first' && !isFirstHit) { disableClass = 'hidden'; }
             // disableClass = 'hidden';
 
             return (
