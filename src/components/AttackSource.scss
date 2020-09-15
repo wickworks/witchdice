@@ -2,31 +2,48 @@
 
 .AttackSource {
   display: flex;
+  margin-bottom: 20px;
 
   .die-count-container {
     margin-right: 12px;
 
     .asset {
-      width: 40px;
-      height: 40px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+
+      &:hover {
+        background-color: lightblue;
+      }
+
     }
     .die-count {
-      @include text_default;
+      @include text_attack_roll_count;
       text-align: center;
-      padding-top: 12px;
+      padding-top: 11px;
     }
   }
 
   .statblock-container {
+    min-width: 666px;
+
     .titlebar {
       display: flex;
       align-items: flex-end;
       margin-bottom: 8px;
 
-      .name { @include text_attack_name; }
+      .name {
+        @include text_attack_name;
+      }
       .modifier {
         margin-left: 14px;
         padding-bottom: 2px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: lightblue;
+        }        
       }
       .desc {
         margin-left: auto;
@@ -37,7 +54,35 @@
 
     .statblock {
       background-color: #eeeeee;
+      position: relative;
+      padding: 1px 0;
 
+      .add-damage-button {
+        @include text_default;
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: flex;
+        align-items: center;
+        border: none;
+        padding: 4px 8px;
+        background-color: #eeeeee;
+        cursor: pointer;
+
+        .asset {
+          border-radius: 50%;
+          margin-left: 4px;
+          width: 36px;
+          height: 36px;
+        }
+
+        &:hover {
+          background-color: lightgrey;
+        }
+      }
     }
   }
+
+
+
 }

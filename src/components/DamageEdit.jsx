@@ -1,34 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
 import './DamageEdit.scss';
 
 const defaultDamageData = { dieType: 6, damageType:'slashing' }
 
-const DamageEdit = ({startingData, onDelete, onAccept, onClose}) => {
-  const [initialData, setInitialData] = useState(defaultDamageData)
-  const [die, setDie] = useState(initialData.dieType);
-  const [type, setType] = useState(initialData.damageType);
-
-  // whenever we're given new initial data, reset the selected icons appropriately
-  if (
-    startingData !== null &&
-    (startingData.dieType !== initialData.dieType ||
-    startingData.damageType !== initialData.damageType)
-  ) {
-    setInitialData(startingData);
-    setDie(startingData.dieType);
-    setType(startingData.damageType);
-  }
-
-  const handleChangeDie = (newDie) => {
-    setDie(newDie);
-    if (startingData !== null) { onAccept(newDie, type); } // do edits immediately
-  }
-
-  const handleChangeType = (newType) => {
-    setType(newType);
-    if (startingData !== null) { onAccept(die, newType); } // do edits immediately
-  }
+const DamageEdit = (
+  {die, setDie, type, setType, onDelete, onClose}
+) => {
 
   return (
     <div className="DamageEdit extra-css">
@@ -39,7 +17,7 @@ const DamageEdit = ({startingData, onDelete, onAccept, onClose}) => {
             groupName={'select-die-type'}
             allIcons={[4,6,8,10,12,0]}
             selectedIcon={die}
-            setIcon={handleChangeDie}
+            setIcon={setDie}
             showLabels={true}
           />
         </div>
@@ -49,15 +27,19 @@ const DamageEdit = ({startingData, onDelete, onAccept, onClose}) => {
             groupName={'select-damage-type'}
             allIcons={['slashing','piercing','bludgeoning','fire','cold','lightning','thunder','acid','poison','psychic','necrotic','radiant','force']}
             selectedIcon={type}
-            setIcon={handleChangeType}
+            setIcon={setType}
             showLabels={false}
           />
         </div>
 
-        <div className='delete-container'>
+        <div className='buttons-container'>
           <button className='delete' onClick={() => onDelete()}>
             <div className={'asset trash'} />
           </button>
+          <button className='accept' onClick={() => onClose()}>
+            <div className={'asset checkmark'} />
+          </button>
+  
         </div>
       </div>
     </div>
@@ -76,12 +58,14 @@ const IconMenu = (props) => {
     // damage types are their own icon name
     if (typeof(iconName) === 'string') {return iconName}
 
-    // e.g. converts from 6 to 'd6' or 0 to 'flat'
-    if (iconName === 0) {
-      return 'flat'
-    } else {
-      return `d${iconName}`
-    }
+    // e.g. converts from 6 to 'd6'
+    return `d${iconName}`
+  }
+
+  // shows 'flat' label
+  function getIconName(iconName) {
+    if (iconName === 0) {return 'flat'}
+    return getIconFile(iconName);
   }
 
   return (
@@ -98,7 +82,7 @@ const IconMenu = (props) => {
             <Radio value={icon} id={radioID} />
             <label htmlFor={radioID} >
               <div className={`asset ${getIconFile(icon)}`} />
-              { showLabels && <div className='label'>{getIconFile(icon)}</div> }
+              { showLabels && <div className='label'>{getIconName(icon)}</div> }
             </label>
           </div>
         )

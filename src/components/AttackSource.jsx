@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
 import DamageSource from './DamageSource.jsx';
-import DamageEdit from './DamageEdit.jsx';
 import './AttackSource.scss';
 
 const defaultDamageData =
@@ -35,10 +34,10 @@ const AttackSource = ({...props}) => {
   const updateDamageData = (key, value, attackID, damageID) => {
     let newData = [...damageData]
     newData[damageID][key] = value
-    setDamageData(newData);
+    setDamageData(newData, attackID);
   }
 
-  // =============== ADD / EDIT SOURCES =============
+  // =============== ADD / EDIT DAMAGE SOURCES =============
 
   const openEditForDamage = (damageID) => {
     if (editingDamageID === damageID) { // already open; we clicked to close
@@ -60,13 +59,13 @@ const AttackSource = ({...props}) => {
     let newData = [...damageData];
     let newDamage = {...defaultDamageData}
     newData.push(newDamage);
-    setDamageData(newData);
+    setDamageData(newData, attackID);
   }
 
   const deleteDamage = (damageID) => {
     let newData = [...damageData];
     newData.splice(damageID, 1);
-    setDamageData(newData);
+    setDamageData(newData, attackID);
     setDamageEditIsOpen(false);
   }
 
@@ -75,33 +74,59 @@ const AttackSource = ({...props}) => {
     if (!damageEditIsOpen) { setEditingDamageID(null) }
   }, [damageEditIsOpen]);
 
+  // =============== EDIT ATTACK =============
 
+  function handleD20Click(e, leftMouse) {
+    let newDieCount = dieCount;
 
-  const renderDamageEdit = (damageSourceID) => {
-    if (damageEditIsOpen && editingDamageID === damageSourceID) {
-      return (
-        <DamageEdit
-          startingData={editingDamageID === null ? null : damageData[editingDamageID]}
-          onDelete={() => deleteDamage(damageSourceID)}
-          onAccept={(die, type) => updateDamage(die, type)}
-          onClose={() => setDamageEditIsOpen(false)}
-        />
-      )
+    if (leftMouse) {
+      newDieCount += 1;
+    } else {
+      newDieCount -= 1;
+      e.preventDefault()
     }
+
+    newDieCount = Math.min(newDieCount, 99);
+    newDieCount = Math.max(newDieCount, 0);
+    setDieCount(newDieCount, attackID);
+  }
+
+  function handleModifierClick(e, leftMouse) {
+    let newModifier = modifier;
+
+    if (leftMouse && !e.shiftKey) {
+      newModifier += 1;
+    } else {
+      newModifier -= 1;
+      e.preventDefault()
+    }
+
+    newModifier = Math.min(newModifier, 20);
+    newModifier = Math.max(newModifier, -20);
+    setModifier(newModifier, attackID);
   }
 
   return (
     <div className='AttackSource'>
       <div className='die-count-container'>
-        <div className='asset d20'>
-          <div className='die-count'>{dieCount}</div>
+        <div
+          className='asset d20_frame'
+          onClick={(e) => handleD20Click(e, true)} onContextMenu={(e) => handleD20Click(e, false)}
+        >
+          <div className='die-count unselectable'>{dieCount}</div>
         </div>
       </div>
 
       <div className='statblock-container'>
         <div className='titlebar'>
           <div className='name'>{name}.</div>
-          <div className='modifier'>+{modifier} to hit</div>
+          <div
+            className='modifier unselectable'
+            onClick={(e) => handleModifierClick(e, true)} onContextMenu={(e) => handleModifierClick(e, false)}
+          >
+            {modifier >= 0 ? '+' : ''}
+            {modifier} to hit
+          </div>
           <div className='desc'>Melee weapon attack. Reach 5ft, one target.</div>
         </div>
 
@@ -109,17 +134,17 @@ const AttackSource = ({...props}) => {
           { damageData.map((data, i) => {
             const editClass = (editingDamageID === i) ? 'editing' : '';
             return (
-              <>
-                <DamageSource
-                  attackID={i}
-                  {...damageData[i]}
-                  {...damageFunctions}
-                  onEdit={openEditForDamage}
-                  extraClass={editClass}
-                  key={i}
-                />
-                {renderDamageEdit(i)}
-              </>
+              <DamageSource
+                attackID={attackID}
+                damageID={i}
+                {...damageData[i]}
+                {...damageFunctions}
+                isEditing={editingDamageID === i}
+                onEdit={openEditForDamage}
+                onDelete={deleteDamage}
+                extraClass={editClass}
+                key={i}
+              />
             )
           })}
 
@@ -131,8 +156,8 @@ const AttackSource = ({...props}) => {
                 createDamage();
               }}
             >
-              <div className={`asset plus clickable`} />
-              <span>Add Damage Source</span>
+              <span>Add Damage</span>
+              <div className={`asset plus`} />
             </button>
           }
         </div>

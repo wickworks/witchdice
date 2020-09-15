@@ -38,8 +38,16 @@ const Attack = () => {
   // =============== UPDATE DATA ===================
 
   const updateAttackData = (key, value, attackID) => {
-    let newData = {...attackData}
+    console.log('setting attack key', key);
+    console.log('to',value);
+    console.log('for attack', attackID);
+
+
+    let newData = [...attackData]
     newData[attackID][key] = value
+    console.log(attackData);
+    console.log('update attack data to ');
+    console.log(newData);
     setAttackData(newData);
   }
 
@@ -127,6 +135,10 @@ const Attack = () => {
     <>
       <div className="Attack">
 
+        {console.log("ATTACKDATA ", attackData)}
+
+        <h2 className="character-name">Sneak-thief</h2>
+
         { attackData.map((data, i) => {
           return (
             <AttackSource
@@ -139,6 +151,7 @@ const Attack = () => {
         })}
 
         <div className='add-attack'>
+          <div className={`asset plus`} />
           Add Attack
         </div>
 

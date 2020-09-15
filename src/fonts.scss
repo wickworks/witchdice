@@ -4,6 +4,22 @@
   font-size: 16px;
 }
 
+@mixin text_character_name {
+  font-size: 38px;
+}
+
+@mixin text_attack_name {
+  font-size: 24px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+@mixin text_attack_roll_count {
+  font-size: 22px;
+  color: white;
+  font-weight: bold;
+}
+
 @mixin text_roll_button {
   font-size: 30px;
 }
@@ -20,10 +36,4 @@
   font-size: 12px;
   font-style: italic;
   color: steelblue;
-}
-
-@mixin text_attack_name {
-  font-size: 24px;
-  font-weight: bold;
-  font-style: italic;
 }

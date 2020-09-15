@@ -1,30 +1,58 @@
 @import '../fonts';
 
 .DamageSource {
-  display: flex;
-  justify-content: space-between;
-  padding: 4px 0;
+  // margin: 8px 0;
+  padding: 8px 0 8px 8px;
+  cursor: pointer;
 
-  > * {
+  &:hover {
+    background-color: #cacaca;
+  }
+
+  &.editing {
+    background-color: #dae1ea;
+    cursor: auto;
+  }
+
+  input[type=checkbox] {
+    width: 24px;
+    height: 24px;
+    margin: 0 10px 0 0 ;
+    flex-shrink: 0;
+    z-index: 100;
+  }
+
+  .stats-container {
     display: flex;
     align-items: center;
+    width: 100%;
   }
 
-  .meta-container {
-    margin-right: 8px;
-    
-    input[type=checkbox] {
-      width: 24px;
-      height: 24px;
+  // SUMMARY MODE
+  .summary {
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    .roll-numbers {
+      margin-right: 8px;
     }
 
-    input[type=text] {
-      @include text_default;
-      width: 200px;
+    .asset {
+      height: 26px;
+      width: 26px;
+      margin-right: 2px;
+    }
+
+    .name {
+      font-style: italic;
     }
   }
 
-  .numbers-container {
+  // EDIT MODE
+  .edit-mode {
+    display: flex;
+    align-items: center;
     width: 100%;
 
     > * {
@@ -37,12 +65,12 @@
     }
 
     .asset {
-      height: 30px;
-      width: 30px;
+      height: 26px;
+      width: 26px;
 
-      border: 2px solid darkgrey;
-      border-radius: 50%;
-      padding: 8px;
+      // border: 2px solid darkgrey;
+      // border-radius: 50%;
+      // padding: 8px;
 
       &.clickable {
         cursor: pointer;

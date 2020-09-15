@@ -3,36 +3,19 @@
 
 .Attack {
   border: 1px solid black;
-  padding: 8px 20px;
+  padding: 8px 40px;
 
-  .attack-timing-labels {
-    display: flex;
-    width: 140px;
-    margin-left: auto;
-
-    div {
-      text-align: center;
-      width: 100%
-    }
+  .character-name {
+    @include text_character_name;
   }
 
-  .add-damage-button {
-    @include text_default;
+  .add-attack {
     display: flex;
     align-items: center;
-    border: none;
-    background: none;
-    cursor: pointer;
 
     .asset {
-      border-radius: 50%;
-      margin-right: 10px;
       width: 40px;
       height: 40px;
-    }
-
-    &:hover {
-      .asset { background-color: lightgrey; }
     }
   }
 }

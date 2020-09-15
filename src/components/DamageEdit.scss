@@ -17,9 +17,9 @@
 
       .IconMenu { justify-content: center; }
 
-      .delete-container {
+      .buttons-container {
         margin-left: 0;
-        button.delete { padding: 6px 40px; }
+        button { padding: 6px 40px; }
       }
     }
   }
@@ -41,9 +41,9 @@
       .IconMenu {
         display: flex;
         flex-wrap: wrap;
-        max-width: 270px;
+        max-width: 220px;
 
-        label { min-width: 80px; }
+        label { min-width: 60px; }
       }
     }
 
@@ -77,21 +77,30 @@
         position: absolute;
         left: -99999999px;
 
-        &:checked+label { background-color: #c1e0ff; }
+        &:checked+label { background-color: #dbc0f9; }
         &:hover+label { background-color: lightgrey; }
-        &:focus+label { background-color: lightblue; }
+        &:focus+label { background-color: #bab0e2; }
       }
     }
 
-    .delete-container {
+    .buttons-container {
+      display: flex;
       margin-left: auto;
 
-      button.delete {
+      button {
         @include text_default;
         border: none;
-        background-color: lightgrey;
-        padding: 24px 6px;
         cursor: pointer;
+
+        &.accept {
+          padding: 24px 24px;
+          background-color: lightgrey;
+        }
+        &.delete {
+          padding: 24px 6px;
+          background-color: #aaaaaa;
+        }
+
 
         &:hover { background-color: grey; }
 
