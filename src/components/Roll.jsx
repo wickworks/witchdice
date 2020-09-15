@@ -51,11 +51,11 @@ const Roll = ({
             const icon = damage[0];
             const amount = damage[1];
             const sourceID = damage[2];
+            const damageSource = damageSourceData[sourceID];
 
             let disableClass = '';
-            if (!damageSourceData[sourceID].enabled) { disableClass = 'disabled'; }
-            // if (damageSourceData[sourceID].timing === 'first' && !isFirstHit) { disableClass = 'hidden'; }
-            // disableClass = 'hidden';
+            if (!damageSource.enabled) { disableClass = 'disabled'; }
+            if (damageSource.tags.includes("first") && !isFirstHit) { disableClass = 'hidden'; }
 
             return (
               <div className={`damage-roll ${disableClass}`} key={i}>
