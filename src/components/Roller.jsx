@@ -30,30 +30,53 @@ const Roller = ({
       if (firstHitRollID === -1) { firstHitRollID = rollID; }
       const isFirstHit = (rollID === firstHitRollID);
 
-      const damageRollData = roll.damageRollData;
-      for (let damageRollID = 0; damageRollID < damageRollData.length; damageRollID++) {
-        const type = damageRollData[damageRollID][0];
-        const amount = damageRollData[damageRollID][1];
-        const rerolled = damageRollData[damageRollID][2];
-        const sourceID = damageRollData[damageRollID][3];
-        const damageSource = damageSourceData[sourceID];
+      // get both CRIT and REGULAR dice
+      [roll.damageRollData, roll.critDamageRollData].forEach((dicePool, dicePoolIndex) => {
+        // only include the crit dice pool if we got the critical hit
+        if (dicePoolIndex === 0 || isRollCrit(roll)) {
 
-        let applyDamage = true;
-        if (!damageSource.enabled) { applyDamage = false; }
-        if (damageSource.tags.includes("first") && !isFirstHit) { applyDamage = false; }
+          const damageRollData = dicePool;
+          for (let damageRollID = 0; damageRollID < damageRollData.length; damageRollID++) {
+            const type = damageRollData[damageRollID][0];
+            const amount = damageRollData[damageRollID][1];
+            const rerolled = damageRollData[damageRollID][2];
+            const sourceID = damageRollData[damageRollID][3];
+            const damageSource = damageSourceData[sourceID];
 
-        if (applyDamage) {
-          damageTotal = damageTotal + amount;
-          if (type in damageBreakdown) {
-            damageBreakdown[type] = damageBreakdown[type] + amount
-          } else {
-            damageBreakdown[type] = amount
+            let applyDamage = true;
+            if (!damageSource.enabled) { applyDamage = false; }
+            if (damageSource.tags.includes("first") && !isFirstHit) { applyDamage = false; }
+
+            if (applyDamage) {
+              damageTotal = damageTotal + amount;
+              if (type in damageBreakdown) {
+                damageBreakdown[type] = damageBreakdown[type] + amount
+              } else {
+                damageBreakdown[type] = amount
+              }
+            }
           }
         }
-      }
+      })
     }
   }
 
+  function isRollCrit(attackRoll) {
+    let isCrit = attackRoll.crit;
+
+    const rollSorted = [attackRoll.rollOne, attackRoll.rollTwo].sort((a,b)=>a-b);
+
+    // check to see if we lost the crit due to disadvantage (or we never really had it)
+    if (advantage && !disadvantage) {
+      // the higher one will have been the crit
+    } else if (disadvantage && !advantage) {
+      if (rollSorted[0] < rollSorted[1]) { isCrit = false; }
+    } else {
+      if (attackRoll.rollOne < attackRoll.rollTwo) { isCrit = false; }
+    }
+
+    return isCrit;
+  }
 
   return (
     <div className="Roller">
@@ -145,6 +168,7 @@ const Roller = ({
               rollDiscard={rollDiscard}
               toHitAC={toHitAC}
               isFirstHit={i === firstHitRollID}
+              isCrit={isRollCrit(attackRoll)}
               damageSourceData={attackSourceData[attackRoll.attackID].damageData}
               attackRollData={attackRoll}
               rollFunctions={rollFunctions}

@@ -24,7 +24,7 @@ const defaultDamageData = {
 
 const defaultAttackData = {
   dieCount: 1,
-  modifier: 2,
+  modifier: 0,
   name: 'Longsword',
   damageData: [deepCopy(defaultDamageData)]
 };
@@ -36,9 +36,11 @@ const initialRollData = [];
 //   {
 //     attackID: 0,
 //     hit: true,
+//     crit: false;
 //     rollOne: 18,
 //     rollTwo: 1,
 //     damageRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
+//     critDamageRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
 //   }, {
 //     ...
 //   }
@@ -102,50 +104,68 @@ const Attack = () => {
       // EACH TO-HIT D20
       let attackData = allAttackData[attackID]
       for (let rollID = 0; rollID < attackData.dieCount; rollID++) {
-        let roll = {attackID: attackID, hit: false}
-        roll.rollOne = getRandomInt(20) + attackData.modifier
-        roll.rollTwo = getRandomInt(20) + attackData.modifier
+        let roll = {attackID: attackID, crit: false, hit: false}
+
+        // roll some d20s
+        roll.rollOne = getRandomInt(20)
+        roll.rollTwo = getRandomInt(20)
+
+        // did we crit?
+        if (roll.rollOne === 20 || roll.rollTwo === 20) { roll.crit = true }
+
+        // add the attack modifier
+        roll.rollOne += attackData.modifier;
+        roll.rollTwo += attackData.modifier;
 
         // EACH DAMAGE SOURCE
         const damageData = allAttackData[attackID].damageData
         let damageRollData = []
+        let critDamageRollData = []
         for (let damageSourceID = 0; damageSourceID < damageData.length; damageSourceID++) {
           const source = damageData[damageSourceID]
 
-          // EACH DIE IN THAT SOURCE
-          for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
-            let damageAmount = getRandomInt(source.dieType)
-            let rerolled = false;
+          // get both CRIT and REGULAR dice
+          const dicePools = [damageRollData,critDamageRollData]
+          dicePools.forEach((dicePool) => {
 
-            // reroll damage?
-            if (
-              (source.tags.includes('reroll1') && damageAmount <= 1) ||
-              (source.tags.includes('reroll2') && damageAmount <= 2)
-            ) {
-              rerolled = true;
-              damageAmount = getRandomInt(source.dieType);
+            // EACH DIE IN THAT SOURCE
+            for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
+              let damageAmount = getRandomInt(source.dieType)
+              let rerolled = false;
+
+              // reroll damage?
+              if (
+                (source.tags.includes('reroll1') && damageAmount <= 1) ||
+                (source.tags.includes('reroll2') && damageAmount <= 2)
+              ) {
+                rerolled = true;
+                damageAmount = getRandomInt(source.dieType);
+              }
+
+              let damage = [
+                source.damageType,
+                damageAmount,
+                rerolled,
+                damageSourceID
+              ]
+
+              if (damageAmount > 0) { dicePool.push(damage) }
             }
-
-            let damage = [
-              source.damageType,
-              damageAmount,
-              rerolled,
-              damageSourceID
-            ]
-            if (damageAmount > 0) { damageRollData.push(damage) }
-          }
+          })
 
           // PLUS MODIFIER
           if (source.modifier > 0) {
             let damage = [
               source.damageType,
               source.modifier,
+              false,
               damageSourceID
             ]
             damageRollData.push(damage)
           }
         }
         roll.damageRollData = damageRollData
+        roll.critDamageRollData = critDamageRollData
         data.push(roll)
         // console.log('  roll data: ', roll);
       }
