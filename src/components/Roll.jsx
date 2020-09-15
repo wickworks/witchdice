@@ -1,16 +1,17 @@
 import React from 'react';
 import './Roll.scss';
 
-const Roll = ({...props }) => {
+const Roll = ({
+  rollID,
+  rollUse, rollDiscard,
+  toHitAC, isFirstHit,
+  damageSourceData,
+  attackRollData,
+  rollFunctions
+}) => {
 
-  const {
-    rollID,
-    hit, setHit,
-    rollUse, rollDiscard,
-    toHitAC, isFirstHit,
-    damageSourceData,
-    damageRollData
-  } = props;
+  const {attackID, hit, damageRollData} = attackRollData;
+  const {setHit, setDamageData} = rollFunctions
 
   const useLowerRollClass =
     (rollUse < rollDiscard) ?

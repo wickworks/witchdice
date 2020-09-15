@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { deepCopy, getRandomInt } from '../utils.js';
 import AttackSource from './AttackSource.jsx';
 import Roller from './Roller.jsx';
 import './Attack.scss';
@@ -9,16 +10,26 @@ import './Attack.scss';
 // - maximized attacks
 // - crit on 18-19-20
 
-const defaultDamageData =
-  {dieCount: 1, dieType: 6, modifier: 0, damageType: 'slashing', name: '', tags: [], enabled: true};
+console.log('copy func', typeof(deepCopy));
 
-const defaultAttackData =
-  {dieCount: 1, modifier: 2, name: 'Longsword', damageData: [{...defaultDamageData}]};
+const defaultDamageData = {
+  dieCount: 1,
+  dieType: 6,
+  modifier: 0,
+  damageType: 'slashing',
+  name: '',
+  tags: [],
+  enabled: true
+};
 
-const initialAttackData =
-[
-  {...defaultAttackData}
-];
+const defaultAttackData = {
+  dieCount: 1,
+  modifier: 2,
+  name: 'Longsword',
+  damageData: [deepCopy(defaultDamageData)]
+};
+
+const initialAllAttackData = [deepCopy(defaultAttackData) ];
 
 const initialRollData = [];
 // [
@@ -34,37 +45,38 @@ const initialRollData = [];
 // ]
 
 const Attack = () => {
-  const [attackData, setAttackData] = useState(initialAttackData);
+  const [allAttackData, setAllAttackData] = useState(initialAllAttackData);
   const [rollData, setRollData] = useState(initialRollData);
 
 
   // =============== UPDATE DATA ===================
 
-  const updateAttackData = (key, value, attackID) => {
-    console.log('setting attack key', key);
-    console.log('to',value);
-    console.log('for attack', attackID);
+  const updateAllAttackData = (key, value, attackID) => {
+    console.log('');
+    console.log('Current attack data:', JSON.stringify(allAttackData));
+    console.log('');
+    console.log('updating attack data id', attackID, '   key ', key)
+    console.log('  with value ', JSON.stringify(value));
+    console.log('old data : ', JSON.stringify(allAttackData[attackID][key]));
 
-
-    let newData = [...attackData]
+    let newData = deepCopy(allAttackData)
     newData[attackID][key] = value
-    console.log(attackData);
-    console.log('update attack data to ');
-    console.log(newData);
-    setAttackData(newData);
+    setAllAttackData(newData);
+    console.log('');
+
   }
 
   const updateRollData = (key, value, rollID) => {
-    let newData = [...rollData]
+    let newData = deepCopy(rollData)
     newData[rollID][key] = value
     setRollData(newData);
   }
 
   const attackFunctions = {
-    setDieCount: (value, attackID) => updateAttackData('dieCount',parseInt(value),attackID),
-    setModifier: (value, attackID) => updateAttackData('modifier',parseInt(value),attackID),
-    setName: (value, attackID) => updateAttackData('name',value,attackID),
-    setDamageData: (value, attackID) => updateAttackData('damageData',value,attackID)
+    setDieCount: (value, attackID) => updateAllAttackData('dieCount',parseInt(value),attackID),
+    setModifier: (value, attackID) => updateAllAttackData('modifier',parseInt(value),attackID),
+    setName: (value, attackID) => updateAllAttackData('name',value,attackID),
+    setDamageData: (value, attackID) => updateAllAttackData('damageData',value,attackID)
   }
 
 
@@ -77,10 +89,7 @@ const Attack = () => {
 
   // =============== ROLLER FUNCTIONS ==================
 
-  function getRandomInt(max) {
-    if (max === 0) {return 0}
-    return Math.floor(Math.random() * Math.floor(max)) + 1;
-  }
+
 
   const generateNewRoll = () => {
     let data = []
@@ -88,17 +97,17 @@ const Attack = () => {
     // console.log('~~~~~ NEW ROLL ~~~~~');
 
     // EACH ATTACK
-    for (let attackID = 0; attackID < attackData.length; attackID++) {
+    for (let attackID = 0; attackID < allAttackData.length; attackID++) {
+      let roll = {attackID: attackID, hit: false}
 
       // EACH TO-HIT D20
-      let d20 = attackData[attackID]
-      for (let rollID = 0; rollID < d20.dieCount; rollID++) {
-        let roll = {attackID: attackID, hit: false}
-        roll.rollOne = getRandomInt(d20.dieType) + d20.modifier
-        roll.rollTwo = getRandomInt(d20.dieType) + d20.modifier
+      let attack = allAttackData[attackID]
+      for (let rollID = 0; rollID < attack.dieCount; rollID++) {
+        roll.rollOne = getRandomInt(20) + attack.modifier
+        roll.rollTwo = getRandomInt(20) + attack.modifier
 
         // EACH DAMAGE SOURCE
-        const damageData = attackData[attackID].damageData
+        const damageData = allAttackData[attackID].damageData
         let damageRollData = []
         for (let damageSourceID = 0; damageSourceID < damageData.length; damageSourceID++) {
           const source = damageData[damageSourceID]
@@ -128,7 +137,7 @@ const Attack = () => {
         // console.log('  roll data: ', roll);
       }
 
-      console.log('=====', data);
+      console.log('ROLLDATA', JSON.stringify(data));
       setRollData(data);
     }
   }
@@ -137,32 +146,32 @@ const Attack = () => {
 
 
   const createAttack = () => {
-    let newData = [...attackData];
-    let newAttack = {...defaultAttackData}
+    let newData = deepCopy(allAttackData);
+    let newAttack = deepCopy(defaultAttackData);
     newData.push(newAttack);
-    setAttackData(newData);
+    setAllAttackData(newData);
   }
 
   const deleteAttack = (attackID) => {
-    let newData = [...attackData];
+    let newData = deepCopy(allAttackData);
     newData.splice(attackID, 1);
-    setAttackData(newData);
+    setAllAttackData(newData);
   }
 
   return (
     <>
       <div className="Attack">
 
-        {console.log("ATTACKDATA ", attackData)}
+        {console.log("ATTACKDATA ", JSON.stringify(allAttackData))}
 
         <h2 className="character-name">Sneak-thief</h2>
 
-        { attackData.map((data, i) => {
+        { allAttackData.map((data, i) => {
           return (
             <AttackSource
               attackID={i}
-              {...attackData[i]}
-              {...attackFunctions}
+              attackData={allAttackData[i]}
+              attackFunctions={attackFunctions}
               key={i}
             />
           )
@@ -174,17 +183,15 @@ const Attack = () => {
         </div>
       </div>
 
-
+      <Roller
+        rollData={rollData}
+        attackSourceData={allAttackData}
+        handleNewRoll={generateNewRoll}
+        rollFunctions={rollFunctions}
+      />
     </>
   );
 }
-
-// <Roller
-//   rollData={rollData}
-//   attackSourceData={attackData}
-//   handleNewRoll={generateNewRoll}
-//   rollFunctions={rollFunctions}
-// />
 
 
 export default Attack ;

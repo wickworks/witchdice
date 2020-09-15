@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { deepCopy } from '../utils.js';
 import {RadioGroup, Radio} from 'react-radio-group';
 import DamageSource from './DamageSource.jsx';
 import './AttackSource.scss';
@@ -6,14 +7,9 @@ import './AttackSource.scss';
 const defaultDamageData =
   {dieCount: 1, dieType: 6, modifier: 0, damageType: 'slashing', name: '', tags: [], enabled: true};
 
-const AttackSource = ({...props}) => {
-  const {
-    attackID,
-    damageData, setDamageData,
-    dieCount, setDieCount,
-    modifier, setModifier,
-    name, setName,
-  } = props;
+const AttackSource = ({attackID, attackData, attackFunctions}) => {
+  const { damageData, dieCount, modifier, name } = attackData;
+  const { setDamageData, setDieCount, setModifier, setName } = attackFunctions;
 
   const [damageEditIsOpen, setDamageEditIsOpen] = useState(false);
   const [editingDamageID, setEditingDamageID] = useState(null);
@@ -32,9 +28,37 @@ const AttackSource = ({...props}) => {
   }
 
   const updateDamageData = (key, value, attackID, damageID) => {
-    let newData = [...damageData]
+    console.log('');
+    console.log('updating damage data id', damageID, '  attack ID', attackID, '   key ', key)
+    console.log('  with value ', JSON.stringify(value));
+    console.log('old value : ', JSON.stringify(damageData[damageID][key]));
+    console.log('old data : ', JSON.stringify(damageData));
+
+
+
+    let newData = deepCopy(damageData)
+
+    // if (typeof(value) === 'array') {
+    //   console.log('updating array');
+    //   newData[damageID][key] = [...value]
+    // } else if (typeof(value) === 'object') {
+    //   console.log('updating object');
+    //   newData[damageID][key] = {...value}
+    // } else {
+    //   console.log('updating value');
+    //
+    //   newData[damageID][key] = value
+    // }
+
     newData[damageID][key] = value
+
+
+    console.log('new data : ', JSON.stringify(newData));
+    console.log('');
+
     setDamageData(newData, attackID);
+    console.log('');
+
   }
 
   // =============== ADD / EDIT DAMAGE SOURCES =============
@@ -49,21 +73,21 @@ const AttackSource = ({...props}) => {
   }
 
   const updateDamage = (die, type) => {
-    let newData = [...damageData];
+    let newData = deepCopy(damageData);
     newData[editingDamageID].dieType = die
     newData[editingDamageID].damageType = type
-    setDamageData(newData);
+    setDamageData(newData, attackID);
   }
 
   const createDamage = () => {
-    let newData = [...damageData];
-    let newDamage = {...defaultDamageData}
+    let newData = deepCopy(damageData);
+    let newDamage = deepCopy(defaultDamageData);
     newData.push(newDamage);
     setDamageData(newData, attackID);
   }
 
   const deleteDamage = (damageID) => {
-    let newData = [...damageData];
+    let newData = deepCopy(damageData);
     newData.splice(damageID, 1);
     setDamageData(newData, attackID);
     setDamageEditIsOpen(false);
@@ -131,18 +155,19 @@ const AttackSource = ({...props}) => {
         </div>
 
         <div className='statblock'>
+          { console.log('DAMAGEDATA', JSON.stringify(damageData))}
+
           { damageData.map((data, i) => {
             const editClass = (editingDamageID === i) ? 'editing' : '';
             return (
               <DamageSource
-                attackID={attackID}
                 damageID={i}
-                {...damageData[i]}
-                {...damageFunctions}
+                attackID={attackID}
+                damageData={damageData[i]}
+                damageFunctions={damageFunctions}
                 isEditing={editingDamageID === i}
                 onEdit={openEditForDamage}
                 onDelete={deleteDamage}
-                extraClass={editClass}
                 key={i}
               />
             )

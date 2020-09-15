@@ -14,10 +14,12 @@
     display: flex;
 
     .roll-container {
-      
+      display: flex;
+      flex-direction: column;
+      align-items: center;
 
       button.new-roll {
-        @include text_roll_button;
+        // @include text_roll_button;
         width: 100px;
         height: 100px;
         border-radius: 50%;
@@ -26,7 +28,11 @@
         cursor: pointer;
 
         &:hover {
-          color: #505050;
+          background-color: skyblue;
+        }
+
+        .asset {
+          margin: auto;
         }
       }
     }

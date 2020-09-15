@@ -3,19 +3,12 @@ import React, { useState } from 'react';
 import './DamageSource.scss';
 import DamageEdit from './DamageEdit.jsx';
 
-const DamageSource = ({...props }) => {
-  const {
-    attackID, damageID,
-    isEditing, onEdit, onAccept, onDelete,
-
-    dieCount, setDieCount,
-    dieType, setDieType,
-    modifier, setModifier,
-    tags, setTags,
-    damageType, setDamageType,
-    enabled, setEnabled,
-    name, setName,
-  } = props;
+const DamageSource = ({
+  damageID, attackID, damageData, damageFunctions,
+  isEditing, onEdit, onDelete
+}) => {
+  const { dieCount, dieType, modifier, tags, damageType, enabled, name } = damageData;
+  const { setDieCount, setDieType, setModifier, setTags, setDamageType, setEnabled, setName } = damageFunctions;
 
   const [hoveringOverCheckBox, setHoveringOverCheckBox] = useState(false);
 
@@ -129,6 +122,7 @@ const DamageSource = ({...props }) => {
 
       {isEditing &&
         <DamageEdit
+          attackID={attackID}
           die={dieType}
           type={damageType}
           setDie={(value) => setDieType(value, attackID, damageID)}

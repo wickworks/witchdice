@@ -4,9 +4,10 @@ import './DamageEdit.scss';
 
 const defaultDamageData = { dieType: 6, damageType:'slashing' }
 
-const DamageEdit = (
-  {die, setDie, type, setType, onDelete, onClose}
-) => {
+const DamageEdit = ({
+  attackID, die, setDie, type, setType,
+  onDelete, onClose
+}) => {
 
   return (
     <div className="DamageEdit extra-css">
@@ -14,7 +15,7 @@ const DamageEdit = (
 
         <div className='dice'>
           <IconMenu
-            groupName={'select-die-type'}
+            groupName={`select-die-type-${attackID}`}
             allIcons={[4,6,8,10,12,0]}
             selectedIcon={die}
             setIcon={setDie}
@@ -24,7 +25,7 @@ const DamageEdit = (
 
         <div className='types'>
           <IconMenu
-            groupName={'select-damage-type'}
+            groupName={`select-damage-type-${attackID}`}
             allIcons={['slashing','piercing','bludgeoning','fire','cold','lightning','thunder','acid','poison','psychic','necrotic','radiant','force']}
             selectedIcon={type}
             setIcon={setType}
@@ -39,7 +40,7 @@ const DamageEdit = (
           <button className='accept' onClick={() => onClose()}>
             <div className={'asset checkmark'} />
           </button>
-  
+
         </div>
       </div>
     </div>

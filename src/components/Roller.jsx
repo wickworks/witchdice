@@ -3,18 +3,16 @@ import Roll from './Roll.jsx';
 import './Roller.scss';
 
 
-const Roller = ({...props}) => {
-  const {
-    rollData,
-    handleNewRoll,
-    damageSourceData,
-    rollFunctions //this will get passed down to the RollMods
-  } = props;
+const Roller = ({
+  rollData,
+  handleNewRoll,
+  attackSourceData,
+  rollFunctions //this will get passed down to the RollMods
+}) => {
 
   const [advantage, setAdvantage] = useState(false);
   const [disadvantage, setDisadvantage] = useState(false);
   const [toHitAC, setToHitAC] = useState(0);
-
 
 
   // calculate damage total & breakdown by type
@@ -23,17 +21,19 @@ const Roller = ({...props}) => {
   let firstHitRollID = -1;
 
   for (let rollID = 0; rollID < rollData.length; rollID++) {
-    if (rollData[rollID].hit) {
+    const attackRoll = rollData[rollID];
+
+    if (attackRoll.hit) {
       if (firstHitRollID === -1) { firstHitRollID = rollID; }
 
-      const damageRollData = rollData[rollID].damageRollData;
+      const damageRollData = attackRoll.damageRollData;
       for (let damageRollID = 0; damageRollID < damageRollData.length; damageRollID++) {
         const type = damageRollData[damageRollID][0];
         const amount = damageRollData[damageRollID][1];
         const sourceID = damageRollData[damageRollID][2];
 
         let applyDamage = true;
-        if (!damageSourceData[sourceID].enabled) { applyDamage = false; }
+        // if (!damageSourceData[sourceID].enabled) { applyDamage = false; }
         // if (damageSourceData[sourceID].timing === 'first' && rollID !== firstHitRollID) { applyDamage = false; }
 
         if (applyDamage) {
@@ -58,7 +58,6 @@ const Roller = ({...props}) => {
             <button className="new-roll" onClick={() => handleNewRoll()}>
                 <div className='asset d20' />
             </button>
-            Roll Attacks
           </div>
 
           <div className="conditions">
@@ -117,9 +116,10 @@ const Roller = ({...props}) => {
       <div className="rolls">
         <div className="hit-label">Hit?</div>
 
-        { rollData.map((data, i) => {
+        { rollData.map((attackRoll, i) => {
+
           let {rollUse, rollDiscard} = 0;
-          const rollSorted = [data.rollOne, data.rollTwo].sort((a,b)=>a-b);
+          const rollSorted = [attackRoll.rollOne, attackRoll.rollTwo].sort((a,b)=>a-b);
 
           if (advantage && !disadvantage) {
             rollUse = rollSorted[1];
@@ -128,7 +128,7 @@ const Roller = ({...props}) => {
             rollUse = rollSorted[0];
             rollDiscard = rollSorted[1];
           } else {
-            rollUse = data.rollOne;
+            rollUse = attackRoll.rollOne;
             rollDiscard = 0;
           }
 
@@ -139,9 +139,9 @@ const Roller = ({...props}) => {
               rollDiscard={rollDiscard}
               toHitAC={toHitAC}
               isFirstHit={i === firstHitRollID}
-              damageSourceData={damageSourceData}
-              {...data}
-              {...rollFunctions}
+              damageSourceData={attackSourceData[attackRoll.attackID].damageData}
+              attackRollData={attackRoll}
+              rollFunctions={rollFunctions}
               key={i}
             />
           )
