@@ -51,10 +51,15 @@ const Roll = ({
 
             let rerollClass = rerolled ? 'rerolled' : '';
 
+            let critClass = (isCrit && dicePoolIndex === 1) ? 'crit' : '';
+
             console.log('ROLL DAMAGE : ', amount);
 
             diceElements.push(
-              <div className={`damage-roll ${disableClass} ${rerollClass}`} key={`${i}-${dicePoolIndex}`}>
+              <div
+                className={`damage-roll ${disableClass} ${rerollClass} ${critClass}`}
+                key={`${i}-${dicePoolIndex}`}
+              >
                 <div className={`asset ${icon}`} />
                 <div className='amount'>{amount}</div>
               </div>
@@ -101,7 +106,11 @@ const Roll = ({
 
       <div className="crit-container">
         { isCrit &&
-          <>☠️ CRITICAL HIT ☠️</>
+          <>
+            <div className="asset necrotic" />
+            CRITICAL HIT
+            <div className="asset necrotic" />
+          </>
         }
       </div>
 
