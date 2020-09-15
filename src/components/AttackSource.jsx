@@ -79,7 +79,7 @@ const AttackSource = ({...props}) => {
   function handleD20Click(e, leftMouse) {
     let newDieCount = dieCount;
 
-    if (leftMouse) {
+    if (leftMouse && !e.shiftKey) {
       newDieCount += 1;
     } else {
       newDieCount -= 1;

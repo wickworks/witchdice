@@ -12,6 +12,11 @@
   .add-attack {
     display: flex;
     align-items: center;
+    cursor: pointer;
+
+    &:hover {
+      background-color: lightblue;
+    }
 
     .asset {
       width: 40px;

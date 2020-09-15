@@ -12,9 +12,12 @@ import './Attack.scss';
 const defaultDamageData =
   {dieCount: 1, dieType: 6, modifier: 0, damageType: 'slashing', name: '', tags: [], enabled: true};
 
+const defaultAttackData =
+  {dieCount: 1, modifier: 2, name: 'Longsword', damageData: [{...defaultDamageData}]};
+
 const initialAttackData =
 [
-  {dieCount: 1, modifier: 2, name: 'Longsword', damageData: [{...defaultDamageData}, {...defaultDamageData}]}
+  {...defaultAttackData}
 ];
 
 const initialRollData = [];
@@ -130,6 +133,21 @@ const Attack = () => {
     }
   }
 
+  // =============== CREATE / EDIT / DELETE ATTACKS ==================
+
+
+  const createAttack = () => {
+    let newData = [...attackData];
+    let newAttack = {...defaultAttackData}
+    newData.push(newAttack);
+    setAttackData(newData);
+  }
+
+  const deleteAttack = (attackID) => {
+    let newData = [...attackData];
+    newData.splice(attackID, 1);
+    setAttackData(newData);
+  }
 
   return (
     <>
@@ -150,12 +168,10 @@ const Attack = () => {
           )
         })}
 
-        <div className='add-attack'>
+        <div className='add-attack' onClick={createAttack}>
           <div className={`asset plus`} />
           Add Attack
         </div>
-
-
       </div>
 
 
