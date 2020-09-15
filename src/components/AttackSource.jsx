@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { deepCopy } from '../utils.js';
-import {RadioGroup, Radio} from 'react-radio-group';
 import DamageSource from './DamageSource.jsx';
 import './AttackSource.scss';
 
@@ -11,7 +10,8 @@ const AttackSource = ({attackID, attackData, attackFunctions}) => {
   const { damageData, dieCount, modifier, name } = attackData;
   const { setDamageData, setDieCount, setModifier, setName } = attackFunctions;
 
-  const [damageEditIsOpen, setDamageEditIsOpen] = useState(false);
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [isDamageEditOpen, setIsDamageEditOpen] = useState(false);
   const [editingDamageID, setEditingDamageID] = useState(null);
 
 
@@ -65,10 +65,10 @@ const AttackSource = ({attackID, attackData, attackFunctions}) => {
 
   const openEditForDamage = (damageID) => {
     if (editingDamageID === damageID) { // already open; we clicked to close
-      setDamageEditIsOpen(false);
+      setIsDamageEditOpen(false);
     } else {
       setEditingDamageID(damageID);
-      setDamageEditIsOpen(true);
+      setIsDamageEditOpen(true);
     }
   }
 
@@ -90,13 +90,13 @@ const AttackSource = ({attackID, attackData, attackFunctions}) => {
     let newData = deepCopy(damageData);
     newData.splice(damageID, 1);
     setDamageData(newData, attackID);
-    setDamageEditIsOpen(false);
+    setIsDamageEditOpen(false);
   }
 
   // clear out the "we're editing this damage" whenever the panel closes
   useEffect(() => {
-    if (!damageEditIsOpen) { setEditingDamageID(null) }
-  }, [damageEditIsOpen]);
+    if (!isDamageEditOpen) { setEditingDamageID(null) }
+  }, [isDamageEditOpen]);
 
   // =============== EDIT ATTACK =============
 
@@ -130,6 +130,10 @@ const AttackSource = ({attackID, attackData, attackFunctions}) => {
     setModifier(newModifier, attackID);
   }
 
+  function handleNameKeyPress(e) {
+    if (e.key === 'Enter') {setIsEditingName(false)}
+  }
+
   return (
     <div className='AttackSource'>
       <div className='die-count-container'>
@@ -143,7 +147,21 @@ const AttackSource = ({attackID, attackData, attackFunctions}) => {
 
       <div className='statblock-container'>
         <div className='titlebar'>
-          <div className='name'>{name}.</div>
+          <div className='name'>
+            {isEditingName ?
+              <input
+                type="text"
+                value={name}
+                onKeyPress={ (e) => handleNameKeyPress(e) }
+                onChange={ e => setName(e.target.value, attackID) }
+                placeholder={'Attack name'}
+                focus={true}
+              />
+            :
+              <div onClick={() => setIsEditingName(true)}>{name}.</div>
+            }
+
+          </div>
           <div
             className='modifier unselectable'
             onClick={(e) => handleModifierClick(e, true)} onContextMenu={(e) => handleModifierClick(e, false)}
@@ -171,7 +189,7 @@ const AttackSource = ({attackID, attackData, attackFunctions}) => {
             )
           })}
 
-          { !damageEditIsOpen &&
+          { !isDamageEditOpen &&
             <button
               className="add-damage-button"
               onClick={() => {
