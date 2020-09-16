@@ -4,14 +4,22 @@
 .Attack {
   border: 1px solid black;
   padding: 8px 40px;
+  margin-top: 20px;
+  width: 730px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   .character-name {
     @include text_character_name;
+    margin-right: auto;
   }
 
   .add-attack {
     display: flex;
     align-items: center;
+    padding: 4px 20px;
     cursor: pointer;
 
     &:hover {

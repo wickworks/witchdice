@@ -46,6 +46,7 @@ const initialRollData = [];
 // ]
 
 const Attack = () => {
+  const [characterName, setCharacterName] = useState('Character');
   const [loadedLocalData, setLoadedLocalData] = useState(false);
   const [allAttackData, setAllAttackData] = useState(initialAllAttackData);
   const [rollData, setRollData] = useState(initialRollData);
@@ -216,15 +217,15 @@ const Attack = () => {
     saveAllAttackData(newData);
   }
 
-  console.log('');
-  console.log("Attack Data: ", JSON.stringify(allAttackData));
+  // console.log('');
+  // console.log("Attack Data: ", JSON.stringify(allAttackData));
   // console.log("Roll Data: ", JSON.stringify(rollData));
 
 
   return (
     <>
       <div className="Attack">
-        <h2 className="character-name">Sneak-thief</h2>
+        <h2 className="character-name">{characterName}</h2>
 
         { allAttackData.map((data, i) => {
           return (

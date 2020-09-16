@@ -132,7 +132,9 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack}) => 
                 focus={'true'}
               />
             :
-              <div onClick={() => setIsEditingName(true)}>{name}.</div>
+              <div className='display' onClick={() => setIsEditingName(true)}>
+                {name}.
+              </div>
             }
 
           </div>

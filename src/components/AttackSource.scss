@@ -34,7 +34,14 @@
       margin-bottom: 8px;
 
       .name {
-        @include text_attack_name;
+        .display{
+          @include text_attack_name;
+          cursor: pointer;
+
+          &:hover { background-color: lightblue; }
+        }
+
+        input { @include text_attack_name; }
       }
       .modifier {
         margin-left: 14px;
@@ -73,8 +80,8 @@
         .asset {
           border-radius: 50%;
           margin-left: 4px;
-          width: 36px;
-          height: 36px;
+          width: 45px;
+          height: 45px;
         }
 
         &:hover {

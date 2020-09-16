@@ -3,6 +3,10 @@
 
 .App {
   @include text_default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   input[type=checkbox], input[type=radio] {
     cursor: pointer;

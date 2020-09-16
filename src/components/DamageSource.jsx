@@ -127,16 +127,18 @@ const DamageSource = ({
                 placeholder={'Damage source'}
               />
 
-              <Multiselect
-                options={tagOptions}
-                displayValue="name"
-                hidePlaceholder={true}
-                selectedValues={selectedTags}
-                closeIcon='cancel'
-                onSelect={(tag) => handleTagUpdate(tag)}
-                onRemove={(tag) => handleTagUpdate(tag)}
-              />
-
+              <div className='tag-select'>
+                <Multiselect
+                  options={tagOptions}
+                  displayValue="name"
+                  hidePlaceholder={true}
+                  selectedValues={selectedTags}
+                  closeIcon='cancel'
+                  onSelect={(tag) => handleTagUpdate(tag)}
+                  onRemove={(tag) => handleTagUpdate(tag)}
+                />
+                {(tags.length === 0) && <label>Damage tags</label>}
+              </div>
 
             </>}
           </div>

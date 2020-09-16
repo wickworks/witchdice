@@ -32,6 +32,7 @@
     display: flex;
     align-items: center;
     width: 100%;
+    min-height: 36px;
 
     .roll-numbers {
       margin-right: 8px;
@@ -71,7 +72,8 @@
     }
 
     input.damage-name {
-      max-width: 100px;
+      @include text_default;
+      max-width: 120px;
     }
 
     .asset {
@@ -92,28 +94,44 @@
       width: 30px;
     }
 
-    #multiselectContainerReact {
-      cursor: pointer;
+    .tag-select {
+      position: relative;
+      width: 100%;
 
-      &:hover {
-        background-color: lightgrey;
-      }
-
-      // the unnamed immediate container
-      > div {
-        padding: 0;
-      }
-
-      .chip {
-        margin: 4px;
-        padding-right: 4px;
-      }
-
-      input {
+      label {
+        color: #666;
         position: absolute;
-        left: -99999999px;
+        top: 8px;
+        left: 8px;
+        pointer-events: none;
+      }
+
+      #multiselectContainerReact {
+        cursor: pointer;
+        background-color: #eeeeee;
+
+        &:hover {
+          background-color: lightgrey;
+        }
+
+        // the unnamed immediate container
+        > div {
+          padding: 0;
+          min-height: 34px;
+        }
+
+        .chip {
+          margin: 4px;
+          padding-right: 4px;
+        }
+
+        input {
+          position: absolute;
+          left: -99999999px;
+        }
       }
     }
+
   }
 
   &.editing {
