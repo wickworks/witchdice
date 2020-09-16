@@ -40,7 +40,8 @@ const Roll = ({
             const damageSource = damageSourceData[sourceID];
 
             let disableClass = '';
-            if (!damageSource.enabled) { disableClass = 'disabled'; }
+            // if (!damageSource.enabled) { disableClass = 'disabled'; }
+            if (!damageSource.enabled) { disableClass = 'hidden'; }
             if (damageSource.tags.includes("first") && !isFirstHit) { disableClass = 'hidden'; }
 
             let rerollClass = rerolled ? 'rerolled' : '';

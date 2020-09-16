@@ -6,7 +6,7 @@ import './AttackSource.scss';
 const defaultDamageData =
   {dieCount: 1, dieType: 6, modifier: 0, damageType: 'slashing', name: '', tags: [], enabled: true};
 
-const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack}) => {
+const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clearRollData}) => {
   const { damageData, dieCount, modifier, name } = attackData;
   const { setDamageData, setDieCount, setModifier, setName } = attackFunctions;
 
@@ -57,6 +57,8 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack}) => 
     let newDamage = deepCopy(defaultDamageData);
     newData.push(newDamage);
     setDamageData(newData, attackID);
+
+    clearRollData();
   }
 
   const deleteDamage = (damageID) => {
@@ -64,6 +66,8 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack}) => 
     newData.splice(damageID, 1);
     setDamageData(newData, attackID);
     setIsDamageEditOpen(false);
+
+    clearRollData();
   }
 
   // clear out the "we're editing this damage" whenever the panel closes
@@ -124,6 +128,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack}) => 
                 type="text"
                 value={name}
                 onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingName(false)} }}
+                onBlur={ () => {setIsEditingName(false)} }
                 onChange={ e => setName(e.target.value, attackID) }
                 placeholder={'Attack name'}
                 focus={'true'}

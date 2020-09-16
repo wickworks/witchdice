@@ -216,6 +216,8 @@ const Attack = () => {
     newData.push(newAttack);
     setAllAttackData(newData);
     saveAllAttackData(newData);
+
+    setRollData([]);
   }
 
   const deleteAttack = (attackID) => {
@@ -223,6 +225,8 @@ const Attack = () => {
     newData.splice(attackID, 1);
     setAllAttackData(newData);
     saveAllAttackData(newData);
+
+    setRollData([]);
   }
 
   // console.log('');
@@ -239,6 +243,7 @@ const Attack = () => {
               type="text"
               value={characterName}
               onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingCharacterName(false)} }}
+              onBlur={ () => {setIsEditingCharacterName(false)} }
               onChange={ e => setCharacterName(e.target.value) }
               placeholder={'Character name'}
               focus={'true'}
@@ -257,6 +262,7 @@ const Attack = () => {
               attackData={allAttackData[i]}
               attackFunctions={attackFunctions}
               deleteAttack={(attackID) => deleteAttack(attackID)}
+              clearRollData={() => setRollData([])}
               key={i}
             />
           )

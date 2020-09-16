@@ -10,6 +10,11 @@
     margin-left: 12px;
   }
 
+  button {
+    @include text_default;
+    cursor: pointer;
+  }
+
   .bag-container {
     border: 1px solid black;
     display: flex;
@@ -35,6 +40,7 @@
       @include text_dicebag_count;
       margin: 10px;
       flex-shrink: 0;
+      font-weight: bold;
     }
 
     .result-container {

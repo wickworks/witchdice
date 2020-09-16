@@ -5,7 +5,7 @@ import Attack from './components/Attack.jsx';
 function App() {
   return (
     <div className="App">
-      <h1>~ Roll-to-hit ~</h1>
+      <h1>🌺💀 ~ Roll To Hit ~ 💀🌺</h1>
       <Attack />
     </div>
   );

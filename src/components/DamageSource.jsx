@@ -41,6 +41,33 @@ const DamageSource = ({
     setTags(newTags, attackID, damageID)
   }
 
+  function renderEditMetaData() {
+    return(
+      <>
+        <input
+          type="text"
+          className='damage-name'
+          value={name}
+          onChange={e => setName(e.target.value, attackID, damageID)}
+          placeholder={'Damage source'}
+        />
+
+        <div className='tag-select'>
+          <Multiselect
+            options={tagOptions}
+            displayValue="name"
+            hidePlaceholder={true}
+            selectedValues={selectedTags}
+            closeIcon='cancel'
+            onSelect={(tag) => handleTagUpdate(tag)}
+            onRemove={(tag) => handleTagUpdate(tag)}
+          />
+          {(tags.length === 0) && <label>Damage tags</label>}
+        </div>
+      </>
+    )
+  }
+
   return (
     <div className={`DamageSource ${editingClass}`} onClick={handleContainerClick} >
 
@@ -92,6 +119,9 @@ const DamageSource = ({
               />
 
               <span>Flat Damage</span>
+
+              {renderEditMetaData()}
+
             </> : <>
               {/* DICE ROLL */}
               <input
@@ -119,26 +149,7 @@ const DamageSource = ({
               />
 
 
-              <input
-                type="text"
-                className='damage-name'
-                value={name}
-                onChange={e => setName(e.target.value, attackID, damageID)}
-                placeholder={'Damage source'}
-              />
-
-              <div className='tag-select'>
-                <Multiselect
-                  options={tagOptions}
-                  displayValue="name"
-                  hidePlaceholder={true}
-                  selectedValues={selectedTags}
-                  closeIcon='cancel'
-                  onSelect={(tag) => handleTagUpdate(tag)}
-                  onRemove={(tag) => handleTagUpdate(tag)}
-                />
-                {(tags.length === 0) && <label>Damage tags</label>}
-              </div>
+              {renderEditMetaData()}
 
             </>}
           </div>
