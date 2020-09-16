@@ -18,7 +18,7 @@ const Roller = ({
   // when ToHitAC or the roll data changes, figure out what's a hit
   useEffect(() => {
     autoCalculateHits();
-  }, [toHitAC, rollData]);
+  }, [toHitAC, rollData, advantage, disadvantage]);
 
   // figure out what's a hit
   function autoCalculateHits() {
@@ -120,7 +120,7 @@ const Roller = ({
 
     // ADVANTAGE: use the higher roll's crit
     if (advantage && !disadvantage) {
-      if (roll.rollOne === rollSorted[0]) {
+      if (roll.rollOne === rollSorted[1]) {
         isCrit = roll.critOne
       } else {
         isCrit = roll.critTwo
@@ -129,9 +129,9 @@ const Roller = ({
     // DISADVANTAGE: use the lower roll's crit
     } else if (disadvantage && !advantage) {
       if (roll.rollOne === rollSorted[1]) {
-        isCrit = roll.critOne
-      } else {
         isCrit = roll.critTwo
+      } else {
+        isCrit = roll.critOne
       }
 
     // NEUTRAL: use the first roll's crit
