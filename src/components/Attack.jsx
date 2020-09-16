@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { deepCopy, getRandomInt } from '../utils.js';
 import AttackSource from './AttackSource.jsx';
 import Roller from './Roller.jsx';
@@ -9,8 +9,6 @@ import './Attack.scss';
 // - reroll ones and twos
 // - maximized attacks
 // - crit on 18-19-20
-
-console.log('copy func', typeof(deepCopy));
 
 const defaultDamageData = {
   dieCount: 1,
@@ -48,26 +46,42 @@ const initialRollData = [];
 // ]
 
 const Attack = () => {
+  const [loadedLocalData, setLoadedLocalData] = useState(false);
   const [allAttackData, setAllAttackData] = useState(initialAllAttackData);
   const [rollData, setRollData] = useState(initialRollData);
 
 
+
+
   // =============== UPDATE DATA ===================
 
+  if (!loadedLocalData) {
+    const loadedAllAttackDataJson = localStorage.getItem("attack-data");
+    const loadedAllAttackData = JSON.parse(loadedAllAttackDataJson);
+    if (loadedAllAttackData) { deepCopy(setAllAttackData(loadedAllAttackData)) }
+    setLoadedLocalData(true)
+  }
+
+  function saveAllAttackData(data) {
+    console.log('saved all attack data');
+    localStorage.setItem("attack-data", JSON.stringify(data));
+  }
+
   const updateAllAttackData = (key, value, attackID) => {
-    console.log('');
-    console.log('Current attack data:', JSON.stringify(allAttackData));
-    console.log('');
-    console.log('updating attack data id', attackID, '   key ', key)
-    console.log('  with value ', JSON.stringify(value));
-    console.log('old data : ', JSON.stringify(allAttackData[attackID][key]));
+    // console.log('');
+    // console.log('Current attack data:', JSON.stringify(allAttackData));
+    // console.log('');
+    // console.log('updating attack data id', attackID, '   key ', key)
+    // console.log('  with value ', JSON.stringify(value));
+    // console.log('old data : ', JSON.stringify(allAttackData[attackID][key]));
 
     let newData = deepCopy(allAttackData)
     newData[attackID][key] = value
     setAllAttackData(newData);
-    console.log('');
 
+    saveAllAttackData(newData);
   }
+
 
   const updateRollData = (key, value, rollID) => {
     let newData = deepCopy(rollData)
@@ -79,7 +93,7 @@ const Attack = () => {
     setDieCount: (value, attackID) => updateAllAttackData('dieCount',parseInt(value),attackID),
     setModifier: (value, attackID) => updateAllAttackData('modifier',parseInt(value),attackID),
     setName: (value, attackID) => updateAllAttackData('name',value,attackID),
-    setDamageData: (value, attackID) => updateAllAttackData('damageData',value,attackID)
+    setDamageData: (value, attackID) => updateAllAttackData('damageData',value,attackID),
   }
 
 
@@ -192,17 +206,19 @@ const Attack = () => {
     let newAttack = deepCopy(defaultAttackData);
     newData.push(newAttack);
     setAllAttackData(newData);
+    saveAllAttackData(newData);
   }
 
   const deleteAttack = (attackID) => {
     let newData = deepCopy(allAttackData);
     newData.splice(attackID, 1);
     setAllAttackData(newData);
+    saveAllAttackData(newData);
   }
 
   console.log('');
   console.log("Attack Data: ", JSON.stringify(allAttackData));
-  console.log("Roll Data: ", JSON.stringify(rollData));
+  // console.log("Roll Data: ", JSON.stringify(rollData));
 
 
   return (
@@ -216,6 +232,7 @@ const Attack = () => {
               attackID={i}
               attackData={allAttackData[i]}
               attackFunctions={attackFunctions}
+              deleteAttack={(attackID) => deleteAttack(attackID)}
               key={i}
             />
           )

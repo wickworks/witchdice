@@ -24,9 +24,6 @@ const Roller = ({
     const damageSourceData = attackSourceData[roll.attackID].damageData
     const isCrit = isRollCrit(roll);
 
-    // console.log('damage source data for roll ', rollID);
-    // console.log(JSON.stringify(damageSourceData);
-
     if (roll.hit || isCrit) {
       if (firstHitRollID === -1) { firstHitRollID = rollID; }
       const isFirstHit = (rollID === firstHitRollID);

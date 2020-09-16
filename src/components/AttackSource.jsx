@@ -6,7 +6,7 @@ import './AttackSource.scss';
 const defaultDamageData =
   {dieCount: 1, dieType: 6, modifier: 0, damageType: 'slashing', name: '', tags: [], enabled: true};
 
-const AttackSource = ({attackID, attackData, attackFunctions}) => {
+const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack}) => {
   const { damageData, dieCount, modifier, name } = attackData;
   const { setDamageData, setDieCount, setModifier, setName } = attackFunctions;
 
@@ -28,36 +28,9 @@ const AttackSource = ({attackID, attackData, attackFunctions}) => {
   }
 
   const updateDamageData = (key, value, attackID, damageID) => {
-    console.log('');
-    console.log('updating damage data id', damageID, '  attack ID', attackID, '   key ', key)
-    console.log('  with value ', JSON.stringify(value));
-    console.log('old value : ', JSON.stringify(damageData[damageID][key]));
-    console.log('old data : ', JSON.stringify(damageData));
-
-
-
     let newData = deepCopy(damageData)
-
-    // if (typeof(value) === 'array') {
-    //   console.log('updating array');
-    //   newData[damageID][key] = [...value]
-    // } else if (typeof(value) === 'object') {
-    //   console.log('updating object');
-    //   newData[damageID][key] = {...value}
-    // } else {
-    //   console.log('updating value');
-    //
-    //   newData[damageID][key] = value
-    // }
-
     newData[damageID][key] = value
-
-
-    console.log('new data : ', JSON.stringify(newData));
-    console.log('');
-
     setDamageData(newData, attackID);
-    console.log('');
 
   }
 
@@ -111,8 +84,9 @@ const AttackSource = ({attackID, attackData, attackFunctions}) => {
     }
 
     newDieCount = Math.min(newDieCount, 99);
-    newDieCount = Math.max(newDieCount, 0);
-    setDieCount(newDieCount, attackID);
+    // newDieCount = Math.max(newDieCount, 0);
+    if (newDieCount === -1) { deleteAttack(attackID) }
+    else {setDieCount(newDieCount, attackID);}
   }
 
   function handleModifierClick(e, leftMouse) {
@@ -155,7 +129,7 @@ const AttackSource = ({attackID, attackData, attackFunctions}) => {
                 onKeyPress={ (e) => handleNameKeyPress(e) }
                 onChange={ e => setName(e.target.value, attackID) }
                 placeholder={'Attack name'}
-                focus={true}
+                focus={'true'}
               />
             :
               <div onClick={() => setIsEditingName(true)}>{name}.</div>
