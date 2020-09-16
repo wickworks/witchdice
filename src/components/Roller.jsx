@@ -83,7 +83,7 @@ const Roller = ({
       const isFirstHit = (rollID === firstHitRollID);
 
       // get both CRIT and REGULAR dice
-      [roll.damageRollData, roll.critDamageRollData].forEach((dicePool, dicePoolIndex) => {
+      [roll.damageRollData, roll.critRollData].forEach((dicePool, dicePoolIndex) => {
         // only include the crit dice pool if we got the critical hit
         if (dicePoolIndex === 0 || isCrit) {
 
@@ -120,7 +120,7 @@ const Roller = ({
 
     // ADVANTAGE: use the higher roll's crit
     if (advantage && !disadvantage) {
-      if (roll.rollOne = rollSorted[0]) {
+      if (roll.rollOne === rollSorted[0]) {
         isCrit = roll.critOne
       } else {
         isCrit = roll.critTwo
@@ -128,7 +128,7 @@ const Roller = ({
 
     // DISADVANTAGE: use the lower roll's crit
     } else if (disadvantage && !advantage) {
-      if (roll.rollOne = rollSorted[1]) {
+      if (roll.rollOne === rollSorted[1]) {
         isCrit = roll.critOne
       } else {
         isCrit = roll.critTwo

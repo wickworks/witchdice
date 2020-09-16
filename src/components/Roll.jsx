@@ -12,7 +12,7 @@ const Roll = ({
 }) => {
 
   // no 'crit' here; use isCrit from props instead
-  const {attackID, hit, damageRollData, critDamageRollData} = attackRollData;
+  const {attackID, hit, damageRollData, critRollData} = attackRollData;
   const {setHit, setDamageData} = rollFunctions
 
   const useLowerRollClass =
@@ -27,7 +27,7 @@ const Roll = ({
     let diceElements = [];
 
     // get both CRIT and REGULAR dice
-    [damageRollData, critDamageRollData].forEach((dicePool, dicePoolIndex) => {
+    [damageRollData, critRollData].forEach((dicePool, dicePoolIndex) => {
       // only include the crit dice pool if we got the critical hit
       if (dicePoolIndex === 0 || isCrit) {
 

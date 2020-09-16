@@ -39,7 +39,7 @@ const initialRollData = [];
 //     rollOne: 18,
 //     rollTwo: 1,
 //     damageRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
-//     critDamageRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
+//     critRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
 //   }, {
 //     ...
 //   }
@@ -105,7 +105,8 @@ const Attack = () => {
     setHit: (value, id) => updateRollData('hit',value,id),
     setRollOne: (value, id) => updateRollData('rollOne',parseInt(value),id),
     setRollTwo: (value, id) => updateRollData('rollTwo',parseInt(value),id),
-    setDamageData: (value, id) => updateRollData('damageData',value,id),
+    setDamageRollData: (value, id) => updateRollData('damageRollData',value,id),
+    setCritRollData: (value, id) => updateRollData('critRollData',value,id),
     setRollData: (newData) => setRollData(deepCopy(newData))
   }
 
@@ -147,12 +148,12 @@ const Attack = () => {
         // EACH DAMAGE SOURCE
         const damageData = attackData.damageData
         let damageRollData = []
-        let critDamageRollData = []
+        let critRollData = []
         for (let damageSourceID = 0; damageSourceID < damageData.length; damageSourceID++) {
           const source = damageData[damageSourceID]
 
           // get both CRIT and REGULAR dice
-          const dicePools = [damageRollData,critDamageRollData]
+          const dicePools = [damageRollData,critRollData]
           dicePools.forEach((dicePool) => {
 
             // EACH DIE IN THAT SOURCE
@@ -195,7 +196,7 @@ const Attack = () => {
           }
         }
         roll.damageRollData = damageRollData
-        roll.critDamageRollData = critDamageRollData
+        roll.critRollData = critRollData
         data.push(roll)
         // console.log('  roll data: ', roll);
       }
