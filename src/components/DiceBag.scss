@@ -1,7 +1,7 @@
 @import '../fonts';
 
 .DiceBag {
-  width: 760px;
+  width: 810px;
   margin-bottom: 200px;
 
   h2 {
@@ -20,7 +20,7 @@
     display: flex;
 
     .button-container {
-      max-width: 400px;
+      max-width: 450px;
       display: flex;
       flex-wrap: wrap;
 
@@ -29,6 +29,7 @@
         display: flex;
         align-items: center;
         margin: 16px 10px;
+        width: 128px;
 
         .asset {
           margin-right: 8px;
@@ -39,6 +40,7 @@
     .roll {
       @include text_dicebag_count;
       margin: 10px;
+      padding: 0 14px;
       flex-shrink: 0;
       font-weight: bold;
     }
@@ -48,7 +50,8 @@
       margin: auto;
       flex-direction: column;
       align-items: center;
-      padding: 0 10px;
+      padding: 10px 10px;
+      max-width: 150px;
 
       .result-total {
         @include text_total;

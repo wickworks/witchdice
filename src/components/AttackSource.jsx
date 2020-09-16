@@ -7,9 +7,10 @@ const defaultDamageData =
   {dieCount: 1, dieType: 6, modifier: 0, damageType: 'slashing', name: '', tags: [], enabled: true};
 
 const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clearRollData}) => {
-  const { damageData, dieCount, modifier, name } = attackData;
-  const { setDamageData, setDieCount, setModifier, setName } = attackFunctions;
+  const { damageData, dieCount, modifier, name, desc } = attackData;
+  const { setDamageData, setDieCount, setModifier, setName, setDesc } = attackFunctions;
 
+  const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
   const [isDamageEditOpen, setIsDamageEditOpen] = useState(false);
   const [editingDamageID, setEditingDamageID] = useState(null);
@@ -149,7 +150,24 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
           </div>
 
           {!isEditingName &&
-            <div className='desc'>Melee weapon attack. Reach 5ft, one target.</div>
+            <div className='desc'>
+
+              {isEditingDesc ?
+                <input
+                  type="text"
+                  value={desc}
+                  onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingDesc(false)} }}
+                  onBlur={ () => {setIsEditingDesc(false)} }
+                  onChange={ e => setDesc(e.target.value, attackID) }
+                  placeholder={'Attack description'}
+                  focus={'true'}
+                />
+              :
+                <div className='display' onClick={() => setIsEditingDesc(true)}>
+                  {desc}
+                </div>
+              }
+            </div>
           }
         </div>
 

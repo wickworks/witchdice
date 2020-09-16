@@ -25,10 +25,63 @@ const defaultAttackData = {
   dieCount: 1,
   modifier: 0,
   name: 'Longsword',
+  desc: 'Melee weapon attack. Reach 5ft, one target.',
   damageData: [deepCopy(defaultDamageData)]
 };
 
-const initialAllAttackData = [deepCopy(defaultAttackData) ];
+const initialCharacterName = 'Tuxedo Mask';
+
+// const initialAllAttackData = [deepCopy(defaultAttackData) ];
+const initialAllAttackData = [
+  {
+    dieCount: 2,
+    modifier: 4,
+    name: 'Longsword',
+    desc: 'Melee weapon attack. Reach 5ft, one target.',
+    damageData: [
+      {
+        dieCount: 1,
+        dieType: 8,
+        modifier: 4,
+        damageType: 'slashing',
+        name: '',
+        tags: [],
+        enabled: true
+      },{
+        dieCount: 6,
+        dieType: 6,
+        modifier: 0,
+        damageType: 'slashing',
+        name: 'sneak attack',
+        tags: ['first'],
+        enabled: true
+      }
+    ]
+  },{
+    dieCount: 1,
+    modifier: 6,
+    name: 'Thrown rose',
+    desc: 'Ranged weapon attack. Reach 30ft, one target.',
+    damageData: [
+    {
+      dieCount: 1,
+      dieType: 4,
+      modifier: 0,
+      damageType: 'piercing',
+      name: '',
+      tags: [],
+      enabled: true
+    },{
+      dieCount: 2,
+      dieType: 6,
+      modifier: 0,
+      damageType: 'fire',
+      name: 'flaming',
+      tags: ['reroll2'],
+      enabled: true
+    }]
+  }
+];
 
 const initialRollData = [];
 // [
@@ -48,7 +101,7 @@ const initialRollData = [];
 
 const Attack = () => {
   // should break this out into its own component
-  const [characterName, setCharacterName] = useState('Character');
+  const [characterName, setCharacterName] = useState(initialCharacterName);
   const [isEditingCharacterName, setIsEditingCharacterName] = useState(false);
 
   const [loadedLocalData, setLoadedLocalData] = useState(false);
@@ -99,6 +152,7 @@ const Attack = () => {
     setDieCount: (value, attackID) => updateAllAttackData('dieCount',parseInt(value),attackID),
     setModifier: (value, attackID) => updateAllAttackData('modifier',parseInt(value),attackID),
     setName: (value, attackID) => updateAllAttackData('name',value,attackID),
+    setDesc: (value, attackID) => updateAllAttackData('desc',value,attackID),
     setDamageData: (value, attackID) => updateAllAttackData('damageData',value,attackID),
   }
 

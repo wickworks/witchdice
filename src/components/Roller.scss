@@ -2,8 +2,9 @@
 
 .Roller {
   padding: 8px 0;
-  margin-bottom: 300px;
+  margin-bottom: 100px;
   width: 810px;
+  min-height: 400px;
 
   .controls-and-results {
     display: flex;
