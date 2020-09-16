@@ -45,3 +45,11 @@
 @mixin text_critical_hit {
   font-size: 28px;
 }
+
+@mixin text_dicebag_summary {
+  font-size: 22px;
+}
+
+@mixin text_dicebag_count {
+  font-size: 36px;
+}

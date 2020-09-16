@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { deepCopy, getRandomInt } from '../utils.js';
 import AttackSource from './AttackSource.jsx';
 import Roller from './Roller.jsx';
+import DiceBag from './DiceBag.jsx';
 import './Attack.scss';
 
 
@@ -273,6 +274,8 @@ const Attack = () => {
         handleNewRoll={generateNewRoll}
         rollFunctions={rollFunctions}
       />
+
+      <DiceBag />
     </>
   );
 }

@@ -1,0 +1,62 @@
+@import '../fonts';
+
+.DiceBag {
+  width: 760px;
+  margin-bottom: 200px;
+
+  h2 {
+    @include text_attack_name;
+    margin-bottom: 8px;
+    margin-left: 12px;
+  }
+
+  .bag-container {
+    border: 1px solid black;
+    display: flex;
+
+    .button-container {
+      max-width: 400px;
+      display: flex;
+      flex-wrap: wrap;
+
+      .DieButton {
+        @include text_dicebag_count;
+        display: flex;
+        align-items: center;
+        margin: 16px 10px;
+
+        .asset {
+          margin-right: 8px;
+        }
+      }
+    }
+
+    .roll {
+      @include text_dicebag_count;
+      margin: 10px;
+      flex-shrink: 0;
+    }
+
+    .result-container {
+      display: flex;
+      margin: auto;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 10px;
+
+      .result-total {
+        @include text_total;
+        padding-top: 20px;
+        display: flex;
+        align-items: center;
+
+        .asset { margin-right: 6px;}
+      }
+
+      .result-summary {
+        @include text_dicebag_summary;
+        padding-top: 20px;
+      }
+    }
+  }
+}
