@@ -8,6 +8,8 @@
   align-items: center;
   justify-content: center;
 
+  h1 { @include text_h1; }
+
   input[type=checkbox], input[type=radio] {
     cursor: pointer;
 

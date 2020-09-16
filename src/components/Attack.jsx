@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { deepCopy, getRandomInt } from '../utils.js';
 import AttackSource from './AttackSource.jsx';
 import Roller from './Roller.jsx';
@@ -46,27 +46,32 @@ const initialRollData = [];
 // ]
 
 const Attack = () => {
+  // should break this out into its own component
   const [characterName, setCharacterName] = useState('Character');
+  const [isEditingCharacterName, setIsEditingCharacterName] = useState(false);
+
   const [loadedLocalData, setLoadedLocalData] = useState(false);
   const [allAttackData, setAllAttackData] = useState(initialAllAttackData);
   const [rollData, setRollData] = useState(initialRollData);
 
-
-
-
-  // =============== UPDATE DATA ===================
-
   if (!loadedLocalData) {
     const loadedAllAttackDataJson = localStorage.getItem("attack-data");
     const loadedAllAttackData = JSON.parse(loadedAllAttackDataJson);
-    if (loadedAllAttackData) { deepCopy(setAllAttackData(loadedAllAttackData)) }
+    if (loadedAllAttackData) {
+      deepCopy(setAllAttackData(loadedAllAttackData))
+      setCharacterName(localStorage.getItem("character-name") || 'Character')
+    }
     setLoadedLocalData(true)
   }
 
   function saveAllAttackData(data) {
     console.log('saved all attack data');
     localStorage.setItem("attack-data", JSON.stringify(data));
+    localStorage.setItem("character-name", characterName);
   }
+
+
+  // =============== UPDATE DATA ===================
 
   const updateAllAttackData = (key, value, attackID) => {
     // console.log('');
@@ -83,7 +88,6 @@ const Attack = () => {
     saveAllAttackData(newData);
   }
 
-
   const updateRollData = (key, value, rollID) => {
     let newData = deepCopy(rollData)
     newData[rollID][key] = value
@@ -97,22 +101,21 @@ const Attack = () => {
     setDamageData: (value, attackID) => updateAllAttackData('damageData',value,attackID),
   }
 
-
   const rollFunctions = {
     setHit: (value, id) => updateRollData('hit',value,id),
     setRollOne: (value, id) => updateRollData('rollOne',parseInt(value),id),
     setRollTwo: (value, id) => updateRollData('rollTwo',parseInt(value),id),
     setDamageData: (value, id) => updateRollData('damageData',value,id),
+    setRollData: (newData) => setRollData(deepCopy(newData))
   }
 
   // =============== ROLLER FUNCTIONS ==================
 
-
-
   const generateNewRoll = () => {
     let data = []
 
-    // console.log('~~~~~ NEW ROLL ~~~~~');
+    console.log('');
+    console.log('~~~~~ NEW ROLL ~~~~~');
 
     // EACH ATTACK
     for (let attackID = 0; attackID < allAttackData.length; attackID++) {
@@ -157,6 +160,9 @@ const Attack = () => {
               let damageAmount = getRandomInt(source.dieType)
               let rerolled = false;
 
+              // maximized?
+              if (source.tags.includes('maximized')) { damageAmount = source.dieType }
+
               // reroll damage?
               if (
                 (source.tags.includes('reroll1') && damageAmount <= 1) ||
@@ -194,7 +200,7 @@ const Attack = () => {
         // console.log('  roll data: ', roll);
       }
 
-      console.log('ROLLDATA', JSON.stringify(data));
+      console.log('New Roll Data for ', attackData.name, JSON.stringify(data));
       setRollData(data);
     }
   }
@@ -225,7 +231,22 @@ const Attack = () => {
   return (
     <>
       <div className="Attack">
-        <h2 className="character-name">{characterName}</h2>
+        <h2 className="character-name">
+          {isEditingCharacterName ?
+            <input
+              type="text"
+              value={characterName}
+              onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingCharacterName(false)} }}
+              onChange={ e => setCharacterName(e.target.value) }
+              placeholder={'Character name'}
+              focus={'true'}
+            />
+          :
+            <div className='display' onClick={() => setIsEditingCharacterName(true)}>
+              {characterName}
+            </div>
+          }
+        </h2>
 
         { allAttackData.map((data, i) => {
           return (

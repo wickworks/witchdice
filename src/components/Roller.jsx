@@ -1,18 +1,72 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { deepCopy } from '../utils.js';
 import Roll from './Roll.jsx';
 import './Roller.scss';
 
 
 const Roller = ({
   rollData,
-  handleNewRoll,
+  rollFunctions,
   attackSourceData,
-  rollFunctions //this will get passed down to the RollMods
+  handleNewRoll
 }) => {
 
   const [advantage, setAdvantage] = useState(false);
   const [disadvantage, setDisadvantage] = useState(false);
   const [toHitAC, setToHitAC] = useState(0);
+
+  // when ToHitAC or the roll data changes, figure out what's a hit
+  useEffect(() => {
+    autoCalculateHits();
+  }, [toHitAC, rollData]);
+
+  // figure out what's a hit
+  function autoCalculateHits() {
+    let newRollData = deepCopy(rollData);// so we can update the whole thing in one go
+    let madeChange = false;
+
+    for (let rollID = 0; rollID < newRollData.length; rollID++) {
+      const roll = newRollData[rollID];
+      const {rollUse, rollDiscard} = getRollUseDiscard(roll);
+
+      // if we're given a to-hit AC, set all the hits automatically
+      if (toHitAC > 0) {
+        const didhit = (rollUse >= toHitAC)
+        if (roll.hit !== didhit) {
+          newRollData[rollID].hit = didhit
+          madeChange = true;
+        }
+      }
+
+      // all critical hits are hits
+      const isCrit = isRollCrit(roll);
+      if (isCrit && !roll.hit) {
+        newRollData[rollID].hit = true
+        madeChange = true;
+      }
+    }
+
+    if (madeChange) {rollFunctions.setRollData(newRollData)}
+  }
+
+  function getRollUseDiscard(attackRoll) {
+    let {rollUse, rollDiscard} = 0;
+    const rollSorted = [attackRoll.rollOne, attackRoll.rollTwo].sort((a,b)=>a-b);
+
+    if (advantage && !disadvantage) {
+      rollUse = rollSorted[1];
+      rollDiscard = rollSorted[0];
+    } else if (disadvantage && !advantage) {
+      rollUse = rollSorted[0];
+      rollDiscard = rollSorted[1];
+    } else {
+      rollUse = attackRoll.rollOne;
+      rollDiscard = 0;
+    }
+
+    return { rollUse: rollUse, rollDiscard: rollDiscard }
+  }
+
 
   // calculate damage total & breakdown by type
   let damageTotal = 0;
@@ -157,19 +211,7 @@ const Roller = ({
 
         { rollData.map((attackRoll, i) => {
 
-          let {rollUse, rollDiscard} = 0;
-          const rollSorted = [attackRoll.rollOne, attackRoll.rollTwo].sort((a,b)=>a-b);
-
-          if (advantage && !disadvantage) {
-            rollUse = rollSorted[1];
-            rollDiscard = rollSorted[0];
-          } else if (disadvantage && !advantage) {
-            rollUse = rollSorted[0];
-            rollDiscard = rollSorted[1];
-          } else {
-            rollUse = attackRoll.rollOne;
-            rollDiscard = 0;
-          }
+          const {rollUse, rollDiscard} = getRollUseDiscard(attackRoll);
 
           return (
             <Roll

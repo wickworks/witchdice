@@ -19,15 +19,9 @@ const Roll = ({
     (rollUse < rollDiscard) ?
     'reverse' : '';
 
-  // if we're given a to-hit AC, set all the hits automatically
-  if (toHitAC > 0) {
-    const didhit = (rollUse >= toHitAC)
-    if (hit !== didhit) { setHit(didhit, rollID); }
+  const handleDamageClick = (damageSourceID, damageRollID) => {
+
   }
-
-  // all critical hits are hits
-  if (isCrit && !hit) { setHit(true, rollID); }
-
 
   function renderDamageDice() {
     let diceElements = [];
@@ -53,12 +47,11 @@ const Roll = ({
 
             let critClass = (isCrit && dicePoolIndex === 1) ? 'crit' : '';
 
-            console.log('ROLL DAMAGE : ', amount);
-
             diceElements.push(
               <div
                 className={`damage-roll ${disableClass} ${rerollClass} ${critClass}`}
                 key={`${i}-${dicePoolIndex}`}
+                onClick={handleDamageClick(sourceID, i)}
               >
                 <div className={`asset ${icon}`} />
                 <div className='amount'>{amount}</div>

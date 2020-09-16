@@ -104,9 +104,6 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack}) => 
     setModifier(newModifier, attackID);
   }
 
-  function handleNameKeyPress(e) {
-    if (e.key === 'Enter') {setIsEditingName(false)}
-  }
 
   return (
     <div className='AttackSource'>
@@ -126,7 +123,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack}) => 
               <input
                 type="text"
                 value={name}
-                onKeyPress={ (e) => handleNameKeyPress(e) }
+                onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingName(false)} }}
                 onChange={ e => setName(e.target.value, attackID) }
                 placeholder={'Attack name'}
                 focus={'true'}
@@ -145,7 +142,10 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack}) => 
             {modifier >= 0 ? '+' : ''}
             {modifier} to hit
           </div>
-          <div className='desc'>Melee weapon attack. Reach 5ft, one target.</div>
+
+          {!isEditingName &&
+            <div className='desc'>Melee weapon attack. Reach 5ft, one target.</div>
+          }
         </div>
 
         <div className='statblock'>

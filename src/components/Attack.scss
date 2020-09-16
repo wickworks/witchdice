@@ -12,9 +12,17 @@
   justify-content: center;
 
   .character-name {
-    @include text_character_name;
     margin-right: auto;
+
+    .display {
+      @include text_character_name;
+      cursor: pointer;
+      &:hover { background-color: lightblue; }
+    }
+
+    input { @include text_character_name; }
   }
+
 
   .add-attack {
     display: flex;

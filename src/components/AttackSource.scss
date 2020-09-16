@@ -34,15 +34,15 @@
       margin-bottom: 8px;
 
       .name {
-        .display{
+        .display {
           @include text_attack_name;
           cursor: pointer;
-
           &:hover { background-color: lightblue; }
         }
 
         input { @include text_attack_name; }
       }
+
       .modifier {
         margin-left: 14px;
         padding-bottom: 2px;
@@ -52,6 +52,7 @@
           background-color: lightblue;
         }
       }
+
       .desc {
         margin-left: auto;
         padding-bottom: 2px;
