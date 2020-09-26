@@ -5,12 +5,6 @@ import Roller from './Roller.jsx';
 import DiceBag from './DiceBag.jsx';
 import './Attack.scss';
 
-
-// TODO:
-// - reroll ones and twos
-// - maximized attacks
-// - crit on 18-19-20
-
 const defaultDamageData = {
   dieCount: 1,
   dieType: 6,

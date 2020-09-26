@@ -142,6 +142,7 @@ const Roller = ({
     return isCrit;
   }
 
+  let currentAttackName = '';//used in the render attack title loop, dunno why I can't declare there
   return (
     <div className="Roller">
       <div className="controls-and-results">
@@ -207,27 +208,39 @@ const Roller = ({
       <hr />
 
       <div className="rolls">
-        <div className="hit-label">Hit?</div>
+        {/* <div className="hit-label">Hit?</div>*/}
 
-        { rollData.map((attackRoll, i) => {
+        {
+          rollData.map((attackRoll, rollID) => {
+            const {rollUse, rollDiscard} = getRollUseDiscard(attackRoll);
 
-          const {rollUse, rollDiscard} = getRollUseDiscard(attackRoll);
+            let renderAttackName = false;
+            if (currentAttackName !== attackSourceData[attackRoll.attackID].name) {
+              currentAttackName = attackSourceData[attackRoll.attackID].name;
+              renderAttackName = true;
+            }
 
-          return (
-            <Roll
-              rollID={i}
-              rollUse={rollUse}
-              rollDiscard={rollDiscard}
-              toHitAC={toHitAC}
-              isFirstHit={i === firstHitRollID}
-              isCrit={isRollCrit(attackRoll)}
-              damageSourceData={attackSourceData[attackRoll.attackID].damageData}
-              attackRollData={attackRoll}
-              rollFunctions={rollFunctions}
-              key={i}
-            />
-          )
-        })}
+            return (
+              <>
+                { renderAttackName &&
+                  <h4>{currentAttackName}</h4>
+                }
+                <Roll
+                  rollID={rollID}
+                  rollUse={rollUse}
+                  rollDiscard={rollDiscard}
+                  toHitAC={toHitAC}
+                  isFirstHit={rollID === firstHitRollID}
+                  isCrit={isRollCrit(attackRoll)}
+                  damageSourceData={attackSourceData[attackRoll.attackID].damageData}
+                  attackRollData={attackRoll}
+                  rollFunctions={rollFunctions}
+                  key={rollID}
+                />
+              </>
+            )
+          })
+        }
 
       </div>
     </div>

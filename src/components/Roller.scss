@@ -104,9 +104,15 @@
   }
 
   .rolls {
-    .hit-label {
-      padding-left: 16px;
+    h4 {
+      margin: 0 0 0 12px;
+      font-size: 18px;
     }
+
+    // .hit-label {
+    //   padding-left: 16px;
+    //   margin-bottom: 10px;
+    // }
   }
 
 }
