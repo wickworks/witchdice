@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { deepCopy } from '../utils.js';
+import { abilityTypes } from '../data.js';
 import Roll from './Roll.jsx';
 import './Roller.scss';
 
@@ -308,7 +309,7 @@ const Roller = ({
                   <>
                     <h4>
                       {currentAttackName}
-                      {attackSource.isSavingThrow && ` — DC ${attackSource.savingThrowDC}`}
+                      {attackSource.isSavingThrow && ` — DC ${attackSource.savingThrowDC} ${abilityTypes[attackSource.savingThrowType]}`}
                     </h4>
                     <div className='roll-type-hint'>
                       {attackSource.isSavingThrow ? 'Saved?' : 'Hit?'}

@@ -53,6 +53,7 @@ const Roll = ({
               if (evasion) {     // has evasion
                 if (hit) {
                   showDamageRoll = true;
+                  amount = amount * .5;
                   halvedClass = 'halved';
                 } else {
                   showDamageRoll = false;
@@ -60,6 +61,7 @@ const Roll = ({
               } else {            // no evasion
                 if (!hit) {
                   showDamageRoll = true;
+                  amount = amount * .5;
                   halvedClass = 'halved';
                 }
               }

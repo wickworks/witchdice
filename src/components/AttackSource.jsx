@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { deepCopy } from '../utils.js';
-import { defaultDamageData } from '../data.js';
+import { defaultDamageData, abilityTypes } from '../data.js';
 import DamageSource from './DamageSource.jsx';
 import './AttackSource.scss';
 
 
 const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clearRollData}) => {
-  const { damageData, dieCount, modifier, isSavingThrow, savingThrowDC, name, desc } = attackData;
-  const { setDamageData, setDieCount, setModifier, setIsSavingThrow, setSavingThrowDC, setName, setDesc } = attackFunctions;
+  const { damageData, dieCount, modifier, isSavingThrow, savingThrowDC, savingThrowType, name, desc } = attackData;
+  const { setDamageData, setDieCount, setModifier, setIsSavingThrow, setSavingThrowDC, setSavingThrowType, setName, setDesc } = attackFunctions;
 
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
@@ -123,6 +123,19 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     setSavingThrowDC(newDC, attackID);
   }
 
+  function handleSavingThrowTypeClick(e, leftMouse) {
+    let newType = savingThrowType;
+
+    if (leftMouse && !e.shiftKey) {
+      newType += 1;
+    } else {
+      newType -= 1;
+      e.preventDefault()
+    }
+
+    newType = newType % abilityTypes.length
+    setSavingThrowType(newType, attackID);
+  }
 
   return (
     <div className='AttackSource'>
@@ -157,16 +170,27 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
           </div>
 
           {isSavingThrow ?
-            <div
-              className='saving-throw-dc unselectable'
-              onClick={(e) => handleSavingThrowDCClick(e, true)} onContextMenu={(e) => handleSavingThrowDCClick(e, false)}
-            >
-              DC {savingThrowDC}
-            </div>
+            <>
+              <div
+                className='saving-throw-dc unselectable'
+                onClick={(e) => handleSavingThrowDCClick(e, true)}
+                onContextMenu={(e) => handleSavingThrowDCClick(e, false)}
+              >
+                DC {savingThrowDC}
+              </div>
+              <div
+                className='saving-throw-type unselectable'
+                onClick={(e) => handleSavingThrowTypeClick(e, true)}
+                onContextMenu={(e) => handleSavingThrowTypeClick(e, false)}
+              >
+                {abilityTypes[savingThrowType]}
+              </div>
+            </>
           :
             <div
               className='modifier unselectable'
-              onClick={(e) => handleModifierClick(e, true)} onContextMenu={(e) => handleModifierClick(e, false)}
+              onClick={(e) => handleModifierClick(e, true)}
+              onContextMenu={(e) => handleModifierClick(e, false)}
             >
               {modifier >= 0 ? '+' : ''}
               {modifier} to hit

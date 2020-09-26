@@ -11,6 +11,8 @@ const allTags = {
   'expandedcrit2': 'Crits 18-20'
 }
 
+const abilityTypes = ["Dex", "Con", "Wis", "Cha", "Str", "Int"]
+
 const defaultDamageData = {
   dieCount: 1,
   dieType: 6,
@@ -26,6 +28,7 @@ const defaultAttackData = {
   modifier: 0,
   isSavingThrow: false,
   savingThrowDC: 12,
+  savingThrowType: 0, //Dex
   name: 'Longsword',
   desc: 'Reach 5ft, one target.',
   damageData: [deepCopy(defaultDamageData)]
@@ -40,6 +43,7 @@ const initialAllAttackData = [
     modifier: 4,
     isSavingThrow: false,
     savingThrowDC: 12,
+    savingThrowType: 0, //Dex
     name: 'Longsword',
     desc: 'Reach 5ft, one target.',
     damageData: [
@@ -68,6 +72,7 @@ const initialAllAttackData = [
     modifier: 6,
     isSavingThrow: false,
     savingThrowDC: 12,
+    savingThrowType: 0, //Dex
     name: 'Thrown rose',
     desc: 'Reach 30ft, one target.',
     damageData: [
@@ -107,4 +112,4 @@ const initialAllAttackData = [
 //   }
 // ]
 
-export {allTags, defaultDamageData, defaultAttackData, initialAllAttackData, initialCharacterName};
+export {allTags, abilityTypes, defaultDamageData, defaultAttackData, initialAllAttackData, initialCharacterName};
