@@ -14,6 +14,8 @@ const Roller = ({
   const [advantage, setAdvantage] = useState(false);
   const [disadvantage, setDisadvantage] = useState(false);
   const [toHitAC, setToHitAC] = useState(0);
+  const [saveMod, setSaveMod] = useState(0);
+  const [evasion, setEvasion] = useState(false); // build the UI for this later
 
   // when ToHitAC or the roll data changes, figure out what's a hit
   useEffect(() => {
@@ -25,24 +27,32 @@ const Roller = ({
     let newRollData = deepCopy(rollData);// so we can update the whole thing in one go
     let madeChange = false;
 
+    // most of this is DISABLED because I couldn't get it to flow nicely
     for (let rollID = 0; rollID < newRollData.length; rollID++) {
       const roll = newRollData[rollID];
       const {rollUse, rollDiscard} = getRollUseDiscard(roll);
+      const attackSource = attackSourceData[roll.attackID];
+      const hitDC = attackSource.isSavingThrow ? (attackSource.savingThrowDC+saveMod) : toHitAC
 
-      // if we're given a to-hit AC, set all the hits automatically
-      if (toHitAC > 0) {
-        const didhit = (rollUse >= toHitAC)
-        if (roll.hit !== didhit) {
-          newRollData[rollID].hit = didhit
+      // // if we're given a to-hit AC, set all the hits automatically
+      // if (hitDC > 0) {
+      //   const didhit = attackSource.isSavingThrow ? (rollUse <= hitDC) : (rollUse >= hitDC)
+      //   if (roll.hit !== didhit) {
+      //     newRollData[rollID].hit = didhit
+      //     madeChange = true;
+      //   }
+      //
+      //
+      // }
+
+      // only attacks can crit
+      if (!attackSource.isSavingThrow) {
+        // all critical hits are hits
+        const isCrit = isRollCrit(roll);
+        if (isCrit && !roll.hit) {
+          newRollData[rollID].hit = true
           madeChange = true;
         }
-      }
-
-      // all critical hits are hits
-      const isCrit = isRollCrit(roll);
-      if (isCrit && !roll.hit) {
-        newRollData[rollID].hit = true
-        madeChange = true;
       }
     }
 
@@ -61,12 +71,11 @@ const Roller = ({
       rollDiscard = rollSorted[1];
     } else {
       rollUse = attackRoll.rollOne;
-      rollDiscard = 0;
+      rollDiscard = -100;
     }
 
     return { rollUse: rollUse, rollDiscard: rollDiscard }
   }
-
 
   // calculate damage total & breakdown by type
   let damageTotal = 0;
@@ -78,43 +87,84 @@ const Roller = ({
     const damageSourceData = attackSourceData[roll.attackID].damageData
     const isCrit = isRollCrit(roll);
 
-    if (roll.hit || isCrit) {
-      if (firstHitRollID === -1) { firstHitRollID = rollID; }
-      const isFirstHit = (rollID === firstHitRollID);
+    let isFirstHit = (rollID === firstHitRollID);;
 
-      // get both CRIT and REGULAR dice
-      [roll.damageRollData, roll.critRollData].forEach((dicePool, dicePoolIndex) => {
-        // only include the crit dice pool if we got the critical hit
-        if (dicePoolIndex === 0 || isCrit) {
+    // get both CRIT and REGULAR dice
+    [roll.damageRollData, roll.critRollData].forEach((dicePool, dicePoolIndex) => {
+      // abort the crit dice pool unless this was a critical hit
+      if (dicePoolIndex === 0 || isCrit) {
 
-          const damageRollData = dicePool;
-          for (let damageRollID = 0; damageRollID < damageRollData.length; damageRollID++) {
-            const type = damageRollData[damageRollID][0];
-            const amount = damageRollData[damageRollID][1];
-            const rerolled = damageRollData[damageRollID][2];
-            const sourceID = damageRollData[damageRollID][3];
-            const damageSource = damageSourceData[sourceID];
+        const damageRollData = dicePool;
+        for (let damageRollID = 0; damageRollID < damageRollData.length; damageRollID++) {
+          const type = damageRollData[damageRollID][0];
+          let amount = damageRollData[damageRollID][1];
+          const rerolled = damageRollData[damageRollID][2];
+          const sourceID = damageRollData[damageRollID][3];
+          const damageSource = damageSourceData[sourceID];
 
-            let applyDamage = true;
-            if (!damageSource.enabled) { applyDamage = false; }
-            if (damageSource.tags.includes("first") && !isFirstHit) { applyDamage = false; }
+          let applyDamage = false;
+          if (roll.hit || isCrit) { applyDamage = true; }
 
-            if (applyDamage) {
-              damageTotal = damageTotal + amount;
-              if (type in damageBreakdown) {
-                damageBreakdown[type] = damageBreakdown[type] + amount
+          if (damageSource.tags.includes("savehalf")) {
+            if (evasion) {     // has evasion
+              if (roll.hit) {
+                applyDamage = true;
+                amount = amount * .5;
               } else {
-                damageBreakdown[type] = amount
+                applyDamage = false;
+              }
+            } else {            // no evasion
+              if (!roll.hit) {
+                applyDamage = true;
+                amount = amount * .5;
               }
             }
           }
+
+          if (!damageSource.enabled) { applyDamage = false; }
+
+          // are we the first to make it this far with a hit?
+          if (applyDamage && firstHitRollID === -1) {
+            firstHitRollID = rollID;
+            isFirstHit = true;
+          }
+          if (damageSource.tags.includes("first") && !isFirstHit) { applyDamage = false; }
+
+          if (applyDamage) {
+            damageTotal = damageTotal + amount;
+
+            if (type in damageBreakdown) {
+              damageBreakdown[type] = damageBreakdown[type] + amount
+            } else {
+              damageBreakdown[type] = amount
+            }
+          }
         }
-      })
-    }
+      }
+    })
   }
+  // round down the damage total after summing it all up
+  damageTotal = Math.floor(damageTotal);
+
+  // figure out what conditions to show
+  let hasActiveAttack = false;
+  let hasActiveSavingThrow = false;
+  attackSourceData.map((attackSource) => {
+    if (attackSource.dieCount > 0) {
+      if (attackSource.isSavingThrow) {
+        hasActiveSavingThrow = true;
+      } else {
+        hasActiveAttack = true;
+      }
+    }
+  });
 
   function isRollCrit(roll) {
     let isCrit = false;
+
+    // saving throws can't crit
+    if (attackSourceData[roll.attackID].isSavingThrow) { return false; }
+
 
     const rollSorted = [roll.rollOne, roll.rollTwo].sort((a,b)=>a-b);
 
@@ -175,14 +225,39 @@ const Roller = ({
               Disadvantage
             </label>
 
-            <label className="armor-class">
-              <input
-                type="number"
-                value={toHitAC}
-                onChange={e => setToHitAC(e.target.value)}
-              />
-              AC (optional)
-            </label>
+            {hasActiveSavingThrow &&
+              <label className="has-evasion">
+                <input
+                  name="evasion"
+                  type="checkbox"
+                  checked={evasion}
+                  onChange={() => setEvasion(!evasion)}
+                />
+                Evasion?
+              </label>
+            }
+
+            {/* hasActiveSavingThrow &&
+              <label className="save-mod">
+                <input
+                  type="number"
+                  value={saveMod}
+                  onChange={e => setSaveMod(parseInt(e.target.value))}
+                />
+                Save Mod (optional)
+              </label>
+            }
+
+            { hasActiveAttack &&
+              <label className="armor-class">
+                <input
+                  type="number"
+                  value={toHitAC}
+                  onChange={e => setToHitAC(parseInt(e.target.value))}
+                />
+                AC (optional)
+              </label>
+            */}
           </div>
         </div>
 
@@ -212,32 +287,49 @@ const Roller = ({
 
         {
           rollData.map((attackRoll, rollID) => {
-            const {rollUse, rollDiscard} = getRollUseDiscard(attackRoll);
+            let {rollUse, rollDiscard} = getRollUseDiscard(attackRoll);
 
+            const attackSource = attackSourceData[attackRoll.attackID];
             let renderAttackName = false;
-            if (currentAttackName !== attackSourceData[attackRoll.attackID].name) {
-              currentAttackName = attackSourceData[attackRoll.attackID].name;
+            if (currentAttackName !== attackSource.name) {
+              currentAttackName = attackSource.name;
               renderAttackName = true;
             }
 
+            // add save mods to saving throws
+            if (attackSource.isSavingThrow) {
+              rollUse = rollUse + saveMod;
+              rollDiscard = rollDiscard + saveMod;
+            }
+
             return (
-              <>
+              <div className='roll-container'>
                 { renderAttackName &&
-                  <h4>{currentAttackName}</h4>
+                  <>
+                    <h4>
+                      {currentAttackName}
+                      {attackSource.isSavingThrow && ` — DC ${attackSource.savingThrowDC}`}
+                    </h4>
+                    <div className='roll-type-hint'>
+                      {attackSource.isSavingThrow ? 'Saved?' : 'Hit?'}
+                    </div>
+                  </>
                 }
                 <Roll
                   rollID={rollID}
                   rollUse={rollUse}
                   rollDiscard={rollDiscard}
+                  isCrit={isRollCrit(attackRoll)}
+                  evasion={evasion}
                   toHitAC={toHitAC}
                   isFirstHit={rollID === firstHitRollID}
-                  isCrit={isRollCrit(attackRoll)}
+                  isSavingThrow={attackSource.isSavingThrow}
                   damageSourceData={attackSourceData[attackRoll.attackID].damageData}
                   attackRollData={attackRoll}
                   rollFunctions={rollFunctions}
                   key={rollID}
                 />
-              </>
+              </div>
             )
           })
         }

@@ -56,9 +56,9 @@
         .amount { visibility: hidden; }
       }
 
-      &.hidden { display: none; }
       &.rerolled { background-color: lightblue; }
       &.crit { color: crimson; }
+      &.halved { color: steelblue; font-style: italic;}
     }
 
     // miss

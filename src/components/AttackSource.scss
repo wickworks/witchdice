@@ -44,11 +44,7 @@
         input { @include text_attack_name; }
       }
 
-      .desc {
-
-      }
-
-      .modifier {
+      .modifier, .saving-throw-dc {
         margin-left: 14px;
         padding-bottom: 2px;
         cursor: pointer;
@@ -58,22 +54,32 @@
         }
       }
 
-      .desc {
+      .metadata-container {
         margin-left: auto;
         padding-bottom: 2px;
         font-style: italic;
+        display: flex;
+        align-items: center;
 
-        .display {
-          @include text_default;
-          font-style: italic;
+        .is-saving-throw {
+          margin-right: 10px;
           cursor: pointer;
           &:hover { background-color: lightblue; }
         }
 
-        input {
-          @include text_default;
-          font-style: italic;
-          width: 400px;
+        .desc {
+          .display {
+            @include text_default;
+            font-style: italic;
+            cursor: pointer;
+            &:hover { background-color: lightblue; }
+          }
+
+          input {
+            @include text_default;
+            font-style: italic;
+            width: 300px;
+          }
         }
       }
     }

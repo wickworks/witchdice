@@ -1,121 +1,47 @@
 import React, { useState } from 'react';
 import { deepCopy, getRandomInt } from '../utils.js';
+import { defaultDamageData, defaultAttackData, initialAllAttackData, initialCharacterName } from '../data.js';
 import AttackSource from './AttackSource.jsx';
 import Roller from './Roller.jsx';
 import DiceBag from './DiceBag.jsx';
 import './Attack.scss';
 
-const defaultDamageData = {
-  dieCount: 1,
-  dieType: 6,
-  modifier: 0,
-  damageType: 'slashing',
-  name: '',
-  tags: [],
-  enabled: true
-};
+// whenever we make a change that breaks the old data, bump up the first number
+const CURRENT_VERSION = '0.1';
+console.log('Welcome to Roll-To-Hit version ', CURRENT_VERSION);
 
-const defaultAttackData = {
-  dieCount: 1,
-  modifier: 0,
-  name: 'Longsword',
-  desc: 'Melee weapon attack. Reach 5ft, one target.',
-  damageData: [deepCopy(defaultDamageData)]
-};
+const loadedVersion = localStorage.getItem("version");
+let brokeOldData = false;
+if (loadedVersion) {
+  const newMajorVersion = loadedVersion.slice(0,loadedVersion.indexOf("."))
+  console.log('Loading browser-saved data from', loadedVersion, '— major version: ', newMajorVersion);
 
-const initialCharacterName = 'Tuxedo Mask';
-
-// const initialAllAttackData = [deepCopy(defaultAttackData) ];
-const initialAllAttackData = [
-  {
-    dieCount: 2,
-    modifier: 4,
-    name: 'Longsword',
-    desc: 'Melee weapon attack. Reach 5ft, one target.',
-    damageData: [
-      {
-        dieCount: 1,
-        dieType: 8,
-        modifier: 4,
-        damageType: 'slashing',
-        name: '',
-        tags: [],
-        enabled: true
-      },{
-        dieCount: 6,
-        dieType: 6,
-        modifier: 0,
-        damageType: 'slashing',
-        name: 'sneak attack',
-        tags: ['first'],
-        enabled: true
-      }
-    ]
-  },{
-    dieCount: 1,
-    modifier: 6,
-    name: 'Thrown rose',
-    desc: 'Ranged weapon attack. Reach 30ft, one target.',
-    damageData: [
-    {
-      dieCount: 1,
-      dieType: 4,
-      modifier: 0,
-      damageType: 'piercing',
-      name: '',
-      tags: [],
-      enabled: true
-    },{
-      dieCount: 2,
-      dieType: 6,
-      modifier: 0,
-      damageType: 'fire',
-      name: 'flaming',
-      tags: ['reroll2'],
-      enabled: true
-    }]
+  if (newMajorVersion !== CURRENT_VERSION.slice(0,CURRENT_VERSION.indexOf("."))) {
+    brokeOldData = true;
+    console.log('Detected breaking change of saved data. Resetting to defaults.');
   }
-];
+}
 
-const initialRollData = [];
-// [
-//   {
-//     attackID: 0,
-//     hit: true,
-//     critOne: false;
-//     critTwo: false;
-//     rollOne: 18,
-//     rollTwo: 1,
-//     damageRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
-//     critRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
-//   }, {
-//     ...
-//   }
-// ]
+let loadedAllAttackData, loadedCharacterName;
+if (loadedVersion && !brokeOldData) {
+  console.log('Restoring previous data...');
+  loadedAllAttackData = JSON.parse(localStorage.getItem("attack-data"));
+  loadedCharacterName = localStorage.getItem("character-name");
+}
 
 const Attack = () => {
   // should break this out into its own component
-  const [characterName, setCharacterName] = useState(initialCharacterName);
+  const [characterName, setCharacterName] = useState(loadedCharacterName || 'Character');
   const [isEditingCharacterName, setIsEditingCharacterName] = useState(false);
 
-  const [loadedLocalData, setLoadedLocalData] = useState(false);
-  const [allAttackData, setAllAttackData] = useState(initialAllAttackData);
-  const [rollData, setRollData] = useState(initialRollData);
-
-  if (!loadedLocalData) {
-    const loadedAllAttackDataJson = localStorage.getItem("attack-data");
-    const loadedAllAttackData = JSON.parse(loadedAllAttackDataJson);
-    if (loadedAllAttackData) {
-      deepCopy(setAllAttackData(loadedAllAttackData))
-      setCharacterName(localStorage.getItem("character-name") || 'Character')
-    }
-    setLoadedLocalData(true)
-  }
+  const [allAttackData, setAllAttackData] = useState(loadedAllAttackData || initialAllAttackData);
+  const [rollData, setRollData] = useState([]);
 
   function saveAllAttackData(data) {
-    console.log('saved all attack data');
+    // console.log('saved all attack data');
     localStorage.setItem("attack-data", JSON.stringify(data));
     localStorage.setItem("character-name", characterName);
+    localStorage.setItem("version", CURRENT_VERSION);
   }
 
 
@@ -145,6 +71,8 @@ const Attack = () => {
   const attackFunctions = {
     setDieCount: (value, attackID) => updateAllAttackData('dieCount',parseInt(value),attackID),
     setModifier: (value, attackID) => updateAllAttackData('modifier',parseInt(value),attackID),
+    setIsSavingThrow: (value, attackID) => updateAllAttackData('isSavingThrow',value,attackID),
+    setSavingThrowDC: (value, attackID) => updateAllAttackData('savingThrowDC',value,attackID),
     setName: (value, attackID) => updateAllAttackData('name',value,attackID),
     setDesc: (value, attackID) => updateAllAttackData('desc',value,attackID),
     setDamageData: (value, attackID) => updateAllAttackData('damageData',value,attackID),
@@ -173,7 +101,8 @@ const Attack = () => {
       // EACH TO-HIT D20
       let attackData = allAttackData[attackID]
       for (let rollID = 0; rollID < attackData.dieCount; rollID++) {
-        let roll = {attackID: attackID, hit: false, critOne: false, critTwo: false}
+        const defaultHit = attackData.isSavingThrow ? true : false;
+        let roll = {attackID: attackID, hit: defaultHit, critOne: false, critTwo: false}
 
         // roll some d20s
         roll.rollOne = getRandomInt(20)
@@ -191,8 +120,10 @@ const Attack = () => {
         if (roll.rollTwo >= critRange) { roll.critTwo = true }
 
         // add the attack modifier
-        roll.rollOne += attackData.modifier;
-        roll.rollTwo += attackData.modifier;
+        if (!attackData.isSavingThrow) {
+          roll.rollOne += attackData.modifier;
+          roll.rollTwo += attackData.modifier;
+        }
 
         // EACH DAMAGE SOURCE
         const damageData = attackData.damageData

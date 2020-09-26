@@ -59,6 +59,7 @@ const DiceBag = () => {
                 dieType={dieType}
                 dieCount={diceData[dieType]}
                 setDieCount={(newCount) => updateDiceData(dieType, newCount)}
+                key={i}
               />
             )
           })}

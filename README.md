@@ -1,3 +1,24 @@
+
+### TODO
+
+- make better way to delete attacks, less accidental
+- re-implement automatic save/hit calculations
+
+- saving throws
+- evasion; half damages are converted to none, full damages are halved
+- paralyzation; all attacks are crits
+- vulnerability, resistance, immunity
+- uncanny dodge : be able to halve any roll
+  (use as general case for saving throws, resistance)
+
+- bug: blanking out attack description text makes it un-re-editable
+
+
+
+
+
+=================================================
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -26,9 +47,3 @@ The build is minified and the filenames include the hashes.<br />
 Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### TODO
-
-- saving throws
-- paralyzation; all attacks are crits
-- label each roll with its name

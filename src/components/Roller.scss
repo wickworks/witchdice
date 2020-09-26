@@ -47,11 +47,11 @@
       label {
         display: flex;
         align-items: center;
-        margin: 0 0 4px;
+        margin: 0 0 6px;
 
-        &.armor-class {
-          margin-top: auto;
-        }
+        &.armor-class { margin-top: auto; }
+        &.save-mod { margin-bottom: auto; }
+        &.has-evasion { margin-top: auto; }
       }
 
       input[type=checkbox] {
@@ -104,15 +104,21 @@
   }
 
   .rolls {
-    h4 {
-      margin: 0 0 0 12px;
-      font-size: 18px;
-    }
 
-    // .hit-label {
-    //   padding-left: 16px;
-    //   margin-bottom: 10px;
-    // }
+    .roll-container {
+      position: relative;
+
+      h4 {
+        margin: 12px 0 0 12px;
+        font-size: 18px;
+      }
+
+      .roll-type-hint {
+        position: absolute;
+        right: 100%; // causes them to be right-aligned
+        top: 47px;
+      }
+    }
   }
 
 }

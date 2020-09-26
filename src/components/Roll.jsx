@@ -4,8 +4,8 @@ import './Roll.scss';
 const Roll = ({
   rollID,
   rollUse, rollDiscard,
-  isCrit,
-  toHitAC, isFirstHit,
+  isCrit, evasion,
+  toHitAC, isFirstHit, isSavingThrow,
   damageSourceData,
   attackRollData,
   rollFunctions
@@ -15,12 +15,15 @@ const Roll = ({
   const {attackID, hit, damageRollData, critRollData} = attackRollData;
   const {setHit, setDamageData} = rollFunctions
 
+  // saving throws are reversed
+  const isHit = (isSavingThrow ? !hit : hit);
+
   const useLowerRollClass =
     (rollUse < rollDiscard) ?
     'reverse' : '';
 
   const handleDamageClick = (damageSourceID, damageRollID) => {
-
+    console.log('TODO: make this reroll the die');
   }
 
   function renderDamageDice() {
@@ -34,68 +37,90 @@ const Roll = ({
         return (
           dicePool.map((damage, i) => {
             const icon = damage[0];
-            const amount = damage[1];
+            let amount = damage[1];
             const rerolled = damage[2];
             const sourceID = damage[3];
             const damageSource = damageSourceData[sourceID];
 
-            let disableClass = '';
-            // if (!damageSource.enabled) { disableClass = 'disabled'; }
-            if (!damageSource.enabled) { disableClass = 'hidden'; }
-            if (damageSource.tags.includes("first") && !isFirstHit) { disableClass = 'hidden'; }
+            let showDamageRoll = (hit || isCrit)
 
             let rerollClass = rerolled ? 'rerolled' : '';
-
             let critClass = (isCrit && dicePoolIndex === 1) ? 'crit' : '';
+            let halvedClass = '';
 
-            diceElements.push(
-              <div
-                className={`damage-roll ${disableClass} ${rerollClass} ${critClass}`}
-                key={`${i}-${dicePoolIndex}`}
-                onClick={handleDamageClick(sourceID, i)}
-              >
-                <div className={`asset ${icon}`} />
-                <div className='amount'>{amount}</div>
-              </div>
-            );
+            if (!damageSource.enabled) { showDamageRoll = false; }
+            if (damageSource.tags.includes("savehalf")) {
+              if (evasion) {     // has evasion
+                if (hit) {
+                  showDamageRoll = true;
+                  halvedClass = 'halved';
+                } else {
+                  showDamageRoll = false;
+                }
+              } else {            // no evasion
+                if (!hit) {
+                  showDamageRoll = true;
+                  halvedClass = 'halved';
+                }
+              }
+            }
+
+            if (damageSource.tags.includes("first") && !isFirstHit) { showDamageRoll = false }
+
+            if (showDamageRoll) {
+              diceElements.push(
+                <div
+                  className={`damage-roll ${rerollClass} ${critClass} ${halvedClass}`}
+                  key={`${i}-${dicePoolIndex}`}
+                  onClick={() => handleDamageClick(sourceID, i)}
+                >
+                  <div className={`asset ${icon}`} />
+                  <div className='amount'>{amount}</div>
+                </div>
+              );
+            }
           })
         )
       }
     })
 
+
+    // if no damage is coming out of this, just show a line
+    if (diceElements.length === 0 ) { diceElements.push( <hr /> )}
     return diceElements;
   }
 
   const handleHitClick = () => { setHit(!hit, rollID) }
 
+  // disabled={(toHitAC > 0 || isCrit)}
   return (
     <div className="Roll">
 
       <input
         name="hit"
         type="checkbox"
-        checked={hit}
+        checked={isHit}
         onChange={handleHitClick}
-        disabled={(toHitAC > 0 || isCrit)}
+        disabled={isCrit}
       />
 
-      <div className={`asset d20`} />
+      { !isSavingThrow &&
+        <>
+          <div className={`asset d20`} />
 
-      <div className={`d20-results ${useLowerRollClass}`}>
-        <span className='roll-use'>
-          {rollUse}
-        </span>
-        <span className='roll-discard'>
-          {rollDiscard > 0 ? rollDiscard : ''}
-        </span>
-      </div>
+          <div className={`d20-results ${useLowerRollClass}`}>
+            <span className='roll-use'>
+              {rollUse}
+            </span>
+            <span className='roll-discard'>
+              {rollDiscard > 0 ? rollDiscard : ''}
+            </span>
+          </div>
+        </>
+      }
 
       <div className="damage-container">
-        { hit ?
-          renderDamageDice()
-        :
-          <hr />
-        }
+        {renderDamageDice()}
       </div>
 
       <div className="crit-container">
@@ -107,7 +132,6 @@ const Roll = ({
           </>
         }
       </div>
-
 
     </div>
   );

@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { deepCopy } from '../utils.js';
+import { defaultDamageData } from '../data.js';
 import DamageSource from './DamageSource.jsx';
 import './AttackSource.scss';
 
-const defaultDamageData =
-  {dieCount: 1, dieType: 6, modifier: 0, damageType: 'slashing', name: '', tags: [], enabled: true};
 
 const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clearRollData}) => {
-  const { damageData, dieCount, modifier, name, desc } = attackData;
-  const { setDamageData, setDieCount, setModifier, setName, setDesc } = attackFunctions;
+  const { damageData, dieCount, modifier, isSavingThrow, savingThrowDC, name, desc } = attackData;
+  const { setDamageData, setDieCount, setModifier, setIsSavingThrow, setSavingThrowDC, setName, setDesc } = attackFunctions;
 
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
@@ -109,6 +108,21 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     setModifier(newModifier, attackID);
   }
 
+  function handleSavingThrowDCClick(e, leftMouse) {
+    let newDC = savingThrowDC;
+
+    if (leftMouse && !e.shiftKey) {
+      newDC += 1;
+    } else {
+      newDC -= 1;
+      e.preventDefault()
+    }
+
+    newDC = Math.min(newDC, 40);
+    newDC = Math.max(newDC, 0);
+    setSavingThrowDC(newDC, attackID);
+  }
+
 
   return (
     <div className='AttackSource'>
@@ -141,34 +155,55 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
             }
 
           </div>
-          <div
-            className='modifier unselectable'
-            onClick={(e) => handleModifierClick(e, true)} onContextMenu={(e) => handleModifierClick(e, false)}
-          >
-            {modifier >= 0 ? '+' : ''}
-            {modifier} to hit
-          </div>
 
-          {!isEditingName &&
-            <div className='desc'>
-
-              {isEditingDesc ?
-                <input
-                  type="text"
-                  value={desc}
-                  onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingDesc(false)} }}
-                  onBlur={ () => {setIsEditingDesc(false)} }
-                  onChange={ e => setDesc(e.target.value, attackID) }
-                  placeholder={'Attack description'}
-                  focus={'true'}
-                />
-              :
-                <div className='display' onClick={() => setIsEditingDesc(true)}>
-                  {desc}
-                </div>
-              }
+          {isSavingThrow ?
+            <div
+              className='saving-throw-dc unselectable'
+              onClick={(e) => handleSavingThrowDCClick(e, true)} onContextMenu={(e) => handleSavingThrowDCClick(e, false)}
+            >
+              DC {savingThrowDC}
+            </div>
+          :
+            <div
+              className='modifier unselectable'
+              onClick={(e) => handleModifierClick(e, true)} onContextMenu={(e) => handleModifierClick(e, false)}
+            >
+              {modifier >= 0 ? '+' : ''}
+              {modifier} to hit
             </div>
           }
+
+          <div className='metadata-container'>
+            <div className='is-saving-throw'
+              onClick={() => setIsSavingThrow(!isSavingThrow, attackID)}
+            >
+              { isSavingThrow ?
+                'Saving throw.'
+              :
+                'Attack.'
+              }
+            </div>
+
+            {!isEditingName &&
+              <div className='desc'>
+                {isEditingDesc ?
+                  <input
+                    type="text"
+                    value={desc}
+                    onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingDesc(false)} }}
+                    onBlur={ () => {setIsEditingDesc(false)} }
+                    onChange={ e => setDesc(e.target.value, attackID) }
+                    placeholder={'Attack description'}
+                    focus={'true'}
+                  />
+                :
+                  <div className='display' onClick={() => setIsEditingDesc(true)}>
+                    {desc}
+                  </div>
+                }
+              </div>
+            }
+          </div>
         </div>
 
         <div className='statblock'>
