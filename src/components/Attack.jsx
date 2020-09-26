@@ -228,6 +228,14 @@ const Attack = () => {
                 damageAmount = getRandomInt(source.dieType);
               }
 
+              // minimum 2s?
+              if (
+                (source.tags.includes('min2') && damageAmount <= 1)
+              ) {
+                rerolled = true;
+                damageAmount = 2;
+              }
+
               let damage = [
                 source.damageType,
                 damageAmount,

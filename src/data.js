@@ -6,6 +6,7 @@ const allTags = {
   'reroll2': 'Reroll 1+2s',
   'expandedcrit1': 'Crits 19-20',
   'expandedcrit2': 'Crits 18-20',
+  'min2': 'Treat 1s as 2s.'
 }
 
 export {allTags};
