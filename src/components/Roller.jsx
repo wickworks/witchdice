@@ -85,7 +85,8 @@ const Roller = ({
 
   for (let rollID = 0; rollID < rollData.length; rollID++) {
     const roll = rollData[rollID];
-    const damageSourceData = attackSourceData[roll.attackID].damageData
+    const attackSource = attackSourceData[roll.attackID]
+    const damageSourceData = attackSource.damageData
     const isCrit = isRollCrit(roll);
 
     let isFirstHit = (rollID === firstHitRollID);;
@@ -107,7 +108,8 @@ const Roller = ({
           if (roll.hit || isCrit) { applyDamage = true; }
 
           if (damageSource.tags.includes("savehalf")) {
-            if (evasion) {     // has evasion
+            // has evasion
+            if (evasion && attackSource.savingThrowType === 0) {
               if (roll.hit) {
                 applyDamage = true;
                 amount = amount * .5;
@@ -321,7 +323,7 @@ const Roller = ({
                   rollUse={rollUse}
                   rollDiscard={rollDiscard}
                   isCrit={isRollCrit(attackRoll)}
-                  evasion={evasion}
+                  evasion={evasion && attackSource.savingThrowType === 0}
                   toHitAC={toHitAC}
                   isFirstHit={rollID === firstHitRollID}
                   isSavingThrow={attackSource.isSavingThrow}
