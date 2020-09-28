@@ -24,7 +24,8 @@
     flex-direction: column;
     flex-shrink: 0;
     width: 30px;
-    margin: 0 40px 0 4px;
+    padding: 0 24px 0 4px;
+    margin-right: 16px;
 
     &.reverse { flex-direction: column-reverse; }
 
@@ -35,6 +36,9 @@
 
       .total {
         pointer-events: none;
+
+        opacity: 100%;
+        transition: opacity .075s ease-out .15s;
       }
 
       .sum {
@@ -43,13 +47,15 @@
         top: 4px;
         left: 0;
         pointer-events: none;
-        opacity: 0%;
-      }
 
-      &:hover {
-        .total { opacity: 0%; }
-        .sum { opacity: 100%; }
+        opacity: 0%;
+        transition: opacity .075s ease-out .15s;
       }
+    }
+
+    &:hover .roll-use {
+      .total { opacity: 0%; }
+      .sum { opacity: 100%; }
     }
   }
 
