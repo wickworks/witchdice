@@ -26,115 +26,140 @@ const Roll = ({
     console.log('TODO: make this reroll the die');
   }
 
-  function renderDamageDice() {
-    let diceElements = [];
-
-    // get both CRIT and REGULAR dice
-    [damageRollData, critRollData].forEach((dicePool, dicePoolIndex) => {
-      // only include the crit dice pool if we got the critical hit
-      if (dicePoolIndex === 0 || isCrit) {
-
-        return (
-          dicePool.map((damage, i) => {
-            const icon = damage[0];
-            let amount = damage[1];
-            const rerolled = damage[2];
-            const sourceID = damage[3];
-            const damageSource = damageSourceData[sourceID];
-
-            let showDamageRoll = (hit || isCrit)
-
-            let rerollClass = rerolled ? 'rerolled' : '';
-            let critClass = (isCrit && dicePoolIndex === 1) ? 'crit' : '';
-            let halvedClass = '';
-
-            if (!damageSource.enabled) { showDamageRoll = false; }
-            if (damageSource.tags.includes("savehalf")) {
-              if (evasion) {     // has evasion
-                if (hit) {
-                  showDamageRoll = true;
-                  amount = amount * .5;
-                  halvedClass = 'halved';
-                } else {
-                  showDamageRoll = false;
-                }
-              } else {            // no evasion
-                if (!hit) {
-                  showDamageRoll = true;
-                  amount = amount * .5;
-                  halvedClass = 'halved';
-                }
-              }
-            }
-
-            if (damageSource.tags.includes("first") && !isFirstHit) { showDamageRoll = false }
-
-            if (showDamageRoll) {
-              diceElements.push(
-                <div
-                  className={`damage-roll ${rerollClass} ${critClass} ${halvedClass}`}
-                  key={`${i}-${dicePoolIndex}`}
-                  onClick={() => handleDamageClick(sourceID, i)}
-                >
-                  <div className={`asset ${icon}`} />
-                  <div className='amount'>{amount}</div>
-                </div>
-              );
-            }
-          })
-        )
-      }
-    })
-
-
-    // if no damage is coming out of this, just show a line
-    if (diceElements.length === 0 ) { diceElements.push( <hr /> )}
-    return diceElements;
-  }
-
   const handleHitClick = () => { setHit(!hit, rollID) }
+
+
+  // process the damage for THIS roll
+  let diceElements = [];
+  let damageBreakdown = {};
+
+  // get both CRIT and REGULAR dice
+  [damageRollData, critRollData].forEach((dicePool, dicePoolIndex) => {
+    // only include the crit dice pool if we got the critical hit
+    if (dicePoolIndex === 0 || isCrit) {
+
+      dicePool.map((damage, i) => {
+        const icon = damage[0];
+        let amount = damage[1];
+        const rerolled = damage[2];
+        const sourceID = damage[3];
+        const damageSource = damageSourceData[sourceID];
+
+        let showDamageRoll = (hit || isCrit)
+
+        let rerollClass = rerolled ? 'rerolled' : '';
+        let critClass = (isCrit && dicePoolIndex === 1) ? 'crit' : '';
+        let halvedClass = '';
+
+        if (!damageSource.enabled) { showDamageRoll = false; }
+        if (damageSource.tags.includes("savehalf")) {
+          if (evasion) {     // has evasion
+            if (hit) {
+              showDamageRoll = true;
+              amount = amount * .5;
+              halvedClass = 'halved';
+            } else {
+              showDamageRoll = false;
+            }
+          } else {            // no evasion
+            if (!hit) {
+              showDamageRoll = true;
+              amount = amount * .5;
+              halvedClass = 'halved';
+            }
+          }
+        }
+
+        if (damageSource.tags.includes("first") && !isFirstHit) { showDamageRoll = false }
+
+        if (showDamageRoll) {
+          if (icon in damageBreakdown) {
+            damageBreakdown[icon] = damageBreakdown[icon] + amount
+          } else {
+            damageBreakdown[icon] = amount
+          }
+
+          diceElements.push(
+            <div
+              className={`damage-roll ${rerollClass} ${critClass} ${halvedClass}`}
+              key={`${i}-${dicePoolIndex}`}
+              onClick={() => handleDamageClick(sourceID, i)}
+            >
+              <div className={`asset ${icon}`} />
+              <div className='amount'>{amount}</div>
+            </div>
+          );
+        }
+      })
+    }
+  })
+
+  // if no damage is coming out of this, just show a line
+  if (diceElements.length === 0 ) {
+    diceElements.push( <hr className='miss' /> )
+  }
 
   // disabled={(toHitAC > 0 || isCrit)}
   return (
     <div className="Roll">
-
-      <input
-        name="hit"
-        type="checkbox"
-        checked={isHit}
-        onChange={handleHitClick}
-        disabled={isCrit}
-      />
-
-      { !isSavingThrow &&
-        <>
-          <div className={`asset d20`} />
-
-          <div className={`d20-results ${useLowerRollClass}`}>
-            <span className='roll-use'>
-              {rollUse}
-            </span>
-            <span className='roll-discard'>
-              {rollDiscard > 0 ? rollDiscard : ''}
-            </span>
-          </div>
-        </>
+      { isCrit &&
+        <div className="crit-container">
+          <hr />
+          <div className="asset necrotic" />
+          CRITICAL HIT
+          <div className="asset necrotic" />
+          <hr />
+        </div>
       }
 
-      <div className="damage-container">
-        {renderDamageDice()}
-      </div>
+      <div className="damage-line">
 
-      <div className="crit-container">
-        { isCrit &&
+        <input
+          name="hit"
+          type="checkbox"
+          checked={isHit}
+          onChange={handleHitClick}
+          disabled={isCrit}
+        />
+
+        { !isSavingThrow &&
           <>
-            <div className="asset necrotic" />
-            CRITICAL HIT
-            <div className="asset necrotic" />
+            <div className={`asset d20`} />
+
+            <div className={`d20-results ${useLowerRollClass}`}>
+              <span className='roll-use'>
+                {rollUse}
+              </span>
+              <span className='roll-discard'>
+                {rollDiscard > 0 ? rollDiscard : ''}
+              </span>
+            </div>
           </>
+        }
+
+        <div className="damage-container">
+          {diceElements}
+        </div>
+
+        { (diceElements.length > 0) &&
+          <div className="subtotal-container">
+            { Object.keys(damageBreakdown).map((icon, i) => {
+              return (
+                <div className='subtotal' key={i}>
+                  <div className='amount'>{damageBreakdown[icon]}</div>
+                  <div className={`asset ${icon}`} />
+                </div>
+              )
+            })}
+          </div>
         }
       </div>
 
+      { isCrit &&
+        <div className="crit-container">
+          <hr />
+        </div>
+      }
     </div>
   );
 }
