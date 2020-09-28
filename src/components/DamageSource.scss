@@ -1,7 +1,11 @@
 @import '../fonts';
 
 .DamageSource {
+  background-color: #eeeeee;
   padding: 8px 0 8px 8px;
+
+  transition: margin .05s ease-out;
+
   cursor: pointer;
 
   &:hover {
@@ -11,6 +15,10 @@
   &.editing {
     background-color: #dae1ea;
     cursor: auto;
+    padding-bottom: 0;
+    margin: 10px 0;
+
+    .numbers-container .asset { background-color: lightblue; }
   }
 
   input[type=checkbox] {
@@ -133,11 +141,6 @@
     }
 
   }
-
-  &.editing {
-    .numbers-container .asset { background-color: lightblue; }
-  }
-
 
   .timing-container {
     width: 140px;

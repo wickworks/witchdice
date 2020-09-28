@@ -19,8 +19,6 @@ roll-to-hit
 	- anything for two-weapon fighting will make it harder
 	- could add sneak attack as a separate thing;; just attaches to the first roll
 
-- nat 1s should always miss
-
 - it would be nice to be able to clear dice rolls --- get a clean slate
 
 - want to just be able to roll one of the things -- checkbox next to each attack (right above the roller, not all the way up at the top)
