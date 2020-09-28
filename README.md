@@ -19,8 +19,6 @@ roll-to-hit
 	- anything for two-weapon fighting will make it harder
 	- could add sneak attack as a separate thing;; just attaches to the first roll
 
-- should have sub-totals for each roll
-
 - nat 1s should always miss
 
 - it would be nice to be able to clear dice rolls --- get a clean slate
@@ -29,7 +27,7 @@ roll-to-hit
 
 - separate button for deleting attacks
 
-
+- setting to customize which icon shows up for natural 20s
 
 ### COMMANDS
 

@@ -103,7 +103,11 @@ const Attack = () => {
       let attackData = allAttackData[attackID]
       for (let rollID = 0; rollID < attackData.dieCount; rollID++) {
         const defaultHit = attackData.isSavingThrow ? true : false;
-        let roll = {attackID: attackID, hit: defaultHit, critOne: false, critTwo: false}
+        let roll = {
+          attackID: attackID,
+          hit: defaultHit,
+          attackBonus: attackData.modifier,
+        }
 
         // roll some d20s
         roll.rollOne = getRandomInt(20)
@@ -115,15 +119,6 @@ const Attack = () => {
           const source = attackData.damageData[damageSourceID]
           if (source.tags.includes('expandedcrit1')) {critRange = 19}
           if (source.tags.includes('expandedcrit2')) {critRange = 18}
-        }
-
-        if (roll.rollOne >= critRange) { roll.critOne = true }
-        if (roll.rollTwo >= critRange) { roll.critTwo = true }
-
-        // add the attack modifier
-        if (!attackData.isSavingThrow) {
-          roll.rollOne += attackData.modifier;
-          roll.rollTwo += attackData.modifier;
         }
 
         // EACH DAMAGE SOURCE

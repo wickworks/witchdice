@@ -4,7 +4,7 @@ import './Roll.scss';
 const Roll = ({
   rollID,
   rollUse, rollDiscard,
-  isCrit, evasion,
+  isCrit, isFumble, evasion,
   toHitAC, isFirstHit, isSavingThrow,
   damageSourceData,
   attackRollData,
@@ -45,7 +45,7 @@ const Roll = ({
         const sourceID = damage[3];
         const damageSource = damageSourceData[sourceID];
 
-        let showDamageRoll = (hit || isCrit)
+        let showDamageRoll = (hit || isCrit) && !isFumble
 
         let rerollClass = rerolled ? 'rerolled' : '';
         let critClass = (isCrit && dicePoolIndex === 1) ? 'crit' : '';
@@ -94,55 +94,82 @@ const Roll = ({
     }
   })
 
-  // if no damage is coming out of this, just show a line
+  // if no damage is coming out of this, just show a line / fumble
   if (diceElements.length === 0 ) {
-    diceElements.push( <hr className='miss' /> )
+    if (isFumble) {
+      diceElements.push( <div className='fumble'>* fumble *</div> )
+    } else {
+      diceElements.push( <hr className='miss' /> )
+    }
   }
 
-  // disabled={(toHitAC > 0 || isCrit)}
+  const critClass = isCrit ? 'crit' : ''
+
   return (
     <div className="Roll">
-      { isCrit &&
+      { isCrit && true === false &&
         <div className="crit-container">
-          <hr />
           <div className="asset necrotic" />
           CRITICAL HIT
           <div className="asset necrotic" />
-          <hr />
         </div>
       }
 
-      <div className="damage-line">
+      <input
+        name="hit"
+        type="checkbox"
+        checked={isHit}
+        onChange={handleHitClick}
+        disabled={isCrit || isFumble}
+      />
 
-        <input
-          name="hit"
-          type="checkbox"
-          checked={isHit}
-          onChange={handleHitClick}
-          disabled={isCrit}
-        />
-
-        { !isSavingThrow &&
+      { !isSavingThrow ?
+        isCrit ?
+          <div className='result-crit-container'>
+            <div className='asset d20_frame result-crit'>
+              <div className='asset necrotic' />
+            </div>
+            <div className='crit-label'>
+              CRIT
+            </div>
+          </div>
+        :
           <>
             <div className={`asset d20`} />
 
-            <div className={`d20-results ${useLowerRollClass}`}>
+            <div className={`result-roll ${useLowerRollClass}`}>
               <span className='roll-use'>
-                {rollUse}
+                {isFumble ?
+                  <>1</>
+                :
+                  <>{rollUse}</>
+                }
               </span>
               <span className='roll-discard'>
                 {rollDiscard > 0 ? rollDiscard : ''}
               </span>
             </div>
           </>
-        }
+      :
+        <></>
+      }
+
+      <div className="damage-line">
 
         <div className="damage-container">
           {diceElements}
         </div>
 
+        {/* isCrit &&
+          <div className="crit-container">
+            <div className="asset necrotic" />
+            CRITICAL HIT
+            <div className="asset necrotic" />
+          </div>
+        */}
+
         { (diceElements.length > 0) &&
-          <div className="subtotal-container">
+          <div className={`subtotal-container ${critClass}`}>
             { Object.keys(damageBreakdown).map((icon, i) => {
               return (
                 <div className='subtotal' key={i}>
@@ -155,11 +182,6 @@ const Roll = ({
         }
       </div>
 
-      { isCrit &&
-        <div className="crit-container">
-          <hr />
-        </div>
-      }
     </div>
   );
 }

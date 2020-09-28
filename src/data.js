@@ -101,10 +101,9 @@ const initialAllAttackData = [
 //   {
 //     attackID: 0,
 //     hit: true,
-//     critOne: false;
-//     critTwo: false;
 //     rollOne: 18,
 //     rollTwo: 1,
+//     attackBonus: 4,
 //     damageRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
 //     critRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
 //   }, {

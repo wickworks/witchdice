@@ -48,10 +48,17 @@ const Roller = ({
 
       // only attacks can crit
       if (!attackSource.isSavingThrow) {
+        const critFumble = getCritOrFumble(roll)
+
         // all critical hits are hits
-        const isCrit = isRollCrit(roll);
-        if (isCrit && !roll.hit) {
+        if (critFumble.isCrit && !roll.hit) {
           newRollData[rollID].hit = true
+          madeChange = true;
+        }
+
+        // all critical fumbles are misses
+        if (critFumble.isFumble && roll.hit) {
+          newRollData[rollID].hit = false
           madeChange = true;
         }
       }
@@ -75,6 +82,10 @@ const Roller = ({
       rollDiscard = -100;
     }
 
+    // add the attack modifier
+    rollUse = rollUse + attackRoll.attackBonus;
+    rollDiscard = rollDiscard + attackRoll.attackBonus;
+
     return { rollUse: rollUse, rollDiscard: rollDiscard }
   }
 
@@ -87,14 +98,14 @@ const Roller = ({
     const roll = rollData[rollID];
     const attackSource = attackSourceData[roll.attackID]
     const damageSourceData = attackSource.damageData
-    const isCrit = isRollCrit(roll);
+    const critFumble = getCritOrFumble(roll);
 
     let isFirstHit = (rollID === firstHitRollID);;
 
     // get both CRIT and REGULAR dice
     [roll.damageRollData, roll.critRollData].forEach((dicePool, dicePoolIndex) => {
       // abort the crit dice pool unless this was a critical hit
-      if (dicePoolIndex === 0 || isCrit) {
+      if (dicePoolIndex === 0 || critFumble.isCrit) {
 
         const damageRollData = dicePool;
         for (let damageRollID = 0; damageRollID < damageRollData.length; damageRollID++) {
@@ -105,7 +116,7 @@ const Roller = ({
           const damageSource = damageSourceData[sourceID];
 
           let applyDamage = false;
-          if (roll.hit || isCrit) { applyDamage = true; }
+          if (roll.hit || critFumble.isCrit) { applyDamage = true; }
 
           if (damageSource.tags.includes("savehalf")) {
             // has evasion
@@ -124,6 +135,7 @@ const Roller = ({
             }
           }
 
+          if (!attackSource.isSavingThrow && critFumble.isFumble) { applyDamage = false; }
           if (!damageSource.enabled) { applyDamage = false; }
 
           // are we the first to make it this far with a hit?
@@ -162,8 +174,9 @@ const Roller = ({
     }
   });
 
-  function isRollCrit(roll) {
+  function getCritOrFumble(roll) {
     let isCrit = false;
+    let isFumble = false;
 
     // saving throws can't crit
     if (attackSourceData[roll.attackID].isSavingThrow) { return false; }
@@ -174,25 +187,30 @@ const Roller = ({
     // ADVANTAGE: use the higher roll's crit
     if (advantage && !disadvantage) {
       if (roll.rollOne === rollSorted[1]) {
-        isCrit = roll.critOne
+        isCrit = roll.rollOne === 20;
+        isFumble = roll.rollOne === 1;
       } else {
-        isCrit = roll.critTwo
+        isCrit = roll.rollTwo === 20;
+        isFumble = roll.rollTwo === 1;
       }
 
     // DISADVANTAGE: use the lower roll's crit
     } else if (disadvantage && !advantage) {
       if (roll.rollOne === rollSorted[1]) {
-        isCrit = roll.critTwo
+        isCrit = roll.rollTwo === 20;
+        isFumble = roll.rollTwo === 1;
       } else {
-        isCrit = roll.critOne
+        isCrit = roll.rollOne === 20;
+        isFumble = roll.rollOne === 1;
       }
 
     // NEUTRAL: use the first roll's crit
     } else {
-      isCrit = roll.critOne
+      isCrit = roll.rollOne === 20;
+      isFumble = roll.rollOne === 1;
     }
 
-    return isCrit;
+    return {isCrit: isCrit, isFumble: isFumble};
   }
 
   let currentAttackName = '';//used in the render attack title loop, dunno why I can't declare there
@@ -291,6 +309,7 @@ const Roller = ({
         {
           rollData.map((attackRoll, rollID) => {
             let {rollUse, rollDiscard} = getRollUseDiscard(attackRoll);
+            const critFumble = getCritOrFumble(attackRoll);
 
             const attackSource = attackSourceData[attackRoll.attackID];
             let renderAttackName = false;
@@ -322,7 +341,8 @@ const Roller = ({
                   rollID={rollID}
                   rollUse={rollUse}
                   rollDiscard={rollDiscard}
-                  isCrit={isRollCrit(attackRoll)}
+                  isCrit={critFumble.isCrit}
+                  isFumble={critFumble.isFumble}
                   evasion={evasion && attackSource.savingThrowType === 0}
                   toHitAC={toHitAC}
                   isFirstHit={rollID === firstHitRollID}

@@ -45,7 +45,14 @@
 }
 
 @mixin text_critical_hit {
-  font-size: 28px;
+  font-size: 22px;
+  color: crimson;
+}
+
+@mixin text_fumble {
+  font-size: 18px;
+  color: lightgrey;
+  font-style: italic;
 }
 
 @mixin text_roll_subtotal {
