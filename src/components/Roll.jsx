@@ -97,9 +97,11 @@ const Roll = ({
   // if no damage is coming out of this, just show a line / fumble
   if (diceElements.length === 0 ) {
     if (isFumble) {
-      diceElements.push( <div className='fumble'>* fumble *</div> )
+      diceElements.push(
+        <div className='fumble' key={`fumble-${rollID}`}>* fumble *</div>
+      )
     } else {
-      diceElements.push( <hr className='miss' /> )
+      diceElements.push( <hr className='miss' key={`miss-${rollID}`} /> )
     }
   }
 

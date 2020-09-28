@@ -9,7 +9,8 @@ const Roller = ({
   rollData,
   rollFunctions,
   attackSourceData,
-  handleNewRoll
+  handleNewRoll,
+  handleClear
 }) => {
 
   const [advantage, setAdvantage] = useState(false);
@@ -325,7 +326,7 @@ const Roller = ({
             }
 
             return (
-              <div className='roll-container'>
+              <div className='roll-container' key={`roll-container-${rollID}`}>
                 { renderAttackName &&
                   <>
                     <h4>
@@ -358,6 +359,12 @@ const Roller = ({
         }
 
       </div>
+
+      { rollData.length > 0 &&
+        <button className="clear-rolls" onClick={() => {handleClear()}}>
+          Clear
+        </button>
+      }
     </div>
   );
 }

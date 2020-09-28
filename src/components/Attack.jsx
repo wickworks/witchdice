@@ -93,8 +93,8 @@ const Attack = () => {
   const generateNewRoll = () => {
     let data = []
 
-    console.log('');
-    console.log('~~~~~ NEW ROLL ~~~~~');
+    // console.log('');
+    // console.log('~~~~~ NEW ROLL ~~~~~');
 
     // EACH ATTACK
     for (let attackID = 0; attackID < allAttackData.length; attackID++) {
@@ -185,9 +185,13 @@ const Attack = () => {
         // console.log('  roll data: ', roll);
       }
 
-      console.log('New Roll Data for ', attackData.name, JSON.stringify(data));
+      // console.log('New Roll Data for ', attackData.name, JSON.stringify(data));
       setRollData(data);
     }
+  }
+
+  const clearRolls = () => {
+    setRollData([]);
   }
 
   // =============== CREATE / EDIT / DELETE ATTACKS ==================
@@ -261,6 +265,7 @@ const Attack = () => {
         rollData={rollData}
         attackSourceData={allAttackData}
         handleNewRoll={generateNewRoll}
+        handleClear={clearRolls}
         rollFunctions={rollFunctions}
       />
 
