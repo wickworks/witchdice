@@ -11,6 +11,23 @@
 
 - bug: blanking out attack description text makes it un-re-editable
 
+roll-to-hit
+- if click on a weapon, it doesn't auto-select the text box when you're editing
+
+- change "first hit" to "once per turn", just apply it on the first hit (or have that be additional)
+	- bonus action for fighting makes things harder because there are different modifiers for the attacks
+	- anything for two-weapon fighting will make it harder
+	- could add sneak attack as a separate thing;; just attaches to the first roll
+
+- should have sub-totals for each roll
+
+- nat 1s should always miss
+
+- it would be nice to be able to clear dice rolls --- get a clean slate
+
+- want to just be able to roll one of the things -- checkbox next to each attack (right above the roller, not all the way up at the top)
+
+- separate button for deleting attacks
 
 
 
