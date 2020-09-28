@@ -8,7 +8,7 @@
     margin-top: 2px;
     margin-right: 12px;
 
-    .asset {
+    .asset.d20_frame {
       width: 48px;
       height: 48px;
       border-radius: 50%;
@@ -18,11 +18,24 @@
         background-color: lightblue;
       }
 
+      .die-count {
+        @include text_attack_roll_count;
+        text-align: center;
+        padding-top: 11px;
+      }
     }
-    .die-count {
-      @include text_attack_roll_count;
-      text-align: center;
-      padding-top: 11px;
+
+    .asset.delete-attack {
+      width: 30px;
+      height: 30px;
+      display: block;
+      margin: 6px auto;
+      cursor: pointer;
+
+      // turns black to #eee
+      filter: invert(99%) sepia(2%) saturate(111%) hue-rotate(329deg) brightness(109%) contrast(74%);
+
+      &:hover { filter: none; }
     }
   }
 
@@ -113,6 +126,40 @@
 
         &:hover {
           background-color: lightgrey;
+        }
+      }
+    }
+
+    .delete-confirm-container {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      width: 100%;
+      background-color: #dae1ea;
+
+      .delete-title {
+        @include text_attack_name;
+        padding: 0 30px;
+        margin-right: auto;
+      }
+
+      button {
+        @include text_default;
+        font-weight: bold;
+        font-size: 16px;
+        height: 100%;
+        width: 100px;
+        border: 0;
+        cursor: pointer;
+
+        &.cancel { background-color: lightblue; }
+        &.delete { background-color: salmon; }
+        &:hover { background-color: grey; }
+
+        .asset {
+          width: 40px;
+          height: 40px;
+          margin: 0 auto 6px;
         }
       }
     }

@@ -24,6 +24,7 @@ const defaultDamageData = {
 };
 
 const defaultAttackData = {
+  isActive: true,
   dieCount: 1,
   modifier: 0,
   isSavingThrow: false,
@@ -39,6 +40,7 @@ const initialCharacterName = 'Tuxedo Mask';
 // const initialAllAttackData = [deepCopy(defaultAttackData) ];
 const initialAllAttackData = [
   {
+    isActive: true,
     dieCount: 2,
     modifier: 4,
     isSavingThrow: false,
@@ -68,6 +70,7 @@ const initialAllAttackData = [
 
 
   },{
+    isActive: true,
     dieCount: 1,
     modifier: 6,
     isSavingThrow: false,

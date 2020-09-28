@@ -20,6 +20,12 @@
   font-style: italic;
 }
 
+@mixin text_active_attack_name {
+  font-size: 18px;
+  font-weight: bold;
+  font-style: italic;
+}
+
 @mixin text_attack_roll_count {
   font-size: 22px;
   color: white;

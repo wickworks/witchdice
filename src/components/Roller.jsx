@@ -17,7 +17,9 @@ const Roller = ({
   const [disadvantage, setDisadvantage] = useState(false);
   const [toHitAC, setToHitAC] = useState(0);
   const [saveMod, setSaveMod] = useState(0);
-  const [evasion, setEvasion] = useState(false); // build the UI for this later
+  const [evasion, setEvasion] = useState(false);
+
+  const [activeAttackData] = useState([]); // active attacks
 
   // when ToHitAC or the roll data changes, figure out what's a hit
   useEffect(() => {

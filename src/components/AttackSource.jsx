@@ -11,6 +11,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
   const [isEditingDesc, setIsEditingDesc] = useState(false);
   const [isEditingName, setIsEditingName] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [isDamageEditOpen, setIsDamageEditOpen] = useState(false);
   const [editingDamageID, setEditingDamageID] = useState(null);
 
@@ -88,9 +89,8 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     }
 
     newDieCount = Math.min(newDieCount, 99);
-    // newDieCount = Math.max(newDieCount, 0);
-    if (newDieCount === -1) { deleteAttack(attackID) }
-    else {setDieCount(newDieCount, attackID);}
+    newDieCount = Math.max(newDieCount, 1);
+    setDieCount(newDieCount, attackID);
   }
 
   function handleModifierClick(e, leftMouse) {
@@ -146,120 +146,142 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
         >
           <div className='die-count unselectable'>{dieCount}</div>
         </div>
+
+        <div className="delete-attack asset trash"
+          onClick={() => setIsDeleting(!isDeleting)}
+        />
       </div>
 
       <div className='statblock-container'>
-        <div className='titlebar'>
-          <div className='name'>
-            {isEditingName ?
-              <input
-                type="text"
-                value={name}
-                onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingName(false)} }}
-                onBlur={ () => {setIsEditingName(false)} }
-                onChange={ e => setName(e.target.value, attackID) }
-                placeholder={'Attack name'}
-                focus={'true'}
-              />
-            :
-              <div className='display' onClick={() => setIsEditingName(true)}>
-                {name}.
-              </div>
-            }
+
+        { isDeleting ?
+          <div className='delete-confirm-container'>
+            <button className='cancel' onClick={() => setIsDeleting(false)}>
+              <div className='asset x' />
+              Cancel
+            </button>
+            <button className='delete' onClick={() => {setIsDeleting(false); deleteAttack(attackID)}}>
+              <div className='asset trash' />
+              Delete
+            </button>
+            <div className='delete-title'>Delete '{name}'?</div>
 
           </div>
-
-          {isSavingThrow ?
-            <>
-              <div
-                className='saving-throw-dc unselectable'
-                onClick={(e) => handleSavingThrowDCClick(e, true)}
-                onContextMenu={(e) => handleSavingThrowDCClick(e, false)}
-              >
-                DC {savingThrowDC}
-              </div>
-              <div
-                className='saving-throw-type unselectable'
-                onClick={(e) => handleSavingThrowTypeClick(e, true)}
-                onContextMenu={(e) => handleSavingThrowTypeClick(e, false)}
-              >
-                {abilityTypes[savingThrowType]}
-              </div>
-            </>
-          :
-            <div
-              className='modifier unselectable'
-              onClick={(e) => handleModifierClick(e, true)}
-              onContextMenu={(e) => handleModifierClick(e, false)}
-            >
-              {modifier >= 0 ? '+' : ''}
-              {modifier} to hit
-            </div>
-          }
-
-          <div className='metadata-container'>
-            <div className='is-saving-throw'
-              onClick={() => setIsSavingThrow(!isSavingThrow, attackID)}
-            >
-              { isSavingThrow ?
-                'Saving throw.'
-              :
-                'Attack.'
-              }
-            </div>
-
-            {!isEditingName &&
-              <div className='desc'>
-                {isEditingDesc ?
+        :
+          <>
+            <div className='titlebar'>
+              <div className='name'>
+                {isEditingName ?
                   <input
                     type="text"
-                    value={desc}
-                    onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingDesc(false)} }}
-                    onBlur={ () => {setIsEditingDesc(false)} }
-                    onChange={ e => setDesc(e.target.value, attackID) }
-                    placeholder={'Attack description'}
+                    value={name}
+                    onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingName(false)} }}
+                    onBlur={ () => {setIsEditingName(false)} }
+                    onChange={ e => setName(e.target.value, attackID) }
+                    placeholder={'Attack name'}
                     focus={'true'}
                   />
                 :
-                  <div className='display' onClick={() => setIsEditingDesc(true)}>
-                    {desc}
+                  <div className='display' onClick={() => setIsEditingName(true)}>
+                    {name}.
+                  </div>
+                }
+
+              </div>
+
+              {isSavingThrow ?
+                <>
+                  <div
+                    className='saving-throw-dc unselectable'
+                    onClick={(e) => handleSavingThrowDCClick(e, true)}
+                    onContextMenu={(e) => handleSavingThrowDCClick(e, false)}
+                  >
+                    DC {savingThrowDC}
+                  </div>
+                  <div
+                    className='saving-throw-type unselectable'
+                    onClick={(e) => handleSavingThrowTypeClick(e, true)}
+                    onContextMenu={(e) => handleSavingThrowTypeClick(e, false)}
+                  >
+                    {abilityTypes[savingThrowType]}
+                  </div>
+                </>
+              :
+                <div
+                  className='modifier unselectable'
+                  onClick={(e) => handleModifierClick(e, true)}
+                  onContextMenu={(e) => handleModifierClick(e, false)}
+                >
+                  {modifier >= 0 ? '+' : ''}
+                  {modifier} to hit
+                </div>
+              }
+
+              <div className='metadata-container'>
+                <div className='is-saving-throw'
+                  onClick={() => setIsSavingThrow(!isSavingThrow, attackID)}
+                >
+                  { isSavingThrow ?
+                    'Saving throw.'
+                  :
+                    'Attack.'
+                  }
+                </div>
+
+                {!isEditingName &&
+                  <div className='desc'>
+                    {isEditingDesc ?
+                      <input
+                        type="text"
+                        value={desc}
+                        onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingDesc(false)} }}
+                        onBlur={ () => {setIsEditingDesc(false)} }
+                        onChange={ e => setDesc(e.target.value, attackID) }
+                        placeholder={'Attack description'}
+                        focus={'true'}
+                      />
+                    :
+                      <div className='display' onClick={() => setIsEditingDesc(true)}>
+                        {desc}
+                      </div>
+                    }
                   </div>
                 }
               </div>
-            }
-          </div>
-        </div>
+            </div>
 
-        <div className='statblock'>
-          { damageData.map((data, i) => {
-            const editClass = (editingDamageID === i) ? 'editing' : '';
-            return (
-              <DamageSource
-                damageID={i}
-                attackID={attackID}
-                damageData={damageData[i]}
-                damageFunctions={damageFunctions}
-                isEditing={editingDamageID === i}
-                onEdit={openEditForDamage}
-                onDelete={deleteDamage}
-                key={i}
-              />
-            )
-          })}
+            <div className='statblock'>
+              { damageData.map((data, i) => {
+                const editClass = (editingDamageID === i) ? 'editing' : '';
+                return (
+                  <DamageSource
+                    damageID={i}
+                    attackID={attackID}
+                    damageData={damageData[i]}
+                    damageFunctions={damageFunctions}
+                    isEditing={editingDamageID === i}
+                    onEdit={openEditForDamage}
+                    onDelete={deleteDamage}
+                    key={i}
+                  />
+                )
+              })}
 
-          { !isDamageEditOpen &&
-            <button
-              className="add-damage-button"
-              onClick={() => {
-                openEditForDamage(damageData.length);
-                createDamage();
-              }}
-            >
-              <span>Add Damage</span>
-              <div className={`asset plus`} />
-            </button>
-          }
-        </div>
+              { !isDamageEditOpen &&
+                <button
+                  className="add-damage-button"
+                  onClick={() => {
+                    openEditForDamage(damageData.length);
+                    createDamage();
+                  }}
+                >
+                  <span>Add Damage</span>
+                  <div className={`asset plus`} />
+                </button>
+              }
+            </div>
+          </>
+        }
       </div>
     </div>
   );

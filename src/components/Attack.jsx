@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { deepCopy, getRandomInt } from '../utils.js';
 import { defaultDamageData, defaultAttackData, initialAllAttackData, initialCharacterName } from '../data.js';
 import AttackSource from './AttackSource.jsx';
+import ActiveAttackList from './ActiveAttackList.jsx';
 import Roller from './Roller.jsx';
 import DiceBag from './DiceBag.jsx';
 import './Attack.scss';
@@ -69,6 +70,7 @@ const Attack = () => {
   }
 
   const attackFunctions = {
+    setIsActive: (value, attackID) => updateAllAttackData('isActive',value,attackID),
     setDieCount: (value, attackID) => updateAllAttackData('dieCount',parseInt(value),attackID),
     setModifier: (value, attackID) => updateAllAttackData('modifier',parseInt(value),attackID),
     setIsSavingThrow: (value, attackID) => updateAllAttackData('isSavingThrow',value,attackID),
@@ -96,97 +98,99 @@ const Attack = () => {
     // console.log('');
     // console.log('~~~~~ NEW ROLL ~~~~~');
 
-    // EACH ATTACK
+    // EACH ATTACK (that is active)
     for (let attackID = 0; attackID < allAttackData.length; attackID++) {
+      const attackData = allAttackData[attackID]
+      if (attackData.isActive) {
 
-      // EACH TO-HIT D20
-      let attackData = allAttackData[attackID]
-      for (let rollID = 0; rollID < attackData.dieCount; rollID++) {
-        const defaultHit = attackData.isSavingThrow ? true : false;
-        let roll = {
-          attackID: attackID,
-          hit: defaultHit,
-          attackBonus: attackData.modifier,
-        }
+        // EACH TO-HIT D20
+        for (let rollID = 0; rollID < attackData.dieCount; rollID++) {
+          const defaultHit = attackData.isSavingThrow ? true : false;
+          let roll = {
+            attackID: attackID,
+            hit: defaultHit,
+            attackBonus: attackData.modifier,
+          }
 
-        // roll some d20s
-        roll.rollOne = getRandomInt(20)
-        roll.rollTwo = getRandomInt(20)
+          // roll some d20s
+          roll.rollOne = getRandomInt(20)
+          roll.rollTwo = getRandomInt(20)
 
-        // did we crit? (any of the damage sources have expanded crit ranges)
-        let critRange = 20;
-        for (let damageSourceID = 0; damageSourceID < attackData.damageData.length; damageSourceID++) {
-          const source = attackData.damageData[damageSourceID]
-          if (source.tags.includes('expandedcrit1')) {critRange = 19}
-          if (source.tags.includes('expandedcrit2')) {critRange = 18}
-        }
+          // did we crit? (any of the damage sources have expanded crit ranges)
+          let critRange = 20;
+          for (let damageSourceID = 0; damageSourceID < attackData.damageData.length; damageSourceID++) {
+            const source = attackData.damageData[damageSourceID]
+            if (source.tags.includes('expandedcrit1')) {critRange = 19}
+            if (source.tags.includes('expandedcrit2')) {critRange = 18}
+          }
 
-        // EACH DAMAGE SOURCE
-        const damageData = attackData.damageData
-        let damageRollData = []
-        let critRollData = []
-        for (let damageSourceID = 0; damageSourceID < damageData.length; damageSourceID++) {
-          const source = damageData[damageSourceID]
+          // EACH DAMAGE SOURCE
+          const damageData = attackData.damageData
+          let damageRollData = []
+          let critRollData = []
+          for (let damageSourceID = 0; damageSourceID < damageData.length; damageSourceID++) {
+            const source = damageData[damageSourceID]
 
-          // get both CRIT and REGULAR dice
-          const dicePools = [damageRollData,critRollData]
-          dicePools.forEach((dicePool) => {
+            // get both CRIT and REGULAR dice
+            const dicePools = [damageRollData,critRollData]
+            dicePools.forEach((dicePool) => {
 
-            // EACH DIE IN THAT SOURCE
-            for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
-              let damageAmount = getRandomInt(source.dieType)
-              let rerolled = false;
+              // EACH DIE IN THAT SOURCE
+              for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
+                let damageAmount = getRandomInt(source.dieType)
+                let rerolled = false;
 
-              // maximized?
-              if (source.tags.includes('maximized')) { damageAmount = source.dieType }
+                // maximized?
+                if (source.tags.includes('maximized')) { damageAmount = source.dieType }
 
-              // reroll damage?
-              if (
-                (source.tags.includes('reroll1') && damageAmount <= 1) ||
-                (source.tags.includes('reroll2') && damageAmount <= 2)
-              ) {
-                rerolled = true;
-                damageAmount = getRandomInt(source.dieType);
+                // reroll damage?
+                if (
+                  (source.tags.includes('reroll1') && damageAmount <= 1) ||
+                  (source.tags.includes('reroll2') && damageAmount <= 2)
+                ) {
+                  rerolled = true;
+                  damageAmount = getRandomInt(source.dieType);
+                }
+
+                // minimum 2s?
+                if (
+                  (source.tags.includes('min2') && damageAmount <= 1)
+                ) {
+                  rerolled = true;
+                  damageAmount = 2;
+                }
+
+                let damage = [
+                  source.damageType,
+                  damageAmount,
+                  rerolled,
+                  damageSourceID
+                ]
+
+                if (damageAmount > 0) { dicePool.push(damage) }
               }
+            })
 
-              // minimum 2s?
-              if (
-                (source.tags.includes('min2') && damageAmount <= 1)
-              ) {
-                rerolled = true;
-                damageAmount = 2;
-              }
-
+            // PLUS MODIFIER
+            if (source.modifier > 0) {
               let damage = [
                 source.damageType,
-                damageAmount,
-                rerolled,
+                source.modifier,
+                false,
                 damageSourceID
               ]
-
-              if (damageAmount > 0) { dicePool.push(damage) }
+              damageRollData.push(damage)
             }
-          })
-
-          // PLUS MODIFIER
-          if (source.modifier > 0) {
-            let damage = [
-              source.damageType,
-              source.modifier,
-              false,
-              damageSourceID
-            ]
-            damageRollData.push(damage)
           }
+          roll.damageRollData = damageRollData
+          roll.critRollData = critRollData
+          data.push(roll)
+          // console.log('  roll data: ', roll);
         }
-        roll.damageRollData = damageRollData
-        roll.critRollData = critRollData
-        data.push(roll)
-        // console.log('  roll data: ', roll);
-      }
 
-      // console.log('New Roll Data for ', attackData.name, JSON.stringify(data));
-      setRollData(data);
+        // console.log('New Roll Data for ', attackData.name, JSON.stringify(data));
+        setRollData(data);
+      }
     }
   }
 
@@ -260,6 +264,11 @@ const Attack = () => {
           Add Attack
         </div>
       </div>
+
+      <ActiveAttackList
+        attackSourceData={allAttackData}
+        attackFunctions={attackFunctions}
+      />
 
       <Roller
         rollData={rollData}
