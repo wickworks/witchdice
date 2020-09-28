@@ -12,7 +12,7 @@ const Roll = ({
 }) => {
 
   // no 'crit' here; use isCrit from props instead
-  const {attackID, hit, damageRollData, critRollData} = attackRollData;
+  const {attackID, hit, attackBonus, damageRollData, critRollData} = attackRollData;
   const {setHit, setDamageData} = rollFunctions
 
   // saving throws are reversed
@@ -142,7 +142,14 @@ const Roll = ({
                 {isFumble ?
                   <>1</>
                 :
-                  <>{rollUse}</>
+                  <>
+                    <span className='total'>{rollUse}</span>
+                    <span className='sum'>
+                      {rollUse-attackBonus}
+                      {attackBonus >= 0 ? '+' : ''}
+                      {attackBonus}
+                    </span>
+                  </>
                 }
               </span>
               <span className='roll-discard'>

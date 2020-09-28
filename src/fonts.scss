@@ -38,6 +38,10 @@
   font-size: 30px;
 }
 
+@mixin text_roll_used_summation {
+  font-size: 22px;
+}
+
 @mixin text_roll_discarded {
   font-size: 12px;
   font-style: italic;

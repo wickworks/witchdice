@@ -29,8 +29,29 @@
 
     &.reverse { flex-direction: column-reverse; }
 
-    .roll-use { @include text_roll_used; }
     .roll-discard { @include text_roll_discarded; }
+    .roll-use {
+      @include text_roll_used;
+      position: relative;
+
+      .total {
+        pointer-events: none;
+      }
+
+      .sum {
+        @include text_roll_used_summation;
+        position: absolute;
+        top: 4px;
+        left: 0;
+        pointer-events: none;
+        opacity: 0%;
+      }
+
+      &:hover {
+        .total { opacity: 0%; }
+        .sum { opacity: 100%; }
+      }
+    }
   }
 
   .result-crit-container {
