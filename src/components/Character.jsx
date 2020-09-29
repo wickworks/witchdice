@@ -1,21 +1,30 @@
 import React, { useState } from 'react';
 import { deepCopy, getRandomInt } from '../utils.js';
-import { defaultDamageData, defaultAttackData, initialAllAttackData, initialCharacterName } from '../data.js';
+import {
+  CURRENT_VERSION,
+  defaultDamageData,
+  defaultAttackData,
+  defaultCharacterList,
+  loadCharacterData,
+  saveCharacterData
+} from '../data.js';
 import AttackSource from './AttackSource.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';
+import CharacterList from './CharacterList.jsx';
 import Roller from './Roller.jsx';
 import DiceBag from './DiceBag.jsx';
 import './Character.scss';
 
+
+
 // whenever we make a change that breaks the old data, bump up the first number
-const CURRENT_VERSION = '0.1';
 console.log('Welcome to Roll-To-Hit version ', CURRENT_VERSION);
 
 const loadedVersion = localStorage.getItem("version");
 let brokeOldData = false;
 if (loadedVersion) {
   const newMajorVersion = loadedVersion.slice(0,loadedVersion.indexOf("."))
-  console.log('Loading browser-saved data from', loadedVersion, '— major version: ', newMajorVersion);
+  console.log('Loading data from version', loadedVersion, '--— major version: ', newMajorVersion);
 
   if (newMajorVersion !== CURRENT_VERSION.slice(0,CURRENT_VERSION.indexOf("."))) {
     brokeOldData = true;
@@ -23,28 +32,45 @@ if (loadedVersion) {
   }
 }
 
-let loadedAllAttackData, loadedCharacterName;
-if (loadedVersion && !brokeOldData) {
-  console.log('Restoring previous data...');
-  loadedAllAttackData = JSON.parse(localStorage.getItem("attack-data"));
-  loadedCharacterName = localStorage.getItem("character-name");
+// should we initialize to defaults?
+if (!loadedVersion || brokeOldData) {
+  // TODO: clear out the old data
+
+  defaultCharacterList.map((characterData) => {
+    saveCharacterData(characterData.name, characterData.allAttackData)
+  })
 }
 
+
+// let loadedCharacters = [];
+// if (loadedVersion && !brokeOldData) {
+//   console.log('Restoring previous data...');
+//
+//   loadedCharacterNames = JSON.parse(localStorage.getItem("saved-character-names"));
+//
+//   loadedCharacterNames.forEach(function (name, index) {
+//     const allAttackData = JSON.parse( localStorage.getItem(characterNameToStorageName(name)) );
+//     loadedCharacters.push({name: name, allAttackData: allAttackData})
+//   })
+// }
+
+
 const Character = () => {
-  // should break this out into its own component
-  const [characterName, setCharacterName] = useState(loadedCharacterName || 'Character');
+  const [characterName, setCharacterName] = useState('');
   const [isEditingCharacterName, setIsEditingCharacterName] = useState(false);
 
-  const [allAttackData, setAllAttackData] = useState(loadedAllAttackData || initialAllAttackData);
+  const [allAttackData, setAllAttackData] = useState([]);
   const [rollData, setRollData] = useState([]);
 
-  function saveAllAttackData(data) {
-    // console.log('saved all attack data');
-    localStorage.setItem("attack-data", JSON.stringify(data));
-    localStorage.setItem("character-name", characterName);
-    localStorage.setItem("version", CURRENT_VERSION);
-  }
 
+
+  const setActiveCharacterData = (data) => {
+    setCharacterName(data.name);
+    setAllAttackData(data.allAttackData);
+
+    setIsEditingCharacterName(false);
+    clearRolls();
+  }
 
   // =============== UPDATE DATA ===================
 
@@ -59,8 +85,7 @@ const Character = () => {
     let newData = deepCopy(allAttackData)
     newData[attackID][key] = value
     setAllAttackData(newData);
-
-    saveAllAttackData(newData);
+    saveCharacterData(characterName, newData)
   }
 
   const updateRollData = (key, value, rollID) => {
@@ -200,83 +225,83 @@ const Character = () => {
 
   // =============== CREATE / EDIT / DELETE ATTACKS ==================
 
-
   const createAttack = () => {
     let newData = deepCopy(allAttackData);
     let newAttack = deepCopy(defaultAttackData);
     newData.push(newAttack);
     setAllAttackData(newData);
-    saveAllAttackData(newData);
+    saveCharacterData(characterName, newData)
 
-    setRollData([]);
+    clearRolls();
   }
 
   const deleteAttack = (attackID) => {
     let newData = deepCopy(allAttackData);
     newData.splice(attackID, 1);
     setAllAttackData(newData);
-    saveAllAttackData(newData);
+    saveCharacterData(characterName, newData)
 
-    setRollData([]);
+    clearRolls();
   }
-
-  // console.log('');
-  // console.log("Attack Data: ", JSON.stringify(allAttackData));
-  // console.log("Roll Data: ", JSON.stringify(rollData));
-
 
   return (
     <>
-      <div className="Character">
-        <h2 className="character-name">
-          {isEditingCharacterName ?
-            <input
-              type="text"
-              value={characterName}
-              onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingCharacterName(false)} }}
-              onBlur={ () => {setIsEditingCharacterName(false)} }
-              onChange={ e => setCharacterName(e.target.value) }
-              placeholder={'Character name'}
-              focus={'true'}
-            />
-          :
-            <div className='display' onClick={() => setIsEditingCharacterName(true)}>
-              {characterName}
-            </div>
-          }
-        </h2>
+      <CharacterList
+        setActiveCharacterData={setActiveCharacterData}
+      />
 
-        { allAttackData.map((data, i) => {
-          return (
-            <AttackSource
-              attackID={i}
-              attackData={allAttackData[i]}
-              attackFunctions={attackFunctions}
-              deleteAttack={(attackID) => deleteAttack(attackID)}
-              clearRollData={() => setRollData([])}
-              key={i}
-            />
-          )
-        })}
+      {(characterName.length > 0) && <>
+        <div className="Character">
+          <h2 className="character-name">
+            {isEditingCharacterName ?
+              <input
+                type="text"
+                value={characterName}
+                onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingCharacterName(false)} }}
+                onBlur={ () => {setIsEditingCharacterName(false)} }
+                onChange={ e => setCharacterName(e.target.value) }
+                placeholder={'Character name'}
+                focus={'true'}
+              />
+            :
+              <div className='display' onClick={() => setIsEditingCharacterName(true)}>
+                {characterName}
+              </div>
+            }
+          </h2>
 
-        <div className='add-attack' onClick={createAttack}>
-          <div className={`asset plus`} />
-          Add Attack
+          { allAttackData.map((data, i) => {
+            return (
+              <AttackSource
+                attackID={i}
+                attackData={allAttackData[i]}
+                attackFunctions={attackFunctions}
+                deleteAttack={(attackID) => deleteAttack(attackID)}
+                clearRollData={() => setRollData([])}
+                key={i}
+              />
+            )
+          })}
+
+          <div className='add-attack' onClick={createAttack}>
+            <div className={`asset plus`} />
+            Add Attack
+          </div>
         </div>
-      </div>
 
-      <ActiveAttackList
-        attackSourceData={allAttackData}
-        attackFunctions={attackFunctions}
-      />
+        <ActiveAttackList
+          attackSourceData={allAttackData}
+          attackFunctions={attackFunctions}
+        />
 
-      <Roller
-        rollData={rollData}
-        attackSourceData={allAttackData}
-        handleNewRoll={generateNewRoll}
-        handleClear={clearRolls}
-        rollFunctions={rollFunctions}
-      />
+        <Roller
+          rollData={rollData}
+          attackSourceData={allAttackData}
+          handleNewRoll={generateNewRoll}
+          handleClear={clearRolls}
+          rollFunctions={rollFunctions}
+        />
+      </>}
 
       <DiceBag />
     </>

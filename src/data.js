@@ -1,5 +1,7 @@
 import { deepCopy } from './utils.js';
 
+const CURRENT_VERSION = '0.2';
+
 const allTags = {
   'once': 'Once per turn',
   'savehalf': 'Save for half',
@@ -12,6 +14,7 @@ const allTags = {
 }
 
 const abilityTypes = ["Dex", "Con", "Wis", "Cha", "Str", "Int"]
+
 
 const defaultDamageData = {
   dieCount: 1,
@@ -35,10 +38,8 @@ const defaultAttackData = {
   damageData: [deepCopy(defaultDamageData)]
 };
 
-const initialCharacterName = 'Tuxedo Mask';
-
-// const initialAllAttackData = [deepCopy(defaultAttackData) ];
-const initialAllAttackData = [
+// const defaultAllAttackData = [deepCopy(defaultAttackData) ];
+const defaultAllAttackData = [
   {
     isActive: true,
     dieCount: 2,
@@ -99,6 +100,49 @@ const initialAllAttackData = [
   }
 ];
 
+const defaultCharacterList = [
+  {
+    name: 'Tuxedo Mask',
+    allAttackData: deepCopy(defaultAllAttackData)
+  },
+  {
+    name: 'Makato Kino',
+    allAttackData: deepCopy(defaultAllAttackData)
+  }
+]
+
+function characterNameToStorageName(name) {
+  return `character-${name.toLowerCase().replace(' ','-')}`
+}
+
+function saveCharacterData(newName, newAllAttackData) {
+  const characterData = {
+    name: newName,
+    allAttackData: newAllAttackData
+  }
+
+  // TODO: has the name changed? if so, delete the old one
+
+  const storageName = characterNameToStorageName(newName);
+  localStorage.setItem(storageName, JSON.stringify(characterData));
+  localStorage.setItem("version", CURRENT_VERSION);
+}
+
+function loadCharacterData(name) {
+  // load up that character's data and set it to be active
+  const storageName = characterNameToStorageName(name);
+  const loadedCharacter = localStorage.getItem(storageName);
+
+  if (loadedCharacter) {
+    const characterData = JSON.parse(loadedCharacter);
+    return characterData;
+
+  } else {
+    console.log('Tried to load character [', name, '], but failed!');
+    return null;
+  }
+}
+
 // const initialRollData = [];
 // [
 //   {
@@ -114,4 +158,14 @@ const initialAllAttackData = [
 //   }
 // ]
 
-export {allTags, abilityTypes, defaultDamageData, defaultAttackData, initialAllAttackData, initialCharacterName};
+export {
+  CURRENT_VERSION,
+  allTags,
+  abilityTypes,
+  defaultDamageData,
+  defaultAttackData,
+  defaultAllAttackData,
+  defaultCharacterList,
+  loadCharacterData,
+  saveCharacterData
+};

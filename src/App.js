@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import Attack from './components/Attack.jsx';
+import Character from './components/Character.jsx';
 
 function App() {
   return (
@@ -8,7 +8,7 @@ function App() {
       <h1>🌺💀 ~ Roll To Hit ~ 💀🌺</h1>
       <div>(click to increase attack rolls, right-click to decrease)</div>
 
-      <Attack />
+      <Character />
 
       <div className="footer">
         <p>Made by Olive Perry</p>

@@ -7,7 +7,13 @@
   (use as general case for saving throws, resistance)
 
 
-
+- load/save different characters
+  (handle deleting old ones if name changes)
+  (data validation; can't have a blank name)
+  (handle duplicate names)
+  (make new characters)
+  (delete old characters)
+  (optimize; don't have to parse the WHOLE json just to get the names every time)
 
 - bug: blanking out attack description text makes it un-re-editable
 - bug: if click on a attack name, it doesn't auto-select the text box when you're editing

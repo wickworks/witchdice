@@ -166,7 +166,7 @@ const Roller = ({
   // round down the damage total after summing it all up
   damageTotal = Math.floor(damageTotal);
 
-  console.log('first hit data', firstHitData);
+  // console.log('first hit data', firstHitData);
 
   // figure out what conditions to show
   let hasActiveAttack = false;

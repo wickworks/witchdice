@@ -1,0 +1,16 @@
+@import '../fonts';
+
+.CharacterList {
+  border: 1px solid black;
+
+
+  ul {
+    li {
+      cursor: pointer;
+
+      &:hover { background-color: lightgrey;}
+      &.selected { background-color: lightblue;}
+    }
+  }
+
+}
