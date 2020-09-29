@@ -59,8 +59,17 @@
         input { @include text_attack_name; }
       }
 
+      .is-saving-throw {
+        margin-right: 6px;
+        padding-bottom: 2px;
+        font-style: italic;
+
+        cursor: pointer;
+        &:hover { background-color: lightblue; }
+      }
+
       .modifier, .saving-throw-dc, .saving-throw-type {
-        margin-left: 8px;
+        margin-right: 6px;
         padding-bottom: 2px;
         cursor: pointer;
 
@@ -68,34 +77,21 @@
           background-color: lightblue;
         }
       }
+    }
 
-      .metadata-container {
-        margin-left: auto;
-        padding-bottom: 2px;
+    .desc {
+      .display {
+        @include text_default;
         font-style: italic;
-        display: flex;
-        align-items: center;
+        padding-bottom: 4px;
+        cursor: pointer;
+        &:hover { background-color: lightblue; }
+      }
 
-        .is-saving-throw {
-          margin-right: 10px;
-          cursor: pointer;
-          &:hover { background-color: lightblue; }
-        }
-
-        .desc {
-          .display {
-            @include text_default;
-            font-style: italic;
-            cursor: pointer;
-            &:hover { background-color: lightblue; }
-          }
-
-          input {
-            @include text_default;
-            font-style: italic;
-            width: 300px;
-          }
-        }
+      input {
+        @include text_default;
+        font-style: italic;
+        width: 300px;
       }
     }
 

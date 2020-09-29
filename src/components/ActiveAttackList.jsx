@@ -17,22 +17,27 @@ const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
           const {isActive} = attackSource;
           const activeClass = isActive ? 'active' : '';
 
-          return (
-            <label className={`attack unselectable ${activeClass}`} key={`active-${attackSource.name}`}>
-              <input
-                type="checkbox"
-                checked={isActive}
-                onChange={() => setIsActive(!isActive, attackID)}
-              />
-              <div className='name'>{attackSource.name}</div>
-              {attackSource.dieCount > 1 &&
-                <div className='count'>
-                  x{attackSource.dieCount}
-                </div>
-              }
+          const showAttack =
+            attackSource.damageData.length > 0 ||
+            attackSource.isSavingThrow;
 
-            </label>
-          )
+          if (showAttack) {
+            return (
+              <label className={`attack unselectable ${activeClass}`} key={`active-${attackSource.name}`}>
+                <input
+                  type="checkbox"
+                  checked={isActive}
+                  onChange={() => setIsActive(!isActive, attackID)}
+                />
+                <div className='name'>{attackSource.name}</div>
+                {attackSource.dieCount > 1 &&
+                  <div className='count'>
+                    x{attackSource.dieCount}
+                  </div>
+                }
+              </label>
+            )
+          }
         })}
       </div>
     </div>

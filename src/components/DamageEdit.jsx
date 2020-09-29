@@ -1,5 +1,6 @@
 import React from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
+import {allDamageTypes} from '../data.js'
 import './DamageEdit.scss';
 
 const defaultDamageData = { dieType: 6, damageType:'slashing' }
@@ -26,7 +27,7 @@ const DamageEdit = ({
         <div className='types'>
           <IconMenu
             groupName={`select-damage-type-${attackID}`}
-            allIcons={['slashing','piercing','bludgeoning','fire','cold','lightning','thunder','acid','poison','psychic','necrotic','radiant','force']}
+            allIcons={allDamageTypes}
             selectedIcon={type}
             setIcon={setType}
             showLabels={false}

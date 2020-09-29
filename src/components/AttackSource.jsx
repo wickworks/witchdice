@@ -198,6 +198,16 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                 />
               </div>
 
+              <div className='is-saving-throw'
+                onClick={() => setIsSavingThrow(!isSavingThrow, attackID)}
+              >
+                { isSavingThrow ?
+                  'Saving throw.'
+                :
+                  'Attack.'
+                }
+              </div>
+
               {isSavingThrow ?
                 <>
                   <div
@@ -225,26 +235,15 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                   {modifier} to hit
                 </div>
               }
+            </div>
 
-              <div className='metadata-container'>
-                <div className='is-saving-throw'
-                  onClick={() => setIsSavingThrow(!isSavingThrow, attackID)}
-                >
-                  { isSavingThrow ?
-                    'Saving throw.'
-                  :
-                    'Attack.'
-                  }
-                </div>
-
-                <div className='desc'>
-                  <TextInput
-                    textValue={desc}
-                    setTextValue={(desc) => setDesc(desc, attackID)}
-                    placeholder='Attack description'
-                    suffix='.'
-                  />
-                </div>
+            <div className='metadata-container'>
+              <div className='desc'>
+                <TextInput
+                  textValue={desc}
+                  setTextValue={(desc) => setDesc(desc, attackID)}
+                  placeholder='Attack description'
+                />
               </div>
             </div>
 

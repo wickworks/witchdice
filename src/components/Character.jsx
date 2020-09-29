@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { deepCopy, getRandomInt } from '../utils.js';
 import {
   CURRENT_VERSION,
+  getRandomFingerprint,
   defaultDamageData,
   defaultAttackData,
   defaultCharacterList,
   saveCharacterData
 } from '../data.js';
+import { getMonsterData } from '../stockdata/process_monster_srd.js';
+
 import AttackSource from './AttackSource.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';
 import CharacterList from './CharacterList.jsx';
@@ -14,7 +17,6 @@ import Roller from './Roller.jsx';
 import DiceBag from './DiceBag.jsx';
 import TextInput from './TextInput.jsx';
 import './Character.scss';
-
 
 
 // whenever we make a change that breaks the old data, bump up the first number
@@ -35,6 +37,15 @@ if (loadedVersion) {
 // should we initialize to defaults?
 if (!loadedVersion || brokeOldData) {
   // TODO: clear out the old data
+
+
+  getMonsterData().map((data) => {
+    saveCharacterData(
+      getRandomFingerprint(),
+      data.name,
+      data.allAttackData
+    )
+  })
 
   defaultCharacterList.map((data) => {
     saveCharacterData(
@@ -132,7 +143,7 @@ const Character = () => {
     // EACH ATTACK (that is active)
     for (let attackID = 0; attackID < allAttackData.length; attackID++) {
       const attackData = allAttackData[attackID]
-      if (attackData.isActive) {
+      if (attackData.isActive && attackData.damageData.length > 0) {
 
         // EACH TO-HIT D20
         for (let rollID = 0; rollID < attackData.dieCount; rollID++) {

@@ -1,22 +1,38 @@
 
 ### TODO
 
-- paralyzation; all attacks are crits
+- paralyzation//assassin; all attacks are crits
 - vulnerability, resistance, immunity
 - uncanny dodge : be able to halve any roll
   (use as general case for saving throws, resistance)
 
+- fix how damage is rounded down and added up; should be rounded down for each attack and show up as such in the subtotal
+
 
 - load/save different characters
-  (handle deleting old ones if name changes)
   (data validation; can't have a blank name)
-  (handle duplicate names)
   (make new characters)
   (delete old characters)
-  (optimize; don't have to parse the WHOLE json just to get the names every time)
+  (better design for the list; search box that live-filters)
+  (recently-selected box)
+
+- import the monster manual
+  (have it change the numbers correctly when there's a multiattack)
+  (have the description only go to the second line when it's too long)
+  (cut off the "+X to hit" in the description)
+  (add legendary actions)
+  (add special_abilities e.g. sneak attack 1/turn)
+  (handle attacks that come with saving throws better; see aboleth tentacles or assassin)
+    (have to somehow parse the bonus stuff out?)
+
+- larger description edit box for long descriptions
+
+- nicer add damage box
+
 
 - bug: blanking out attack description text makes it un-re-editable
-- bug: if click on a attack name, it doesn't auto-select the text box when you're editing
+
+- maybe: auto-unselect all attacks for every roll? have to opt-in for them every time?
 
 - setting to customize which icon shows up for natural 20s
 

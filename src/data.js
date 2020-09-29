@@ -13,8 +13,32 @@ const allTags = {
   'expandedcrit2': 'Crits 18-20'
 }
 
-const abilityTypes = ["Dex", "Con", "Wis", "Cha", "Str", "Int"]
+const allDamageTypes = [
+  'slashing',
+  'piercing',
+  'bludgeoning',
+  'fire',
+  'cold',
+  'lightning',
+  'thunder',
+  'acid',
+  'poison',
+  'psychic',
+  'necrotic',
+  'radiant',
+  'force'
+]
 
+const abilityTypes = [
+  "Dex",
+  "Con",
+  "Wis",
+  "Cha",
+  "Str",
+  "Int"
+]
+
+// ======================== DATA STRUCTURES =======================
 
 const defaultDamageData = {
   dieCount: 1,
@@ -35,7 +59,7 @@ const defaultAttackData = {
   savingThrowType: 0, //Dex
   name: 'Longsword',
   desc: 'Reach 5ft, one target.',
-  damageData: [deepCopy(defaultDamageData)]
+  damageData: []
 };
 
 // const initialRollData = [];
@@ -127,6 +151,9 @@ const defaultCharacterList = [
   }
 ]
 
+
+// ======================== SAVE / LOAD TO LOCALSTORAGE =======================
+
 function getCharacterStorageName(id, name) {
   return `character-${id}-${name}`;
 }
@@ -203,6 +230,7 @@ function getRandomFingerprint() {
 export {
   CURRENT_VERSION,
   allTags,
+  allDamageTypes,
   abilityTypes,
   defaultDamageData,
   defaultAttackData,
@@ -212,4 +240,5 @@ export {
   saveCharacterData,
   getCharacterNameFromStorageName,
   getCharacterIDFromStorageName,
+  getRandomFingerprint,
 };
