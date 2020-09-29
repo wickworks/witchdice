@@ -1,7 +1,7 @@
 import { deepCopy } from './utils.js';
 
 const allTags = {
-  'first': 'First hit',
+  'once': 'Once per turn',
   'savehalf': 'Save for half',
   'maximized': 'Maximized',
   'reroll1': 'Reroll 1s',

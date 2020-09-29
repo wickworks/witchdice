@@ -2,8 +2,12 @@
 
 .ActiveAttackList {
   width: 810px;
-  margin: 30px 0;
+  margin: 20px 0 0;
 
+  h2 {
+    text-align: center;
+    margin-top: 0
+  }
 
   .attacks-container {
     display: flex;
@@ -12,19 +16,17 @@
     .attack {
       padding: 8px;
       margin: 6px 4px;
-      // flex: 1 0 27%; //magically makes 3 per row
       width: 30%;
       display: flex;
       align-items: center;
-      justify-content: flex-start;
-
+      justify-content: center;
       cursor: pointer;
 
       &:hover { background-color: #eee; }
       &.active { background-color: lightblue; }
-
-      &:nth-child(3n) { justify-content: flex-end; }
-      &:nth-child(3n-1) { justify-content: center; }
+      //
+      // &:nth-child(3n) { justify-content: flex-end; }
+      // &:nth-child(3n-1) { justify-content: center; }
 
       input {
         margin: 0 10px 0 0;

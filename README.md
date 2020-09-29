@@ -8,14 +8,20 @@
 
 - bug: blanking out attack description text makes it un-re-editable
 
-- if click on a attack name, it doesn't auto-select the text box when you're editing
+- bug: if click on a attack name, it doesn't auto-select the text box when you're editing
+
+
+
+- setting to customize which icon shows up for natural 20s
+
+
+
+-- SEE IF THIS WORKS BETTER:
 
 - change "first hit" to "once per turn", just apply it on the first hit (or have that be additional)
 	- bonus action for fighting makes things harder because there are different modifiers for the attacks
 	- anything for two-weapon fighting will make it harder
 	- could add sneak attack as a separate thing;; just attaches to the first roll
-
-- setting to customize which icon shows up for natural 20s
 
 ### COMMANDS
 

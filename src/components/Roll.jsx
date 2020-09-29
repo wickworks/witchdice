@@ -5,7 +5,7 @@ const Roll = ({
   rollID,
   rollUse, rollDiscard,
   isCrit, isFumble, evasion,
-  toHitAC, isFirstHit, isSavingThrow,
+  firstHitData, isSavingThrow,
   damageSourceData,
   attackRollData,
   rollFunctions
@@ -52,7 +52,7 @@ const Roll = ({
         let halvedClass = '';
 
         if (!damageSource.enabled) { showDamageRoll = false; }
-        if (damageSource.tags.includes("savehalf")) {
+        if (isSavingThrow && damageSource.tags.includes("savehalf")) {
           if (evasion) {     // has evasion
             if (hit) {
               showDamageRoll = true;
@@ -70,7 +70,20 @@ const Roll = ({
           }
         }
 
-        if (damageSource.tags.includes("first") && !isFirstHit) { showDamageRoll = false }
+        // are we the first to make it this far with a hit?
+
+        if (damageSource.tags.includes("once")) {
+
+          const sourceName = damageSource.name.toLowerCase() || 'unnamed';
+
+          if (!(firstHitData[sourceName] === rollID)) {
+            showDamageRoll = false;
+          }
+
+          if (!firstHitData[sourceName] === rollID) {
+
+          }
+        }
 
         if (showDamageRoll) {
           if (icon in damageBreakdown) {

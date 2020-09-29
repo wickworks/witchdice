@@ -23,7 +23,7 @@ const DamageSource = ({
 
   // =============== ADD / REMOVE TAG CRAP =============
 
-  let tagOptions = []; // [{name: 'First hit only', id: 'first'}, {name: 'Maximized damage', id: 'maximized'}]
+  let tagOptions = [];
   for (const [key, value] of Object.entries(allTags)) {
     tagOptions.push({name: value, id: key})
   }

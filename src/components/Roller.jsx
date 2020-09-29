@@ -95,7 +95,7 @@ const Roller = ({
   // calculate damage total & breakdown by type
   let damageTotal = 0;
   let damageBreakdown = {};
-  let firstHitRollID = -1;
+  let firstHitData = {}; // when a damage source hits, add its name & id to this if it's not there already
 
   for (let rollID = 0; rollID < rollData.length; rollID++) {
     const roll = rollData[rollID];
@@ -103,7 +103,6 @@ const Roller = ({
     const damageSourceData = attackSource.damageData
     const critFumble = getCritOrFumble(roll);
 
-    let isFirstHit = (rollID === firstHitRollID);;
 
     // get both CRIT and REGULAR dice
     [roll.damageRollData, roll.critRollData].forEach((dicePool, dicePoolIndex) => {
@@ -121,7 +120,7 @@ const Roller = ({
           let applyDamage = false;
           if (roll.hit || critFumble.isCrit) { applyDamage = true; }
 
-          if (damageSource.tags.includes("savehalf")) {
+          if (attackSource.isSavingThrow && damageSource.tags.includes("savehalf")) {
             // has evasion
             if (evasion && attackSource.savingThrowType === 0) {
               if (roll.hit) {
@@ -142,11 +141,14 @@ const Roller = ({
           if (!damageSource.enabled) { applyDamage = false; }
 
           // are we the first to make it this far with a hit?
-          if (applyDamage && firstHitRollID === -1) {
-            firstHitRollID = rollID;
-            isFirstHit = true;
+          if (damageSource.tags.includes("once") && applyDamage) {
+            const sourceName = damageSource.name.toLowerCase() || 'unnamed';
+            if (Object.keys(firstHitData).includes(sourceName)) {
+              applyDamage = false;
+            } else {
+              firstHitData[sourceName] = rollID;
+            }
           }
-          if (damageSource.tags.includes("first") && !isFirstHit) { applyDamage = false; }
 
           if (applyDamage) {
             damageTotal = damageTotal + amount;
@@ -163,6 +165,8 @@ const Roller = ({
   }
   // round down the damage total after summing it all up
   damageTotal = Math.floor(damageTotal);
+
+  console.log('first hit data', firstHitData);
 
   // figure out what conditions to show
   let hasActiveAttack = false;
@@ -219,6 +223,7 @@ const Roller = ({
   let currentAttackName = '';//used in the render attack title loop, dunno why I can't declare there
   return (
     <div className="Roller">
+
       <div className="controls-and-results">
 
         <div className="controls">
@@ -304,8 +309,6 @@ const Roller = ({
         </div>
       </div>
 
-      <hr />
-
       <div className="rolls">
         {/* <div className="hit-label">Hit?</div>*/}
 
@@ -348,7 +351,7 @@ const Roller = ({
                   isFumble={critFumble.isFumble}
                   evasion={evasion && attackSource.savingThrowType === 0}
                   toHitAC={toHitAC}
-                  isFirstHit={rollID === firstHitRollID}
+                  firstHitData={firstHitData}
                   isSavingThrow={attackSource.isSavingThrow}
                   damageSourceData={attackSourceData[attackRoll.attackID].damageData}
                   attackRollData={attackRoll}
