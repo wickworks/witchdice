@@ -1,0 +1,8 @@
+@import '../fonts';
+
+
+.TextInput {
+
+  cursor: pointer;
+  &:hover { background-color: lightblue; }
+}

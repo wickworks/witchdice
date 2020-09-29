@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { deepCopy, getRandomInt } from '../utils.js';
 import {
   CURRENT_VERSION,
   defaultDamageData,
   defaultAttackData,
   defaultCharacterList,
-  loadCharacterData,
   saveCharacterData
 } from '../data.js';
 import AttackSource from './AttackSource.jsx';
@@ -13,6 +12,7 @@ import ActiveAttackList from './ActiveAttackList.jsx';
 import CharacterList from './CharacterList.jsx';
 import Roller from './Roller.jsx';
 import DiceBag from './DiceBag.jsx';
+import TextInput from './TextInput.jsx';
 import './Character.scss';
 
 
@@ -36,28 +36,19 @@ if (loadedVersion) {
 if (!loadedVersion || brokeOldData) {
   // TODO: clear out the old data
 
-  defaultCharacterList.map((characterData) => {
-    saveCharacterData(characterData.name, characterData.allAttackData)
+  defaultCharacterList.map((data) => {
+    saveCharacterData(
+      data.id,
+      data.name,
+      data.allAttackData
+    )
   })
 }
 
 
-// let loadedCharacters = [];
-// if (loadedVersion && !brokeOldData) {
-//   console.log('Restoring previous data...');
-//
-//   loadedCharacterNames = JSON.parse(localStorage.getItem("saved-character-names"));
-//
-//   loadedCharacterNames.forEach(function (name, index) {
-//     const allAttackData = JSON.parse( localStorage.getItem(characterNameToStorageName(name)) );
-//     loadedCharacters.push({name: name, allAttackData: allAttackData})
-//   })
-// }
-
-
 const Character = () => {
+  const [characterID, setCharacterID] = useState(null);
   const [characterName, setCharacterName] = useState('');
-  const [isEditingCharacterName, setIsEditingCharacterName] = useState(false);
 
   const [allAttackData, setAllAttackData] = useState([]);
   const [rollData, setRollData] = useState([]);
@@ -65,12 +56,28 @@ const Character = () => {
 
 
   const setActiveCharacterData = (data) => {
+    setCharacterID(data.id);
     setCharacterName(data.name);
     setAllAttackData(data.allAttackData);
 
-    setIsEditingCharacterName(false);
     clearRolls();
   }
+
+  useEffect(() => {
+
+    if (
+      characterID &&
+      characterName &&
+      characterName.length > 0
+    ) {
+      saveCharacterData(
+        characterID,
+        characterName,
+        allAttackData
+      )
+    }
+  }, [allAttackData, characterName]);
+
 
   // =============== UPDATE DATA ===================
 
@@ -85,7 +92,6 @@ const Character = () => {
     let newData = deepCopy(allAttackData)
     newData[attackID][key] = value
     setAllAttackData(newData);
-    saveCharacterData(characterName, newData)
   }
 
   const updateRollData = (key, value, rollID) => {
@@ -230,7 +236,6 @@ const Character = () => {
     let newAttack = deepCopy(defaultAttackData);
     newData.push(newAttack);
     setAllAttackData(newData);
-    saveCharacterData(characterName, newData)
 
     clearRolls();
   }
@@ -239,7 +244,6 @@ const Character = () => {
     let newData = deepCopy(allAttackData);
     newData.splice(attackID, 1);
     setAllAttackData(newData);
-    saveCharacterData(characterName, newData)
 
     clearRolls();
   }
@@ -251,23 +255,15 @@ const Character = () => {
       />
 
       {(characterName.length > 0) && <>
+        <div>(click to increase attack rolls, right-click to decrease)</div>
+
         <div className="Character">
           <h2 className="character-name">
-            {isEditingCharacterName ?
-              <input
-                type="text"
-                value={characterName}
-                onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingCharacterName(false)} }}
-                onBlur={ () => {setIsEditingCharacterName(false)} }
-                onChange={ e => setCharacterName(e.target.value) }
-                placeholder={'Character name'}
-                focus={'true'}
-              />
-            :
-              <div className='display' onClick={() => setIsEditingCharacterName(true)}>
-                {characterName}
-              </div>
-            }
+            <TextInput
+              textValue={characterName}
+              setTextValue={setCharacterName}
+              placeholder='Character name'
+            />
           </h2>
 
           { allAttackData.map((data, i) => {

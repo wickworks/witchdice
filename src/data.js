@@ -38,7 +38,21 @@ const defaultAttackData = {
   damageData: [deepCopy(defaultDamageData)]
 };
 
-// const defaultAllAttackData = [deepCopy(defaultAttackData) ];
+// const initialRollData = [];
+// [
+//   {
+//     attackID: 0,
+//     hit: true,
+//     rollOne: 18,
+//     rollTwo: 1,
+//     attackBonus: 4,
+//     damageRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
+//     critRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
+//   }, {
+//     ...
+//   }
+// ]
+
 const defaultAllAttackData = [
   {
     isActive: true,
@@ -102,61 +116,89 @@ const defaultAllAttackData = [
 
 const defaultCharacterList = [
   {
+    id: 123456,
     name: 'Tuxedo Mask',
     allAttackData: deepCopy(defaultAllAttackData)
   },
   {
+    id: 654321,
     name: 'Makato Kino',
     allAttackData: deepCopy(defaultAllAttackData)
   }
 ]
 
-function characterNameToStorageName(name) {
-  return `character-${name.toLowerCase().replace(' ','-')}`
+function getCharacterStorageName(id, name) {
+  return `character-${id}-${name}`;
 }
 
-function saveCharacterData(newName, newAllAttackData) {
+function getCharacterNameFromStorageName(storageName) {
+  return storageName.slice(17); // cuts out the "character-XXXXXX-"
+}
+
+function getCharacterIDFromStorageName(storageName) {
+  return parseInt(storageName.slice(10,16)); // cuts out the "character-" and "-NAME"
+}
+
+function saveCharacterData(id, newName, newAllAttackData) {
+  console.log('saving character ', newName, '   ', id);
+
   const characterData = {
+    id: id,
     name: newName,
     allAttackData: newAllAttackData
   }
 
-  // TODO: has the name changed? if so, delete the old one
-
-  const storageName = characterNameToStorageName(newName);
+  const storageName = getCharacterStorageName(id, newName);
   localStorage.setItem(storageName, JSON.stringify(characterData));
   localStorage.setItem("version", CURRENT_VERSION);
-}
 
-function loadCharacterData(name) {
-  // load up that character's data and set it to be active
-  const storageName = characterNameToStorageName(name);
-  const loadedCharacter = localStorage.getItem(storageName);
+  // has the name changed? if so, delete the old one
+  for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('character-')) {
+      const characterID = getCharacterIDFromStorageName(key)
+      const characterName = getCharacterNameFromStorageName(key)
 
-  if (loadedCharacter) {
-    const characterData = JSON.parse(loadedCharacter);
-    return characterData;
-
-  } else {
-    console.log('Tried to load character [', name, '], but failed!');
-    return null;
+      if (characterID === id && characterName !== newName) {
+        console.log('Character name changed from "',characterName,'" to "',newName,'"; updating key names');
+        localStorage.removeItem(key)
+      }
+    }
   }
 }
 
-// const initialRollData = [];
-// [
-//   {
-//     attackID: 0,
-//     hit: true,
-//     rollOne: 18,
-//     rollTwo: 1,
-//     attackBonus: 4,
-//     damageRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
-//     critRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
-//   }, {
-//     ...
-//   }
-// ]
+function loadCharacterData(id) {
+  // find the key with this ID
+  let storageName = null;
+  for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+    const key = localStorage.key(i);
+    const characterID = getCharacterIDFromStorageName(key)
+    if (characterID === id) {
+      storageName = key;
+    }
+  }
+
+  // load up that character's data and set it to be active
+  if (storageName) {
+    const loadedCharacter = localStorage.getItem(storageName);
+
+    if (loadedCharacter) {
+      const characterData = JSON.parse(loadedCharacter);
+      return characterData;
+    }
+  }
+
+  console.log('Tried to load character id [', id, '], but failed!');
+  return null;
+}
+
+// generates a random 6-digit int from 100000 to 999999
+function getRandomFingerprint() {
+  let rand = Math.random();
+  rand = rand * 899999
+  rand = rand + 100000
+  return Math.floor(rand)
+}
 
 export {
   CURRENT_VERSION,
@@ -167,5 +209,7 @@ export {
   defaultAllAttackData,
   defaultCharacterList,
   loadCharacterData,
-  saveCharacterData
+  saveCharacterData,
+  getCharacterNameFromStorageName,
+  getCharacterIDFromStorageName,
 };

@@ -2,15 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { deepCopy } from '../utils.js';
 import { defaultDamageData, abilityTypes } from '../data.js';
 import DamageSource from './DamageSource.jsx';
+import TextInput from './TextInput.jsx';
+
 import './AttackSource.scss';
 
 
 const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clearRollData}) => {
-  const { damageData, dieCount, modifier, isSavingThrow, savingThrowDC, savingThrowType, name, desc } = attackData;
-  const { setDamageData, setDieCount, setModifier, setIsSavingThrow, setSavingThrowDC, setSavingThrowType, setName, setDesc } = attackFunctions;
+  const {
+    damageData,
+    dieCount,
+    modifier,
+    isSavingThrow,
+    savingThrowDC,
+    savingThrowType,
+    name,
+    desc
+  } = attackData;
 
-  const [isEditingDesc, setIsEditingDesc] = useState(false);
-  const [isEditingName, setIsEditingName] = useState(false);
+  const {
+    setDamageData,
+    setDieCount,
+    setModifier,
+    setIsSavingThrow,
+    setSavingThrowDC,
+    setSavingThrowType,
+    setName,
+    setDesc
+  } = attackFunctions;
+
   const [isDeleting, setIsDeleting] = useState(false);
   const [isDamageEditOpen, setIsDamageEditOpen] = useState(false);
   const [editingDamageID, setEditingDamageID] = useState(null);
@@ -171,22 +190,12 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
           <>
             <div className='titlebar'>
               <div className='name'>
-                {isEditingName ?
-                  <input
-                    type="text"
-                    value={name}
-                    onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingName(false)} }}
-                    onBlur={ () => {setIsEditingName(false)} }
-                    onChange={ e => setName(e.target.value, attackID) }
-                    placeholder={'Attack name'}
-                    focus={'true'}
-                  />
-                :
-                  <div className='display' onClick={() => setIsEditingName(true)}>
-                    {name}.
-                  </div>
-                }
-
+                <TextInput
+                  textValue={name}
+                  setTextValue={(name) => setName(name, attackID)}
+                  placeholder='Attack name'
+                  suffix='.'
+                />
               </div>
 
               {isSavingThrow ?
@@ -228,25 +237,14 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                   }
                 </div>
 
-                {!isEditingName &&
-                  <div className='desc'>
-                    {isEditingDesc ?
-                      <input
-                        type="text"
-                        value={desc}
-                        onKeyPress={ (e) => { if (e.key === 'Enter') {setIsEditingDesc(false)} }}
-                        onBlur={ () => {setIsEditingDesc(false)} }
-                        onChange={ e => setDesc(e.target.value, attackID) }
-                        placeholder={'Attack description'}
-                        focus={'true'}
-                      />
-                    :
-                      <div className='display' onClick={() => setIsEditingDesc(true)}>
-                        {desc}
-                      </div>
-                    }
-                  </div>
-                }
+                <div className='desc'>
+                  <TextInput
+                    textValue={desc}
+                    setTextValue={(desc) => setDesc(desc, attackID)}
+                    placeholder='Attack description'
+                    suffix='.'
+                  />
+                </div>
               </div>
             </div>
 
