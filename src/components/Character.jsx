@@ -5,7 +5,7 @@ import AttackSource from './AttackSource.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';
 import Roller from './Roller.jsx';
 import DiceBag from './DiceBag.jsx';
-import './Attack.scss';
+import './Character.scss';
 
 // whenever we make a change that breaks the old data, bump up the first number
 const CURRENT_VERSION = '0.1';
@@ -30,7 +30,7 @@ if (loadedVersion && !brokeOldData) {
   loadedCharacterName = localStorage.getItem("character-name");
 }
 
-const Attack = () => {
+const Character = () => {
   // should break this out into its own component
   const [characterName, setCharacterName] = useState(loadedCharacterName || 'Character');
   const [isEditingCharacterName, setIsEditingCharacterName] = useState(false);
@@ -227,7 +227,7 @@ const Attack = () => {
 
   return (
     <>
-      <div className="Attack">
+      <div className="Character">
         <h2 className="character-name">
           {isEditingCharacterName ?
             <input
@@ -284,4 +284,4 @@ const Attack = () => {
 }
 
 
-export default Attack ;
+export default Character ;

@@ -6,11 +6,11 @@
 - uncanny dodge : be able to halve any roll
   (use as general case for saving throws, resistance)
 
+
+
+
 - bug: blanking out attack description text makes it un-re-editable
-
 - bug: if click on a attack name, it doesn't auto-select the text box when you're editing
-
-
 
 - setting to customize which icon shows up for natural 20s
 
