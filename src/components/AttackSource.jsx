@@ -108,7 +108,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     }
 
     newDieCount = Math.min(newDieCount, 99);
-    newDieCount = Math.max(newDieCount, 1);
+    newDieCount = Math.max(newDieCount, 0);
     setDieCount(newDieCount, attackID);
   }
 

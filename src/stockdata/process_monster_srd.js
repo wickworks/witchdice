@@ -1,5 +1,5 @@
-import allMonsterOriginalData from './srd_monsters.json';
-// import allMonsterOriginalData from './srd_monsters_test.json';
+// import allMonsterOriginalData from './srd_monsters.json';
+import allMonsterOriginalData from './srd_monsters_test.json';
 import {
   allDamageTypes,
   abilityTypes,
@@ -56,8 +56,14 @@ function getMonsterData() {
       console.log('processing monster', monsterOriginal.name);
 
       if ('actions' in monsterOriginal) {
+        let hasMultiattack = false;
+
         for ( var ai = 0; ai < monsterOriginal.actions.length; ++ai ) {
           const attackOriginal = monsterOriginal.actions[ai];
+
+          // MULTIATTACK sets the numbers of other attacks; have to post-process afterwards
+          if (attackOriginal.name === 'Multiattack') { hasMultiattack = true }
+
           let attackData = deepCopy(defaultAttackData);
           attackData.name = attackOriginal.name;
           attackData.modifier = attackOriginal.attack_bonus;
@@ -123,6 +129,22 @@ function getMonsterData() {
 
           monsterNew.allAttackData.push(attackData);
         }
+
+        // process multiattack
+        if (hasMultiattack) {
+
+          console.log('processing MULTIATTACK');
+          const multiattackDesc = monsterNew.allAttackData[0].desc; // multiattack is always the first action
+
+          monsterNew.allAttackData.forEach((attack) => {
+            // look for the name of this attack in the multiattack description
+            const nameIndex = multiattackDesc.indexOf(attack.name.toLowerCase());
+
+            // look for the last preceding number-word
+            const number = getLastNumberBeforeIndex(multiattackDesc, nameIndex);
+            if (number > 0) { attack.dieCount = number; console.log('      ',attack.name,':',number); }
+          });
+        }
       }
 
       allMonsterData.push(monsterNew);
@@ -131,5 +153,32 @@ function getMonsterData() {
 
   return allMonsterData;
 }
+
+function getLastNumberBeforeIndex(multiattackDesc, nameIndex) {
+  const numberWords = ['one', 'two', 'three', 'four', 'five', 'six', 'seven'];
+
+  let currentBestIndex = -1;
+  let currentBestNumber = null;
+
+  numberWords.forEach((numberWord, i) => {
+
+      // find each instance of each numberword
+      const regex = new RegExp(` ${numberWord} `, "g");
+      let result, indices = [];
+      while ( (result = regex.exec(multiattackDesc)) ) {
+
+        // look for the MAXIMUM index that is still less than the given NAMEINDEX
+        if ((result.index > currentBestIndex) && (result.index < nameIndex)) {
+          currentBestIndex = result.index;
+          currentBestNumber = numberWord;
+        }
+      }
+  });
+
+  // turn the numberword back into an int
+  return numberWords.indexOf(currentBestNumber) + 1;
+}
+
+
 
 export {getMonsterData};
