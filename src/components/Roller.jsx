@@ -155,7 +155,7 @@ const Roller = ({
             }
           }
 
-          if (applyDamage) {
+          if (applyDamage && amount > 0) {
             damageTotal = damageTotal + amount;
 
             if (type in damageBreakdown) {

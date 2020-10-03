@@ -80,24 +80,26 @@ const Roll = ({
         }
 
         if (showDamageRoll) {
-          if (icon in damageBreakdown) {
-            damageBreakdown[icon] = damageBreakdown[icon] + amount
-          } else {
-            damageBreakdown[icon] = amount
-          }
-
           if (damageSource.condition.length > 0) { appliedConditions.push(damageSource.condition) }
 
-          diceElements.push(
-            <div
-              className={`damage-roll ${rerollClass} ${critClass} ${halvedClass}`}
-              key={`${i}-${dicePoolIndex}`}
-              onClick={() => handleDamageClick(sourceID, i)}
-            >
-              <div className={`asset ${icon}`} />
-              <div className='amount'>{amount}</div>
-            </div>
-          );
+          if (amount > 0) {
+            if (icon in damageBreakdown) {
+              damageBreakdown[icon] = damageBreakdown[icon] + amount
+            } else {
+              damageBreakdown[icon] = amount
+            }
+
+            diceElements.push(
+              <div
+                className={`damage-roll ${rerollClass} ${critClass} ${halvedClass}`}
+                key={`${i}-${dicePoolIndex}`}
+                onClick={() => handleDamageClick(sourceID, i)}
+              >
+                <div className={`asset ${icon}`} />
+                <div className='amount'>{amount}</div>
+              </div>
+            );
+          }
         }
       })
     }
