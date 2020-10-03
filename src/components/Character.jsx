@@ -258,6 +258,12 @@ const Character = () => {
                 if (amount > 0 || source.condition.length > 0) { triggeredroll.damageRollData.push(damage) }
               }
 
+              // plus modifier
+              if (source.modifier > 0) {
+                let damage = [source.damageType, source.modifier, false, damageSourceID]
+                triggeredroll.damageRollData.push(damage)
+              }
+
               triggeredRollData.push(triggeredroll)
             }
           }
