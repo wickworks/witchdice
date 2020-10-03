@@ -6,7 +6,8 @@ import DamageEdit from './DamageEdit.jsx';
 
 const DamageSource = ({
   damageID, attackID, damageData, damageFunctions,
-  isEditing, onEdit, onDelete
+  isEditing, onEdit, onDelete,
+  setSavingThrowDC, setSavingThrowType, savingThrowDC, savingThrowType
 }) => {
 
   const {
@@ -17,9 +18,7 @@ const DamageSource = ({
     damageType,
     enabled,
     name,
-    condition,
-    savingThrowDC,
-    savingThrowType
+    condition
   } = damageData;
 
   const {
@@ -31,8 +30,6 @@ const DamageSource = ({
     setEnabled,
     setName,
     setCondition,
-    setSavingThrowDC,
-    setSavingThrowType
   } = damageFunctions;
 
   const [hoveringOverCheckBox, setHoveringOverCheckBox] = useState(false);

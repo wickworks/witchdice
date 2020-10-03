@@ -103,7 +103,6 @@ const Roller = ({
     const damageSourceData = attackSource.damageData
     const critFumble = getCritOrFumble(roll);
 
-
     // get both CRIT and REGULAR dice
     [roll.damageRollData, roll.critRollData].forEach((dicePool, dicePoolIndex) => {
       // abort the crit dice pool unless this was a critical hit
@@ -111,10 +110,11 @@ const Roller = ({
 
         const damageRollData = dicePool;
         for (let damageRollID = 0; damageRollID < damageRollData.length; damageRollID++) {
-          const type = damageRollData[damageRollID][0];
-          let amount = damageRollData[damageRollID][1];
-          const rerolled = damageRollData[damageRollID][2];
-          const sourceID = damageRollData[damageRollID][3];
+          const damageRoll = damageRollData[damageRollID];
+          const type = damageRoll[0];
+          let amount = damageRoll[1];
+          const rerolled = damageRoll[2];
+          const sourceID = damageRoll[3];
           const damageSource = damageSourceData[sourceID];
 
           let applyDamage = false;
@@ -135,6 +135,11 @@ const Roller = ({
                 amount = amount * .5;
               }
             }
+          }
+
+          if (roll.gatedByRollID >= 0) {
+            const gatingAttackRoll = rollData[roll.gatedByRollID];
+            if (!gatingAttackRoll.hit) { applyDamage = false; }
           }
 
           if (!attackSource.isSavingThrow && critFumble.isFumble) { applyDamage = false; }
@@ -318,17 +323,33 @@ const Roller = ({
             const critFumble = getCritOrFumble(attackRoll);
 
             const attackSource = attackSourceData[attackRoll.attackID];
+            let rollName = attackSource.name;
+            let rollSavingThrow = attackSource.isSavingThrow;
+            let rollSavingThrowDC = attackSource.savingThrowDC;
+            let rollSavingThrowType = attackSource.savingThrowType;
+
+            // handle gated rolls; the gated roll ID must have hit for us to show up, Otherwise, RETURN EARLY.
+            if (attackRoll.gatedByRollID >= 0) {
+              const gatingAttackRoll = rollData[attackRoll.gatedByRollID];
+              if (!gatingAttackRoll.hit) { return (<></>) }
+
+              // also, force the roll to be its own thing & a saving throw
+              rollName = rollName + " saving throw";
+              rollSavingThrow = true;
+            }
+
             let renderAttackName = false;
-            if (currentAttackName !== attackSource.name) {
-              currentAttackName = attackSource.name;
+            if (currentAttackName !== rollName) {
+              currentAttackName = rollName;
               renderAttackName = true;
             }
 
             // add save mods to saving throws
-            if (attackSource.isSavingThrow) {
+            if (rollSavingThrow) {
               rollUse = rollUse + saveMod;
               rollDiscard = rollDiscard + saveMod;
             }
+
 
             return (
               <div className='roll-container' key={`roll-container-${rollID}`}>
@@ -336,10 +357,10 @@ const Roller = ({
                   <>
                     <h4>
                       {currentAttackName}
-                      {attackSource.isSavingThrow && ` — DC ${attackSource.savingThrowDC} ${abilityTypes[attackSource.savingThrowType]}`}
+                      {rollSavingThrow && ` — DC ${rollSavingThrowDC} ${abilityTypes[rollSavingThrowType]}`}
                     </h4>
                     <div className='roll-type-hint'>
-                      {attackSource.isSavingThrow ? 'Saved?' : 'Hit?'}
+                      {rollSavingThrow ? 'Saved?' : 'Hit?'}
                     </div>
                   </>
                 }
@@ -352,7 +373,7 @@ const Roller = ({
                   evasion={evasion && attackSource.savingThrowType === 0}
                   toHitAC={toHitAC}
                   firstHitData={firstHitData}
-                  isSavingThrow={attackSource.isSavingThrow}
+                  isSavingThrow={rollSavingThrow}
                   damageSourceData={attackSourceData[attackRoll.attackID].damageData}
                   attackRollData={attackRoll}
                   rollFunctions={rollFunctions}

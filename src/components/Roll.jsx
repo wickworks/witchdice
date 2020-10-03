@@ -189,7 +189,15 @@ const Roll = ({
         { (diceElements.length > 0 || appliedConditions.length > 0) &&
           <div className={`subtotal-container ${critClass}`}>
             { [...new Set(appliedConditions)].map((condition, i) => {
-              return ( <div className='applied-condition' key={`condition-${i}`}>{condition}</div> )
+              return (
+                <div className='applied-condition' key={`condition-${i}`}>
+                  <a
+                    href={`https://www.dndbeyond.com/sources/basic-rules/appendix-a-conditions#${condition}`}
+                    target='_blank'
+                  >
+                    {condition}
+                  </a>
+                </div> )
             })}
 
             { Object.keys(damageBreakdown).map((icon, i) => {

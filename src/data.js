@@ -69,10 +69,6 @@ const defaultDamageData = {
   tags: [],
   enabled: true,
 
-  // only relevant for triggered saves
-  savingThrowDC: 12,
-  savingThrowType: 0, //Dex
-
   // only relevant for applied condition
   condition: ''
 };
@@ -89,20 +85,17 @@ const defaultAttackData = {
   damageData: []
 };
 
-// const initialRollData = [];
-// [
-//   {
-//     attackID: 0,
-//     hit: true,
-//     rollOne: 18,
-//     rollTwo: 1,
-//     attackBonus: 4,
-//     damageRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
-//     critRollData: [[TYPE, AMOUNT, REROLLED, DAMAGE_ID], ['fire', 6, false, 1]]
-//   }, {
-//     ...
-//   }
-// ]
+const defaultRollData = {
+  attackID: 0,
+  hit: true,
+  attackBonus: 0,
+  rollOne: 0,
+  rollTwo: 0,
+  damageRollData: [],
+  critRollData: [],
+  gatedByRollID: -1
+};
+// damageRollData: [ [TYPE, AMOUNT, REROLLED, DAMAGE_ID], [], ...]
 
 const defaultAllAttackData = [
   {
@@ -262,6 +255,7 @@ export {
   allConditions,
   defaultDamageData,
   defaultAttackData,
+  defaultRollData,
   defaultAllAttackData,
   defaultCharacterList,
   loadCharacterData,

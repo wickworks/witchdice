@@ -259,6 +259,12 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                     attackID={attackID}
                     damageData={damageData[i]}
                     damageFunctions={damageFunctions}
+
+                    setSavingThrowDC={setSavingThrowDC}
+                    setSavingThrowType={setSavingThrowType}
+                    savingThrowDC={savingThrowDC}
+                    savingThrowType={savingThrowType}
+
                     isEditing={editingDamageID === i}
                     onEdit={openEditForDamage}
                     onDelete={deleteDamage}

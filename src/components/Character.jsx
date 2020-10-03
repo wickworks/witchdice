@@ -5,6 +5,7 @@ import {
   getRandomFingerprint,
   defaultDamageData,
   defaultAttackData,
+  defaultRollData,
   defaultCharacterList,
   saveCharacterData
 } from '../data.js';
@@ -134,8 +135,42 @@ const Character = () => {
 
   // =============== ROLLER FUNCTIONS ==================
 
+  // returns [TYPE, AMOUNT, REROLLED, DAMAGE_ID]
+  function getDamageRoll(source, damageSourceID) {
+    let damageAmount = getRandomInt(source.dieType)
+    let rerolled = false;
+
+    // maximized?
+    if (source.tags.includes('maximized')) { damageAmount = source.dieType }
+
+    // reroll damage?
+    if (
+      (source.tags.includes('reroll1') && damageAmount <= 1) ||
+      (source.tags.includes('reroll2') && damageAmount <= 2)
+    ) {
+      rerolled = true;
+      damageAmount = getRandomInt(source.dieType);
+    }
+
+    // minimum 2s?
+    if (
+      (source.tags.includes('min2') && damageAmount <= 1)
+    ) {
+      rerolled = true;
+      damageAmount = 2;
+    }
+
+    return [
+      source.damageType,
+      damageAmount,
+      rerolled,
+      damageSourceID
+    ]
+  }
+
   const generateNewRoll = () => {
     let data = []
+    let triggeredRollData = [];
 
     // console.log('');
     // console.log('~~~~~ NEW ROLL ~~~~~');
@@ -148,17 +183,16 @@ const Character = () => {
         // EACH TO-HIT D20
         for (let rollID = 0; rollID < attackData.dieCount; rollID++) {
           const defaultHit = attackData.isSavingThrow ? true : false;
-          let roll = {
-            attackID: attackID,
-            hit: defaultHit,
-            attackBonus: attackData.modifier,
-          }
+          let roll = deepCopy(defaultRollData);
+          roll.attackID = attackID;
+          roll.hit = defaultHit;
+          roll.attackBonus = attackData.modifier;
 
           // roll some d20s
           roll.rollOne = getRandomInt(20)
           roll.rollTwo = getRandomInt(20)
 
-          // did we crit? (any of the damage sources have expanded crit ranges)
+          // did we crit? (check if ANY of the damage sources have expanded crit ranges)
           let critRange = 20;
           for (let damageSourceID = 0; damageSourceID < attackData.damageData.length; damageSourceID++) {
             const source = attackData.damageData[damageSourceID]
@@ -173,62 +207,66 @@ const Character = () => {
           for (let damageSourceID = 0; damageSourceID < damageData.length; damageSourceID++) {
             const source = damageData[damageSourceID]
 
-            // get both CRIT and REGULAR dice
-            const dicePools = [damageRollData,critRollData]
-            dicePools.forEach((dicePool) => {
+            // triggered damage gets added later
+            if (!source.tags.includes('triggeredsave')) {
 
-              // EACH DIE IN THAT SOURCE
-              for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
-                let damageAmount = getRandomInt(source.dieType)
-                let rerolled = false;
+              // get both CRIT and REGULAR dice
+              const dicePools = [damageRollData,critRollData]
+              dicePools.forEach((dicePool) => {
 
-                // maximized?
-                if (source.tags.includes('maximized')) { damageAmount = source.dieType }
-
-                // reroll damage?
-                if (
-                  (source.tags.includes('reroll1') && damageAmount <= 1) ||
-                  (source.tags.includes('reroll2') && damageAmount <= 2)
-                ) {
-                  rerolled = true;
-                  damageAmount = getRandomInt(source.dieType);
+                // EACH DIE IN THAT SOURCE
+                for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
+                  const damage = getDamageRoll(source, damageSourceID);
+                  const amount = damage[1];
+                  if (amount > 0 || source.condition.length > 0) { dicePool.push(damage) }
                 }
+              })
 
-                // minimum 2s?
-                if (
-                  (source.tags.includes('min2') && damageAmount <= 1)
-                ) {
-                  rerolled = true;
-                  damageAmount = 2;
-                }
-
+              // PLUS MODIFIER
+              if (source.modifier > 0) {
                 let damage = [
                   source.damageType,
-                  damageAmount,
-                  rerolled,
+                  source.modifier,
+                  false,
                   damageSourceID
                 ]
-
-                if (damageAmount > 0 || source.condition.length > 0) { dicePool.push(damage) }
+                damageRollData.push(damage)
               }
-            })
-
-            // PLUS MODIFIER
-            if (source.modifier > 0) {
-              let damage = [
-                source.damageType,
-                source.modifier,
-                false,
-                damageSourceID
-              ]
-              damageRollData.push(damage)
             }
           }
+
           roll.damageRollData = damageRollData
           roll.critRollData = critRollData
           data.push(roll)
-          // console.log('  roll data: ', roll);
+
+          // TRIGGERED-SAVING THROW ROLLS (for each damage source, again) (ignores crits)
+          for (let damageSourceID = 0; damageSourceID < damageData.length; damageSourceID++) {
+            const source = damageData[damageSourceID]
+
+            if (source.tags.includes('triggeredsave')) {
+              let triggeredroll = deepCopy(defaultRollData);
+              triggeredroll.attackID = attackID;
+              triggeredroll.hit = true;
+              triggeredroll.attackBonus = 0;
+              triggeredroll.rollOne = 0;
+              triggeredroll.rollTwo = 0;
+              triggeredroll.gatedByRollID = rollID;
+
+              for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
+                const damage = getDamageRoll(source, damageSourceID);
+                const amount = damage[1];
+                if (amount > 0 || source.condition.length > 0) { triggeredroll.damageRollData.push(damage) }
+              }
+
+              triggeredRollData.push(triggeredroll)
+            }
+          }
         }
+
+        // add all the triggered rolls to the end of the normal roll data
+        triggeredRollData.forEach((triggeredroll) => {
+          data.push(triggeredroll);
+        });
 
         // console.log('New Roll Data for ', attackData.name, JSON.stringify(data));
         setRollData(data);
