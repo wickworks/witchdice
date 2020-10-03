@@ -38,20 +38,22 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
   // =============== DATA PASSING =============
 
   const damageFunctions = {
-    setDieCount: (value, attackID,damageID) => updateDamageData('dieCount',parseInt(value),attackID,damageID),
-    setDieType: (value, attackID,damageID) => updateDamageData('dieType',parseInt(value),attackID,damageID),
-    setModifier: (value, attackID,damageID) => updateDamageData('modifier',parseInt(value),attackID,damageID),
-    setDamageType: (value, attackID,damageID) => updateDamageData('damageType',value,attackID,damageID),
-    setName: (value, attackID,damageID) => updateDamageData('name',value,attackID,damageID),
-    setTags: (value, attackID,damageID) => updateDamageData('tags',value,attackID,damageID),
-    setEnabled: (value, attackID,damageID) => updateDamageData('enabled',value,attackID,damageID),
+    setDieCount: (value,attackID,damageID) => updateDamageData('dieCount',parseInt(value),attackID,damageID),
+    setDieType: (value,attackID,damageID) => updateDamageData('dieType',parseInt(value),attackID,damageID),
+    setModifier: (value,attackID,damageID) => updateDamageData('modifier',parseInt(value),attackID,damageID),
+    setDamageType: (value,attackID,damageID) => updateDamageData('damageType',value,attackID,damageID),
+    setName: (value,attackID,damageID) => updateDamageData('name',value,attackID,damageID),
+    setTags: (value,attackID,damageID) => updateDamageData('tags',value,attackID,damageID),
+    setEnabled: (value,attackID,damageID) => updateDamageData('enabled',value,attackID,damageID),
+    setCondition: (value,attackID,damageID) => updateDamageData('condition',value,attackID,damageID),
+    setSavingThrowDC: (value,attackID,damageID) => updateDamageData('savingThrowDC',value,attackID,damageID),
+    setSavingThrowType: (value,attackID,damageID) => updateDamageData('savingThrowType',value,attackID,damageID),
   }
 
   const updateDamageData = (key, value, attackID, damageID) => {
     let newData = deepCopy(damageData)
     newData[damageID][key] = value
     setDamageData(newData, attackID);
-
   }
 
   // =============== ADD / EDIT DAMAGE SOURCES =============

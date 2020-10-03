@@ -104,7 +104,6 @@ function getMonsterData() {
             const damageTypes = getDamageTypesFromDesc(desc);
             const damageDice = attackOriginal.damage_dice.split(" + ")
 
-            console.log('       damage dice : ',damageDice, '(',attackOriginal.damage_dice,')');
             damageDice.forEach((damageDie, di) => {
               let damageData = deepCopy(defaultDamageData);
 

@@ -140,17 +140,37 @@
         }
       }
     }
-
   }
 
-  .timing-container {
-    width: 140px;
-    flex-shrink: 0;
 
-    input {
-      width: 100%;
-      height: 20px;
-      margin: 0;
+  // saving throw & applied conditions
+  .additional-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 12px 0 4px;
+
+    > * { margin-right: 10px; }
+
+    .saving-throw {
+      display: flex;
+
+      .saving-throw-dc, .saving-throw-type {
+        margin: 0 3px;
+        font-weight: bold;
+        cursor: pointer;
+
+        &:hover {
+          background-color: lightblue;
+        }
+      }
+    }
+
+    .condition-select {
+      select {
+        @include text_default;
+        margin: 0 6px;
+      }
     }
   }
 }

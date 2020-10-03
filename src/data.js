@@ -5,6 +5,8 @@ const CURRENT_VERSION = '0.2';
 const allTags = {
   'once': 'Once per turn',
   'savehalf': 'Save for half',
+  'triggeredsave': 'Requires Save',
+  'condition': 'Applies Condition',
   'maximized': 'Maximized',
   'reroll1': 'Reroll 1s',
   'reroll2': 'Reroll 1+2s',
@@ -38,6 +40,24 @@ const abilityTypes = [
   "Int"
 ]
 
+const allConditions = [
+  "Blinded",
+  "Charmed",
+  "Deafened",
+  "Frightened",
+  "Grappled",
+  "Incapacitated",
+  "Invisible",
+  "Paralyzed",
+  "Petrified",
+  "Poisoned",
+  "Prone",
+  "Restrained",
+  "Stunned",
+  "Unconscious",
+  "Exhaustion"
+]
+
 // ======================== DATA STRUCTURES =======================
 
 const defaultDamageData = {
@@ -47,7 +67,14 @@ const defaultDamageData = {
   damageType: 'slashing',
   name: '',
   tags: [],
-  enabled: true
+  enabled: true,
+
+  // only relevant for triggered saves
+  savingThrowDC: 12,
+  savingThrowType: 0, //Dex
+
+  // only relevant for applied condition
+  condition: ''
 };
 
 const defaultAttackData = {
@@ -232,6 +259,7 @@ export {
   allTags,
   allDamageTypes,
   abilityTypes,
+  allConditions,
   defaultDamageData,
   defaultAttackData,
   defaultAllAttackData,

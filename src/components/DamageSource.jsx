@@ -1,15 +1,39 @@
 import React, { useState } from 'react';
 import { Multiselect } from 'multiselect-react-dropdown';
 import './DamageSource.scss';
-import { allTags } from '../data.js';
+import { allTags, allConditions, abilityTypes } from '../data.js';
 import DamageEdit from './DamageEdit.jsx';
 
 const DamageSource = ({
   damageID, attackID, damageData, damageFunctions,
   isEditing, onEdit, onDelete
 }) => {
-  const { dieCount, dieType, modifier, tags, damageType, enabled, name } = damageData;
-  const { setDieCount, setDieType, setModifier, setTags, setDamageType, setEnabled, setName } = damageFunctions;
+
+  const {
+    dieCount,
+    dieType,
+    modifier,
+    tags,
+    damageType,
+    enabled,
+    name,
+    condition,
+    savingThrowDC,
+    savingThrowType
+  } = damageData;
+
+  const {
+    setDieCount,
+    setDieType,
+    setModifier,
+    setTags,
+    setDamageType,
+    setEnabled,
+    setName,
+    setCondition,
+    setSavingThrowDC,
+    setSavingThrowType
+  } = damageFunctions;
 
   const [hoveringOverCheckBox, setHoveringOverCheckBox] = useState(false);
 
@@ -39,6 +63,35 @@ const DamageSource = ({
     let newTags = []
     selectedTags.map((tag) => { newTags.push(tag.id) })
     setTags(newTags, attackID, damageID)
+  }
+
+  function handleSavingThrowDCClick(e, leftMouse) {
+    let newDC = savingThrowDC;
+
+    if (leftMouse && !e.shiftKey) {
+      newDC += 1;
+    } else {
+      newDC -= 1;
+      e.preventDefault()
+    }
+
+    newDC = Math.min(newDC, 40);
+    newDC = Math.max(newDC, 0);
+    setSavingThrowDC(newDC, attackID, damageID);
+  }
+
+  function handleSavingThrowTypeClick(e, leftMouse) {
+    let newType = savingThrowType;
+
+    if (leftMouse && !e.shiftKey) {
+      newType += 1;
+    } else {
+      newType -= 1;
+      e.preventDefault()
+    }
+
+    newType = newType % abilityTypes.length
+    setSavingThrowType(newType, attackID, damageID);
   }
 
   function renderEditMetaData() {
@@ -159,15 +212,56 @@ const DamageSource = ({
       </div>
 
       {isEditing &&
-        <DamageEdit
-          attackID={attackID}
-          die={dieType}
-          type={damageType}
-          setDie={(value) => setDieType(value, attackID, damageID)}
-          setType={(value) => setDamageType(value, attackID, damageID)}
-          onDelete={() => onDelete(damageID)}
-          onClose={() => onEdit(damageID)}
-        />
+
+        <>
+          { (tags.includes('triggeredsave') || tags.includes('condition')) &&
+            <div className='additional-info'>
+
+              { tags.includes('triggeredsave') &&
+                <div className='saving-throw'>
+                  Triggers a
+                  <div
+                    className='saving-throw-dc unselectable'
+                    onClick={(e) => handleSavingThrowDCClick(e, true)}
+                    onContextMenu={(e) => handleSavingThrowDCClick(e, false)}
+                  >
+                    DC {savingThrowDC}
+                  </div>
+                  <div
+                    className='saving-throw-type unselectable'
+                    onClick={(e) => handleSavingThrowTypeClick(e, true)}
+                    onContextMenu={(e) => handleSavingThrowTypeClick(e, false)}
+                  >
+                    {abilityTypes[savingThrowType]}
+                  </div>
+                  save.
+                </div>
+              }
+
+              { tags.includes('condition') &&
+                <div className='condition-select'>
+                  Applies the
+                  <select value={condition} onChange={(e) => setCondition(e.target.value, attackID,damageID)}>
+                    {allConditions.map((conditionName, i) => {
+                      return (<option value={conditionName} key={i}>{conditionName}</option>)
+                    })}
+                  </select>
+                  condition.
+                </div>
+              }
+            </div>
+          }
+
+          <DamageEdit
+            attackID={attackID}
+            die={dieType}
+            type={damageType}
+            setDie={(value) => setDieType(value, attackID, damageID)}
+            setType={(value) => setDamageType(value, attackID, damageID)}
+            onDelete={() => onDelete(damageID)}
+            onClose={() => onEdit(damageID)}
+          />
+        </>
       }
     </div>
   );

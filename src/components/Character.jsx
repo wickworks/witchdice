@@ -209,7 +209,7 @@ const Character = () => {
                   damageSourceID
                 ]
 
-                if (damageAmount > 0) { dicePool.push(damage) }
+                if (damageAmount > 0 || source.condition.length > 0) { dicePool.push(damage) }
               }
             })
 

@@ -32,6 +32,7 @@ const Roll = ({
   // process the damage for THIS roll
   let diceElements = [];
   let damageBreakdown = {};
+  let appliedConditions = [];
 
   // get both CRIT and REGULAR dice
   [damageRollData, critRollData].forEach((dicePool, dicePoolIndex) => {
@@ -71,17 +72,10 @@ const Roll = ({
         }
 
         // are we the first to make it this far with a hit?
-
         if (damageSource.tags.includes("once")) {
-
           const sourceName = damageSource.name.toLowerCase() || 'unnamed';
-
           if (!(firstHitData[sourceName] === rollID)) {
             showDamageRoll = false;
-          }
-
-          if (!firstHitData[sourceName] === rollID) {
-
           }
         }
 
@@ -91,6 +85,8 @@ const Roll = ({
           } else {
             damageBreakdown[icon] = amount
           }
+
+          if (damageSource.condition.length > 0) { appliedConditions.push(damageSource.condition) }
 
           diceElements.push(
             <div
@@ -108,7 +104,7 @@ const Roll = ({
   })
 
   // if no damage is coming out of this, just show a line / fumble
-  if (diceElements.length === 0 ) {
+  if (diceElements.length === 0 && appliedConditions.length === 0 ) {
     if (isFumble) {
       diceElements.push(
         <div className='fumble' key={`fumble-${rollID}`}>* fumble *</div>
@@ -190,8 +186,12 @@ const Roll = ({
           </div>
         */}
 
-        { (diceElements.length > 0) &&
+        { (diceElements.length > 0 || appliedConditions.length > 0) &&
           <div className={`subtotal-container ${critClass}`}>
+            { [...new Set(appliedConditions)].map((condition, i) => {
+              return ( <div className='applied-condition' key={`condition-${i}`}>{condition}</div> )
+            })}
+
             { Object.keys(damageBreakdown).map((icon, i) => {
               return (
                 <div className='subtotal' key={i}>

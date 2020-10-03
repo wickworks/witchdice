@@ -163,6 +163,7 @@
     .subtotal-container {
       flex-shrink: 0;
       display: flex;
+      align-items: center;
 
       &.crit {
         color: crimson;
@@ -183,6 +184,12 @@
           height: 36px;
           margin: 0 2px;
         }
+      }
+
+      .applied-condition {
+        order: -100;
+        font-weight: bold;
+        margin-right: 6px;
       }
     }
   }
