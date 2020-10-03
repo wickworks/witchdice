@@ -156,6 +156,8 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     setSavingThrowType(newType, attackID);
   }
 
+  const descClass = (desc.length > 64) ? 'long' : 'short'
+
   return (
     <div className='AttackSource'>
       <div className='die-count-container'>
@@ -235,14 +237,13 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                   {modifier} to hit
                 </div>
               }
-            </div>
 
-            <div className='metadata-container'>
-              <div className='desc'>
+              <div className={`desc ${descClass}`}>
                 <TextInput
                   textValue={desc}
                   setTextValue={(desc) => setDesc(desc, attackID)}
                   placeholder='Attack description'
+                  isTextbox={descClass === 'long'}
                 />
               </div>
             </div>

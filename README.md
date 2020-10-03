@@ -17,15 +17,12 @@
   (recently-selected box)
 
 - import the monster manual
-  (have it change the numbers correctly when there's a multiattack)
   (have the description only go to the second line when it's too long)
   (cut off the "+X to hit" in the description)
   (add legendary actions)
   (add special_abilities e.g. sneak attack 1/turn)
   (handle attacks that come with saving throws better; see aboleth tentacles or assassin)
     (have to somehow parse the bonus stuff out?)
-
-- larger description edit box for long descriptions
 
 - nicer add damage box
 
