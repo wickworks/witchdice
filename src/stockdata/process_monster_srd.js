@@ -53,6 +53,7 @@ function getMonsterData() {
       monsterNew.name = monsterOriginal.name;
       monsterNew.allAttackData = [];
 
+      console.log('~');
       console.log('processing monster', monsterOriginal.name);
 
       if ('actions' in monsterOriginal) {
@@ -103,6 +104,7 @@ function getMonsterData() {
             const damageTypes = getDamageTypesFromDesc(desc);
             const damageDice = attackOriginal.damage_dice.split(" + ")
 
+            console.log('       damage dice : ',damageDice, '(',attackOriginal.damage_dice,')');
             damageDice.forEach((damageDie, di) => {
               let damageData = deepCopy(defaultDamageData);
 
@@ -123,7 +125,7 @@ function getMonsterData() {
                 damageData.tags.push('savehalf');
               }
 
-              attackData.damageData = [damageData];
+              attackData.damageData.push(damageData);
             });
           }
 
@@ -132,8 +134,6 @@ function getMonsterData() {
 
         // process multiattack
         if (hasMultiattack) {
-
-          console.log('processing MULTIATTACK');
           const multiattackDesc = monsterNew.allAttackData[0].desc; // multiattack is always the first action
 
           monsterNew.allAttackData.forEach((attack) => {
@@ -142,7 +142,7 @@ function getMonsterData() {
 
             // look for the last preceding number-word
             const number = getLastNumberBeforeIndex(multiattackDesc, nameIndex);
-            if (number > 0) { attack.dieCount = number; console.log('      ',attack.name,':',number); }
+            if (number > 0) { attack.dieCount = number; }
           });
         }
       }
