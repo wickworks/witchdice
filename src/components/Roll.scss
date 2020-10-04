@@ -190,6 +190,14 @@
         order: -100;
         font-weight: bold;
         margin-right: 6px;
+
+        a {
+          text-decoration: none;
+
+          &:hover {
+            color: olive;
+          }
+        }
       }
     }
   }

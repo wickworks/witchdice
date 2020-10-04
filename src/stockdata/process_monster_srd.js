@@ -2,6 +2,7 @@
 import allMonsterOriginalData from './srd_monsters_test.json';
 import {
   allDamageTypes,
+  allConditions,
   abilityTypes,
   defaultAttackData,
   defaultDamageData,
@@ -59,6 +60,7 @@ function getMonsterData() {
       if ('actions' in monsterOriginal) {
         let hasMultiattack = false;
 
+        // ~~~~~~ for all actions ~~~~~~ \\
         for ( var ai = 0; ai < monsterOriginal.actions.length; ++ai ) {
           const attackOriginal = monsterOriginal.actions[ai];
 
@@ -68,36 +70,14 @@ function getMonsterData() {
           let attackData = deepCopy(defaultAttackData);
           attackData.name = attackOriginal.name;
           attackData.modifier = attackOriginal.attack_bonus;
+          attackData.desc = attackOriginal.desc;
+
 
           console.log('       processing attack ', attackData.name);
 
           const desc = attackOriginal.desc;
           const dcIndex = desc.indexOf('DC');
           const hitIndex = attackOriginal.desc.indexOf('Hit: ');
-
-          // slice off the damage data description
-          if (hitIndex > 0 && dcIndex === -1) {
-            attackData.desc = attackOriginal.desc.slice(0, hitIndex);
-          } else {
-            attackData.desc = attackOriginal.desc;
-          }
-
-          // SAVING THROW
-          if (dcIndex > 0) {
-            attackData.isSavingThrow = true;
-
-            attackData.savingThrowDC = parseInt(
-              desc.slice(dcIndex+3, dcIndex+5) //DCs are always one or two digits
-            );
-
-            const savingThrowType =
-              abilityTypes.indexOf(
-                desc.slice(dcIndex+5, desc.indexOf(' ', dcIndex+6))
-                .trim()
-                .slice(0,3)
-              );
-            attackData.savingThrowType = Math.max(savingThrowType, 0)
-          }
 
           // DAMAGE
           if ('damage_dice' in attackOriginal) {
@@ -111,25 +91,93 @@ function getMonsterData() {
               damageData.dieCount = countAndType.count;
               damageData.dieType = countAndType.dietype;
 
-              // the way the json is structured, I think the damage bonus only applies to the first one
-              if (('damage_bonus' in attackOriginal) && di === 0) {
-                damageData.modifier = attackOriginal.damage_bonus;
-              }
-
-              if (damageTypes[di]) {
-                damageData.damageType = damageTypes[di];
-              }
-
-              if (desc.indexOf('half as much') >= 0) {
-                damageData.tags.push('savehalf');
-              }
+              if (damageTypes[di]) { damageData.damageType = damageTypes[di] }
+              if (('damage_bonus' in attackOriginal) && di === 0) { damageData.modifier = attackOriginal.damage_bonus }
+              if (desc.indexOf('half as much') >= 0) { damageData.tags.push('savehalf') }
 
               attackData.damageData.push(damageData);
             });
           }
 
+          // SAVING THROW DATA
+          if (dcIndex > 0) {
+            attackData.savingThrowDC = parseInt(
+              desc.slice(dcIndex+3, dcIndex+5) //DCs are always one or two digits
+            );
+
+            const savingThrowType =
+              abilityTypes.indexOf(
+                desc.slice(dcIndex+5, desc.indexOf(' ', dcIndex+6))
+                .trim()
+                .slice(0,3)
+              );
+
+            attackData.savingThrowType = Math.max(savingThrowType, 0)
+          }
+
+          // VANILLA ATTACK
+          if (dcIndex === -1 && hitIndex > 0) {
+            // slice off the damage data
+            attackData.desc = attackData.desc.slice(0, hitIndex);
+            // slice off the attack bonus
+            attackData.desc = attackData.desc.slice(desc.indexOf('to hit, ')+8);
+
+          // ATTACK WITH SOME KIND OF SAVING THROW
+          } else if (dcIndex > 0 && hitIndex > 0) {
+            let extraDamageData = deepCopy(defaultDamageData);
+            extraDamageData.tags.push('triggeredsave')
+
+            // get additional damage from desc
+            let extraDamageDie = '1d4';
+            const countAndType = getCountAndTypeFromDiceString(extraDamageDie);
+            extraDamageData.dieCount = countAndType.count;
+            extraDamageData.dieType = countAndType.dietype;
+
+            // get damage type from desc
+            extraDamageData.damageType = 'poison';
+            if (desc.indexOf('half as much') >= 0) { extraDamageData.tags.push('savehalf') }
+
+            // get conditions
+            const appliedCondition = getConditionFromDesc(desc);
+            if (appliedCondition) {
+              extraDamageData.tags.push('condition')
+              extraDamageData.condition = appliedCondition;
+            }
+
+            attackData.damageData.push(extraDamageData);
+
+          // VANILLA SAVING THROW
+          } else if (dcIndex > 0 && hitIndex === -1) {
+            attackData.isSavingThrow = true;
+
+            // if we didn't add any damage, check to see if there's a condition
+            if (!('damage_dice' in attackOriginal)) {
+              const appliedCondition = getConditionFromDesc(desc);
+              if (appliedCondition) {
+                // make a 0-damage thing that applies a condition
+                let savingThrowDamageData = deepCopy(defaultDamageData);
+                savingThrowDamageData.tags.push('condition')
+                savingThrowDamageData.condition = appliedCondition;
+                savingThrowDamageData.dieType = 0;
+                savingThrowDamageData.modifier = 0;
+                savingThrowDamageData.damageType = 'psychic'; //just because
+                attackData.damageData.push(savingThrowDamageData);
+              }
+            }
+
+          // SOME OTHER THING e.g. MULTIATTACK
+          } else if (dcIndex === -1 && hitIndex === -1) {
+            // desc-only?
+          }
+
+
+
+
+
           monsterNew.allAttackData.push(attackData);
         }
+        // ~~~~~~ end all actions ~~~~~~ \\
+
 
         // process multiattack
         if (hasMultiattack) {
@@ -176,6 +224,19 @@ function getLastNumberBeforeIndex(multiattackDesc, nameIndex) {
 
   // turn the numberword back into an int
   return numberWords.indexOf(currentBestNumber) + 1;
+}
+
+function getConditionFromDesc(desc) {
+  desc = desc.toLowerCase();
+  let appliedCondition = null;
+
+  allConditions.forEach((condition, i) => {
+    if (desc.indexOf(condition.toLowerCase()) >= 0) {
+      appliedCondition = condition;
+    }
+  })
+
+  return appliedCondition;
 }
 
 

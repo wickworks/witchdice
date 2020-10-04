@@ -10,6 +10,12 @@
 
   h1 { @include text_h1; }
 
+  a {
+    color: seagreen;
+
+    &:hover { color: olive }
+  }
+
   input[type=checkbox], input[type=radio] {
     cursor: pointer;
 

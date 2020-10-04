@@ -44,6 +44,7 @@ const allConditions = [
   "Blinded",
   "Charmed",
   "Deafened",
+  "Diseased",
   "Frightened",
   "Grappled",
   "Incapacitated",
@@ -96,80 +97,6 @@ const defaultRollData = {
   gatedByRollID: -1
 };
 // damageRollData: [ [TYPE, AMOUNT, REROLLED, DAMAGE_ID], [], ...]
-
-const defaultAllAttackData = [
-  {
-    isActive: true,
-    dieCount: 2,
-    modifier: 4,
-    isSavingThrow: false,
-    savingThrowDC: 12,
-    savingThrowType: 0, //Dex
-    name: 'Longsword',
-    desc: 'Reach 5ft, one target.',
-    damageData: [
-      {
-        dieCount: 1,
-        dieType: 8,
-        modifier: 4,
-        damageType: 'slashing',
-        name: '',
-        tags: [],
-        enabled: true
-      },{
-        dieCount: 6,
-        dieType: 6,
-        modifier: 0,
-        damageType: 'slashing',
-        name: 'sneak attack',
-        tags: ['first'],
-        enabled: true
-      }
-    ]
-
-
-  },{
-    isActive: true,
-    dieCount: 1,
-    modifier: 6,
-    isSavingThrow: false,
-    savingThrowDC: 12,
-    savingThrowType: 0, //Dex
-    name: 'Thrown rose',
-    desc: 'Reach 30ft, one target.',
-    damageData: [
-    {
-      dieCount: 1,
-      dieType: 4,
-      modifier: 0,
-      damageType: 'piercing',
-      name: '',
-      tags: [],
-      enabled: true
-    },{
-      dieCount: 2,
-      dieType: 6,
-      modifier: 0,
-      damageType: 'fire',
-      name: 'flaming',
-      tags: ['reroll2'],
-      enabled: true
-    }]
-  }
-];
-
-const defaultCharacterList = [
-  {
-    id: 123456,
-    name: 'Tuxedo Mask',
-    allAttackData: deepCopy(defaultAllAttackData)
-  },
-  {
-    id: 654321,
-    name: 'Makato Kino',
-    allAttackData: deepCopy(defaultAllAttackData)
-  }
-]
 
 
 // ======================== SAVE / LOAD TO LOCALSTORAGE =======================
@@ -256,8 +183,6 @@ export {
   defaultDamageData,
   defaultAttackData,
   defaultRollData,
-  defaultAllAttackData,
-  defaultCharacterList,
   loadCharacterData,
   saveCharacterData,
   getCharacterNameFromStorageName,

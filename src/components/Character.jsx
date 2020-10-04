@@ -6,7 +6,6 @@ import {
   defaultDamageData,
   defaultAttackData,
   defaultRollData,
-  defaultCharacterList,
   saveCharacterData
 } from '../data.js';
 import { getMonsterData } from '../stockdata/process_monster_srd.js';
@@ -39,18 +38,9 @@ if (loadedVersion) {
 if (!loadedVersion || brokeOldData) {
   // TODO: clear out the old data
 
-
   getMonsterData().map((data) => {
     saveCharacterData(
       getRandomFingerprint(),
-      data.name,
-      data.allAttackData
-    )
-  })
-
-  defaultCharacterList.map((data) => {
-    saveCharacterData(
-      data.id,
       data.name,
       data.allAttackData
     )
