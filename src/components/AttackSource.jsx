@@ -275,14 +275,15 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
               { !isDamageEditOpen &&
                 <button
-                  className="add-damage-button"
+                  className="add-damage-button asset plus"
                   onClick={() => {
                     openEditForDamage(damageData.length);
                     createDamage();
                   }}
                 >
-                  <span>Add Damage</span>
-                  <div className={`asset plus`} />
+                  <div className='text-container'>
+                    <span>Add Damage</span>
+                  </div>
                 </button>
               }
             </div>
