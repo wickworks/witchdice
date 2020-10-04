@@ -1,5 +1,5 @@
-// import allMonsterOriginalData from './srd_monsters.json';
-import allMonsterOriginalData from './srd_monsters_test.json';
+import allMonsterOriginalData from './srd_monsters.json';
+// import allMonsterOriginalData from './srd_monsters_test.json';
 import {
   allDamageTypes,
   allConditions,
@@ -8,38 +8,6 @@ import {
   defaultDamageData,
 } from '../data.js';
 import { deepCopy } from '../utils.js';
-
-function getCountAndTypeFromDiceString(dice) {
-  const count = dice.slice(0, dice.indexOf('d'));
-  const dietype = dice.slice(dice.indexOf('d')+1);
-  return {count: count, dietype: dietype}
-}
-
-function getDamageTypesFromDesc(desc) {
-  let damageTypesWithIndex = [];
-
-  allDamageTypes.forEach((type, i) => {
-    const damageindex = desc.indexOf(type);
-    if (damageindex >= 0) {
-      damageTypesWithIndex.push([damageindex, type]);
-    }
-  });
-
-  // earlier indices come first
-  damageTypesWithIndex.sort((a, b) => (a[0] > b[0]) ? 1 : -1)
-
-  // now reduce 'em down without the indices
-  let damageTypesOrdered = [];
-  damageTypesWithIndex.forEach((typeAndIndex, i) => {
-    damageTypesOrdered.push(typeAndIndex[1])
-  });
-
-  console.log(' desc : ', desc);
-  console.log('    damage types ordered : ', damageTypesOrdered);
-
-  return damageTypesOrdered;
-}
-
 
 function getMonsterData() {
   // const allMonsterOriginalData = JSON.parse(monsterJson);
@@ -128,13 +96,15 @@ function getMonsterData() {
             extraDamageData.tags.push('triggeredsave')
 
             // get additional damage from desc
-            let extraDamageDie = '1d4';
+            let extraDamageDie = getLastDamageFromDesc(desc);
             const countAndType = getCountAndTypeFromDiceString(extraDamageDie);
             extraDamageData.dieCount = countAndType.count;
             extraDamageData.dieType = countAndType.dietype;
 
-            // get damage type from desc
-            extraDamageData.damageType = 'poison';
+            // get damage type from desc (I dunno, it's probably the last one)
+            extraDamageData.damageType = 'necrotic';
+            const damageTypes = getDamageTypesFromDesc(desc);
+            if (damageTypes.length > 0) { extraDamageData.damageType = damageTypes[damageTypes.length-1] }
             if (desc.indexOf('half as much') >= 0) { extraDamageData.tags.push('savehalf') }
 
             // get conditions
@@ -201,6 +171,45 @@ function getMonsterData() {
   return allMonsterData;
 }
 
+function getCountAndTypeFromDiceString(dice) {
+  const count = dice.slice(0, dice.indexOf('d'));
+  const dietype = dice.slice(dice.indexOf('d')+1);
+  return {count: count, dietype: dietype}
+}
+
+function getDamageTypesFromDesc(desc) {
+  let damageTypesWithIndex = [];
+
+  allDamageTypes.forEach((type, i) => {
+    const damageindex = desc.indexOf(type);
+    if (damageindex >= 0) {
+      damageTypesWithIndex.push([damageindex, type]);
+    }
+  });
+
+  // earlier indices come first
+  damageTypesWithIndex.sort((a, b) => (a[0] > b[0]) ? 1 : -1)
+
+  // now reduce 'em down without the indices
+  let damageTypesOrdered = [];
+  damageTypesWithIndex.forEach((typeAndIndex, i) => {
+    damageTypesOrdered.push(typeAndIndex[1])
+  });
+
+  return damageTypesOrdered;
+}
+
+function getLastDamageFromDesc(desc) {
+  // matches "1d6", "0d1"
+  // const regex = new RegExp('\dd\d','g');
+
+  const lastOpen = desc.lastIndexOf('(');
+  const lastClose = desc.lastIndexOf(')');
+  const lastDamageDie = desc.slice(lastOpen+1, lastClose);
+  return lastDamageDie;
+}
+
+// for multiattack
 function getLastNumberBeforeIndex(multiattackDesc, nameIndex) {
   const numberWords = ['one', 'two', 'three', 'four', 'five', 'six', 'seven'];
 
@@ -238,7 +247,6 @@ function getConditionFromDesc(desc) {
 
   return appliedCondition;
 }
-
 
 
 export {getMonsterData};

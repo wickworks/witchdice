@@ -35,8 +35,12 @@ if (loadedVersion) {
 }
 
 // should we initialize to defaults?
-if (!loadedVersion || brokeOldData) {
-  // TODO: clear out the old data
+if (!loadedVersion || brokeOldData || true) {
+  // clear out the old data
+  for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+    const key = localStorage.key(i);
+    localStorage.removeItem(key)
+  }
 
   getMonsterData().map((data) => {
     saveCharacterData(

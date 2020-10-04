@@ -5,8 +5,8 @@ const CURRENT_VERSION = '0.2';
 const allTags = {
   'once': 'Once per turn',
   'savehalf': 'Save for half',
-  'triggeredsave': 'Requires Save',
-  'condition': 'Applies Condition',
+  'triggeredsave': 'Requires save',
+  'condition': 'Applies condition',
   'maximized': 'Maximized',
   'reroll1': 'Reroll 1s',
   'reroll2': 'Reroll 1+2s',

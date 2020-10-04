@@ -20,14 +20,14 @@
   (add legendary actions)
   (add special_abilities e.g. sneak attack 1/turn)
 
-- nicer add damage box
 
 
-- bug: blanking out attack description text makes it un-re-editable
+
+
 
 - maybe: auto-unselect all attacks for every roll? have to opt-in for them every time?
-
-- setting to customize which icon shows up for natural 20s
+- bug: blanking out attack description text makes it un-re-editable
+- setting: customize which icon shows up for natural 20s
 
 
 
