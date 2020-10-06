@@ -63,7 +63,7 @@
         align-items: center;
         justify-content: center;
         padding: 4px;
-
+        border-radius: 4px;
         cursor: pointer;
 
         .asset {
@@ -76,9 +76,9 @@
         position: absolute;
         left: -99999999px;
 
-        &:checked+label { background-color: $rust_light; }
-        &:hover+label { background-color: $rust_light; }
-        &:focus+label { background-color: $rust_light; }
+        &:focus+label { background-color: $pink; }
+        &:checked+label { background-color: $olive_light; }
+        &:hover+label { background-color: $pink; }
       }
     }
 
@@ -93,14 +93,14 @@
 
         &.accept {
           padding: 24px 24px;
-          background-color: $rust_light;
+          background-color: $olive_light;
         }
         &.delete {
           padding: 24px 6px;
           background-color: $rust_light;
         }
 
-        &:hover { background-color: $rust; }
+        &:hover { background-color: grey; }
 
         .asset {
           width: 30px;

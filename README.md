@@ -20,10 +20,11 @@
 - import the monster manual
   (add legendary actions)
   (add special_abilities e.g. sneak attack 1/turn)
-  bug: saving-throw attacks should only add damage if there's at least 2 XdXs in the description (see:wolf)
+  bug: saving-throw attacks should only add damage if there's at least 2 XdXs in the description (see:wolf, giant crab)
 
 - Make online rooms so everybody can see the rolls
 
+- reorganize so the controls for number of attacks in in the roll-attacks section, not the stat sheet
 
 
 - maybe: auto-unselect all attacks for every roll? have to opt-in for them every time?

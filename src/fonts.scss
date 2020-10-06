@@ -88,6 +88,11 @@
   font-size: 30px;
 }
 
+@mixin text_clear_rolls {
+  font-family: 'Bitter';
+  font-size: 20px;
+}
+
 @mixin text_dicebag_summary {
   font-size: 22px;
 }

@@ -123,7 +123,7 @@
           filter: invert(17%) sepia(62%) saturate(5292%) hue-rotate(339deg) brightness(87%) contrast(98%);
           color: crimson;
         }
-        &.rerolled { background-color: $rust_light; }
+        &.rerolled { background-color: $rust; }
         &.halved { color: steelblue; font-style: italic;}
       }
 

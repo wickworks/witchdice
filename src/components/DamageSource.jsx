@@ -168,7 +168,7 @@ const DamageSource = ({
                 className={`asset ${damageType}`}
               />
 
-              <span>Flat Damage</span>
+              <span className='flat-damage'>Flat Damage</span>
 
               {renderEditMetaData()}
 
