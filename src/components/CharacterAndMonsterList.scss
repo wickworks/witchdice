@@ -1,24 +1,71 @@
 @import '../fonts';
+@import '../colors';
 
-.CharacterList, .MonsterList {
-  border: 1px solid black;
-  width: 810px;
-
-  h2 {
-    margin: 20px;
-  }
-
-  ul {
+.CharacterAndMonsterList {
     display: flex;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 800px;
 
-    li {
-      width: 33%;
-      cursor: pointer;
+    .CharacterList, .MonsterList {
+      width: 48%;
 
-      &:hover { background-color: lightgrey;}
-      &.selected { background-color: lightblue;}
+      .title-bar {
+        border-bottom: 1px solid #dedede;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+
+        h2 {
+          @include text_character_list;
+          margin: 0 14px 0 0;
+          padding: 6px;
+        }
+
+        button {
+          @include text_default;
+
+          display: flex;
+          align-items: center;
+          height: 100%;
+          padding: 6px 12px;
+
+          border: none;
+          background: none;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $parchment_dark;
+          }
+
+          .asset.plus {
+            height: 22px;
+            width: 22px;
+            margin-left: 8px;
+          }
+        }
+
+        input {
+          width: 100%;
+          padding: 6px 8px;
+          margin-bottom: -1px;
+          border: 1px solid #dedede;
+        }
+      }
+
+
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        li {
+          width: 45%;
+          cursor: pointer;
+
+          &:hover { background-color: $parchment;}
+          &.selected { background-color: $parchment_dark;}
+        }
+      }
+
     }
-  }
-
 }

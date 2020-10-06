@@ -33,7 +33,7 @@ const CharacterAndMonsterList = ({setActiveCharacterData}) => {
 
   // console.log('all character names : ', allCharacterNames);
 
-  function handleCharacterClick(id) {
+  function handleEntryClick(id) {
     const loadedCharacter = loadCharacterData(id);
 
     if (loadedCharacter) {
@@ -47,22 +47,20 @@ const CharacterAndMonsterList = ({setActiveCharacterData}) => {
     <div className="CharacterAndMonsterList">
       <CharacterList
         characterEntries={allCharacterEntries}
-        setActiveCharacterData={handleCharacterClick}
+        handleEntryClick={handleEntryClick}
         activeCharacterID={activeCharacterID}
       />
 
-
       <MonsterList
         monsterEntries={allMonsterEntries}
-        setActiveCharacterData={handleCharacterClick}
+        handleEntryClick={handleEntryClick}
         activeCharacterID={activeCharacterID}
-        maxEntries={Math.min(8,allCharacterEntries.length)}
       />
     </div>
   );
 }
 
-const CharacterList = ({characterEntries, setActiveCharacterData, activeCharacterID}) => {
+const CharacterList = ({characterEntries, handleEntryClick, activeCharacterID}) => {
 
   return (
     <div className="CharacterList">
@@ -76,28 +74,22 @@ const CharacterList = ({characterEntries, setActiveCharacterData, activeCharacte
 
       <EntryList
         entries={characterEntries}
-        handleEntryClick={setActiveCharacterData}
+        handleEntryClick={handleEntryClick}
         activeCharacterID={activeCharacterID}
       />
     </div>
   )
 }
 
-const MonsterList = ({monsterEntries, setActiveCharacterData, activeCharacterID}) => {
+const MonsterList = ({monsterEntries, handleEntryClick, activeCharacterID}) => {
   const [filter, setFilter] = useState('');
 
-  // filter the mosnter entries
+  // // filter the mosnter entries
   let filteredEntries = [];
   if (filter.length > 0) {
-
-    // set up the same kind of loose pattern matching that Atom has
-    let filterRegEx = '.*'
-    for (var i = 0; i < filterRegEx.length; i++) {
-      filterRegEx = `${filterRegEx}.*${filterRegEx.charAt(i)}`;
-    }
-
+    const filterLowercase = filter.toLowerCase()
     monsterEntries.forEach((entry, i) => {
-      if (entry.name.match(filterRegEx)) {filteredEntries.push(entry)}
+      if (entry.name.toLowerCase().includes(filterLowercase)) { filteredEntries.push(entry) }
     });
 
   } else {
@@ -106,12 +98,12 @@ const MonsterList = ({monsterEntries, setActiveCharacterData, activeCharacterID}
   }
 
   // limit to 8 results
-  filteredEntries = filteredEntries.slice(8);
+  filteredEntries = filteredEntries.slice(0,8);
 
   return (
     <div className="MonsterList">
       <div className="title-bar">
-        <h2>Monster</h2>
+        <h2>Monsters</h2>
         <input
           type="text"
           value={filter}
@@ -122,7 +114,7 @@ const MonsterList = ({monsterEntries, setActiveCharacterData, activeCharacterID}
 
       <EntryList
         entries={filteredEntries}
-        handleEntryClick={setActiveCharacterData}
+        handleEntryClick={handleEntryClick}
         activeCharacterID={activeCharacterID}
       />
     </div>

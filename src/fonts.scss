@@ -1,3 +1,5 @@
+@import './colors';
+
 @import url('https://fonts.googleapis.com/css?family=Bitter:regular,bold,italic&subset=latin,latin-ext');
 
 
@@ -10,8 +12,15 @@
   font-size: 40px;
 }
 
+@mixin text_character_list {
+  font-size: 18px;
+  font-weight: normal;
+  color: $rust;
+}
+
 @mixin text_character_name {
-  font-size: 38px;
+  font-size: 56px;
+  color: $rust;
 }
 
 @mixin text_attack_name {
@@ -20,10 +29,23 @@
   font-style: italic;
 }
 
+@mixin text_input {
+  font-family: 'Bitter';
+  font-size: 16px;
+  font-style: italic;
+  color: grey;
+}
+
 @mixin text_active_attack_name {
   font-size: 18px;
   font-weight: bold;
   font-style: italic;
+}
+
+@mixin text_roll_attacks {
+  font-size: 30px;
+  font-style: italic;
+  color: $rust;
 }
 
 @mixin text_attack_roll_count {

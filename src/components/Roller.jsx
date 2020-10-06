@@ -232,12 +232,6 @@ const Roller = ({
       <div className="controls-and-results">
 
         <div className="controls">
-          <div className="roll-container">
-            <button className="new-roll" onClick={() => handleNewRoll()}>
-                <div className='asset d20' />
-            </button>
-          </div>
-
           <div className="conditions">
             <label>
               <input
@@ -270,29 +264,13 @@ const Roller = ({
                 Evasion?
               </label>
             }
-
-            {/* hasActiveSavingThrow &&
-              <label className="save-mod">
-                <input
-                  type="number"
-                  value={saveMod}
-                  onChange={e => setSaveMod(parseInt(e.target.value))}
-                />
-                Save Mod (optional)
-              </label>
-            }
-
-            { hasActiveAttack &&
-              <label className="armor-class">
-                <input
-                  type="number"
-                  value={toHitAC}
-                  onChange={e => setToHitAC(parseInt(e.target.value))}
-                />
-                AC (optional)
-              </label>
-            */}
           </div>
+        </div>
+
+        <div className="new-roll-container">
+          <button className="new-roll" onClick={() => handleNewRoll()}>
+              <div className='asset d20' />
+          </button>
         </div>
 
         <div className="results">

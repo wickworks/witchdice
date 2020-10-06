@@ -15,7 +15,7 @@
       cursor: pointer;
 
       &:hover {
-        background-color: lightblue;
+        background-color: $parchment_dark;
       }
 
       .die-count {
@@ -32,10 +32,11 @@
       margin: 6px auto;
       cursor: pointer;
 
-      // turns black to #eee
-      filter: invert(99%) sepia(2%) saturate(111%) hue-rotate(329deg) brightness(109%) contrast(74%);
+      // turns black to $rust
+      filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+      opacity: 40%;
 
-      &:hover { filter: none; }
+      &:hover { opacity: 100%;}
     }
   }
 
@@ -55,7 +56,7 @@
         .display {
           @include text_attack_name;
           cursor: pointer;
-          &:hover { background-color: lightblue; }
+          &:hover { background-color: $parchment_dark; }
         }
 
         input { @include text_attack_name; }
@@ -68,7 +69,7 @@
         font-style: italic;
 
         cursor: pointer;
-        &:hover { background-color: lightblue; }
+        &:hover { background-color: $parchment_dark; }
       }
 
       .modifier, .saving-throw-dc, .saving-throw-type {
@@ -78,7 +79,7 @@
         cursor: pointer;
 
         &:hover {
-          background-color: lightblue;
+          background-color: $parchment_dark;
         }
       }
     }
@@ -91,12 +92,10 @@
         @include text_default;
         padding-bottom: 2px;
         cursor: pointer;
-        &:hover { background-color: lightblue; }
+        &:hover { background-color: $parchment_dark; }
       }
 
       input {
-        @include text_default;
-        font-style: italic;
         width: 400px;
       }
 
@@ -167,7 +166,7 @@
       align-items: center;
       height: 100%;
       width: 100%;
-      background-color: #dae1ea;
+      background-color: $parchment_dark;
 
       .delete-title {
         @include text_attack_name;
@@ -184,8 +183,8 @@
         border: 0;
         cursor: pointer;
 
-        &.cancel { background-color: lightblue; }
-        &.delete { background-color: salmon; }
+        &.cancel { background-color: $rust_light; }
+        &.delete { background-color: $rust_light; }
         &:hover { background-color: grey; }
 
         .asset {

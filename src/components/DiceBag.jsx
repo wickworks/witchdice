@@ -50,6 +50,8 @@ const DiceBag = () => {
   return (
     <div className="DiceBag">
       <h2>Dice Bag</h2>
+
+      <hr className='pumpkin-bar' />
       <div className='bag-container'>
         <div className='button-container'>
           { Object.keys(diceData).map((dieType, i) => {
@@ -80,6 +82,8 @@ const DiceBag = () => {
         </div>
 
       </div>
+      <hr className='pumpkin-bar' />
+
     </div>
   );
 }
@@ -105,8 +109,10 @@ const DieButton = (props) => {
     setDieCount(newDieCount)
   }
 
+  const dieClass = dieCount > 0 ? 'will-roll' : '';
+
   return (
-    <button className='DieButton'
+    <button className={`DieButton ${dieClass}`}
       onClick={(e) => handleClick(e, true)}
       onContextMenu={(e) => handleClick(e, false)}
     >

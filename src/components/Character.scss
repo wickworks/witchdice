@@ -1,44 +1,53 @@
 @import '../fonts';
 
-
 .Character {
-  border: 1px solid black;
-  padding: 8px 40px;
   margin-top: 20px;
-  width: 730px;
+  width: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  .character-name {
-    margin-right: auto;
+  background-color: $parchment;
 
-    .display {
-      @include text_character_name;
+  .character-sheet {
+    padding: 0 10px;
+
+    .character-name {
+      margin-right: auto;
+
+      margin-top: 16px;
+      padding-bottom: 16px;
+      border-bottom: 4px solid $rust;
+      margin-bottom: 34px;
+
+      .display {
+        @include text_character_name;
+        cursor: pointer;
+        &:hover { background-color: $parchment_dark; }
+      }
+
+      input { @include text_character_name; }
+    }
+
+
+    .add-attack {
+      display: flex;
+      align-items: center;
+      padding: 4px 8px;
+      margin-right: auto;
       cursor: pointer;
-      &:hover { background-color: lightblue; }
-    }
 
-    input { @include text_character_name; }
-  }
+      &:hover {
+        background-color: $parchment_dark;
+      }
 
-
-  .add-attack {
-    display: flex;
-    align-items: center;
-    padding: 4px 8px;
-    margin-right: auto;
-    cursor: pointer;
-
-    &:hover {
-      background-color: lightblue;
-    }
-
-    .asset {
-      width: 40px;
-      height: 40px;
-      margin-right: 16px;
+      .asset {
+        width: 40px;
+        height: 40px;
+        margin-right: 16px;
+      }
     }
   }
+
 }

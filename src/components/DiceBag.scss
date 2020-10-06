@@ -1,7 +1,7 @@
 @import '../fonts';
 
 .DiceBag {
-  width: 810px;
+  width: 800px;
   margin-bottom: 60px;
 
   h2 {
@@ -16,8 +16,8 @@
   }
 
   .bag-container {
-    border: 1px solid black;
     display: flex;
+    background-color: $parchment;
 
     .button-container {
       max-width: 450px;
@@ -29,11 +29,16 @@
         display: flex;
         align-items: center;
         margin: 16px 10px;
+        padding: 4px 18px;
         width: 128px;
 
-        .asset {
-          margin-right: 8px;
-        }
+        background: $parchment_dark;
+        border: none;
+        border-radius: 40px;
+
+        &.will-roll { background-color: $pink; }
+        &:hover { background-color: $pink; }
+        .asset { margin-right: 8px; }
       }
     }
 

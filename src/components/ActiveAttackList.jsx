@@ -10,7 +10,7 @@ const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
 
   return (
     <div className="ActiveAttackList">
-      <h2>Attack with...</h2>
+      <h2 className="roll-attacks">~ Roll attacks ~</h2>
 
       <div className="attacks-container">
         { attackSourceData.map((attackSource, attackID) => {

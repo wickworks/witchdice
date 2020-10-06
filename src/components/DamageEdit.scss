@@ -76,9 +76,9 @@
         position: absolute;
         left: -99999999px;
 
-        &:checked+label { background-color: #dbc0f9; }
-        &:hover+label { background-color: lightgrey; }
-        &:focus+label { background-color: #bab0e2; }
+        &:checked+label { background-color: $rust_light; }
+        &:hover+label { background-color: $rust_light; }
+        &:focus+label { background-color: $rust_light; }
       }
     }
 
@@ -93,15 +93,14 @@
 
         &.accept {
           padding: 24px 24px;
-          background-color: lightgrey;
+          background-color: $rust_light;
         }
         &.delete {
           padding: 24px 6px;
-          background-color: #aaaaaa;
+          background-color: $rust_light;
         }
 
-
-        &:hover { background-color: grey; }
+        &:hover { background-color: $rust; }
 
         .asset {
           width: 30px;

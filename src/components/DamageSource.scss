@@ -1,7 +1,7 @@
 @import '../fonts';
 
 .DamageSource {
-  background-color: #eeeeee;
+  // background-color: #eeeeee;
   padding: 8px 0 8px 8px;
   width: 100%;
   box-sizing: border-box;
@@ -10,16 +10,17 @@
   transition: margin .05s ease-out;
 
   &:hover {
-    background-color: #cacaca;
+    background-color: $parchment_dark;
   }
 
   &.editing {
-    background-color: #dae1ea;
+    background-color: $parchment_dark;
+
     cursor: auto;
     padding-bottom: 0;
     margin: 10px 0;
 
-    .numbers-container .asset { background-color: lightblue; }
+    .numbers-container .asset { background-color: $parchment_dark; }
   }
 
   input[type=checkbox] {
@@ -95,7 +96,7 @@
 
       &.clickable {
         cursor: pointer;
-        &:hover { background-color: lightgrey; }
+        &:hover { background-color: $parchment_dark; }
       }
     }
 
@@ -108,7 +109,7 @@
       width: 100%;
 
       label {
-        color: #666;
+        color: $grey_dark;
         position: absolute;
         top: 8px;
         left: 8px;
@@ -120,7 +121,7 @@
         background-color: #eeeeee;
 
         &:hover {
-          background-color: lightgrey;
+          background-color: $rust_light;
         }
 
         // the unnamed immediate container
@@ -161,7 +162,7 @@
         cursor: pointer;
 
         &:hover {
-          background-color: lightblue;
+          background-color: $rust_light;
         }
       }
     }

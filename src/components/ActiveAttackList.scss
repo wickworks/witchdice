@@ -4,9 +4,11 @@
   width: 810px;
   margin: 20px 0 0;
 
-  h2 {
+  h2.roll-attacks {
+    @include text_roll_attacks;
+
     text-align: center;
-    margin-top: 0
+    margin: 40px 0 0;
   }
 
   .attacks-container {
@@ -22,8 +24,8 @@
       justify-content: center;
       cursor: pointer;
 
-      &:hover { background-color: #eee; }
-      &.active { background-color: lightblue; }
+      &.active { background-color: $parchment_dark; }
+      &:hover { background-color: grey; }
       //
       // &:nth-child(3n) { justify-content: flex-end; }
       // &:nth-child(3n-1) { justify-content: center; }

@@ -306,34 +306,42 @@ const Character = () => {
       />
 
       {(characterName.length > 0) && <>
-        <div>(click to increase attack rolls, right-click to decrease)</div>
+        {/*<div>(click to increase attack rolls, right-click to decrease)</div>*/}
+
 
         <div className="Character">
-          <h2 className="character-name">
-            <TextInput
-              textValue={characterName}
-              setTextValue={setCharacterName}
-              placeholder='Character name'
-            />
-          </h2>
+          <hr className="pumpkin-bar" />
 
-          { allAttackData.map((data, i) => {
-            return (
-              <AttackSource
-                attackID={i}
-                attackData={allAttackData[i]}
-                attackFunctions={attackFunctions}
-                deleteAttack={(attackID) => deleteAttack(attackID)}
-                clearRollData={() => setRollData([])}
-                key={i}
+          <div className="character-sheet">
+
+            <h2 className="character-name">
+              <TextInput
+                textValue={characterName}
+                setTextValue={setCharacterName}
+                placeholder='Character name'
               />
-            )
-          })}
+            </h2>
 
-          <div className='add-attack' onClick={createAttack}>
-            <div className={`asset plus`} />
-            Add Attack
+            { allAttackData.map((data, i) => {
+              return (
+                <AttackSource
+                  attackID={i}
+                  attackData={allAttackData[i]}
+                  attackFunctions={attackFunctions}
+                  deleteAttack={(attackID) => deleteAttack(attackID)}
+                  clearRollData={() => setRollData([])}
+                  key={i}
+                />
+              )
+            })}
+
+            <div className='add-attack' onClick={createAttack}>
+              <div className={`asset plus`} />
+              Add Attack
+            </div>
           </div>
+
+          <hr className="pumpkin-bar" />
         </div>
 
         <ActiveAttackList
@@ -348,6 +356,9 @@ const Character = () => {
           handleClear={clearRolls}
           rollFunctions={rollFunctions}
         />
+
+
+
       </>}
 
       <DiceBag />

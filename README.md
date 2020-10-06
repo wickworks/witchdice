@@ -20,7 +20,7 @@
 - import the monster manual
   (add legendary actions)
   (add special_abilities e.g. sneak attack 1/turn)
-
+  bug: saving-throw attacks should only add damage if there's at least 2 XdXs in the description (see:wolf)
 
 - Make online rooms so everybody can see the rolls
 
