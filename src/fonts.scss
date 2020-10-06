@@ -45,6 +45,7 @@
 @mixin text_roll_attacks {
   font-size: 30px;
   font-style: italic;
+  font-weight: bold;
   color: $rust;
 }
 
@@ -92,5 +93,6 @@
 }
 
 @mixin text_dicebag_count {
+  font-family: 'Bitter';
   font-size: 36px;
 }

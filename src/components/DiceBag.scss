@@ -1,36 +1,36 @@
 @import '../fonts';
 
 .DiceBag {
-  width: 800px;
+  width: 600px;
   margin-bottom: 60px;
 
   h2 {
     @include text_attack_name;
+    color: $rust;
     margin-bottom: 8px;
     margin-left: 12px;
-  }
-
-  button {
-    @include text_default;
-    cursor: pointer;
   }
 
   .bag-container {
     display: flex;
     background-color: $parchment;
 
-    .button-container {
-      max-width: 450px;
+    .die-button-container {
+      max-width: 300px;
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
+      padding: 6px;
 
       .DieButton {
         @include text_dicebag_count;
         display: flex;
         align-items: center;
-        margin: 16px 10px;
+        margin: 6px 6px;
         padding: 4px 18px;
         width: 128px;
+        height: 80px;
+        cursor: pointer;
 
         background: $parchment_dark;
         border: none;
@@ -38,38 +38,100 @@
 
         &.will-roll { background-color: $pink; }
         &:hover { background-color: $pink; }
-        .asset { margin-right: 8px; }
+        .asset { margin: auto; }
+
+        .roll-count {
+          min-width: 30px;
+        }
       }
     }
 
-    .roll {
-      @include text_dicebag_count;
-      margin: 10px;
-      padding: 0 14px;
-      flex-shrink: 0;
-      font-weight: bold;
-    }
-
-    .result-container {
+    .rolling-surface {
       display: flex;
       margin: auto;
       flex-direction: column;
       align-items: center;
-      padding: 10px 10px;
       max-width: 150px;
 
-      .result-total {
-        @include text_total;
-        padding-top: 20px;
+      // button.roll {
+      //   @include text_dicebag_count;
+      //   margin: 10px;
+      //   padding: 0 14px;
+      //   flex-shrink: 0;
+      //   font-weight: bold;
+      // }
+
+      .pre-roll {
         display: flex;
         align-items: center;
+        flex-direction: column;
 
-        .asset { margin-right: 6px;}
+        .action {
+          @include text_roll_attacks;
+          margin-top: 10px;
+        }
+
+        // .queued-die-container {
+        //   display: flex;
+        //   align-items: flex-end;
+        //   flex-direction: column-reverse;
+        //   margin-top: 16px;
+        //   min-width: 90px;
+        //
+        //   .queued-die {
+        //     @include text_dicebag_summary;
+        //     display: flex;
+        //     align-items: center;
+        //     justify-content: flex-start;
+        //     width: 60px;
+        //
+        //     .asset {
+        //       width: 42px;
+        //       height: 42px;
+        //       margin-left: auto;
+        //     }
+        //   }
+        // }
+
+        button.roll {
+          @include text_total;
+
+          width: 128px;
+          height: 128px;
+          border-radius: 50%;
+          border: none;
+          background-color: $rust_light;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $rust;
+          }
+
+          .asset {
+            margin: auto;
+            width: 100px;
+            height: 100px;
+
+            // black to pink
+            filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+          }
+        }
       }
 
-      .result-summary {
-        @include text_dicebag_summary;
-        padding-top: 20px;
+      .post-roll {
+        .result-total {
+          @include text_total;
+          display: flex;
+          align-items: center;
+
+          .asset { margin-right: 6px;}
+        }
+
+        .result-summary {
+          @include text_dicebag_summary;
+          padding-top: 20px;
+          text-align: center;
+        }
       }
     }
   }

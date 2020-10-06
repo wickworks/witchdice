@@ -42,9 +42,13 @@ const DiceBag = () => {
     setDiceData({...blankDice});
   }
 
-  let rollIsEnabled = false;
-  Object.keys(diceData).map((dieType, i) => {
-    if (diceData[dieType] > 0) {rollIsEnabled = true}
+  let rollDieType = '';
+  let totalDiceRolled = 0;
+  Object.keys(diceData).map((dieType) => {
+    if (diceData[dieType] > 0) {
+      rollDieType = dieType;
+      totalDiceRolled = totalDiceRolled + diceData[dieType];
+    }
   });
 
   return (
@@ -53,7 +57,7 @@ const DiceBag = () => {
 
       <hr className='pumpkin-bar' />
       <div className='bag-container'>
-        <div className='button-container'>
+        <div className='die-button-container'>
           { Object.keys(diceData).map((dieType, i) => {
 
             return (
@@ -67,18 +71,45 @@ const DiceBag = () => {
           })}
         </div>
 
-        <button className='roll' onClick={handleRoll} disabled={!rollIsEnabled}>
-          Roll >
-        </button>
+        <div className='rolling-surface'>
 
-        <div className='result-container'>
-          <div className='result-total'>
-            <div className={`asset d${lastDieRolled}`} />
-            {resultTotal}
-          </div>
-          { resultSummary.length > 4 &&
-            <div className='result-summary'> {resultSummary} </div>
+          { (rollDieType.length > 0) ?
+            <div className='pre-roll'>
+
+
+              <button className='roll' onClick={handleRoll}>
+                <div className={`asset d${rollDieType}`} />
+              </button>
+              <div  className='action'>~ Roll ~</div>
+
+
+              {/**<div className='queued-die-container'>
+                {Object.keys(diceData).map((dieType) => {
+                  if (diceData[dieType] > 0) {
+                    return (
+                      <div className='queued-die'>
+                        {diceData[dieType]}
+                        <div className={`asset d${dieType}`} />
+                      </div>
+                    )
+                  }
+                })}
+              </div>**/}
+
+            </div>
+          :
+            <div className='post-roll'>
+              <div className='result-total'>
+                <div className={`asset d${lastDieRolled}`} />
+                {resultTotal}
+              </div>
+              { resultSummary.length > 4 &&
+                <div className='result-summary'> {resultSummary} </div>
+              }
+            </div>
           }
+
+
         </div>
 
       </div>
@@ -117,9 +148,9 @@ const DieButton = (props) => {
       onContextMenu={(e) => handleClick(e, false)}
     >
       <div className={`asset d${dieType}`} />
-      <div className='die-count unselectable'>
-        {dieCount}
-      </div>
+      {(dieCount > 0) &&
+        <div className='roll-count'>{dieCount}</div>
+      }
     </button>
   )
 }
