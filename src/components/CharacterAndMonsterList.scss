@@ -1,0 +1,24 @@
+@import '../fonts';
+
+.CharacterList, .MonsterList {
+  border: 1px solid black;
+  width: 810px;
+
+  h2 {
+    margin: 20px;
+  }
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+
+    li {
+      width: 33%;
+      cursor: pointer;
+
+      &:hover { background-color: lightgrey;}
+      &.selected { background-color: lightblue;}
+    }
+  }
+
+}

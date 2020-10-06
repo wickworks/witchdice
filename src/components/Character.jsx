@@ -12,7 +12,7 @@ import { getMonsterData } from '../stockdata/process_monster_srd.js';
 
 import AttackSource from './AttackSource.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';
-import CharacterList from './CharacterList.jsx';
+import CharacterAndMonsterList from './CharacterAndMonsterList.jsx';
 import Roller from './Roller.jsx';
 import DiceBag from './DiceBag.jsx';
 import TextInput from './TextInput.jsx';
@@ -42,9 +42,11 @@ if (!loadedVersion || brokeOldData || true) {
     localStorage.removeItem(key)
   }
 
-  getMonsterData().map((data) => {
+  // save the new data
+  getMonsterData().map((data,i) => {
+    const fingerprint = (100000 + i)
     saveCharacterData(
-      getRandomFingerprint(),
+      fingerprint,
       data.name,
       data.allAttackData
     )
@@ -299,7 +301,7 @@ const Character = () => {
 
   return (
     <>
-      <CharacterList
+      <CharacterAndMonsterList
         setActiveCharacterData={setActiveCharacterData}
       />
 

@@ -8,6 +8,7 @@
 
 - fix how damage is rounded down and added up; should be rounded down for each attack and show up as such in the subtotal
 
+- refactor Character.jsx to bump all the important non-character things up to App or something
 
 - load/save different characters
   (data validation; can't have a blank name)
@@ -21,7 +22,7 @@
   (add special_abilities e.g. sneak attack 1/turn)
 
 
-
+- Make online rooms so everybody can see the rolls
 
 
 

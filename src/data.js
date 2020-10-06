@@ -166,11 +166,11 @@ function loadCharacterData(id) {
   return null;
 }
 
-// generates a random 6-digit int from 100000 to 999999
+// generates a random 6-digit int from 200000 to 999999 (monster IDs are ordered)
 function getRandomFingerprint() {
   let rand = Math.random();
-  rand = rand * 899999
-  rand = rand + 100000
+  rand = rand * 799999
+  rand = rand + 200000
   return Math.floor(rand)
 }
 
