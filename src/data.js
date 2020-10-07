@@ -114,7 +114,11 @@ function getCharacterIDFromStorageName(storageName) {
 }
 
 function saveCharacterData(id, newName, newAllAttackData) {
-  // console.log('saving character ', newName, '   ', id);
+  console.log('saving character ', newName, '   ', id);
+  if (id <= 0 || newName.length <= 0) {
+    return null;
+  }
+
 
   const characterData = {
     id: id,

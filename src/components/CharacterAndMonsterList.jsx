@@ -61,14 +61,14 @@ const MonsterList = ({monsterEntries, handleEntryClick, activeCharacterID}) => {
   const processEntryClick = (id) => {
     let newRecentMonsters = [...recentMonsters];
 
-    // remove all previous instance of this id
-    // newRecentMonsters = newRecentMonsters.filter(function(recentID){
-    // 	return id !== recentID;
-    // });
+    // if we don't already have it
+    if (newRecentMonsters.indexOf(id) === -1) {
+      // trim it down to get it ready for the next one
+      if (newRecentMonsters.length === 8) { newRecentMonsters = newRecentMonsters.slice(0,7); }
 
-    if (newRecentMonsters.indexOf(id) === -1) { newRecentMonsters.push(id); }
+      newRecentMonsters.push(id);
+    }
 
-    newRecentMonsters = newRecentMonsters.slice(0,8);
     setRecentMonsters(newRecentMonsters);
 
     handleEntryClick(id);
@@ -110,21 +110,24 @@ const MonsterList = ({monsterEntries, handleEntryClick, activeCharacterID}) => {
           onChange={ e => setFilter(e.target.value) }
           placeholder='filter'
         />
-        <button className="clear-filter" onClick={() => {setFilter('')}}>
-          <div className="asset x" />
-        </button>
+        {filter.length > 0 &&
+          <button className="clear-filter" onClick={() => {setFilter('')}}>
+            <div className="asset x" />
+          </button>
+        }
       </div>
 
       <EntryList
         entries={filteredEntries}
         handleEntryClick={processEntryClick}
         activeCharacterID={activeCharacterID}
+        highlightIDs={recentMonsters}
       />
     </div>
   )
 }
 
-const EntryList = ({entries, handleEntryClick, activeCharacterID}) => {
+const EntryList = ({entries, handleEntryClick, activeCharacterID, highlightIDs = []}) => {
 
   return (
     <ul className="EntryList">
@@ -132,8 +135,13 @@ const EntryList = ({entries, handleEntryClick, activeCharacterID}) => {
         const id = entry.id;
         const name = entry.name;
         const selectedClass = (id === activeCharacterID) ? 'selected' : ''
+        const highlightClass = (highlightIDs.indexOf(id) >= 0) ? 'highlighted' : ''
         return (
-          <li className={selectedClass} onClick={() => handleEntryClick(id)} key={id}>
+          <li
+            className={`${selectedClass} ${highlightClass}`}
+            onClick={() => handleEntryClick(id)}
+            key={id}
+          >
             {entry.name}
           </li>
         )

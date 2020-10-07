@@ -91,6 +91,7 @@
 
           &:hover { background-color: $parchment;}
           &.selected { background-color: $parchment_dark;}
+          &.highlighted { color: $rust;}
         }
       }
 

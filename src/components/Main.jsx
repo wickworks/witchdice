@@ -98,7 +98,6 @@ const Main = () => {
     setAllCharacterEntries(characterEntries);
   }, []);
 
-
   // =============== ADD/EDIT/DELETE CHARACTER FUNCTIONS ==================
 
   const createNewCharacter = () => {
@@ -106,22 +105,27 @@ const Main = () => {
     const name = 'Character';
     const attackData = [deepCopy(defaultAttackData)]
     console.log('making new character with fingerprint', fingerprint);
-    saveCharacterData(
-      fingerprint,
-      name,
-      attackData
-    )
-    const newCharacter = loadCharacterData(fingerprint);
+
+    // set it as the current character
     setCharacterID(fingerprint);
     setCharacterName(name);
     setCharacterAttackData(attackData);
+
+    // add it to the entries
+    let newData = deepCopy(allCharacterEntries);
+    newData.push({id: fingerprint, name: name});
+    setAllCharacterEntries(newData);
+
+    // save to localStorage
+    saveCharacterData(fingerprint, name, attackData);
   }
 
   const deleteActiveCharacter = () => {
     console.log('deleteActiveCharacter', characterID);
     const storageName = getCharacterStorageName(characterID, characterName);
     // remove from localstorage
-    localStorage.removeItem(storageName)
+    localStorage.removeItem(storageName);
+
     // remove from the current list of character entries
     let newData = deepCopy(allCharacterEntries)
     let characterIndex = -1;
@@ -132,6 +136,7 @@ const Main = () => {
       newData.splice(characterIndex, 1)
       setAllCharacterEntries(newData);
     }
+
     clearCharacterSelection()
   }
 
@@ -154,7 +159,25 @@ const Main = () => {
     clearRolls();
   }
 
-  // =============== UPDATE ATTACK DATA ===================
+  // =============== UPDATE CHARACTER / ATTACK DATA ===================
+
+  useEffect(() => {
+    // update the localStorage
+    saveCharacterData(characterID, characterName, characterAttackData);
+
+    // update the entry
+    let newData = deepCopy(allCharacterEntries);
+    let characterIndex = -1;
+    allCharacterEntries.forEach((entry, i) => {
+      if (entry.id === characterID) {characterIndex = i;}
+    });
+    if (characterIndex >= 0) {
+      newData[characterIndex].name = characterName;
+      setAllCharacterEntries(newData);
+    }
+
+  }, [characterName]);
+
 
   const updateAllAttackData = (key, value, attackID) => {
     // console.log('');
@@ -373,7 +396,7 @@ const Main = () => {
         activeCharacterID={characterID}
         allCharacterEntries={allCharacterEntries}
         allMonsterEntries={allMonsterEntries}
-        newCharacter={createNewCharacter}
+        createNewCharacter={createNewCharacter}
       />
 
       {(characterName.length > 0) &&
