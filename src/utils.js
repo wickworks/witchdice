@@ -3,6 +3,7 @@ function deepCopy(inObject) {
   let outObject, value, key
 
   if (typeof inObject !== "object" || inObject === null) {
+    // console.log('ERROR: attempting to copy this not-object:', inObject);
     return inObject // Return the value if inObject is not an object
   }
 

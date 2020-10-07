@@ -38,7 +38,7 @@ if (loadedVersion) {
 }
 
 // should we initialize to defaults?
-if (!loadedVersion || brokeOldData || true) {
+if (!loadedVersion || brokeOldData) {
   // clear out the old data
   console.log('Clearing out old data...');
   while (localStorage.length > 0) {
@@ -73,6 +73,9 @@ const Main = () => {
   // =============== INITIALIZE CHARACTER DATA ==================
 
   useEffect(() => {
+    let monsterEntries = [];
+    let characterEntries = [];
+
     for ( var i = 0, len = localStorage.length; i < len; ++i ) {
       const key = localStorage.key(i);
       // console.log('localStorage key : ', key);
@@ -83,13 +86,16 @@ const Main = () => {
 
         // first chunk of IDs are monsters
         if (characterID < 200000) {
-          allMonsterEntries.push({id: characterID, name: characterName})
+          monsterEntries.push({id: characterID, name: characterName})
 
         } else {
-          allCharacterEntries.push({id: characterID, name: characterName})
+          characterEntries.push({id: characterID, name: characterName})
         }
       }
     }
+
+    setAllMonsterEntries(monsterEntries);
+    setAllCharacterEntries(characterEntries);
   }, []);
 
 

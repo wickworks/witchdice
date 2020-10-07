@@ -1,13 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { deepCopy } from '../utils.js';
-import {
-  loadCharacterData,
-  getCharacterNameFromStorageName,
-  getCharacterIDFromStorageName,
-  saveCharacterData,
-  getRandomFingerprint,
-  defaultAttackData
-} from '../data.js';
 import './CharacterAndMonsterList.scss';
 
 
@@ -20,23 +12,18 @@ const CharacterAndMonsterList = ({
   createNewCharacter
 }) => {
 
-  function handleEntryClick(id) {
-
-  }
-
-
   return (
     <div className="CharacterAndMonsterList">
       <CharacterList
         characterEntries={allCharacterEntries}
-        handleEntryClick={handleEntryClick}
+        handleEntryClick={setActiveCharacterID}
         activeCharacterID={activeCharacterID}
         createNewCharacter={createNewCharacter}
       />
 
       <MonsterList
         monsterEntries={allMonsterEntries}
-        handleEntryClick={handleEntryClick}
+        handleEntryClick={setActiveCharacterID}
         activeCharacterID={activeCharacterID}
       />
     </div>
@@ -87,7 +74,7 @@ const MonsterList = ({monsterEntries, handleEntryClick, activeCharacterID}) => {
     handleEntryClick(id);
   }
 
-  // // filter the mosnter entries
+  // filter the mosnter entries
   let filteredEntries = [];
   if (filter.length > 0) {
     const filterLowercase = filter.toLowerCase();
@@ -95,7 +82,7 @@ const MonsterList = ({monsterEntries, handleEntryClick, activeCharacterID}) => {
       if (entry.name.toLowerCase().includes(filterLowercase)) { filteredEntries.push(entry) }
     });
   } else {
-    filteredEntries = monsterEntries;
+    filteredEntries = deepCopy(monsterEntries);
   }
 
   // sort, with most recent monsters first
