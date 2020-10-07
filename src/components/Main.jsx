@@ -26,25 +26,42 @@ import Footer from './Footer.jsx';
 console.log('Welcome to Roll-To-Hit version ', CURRENT_VERSION);
 
 const loadedVersion = localStorage.getItem("version");
-let brokeOldData = false;
+let brokeOldCharacterData = false;
+let brokeOldMonsterData = false;
 if (loadedVersion) {
   const newMajorVersion = loadedVersion.slice(0,loadedVersion.indexOf("."))
-  console.log('Loading data from version', loadedVersion, '--— major version: ', newMajorVersion);
+  const newMinorVersion = loadedVersion.slice(loadedVersion.indexOf(".")+1)
+  console.log('Loading data from version', loadedVersion, '--— major version: ', newMajorVersion, ' ---- minor version', newMinorVersion);
 
   if (newMajorVersion !== CURRENT_VERSION.slice(0,CURRENT_VERSION.indexOf("."))) {
-    brokeOldData = true;
-    console.log('Detected breaking change of saved data. Resetting to defaults.');
+    brokeOldCharacterData = true;
+    brokeOldMonsterData = true;
+    console.log('Detected breaking change of saved Character data. Clearing.');
+  }
+
+  if (newMinorVersion !== CURRENT_VERSION.slice(CURRENT_VERSION.indexOf(".")+1)) {
+    brokeOldMonsterData = true;
+    console.log('Detected breaking change of saved Monster data. Resetting to defaults.');
   }
 }
 
 // should we initialize to defaults?
-if (!loadedVersion || brokeOldData) {
+if (!loadedVersion || brokeOldCharacterData || brokeOldMonsterData ) {
   // clear out the old data
   console.log('Clearing out old data...');
+  // let skipClears = 0;
+  // while (localStorage.length > skipClears) {
   while (localStorage.length > 0) {
     const key = localStorage.key(0);
     localStorage.removeItem(key)
-    console.log('Removed stored character', key);
+
+    //
+    // // monster?
+    // if (getCharacterIDFromStorageName(key) < 100000) {
+    //   if (brokeOldMonsterData) {localStorage.removeItem(key)} else {skipClears += 1}
+    // } else {
+    //   if (brokeOldCharacterData) {localStorage.removeItem(key)} else {skipClears += 1}
+    // }
   }
 
   // save the new data
@@ -103,7 +120,9 @@ const Main = () => {
   const createNewCharacter = () => {
     const fingerprint = getRandomFingerprint();
     const name = 'Character';
-    const attackData = [deepCopy(defaultAttackData)]
+    let attackData = [deepCopy(defaultAttackData)];
+    attackData[0].damageData.push(deepCopy(defaultDamageData));
+
     console.log('making new character with fingerprint', fingerprint);
 
     // set it as the current character
@@ -121,7 +140,7 @@ const Main = () => {
   }
 
   const deleteActiveCharacter = () => {
-    console.log('deleteActiveCharacter', characterID);
+    // console.log('deleteActiveCharacter', characterID);
     const storageName = getCharacterStorageName(characterID, characterName);
     // remove from localstorage
     localStorage.removeItem(storageName);
@@ -142,7 +161,7 @@ const Main = () => {
 
   const setActiveCharacter = (id) => {
     const loadedCharacter = loadCharacterData(id);
-    console.log('setActiveCharacter', id);
+    // console.log('setActiveCharacter', id);
 
     if (loadedCharacter) {
       setCharacterID(id);

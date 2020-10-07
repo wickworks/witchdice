@@ -1,5 +1,6 @@
 import { deepCopy } from './utils.js';
 
+// minor version increase clear out monsters, major ones clear characters
 const CURRENT_VERSION = '0.2';
 
 const allTags = {

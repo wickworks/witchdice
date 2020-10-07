@@ -98,9 +98,14 @@ function getMonsterData() {
 
             // get additional damage from desc
             let extraDamageDie = getLastDamageFromDesc(desc);
-            const countAndType = getCountAndTypeFromDiceString(extraDamageDie);
-            extraDamageData.dieCount = countAndType.count;
-            extraDamageData.dieType = countAndType.dietype;
+            if (extraDamageDie) {
+              const countAndType = getCountAndTypeFromDiceString(extraDamageDie);
+              extraDamageData.dieCount = countAndType.count;
+              extraDamageData.dieType = countAndType.dietype;
+            } else {
+              extraDamageData.dieCount = 1;
+              extraDamageData.dieType = 0;
+            }
 
             // get damage type from desc (I dunno, it's probably the last one)
             extraDamageData.damageType = 'necrotic';
@@ -206,6 +211,12 @@ function getLastDamageFromDesc(desc) {
 
   const lastOpen = desc.lastIndexOf('(');
   const lastClose = desc.lastIndexOf(')');
+
+  const firstOpen = desc.indexOf('(');
+  if (firstOpen === lastOpen) { return null }
+
+  if (lastClose - lastOpen > 5) {return null}
+
   const lastDamageDie = desc.slice(lastOpen+1, lastClose);
   return lastDamageDie;
 }
