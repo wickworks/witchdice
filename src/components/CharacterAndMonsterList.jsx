@@ -12,13 +12,13 @@ import './CharacterAndMonsterList.scss';
 
 
 
-const CharacterAndMonsterList = ({setActiveCharacterData, activeCharacterID}) => {
-
-  // setAllCharacterEntries(characterEntries)
-  // setAllMonsterEntries(monsterEntries)
-
-  // console.log('all character names : ', allCharacterNames);
-
+const CharacterAndMonsterList = ({
+  setActiveCharacterID,
+  activeCharacterID,
+  allCharacterEntries,
+  allMonsterEntries,
+  createNewCharacter
+}) => {
 
   function handleEntryClick(id) {
 
@@ -31,21 +31,19 @@ const CharacterAndMonsterList = ({setActiveCharacterData, activeCharacterID}) =>
         characterEntries={allCharacterEntries}
         handleEntryClick={handleEntryClick}
         activeCharacterID={activeCharacterID}
-        newCharacter={newCharacter}
-        activeCharacterName={activeCharacterName}
+        createNewCharacter={createNewCharacter}
       />
 
       <MonsterList
         monsterEntries={allMonsterEntries}
         handleEntryClick={handleEntryClick}
         activeCharacterID={activeCharacterID}
-        activeCharacterName={activeCharacterName}
       />
     </div>
   );
 }
 
-const CharacterList = ({characterEntries, handleEntryClick, activeCharacterID, activeCharacterName, newCharacter}) => {
+const CharacterList = ({characterEntries, handleEntryClick, activeCharacterID, createNewCharacter}) => {
 
   characterEntries.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
 
@@ -53,7 +51,7 @@ const CharacterList = ({characterEntries, handleEntryClick, activeCharacterID, a
     <div className="CharacterList">
       <div className="title-bar">
         <h2>Characters</h2>
-        <button className="new-character" onClick={newCharacter}>
+        <button className="new-character" onClick={createNewCharacter}>
           New
           <div className="asset plus"/>
         </button>
@@ -63,13 +61,12 @@ const CharacterList = ({characterEntries, handleEntryClick, activeCharacterID, a
         entries={characterEntries}
         handleEntryClick={handleEntryClick}
         activeCharacterID={activeCharacterID}
-        activeCharacterName={activeCharacterName}
       />
     </div>
   )
 }
 
-const MonsterList = ({monsterEntries, handleEntryClick, activeCharacterID, activeCharacterName}) => {
+const MonsterList = ({monsterEntries, handleEntryClick, activeCharacterID}) => {
   const [filter, setFilter] = useState('');
   const [recentMonsters, setRecentMonsters] = useState([]);
 
@@ -135,13 +132,12 @@ const MonsterList = ({monsterEntries, handleEntryClick, activeCharacterID, activ
         entries={filteredEntries}
         handleEntryClick={processEntryClick}
         activeCharacterID={activeCharacterID}
-        activeCharacterName={activeCharacterName}
       />
     </div>
   )
 }
 
-const EntryList = ({entries, handleEntryClick, activeCharacterID, activeCharacterName}) => {
+const EntryList = ({entries, handleEntryClick, activeCharacterID}) => {
 
   return (
     <ul className="EntryList">
@@ -151,7 +147,7 @@ const EntryList = ({entries, handleEntryClick, activeCharacterID, activeCharacte
         const selectedClass = (id === activeCharacterID) ? 'selected' : ''
         return (
           <li className={selectedClass} onClick={() => handleEntryClick(id)} key={id}>
-            {id === activeCharacterID ? activeCharacterName : entry.name}
+            {entry.name}
           </li>
         )
       })}

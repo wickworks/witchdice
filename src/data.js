@@ -185,6 +185,7 @@ export {
   defaultRollData,
   loadCharacterData,
   saveCharacterData,
+  getCharacterStorageName,
   getCharacterNameFromStorageName,
   getCharacterIDFromStorageName,
   getRandomFingerprint,

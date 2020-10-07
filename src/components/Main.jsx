@@ -3,10 +3,14 @@ import { deepCopy, getRandomInt } from '../utils.js';
 import {
   CURRENT_VERSION,
   getRandomFingerprint,
+  getCharacterStorageName,
+  getCharacterNameFromStorageName,
+  getCharacterIDFromStorageName,
   defaultDamageData,
   defaultAttackData,
   defaultRollData,
-  saveCharacterData
+  saveCharacterData,
+  loadCharacterData
 } from '../data.js';
 import { getMonsterData } from '../stockdata/process_monster_srd.js';
 
@@ -91,16 +95,19 @@ const Main = () => {
   // =============== ADD/EDIT/DELETE CHARACTER FUNCTIONS ==================
 
   const createNewCharacter = () => {
-    const fingerprint = getRandomFingerprint()
+    const fingerprint = getRandomFingerprint();
+    const name = 'Character';
+    const attackData = [deepCopy(defaultAttackData)]
     console.log('making new character with fingerprint', fingerprint);
     saveCharacterData(
       fingerprint,
-      'Character',
-      [deepCopy(defaultAttackData)]
+      name,
+      attackData
     )
     const newCharacter = loadCharacterData(fingerprint);
-    setActiveCharacterData(newCharacter)
-    setActiveCharacterID(fingerprint);
+    setCharacterID(fingerprint);
+    setCharacterName(name);
+    setCharacterAttackData(attackData);
   }
 
   const deleteActiveCharacter = () => {
@@ -115,7 +122,7 @@ const Main = () => {
       if (entry.id === characterID) {characterIndex = i;}
     });
     if (characterIndex >= 0) {
-      newData.splice(attackID, 1)
+      newData.splice(characterIndex, 1)
       setAllCharacterEntries(newData);
     }
     clearCharacterSelection()
@@ -128,7 +135,7 @@ const Main = () => {
     if (loadedCharacter) {
       setCharacterID(id);
       setCharacterName(loadedCharacter.name);
-      setAllAttackData(loadedCharacter.allAttackData);
+      setCharacterAttackData(loadedCharacter.allAttackData);
     }
     clearRolls();
   }
@@ -150,12 +157,12 @@ const Main = () => {
     // console.log('  with value ', JSON.stringify(value));
     // console.log('old data : ', JSON.stringify(allAttackData[attackID][key]));
 
-    let newData = deepCopy(allAttackData)
+    let newData = deepCopy(characterAttackData)
     newData[attackID][key] = value
     // save new attack data to the current character object
-    setAllAttackData(newData);
+    setCharacterAttackData(newData);
     // save new attack data to localStorage
-    saveCharacterData(id, name, newData)
+    saveCharacterData(characterID, characterName, newData)
 
     clearRolls();
   }
@@ -173,16 +180,16 @@ const Main = () => {
   }
 
   const createAttack = () => {
-    let newData = deepCopy(allAttackData);
+    let newData = deepCopy(characterAttackData);
     let newAttack = deepCopy(defaultAttackData);
     newData.push(newAttack);
-    setAllAttackData(newData);
+    setCharacterAttackData(newData);
   }
 
   const deleteAttack = (attackID) => {
-    let newData = deepCopy(allAttackData);
+    let newData = deepCopy(characterAttackData);
     newData.splice(attackID, 1);
-    setAllAttackData(newData);
+    setCharacterAttackData(newData);
   }
 
   // =============== ROLLER FUNCTIONS ==================
@@ -246,8 +253,8 @@ const Main = () => {
     // console.log('~~~~~ NEW ROLL ~~~~~');
 
     // EACH ATTACK (that is active)
-    for (let attackID = 0; attackID < allAttackData.length; attackID++) {
-      const attackData = allAttackData[attackID]
+    for (let attackID = 0; attackID < characterAttackData.length; attackID++) {
+      const attackData = characterAttackData[attackID]
       if (attackData.isActive && attackData.damageData.length > 0) {
 
         // EACH TO-HIT D20
@@ -355,8 +362,11 @@ const Main = () => {
   return (
     <>
       <CharacterAndMonsterList
-        setActiveCharacterData={setActiveCharacterData}
+        setActiveCharacterID={setActiveCharacter}
         activeCharacterID={characterID}
+        allCharacterEntries={allCharacterEntries}
+        allMonsterEntries={allMonsterEntries}
+        newCharacter={createNewCharacter}
       />
 
       {(characterName.length > 0) &&
@@ -372,17 +382,17 @@ const Main = () => {
             deleteAttack={deleteAttack}
             attackFunctions={attackFunctions}
             deleteCharacter={deleteActiveCharacter}
-            clearRollData={clearRollData}
+            clearRollData={clearRolls}
           />
 
           <ActiveAttackList
-            attackSourceData={allAttackData}
+            attackSourceData={characterAttackData}
             attackFunctions={attackFunctions}
           />
 
           <Roller
             rollData={rollData}
-            attackSourceData={allAttackData}
+            attackSourceData={characterAttackData}
             handleNewRoll={generateNewRoll}
             handleClear={clearRolls}
             rollFunctions={rollFunctions}
@@ -394,3 +404,5 @@ const Main = () => {
     </>
   )
 }
+
+export default Main ;
