@@ -14,6 +14,7 @@
 - import the monster manual
   (add legendary actions)
   (add special_abilities e.g. sneak attack 1/turn)
+  (die-less damage rolls don't work; see crab)
 
 - Make online rooms so everybody can see the rolls
 
@@ -23,10 +24,12 @@
 - setting: customize which icon shows up for natural 20s
 
 - bug: animation fading of showing math for die roll doesn't work on production MYSTERIOUSLY, just disabled it
+  -- biZARRE, I think it was reading "opacity: 100%" as "opacity: 1%". ?_?
 
 
--- SEE IF THIS WORKS BETTER:
 
+
+-- SEE IF THESE WORKS BETTER: ---
 - change "first hit" to "once per turn", just apply it on the first hit (or have that be additional)
 	- bonus action for fighting makes things harder because there are different modifiers for the attacks
 	- anything for two-weapon fighting will make it harder

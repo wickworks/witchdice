@@ -37,7 +37,7 @@
       .total {
         pointer-events: none;
 
-        opacity: 100%;
+        // opacity: 100%;
         // transition: opacity .075s ease-out .15s;
       }
 
@@ -48,7 +48,8 @@
         left: 0;
         pointer-events: none;
 
-        opacity: 0%;
+        visibility: hidden;
+        // opacity: 0%;
         // transition: opacity .075s ease-out .15s;
       }
     }
