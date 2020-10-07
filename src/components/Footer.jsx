@@ -10,11 +10,10 @@ const Footer = () => {
     <div className="Footer">
       <p className="meeeeeeeeeeeee-luv-u">
         by olive ~
-        <span className="asset trans_pride" />
+        <a href="https://wick.itch.io/aesthetic" target="_blank"><span className="asset trans_pride" /></a>
       </p>
       <a href="https://twitter.com/wickglyph" target="_blank">@wickglyph</a>
-      ~
-      <a href="https://wick.works/about/" target="_blank">www.wick.works</a>
+      <a href="https://wick.works/" target="_blank">www.wick.works</a>
 
       <div className="license">
         <a onClick={() => setCreditsOpen(!creditsOpen)}>License Information</a>
@@ -60,7 +59,7 @@ const Footer = () => {
             <p>This tool is not affiliated with Wizards of the Coast.</p>
             <p>Monster Manual stat blocks included as per the Open Game License:</p>
 
-            <p className="legalese">
+            <div className="legalese">
               OPEN GAME LICENSE Version 1.0a
               The following text is the property of Wizards of the Coast, Inc. and is Copyright 2000 Wizards of the Coast, Inc ("Wizards"). All Rights Reserved.
               <p>1. Definitions: (a)"Contributors" means the copyright and/or trademark owners who have contributed</p> Open Game Content; (b)"Derivative Material" means copyrighted material including derivative works and translations (including into other computer languages), potation, modification, correction, addition, extension, upgrade, improvement, compilation, abridgment or other form in which an existing work may be recast, transformed or adapted; (c) "Distribute" means to reproduce, license, rent, lease, sell, broadcast, publicly display, transmit or otherwise distribute; (d)"Open Game Content" means the game mechanic and includes the methods, procedures, processes and routines to the extent such content does not embody the Product Identity and is an enhancement over the prior art and any additional content clearly identified as Open Game Content by the Contributor, and means any work covered by this License, including translations and derivative works under copyright law, but specifically excludes Product Identity. (e) "Product Identity" means product and product line names, logos and identifying marks including trade dress; artifacts; creatures characters; stories, storylines, plots, thematic elements, dialogue, incidents, language, artwork, symbols, designs, depictions, likenesses, formats, poses, concepts, themes and graphic, photographic and other visual or audio representations; names and descriptions of characters, spells, enchantments, personalities, teams, personas, likenesses and special abilities; places, locations, environments, creatures, equipment, magical or supernatural abilities or effects, logos, symbols, or graphic designs; and any other trademark or registered trademark clearly identified as Product identity by the owner of the Product Identity, and which specifically excludes the Open Game Content; (f) "Trademark" means the logos, names, mark, sign, motto, designs that are used by a Contributor to identify itself or its products or the associated products contributed to the Open Game License by the Contributor (g) "Use", "Used" or "Using" means to use, Distribute, copy, edit, format, modify, translate and otherwise create Derivative Material of Open Game Content. (h) "You" or "Your" means the licensee in terms of this agreement.
@@ -78,7 +77,7 @@ const Footer = () => {
               <p>13. Termination: This License will terminate automatically if You fail to comply with all terms herein and fail to cure such breach within 30 days of becoming aware of the breach. All sublicenses shall survive the termination of this License.</p>
               <p>14. Reformation: If any provision of this License is held to be unenforceable, such provision shall be reformed only to the extent necessary to make it enforceable.</p>
               <p>15. COPYRIGHT NOTICE Open Game License v 1.0 Copyright 2000, Wizards of the Coast, Inc.</p>
-            </p>
+            </div>
           </div>
         }
       </div>
