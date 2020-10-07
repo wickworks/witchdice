@@ -5,4 +5,8 @@
 
   cursor: pointer;
   &:hover { background-color: $parchment_dark; }
+
+  // input, textarea {
+  //   background-color: $parchment_mid;
+  // }
 }

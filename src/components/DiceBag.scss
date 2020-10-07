@@ -1,7 +1,7 @@
 @import '../fonts';
 
 .DiceBag {
-  width: 600px;
+  width: 800px;
   margin-bottom: 60px;
 
   h2 {
@@ -16,7 +16,7 @@
     background-color: $parchment;
 
     .die-button-container {
-      max-width: 300px;
+      max-width: 430px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -94,8 +94,6 @@
         // }
 
         button.roll {
-          @include text_total;
-
           width: 128px;
           height: 128px;
           border-radius: 50%;
@@ -103,9 +101,7 @@
           background-color: $rust;
           cursor: pointer;
 
-          &:hover {
-            background-color: $rust;
-          }
+          &:hover { background-color: $rust_light; }
 
           .asset {
             margin: auto;

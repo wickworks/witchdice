@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './TextInput.scss';
 
 
-const TextInput = ({textValue, setTextValue, placeholder, suffix, isTextbox}) => {
+const TextInput = ({textValue, setTextValue, placeholder, suffix, isTextbox, maxLength = -1}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentText, setCurrentText] = useState(textValue);
 
@@ -16,6 +16,14 @@ const TextInput = ({textValue, setTextValue, placeholder, suffix, isTextbox}) =>
     setTextValue(currentText);
   }
 
+  function handleTextChange(newText) {
+    if (maxLength > 0) {
+      setCurrentText(newText.slice(0,maxLength))
+    } else {
+      setCurrentText(newText)
+    }
+  }
+
   return (
     <div className="TextInput">
       {isEditing ?
@@ -25,7 +33,7 @@ const TextInput = ({textValue, setTextValue, placeholder, suffix, isTextbox}) =>
             value={currentText}
             onKeyPress={ (e) => { if (e.key === 'Enter') {stopEditing()} }}
             onBlur={ () => {stopEditing()} }
-            onChange={ e => setCurrentText(e.target.value) }
+            onChange={ e => handleTextChange(e.target.value) }
             placeholder={placeholder}
             autoFocus
           />
@@ -35,7 +43,7 @@ const TextInput = ({textValue, setTextValue, placeholder, suffix, isTextbox}) =>
             value={currentText}
             onKeyPress={ (e) => { if (e.key === 'Enter') {stopEditing()} }}
             onBlur={ () => {stopEditing()} }
-            onChange={ e => setCurrentText(e.target.value) }
+            onChange={ e => handleTextChange(e.target.value) }
             placeholder={placeholder}
             autoFocus
           />

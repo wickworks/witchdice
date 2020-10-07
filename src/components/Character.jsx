@@ -37,9 +37,11 @@ if (loadedVersion) {
 // should we initialize to defaults?
 if (!loadedVersion || brokeOldData || true) {
   // clear out the old data
-  for ( var i = 0, len = localStorage.length; i < len; ++i ) {
-    const key = localStorage.key(i);
+  console.log('Clearing out old data...');
+  while (localStorage.length > 0) {
+    const key = localStorage.key(0);
     localStorage.removeItem(key)
+    console.log('Removed stored character', key);
   }
 
   // save the new data
@@ -61,6 +63,8 @@ const Character = () => {
   const [allAttackData, setAllAttackData] = useState([]);
   const [rollData, setRollData] = useState([]);
 
+  const [isDeleting, setIsDeleting] = useState(false);
+
 
 
   const setActiveCharacterData = (data) => {
@@ -71,7 +75,21 @@ const Character = () => {
     clearRolls();
   }
 
+  function clearCharacterSelection() {
+    setCharacterID(null);
+    setCharacterName('');
+    setAllAttackData([]);
+
+    clearRolls();
+  }
+
+  function deleteCharacter() {
+
+    clearCharacterSelection()
+  }
+
   useEffect(() => {
+    // console.log('>>>> character useEffect triggered to save data');
 
     if (
       characterID &&
@@ -303,6 +321,7 @@ const Character = () => {
     <>
       <CharacterAndMonsterList
         setActiveCharacterData={setActiveCharacterData}
+        activeCharacterName={characterName}
       />
 
       {(characterName.length > 0) && <>
@@ -312,34 +331,55 @@ const Character = () => {
         <div className="Character">
           <hr className="pumpkin-bar" />
 
-          <div className="character-sheet">
 
-            <h2 className="character-name">
-              <TextInput
-                textValue={characterName}
-                setTextValue={setCharacterName}
-                placeholder='Character name'
-              />
-            </h2>
 
-            { allAttackData.map((data, i) => {
-              return (
-                <AttackSource
-                  attackID={i}
-                  attackData={allAttackData[i]}
-                  attackFunctions={attackFunctions}
-                  deleteAttack={(attackID) => deleteAttack(attackID)}
-                  clearRollData={() => setRollData([])}
-                  key={i}
-                />
-              )
-            })}
+          { isDeleting ?
+            <div className='delete-character-confirm-container'>
+              <div className='delete-title'>Delete '{characterName}'?</div>
 
-            <div className='add-attack' onClick={createAttack}>
-              <div className={`asset plus`} />
-              Add Attack
+              <button className='delete' onClick={() => {setIsDeleting(false); deleteCharacter()}}>
+                <div className='asset trash' />
+                Delete
+              </button>
+              <button className='cancel' onClick={() => setIsDeleting(false)}>
+                <div className='asset x' />
+                Cancel
+              </button>
             </div>
-          </div>
+          :
+            <div className="character-sheet">
+              <h2 className="character-name">
+                <TextInput
+                  textValue={characterName}
+                  setTextValue={setCharacterName}
+                  placeholder='Character name'
+                  maxLength={50}
+                />
+
+                <div className="delete-character asset trash"
+                  onClick={() => setIsDeleting(true)}
+                />
+              </h2>
+
+              { allAttackData.map((data, i) => {
+                return (
+                  <AttackSource
+                    attackID={i}
+                    attackData={allAttackData[i]}
+                    attackFunctions={attackFunctions}
+                    deleteAttack={(attackID) => deleteAttack(attackID)}
+                    clearRollData={() => setRollData([])}
+                    key={`${characterID}-attack-${i}`}
+                  />
+                )
+              })}
+
+              <div className='add-attack' onClick={createAttack}>
+                <div className={`asset plus`} />
+                Add Attack
+              </div>
+            </div>
+          }
 
           <hr className="pumpkin-bar" />
         </div>

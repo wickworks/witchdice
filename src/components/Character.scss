@@ -14,8 +14,15 @@
     padding: 0 10px;
 
     .character-name {
-      margin-right: auto;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      align-items: center;
 
+      overflow: hidden;
+      max-width: 764px;
+
+      margin-right: auto;
       margin-top: 16px;
       padding-bottom: 16px;
       border-bottom: 4px solid $rust;
@@ -28,6 +35,20 @@
       }
 
       input { @include text_character_name; }
+
+      .asset.delete-character {
+        width: 50px;
+        height: 50px;
+        display: block;
+        margin-left: auto;
+        cursor: pointer;
+
+        // turns black to $rust
+        filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+        opacity: 40%;
+
+        &:hover { opacity: 100%;}
+      }
     }
 
 
@@ -48,6 +69,43 @@
         margin-right: 16px;
       }
     }
+  }
+
+  .delete-character-confirm-container {
+    display: flex;
+    align-items: center;
+    height: 100px;
+    width: 100%;
+    background-color: $parchment;
+
+    .delete-title {
+      @include text_h1;
+      color: $rust;
+
+      padding: 0 30px;
+      margin-left: auto;
+    }
+
+    button {
+      @include text_default;
+      font-weight: bold;
+      font-size: 16px;
+      height: 100%;
+      width: 100px;
+      border: 0;
+      cursor: pointer;
+
+      &.cancel { background-color: $olive_light; }
+      &.delete { background-color: $rust_light; }
+      &:hover { background-color: grey; }
+
+      .asset {
+        width: 40px;
+        height: 40px;
+        margin: 0 auto 6px;
+      }
+    }
+
   }
 
 }

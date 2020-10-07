@@ -1,5 +1,6 @@
-import allMonsterOriginalData from './srd_monsters.json';
-// import allMonsterOriginalData from './srd_monsters_test.json';
+// import allMonsterOriginalData from './srd_monsters.json';
+import allMonsterOriginalData from './srd_monsters_test.json';
+
 import {
   allDamageTypes,
   allConditions,

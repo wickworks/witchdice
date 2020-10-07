@@ -65,9 +65,7 @@
       background-color: $rust;
       cursor: pointer;
 
-      &:hover {
-        background-color: $rust;
-      }
+      &:hover { background-color: $rust_light; }
 
       .asset {
         margin: auto;
@@ -148,8 +146,9 @@
       // border-radius: 4px;
       // border: none;
       background-color: $parchment_dark;
-
       cursor: pointer;
+
+      &:hover { background-color: $parchment_mid; }
     }
   }
 }
