@@ -19,6 +19,7 @@ import Character from './Character.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';
 import Roller from './Roller.jsx';
 import DiceBag from './DiceBag.jsx';
+import Footer from './Footer.jsx';
 
 
 // whenever we make a change that breaks the old data, bump up the first number
@@ -401,6 +402,8 @@ const Main = () => {
       }
 
       <DiceBag />
+
+      <Footer />
     </>
   )
 }

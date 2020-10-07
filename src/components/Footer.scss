@@ -1,0 +1,75 @@
+@import '../fonts';
+
+
+.Footer {
+  text-align: center;
+  margin-bottom: 20px;
+
+  .meeeeeeeeeeeee-luv-u {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span.asset {
+      display: inline-block;
+      width: 20px;
+      height: 14px;
+      margin-left: 6px;
+    }
+  }
+
+  p { margin: 8px 0; }
+  a {
+    text-decoration: none;
+    margin: 6px 10px;
+
+    &:hover {
+      color: olive;
+    }
+  }
+
+  .license {
+    @include text_license;
+
+    margin: 10px;
+    > a { cursor: pointer; }
+
+    .credits {
+      background-color: $parchment;
+      max-width: 800px;
+      padding: 10px 0;
+      margin: 10px 0;
+      border-radius: 20px;
+
+
+      .noun-project {
+        margin-top: 12px;
+
+        a {margin-left: 6px;}
+      }
+
+      ul {
+        text-align: left;
+        margin: 0 0 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        li {
+          margin: 0 10px;
+          width: 30%;
+        }
+      }
+
+      .legalese {
+        @include text_legalese;
+        text-align: left;
+        padding: 0 20px;
+
+        p {
+          margin: 2px 0;
+        }
+      }
+    }
+  }
+}

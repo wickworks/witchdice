@@ -101,3 +101,11 @@
   font-family: 'Bitter';
   font-size: 36px;
 }
+
+@mixin text_license {
+  font-size: 12px;
+}
+
+@mixin text_legalese {
+  font-size: 8px;
+}
