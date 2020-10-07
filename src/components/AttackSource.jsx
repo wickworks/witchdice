@@ -242,7 +242,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
               <div className={`desc ${descClass}`}>
                 <TextInput
-                  textValue={desc}
+                  textValue={desc.length > 0 ? desc : '...' }
                   setTextValue={(desc) => setDesc(desc, attackID)}
                   placeholder='Attack description'
                   isTextbox={descClass === 'long'}

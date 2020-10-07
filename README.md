@@ -8,28 +8,18 @@
 
 - fix how damage is rounded down and added up; should be rounded down for each attack and show up as such in the subtotal
 
-- refactor Character.jsx to bump all the important non-character things up to App or something
-
 - load/save different characters
   (data validation; can't have a blank name)
-  (make new characters)
-  (delete old characters)
-  (better design for the list; search box that live-filters)
-  (recently-selected box)
 
 - import the monster manual
   (add legendary actions)
   (add special_abilities e.g. sneak attack 1/turn)
-  bug: saving-throw attacks should only add damage if there's at least 2 XdXs in the description (see:wolf, giant crab)
-  bug: die types aren't selected
 
 - Make online rooms so everybody can see the rolls
 
 - reorganize so the controls for number of attacks in in the roll-attacks section, not the stat sheet
 
-
 - maybe: auto-unselect all attacks for every roll? have to opt-in for them every time?
-- bug: blanking out attack description text makes it un-re-editable
 - setting: customize which icon shows up for natural 20s
 
 

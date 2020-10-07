@@ -46,7 +46,7 @@ if (loadedVersion) {
 }
 
 // should we initialize to defaults?
-if (!loadedVersion || brokeOldCharacterData || brokeOldMonsterData ) {
+if (!loadedVersion || brokeOldCharacterData || brokeOldMonsterData) {
   // clear out the old data
   console.log('Clearing out old data...');
   // let skipClears = 0;

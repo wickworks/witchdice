@@ -178,8 +178,8 @@ function getMonsterData() {
 }
 
 function getCountAndTypeFromDiceString(dice) {
-  const count = dice.slice(0, dice.indexOf('d'));
-  const dietype = dice.slice(dice.indexOf('d')+1);
+  const count = parseInt(dice.slice(0, dice.indexOf('d')));
+  const dietype = parseInt(dice.slice(dice.indexOf('d')+1));
   return {count: count, dietype: dietype}
 }
 
