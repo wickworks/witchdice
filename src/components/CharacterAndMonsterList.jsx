@@ -12,69 +12,16 @@ import './CharacterAndMonsterList.scss';
 
 
 
-const CharacterAndMonsterList = ({setActiveCharacterData, activeCharacterName}) => {
-  // const [allCharacterNames, setAllCharacterNames] = useState(loadedCharacterNames || defaultCharacterNames);
-  const [activeCharacterID, setActiveCharacterID] = useState(null);
-
-  // const [allCharacterEntries, setAllCharacterEntries] = useState([]);
-  // const [allMonsterEntries, setAllMonsterEntries] = useState([]);
-
-  let foundActiveCharacter = false;
-
-  let allMonsterEntries = [];
-  let allCharacterEntries = [];
-  for ( var i = 0, len = localStorage.length; i < len; ++i ) {
-    const key = localStorage.key(i);
-    // console.log('localStorage key : ', key);
-    // console.log('                item : ', localStorage.getItem(key));
-    if (key.startsWith('character-')) {
-      const characterName = getCharacterNameFromStorageName(key);
-      const characterID = getCharacterIDFromStorageName(key);
-
-      if (characterName === activeCharacterName) { foundActiveCharacter = true; }
-
-      // first chunk of IDs are monsters
-      if (characterID < 200000) {
-        allMonsterEntries.push({id: characterID, name: characterName})
-
-      } else {
-        allCharacterEntries.push({id: characterID, name: characterName})
-      }
-    }
-  }
-
-  if (activeCharacterID && !foundActiveCharacter) {setActiveCharacterID(null);}
+const CharacterAndMonsterList = ({setActiveCharacterData, activeCharacterID}) => {
 
   // setAllCharacterEntries(characterEntries)
   // setAllMonsterEntries(monsterEntries)
 
   // console.log('all character names : ', allCharacterNames);
 
-  const newCharacter = () => {
-    const fingerprint = getRandomFingerprint()
-
-    console.log('making new character with fingerprint', fingerprint);
-
-    saveCharacterData(
-      fingerprint,
-      'Character',
-      [deepCopy(defaultAttackData)]
-    )
-
-    const newCharacter = loadCharacterData(fingerprint);
-
-    setActiveCharacterData(newCharacter)
-    setActiveCharacterID(fingerprint);
-
-  }
 
   function handleEntryClick(id) {
-    const loadedCharacter = loadCharacterData(id);
 
-    if (loadedCharacter) {
-      setActiveCharacterData(loadedCharacter);
-      setActiveCharacterID(id);
-    }
   }
 
 

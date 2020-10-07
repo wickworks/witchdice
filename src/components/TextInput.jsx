@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import './TextInput.scss';
 
 
-const TextInput = ({textValue, setTextValue, placeholder, suffix, isTextbox, maxLength = -1}) => {
+const TextInput = ({
+  textValue,
+  setTextValue,
+  placeholder,
+  suffix,
+  isTextbox,
+  maxLength = -1
+}) => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentText, setCurrentText] = useState(textValue);
 
