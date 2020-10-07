@@ -22,6 +22,7 @@
 - maybe: auto-unselect all attacks for every roll? have to opt-in for them every time?
 - setting: customize which icon shows up for natural 20s
 
+- bug: animation fading of showing math for die roll doesn't work on production MYSTERIOUSLY, just disabled it
 
 
 -- SEE IF THIS WORKS BETTER:
@@ -38,5 +39,5 @@
 
 - npm run build
 - Creates a production build
-- Then copy all files in that folder to public_html/roll-to-hit
+- Then copy all files in build/ to public_html/roll-to-hit on the server
 - Then move static and assets to just public_html/
