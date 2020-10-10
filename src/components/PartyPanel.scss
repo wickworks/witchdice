@@ -1,5 +1,16 @@
 @import '../fonts';
 
 .PartyPanel {
-	
+
+	h2 {
+    @include text_attack_name;
+    color: $rust;
+    margin-bottom: 8px;
+    margin-left: 12px;
+  }
+
+	.party-container {
+		background-color: $parchment;
+		padding: 10px 30px;
+	}
 }

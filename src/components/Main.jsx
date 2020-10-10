@@ -19,6 +19,7 @@ import Character from './Character.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';
 import Roller from './Roller.jsx';
 import DiceBag from './DiceBag.jsx';
+import PartyPanel from './PartyPanel.jsx';
 import Footer from './Footer.jsx';
 
 
@@ -448,6 +449,8 @@ const Main = () => {
           />
         </>
       }
+
+      <PartyPanel />
 
       <DiceBag />
 
