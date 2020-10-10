@@ -19,6 +19,8 @@
 
 - Make online rooms so everybody can see the rolls
 
+- new favicon
+
 - reorganize so the controls for number of attacks in in the roll-attacks section, not the stat sheet
 
 - maybe: auto-unselect all attacks for every roll? have to opt-in for them every time?

@@ -6,6 +6,9 @@
 @mixin text_default {
   font-family: 'Bitter';
   font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  color: $soft_black;
 }
 
 @mixin text_h1 {
@@ -100,6 +103,20 @@
 @mixin text_dicebag_count {
   font-family: 'Bitter';
   font-size: 36px;
+}
+
+@mixin text_party_roll_number {
+  font-size: 16px;
+}
+
+@mixin text_party_roll_sum {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+@mixin text_party_roll_attackname {
+  font-size: 16px;
+  font-style: italic;
 }
 
 @mixin text_license {

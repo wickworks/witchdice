@@ -147,10 +147,10 @@ const DieButton = (props) => {
       onClick={(e) => handleClick(e, true)}
       onContextMenu={(e) => handleClick(e, false)}
     >
-      <div className={`asset d${dieType}`} />
       {(dieCount > 0) &&
         <div className='roll-count'>{dieCount}</div>
       }
+      <div className={`asset d${dieType}`} />
     </button>
   )
 }

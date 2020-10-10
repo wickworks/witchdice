@@ -11,6 +11,104 @@
 
 	.party-container {
 		background-color: $parchment;
-		padding: 10px 30px;
+		padding: 10px 20px;
+	}
+
+	.party-room-container, .party-my-name-container {
+    @include text_character_list;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding: 10px 10px 0;
+
+		input {
+			@include text_default;
+			width: 70%;
+		}
+
+		button {
+			cursor: pointer;
+		}
+	}
+
+
+	.PartyAction {
+		width: 100%;
+		margin: 0 0 18px;
+
+		.title {
+			display: flex;
+			align-items: flex-end;
+			justify-content: space-between;
+			border-bottom: 1px solid $rust_light;
+			margin-bottom: 6px;
+
+			.name { @include text_party_roll_sum; }
+			.conditions { @include text_party_roll_attackname; }
+		}
+
+		.dicebag-container {
+			display: flex;
+			justify-content: space-between;
+
+			.dicebag-rolls {
+				display: flex;
+				flex-wrap: wrap;
+
+				.PartyRollDicebag {
+					@include text_party_roll_number;
+					display: flex;
+					justify-content: flex-start;
+					align-items: center;
+					margin-right: 12px;
+
+					.asset {
+						width: 24px;
+						height: 24px;
+						margin-right: 3px;
+					}
+				}
+			}
+
+			.dicebag-sum {
+				@include text_party_roll_sum;
+				margin-right: 4px;
+			}
+		}
+
+		.attack-container {
+			display: flex;
+			flex-direction: column;
+
+			.PartyRollAttack {
+				display: flex;
+				align-items: center;
+
+				.asset.d20 {
+					width: 24px;
+					height: 24px;
+					margin-right: 3px;
+				}
+
+				.attack-roll { width: 20px; }
+
+				.attack-name { @include text_party_roll_attackname; }
+
+				.damage {
+					@include text_party_roll_sum;
+					display: flex;
+					align-items: center;
+					margin-left: auto;
+
+					.asset {
+						width: 28px;
+						height: 28px;
+						margin-left: 3px;
+					}
+				}
+
+
+			}
+		}
 	}
 }
