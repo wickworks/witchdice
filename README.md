@@ -15,6 +15,7 @@
   (add legendary actions)
   (add special_abilities e.g. sneak attack 1/turn)
   (die-less damage rolls don't work; see crab)
+  (duplicate saving throw attacks; see ettercap & hit with a bite)
 
 - Make online rooms so everybody can see the rolls
 
