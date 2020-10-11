@@ -1,7 +1,7 @@
 @import '../fonts';
 
 .PartyPanel {
-	max-width: 300px;
+	width: 300px;
 
 	h2 {
     @include text_attack_name;
@@ -13,6 +13,9 @@
 	.party-container {
 		background-color: $parchment;
 		padding: 10px 20px;
+		min-height: 100px;
+		max-height: 600px;
+		overflow-y: auto;
 	}
 
 	.party-room-container, .party-name-container {
@@ -20,16 +23,25 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 10px 10px 0;
+		padding: 10px 0 0;
 
 		input {
 			@include text_default;
 			width: 70%;
 		}
+	}
 
-		button {
-			cursor: pointer;
-		}
+	button.party-connect {
+		@include text_roll_attacks;
+		display: block;
+		margin: 15px auto 5px;
+		padding: 5px 40px;
+		background-color: $parchment_dark;
+		border: none;
+		border-radius: 8px;
+		cursor: pointer;
+
+		&:hover { background-color: $pink; }
 	}
 
 

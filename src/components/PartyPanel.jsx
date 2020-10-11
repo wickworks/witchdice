@@ -36,37 +36,46 @@ const PartyPanel = ({
 
 			<hr className='pumpkin-bar' />
 			<div className='party-container'>
-        {allPartyActionData && allPartyActionData.map((partyActionData, i) => {
-          return (
-            <PartyAction
-              partyActionData={partyActionData}
-              key={i}
-            />
-          )
-        }) }
+
+        { (!partyConnected) ? <>
+          <div className='party-name-container'>
+            <label htmlFor='party-name'>Name</label>
+            <input type='text' id='party-name' value={partyName} onChange={(e) => setPartyName(e.target.value)} />
+          </div>
+
+          <div className='party-room-container'>
+            <label htmlFor='party-room'>Room</label>
+            <input type='text' id='party-room' value={partyRoom} onChange={(e) => setPartyRoom(e.target.value)}/>
+          </div>
+          <button className='party-connect' onClick={() => connectToRoom()}>Connect</button>
+
+        </> : <>
+
+          {allPartyActionData &&
+            allPartyActionData.slice(0).reverse().map((partyActionData, i) => {
+              return (
+                <PartyAction
+                  partyActionData={partyActionData}
+                  key={i}
+                />
+              )
+            })
+          }
+        </> }
 			</div>
 			<hr className='pumpkin-bar' />
 
-      <div className='party-name-container'>
-        <label htmlFor='party-name'>Name</label>
-        <input type='text' id='party-name' value={partyName} onChange={(value) => setPartyName(value)} />
-      </div>
+      { partyConnected && <>
+        <div className='party-name-container'>
+          <label>Name:</label>
+          <div>{partyName}</div>
+        </div>
 
-      <div className='party-room-container'>
-        { !partyConnected ?
-          <>
-            <button onClick={() => connectToRoom()}>
-              Connect
-            </button>
-            <input type='text' id='party-room' value={partyRoom} onChange={(value) => setPartyRoom(value)}/>
-          </>
-        :
-          <>
-            <label>Party</label>
-            <div>{partyRoom}</div>
-          </>
-        }
-      </div>
+        <div className='party-room-container'>
+          <label>Party:</label>
+          <div>{partyRoom}</div>
+        </div>
+      </> }
 		</div>
 	);
 }

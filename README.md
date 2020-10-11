@@ -19,6 +19,8 @@
 
 - Make online rooms so everybody can see the rolls
 
+- animate new rolls coming in a la pivotal tracker changes
+
 - new favicon
 
 - reorganize so the controls for number of attacks in in the roll-attacks section, not the stat sheet
