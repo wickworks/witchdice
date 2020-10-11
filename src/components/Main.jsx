@@ -249,6 +249,7 @@ const Main = () => {
   const createAttack = () => {
     let newData = deepCopy(characterAttackData);
     let newAttack = deepCopy(defaultAttackData);
+    newAttack.damageData.push(deepCopy(defaultDamageData))
     newData.push(newAttack);
     setCharacterAttackData(newData);
 

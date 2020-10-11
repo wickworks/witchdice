@@ -17,7 +17,6 @@
 
 - monster search: don't show any until search filter applied. Add to front of recent list if searching, otherwise perserve recent list order. Clear filter after clicking monster while filtering
 - add a big plus for new character in empty character list
-- have new attacks include a damage
 
 - turn "party rolls" into roll history for single-player
 
