@@ -188,6 +188,7 @@ const Roller = ({
             if (attackSource.type === 'attack' && critFumble.isFumble) { applyDamage = false; }
             if (!damageSource.enabled) { applyDamage = false; }
 
+            if (applyDamage && damageSource.tags.includes("condition")) { appliedCondition = damageSource.condition }
             if (applyDamage && amount > 0) {
 
               console.log('            ->> actually applying it!');
@@ -204,8 +205,6 @@ const Roller = ({
               } else {
                 subtotalBreakdown[type] = amount
               }
-
-              if (damageSource.tags.includes("condition")) { appliedCondition = damageSource.condition }
             }
           }
         }
