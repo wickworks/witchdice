@@ -51,51 +51,20 @@
 
     .rolling-surface {
       display: flex;
-      // flex-direction: column;
       align-items: center;
       max-width: 150px;
-      min-height: 200px;
       margin: auto;
-
-      // button.roll {
-      //   @include text_dicebag_count;
-      //   margin: 10px;
-      //   padding: 0 14px;
-      //   flex-shrink: 0;
-      //   font-weight: bold;
-      // }
 
       .pre-roll {
         display: flex;
         align-items: center;
         flex-direction: column;
+        justify-content: center;
+        min-height: 200px;
 
         .action {
           @include text_roll_attacks;
-          margin-top: 10px;
         }
-
-        // .queued-die-container {
-        //   display: flex;
-        //   align-items: flex-end;
-        //   flex-direction: column-reverse;
-        //   margin-top: 16px;
-        //   min-width: 90px;
-        //
-        //   .queued-die {
-        //     @include text_dicebag_summary;
-        //     display: flex;
-        //     align-items: center;
-        //     justify-content: flex-start;
-        //     width: 60px;
-        //
-        //     .asset {
-        //       width: 42px;
-        //       height: 42px;
-        //       margin-left: auto;
-        //     }
-        //   }
-        // }
 
         button.roll {
           width: 128px;
@@ -120,6 +89,12 @@
       }
 
       .post-roll {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        min-height: 200px;
+
         .result-total {
           @include text_total;
           display: flex;

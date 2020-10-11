@@ -17,7 +17,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
   const [resultSummary, setResultSummary] = useState('');
   const [resultTotal, setResultTotal] = useState('');
-  const [lastDieRolled, setLastDieRolled] = useState('d20');
+  const [lastDieRolled, setLastDieRolled] = useState('');
 
   const updateDiceData = (dieType, dieCount) => {
     let newData = {...diceData}
@@ -69,29 +69,12 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
           { (rollDieType.length > 0) ?
             <div className='pre-roll'>
-
-
               <button className='roll' onClick={handleRoll}>
                 <div className={`asset d${rollDieType}`} />
               </button>
               <div  className='action'>~ Roll ~</div>
-
-
-              {/**<div className='queued-die-container'>
-                {Object.keys(diceData).map((dieType) => {
-                  if (diceData[dieType] > 0) {
-                    return (
-                      <div className='queued-die'>
-                        {diceData[dieType]}
-                        <div className={`asset d${dieType}`} />
-                      </div>
-                    )
-                  }
-                })}
-              </div>**/}
-
             </div>
-          :
+          : lastDieRolled &&
             <div className='post-roll'>
               <div className='result-total'>
                 <div className={`asset d${lastDieRolled}`} />
