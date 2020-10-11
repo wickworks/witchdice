@@ -14,7 +14,7 @@
 		padding: 10px 20px;
 	}
 
-	.party-room-container, .party-my-name-container {
+	.party-room-container, .party-name-container {
     @include text_character_list;
 		display: flex;
 		justify-content: space-between;
@@ -40,11 +40,12 @@
 			display: flex;
 			align-items: flex-end;
 			justify-content: space-between;
+			padding-bottom: 1px;
 			border-bottom: 1px solid $rust_light;
 			margin-bottom: 6px;
 
 			.name { @include text_party_roll_sum; }
-			.conditions { @include text_party_roll_attackname; }
+			.conditions { @include text_party_roll_condition; }
 		}
 
 		.dicebag-container {
@@ -90,7 +91,7 @@
 					margin-right: 3px;
 				}
 
-				.attack-roll { width: 20px; }
+				.attack-roll { width: 22px; }
 
 				.attack-name { @include text_party_roll_attackname; }
 

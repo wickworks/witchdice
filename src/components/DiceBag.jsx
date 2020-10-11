@@ -11,7 +11,8 @@ const blankDice = {
   '20': 0,
 }
 
-const DiceBag = () => {
+const DiceBag = ({addNewDicebagPartyRoll}) => {
+
   const [diceData, setDiceData] = useState({...blankDice});
 
   const [resultSummary, setResultSummary] = useState('');
@@ -27,12 +28,15 @@ const DiceBag = () => {
   const handleRoll = () => {
     let runningResults = [];
     let runningTotal = 0;
+    let actionRollData = [];  // for the party panel
 
     Object.keys(diceData).map((dieType, i) => {
       for (let rollID = 0; rollID < diceData[dieType]; rollID++) {
         const result = getRandomInt(parseInt(dieType));
         runningResults.push(result)
         runningTotal += result;
+
+        actionRollData.push( {dieType: `d${dieType}`, result: result} )
         setLastDieRolled(dieType);
       }
     });
@@ -40,6 +44,9 @@ const DiceBag = () => {
     setResultSummary(runningResults.join(' + '));
     setResultTotal(runningTotal);
     setDiceData({...blankDice});
+
+    // add it to the party roll panel
+    addNewDicebagPartyRoll(actionRollData);
   }
 
   let rollDieType = '';
@@ -125,8 +132,6 @@ const DieButton = (props) => {
 
   function handleClick(e, leftMouse) {
     let newDieCount = dieCount;
-
-    console.log('pressed die button', dieType);
 
     if (leftMouse && !e.shiftKey) {
       newDieCount += 1;

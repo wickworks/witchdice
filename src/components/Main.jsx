@@ -22,6 +22,13 @@ import DiceBag from './DiceBag.jsx';
 import PartyPanel from './PartyPanel.jsx';
 import Footer from './Footer.jsx';
 
+import firebase from 'firebase';
+const firebaseConfig = {
+  apiKey: "AIzaSyBQJ2LG4nrCBhoIxg94rYi7AzzNf-GqgTM",
+  authDomain: "roll-to-hit.firebaseapp.com",
+  databaseURL: "https://roll-to-hit.firebaseio.com",
+  projectId: 'roll-to-hit',
+};
 
 // whenever we make a change that breaks the old data, bump up the first number
 console.log('Welcome to Roll-To-Hit version ', CURRENT_VERSION);
@@ -87,6 +94,10 @@ const Main = () => {
 
   const [rollData, setRollData] = useState([]);
 
+  const [allPartyActionData, setAllPartyActionData] = useState([]);
+  const [partyRoom, setPartyRoom] = useState('sargasso-sea');
+  const [partyName, setPartyName] = useState('olive');
+  const [partyConnected, setPartyConnected] = useState(false);
 
   // =============== INITIALIZE CHARACTER DATA ==================
 
@@ -407,7 +418,72 @@ const Main = () => {
     }
   }
 
+  // =============== PARTY ROLL FUNCTIONS ==================
 
+  useEffect(() => {
+    firebase.initializeApp(firebaseConfig);
+    // const dbRef = firebase.database().ref();
+    // dbRef.child('message').on('value', (snapshot) => setMessage(snapshot.val()));
+
+  }, []);
+
+
+  const connectToRoom = () => {
+    console.log('Clicked button to connect to room : ', partyRoom);
+
+    try {
+      console.log('Attempting to connect to room : ', partyRoom);
+      if (partyRoom === null || partyRoom.length === 0) { throw('Invalid room name!') }
+
+      const dbRef = firebase.database().ref()
+      dbRef.child(partyRoom).on('value',
+        (snapshot) => {
+          // turn a buncha { "action-1": {data} } into just an array e.g. [ {data}, ... ]
+          const rawActionData = snapshot.val();
+          let newActionData = [];
+          Object.keys(rawActionData).forEach((actionKey) => {
+            newActionData.push(rawActionData[actionKey]);
+          });
+          setAllPartyActionData( newActionData );
+        }
+      );
+
+      setPartyConnected(true);
+
+    } catch (error) {
+      console.log('ERROR: ',error.message);
+      setPartyConnected(false);
+    }
+  }
+
+  // rolls = [ {die: 'd6', result: 4}, ... ]
+  const addNewDicebagPartyRoll = (rolls) => {
+    if (partyConnected) {
+      let actionData = {};
+      actionData.name = 'Olive';
+      actionData.type = 'dicebag';
+      rolls.forEach((roll, i) => {
+        actionData[`roll-${i}`] = {
+          die: roll.dieType,
+          result: roll.result
+        }
+      });
+
+
+      console.log('pushing roll to firebase', actionData);
+
+      // Push this single roll to Firebase
+      // (the update of the local state is handled by the firebase change)
+      // const actionKey = `action-${allPartyActionData.length}`
+
+      const dbRef = firebase.database().ref();
+      dbRef.child(partyRoom).push(actionData);
+      // dbRef.child(partyRoom).push({
+      //   message: 'somebody loves you',
+      //   timestamp: Date.now(),
+      // });
+    }
+  }
 
   return (
     <>
@@ -450,9 +526,19 @@ const Main = () => {
         </>
       }
 
-      <PartyPanel />
+      <PartyPanel
+        allPartyActionData={allPartyActionData}
+        partyName={partyName}
+        setPartyName={setPartyName}
+        partyRoom={partyRoom}
+        setPartyRoom={setPartyRoom}
+        partyConnected={partyConnected}
+        connectToRoom={connectToRoom}
+      />
 
-      <DiceBag />
+      <DiceBag
+        addNewDicebagPartyRoll={addNewDicebagPartyRoll}
+      />
 
       <Footer />
     </>

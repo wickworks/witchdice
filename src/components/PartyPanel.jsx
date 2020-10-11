@@ -1,49 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './PartyPanel.scss';
 
-import firebase from 'firebase';
 
-const config = {
-  apiKey: "AIzaSyBQJ2LG4nrCBhoIxg94rYi7AzzNf-GqgTM",
-  authDomain: "roll-to-hit.firebaseapp.com",
-  databaseURL: "https://roll-to-hit.firebaseio.com",
-  projectId: 'roll-to-hit',
-};
-
-const PartyPanel = () => {
+const PartyPanel = ({
+  allPartyActionData,
+  partyRoom, partyName,
+  setPartyRoom, setPartyName,
+  partyConnected, connectToRoom,
+}) => {
 	// const [rollHistory, setRollHistory] = useState([]);
-  const [connected, setConnected] = useState(false);
-  const [partyRoom, setPartyRoom] = useState('sargasso-sea');
-  const [myName, setMyName] = useState('olive');
-
-  const [allPartyActionData, setAllPartyActionData] = useState([defaultPartyActionData_dicebag,defaultPartyActionData_attack]);
-
-  useEffect(() => {
-    firebase.initializeApp(config);
-    // const dbRef = firebase.database().ref();
-    // dbRef.child('message').on('value', (snapshot) => setMessage(snapshot.val()));
-
-  }, []);
 
 
-  const connectToRoom = (roomName) => {
-    console.log('Clicked button to connect to room : ', roomName);
-
-    try {
-      console.log('Attempting to connect to room : ', roomName);
-      if (roomName === null || roomName.length === 0) { throw('Invalid room name!') }
-
-      const dbRef = firebase.database().ref()
-      dbRef.child(roomName).on('value',
-        (snapshot) => setAllPartyActionData(snapshot.val())
-      );
-      setConnected(true);
-
-    } catch (error) {
-      console.log('ERROR: ',error.message);
-      setConnected(false);
-    }
-  }
 
   //
   // const handleButton = () => {
@@ -60,6 +27,8 @@ const PartyPanel = () => {
   //   }
   // }
 
+  console.log('rendering partyActionData', allPartyActionData);
+
 
 	return (
 		<div className="PartyPanel">
@@ -67,23 +36,26 @@ const PartyPanel = () => {
 
 			<hr className='pumpkin-bar' />
 			<div className='party-container'>
-        { allPartyActionData.map((partyActionData, i) => {
+        {allPartyActionData && allPartyActionData.map((partyActionData, i) => {
           return (
-            <PartyAction partyActionData={partyActionData} />
+            <PartyAction
+              partyActionData={partyActionData}
+              key={i}
+            />
           )
         }) }
 			</div>
 			<hr className='pumpkin-bar' />
 
-      <div className='party-my-name-container'>
-        <label htmlFor='party-my-name'>Name</label>
-        <input type='text' id='party-my-name' value={myName} onChange={(value) => setMyName(value)} />
+      <div className='party-name-container'>
+        <label htmlFor='party-name'>Name</label>
+        <input type='text' id='party-name' value={partyName} onChange={(value) => setPartyName(value)} />
       </div>
 
       <div className='party-room-container'>
-        { !connected ?
+        { !partyConnected ?
           <>
-            <button onClick={() => connectToRoom(partyRoom)}>
+            <button onClick={() => connectToRoom()}>
               Connect
             </button>
             <input type='text' id='party-room' value={partyRoom} onChange={(value) => setPartyRoom(value)}/>
