@@ -446,7 +446,8 @@ const Main = () => {
       actionData.name = characterName;
       actionData.type = 'attack';
 
-      // rolls = [ {attack: 20, name: 'Longsword', 'slashing': 13, 'necrotic': 4}, ... ]
+      // rollSummaryData = [ {attack: 20, name: 'Longsword', 'slashing': 13, 'necrotic': 4}, ... ]
+      // (replaces "attack" with "save" for saving throws)
       rollSummaryData.forEach((roll, i) => {
         actionData[`roll-${i}`] = { ...roll }
       });

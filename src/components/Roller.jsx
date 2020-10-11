@@ -146,6 +146,7 @@ const Roller = ({
       const damageSourceData = attackSource.damageData
       const critFumble = getCritOrFumble(roll);
       let subtotalBreakdown = {};
+      let appliedCondition = null;
 
       // get both CRIT and REGULAR dice
       [roll.damageRollData, roll.critRollData].forEach((dicePool, dicePoolIndex) => {
@@ -199,7 +200,6 @@ const Roller = ({
               }
             }
 
-
             if (applyDamage && amount > 0) {
               newDamageTotal = newDamageTotal + amount;
 
@@ -214,17 +214,29 @@ const Roller = ({
               } else {
                 subtotalBreakdown[type] = amount
               }
+
+              if (damageSource.tags.includes("condition")) { appliedCondition = damageSource.condition }
             }
           }
         }
       })
 
       // save summary data for the Party Panel so we don't have to go through this again
-      rollSummaryData.push({
-        attack: getRollUseDiscard(roll).rollUse,
-        name: attackSource.name,
-        ...subtotalBreakdown
-      })
+      // (skip gated triggered saves)
+      if (roll.gatedByRollID < 0 || rollData[roll.gatedByRollID].hit) {
+
+        let summary = { ...subtotalBreakdown }
+        summary.name = attackSource.name;
+        if (appliedCondition) { summary.applies = appliedCondition }
+        if (attackSource.isSavingThrow || roll.gatedByRollID >= 0) {
+          summary.save = `DC ${attackSource.savingThrowDC} ${abilityTypes[attackSource.savingThrowType]}`;
+          summary.didsave = !roll.hit;
+        } else {
+          summary.attack = getRollUseDiscard(roll).rollUse;
+        }
+        rollSummaryData.push(summary)
+      }
+
     }
 
     // round down the damage total after summing it all up

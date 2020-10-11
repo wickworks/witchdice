@@ -121,7 +121,9 @@
 }
 
 @mixin text_party_roll_attackname {
-  font-size: 16px;
+  font-size: 14px;
+  font-style: italic;
+  color: $grey_mid;
 }
 
 @mixin text_license {

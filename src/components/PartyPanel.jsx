@@ -92,10 +92,13 @@ const PartyPanel = ({
 //     'name': 'Longsword',
 //     'slashing': 14,
 //     'necrotic': 3,
+//     'applies': 'Poisoned'
 //   },
 //   'roll-2': {
 //     'name': 'Fireball',
-//     'Fire': 14
+//     'fire': 14
+//     'save': "DC 12 Dex",
+//     'didsave': 'true',
 //   }
 // }
 //
@@ -186,22 +189,37 @@ const PartyRollDicebag = ({dieType, result}) => {
 }
 
 const PartyRollAttack = ({actionRollData}) => {
-  const {name, attack} = actionRollData;
+  const {name, attack, save, didsave, applies} = actionRollData;
 
   // prepare to harvest damage information
   const dataKeys = Object.keys(actionRollData);
   return (
     <div className="PartyRollAttack">
-      <div className='asset d20' />
-      <div className="attack-roll">{attack}</div>
+      { attack && <>
+        <div className='asset d20' />
+        <div className="attack-roll">{attack}</div>
+      </> }
+
+      { save && <>
+        <div className="save">
+          <div className={`asset ${didsave ? 'checkmark' : 'x'}`} />
+          {save}
+        </div>
+      </> }
+
       <div className="attack-name">{name}</div>
 
       <div className="damage-container">
+        { applies &&
+          <div className='applied-condition'>{applies}</div>
+        }
+
+
         { allDamageTypes.map((damageType, i) => {
           if ((dataKeys.indexOf(damageType) >= 0) && (actionRollData[damageType] > 0)) {
             return (
               <div className="damage" key={i}>
-                {actionRollData[damageType]}
+                {Math.floor(actionRollData[damageType])}
                 <div className={`asset ${damageType}`} />
               </div>
             )
