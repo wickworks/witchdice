@@ -1,9 +1,10 @@
 @import '../fonts';
 
 .Roller {
-  margin-bottom: 10px;
+  // min-height: 400px;
   width: 800px;
-  min-height: 400px;
+  margin: auto;
+  // margin: 0 100px;
 
   .controls-and-results {
     display: flex;

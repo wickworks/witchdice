@@ -1,8 +1,9 @@
 @import '../fonts';
 
 .DiceBag {
-  width: 800px;
-  margin-bottom: 60px;
+  max-width: 300px;
+  margin: 30px 20px;
+  flex-shrink: 0;
 
   h2 {
     @include text_attack_name;
@@ -13,13 +14,14 @@
 
   .bag-container {
     display: flex;
+    flex-direction: column;
     background-color: $parchment;
 
     .die-button-container {
-      max-width: 430px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
+      justify-content: center;
       padding: 6px;
 
       .DieButton {
@@ -48,10 +50,11 @@
 
     .rolling-surface {
       display: flex;
-      margin: auto;
-      flex-direction: column;
+      // flex-direction: column;
       align-items: center;
       max-width: 150px;
+      min-height: 200px;
+      margin: auto;
 
       // button.roll {
       //   @include text_dicebag_count;

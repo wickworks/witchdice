@@ -21,6 +21,7 @@ import Roller from './Roller.jsx';
 import DiceBag from './DiceBag.jsx';
 import PartyPanel from './PartyPanel.jsx';
 import Footer from './Footer.jsx';
+import './Main.scss';
 
 import firebase from 'firebase/app';
 import 'firebase/database';
@@ -529,7 +530,7 @@ const Main = () => {
   }
 
   return (
-    <>
+    <div className='Main'>
       <CharacterAndMonsterList
         setActiveCharacterID={setActiveCharacter}
         activeCharacterID={characterID}
@@ -538,54 +539,58 @@ const Main = () => {
         createNewCharacter={createNewCharacter}
       />
 
+      {/*<div>(click to increase attack rolls, right-click to decrease)</div>*/}
       {(characterName.length > 0) &&
-        <>
-          {/*<div>(click to increase attack rolls, right-click to decrease)</div>*/}
-          <Character
-            characterName={characterName}
-            setCharacterName={setCharacterName}
-            characterID={characterID}
-            updateAllAttackData={updateAllAttackData}
-            allAttackData={characterAttackData}
-            createAttack={createAttack}
-            deleteAttack={deleteAttack}
-            attackFunctions={attackFunctions}
-            deleteCharacter={deleteActiveCharacter}
-            clearRollData={clearRolls}
-          />
-
-          <ActiveAttackList
-            attackSourceData={characterAttackData}
-            attackFunctions={attackFunctions}
-          />
-
-          <Roller
-            rollData={rollData}
-            attackSourceData={characterAttackData}
-            handleNewRoll={generateNewRoll}
-            handleClear={clearRolls}
-            rollFunctions={rollFunctions}
-            setRollSummaryData={setRollSummaryData}
-          />
-        </>
+        <Character
+          characterName={characterName}
+          setCharacterName={setCharacterName}
+          characterID={characterID}
+          updateAllAttackData={updateAllAttackData}
+          allAttackData={characterAttackData}
+          createAttack={createAttack}
+          deleteAttack={deleteAttack}
+          attackFunctions={attackFunctions}
+          deleteCharacter={deleteActiveCharacter}
+          clearRollData={clearRolls}
+        />
       }
 
-      <PartyPanel
-        allPartyActionData={allPartyActionData}
-        partyName={partyName}
-        setPartyName={setPartyName}
-        partyRoom={partyRoom}
-        setPartyRoom={setPartyRoom}
-        partyConnected={partyConnected}
-        connectToRoom={connectToRoom}
-      />
+      <div className='gameplay-container'>
+        <DiceBag
+          addNewDicebagPartyRoll={addNewDicebagPartyRoll}
+        />
 
-      <DiceBag
-        addNewDicebagPartyRoll={addNewDicebagPartyRoll}
-      />
+        {(characterName.length > 0) &&
+          <div className='roller-i-hardly-even-knower-container'>
+            <ActiveAttackList
+              attackSourceData={characterAttackData}
+              attackFunctions={attackFunctions}
+            />
+
+            <Roller
+              rollData={rollData}
+              attackSourceData={characterAttackData}
+              handleNewRoll={generateNewRoll}
+              handleClear={clearRolls}
+              rollFunctions={rollFunctions}
+              setRollSummaryData={setRollSummaryData}
+            />
+          </div>
+        }
+
+        <PartyPanel
+          allPartyActionData={allPartyActionData}
+          partyName={partyName}
+          setPartyName={setPartyName}
+          partyRoom={partyRoom}
+          setPartyRoom={setPartyRoom}
+          partyConnected={partyConnected}
+          connectToRoom={connectToRoom}
+        />
+      </div>
 
       <Footer />
-    </>
+    </div>
   )
 }
 

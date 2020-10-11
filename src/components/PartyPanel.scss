@@ -2,12 +2,14 @@
 
 .PartyPanel {
 	width: 300px;
+	margin: 30px 20px;
 
 	h2 {
     @include text_attack_name;
     color: $rust;
     margin-bottom: 8px;
-    margin-left: 12px;
+    margin-right: 12px;
+		text-align: right;
   }
 
 	.party-container {

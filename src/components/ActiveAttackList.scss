@@ -2,7 +2,7 @@
 
 .ActiveAttackList {
   width: 810px;
-  margin: 20px 0 0;
+  margin: 20px auto 0;
 
   h2.roll-attacks {
     @include text_roll_attacks;

@@ -1,0 +1,29 @@
+
+.Main {
+
+
+  .gameplay-container {
+    display: flex;
+    justify-content: space-between;
+
+    .roller-i-hardly-even-knower-container {
+      margin: 0 60px;
+    }
+
+
+    @media screen and (max-width: 1500px) {
+      flex-wrap: wrap;
+      justify-content: center;
+
+      .roller-i-hardly-even-knower-container {
+        order: 0;
+        width: 100%;
+      }
+      .DiceBag {
+        order: 1;
+        max-width: 440px;
+      }
+      .PartyPanel { order: 2; }
+    }
+  }
+}

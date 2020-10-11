@@ -64,19 +64,6 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
       <hr className='pumpkin-bar' />
       <div className='bag-container'>
-        <div className='die-button-container'>
-          { Object.keys(diceData).map((dieType, i) => {
-
-            return (
-              <DieButton
-                dieType={dieType}
-                dieCount={diceData[dieType]}
-                setDieCount={(newCount) => updateDiceData(dieType, newCount)}
-                key={i}
-              />
-            )
-          })}
-        </div>
 
         <div className='rolling-surface'>
 
@@ -115,8 +102,20 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
               }
             </div>
           }
+        </div>
 
+        <div className='die-button-container'>
+          { Object.keys(diceData).map((dieType, i) => {
 
+            return (
+              <DieButton
+                dieType={dieType}
+                dieCount={diceData[dieType]}
+                setDieCount={(newCount) => updateDiceData(dieType, newCount)}
+                key={i}
+              />
+            )
+          })}
         </div>
 
       </div>
