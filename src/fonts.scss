@@ -95,7 +95,9 @@
 
 @mixin text_clear_rolls {
   font-family: 'Bitter';
-  font-size: 20px;
+  font-weight: bold;
+  font-size: 16px;
+  color: $rust;
 }
 
 @mixin text_dicebag_summary {

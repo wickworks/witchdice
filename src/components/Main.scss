@@ -2,17 +2,18 @@
 
 
 .Main {
-
+  width: 100%;
 
   .gameplay-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
 
     .roller-i-hardly-even-knower-container {
-      margin: 0 60px;
+      margin: 0 20px;
+      width: 50%;
     }
 
-
+    // for huuuge screens, put the roll stuff all on the same line
     @media screen and (max-width: 1500px) {
       flex-wrap: wrap;
       justify-content: center;
@@ -26,6 +27,13 @@
         max-width: 440px;
       }
       .PartyPanel { order: 2; }
+    }
+
+    // smaller screens start to have to tweak things
+    @media screen and (max-width: 680px) {
+      .ActiveAttackList .attack-container {
+        width: 100%;
+      }
     }
   }
 }

@@ -147,6 +147,7 @@ const Main = () => {
     setCharacterID(fingerprint);
     setCharacterName(name);
     setCharacterAttackData(attackData);
+    clearRolls();
 
     // add it to the entries
     let newData = deepCopy(allCharacterEntries);

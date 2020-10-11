@@ -377,7 +377,7 @@ const Roller = ({
       { rollData.length > 0 &&
         <div className="clear-roll-container">
           <button className="clear-rolls" onClick={() => {handleClear()}}>
-            Clear Rolls
+            Clear
           </button>
         </div>
       }
