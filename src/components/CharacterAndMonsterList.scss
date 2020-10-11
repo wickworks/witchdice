@@ -3,12 +3,15 @@
 
 .CharacterAndMonsterList {
     display: flex;
-    justify-content: space-between;
-    width: 800px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 840px;
     margin: auto;
 
     .CharacterList, .MonsterList {
-      width: 48%;
+      max-width: 45%;
+      min-width: 380px;
+      margin: 20px 20px;
 
       .title-bar {
         position: relative;
