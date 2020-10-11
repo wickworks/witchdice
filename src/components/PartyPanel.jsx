@@ -92,6 +92,10 @@ const PartyPanel = ({
 //     'name': 'Longsword',
 //     'slashing': 14,
 //     'necrotic': 3,
+//   },
+//   'roll-2': {
+//     'name': 'Fireball',
+//     'Fire': 14
 //   }
 // }
 //

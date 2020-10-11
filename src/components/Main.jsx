@@ -248,12 +248,16 @@ const Main = () => {
     let newAttack = deepCopy(defaultAttackData);
     newData.push(newAttack);
     setCharacterAttackData(newData);
+
+    clearRolls();
   }
 
   const deleteAttack = (attackID) => {
     let newData = deepCopy(characterAttackData);
     newData.splice(attackID, 1);
     setCharacterAttackData(newData);
+
+    clearRolls();
   }
 
   // =============== ROLLER FUNCTIONS ==================
@@ -311,7 +315,6 @@ const Main = () => {
 
   const generateNewRoll = () => {
     let data = []
-    let triggeredRollData = [];
 
     // console.log('');
     // console.log('~~~~~ NEW ROLL ~~~~~');
@@ -319,6 +322,8 @@ const Main = () => {
     // EACH ATTACK (that is active)
     for (let attackID = 0; attackID < characterAttackData.length; attackID++) {
       const attackData = characterAttackData[attackID]
+      let triggeredRollData = [];
+
       if (attackData.isActive && attackData.damageData.length > 0) {
 
         // EACH TO-HIT D20
@@ -438,7 +443,7 @@ const Main = () => {
     if (partyConnected && rollSummaryData.length > 0) {
       // traverse rollData to pull it out in a format that we want.
       let actionData = {};
-      actionData.name = partyName;
+      actionData.name = characterName;
       actionData.type = 'attack';
 
       // rolls = [ {attack: 20, name: 'Longsword', 'slashing': 13, 'necrotic': 4}, ... ]
