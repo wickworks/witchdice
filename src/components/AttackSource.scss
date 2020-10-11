@@ -5,44 +5,7 @@
   margin-bottom: 32px;
   position: relative;
 
-  // .die-count-container {
-  //   margin-top: -7px;
-  //   margin-right: 12px;
-  //
-  //   .asset.d20_frame {
-  //     width: 48px;
-  //     height: 48px;
-  //     border-radius: 50%;
-  //     cursor: pointer;
-  //
-  //     &:hover {
-  //       background-color: $parchment_dark;
-  //     }
-  //
-  //     .die-count {
-  //       @include text_attack_roll_count;
-  //       text-align: center;
-  //       padding-top: 11px;
-  //     }
-  //   }
-  //
-  //   .asset.delete-attack {
-  //     width: 30px;
-  //     height: 30px;
-  //     display: block;
-  //     margin: 6px auto;
-  //     cursor: pointer;
-  //
-  //     // turns black to $rust
-  //     filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
-  //     opacity: 0.4;
-  //
-  //     &:hover { opacity: 1.0;}
-  //   }
-  // }
-
   .statblock-container {
-    // min-width: 666px;
     width: 704px;
 
     .titlebar {
@@ -122,7 +85,7 @@
         @include text_default;
         position: absolute;
         bottom: 1px;
-        right: 0;
+        right: -43px;
         width: 40px;
         height: 40px;
         border: none;
