@@ -3,15 +3,14 @@
 .DamageSource {
   // background-color: #eeeeee;
   padding: 8px 0 8px 8px;
+  border-radius: 2px;
   width: 100%;
   box-sizing: border-box;
   cursor: pointer;
 
-  transition: margin .05s ease-out;
+  transition: margin .05s ease-out, background-color .075s ease-out;
 
-  &:hover {
-    background-color: $parchment_dark;
-  }
+  &:hover { background-color: $parchment_dark; }
 
   &.editing {
     background-color: $parchment_dark;

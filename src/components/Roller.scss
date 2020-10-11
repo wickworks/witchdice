@@ -64,6 +64,7 @@
       border-radius: 50%;
       border: none;
       background-color: $rust;
+      transition: background-color .075s ease-out;
       cursor: pointer;
 
       &:hover { background-color: $rust_light; }

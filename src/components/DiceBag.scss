@@ -34,7 +34,8 @@
         height: 80px;
         cursor: pointer;
 
-        background: $parchment_dark;
+        background-color: $parchment_dark;
+        transition: background-color .075s ease-out;
         border: none;
         border-radius: 40px;
 
@@ -102,6 +103,7 @@
           border-radius: 50%;
           border: none;
           background-color: $rust;
+          transition: background-color .075s ease-out;
           cursor: pointer;
 
           &:hover { background-color: $rust_light; }

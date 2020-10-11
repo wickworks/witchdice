@@ -38,9 +38,10 @@
 		display: block;
 		margin: 15px auto 5px;
 		padding: 5px 40px;
-		background-color: $parchment_dark;
 		border: none;
 		border-radius: 8px;
+		background-color: $parchment_dark;
+		transition: background-color .075s ease-out;
 		cursor: pointer;
 
 		&:hover { background-color: $pink; }

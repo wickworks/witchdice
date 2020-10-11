@@ -2,9 +2,16 @@
 
 
 .TextInput {
+  border-radius: 2px;
+  padding: 2px;
 
   cursor: pointer;
-  &:hover { background-color: $parchment_dark; }
+  background-color: transparent;
+  transition: background-color .075s ease-out;
+
+  &:hover {
+    background-color: $parchment_dark;
+  }
 
   // input, textarea {
   //   background-color: $parchment_mid;

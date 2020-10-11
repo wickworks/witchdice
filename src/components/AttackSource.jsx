@@ -99,20 +99,20 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
   // =============== EDIT ATTACK =============
 
-  function handleD20Click(e, leftMouse) {
-    let newDieCount = dieCount;
-
-    if (leftMouse && !e.shiftKey) {
-      newDieCount += 1;
-    } else {
-      newDieCount -= 1;
-      e.preventDefault()
-    }
-
-    newDieCount = Math.min(newDieCount, 99);
-    newDieCount = Math.max(newDieCount, 0);
-    setDieCount(newDieCount, attackID);
-  }
+  // function handleD20Click(e, leftMouse) {
+  //   let newDieCount = dieCount;
+  //
+  //   if (leftMouse && !e.shiftKey) {
+  //     newDieCount += 1;
+  //   } else {
+  //     newDieCount -= 1;
+  //     e.preventDefault()
+  //   }
+  //
+  //   newDieCount = Math.min(newDieCount, 99);
+  //   newDieCount = Math.max(newDieCount, 0);
+  //   setDieCount(newDieCount, attackID);
+  // }
 
   function handleModifierClick(e, leftMouse) {
     let newModifier = modifier;
@@ -167,7 +167,9 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
   return (
     <div className='AttackSource'>
-      <div className='die-count-container'>
+
+
+      {/*<div className='die-count-container'>
         <div
           className='asset d20_frame'
           onClick={(e) => handleD20Click(e, true)} onContextMenu={(e) => handleD20Click(e, false)}
@@ -178,7 +180,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
         <div className="delete-attack asset trash"
           onClick={() => setIsDeleting(!isDeleting)}
         />
-      </div>
+      </div>*/}
 
       <div className='statblock-container'>
 
