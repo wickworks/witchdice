@@ -8,8 +8,7 @@
 
 - fix how damage is rounded down and added up; should be rounded down for each attack and show up as such in the subtotal
 
-- load/save different characters
-  (data validation; can't have a blank name)
+- data validation; can't have a blank character name
 
 - import the monster manual
   (add legendary actions)
@@ -22,18 +21,13 @@
 
 - can crit/half abilities in the roller
 
-- Make online rooms so everybody can see the rolls
-  - animate new rolls coming in a la pivotal tracker changes
-
 - Optimize firebase to not re-download all rolls every change
+
+- someday: switch away from the heavy firebase server to a lightweight peer-to-peer network
 
 - It looks like you're using the development build of the Firebase JS SDK.
 When deploying Firebase apps to production, it is advisable to only import
 the individual SDK components you intend to use.
-
-- clean up unused vars
-
-- new favicon
 
 - reorganize so the controls for number of attacks in in the roll-attacks section, not the stat sheet
 
@@ -44,14 +38,15 @@ the individual SDK components you intend to use.
   -- biZARRE, I think it was reading "opacity: 100%" as "opacity: 1%". ?_?
   -- need to change values to 1.0 instead of 100%
 
-- someday: switch away from the heavy firebase server to a lightweight peer-to-peer network
 
 
--- SEE IF THESE WORKS BETTER: ---
-- change "first hit" to "once per turn", just apply it on the first hit (or have that be additional)
-	- bonus action for fighting makes things harder because there are different modifiers for the attacks
-	- anything for two-weapon fighting will make it harder
-	- could add sneak attack as a separate thing;; just attaches to the first roll
+
+------------ TWEAKS ----------
+- sort abilities to end of roll list
+- clean up unused vars
+- new favicon
+- animate new rolls coming in a la pivotal tracker changes
+
 
 ### COMMANDS
 
