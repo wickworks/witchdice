@@ -10,7 +10,18 @@
   align-items: center;
   justify-content: center;
 
-  h1 { @include text_h1; }
+  h1 {
+    @include text_h1;
+    margin-bottom: 0;
+  }
+
+  .beta-label {
+    text-align: center;
+    font-style: italic;
+    margin-bottom: 30px;
+    color: $grey_mid;
+    font-size: 14px;
+  }
 
   a {
     color: seagreen;
