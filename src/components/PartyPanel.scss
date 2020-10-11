@@ -1,6 +1,7 @@
 @import '../fonts';
 
 .PartyPanel {
+	max-width: 300px;
 
 	h2 {
     @include text_attack_name;
@@ -51,6 +52,20 @@
 		.dicebag-container {
 			display: flex;
 			justify-content: space-between;
+			padding-right: 4px;
+
+			.dicebag-single {
+				@include text_party_roll_sum;
+				display: flex;
+				align-items: center;
+				margin-left: auto;
+
+				.asset {
+					width: 28px;
+					height: 28px;
+					margin-right: 3px;
+				}
+			}
 
 			.dicebag-rolls {
 				display: flex;
@@ -59,22 +74,20 @@
 				.PartyRollDicebag {
 					@include text_party_roll_number;
 					display: flex;
-					justify-content: flex-start;
 					align-items: center;
-					margin-right: 12px;
+					margin-right: 8px;
 
 					.asset {
 						width: 24px;
 						height: 24px;
 						margin-right: 3px;
 					}
+
+					.result { width: 18px; }
 				}
 			}
 
-			.dicebag-sum {
-				@include text_party_roll_sum;
-				margin-right: 4px;
-			}
+			.dicebag-sum { @include text_party_roll_sum; }
 		}
 
 		.attack-container {

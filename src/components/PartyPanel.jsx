@@ -121,22 +121,30 @@ const PartyAction = ({partyActionData}) => {
 
       { type === 'dicebag' ?
         <div className="dicebag-container">
-          <div className="dicebag-rolls">
-            {(diceBagSum = 0) || ''}
-            {
-              actionRolls.map((roll, i) => {
-                diceBagSum = diceBagSum + parseInt(roll.result);
-                return (
-                  <PartyRollDicebag
-                    dieType={roll.die}
-                    result={roll.result}
-                    key={i}
-                  />
-                )
-              })
-            }
-          </div>
-          <div className="dicebag-sum">{diceBagSum}</div>
+          { (actionRolls.length > 1) ?
+            <>
+              <div className="dicebag-rolls">
+                { (diceBagSum = 0) || '' }
+                { actionRolls.map((roll, i) => {
+                  diceBagSum = diceBagSum + parseInt(roll.result);
+                  return (
+                    <PartyRollDicebag
+                      dieType={roll.die}
+                      result={roll.result}
+                      key={i}
+                    />
+                  )
+                })}
+              </div>
+              <div className="dicebag-sum">{diceBagSum}</div>
+            </>
+          :
+            <div className='dicebag-single'>
+              <div className={`asset ${actionRolls[0].die}`} />
+              {actionRolls[0].result}
+            </div>
+          }
+
         </div>
 
       : type === 'attack' &&
@@ -162,7 +170,7 @@ const PartyRollDicebag = ({dieType, result}) => {
   return (
     <div className="PartyRollDicebag">
       <div className={`asset ${dieType}`} />
-      {result}
+      <div className="result">{result}</div>
     </div>
   );
 }
