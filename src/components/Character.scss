@@ -12,6 +12,7 @@
   background-color: $parchment;
 
   .character-sheet {
+    position: relative;
     padding: 0 10px;
 
     .character-name {
@@ -32,39 +33,47 @@
       .display { @include text_character_name; }
 
       input { @include text_character_name; }
-
-      .asset.delete-character {
-        width: 50px;
-        height: 50px;
-        display: block;
-        margin-left: auto;
-        cursor: pointer;
-
-        // turns black to $rust
-        filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
-        opacity: 0.4;
-
-        &:hover { opacity: 1.0;}
-      }
     }
 
+    .asset.delete-character {
+      position: absolute;
+      right: -26px;
+      top: 80px;
 
-    .add-attack {
-      display: flex;
-      align-items: center;
-      padding: 4px 16px 4px 8px;
-      width: max-content;
-      margin-right: auto;
-      opacity: 0.4;
+      width: 30px;
+      height: 30px;
+      display: block;
+      margin-left: auto;
       transition: opacity .075s ease-out;
       cursor: pointer;
 
-      &:hover { opacity: 0.7; }
+      // turns black to $rust
+      filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+      opacity: 0.2;
 
-      .asset {
-        width: 40px;
-        height: 40px;
-        margin-right: 16px;
+      &:hover { opacity: 1.0;}
+    }
+
+    .attack-container {
+      &.hidden { visibility: hidden; }
+
+      .add-attack {
+        display: flex;
+        align-items: center;
+        padding: 4px 16px 4px 8px;
+        width: max-content;
+        margin-right: auto;
+        opacity: 0.4;
+        transition: opacity .075s ease-out;
+        cursor: pointer;
+
+        &:hover { opacity: 0.7; }
+
+        .asset {
+          width: 40px;
+          height: 40px;
+          margin-right: 16px;
+        }
       }
     }
   }
@@ -74,14 +83,15 @@
     align-items: center;
     height: 100px;
     width: 100%;
-    background-color: $parchment;
+    margin: 21px 0;
+    background-color: $parchment_dark;
 
     .delete-title {
       @include text_h1;
       color: $rust;
 
       padding: 0 30px;
-      margin-left: auto;
+      margin-right: auto;
     }
 
     button {
@@ -91,6 +101,7 @@
       height: 100%;
       width: 100px;
       border: 0;
+      transition: background-color .075s ease-out;
       cursor: pointer;
 
       &.cancel { background-color: $olive_light; }

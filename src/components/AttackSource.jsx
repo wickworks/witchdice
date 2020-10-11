@@ -186,16 +186,15 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
         { isDeleting ?
           <div className='delete-confirm-container'>
-            <button className='cancel' onClick={() => setIsDeleting(false)}>
-              <div className='asset x' />
-              Cancel
-            </button>
+            <div className='delete-title'>Delete '{name}'?</div>
             <button className='delete' onClick={() => {setIsDeleting(false); deleteAttack(attackID)}}>
               <div className='asset trash' />
               Delete
             </button>
-            <div className='delete-title'>Delete '{name}'?</div>
-
+            <button className='cancel' onClick={() => setIsDeleting(false)}>
+              <div className='asset x' />
+              Cancel
+            </button>
           </div>
         :
           <>
@@ -301,6 +300,10 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
           </>
         }
       </div>
+
+      <div className="delete-attack asset trash"
+        onClick={() => setIsDeleting(!isDeleting)}
+      />
     </div>
   );
 }

@@ -12,28 +12,28 @@ const Character = ({
   clearRollData
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
-
-  // =============== CREATE / EDIT / DELETE ATTACKS ==================
+  const isDeletingClass = isDeleting ? 'hidden' : '';
 
   return (
     <div className="Character">
       <hr className="pumpkin-bar" />
 
-      { isDeleting ?
-        <div className='delete-character-confirm-container'>
-          <div className='delete-title'>Delete '{characterName}'?</div>
 
-          <button className='delete' onClick={() => {setIsDeleting(false); deleteCharacter()}}>
-            <div className='asset trash' />
-            Delete
-          </button>
-          <button className='cancel' onClick={() => setIsDeleting(false)}>
-            <div className='asset x' />
-            Cancel
-          </button>
-        </div>
-      :
-        <div className="character-sheet">
+      <div className="character-sheet">
+        { isDeleting ?
+          <div className='delete-character-confirm-container'>
+            <div className='delete-title'>Delete {characterName}?</div>
+
+            <button className='delete' onClick={() => {setIsDeleting(false); deleteCharacter()}}>
+              <div className='asset trash' />
+              Delete
+            </button>
+            <button className='cancel' onClick={() => setIsDeleting(false)}>
+              <div className='asset x' />
+              Cancel
+            </button>
+          </div>
+        :
           <h2 className="character-name">
             <TextInput
               textValue={characterName}
@@ -41,12 +41,13 @@ const Character = ({
               placeholder='Character name'
               maxLength={50}
             />
-
-            <div className="delete-character asset trash"
-              onClick={() => setIsDeleting(true)}
-            />
           </h2>
+        }
+        <div className="delete-character asset trash"
+          onClick={() => setIsDeleting(true)}
+        />
 
+        <div className={`attack-container ${isDeletingClass}`}>
           { allAttackData.map((data, i) => {
             return (
               <AttackSource
@@ -65,7 +66,7 @@ const Character = ({
             Add Attack
           </div>
         </div>
-      }
+      </div>
 
       <hr className="pumpkin-bar" />
     </div>

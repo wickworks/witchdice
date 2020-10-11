@@ -3,6 +3,7 @@
 .AttackSource {
   display: flex;
   margin-bottom: 32px;
+  position: relative;
 
   // .die-count-container {
   //   margin-top: -7px;
@@ -153,6 +154,8 @@
       }
     }
 
+
+
     .delete-confirm-container {
       display: flex;
       align-items: center;
@@ -172,6 +175,7 @@
         font-size: 16px;
         height: 100%;
         width: 100px;
+        padding: 15px 0;
         border: 0;
         cursor: pointer;
 
@@ -188,6 +192,23 @@
     }
   }
 
+  .asset.delete-attack {
+      position: absolute;
+      right: -38px;
+      top: 8px;
 
+      width: 30px;
+      height: 30px;
+      display: block;
+      margin: 6px auto;
+      cursor: pointer;
+
+      // turns black to $rust
+      filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+      opacity: 0.2;
+      transition: opacity .075s ease-out;
+
+      &:hover { opacity: 0.8;}
+    }
 
 }
