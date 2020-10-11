@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './PartyPanel.scss';
-
+import { allDamageTypes } from '../data.js';
 
 const PartyPanel = ({
   allPartyActionData,
@@ -27,7 +27,7 @@ const PartyPanel = ({
   //   }
   // }
 
-  console.log('rendering partyActionData', allPartyActionData);
+  // console.log('rendering partyActionData', allPartyActionData);
 
 
 	return (
@@ -83,30 +83,30 @@ const PartyPanel = ({
 
 
 // two types of roll data: attack/damage rolls & dicebag rolls
-const defaultPartyActionData_attack = {
-  'name': 'Olive',
-  'conditions': 'advantage',
-  'type': 'attack',
-  'roll-1': {
-    'attack': '11',
-    'name': 'Longsword',
-    'damage': '14',
-    'type': 'slashing',
-  }
-}
-
-const defaultPartyActionData_dicebag = {
-  'name': 'Olive',
-  'type': 'dicebag',
-  'roll-1': {
-    'die': 'd6',
-    'result': '2',
-  },
-  'roll-2': {
-    'die': 'd6',
-    'result': '4',
-  }
-}
+// const defaultPartyActionData_attack = {
+//   'name': 'Olive',
+//   'conditions': 'advantage',
+//   'type': 'attack',
+//   'roll-1': {
+//     'attack': 11,
+//     'name': 'Longsword',
+//     'slashing': 14,
+//     'necrotic': 3,
+//   }
+// }
+//
+// const defaultPartyActionData_dicebag = {
+//   'name': 'Olive',
+//   'type': 'dicebag',
+//   'roll-1': {
+//     'die': 'd6',
+//     'result': '2',
+//   },
+//   'roll-2': {
+//     'die': 'd6',
+//     'result': '4',
+//   }
+// }
 
 
 const PartyAction = ({partyActionData}) => {
@@ -158,13 +158,10 @@ const PartyAction = ({partyActionData}) => {
 
       : type === 'attack' &&
         <div className="attack-container">
-          { actionRolls.map((roll, i) => {
+          { actionRolls.map((actionRollData, i) => {
             return (
               <PartyRollAttack
-                attackRoll={roll.attack}
-                name={roll.name}
-                damage={roll.damage}
-                type={roll.type}
+                actionRollData={actionRollData}
                 key={i}
               />
             )
@@ -184,19 +181,29 @@ const PartyRollDicebag = ({dieType, result}) => {
   );
 }
 
-const PartyRollAttack = ({attackRoll, name, damage, type}) => {
+const PartyRollAttack = ({actionRollData}) => {
+  const {name, attack} = actionRollData;
+
+  // prepare to harvest damage information
+  const dataKeys = Object.keys(actionRollData);
   return (
     <div className="PartyRollAttack">
       <div className='asset d20' />
-      <div className="attack-roll">{attackRoll}</div>
+      <div className="attack-roll">{attack}</div>
       <div className="attack-name">{name}</div>
 
-      { (damage > 0) &&
-        <div className="damage">
-          {damage}
-          <div className={`asset ${type}`} />
-        </div>
-      }
+      <div className="damage-container">
+        { allDamageTypes.map((damageType, i) => {
+          if ((dataKeys.indexOf(damageType) >= 0) && (actionRollData[damageType] > 0)) {
+            return (
+              <div className="damage" key={i}>
+                {actionRollData[damageType]}
+                <div className={`asset ${damageType}`} />
+              </div>
+            )
+          }
+        }) }
+      </div>
     </div>
   );
 }

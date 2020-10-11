@@ -109,31 +109,46 @@
 			.PartyRollAttack {
 				display: flex;
 				align-items: center;
+				min-height: 30px;
+				margin-bottom: 4px;
 
 				.asset.d20 {
 					width: 24px;
 					height: 24px;
-					margin-right: 3px;
+					margin-right: 4px;
+					flex-shrink: 0;
 				}
 
-				.attack-roll { width: 22px; }
+				.attack-roll {
+					width: 26px;
+					flex-shrink: 0;
+				}
 
-				.attack-name { @include text_party_roll_attackname; }
+				.attack-name {
+					@include text_party_roll_attackname;
+					flex-shrink: 0;
+				}
 
-				.damage {
-					@include text_party_roll_sum;
+				.damage-container {
 					display: flex;
-					align-items: center;
 					margin-left: auto;
+					align-items: center;
+					flex-wrap: wrap;
+					justify-content: flex-end;
 
-					.asset {
-						width: 28px;
-						height: 28px;
-						margin-left: 3px;
+					.damage {
+						@include text_party_roll_sum;
+						display: flex;
+						align-items: center;
+						margin-left: 14px;
+
+						.asset {
+							width: 28px;
+							height: 28px;
+							margin-left: 2px;
+						}
 					}
 				}
-
-
 			}
 		}
 	}

@@ -30,8 +30,9 @@
 
 - bug: animation fading of showing math for die roll doesn't work on production MYSTERIOUSLY, just disabled it
   -- biZARRE, I think it was reading "opacity: 100%" as "opacity: 1%". ?_?
+  -- need to change values to 1.0 instead of 100%
 
-
+- someday: switch away from the heavy firebase server to a lightweight peer-to-peer network
 
 
 -- SEE IF THESE WORKS BETTER: ---

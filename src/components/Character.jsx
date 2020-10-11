@@ -15,9 +15,6 @@ const Character = ({
 
   // =============== CREATE / EDIT / DELETE ATTACKS ==================
 
-  console.log('characterName',characterName.length);
-  console.log('attacks',allAttackData.length);
-
   return (
     <div className="Character">
       <hr className="pumpkin-bar" />

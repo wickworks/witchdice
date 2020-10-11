@@ -93,11 +93,14 @@ const Main = () => {
   const [characterAttackData, setCharacterAttackData] = useState([]);
 
   const [rollData, setRollData] = useState([]);
+  // don't want to re-traverse the rollData for the party, so roller will build a summary for us
+  const [rollSummaryData, setRollSummaryData] = useState([]);
 
   const [allPartyActionData, setAllPartyActionData] = useState([]);
   const [partyRoom, setPartyRoom] = useState('sargasso-sea');
   const [partyName, setPartyName] = useState('olive');
   const [partyConnected, setPartyConnected] = useState(false);
+  const [partyLastAttackKey, setPartyLastAttackKey] = useState('');
 
   // =============== INITIALIZE CHARACTER DATA ==================
 
@@ -414,6 +417,9 @@ const Main = () => {
 
         // console.log('New Roll Data for ', attackData.name, JSON.stringify(data));
         setRollData(data);
+
+        // clear out the last attack key so we'll push a new one in the rollData useEffect
+        setPartyLastAttackKey('');
       }
     }
   }
@@ -426,6 +432,26 @@ const Main = () => {
     // dbRef.child('message').on('value', (snapshot) => setMessage(snapshot.val()));
 
   }, []);
+
+  // whenever we update rolldata
+  useEffect(() => {
+    if (partyConnected && rollSummaryData.length > 0) {
+      // traverse rollData to pull it out in a format that we want.
+      let actionData = {};
+      actionData.name = partyName;
+      actionData.type = 'attack';
+
+      // rolls = [ {attack: 20, name: 'Longsword', 'slashing': 13, 'necrotic': 4}, ... ]
+      rollSummaryData.forEach((roll, i) => {
+        actionData[`roll-${i}`] = { ...roll }
+      });
+
+      console.log(' new attack actionData', actionData);
+
+      addNewAttackPartyRoll(actionData);
+
+    }
+  }, [rollSummaryData]);
 
 
   const connectToRoom = () => {
@@ -440,11 +466,13 @@ const Main = () => {
         (snapshot) => {
           // turn a buncha { "action-1": {data} } into just an array e.g. [ {data}, ... ]
           const rawActionData = snapshot.val();
-          let newActionData = [];
-          Object.keys(rawActionData).forEach((actionKey) => {
-            newActionData.push(rawActionData[actionKey]);
-          });
-          setAllPartyActionData( newActionData );
+          if (rawActionData !== null) {
+            let newActionData = [];
+            Object.keys(rawActionData).forEach((actionKey) => {
+              newActionData.push(rawActionData[actionKey]);
+            });
+            setAllPartyActionData( newActionData );
+          }
         }
       );
 
@@ -456,12 +484,13 @@ const Main = () => {
     }
   }
 
-  // rolls = [ {die: 'd6', result: 4}, ... ]
   const addNewDicebagPartyRoll = (rolls) => {
     if (partyConnected) {
       let actionData = {};
-      actionData.name = 'Olive';
+      actionData.name = partyName;
       actionData.type = 'dicebag';
+
+      // rolls = [ {die: 'd6', result: 4}, ... ]
       rolls.forEach((roll, i) => {
         actionData[`roll-${i}`] = {
           die: roll.dieType,
@@ -469,19 +498,31 @@ const Main = () => {
         }
       });
 
-
       console.log('pushing roll to firebase', actionData);
 
       // Push this single roll to Firebase
       // (the update of the local state is handled by the firebase change)
-      // const actionKey = `action-${allPartyActionData.length}`
-
       const dbRef = firebase.database().ref();
       dbRef.child(partyRoom).push(actionData);
-      // dbRef.child(partyRoom).push({
-      //   message: 'somebody loves you',
-      //   timestamp: Date.now(),
-      // });
+    }
+  }
+
+  const addNewAttackPartyRoll = (actionData) => {
+    if (partyConnected) {
+      console.log('pushing attack to firebase', actionData);
+
+      const dbRef = firebase.database().ref();
+
+      // ~~ new attack roll ~~ //
+      if (partyLastAttackKey.length === 0) {
+        const newKey = dbRef.child(partyRoom).push(actionData).key
+        setPartyLastAttackKey(newKey);
+
+      // ~~ update attack roll ~~ //
+      } else {
+        console.log('       updating attack ', partyLastAttackKey);
+        dbRef.child(partyRoom).child(partyLastAttackKey).set(actionData);
+      }
     }
   }
 
@@ -522,6 +563,7 @@ const Main = () => {
             handleNewRoll={generateNewRoll}
             handleClear={clearRolls}
             rollFunctions={rollFunctions}
+            setRollSummaryData={setRollSummaryData}
           />
         </>
       }
