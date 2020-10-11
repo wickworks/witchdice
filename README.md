@@ -34,11 +34,6 @@ the individual SDK components you intend to use.
 - maybe: auto-unselect all attacks for every roll? have to opt-in for them every time?
 - setting: customize which icon shows up for natural 20s
 
-- bug: animation fading of showing math for die roll doesn't work on production MYSTERIOUSLY, just disabled it
-  -- biZARRE, I think it was reading "opacity: 100%" as "opacity: 1%". ?_?
-  -- need to change values to 1.0 instead of 100%
-
-
 
 
 ------------ TWEAKS ----------

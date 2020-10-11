@@ -37,8 +37,8 @@
       .total {
         pointer-events: none;
 
-        // opacity: 100%;
-        // transition: opacity .075s ease-out .15s;
+        opacity: 1.0;
+        transition: opacity .075s ease-out .15s;
       }
 
       .sum {
@@ -48,16 +48,15 @@
         left: 0;
         pointer-events: none;
 
-        visibility: hidden;
-        // opacity: 0%;
-        // transition: opacity .075s ease-out .15s;
+        opacity: 0.0;
+        transition: opacity .075s ease-out .15s;
       }
     }
 
-    // &:hover .roll-use {
-    //   .total { opacity: 0%; }
-    //   .sum { opacity: 100%; }
-    // }
+    &:hover .roll-use {
+      .total { opacity: 0.0; }
+      .sum { opacity: 1.0; }
+    }
   }
 
   .result-crit-container {
