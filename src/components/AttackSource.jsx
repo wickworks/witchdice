@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { deepCopy } from '../utils.js';
-import { defaultDamageData, abilityTypes } from '../data.js';
+import { defaultDamageData, abilityTypes, actionTypes } from '../data.js';
 import DamageSource from './DamageSource.jsx';
 import TextInput from './TextInput.jsx';
 
@@ -12,7 +12,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     damageData,
     dieCount,
     modifier,
-    isSavingThrow,
+    type,
     savingThrowDC,
     savingThrowType,
     name,
@@ -23,7 +23,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     setDamageData,
     setDieCount,
     setModifier,
-    setIsSavingThrow,
+    setType,
     setSavingThrowDC,
     setSavingThrowType,
     setName,
@@ -158,6 +158,11 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     setSavingThrowType(newType, attackID);
   }
 
+  function cycleActionType(currentType) {
+    const currentIndex = actionTypes.indexOf(currentType);
+    return actionTypes[ (currentIndex+1) % actionTypes.length ]
+  }
+
   const descClass = (desc.length > 64) ? 'long' : 'short'
 
   return (
@@ -203,16 +208,28 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
               </div>
 
               <div className='is-saving-throw'
-                onClick={() => setIsSavingThrow(!isSavingThrow, attackID)}
+                onClick={() => setType(cycleActionType(type), attackID)}
               >
-                { isSavingThrow ?
+                { (type === 'attack') ?
+                  'Attack.'
+                : (type === 'save') ?
                   'Saving throw.'
                 :
-                  'Attack.'
+                  'Ability.'
                 }
               </div>
 
-              {isSavingThrow ?
+              { (type === 'attack') ?
+                <div
+                  className='modifier unselectable'
+                  onClick={(e) => handleModifierClick(e, true)}
+                  onContextMenu={(e) => handleModifierClick(e, false)}
+                >
+                  {modifier >= 0 ? '+' : ''}
+                  {modifier} to hit
+                </div>
+
+              : (type === 'save') ?
                 <>
                   <div
                     className='saving-throw-dc unselectable'
@@ -229,15 +246,8 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                     {abilityTypes[savingThrowType]}
                   </div>
                 </>
-              :
-                <div
-                  className='modifier unselectable'
-                  onClick={(e) => handleModifierClick(e, true)}
-                  onContextMenu={(e) => handleModifierClick(e, false)}
-                >
-                  {modifier >= 0 ? '+' : ''}
-                  {modifier} to hit
-                </div>
+              : //ability
+                <></>
               }
 
               <div className={`desc ${descClass}`}>

@@ -195,17 +195,17 @@ const PartyRollAttack = ({actionRollData}) => {
   const dataKeys = Object.keys(actionRollData);
   return (
     <div className="PartyRollAttack">
-      { attack && <>
+      { attack ? <>
         <div className='asset d20' />
         <div className="attack-roll">{attack}</div>
-      </> }
+      </> : <></> }
 
-      { save && <>
+      { save &&
         <div className="save">
           <div className={`asset ${didsave ? 'checkmark' : 'x'}`} />
           {save}
         </div>
-      </> }
+      }
 
       <div className="attack-name">{name}</div>
 

@@ -124,7 +124,7 @@ function getMonsterData() {
 
           // VANILLA SAVING THROW
           } else if (dcIndex > 0 && hitIndex === -1) {
-            attackData.isSavingThrow = true;
+            attackData.type = 'save';
 
             // if we didn't add any damage, check to see if there's a condition
             if (!('damage_dice' in attackOriginal)) {
@@ -143,7 +143,7 @@ function getMonsterData() {
 
           // SOME OTHER THING e.g. MULTIATTACK
           } else if (dcIndex === -1 && hitIndex === -1) {
-            // desc-only?
+            attackData.type = 'ability';
           }
 
 

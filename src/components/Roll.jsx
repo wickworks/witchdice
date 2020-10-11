@@ -5,7 +5,7 @@ const Roll = ({
   rollID,
   rollUse, rollDiscard,
   isCrit, isFumble, evasion,
-  firstHitData, isSavingThrow,
+  type,
   damageSourceData,
   attackRollData,
   rollFunctions
@@ -16,7 +16,7 @@ const Roll = ({
   const {setHit, setDamageData} = rollFunctions
 
   // saving throws are reversed
-  const isHit = (isSavingThrow ? !hit : hit);
+  const isHit = (type === 'save' ? !hit : hit);
 
   const useLowerRollClass =
     (rollUse < rollDiscard) ?
@@ -53,7 +53,7 @@ const Roll = ({
         let halvedClass = '';
 
         if (!damageSource.enabled) { showDamageRoll = false; }
-        if (isSavingThrow && damageSource.tags.includes("savehalf")) {
+        if ((type === 'save') && damageSource.tags.includes("savehalf")) {
           if (evasion) {     // has evasion
             if (hit) {
               showDamageRoll = true;
@@ -68,14 +68,6 @@ const Roll = ({
               amount = amount * .5;
               halvedClass = 'halved';
             }
-          }
-        }
-
-        // are we the first to make it this far with a hit?
-        if (damageSource.tags.includes("once")) {
-          const sourceName = damageSource.name.toLowerCase() || 'unnamed';
-          if (!(firstHitData[sourceName] === rollID)) {
-            showDamageRoll = false;
           }
         }
 
@@ -136,7 +128,7 @@ const Roll = ({
         disabled={isCrit || isFumble}
       />
 
-      { !isSavingThrow ?
+      { type === 'attack' ?
         isCrit ?
           <div className='result-crit-container'>
             <div className='asset d20_frame result-crit'>

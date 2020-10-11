@@ -235,7 +235,7 @@ const Main = () => {
     setIsActive: (value, attackID) => updateAllAttackData('isActive',value,attackID),
     setDieCount: (value, attackID) => updateAllAttackData('dieCount',parseInt(value),attackID),
     setModifier: (value, attackID) => updateAllAttackData('modifier',parseInt(value),attackID),
-    setIsSavingThrow: (value, attackID) => updateAllAttackData('isSavingThrow',value,attackID),
+    setType: (value, attackID) => updateAllAttackData('type',value,attackID),
     setSavingThrowDC: (value, attackID) => updateAllAttackData('savingThrowDC',parseInt(value),attackID),
     setSavingThrowType: (value, attackID) => updateAllAttackData('savingThrowType',parseInt(value),attackID),
     setName: (value, attackID) => updateAllAttackData('name',value,attackID),
@@ -328,15 +328,17 @@ const Main = () => {
 
         // EACH TO-HIT D20
         for (let rollID = 0; rollID < attackData.dieCount; rollID++) {
-          const defaultHit = attackData.isSavingThrow ? true : false;
+          const defaultHit = attackData.type === 'save' ? true : false;
           let roll = deepCopy(defaultRollData);
           roll.attackID = attackID;
           roll.hit = defaultHit;
           roll.attackBonus = attackData.modifier;
 
-          // roll some d20s
-          roll.rollOne = getRandomInt(20)
-          roll.rollTwo = getRandomInt(20)
+          // roll some d20s for attacks
+          if (attackData.type === 'attack') {
+            roll.rollOne = getRandomInt(20)
+            roll.rollTwo = getRandomInt(20)
+          }
 
           // did we crit? (check if ANY of the damage sources have expanded crit ranges)
           let critRange = 20;

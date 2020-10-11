@@ -4,7 +4,6 @@ import { deepCopy } from './utils.js';
 const CURRENT_VERSION = '0.2';
 
 const allTags = {
-  'once': 'Once per turn',
   'savehalf': 'Save for half',
   'triggeredsave': 'Requires save',
   'condition': 'Applies condition',
@@ -75,16 +74,19 @@ const defaultDamageData = {
   condition: ''
 };
 
+
+const actionTypes = ['attack', 'save', 'ability']
 const defaultAttackData = {
   isActive: true,
   dieCount: 1,
   modifier: 0,
-  isSavingThrow: false,
-  savingThrowDC: 12,
-  savingThrowType: 0, //Dex
   name: 'Longsword',
   desc: 'Reach 5ft, one target.',
-  damageData: []
+  damageData: [],
+  type: 'attack', // attack | save | ability | info
+
+  savingThrowDC: 12,
+  savingThrowType: 0, //Dex
 };
 
 const defaultRollData = {
@@ -185,6 +187,7 @@ export {
   allDamageTypes,
   abilityTypes,
   allConditions,
+  actionTypes,
   defaultDamageData,
   defaultAttackData,
   defaultRollData,

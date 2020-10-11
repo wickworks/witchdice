@@ -16,9 +16,22 @@
   (add special_abilities e.g. sneak attack 1/turn)
   (die-less damage rolls don't work; see crab)
 
-- Make online rooms so everybody can see the rolls
+- monster search: don't show any until search filter applied. Add to front of recent list if searching, otherwise perserve recent list order. Clear filter after clicking monster while filtering
 
-- animate new rolls coming in a la pivotal tracker changes
+- import spells
+
+- can crit/half abilities in the roller
+
+- Make online rooms so everybody can see the rolls
+  - animate new rolls coming in a la pivotal tracker changes
+
+- Optimize firebase to not re-download all rolls every change
+
+- It looks like you're using the development build of the Firebase JS SDK.
+When deploying Firebase apps to production, it is advisable to only import
+the individual SDK components you intend to use.
+
+- clean up unused vars
 
 - new favicon
 

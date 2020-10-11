@@ -18,8 +18,8 @@ const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
           const activeClass = isActive ? 'active' : '';
 
           const showAttack =
-            attackSource.damageData.length > 0 ||
-            attackSource.isSavingThrow;
+            (attackSource.type === 'attack' && attackSource.damageData.length > 0) ||
+            attackSource.type === 'save';
 
           if (showAttack) {
             return (

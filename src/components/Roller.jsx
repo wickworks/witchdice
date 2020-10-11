@@ -24,7 +24,6 @@ const Roller = ({
   // outcomes of calculateDamage
   const [damageTotal, setDamageTotal] = useState(false);
   const [damageBreakdown, setDamageBreakdown] = useState(false);
-  const [firstHitData, setFirstHitData] = useState(false);
 
   // when the roll data changes, figure out what's a hit & send up the summary
   useEffect(() => {
@@ -47,7 +46,7 @@ const Roller = ({
       const attackSource = attackSourceData[roll.attackID];
 
       // only attacks can crit
-      if (!attackSource.isSavingThrow) {
+      if (attackSource.type === 'attack') {
         const critFumble = getCritOrFumble(roll)
 
         // all critical hits are hits
@@ -95,8 +94,8 @@ const Roller = ({
     let isCrit = false;
     let isFumble = false;
 
-    // saving throws can't crit
-    if (attackSourceData[roll.attackID].isSavingThrow) { return false; }
+    // only attacks can crit
+    if (attackSourceData[roll.attackID].type !== 'attack') { return false; }
 
 
     const rollSorted = [roll.rollOne, roll.rollTwo].sort((a,b)=>a-b);
@@ -137,7 +136,6 @@ const Roller = ({
     // calculate damage total & breakdown by type
     let newDamageTotal = 0;
     let newDamageBreakdown = {};
-    let newFirstHitData = {}; // when a damage source hits, add its name & id to this if it's not there already
     let rollSummaryData = [];
 
     for (let rollID = 0; rollID < rollData.length; rollID++) {
@@ -165,7 +163,7 @@ const Roller = ({
             let applyDamage = false;
             if (roll.hit || critFumble.isCrit) { applyDamage = true; }
 
-            if (attackSource.isSavingThrow && damageSource.tags.includes("savehalf")) {
+            if (attackSource.type === 'save' && damageSource.tags.includes("savehalf")) {
               // has evasion
               if (evasion && attackSource.savingThrowType === 0) {
                 if (roll.hit) {
@@ -187,20 +185,12 @@ const Roller = ({
               if (!gatingAttackRoll.hit) { applyDamage = false; }
             }
 
-            if (!attackSource.isSavingThrow && critFumble.isFumble) { applyDamage = false; }
+            if (attackSource.type === 'attack' && critFumble.isFumble) { applyDamage = false; }
             if (!damageSource.enabled) { applyDamage = false; }
 
-            // are we the first to make it this far with a hit?
-            if (damageSource.tags.includes("once") && applyDamage) {
-              const sourceName = damageSource.name.toLowerCase() || 'unnamed';
-              if (Object.keys(newFirstHitData).includes(sourceName)) {
-                applyDamage = false;
-              } else {
-                newFirstHitData[sourceName] = rollID;
-              }
-            }
-
             if (applyDamage && amount > 0) {
+
+              console.log('            ->> actually applying it!');
               newDamageTotal = newDamageTotal + amount;
 
               if (Object.keys(newDamageBreakdown).indexOf(type) >= 0 ) {
@@ -222,21 +212,23 @@ const Roller = ({
       })
 
       // save summary data for the Party Panel so we don't have to go through this again
-      // (skip gated triggered saves)
-      if (roll.gatedByRollID < 0 || rollData[roll.gatedByRollID].hit) {
+      let includeInSummary = true;
+      if (roll.gatedByRollID >= 0 && !rollData[roll.gatedByRollID].hit) { includeInSummary = false; }
+      if (attackSource.type === 'ability' && !roll.hit) { includeInSummary = false; }
 
+      if (includeInSummary) {
         let summary = { ...subtotalBreakdown }
         summary.name = attackSource.name;
         if (appliedCondition) { summary.applies = appliedCondition }
-        if (attackSource.isSavingThrow || roll.gatedByRollID >= 0) {
+        if (attackSource.type === 'save' || roll.gatedByRollID >= 0) {
           summary.save = `DC ${attackSource.savingThrowDC} ${abilityTypes[attackSource.savingThrowType]}`;
           summary.didsave = !roll.hit;
         } else {
           summary.attack = getRollUseDiscard(roll).rollUse;
         }
+
         rollSummaryData.push(summary)
       }
-
     }
 
     // round down the damage total after summing it all up
@@ -244,20 +236,14 @@ const Roller = ({
 
     setDamageTotal(newDamageTotal);
     setDamageBreakdown(newDamageBreakdown);
-    setFirstHitData(newFirstHitData);
     setRollSummaryData(rollSummaryData);
   }
 
   // figure out what whether to show evasion checkbox or not
-  let hasActiveAttack = false;
-  let hasActiveSavingThrow = false;
+  let showEvasionOption = false;
   attackSourceData.map((attackSource) => {
-    if (attackSource.dieCount > 0) {
-      if (attackSource.isSavingThrow) {
-        hasActiveSavingThrow = true;
-      } else {
-        hasActiveAttack = true;
-      }
+    if (attackSource.type === 'save' && attackSource.savingThrowType === 0 && attackSource.dieCount > 0) {
+      showEvasionOption = true;
     }
   });
 
@@ -289,7 +275,7 @@ const Roller = ({
               Disadvantage
             </label>
 
-            {hasActiveSavingThrow &&
+            {showEvasionOption &&
               <label className="has-evasion">
                 <input
                   name="evasion"
@@ -338,7 +324,7 @@ const Roller = ({
 
             const attackSource = attackSourceData[attackRoll.attackID];
             let rollName = attackSource.name;
-            let rollSavingThrow = attackSource.isSavingThrow;
+            let rollSavingThrow = attackSource.type === 'save';
             let rollSavingThrowDC = attackSource.savingThrowDC;
             let rollSavingThrowType = attackSource.savingThrowType;
 
@@ -373,9 +359,11 @@ const Roller = ({
                       {currentAttackName}
                       {rollSavingThrow && ` — DC ${rollSavingThrowDC} ${abilityTypes[rollSavingThrowType]}`}
                     </h4>
-                    <div className='roll-type-hint'>
-                      {rollSavingThrow ? 'Saved?' : 'Hit?'}
-                    </div>
+                    { (attackSource.type !== 'ability') &&
+                      <div className='roll-type-hint'>
+                        {rollSavingThrow ? 'Saved?' : 'Hit?'}
+                      </div>
+                    }
                   </>
                 }
                 <Roll
@@ -385,8 +373,7 @@ const Roller = ({
                   isCrit={critFumble.isCrit}
                   isFumble={critFumble.isFumble}
                   evasion={evasion && attackSource.savingThrowType === 0}
-                  firstHitData={firstHitData}
-                  isSavingThrow={rollSavingThrow}
+                  type={attackSource.type}
                   damageSourceData={attackSourceData[attackRoll.attackID].damageData}
                   attackRollData={attackRoll}
                   rollFunctions={rollFunctions}
