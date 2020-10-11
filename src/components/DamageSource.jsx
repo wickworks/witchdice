@@ -51,14 +51,14 @@ const DamageSource = ({
 
   let selectedTags = [];
   let selectedTagNames = [];
-  tags.map((tagKey, i) => {
+  tags.forEach((tagKey, i) => {
     selectedTags.push({name: allTags[tagKey], id: tagKey})
     selectedTagNames.push(allTags[tagKey])
   })
 
   const handleTagUpdate = (selectedTags) => {
     let newTags = []
-    selectedTags.map((tag) => { newTags.push(tag.id) })
+    selectedTags.forEach((tag) => { newTags.push(tag.id) })
     setTags(newTags, attackID, damageID)
   }
 

@@ -3,8 +3,6 @@ import {RadioGroup, Radio} from 'react-radio-group';
 import {allDamageTypes} from '../data.js'
 import './DamageEdit.scss';
 
-const defaultDamageData = { dieType: 6, damageType:'slashing' }
-
 const DamageEdit = ({
   attackID, die, setDie, type, setType,
   onDelete, onClose

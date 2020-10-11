@@ -12,8 +12,8 @@ const Roll = ({
 }) => {
 
   // no 'crit' here; use isCrit from props instead
-  const {attackID, hit, attackBonus, damageRollData, critRollData} = attackRollData;
-  const {setHit, setDamageData} = rollFunctions
+  const {hit, attackBonus, damageRollData, critRollData} = attackRollData;
+  const {setHit} = rollFunctions
 
   // saving throws are reversed
   const isHit = (type === 'save' ? !hit : hit);
@@ -39,7 +39,7 @@ const Roll = ({
     // only include the crit dice pool if we got the critical hit
     if (dicePoolIndex === 0 || isCrit) {
 
-      dicePool.map((damage, i) => {
+      dicePool.forEach((damage, i) => {
         const icon = damage[0];
         let amount = damage[1];
         const rerolled = damage[2];
@@ -188,6 +188,7 @@ const Roll = ({
                   <a
                     href={`https://www.dndbeyond.com/sources/basic-rules/appendix-a-conditions#${condition}`}
                     target='_blank'
+                    rel="noopener noreferrer"
                   >
                     {condition}
                   </a>

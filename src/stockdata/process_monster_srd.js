@@ -232,7 +232,7 @@ function getLastNumberBeforeIndex(multiattackDesc, nameIndex) {
 
       // find each instance of each numberword
       const regex = new RegExp(` ${numberWord} `, "g");
-      let result, indices = [];
+      let result = [];
       while ( (result = regex.exec(multiattackDesc)) ) {
 
         // look for the MAXIMUM index that is still less than the given NAMEINDEX

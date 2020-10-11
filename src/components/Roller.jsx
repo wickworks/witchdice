@@ -16,10 +16,7 @@ const Roller = ({
 
   const [advantage, setAdvantage] = useState(false);
   const [disadvantage, setDisadvantage] = useState(false);
-  const [saveMod, setSaveMod] = useState(0);
   const [evasion, setEvasion] = useState(false);
-
-  const [activeAttackData] = useState([]); // active attacks
 
   // outcomes of calculateDamage
   const [damageTotal, setDamageTotal] = useState(false);
@@ -32,7 +29,7 @@ const Roller = ({
       calculateDamage();
     }
 
-  }, [rollData, advantage, disadvantage]);
+  }, [rollData, advantage, disadvantage]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   // figure out what's a hit
@@ -42,7 +39,6 @@ const Roller = ({
 
     for (let rollID = 0; rollID < newRollData.length; rollID++) {
       const roll = newRollData[rollID];
-      const {rollUse, rollDiscard} = getRollUseDiscard(roll);
       const attackSource = attackSourceData[roll.attackID];
 
       // only attacks can crit
@@ -147,7 +143,9 @@ const Roller = ({
       let appliedCondition = null;
 
       // get both CRIT and REGULAR dice
-      [roll.damageRollData, roll.critRollData].forEach((dicePool, dicePoolIndex) => {
+      for (let dicePoolIndex = 0; dicePoolIndex < 2; dicePoolIndex++) {
+        const dicePool = [roll.damageRollData, roll.critRollData][dicePoolIndex]
+
         // abort the crit dice pool unless this was a critical hit
         if (dicePoolIndex === 0 || critFumble.isCrit) {
 
@@ -190,8 +188,6 @@ const Roller = ({
 
             if (applyDamage && damageSource.tags.includes("condition")) { appliedCondition = damageSource.condition }
             if (applyDamage && amount > 0) {
-
-              console.log('            ->> actually applying it!');
               newDamageTotal = newDamageTotal + amount;
 
               if (Object.keys(newDamageBreakdown).indexOf(type) >= 0 ) {
@@ -208,7 +204,7 @@ const Roller = ({
             }
           }
         }
-      })
+      }
 
       // save summary data for the Party Panel so we don't have to go through this again
       let includeInSummary = true;
@@ -240,7 +236,7 @@ const Roller = ({
 
   // figure out what whether to show evasion checkbox or not
   let showEvasionOption = false;
-  attackSourceData.map((attackSource) => {
+  attackSourceData.forEach((attackSource) => {
     if (attackSource.type === 'save' && attackSource.savingThrowType === 0 && attackSource.dieCount > 0) {
       showEvasionOption = true;
     }
@@ -342,13 +338,6 @@ const Roller = ({
               currentAttackName = rollName;
               renderAttackName = true;
             }
-
-            // add save mods to saving throws
-            if (rollSavingThrow) {
-              rollUse = rollUse + saveMod;
-              rollDiscard = rollDiscard + saveMod;
-            }
-
 
             return (
               <div className='roll-container' key={`roll-container-${rollID}`}>

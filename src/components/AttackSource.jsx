@@ -67,12 +67,12 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     }
   }
 
-  const updateDamage = (die, type) => {
-    let newData = deepCopy(damageData);
-    newData[editingDamageID].dieType = die
-    newData[editingDamageID].damageType = type
-    setDamageData(newData, attackID);
-  }
+  // const updateDamage = (die, type) => {
+  //   let newData = deepCopy(damageData);
+  //   newData[editingDamageID].dieType = die
+  //   newData[editingDamageID].damageType = type
+  //   setDamageData(newData, attackID);
+  // }
 
   const createDamage = () => {
     let newData = deepCopy(damageData);
@@ -262,7 +262,6 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
             <div className='statblock'>
               { damageData.map((data, i) => {
-                const editClass = (editingDamageID === i) ? 'editing' : '';
                 return (
                   <DamageSource
                     damageID={i}

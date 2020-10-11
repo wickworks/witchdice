@@ -10,26 +10,33 @@ const Footer = () => {
     <div className="Footer">
       <p className="meeeeeeeeeeeee-luv-u">
         by olive ~
-        <a href="https://wick.itch.io/aesthetic" target="_blank"><span className="asset trans_pride" /></a>
+        <a href="https://wick.itch.io/aesthetic" target="_blank" rel="noopener noreferrer">
+          <span className="asset trans_pride" />
+        </a>
       </p>
-      <a href="https://twitter.com/wickglyph" target="_blank">@wickglyph</a>
-      <a href="https://wick.works/" target="_blank">www.wick.works</a>
+      <a href="https://twitter.com/wickglyph" target="_blank" rel="noopener noreferrer">@wickglyph</a>
+      <a href="https://wick.works/" target="_blank" rel="noopener noreferrer">www.wick.works</a>
 
       <div className="license">
-        <a onClick={() => setCreditsOpen(!creditsOpen)}>License Information</a>
+        <div className='open-button' onClick={() => setCreditsOpen(!creditsOpen)}>License Information</div>
 
         {creditsOpen &&
           <div className="credits">
 
             <p>
               Monster manual jsonified by
-              <a href="https://www.reddit.com/r/dndnext/comments/43a09o/srd_monsters_in_json_format/" target="_blank">droiddruid</a>
+              <a href="https://www.reddit.com/r/dndnext/comments/43a09o/srd_monsters_in_json_format/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                droiddruid
+              </a>
             </p>
 
             <p className="noun-project">
               <strong>
                 Icons from
-                <a href="https://thenounproject.com/" target="_blank">the Noun Project:</a>
+                <a href="https://thenounproject.com/" target="_blank" rel="noopener noreferrer">the Noun Project:</a>
               </strong>
             </p>
 

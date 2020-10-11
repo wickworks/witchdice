@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './PartyPanel.scss';
 import { allDamageTypes } from '../data.js';
 
@@ -223,7 +223,7 @@ const PartyRollAttack = ({actionRollData}) => {
                 <div className={`asset ${damageType}`} />
               </div>
             )
-          }
+          } else { return null }
         }) }
       </div>
     </div>

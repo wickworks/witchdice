@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import AttackSource from './AttackSource.jsx';
 import TextInput from './TextInput.jsx';
 import './Character.scss';

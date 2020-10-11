@@ -22,7 +22,9 @@ import DiceBag from './DiceBag.jsx';
 import PartyPanel from './PartyPanel.jsx';
 import Footer from './Footer.jsx';
 
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
+
 const firebaseConfig = {
   apiKey: "AIzaSyBQJ2LG4nrCBhoIxg94rYi7AzzNf-GqgTM",
   authDomain: "roll-to-hit.firebaseapp.com",
@@ -73,7 +75,7 @@ if (!loadedVersion || brokeOldCharacterData || brokeOldMonsterData) {
   }
 
   // save the new data
-  getMonsterData().map((data,i) => {
+  getMonsterData().forEach((data,i) => {
     const fingerprint = (100000 + i)
     saveCharacterData(
       fingerprint,
@@ -210,7 +212,7 @@ const Main = () => {
       setAllCharacterEntries(newData);
     }
 
-  }, [characterName]);
+  }, [characterName]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   const updateAllAttackData = (key, value, attackID) => {
@@ -340,14 +342,6 @@ const Main = () => {
             roll.rollTwo = getRandomInt(20)
           }
 
-          // did we crit? (check if ANY of the damage sources have expanded crit ranges)
-          let critRange = 20;
-          for (let damageSourceID = 0; damageSourceID < attackData.damageData.length; damageSourceID++) {
-            const source = attackData.damageData[damageSourceID]
-            if (source.tags.includes('expandedcrit1')) {critRange = 19}
-            if (source.tags.includes('expandedcrit2')) {critRange = 18}
-          }
-
           // EACH DAMAGE SOURCE
           const damageData = attackData.damageData
           let damageRollData = []
@@ -459,7 +453,7 @@ const Main = () => {
       addNewAttackPartyRoll(actionData);
 
     }
-  }, [rollSummaryData]);
+  }, [rollSummaryData]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   const connectToRoom = () => {
@@ -467,7 +461,7 @@ const Main = () => {
 
     try {
       console.log('Attempting to connect to room : ', partyRoom);
-      if (partyRoom === null || partyRoom.length === 0) { throw('Invalid room name!') }
+      if (partyRoom === null || partyRoom.length === 0) { throw new Error('Invalid room name!') }
 
       const dbRef = firebase.database().ref()
       dbRef.child(partyRoom).on('value',

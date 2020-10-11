@@ -5,7 +5,7 @@ const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
   const {setIsActive} = attackFunctions
 
   // to make the three-items-per-row come out nicely
-  const attackCount = attackSourceData.length;
+  // const attackCount = attackSourceData.length;
   // const fillerAttackCount = (Math.ceil(attackCount / 3) * 3) - attackCount;
 
   return (
@@ -37,7 +37,7 @@ const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
                 }
               </label>
             )
-          }
+          } else { return null }
         })}
       </div>
     </div>

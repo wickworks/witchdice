@@ -142,7 +142,7 @@ const EntryList = ({entries, handleEntryClick, activeCharacterID, highlightIDs =
             onClick={() => handleEntryClick(id)}
             key={id}
           >
-            {entry.name}
+            {name}
           </li>
         )
       })}

@@ -30,7 +30,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     let runningTotal = 0;
     let actionRollData = [];  // for the party panel
 
-    Object.keys(diceData).map((dieType, i) => {
+    Object.keys(diceData).forEach((dieType, i) => {
       for (let rollID = 0; rollID < diceData[dieType]; rollID++) {
         const result = getRandomInt(parseInt(dieType));
         runningResults.push(result)
@@ -51,7 +51,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
   let rollDieType = '';
   let totalDiceRolled = 0;
-  Object.keys(diceData).map((dieType) => {
+  Object.keys(diceData).forEach((dieType) => {
     if (diceData[dieType] > 0) {
       rollDieType = dieType;
       totalDiceRolled = totalDiceRolled + diceData[dieType];

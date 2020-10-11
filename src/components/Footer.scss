@@ -34,9 +34,14 @@
 
   .license {
     @include text_license;
-
     margin: 10px;
-    > a { cursor: pointer; }
+
+    .open-button {
+      cursor: pointer;
+      color: seagreen;
+
+      &:hover { color: olive }
+    }
 
     .credits {
       background-color: $parchment;
