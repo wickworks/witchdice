@@ -191,23 +191,31 @@ const PartyRollDicebag = ({dieType, result}) => {
 const PartyRollAttack = ({actionRollData}) => {
   const {name, attack, save, didsave, applies} = actionRollData;
 
+  const isAttack = (('attack' in actionRollData) && (attack > 0));
+  const isAbility = (('attack' in actionRollData) && !isAttack);
+  const isSave = (('save' in actionRollData) && true);
+
   // prepare to harvest damage information
   const dataKeys = Object.keys(actionRollData);
   return (
     <div className="PartyRollAttack">
-      { attack ? <>
+      { isAttack && <>
         <div className='asset d20' />
         <div className="attack-roll">{attack}</div>
-      </> : <></> }
+      </> }
 
-      { save &&
+      { isSave &&
         <div className="save">
           <div className={`asset ${didsave ? 'checkmark' : 'x'}`} />
           {save}
         </div>
       }
 
-      <div className="attack-name">{name}</div>
+      { (isAttack || isSave) ?
+        <div className="attack-name">{name}</div>
+      : isAbility &&
+        <div className="ability-name">{name}</div>
+      }
 
       <div className="damage-container">
         { applies &&

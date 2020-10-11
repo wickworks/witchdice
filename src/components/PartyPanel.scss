@@ -150,8 +150,12 @@
 
 				.attack-name {
 					@include text_party_roll_attackname;
-					// flex-shrink: 0;
 					max-width: 90px;
+					margin-right: 10px;
+				}
+
+				.ability-name {
+					@include text_party_roll_attackname;
 					margin-right: 10px;
 				}
 
