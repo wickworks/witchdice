@@ -198,7 +198,7 @@ const Roll = ({
             { Object.keys(damageBreakdown).map((icon, i) => {
               return (
                 <div className='subtotal' key={i}>
-                  <div className='amount'>{damageBreakdown[icon]}</div>
+                  <div className='amount'>{Math.floor(damageBreakdown[icon])}</div>
                   <div className={`asset ${icon}`} />
                 </div>
               )

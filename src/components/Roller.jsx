@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { deepCopy } from '../utils.js';
-import { abilityTypes } from '../data.js';
+import { abilityTypes, allDamageTypes } from '../data.js';
 import Roll from './Roll.jsx';
 import './Roller.scss';
 
@@ -126,12 +126,13 @@ const Roller = ({
   }
 
 
-
+  let startingBreakdown = {};
+  allDamageTypes.forEach((type) => { startingBreakdown[type] = 0 })
 
   function calculateDamage() {
     // calculate damage total & breakdown by type
     let newDamageTotal = 0;
-    let newDamageBreakdown = {};
+    let newDamageBreakdown = deepCopy(startingBreakdown);
     let rollSummaryData = [];
 
     for (let rollID = 0; rollID < rollData.length; rollID++) {
@@ -139,7 +140,8 @@ const Roller = ({
       const attackSource = attackSourceData[roll.attackID]
       const damageSourceData = attackSource.damageData
       const critFumble = getCritOrFumble(roll);
-      let subtotalBreakdown = {};
+      let subtotal = 0;
+      let subtotalBreakdown = deepCopy(startingBreakdown);
       let appliedCondition = null;
 
       // get both CRIT and REGULAR dice
@@ -188,19 +190,8 @@ const Roller = ({
 
             if (applyDamage && damageSource.tags.includes("condition")) { appliedCondition = damageSource.condition }
             if (applyDamage && amount > 0) {
-              newDamageTotal = newDamageTotal + amount;
-
-              if (Object.keys(newDamageBreakdown).indexOf(type) >= 0 ) {
-                newDamageBreakdown[type] = newDamageBreakdown[type] + amount
-              } else {
-                newDamageBreakdown[type] = amount
-              }
-
-              if (Object.keys(subtotalBreakdown).indexOf(type) >= 0 ) {
-                subtotalBreakdown[type] = subtotalBreakdown[type] + amount
-              } else {
-                subtotalBreakdown[type] = amount
-              }
+              subtotal = subtotal + amount;
+              subtotalBreakdown[type] = subtotalBreakdown[type] + amount
             }
           }
         }
@@ -210,7 +201,6 @@ const Roller = ({
       let includeInSummary = true;
       if (roll.gatedByRollID >= 0 && !rollData[roll.gatedByRollID].hit) { includeInSummary = false; }
       if (attackSource.type === 'ability' && !roll.hit) { includeInSummary = false; }
-
       if (includeInSummary) {
         let summary = { ...subtotalBreakdown }
         summary.name = attackSource.name;
@@ -224,10 +214,18 @@ const Roller = ({
 
         rollSummaryData.push(summary)
       }
+
+      subtotal = Math.floor(subtotal);
+      newDamageTotal = newDamageTotal + subtotal;
+      allDamageTypes.forEach((type) => {
+        newDamageBreakdown[type] = newDamageBreakdown[type] + Math.floor(subtotalBreakdown[type]);
+      })
     }
 
-    // round down the damage total after summing it all up
-    newDamageTotal = Math.floor(newDamageTotal);
+    // filter out 0-damage types
+    Object.keys(newDamageBreakdown).forEach(type => {
+      if (newDamageBreakdown[type] <= 0) delete newDamageBreakdown[type];
+    });
 
     setDamageTotal(newDamageTotal);
     setDamageBreakdown(newDamageBreakdown);

@@ -6,7 +6,6 @@
 - can crit/half abilities in the roller
 - party roller shows advantage/disadvantage
 - Optimize firebase to not re-download all rolls every change
-- fix how damage is rounded down and added up; should be rounded down for each attack and show up as such in the subtotal
 - better responsive design for damage edit
 
 
