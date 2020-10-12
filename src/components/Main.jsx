@@ -26,6 +26,8 @@ import './Main.scss';
 import firebase from 'firebase/app';
 import 'firebase/database';
 
+import {randomWords} from '../random_words.js';
+
 const firebaseConfig = {
   apiKey: "AIzaSyBQJ2LG4nrCBhoIxg94rYi7AzzNf-GqgTM",
   authDomain: "roll-to-hit.firebaseapp.com",
@@ -101,7 +103,7 @@ const Main = () => {
 
   const [allPartyActionData, setAllPartyActionData] = useState([]);
   const [partyRoom, setPartyRoom] = useState('sargasso-sea');
-  const [partyName, setPartyName] = useState('olive');
+  const [partyName, setPartyName] = useState('');
   const [partyConnected, setPartyConnected] = useState(false);
   const [partyLastAttackKey, setPartyLastAttackKey] = useState('');
 
@@ -131,6 +133,10 @@ const Main = () => {
 
     setAllMonsterEntries(monsterEntries);
     setAllCharacterEntries(characterEntries);
+
+    // get the random starting room
+    setPartyRoom( `${randomWords(1)}-${randomWords({exactly: 1, maxLength: 4})}` )
+
   }, []);
 
   // =============== ADD/EDIT/DELETE CHARACTER FUNCTIONS ==================
