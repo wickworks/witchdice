@@ -21,6 +21,14 @@
   color: $rust;
 }
 
+@mixin text_first_new_character {
+  font-family: 'Bitter';
+  font-size: 26px;
+  color: $rust;
+  font-weight: bold;
+}
+
+
 @mixin text_character_name {
   font-size: 56px;
   color: $rust;

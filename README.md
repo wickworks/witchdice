@@ -6,13 +6,13 @@
 - can crit/half abilities in the roller
 - party roller shows advantage/disadvantage
 - Optimize firebase to not re-download all rolls every change
-- add a big plus for new character in empty character list
 - data validation; can't have a blank character name
 - fix how damage is rounded down and added up; should be rounded down for each attack and show up as such in the subtotal
 - better responsive design for damage edit
 
 
 
+- collapsible dice bag/party menu
 
 - paralyzation//assassin; all attacks are crits
 - vulnerability, resistance, immunity

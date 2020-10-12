@@ -26,29 +26,6 @@
           padding: 6px;
         }
 
-        button.new-character {
-          @include text_default;
-
-          display: flex;
-          align-items: center;
-          height: 100%;
-          padding: 6px 12px;
-
-          border: none;
-          background: none;
-          cursor: pointer;
-
-          &:hover {
-            background-color: $parchment_dark;
-          }
-
-          .asset.plus {
-            height: 22px;
-            width: 22px;
-            margin-left: 8px;
-          }
-        }
-
         // the monster filter
         input {
           width: 100%;
@@ -77,6 +54,40 @@
           }
         }
 
+        button.new-character {
+          @include text_default;
+          height: 100%;
+
+          .asset.plus {
+            height: 22px;
+            width: 22px;
+            margin-left: 8px;
+          }
+        }
+      }
+
+      button.new-character {
+        display: flex;
+        align-items: center;
+        padding: 6px 12px;
+        border: none;
+        background: none;
+        opacity: .4;
+        transition: opacity .075s ease-out;
+        cursor: pointer;
+
+        &:hover { opacity: 1.0; }
+
+        &.first {
+          @include text_first_new_character;
+          margin: auto;
+
+          .asset.plus {
+            height: 40px;
+            width: 40px;
+            margin-left: 8px;
+          }
+        }
       }
 
 
@@ -91,6 +102,8 @@
           padding: 2px 4px;
           width: 46%;
           overflow: hidden;
+          transition: background-color .075s ease-out;
+          
           cursor: pointer;
 
           &:hover { background-color: $parchment;}

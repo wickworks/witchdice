@@ -34,14 +34,18 @@ const CharacterList = ({characterEntries, handleEntryClick, activeCharacterID, c
 
   characterEntries.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
 
+
+
   return (
     <div className="CharacterList">
       <div className="title-bar">
         <h2>Characters</h2>
-        <button className="new-character" onClick={createNewCharacter}>
-          New
-          <div className="asset plus"/>
-        </button>
+        {characterEntries.length > 0 &&
+          <button className="new-character" onClick={createNewCharacter}>
+            New
+            <div className="asset plus"/>
+          </button>
+        }
       </div>
 
       <EntryList
@@ -49,6 +53,13 @@ const CharacterList = ({characterEntries, handleEntryClick, activeCharacterID, c
         handleEntryClick={handleEntryClick}
         activeCharacterID={activeCharacterID}
       />
+
+      { characterEntries.length === 0 &&
+        <button className="new-character first" onClick={createNewCharacter}>
+          New Character
+          <div className="asset plus"/>
+        </button>
+      }
     </div>
   )
 }
