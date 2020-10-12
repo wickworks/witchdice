@@ -4,13 +4,13 @@
 
 
 - can crit/half abilities in the roller
-- party roller shows advantage/disadvantage
 - Optimize firebase to not re-download all rolls every change
 - better responsive design for damage edit
 
 
 
 - collapsible dice bag/party menu
+- add modifiers to dicebag rolls
 
 - paralyzation//assassin; all attacks are crits
 - vulnerability, resistance, immunity

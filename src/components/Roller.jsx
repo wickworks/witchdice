@@ -11,7 +11,8 @@ const Roller = ({
   attackSourceData,
   handleNewRoll,
   handleClear,
-  setRollSummaryData
+  setRollSummaryData,
+  setRollConditions
 }) => {
 
   const [advantage, setAdvantage] = useState(false);
@@ -29,7 +30,7 @@ const Roller = ({
       calculateDamage();
     }
 
-  }, [rollData, advantage, disadvantage]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [rollData, advantage, disadvantage, evasion]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   // figure out what's a hit
@@ -227,9 +228,16 @@ const Roller = ({
       if (newDamageBreakdown[type] <= 0) delete newDamageBreakdown[type];
     });
 
+    // collate the roll conditions
+    let rollConditions = [];
+    if (advantage && !disadvantage) rollConditions.push('advantage')
+    if (!advantage && disadvantage) rollConditions.push('disadvantage')
+    if (evasion) rollConditions.push('evasion')
+
     setDamageTotal(newDamageTotal);
     setDamageBreakdown(newDamageBreakdown);
     setRollSummaryData(rollSummaryData);
+    setRollConditions(rollConditions)
   }
 
   // figure out what whether to show evasion checkbox or not

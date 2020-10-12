@@ -100,6 +100,7 @@ const Main = () => {
   const [rollData, setRollData] = useState([]);
   // don't want to re-traverse the rollData for the party, so roller will build a summary for us
   const [rollSummaryData, setRollSummaryData] = useState([]);
+  const [rollConditions, setRollConditions] = useState([]);
 
   const [allPartyActionData, setAllPartyActionData] = useState([]);
   const [partyRoom, setPartyRoom] = useState('');
@@ -450,6 +451,7 @@ const Main = () => {
       let actionData = {};
       actionData.name = characterName;
       actionData.type = 'attack';
+      actionData.conditions = rollConditions.join(', ')
       actionData.timestamp = Date.now();
 
       // rollSummaryData = [ {attack: 20, name: 'Longsword', 'slashing': 13, 'necrotic': 4}, ... ]
@@ -581,6 +583,7 @@ const Main = () => {
               handleClear={clearRolls}
               rollFunctions={rollFunctions}
               setRollSummaryData={setRollSummaryData}
+              setRollConditions={setRollConditions}
             />
           </div>
         }
