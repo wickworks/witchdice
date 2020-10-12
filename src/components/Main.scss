@@ -35,9 +35,20 @@
     }
 
     // smaller screens start to have to tweak things
-    @media screen and (max-width: 800px) {
+    @media screen and (max-width: 880px) {
+      .Roller {
+        margin: 0 40px;
+      }
+
       .ActiveAttackList .attack-container {
         width: 100%;
+        margin-left: 40px;
+        margin-right: 40px;
+      }
+
+      .DiceBag, .PartyPanel {
+        margin-left: 20px;
+        margin-right: 20px;
       }
     }
   }
