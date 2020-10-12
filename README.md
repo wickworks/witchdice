@@ -53,6 +53,4 @@ the individual SDK components you intend to use.
 - Stars a server
 
 - npm run build
-- Creates a production build
-- Then copy all files in build/ to public_html/roll-to-hit on the server
-- Then move static and assets to just public_html/
+- firebase deploy
