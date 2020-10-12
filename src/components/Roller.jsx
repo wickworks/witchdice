@@ -42,8 +42,8 @@ const Roller = ({
       const roll = newRollData[rollID];
       const attackSource = attackSourceData[roll.attackID];
 
-      // only attacks can crit
-      if (attackSource.type === 'attack') {
+      // only attacks/abilities can crit
+      if (attackSource.type === 'attack' || attackSource.type === 'ability') {
         const critFumble = getCritOrFumble(roll)
 
         // all critical hits are hits
@@ -92,7 +92,8 @@ const Roller = ({
     let isFumble = false;
 
     // only attacks can crit
-    if (attackSourceData[roll.attackID].type !== 'attack') { return false; }
+    const type = attackSourceData[roll.attackID].type
+    if (type !== 'attack' && type !== 'ability') { return false; }
 
 
     const rollSorted = [roll.rollOne, roll.rollTwo].sort((a,b)=>a-b);
@@ -202,8 +203,14 @@ const Roller = ({
       let includeInSummary = true;
       if (roll.gatedByRollID >= 0 && !rollData[roll.gatedByRollID].hit) { includeInSummary = false; }
       if (attackSource.type === 'ability' && !roll.hit) { includeInSummary = false; }
+
       if (includeInSummary) {
         let summary = { ...subtotalBreakdown }
+        // filter out 0-damage types
+        Object.keys(summary).forEach(type => {
+          if (summary[type] <= 0) delete summary[type];
+        });
+
         summary.name = attackSource.name;
         if (appliedCondition) { summary.applies = appliedCondition }
         if (attackSource.type === 'save' || roll.gatedByRollID >= 0) {

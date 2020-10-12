@@ -13,7 +13,7 @@ const Roll = ({
 
   // no 'crit' here; use isCrit from props instead
   const {hit, attackBonus, damageRollData, critRollData} = attackRollData;
-  const {setHit} = rollFunctions
+  const {setHit, setRollOne} = rollFunctions
 
   // saving throws are reversed
   const isHit = (type === 'save' ? !hit : hit);
@@ -28,6 +28,11 @@ const Roll = ({
 
   const handleHitClick = () => { setHit(!hit, rollID) }
 
+  // should only be used for abilities // where rollUse == rollOne
+  const handleCritClick = () => {
+    const newRoll = (rollUse === 20) ? 0 : 20;
+    setRollOne(newRoll, rollID);
+  }
 
   // process the damage for THIS roll
   let diceElements = [];
@@ -162,8 +167,17 @@ const Roll = ({
               </span>
             </div>
           </>
-      :
-        <></>
+      : type === 'ability' &&
+        <div className='ability-controls'>
+          <button
+            className={`ability-crit-button ${isCrit ? 'toggled' : ''}`}
+            onClick={handleCritClick}
+          >
+            <div className='asset d20_frame'>
+              <div className='asset necrotic' />
+            </div>
+          </button>
+        </div>
       }
 
       <div className="damage-line">

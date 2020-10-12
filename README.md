@@ -3,12 +3,14 @@
 
 
 
-- can crit/half abilities in the roller
 - Optimize firebase to not re-download all rolls every change
 - better responsive design for damage edit
+- store partyName & room name in localstorage after connecting
+  (refresh name button if not connected)
 
 
-
+- nest roll rooms in firebase
+- validation on # die rolls
 - collapsible dice bag/party menu
 - add modifiers to dicebag rolls
 
@@ -24,28 +26,20 @@
     (waiting & cancel button on newcomer, confirm & requester name on all occupants)
   All rooms are cleared out twelve hours after the last message is sent on them.
 
+- import spells
 - import the monster manual
   (add legendary actions)
   (add special_abilities e.g. sneak attack 1/turn)
   (die-less damage rolls don't work; see crab)
-
 - monster search: don't show any until search filter applied. Add to front of recent list if searching, otherwise perserve recent list order. Clear filter after clicking monster while filtering
 
 - turn "party rolls" into roll history for single-player
 
-- import spells
-
-
-
-
 - someday: switch away from the heavy firebase server to a lightweight peer-to-peer network
 
-- maybe: auto-unselect all attacks for every roll? have to opt-in for them every time?
 - setting: customize which icon shows up for natural 20s
-
-
 - sort abilities to end of roll list
-
+- themes e.g. dark mode
 
 ### COMMANDS
 
