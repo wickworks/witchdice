@@ -121,30 +121,47 @@ const PartyPanel = ({
 const PartyAction = ({actionData}) => {
   const {name, conditions, type} = actionData;
 
-  // convert the rolls into an array
+  // convert the rolls into an array & sum them
   let actionRolls = [];
+  let diceBagSum = 0;
+  let damageSum = 0;
+
   Object.keys(actionData).forEach((key, i) => {
-    if (key.startsWith('roll-')) { actionRolls.push(actionData[key]) }
+    if (key.startsWith('roll-')) {
+      const rollData = actionData[key];
+      actionRolls.push(rollData)
+
+      if (type === 'dicebag') {
+        diceBagSum = diceBagSum + parseInt(rollData.result);
+
+      } else if (type === 'attack') {
+        allDamageTypes.forEach((damageType) => {
+          if (Object.keys(rollData).indexOf(damageType) >= 0) {
+            damageSum = damageSum + Math.floor(rollData[damageType])
+          }
+        })
+      }
+    }
   });
 
-  let diceBagSum = 0;
   return (
     <div className="PartyAction">
 
       <div className="title">
         <div className="name">{name}</div>
-        { conditions && <div className="conditions">{conditions}</div> }
+        { conditions ?
+          <div className="conditions">{conditions}</div>
+        : (type === 'attack' && actionRolls.length > 1) &&
+          <div className="conditions">{damageSum} total</div>
+        }
       </div>
-
 
       { type === 'dicebag' ?
         <div className="dicebag-container">
           { (actionRolls.length > 1) ?
             <>
               <div className="dicebag-rolls">
-                { (diceBagSum = 0) || '' }
                 { actionRolls.map((roll, i) => {
-                  diceBagSum = diceBagSum + parseInt(roll.result);
                   return (
                     <PartyRollDicebag
                       dieType={roll.die}
