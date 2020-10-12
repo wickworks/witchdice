@@ -38,7 +38,7 @@ const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
 
           if (showAttack) {
             return (
-              <div className="attack-container">
+              <div className="attack-container" key={attackID}>
                 <label className={`attack unselectable ${activeClass}`} key={`active-${attackSource.name}`}>
                   <input
                     type="checkbox"

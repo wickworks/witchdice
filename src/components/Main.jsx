@@ -450,14 +450,13 @@ const Main = () => {
       let actionData = {};
       actionData.name = characterName;
       actionData.type = 'attack';
+      actionData.timestamp = Date.now();
 
       // rollSummaryData = [ {attack: 20, name: 'Longsword', 'slashing': 13, 'necrotic': 4}, ... ]
       // (replaces "attack" with "save" for saving throws)
       rollSummaryData.forEach((roll, i) => {
         actionData[`roll-${i}`] = { ...roll }
       });
-
-      console.log(' new attack actionData', actionData);
 
       addNewAttackPartyRoll(actionData);
 
@@ -500,6 +499,7 @@ const Main = () => {
       let actionData = {};
       actionData.name = partyName;
       actionData.type = 'dicebag';
+      actionData.timestamp = Date.now();
 
       // rolls = [ {die: 'd6', result: 4}, ... ]
       rolls.forEach((roll, i) => {
@@ -520,12 +520,11 @@ const Main = () => {
 
   const addNewAttackPartyRoll = (actionData) => {
     if (partyConnected) {
-      console.log('pushing attack to firebase', actionData);
-
       const dbRef = firebase.database().ref();
 
       // ~~ new attack roll ~~ //
       if (partyLastAttackKey.length === 0) {
+        console.log('       pushing  new attack to firebase', actionData);
         const newKey = dbRef.child(partyRoom).push(actionData).key
         setPartyLastAttackKey(newKey);
 

@@ -27,7 +27,7 @@ const PartyPanel = ({
   //   }
   // }
 
-  // console.log('rendering partyActionData', allPartyActionData);
+  // console.log('rendering actionData', allPartyActionData);
 
 
 	return (
@@ -52,11 +52,11 @@ const PartyPanel = ({
         </> : <>
 
           {allPartyActionData &&
-            allPartyActionData.slice(0).reverse().map((partyActionData, i) => {
+            allPartyActionData.slice(0).reverse().map((actionData, i) => {
               return (
                 <PartyAction
-                  partyActionData={partyActionData}
-                  key={i}
+                  actionData={actionData}
+                  key={actionData.timestamp}
                 />
               )
             })
@@ -87,6 +87,7 @@ const PartyPanel = ({
 //   'name': 'Olive',
 //   'conditions': 'advantage',
 //   'type': 'attack',
+//   'timestamp': XXXXXX,
 //   'roll-1': {
 //     'attack': 11,
 //     'name': 'Longsword',
@@ -105,6 +106,7 @@ const PartyPanel = ({
 // const defaultPartyActionData_dicebag = {
 //   'name': 'Olive',
 //   'type': 'dicebag',
+//   'timestamp': XXXXXX,
 //   'roll-1': {
 //     'die': 'd6',
 //     'result': '2',
@@ -116,13 +118,13 @@ const PartyPanel = ({
 // }
 
 
-const PartyAction = ({partyActionData}) => {
-  const {name, conditions, type} = partyActionData;
+const PartyAction = ({actionData}) => {
+  const {name, conditions, type} = actionData;
 
   // convert the rolls into an array
   let actionRolls = [];
-  Object.keys(partyActionData).forEach((key, i) => {
-    if (key.startsWith('roll-')) { actionRolls.push(partyActionData[key]) }
+  Object.keys(actionData).forEach((key, i) => {
+    if (key.startsWith('roll-')) { actionRolls.push(actionData[key]) }
   });
 
   let diceBagSum = 0;

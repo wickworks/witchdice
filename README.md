@@ -9,8 +9,10 @@
 - add a big plus for new character in empty character list
 - data validation; can't have a blank character name
 - fix how damage is rounded down and added up; should be rounded down for each attack and show up as such in the subtotal
-- animate new rolls coming in a la pivotal tracker changes
 - better responsive design for damage edit
+- validate room/person name; must be length X (also put rules on firebase side)
+
+
 
 
 - paralyzation//assassin; all attacks are crits
