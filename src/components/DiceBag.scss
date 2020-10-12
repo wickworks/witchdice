@@ -56,6 +56,19 @@
       // max-width: 150px;
       margin: auto;
 
+      .starting-roll {
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .asset {
+          width: 128px;
+          height: 128px;
+          opacity: .2;
+        }
+      }
+
       .pre-roll {
         display: flex;
         align-items: center;

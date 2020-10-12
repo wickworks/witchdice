@@ -74,7 +74,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
               </button>
               <div  className='action'>~ Roll ~</div>
             </div>
-          : lastDieRolled &&
+          : lastDieRolled ?
             <div className='post-roll'>
               <div className='result-total'>
                 <div className={`asset d${lastDieRolled}`} />
@@ -83,6 +83,10 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
               { resultSummary.length > 4 &&
                 <div className='result-summary'> {resultSummary} </div>
               }
+            </div>
+          :
+            <div className='starting-roll'>
+              <div className={`asset d6`} />
             </div>
           }
         </div>
