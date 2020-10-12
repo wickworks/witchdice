@@ -10,7 +10,6 @@
 - data validation; can't have a blank character name
 - fix how damage is rounded down and added up; should be rounded down for each attack and show up as such in the subtotal
 - better responsive design for damage edit
-- validate room/person name; must be length X (also put rules on firebase side)
 
 
 
@@ -20,7 +19,12 @@
 - uncanny dodge : be able to halve any roll
   (use as general case for saving throws, resistance)
 
-
+- Firbase-side validate room/person name; must be length X & are only letters
+  Auth system: conference-room rules.
+  If you're the first to show up to a room, it's yours.
+  If there is anyone in it already, they need to give you the thumbs-up.
+    (waiting & cancel button on newcomer, confirm & requester name on all occupants)
+  All rooms are cleared out twelve hours after the last message is sent on them.
 
 - import the monster manual
   (add legendary actions)

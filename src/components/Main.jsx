@@ -102,7 +102,7 @@ const Main = () => {
   const [rollSummaryData, setRollSummaryData] = useState([]);
 
   const [allPartyActionData, setAllPartyActionData] = useState([]);
-  const [partyRoom, setPartyRoom] = useState('sargasso-sea');
+  const [partyRoom, setPartyRoom] = useState('');
   const [partyName, setPartyName] = useState('');
   const [partyConnected, setPartyConnected] = useState(false);
   const [partyLastAttackKey, setPartyLastAttackKey] = useState('');
@@ -135,7 +135,7 @@ const Main = () => {
     setAllCharacterEntries(characterEntries);
 
     // get the random starting room
-    setPartyRoom( `${randomWords(1)}-${randomWords({exactly: 1, maxLength: 4})}` )
+    setPartyRoom( `${randomWords(1)}-${randomWords({exactly: 1, maxLength: 6})}-${randomWords({exactly: 1, maxLength: 4})}` )
 
   }, []);
 

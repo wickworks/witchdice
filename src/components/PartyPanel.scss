@@ -42,6 +42,11 @@
 		cursor: pointer;
 
 		&:hover { background-color: $pink; }
+		&:disabled {
+			cursor: auto;
+			background-color: $grey_light;
+			color: $grey_mid;
+		}
 	}
 
 

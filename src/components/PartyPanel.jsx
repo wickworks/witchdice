@@ -8,27 +8,19 @@ const PartyPanel = ({
   setPartyRoom, setPartyName,
   partyConnected, connectToRoom,
 }) => {
-	// const [rollHistory, setRollHistory] = useState([]);
 
 
+  const updatePartyRoom = (value) => {
+    const filtered = value.replace(/[^A-Za-z\-]/ig, '')
+    setPartyRoom(filtered)
+  }
 
-  //
-  // const handleButton = () => {
-  //   try {
-  //     const dbRef = firebase.database().ref();
-  //
-  //     dbRef.child("bottles").push({
-  //       message: 'somebody loves you',
-  //       timestamp: Date.now(),
-  //     });
-  //
-  //   } catch (error) {
-  //     console.log('ERROR: ',error.message);
-  //   }
-  // }
+  const updatePartyName = (value) => {
+    const filtered = value.replace(/[^A-Za-z \-]/ig, '')
+    setPartyName(filtered)
+  }
 
-  // console.log('rendering actionData', allPartyActionData);
-
+  const connectDisabled = (partyRoom.length <= 6 || partyName.length <= 0);
 
 	return (
 		<div className="PartyPanel">
@@ -40,14 +32,21 @@ const PartyPanel = ({
         { (!partyConnected) ? <>
           <div className='party-name-container'>
             <label htmlFor='party-name'>Name</label>
-            <input type='text' id='party-name' value={partyName} onChange={(e) => setPartyName(e.target.value)} />
+            <input type='text' id='party-name' value={partyName} onChange={(e) => updatePartyName(e.target.value)} />
           </div>
 
           <div className='party-room-container'>
             <label htmlFor='party-room'>Room</label>
-            <input type='text' id='party-room' value={partyRoom} onChange={(e) => setPartyRoom(e.target.value)}/>
+            <input type='text' id='party-room' value={partyRoom} onChange={(e) => updatePartyRoom(e.target.value)}/>
           </div>
-          <button className='party-connect' onClick={() => connectToRoom()}>Connect</button>
+
+          <button
+            className='party-connect'
+            onClick={() => connectToRoom()}
+            disabled={connectDisabled}
+          >
+            Connect
+          </button>
 
         </> : <>
 
