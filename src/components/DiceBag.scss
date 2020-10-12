@@ -1,9 +1,10 @@
 @import '../fonts';
 
 .DiceBag {
-  max-width: 300px;
-  margin: 30px 20px;
-  flex-shrink: 0;
+  width: 100%;
+  max-width: 500px;
+  margin: 30px 20px 30px 80px;
+  flex-shrink: 100;
 
   h2 {
     @include text_attack_name;
@@ -52,7 +53,7 @@
     .rolling-surface {
       display: flex;
       align-items: center;
-      max-width: 150px;
+      // max-width: 150px;
       margin: auto;
 
       .pre-roll {

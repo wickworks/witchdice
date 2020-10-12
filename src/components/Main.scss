@@ -7,10 +7,11 @@
   .gameplay-container {
     display: flex;
     justify-content: center;
+    margin-bottom: 100px;
 
     .roller-i-hardly-even-knower-container {
       margin: 0 20px;
-      width: 50%;
+      width: 45%;
     }
 
     // for huuuge screens, put the roll stuff all on the same line
@@ -21,16 +22,20 @@
       .roller-i-hardly-even-knower-container {
         order: 0;
         width: 100%;
+        flex-shrink: 0;
       }
       .DiceBag {
         order: 1;
-        max-width: 440px;
+        max-width: 340px;
       }
-      .PartyPanel { order: 2; }
+      .PartyPanel {
+        order: 2;
+        max-width: 340px;
+      }
     }
 
     // smaller screens start to have to tweak things
-    @media screen and (max-width: 680px) {
+    @media screen and (max-width: 800px) {
       .ActiveAttackList .attack-container {
         width: 100%;
       }

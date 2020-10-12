@@ -1,8 +1,11 @@
 @import '../fonts';
 
 .PartyPanel {
-	width: 300px;
-	margin: 30px 20px;
+	// width: 300px;
+	width: 100%;
+	max-width: 500px;
+	margin: 30px 80px 30px 20px;
+	flex-shrink: 100;
 
 	h2 {
     @include text_attack_name;
@@ -150,7 +153,7 @@
 
 				.attack-name {
 					@include text_party_roll_attackname;
-					max-width: 90px;
+					max-width: 30%;
 					margin-right: 10px;
 				}
 
