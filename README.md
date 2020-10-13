@@ -2,13 +2,9 @@
 ### TODO
 
 
-- nest roll rooms in firebase
-- Optimize firebase to not re-download all rolls every change
 - better responsive design for damage edit
-
-
 - put user name all small next to character name in party panel
-- validation on # die rolls
+- validation for damage number inputs
 - collapsible dice bag/party menu
 - add modifiers to dicebag rolls
 
