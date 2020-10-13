@@ -57,12 +57,12 @@ const PartyPanel = ({
 
         </> : <>
 
-          {allPartyActionData &&
+          {(allPartyActionData.length > 0) &&
             allPartyActionData.slice(0).reverse().map((actionData, i) => {
               return (
                 <PartyAction
                   actionData={actionData}
-                  key={actionData.timestamp}
+                  key={actionData.updatedAt}
                 />
               )
             })
