@@ -23,17 +23,13 @@ import PartyPanel from './PartyPanel.jsx';
 import Footer from './Footer.jsx';
 import './Main.scss';
 
-import firebase from 'firebase/app';
-import 'firebase/database';
+// import firebase from 'firebase/app';
+// import 'firebase/database';
 
 import {randomWords} from '../random_words.js';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBQJ2LG4nrCBhoIxg94rYi7AzzNf-GqgTM",
-  authDomain: "roll-to-hit.firebaseapp.com",
-  databaseURL: "https://roll-to-hit.firebaseio.com",
-  projectId: 'roll-to-hit',
-};
+
+
 
 // whenever we make a change that breaks the old data, bump up the first number
 console.log('Welcome to Roll-To-Hit version ', CURRENT_VERSION);
@@ -150,7 +146,7 @@ const Main = () => {
     const loadedName = localStorage.getItem("party_name");
     if (loadedName) setPartyName(loadedName);
 
-    firebase.initializeApp(firebaseConfig);
+    // firebase.initializeApp(firebaseConfig);
   }, []);
 
   // =============== ADD/EDIT/DELETE CHARACTER FUNCTIONS ==================
@@ -498,7 +494,7 @@ const Main = () => {
       console.log('Attempting to connect to room : ', partyRoom);
       if (partyRoom === null || partyRoom.length === 0) { throw new Error('Invalid room name!') }
 
-      const dbRef = firebase.database().ref().child('rooms').child(partyRoom)
+      const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom)
 
       // get the current list of data >> don't need to do this, it'll call child_added for all ones initially
       // dbRef.once('value',
@@ -554,14 +550,14 @@ const Main = () => {
 
       // Push this single roll to Firebase
       // (the update of the local state is handled by the firebase change)
-      const dbRef = firebase.database().ref().child('rooms').child(partyRoom);
+      const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
       dbRef.push(actionData);
     }
   }
 
   const addNewAttackPartyRoll = (actionData) => {
     if (partyConnected) {
-      const dbRef = firebase.database().ref().child('rooms').child(partyRoom);
+      const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
 
       // ~~ new attack roll ~~ //
       if (partyLastAttackKey.length === 0) {

@@ -8,6 +8,8 @@
 - collapsible dice bag/party menu
 - add modifiers to dicebag rolls
 
+
+
 - paralyzation//assassin; all attacks are crits
 - vulnerability, resistance, immunity
 - uncanny dodge : be able to halve any roll
