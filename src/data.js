@@ -131,7 +131,6 @@ function saveCharacterData(id, newName, newAllAttackData) {
 
   const storageName = getCharacterStorageName(id, newName);
   localStorage.setItem(storageName, JSON.stringify(characterData));
-  localStorage.setItem("version", CURRENT_VERSION);
 
   // has the name changed? if so, delete the old one
   for ( var i = 0, len = localStorage.length; i < len; ++i ) {

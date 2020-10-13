@@ -2,11 +2,8 @@
 ### TODO
 
 
-
 - Optimize firebase to not re-download all rolls every change
 - better responsive design for damage edit
-- store partyName & room name in localstorage after connecting
-  (refresh name button if not connected)
 
 
 - nest roll rooms in firebase

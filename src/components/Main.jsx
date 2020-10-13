@@ -86,6 +86,8 @@ if (!loadedVersion || brokeOldCharacterData || brokeOldMonsterData) {
       data.allAttackData
     )
   })
+
+  localStorage.setItem("version", CURRENT_VERSION);
 }
 
 
@@ -135,8 +137,15 @@ const Main = () => {
     setAllMonsterEntries(monsterEntries);
     setAllCharacterEntries(characterEntries);
 
-    // get the random starting room
-    setPartyRoom( `${randomWords(1)}-${randomWords({exactly: 1, maxLength: 6})}-${randomWords({exactly: 1, maxLength: 4})}` )
+    const loadedRoom = localStorage.getItem("party_room");
+    if (loadedRoom) {
+      setPartyRoom(loadedRoom);
+    } else {
+      generateRoomName()
+    }
+
+    const loadedName = localStorage.getItem("party_name");
+    if (loadedName) setPartyName(loadedName);
 
   }, []);
 
@@ -489,11 +498,18 @@ const Main = () => {
       );
 
       setPartyConnected(true);
+      localStorage.setItem("party_name", partyName);
+      localStorage.setItem("party_room", partyRoom);
 
     } catch (error) {
       console.log('ERROR: ',error.message);
       setPartyConnected(false);
     }
+  }
+
+
+  const generateRoomName = () => {
+    setPartyRoom( `${randomWords(1)}-${randomWords({exactly: 1, maxLength: 6})}-${randomWords({exactly: 1, maxLength: 4})}` )
   }
 
   const addNewDicebagPartyRoll = (rolls) => {
@@ -594,6 +610,7 @@ const Main = () => {
           setPartyName={setPartyName}
           partyRoom={partyRoom}
           setPartyRoom={setPartyRoom}
+          generateRoomName={generateRoomName}
           partyConnected={partyConnected}
           connectToRoom={connectToRoom}
         />

@@ -6,6 +6,7 @@ const PartyPanel = ({
   allPartyActionData,
   partyRoom, partyName,
   setPartyRoom, setPartyName,
+  generateRoomName,
   partyConnected, connectToRoom,
 }) => {
 
@@ -38,6 +39,12 @@ const PartyPanel = ({
           <div className='party-room-container'>
             <label htmlFor='party-room'>Room</label>
             <input type='text' id='party-room' value={partyRoom} onChange={(e) => updatePartyRoom(e.target.value)}/>
+            <button
+              className='generate-new-room'
+              onClick={generateRoomName}
+            >
+              ☈
+            </button>
           </div>
 
           <button
