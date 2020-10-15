@@ -18,6 +18,33 @@
     flex-direction: column;
     background-color: $parchment;
 
+    .summary-mode {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      margin: 6px auto;
+
+      .mode-container {
+        border-radius: 4px;
+        padding: 2px 6px;
+
+        cursor: pointer;
+        background-color: $parchment_mid;
+        transition: background-color .075s ease-out;
+
+        &:hover {
+          background-color: $parchment_dark;
+          color: $soft_black;
+        }
+        &.selected {
+          background-color: $rust_light;
+          color: white;
+        }
+
+        input { display: none; }
+      }
+    }
+
     .die-button-container {
       display: flex;
       flex-wrap: wrap;

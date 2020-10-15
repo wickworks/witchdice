@@ -103,6 +103,10 @@ const Main = ({rollMode}) => {
   const [partyLastAttackKey, setPartyLastAttackKey] = useState('');
   const [partyLastAttackTimestamp, setPartyLastAttackTimestamp] = useState(0);
 
+  const [partyLastDicebagKey, setPartyLastDicebagKey] = useState('');
+  const [partyLastDicebagTimestamp, setPartyLastDicebagTimestamp] = useState(0);
+
+
   // =============== INITIALIZE ==================
 
   useEffect(() => {
@@ -463,12 +467,12 @@ const Main = ({rollMode}) => {
     }
   }
 
-  const addNewDicebagPartyRoll = (rolls) => {
+  const addNewDicebagPartyRoll = (rolls, summaryMode, isNew) => {
+    if (rolls.length > 0) {
       let actionData = {};
       actionData.name = partyName || 'Me';
       actionData.type = 'dicebag';
-      actionData.createdAt = Date.now();
-      actionData.updatedAt = Date.now(); // dicebag rolls can't be modified
+      actionData.sumMode = summaryMode
 
       // rolls = [ {die: 'd6', result: 4}, ... ]
       rolls.forEach((roll, i) => {
@@ -478,16 +482,33 @@ const Main = ({rollMode}) => {
         }
       });
 
-    if (partyConnected) {
-      // Push this single roll to Firebase
-      // (the update of the local state is handled by the firebase change)
-      console.log('       pushing roll to firebase', actionData);
-      const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
-      dbRef.push(actionData);
+      if (partyConnected) {
+        const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
 
-    } else {
-      // add it to the single-player roll history
-      setLatestAction(actionData)
+        // ~~ new dicebag roll ~~ //
+        if (isNew) {
+          actionData.createdAt = Date.now();
+          actionData.updatedAt = actionData.createdAt;
+
+          console.log('       pushing Dicebag roll to firebase', actionData);
+          const newKey = dbRef.push(actionData);
+          setPartyLastDicebagKey(newKey);
+
+        // ~~ update dicebag roll ~~ //
+        } else {
+          actionData.createdAt = partyLastDicebagTimestamp
+          actionData.updatedAt = Date.now();
+
+          dbRef.child(partyLastDicebagKey).set(actionData);
+          console.log('       set updated Dicebag roll in firebase', actionData);
+        }
+
+      } else {
+        console.log('       new singleplayer dicebag roll', actionData);
+
+        // add it to the single-player roll history
+        setLatestAction(actionData)
+      }
     }
   }
 

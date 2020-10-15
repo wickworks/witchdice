@@ -6,12 +6,12 @@
   - make damage source/tags look more optional
 
 - validation for damage number inputs
-- collapsible dice bag/party menu
+- collapsible dice bag/party menu (or rearrange the whole thing again)
 - add modifiers to dicebag rolls
 - make the background a sketch pad
 
-
 - give dicebag sum/low/high options to know what to do with all the rolls
+  -- have it pull through to party rolls
 
 - paralyzation//assassin; all attacks are crits
 - vulnerability, resistance, immunity

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {RadioGroup, Radio} from 'react-radio-group';
 import { getRandomInt } from '../utils.js';
 import './DiceBag.scss';
 
@@ -13,10 +14,11 @@ const blankDice = {
 
 const DiceBag = ({addNewDicebagPartyRoll}) => {
 
-  const [diceData, setDiceData] = useState({...blankDice});
 
-  const [resultSummary, setResultSummary] = useState('');
-  const [resultTotal, setResultTotal] = useState('');
+  const [diceData, setDiceData] = useState({...blankDice}); // dice-to-roll
+  const [summaryMode, setSummaryMode] = useState('high');   // 'sum' / 'low' / 'high'
+  const [rollData, setRollData] = useState([]);
+
   const [lastDieRolled, setLastDieRolled] = useState('');
 
   const updateDiceData = (dieType, dieCount) => {
@@ -26,36 +28,64 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   }
 
   const handleRoll = () => {
-    let runningResults = [];
-    let runningTotal = 0;
-    let actionRollData = [];  // for the party panel
+    let results = [];
 
     Object.keys(diceData).forEach((dieType, i) => {
       for (let rollID = 0; rollID < diceData[dieType]; rollID++) {
         const result = getRandomInt(parseInt(dieType));
-        runningResults.push(result)
-        runningTotal += result;
-
-        actionRollData.push( {dieType: `d${dieType}`, result: result} )
+        results.push( {dieType: `d${dieType}`, result: result} )
         setLastDieRolled(dieType);
       }
     });
 
-    setResultSummary(runningResults.join(' + '));
-    setResultTotal(runningTotal);
+    // store what was rolled
+    setRollData(results)
+    // reset current to-roll dice
     setDiceData({...blankDice});
-
-    // add it to the party roll panel
-    addNewDicebagPartyRoll(actionRollData);
+    // add/update it to the party roll panel
+    addNewDicebagPartyRoll(rollData);
   }
 
+  // add it to the party roll panel
+  useEffect(() => {
+    addNewDicebagPartyRoll(rollData, summaryMode, true);
+  }, [rollData]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // update it on the party roll panel
+  useEffect(() => {
+    addNewDicebagPartyRoll(rollData, summaryMode, false);
+  }, [summaryMode]); // eslint-disable-line react-hooks/exhaustive-deps
+
+
+  // summarize the results
+  let runningTotal = 0;
+  let highest = 0;
+  let lowest = 999999;
+  let resultList = [];
+  rollData.forEach((roll) => {
+      resultList.push(roll.result)
+      runningTotal += roll.result
+      highest = Math.max(highest, roll.result)
+      lowest = Math.min(lowest, roll.result)
+  });
+
+  let resultTotal = 0;
+  let resultSummary = '';
+  if (summaryMode === 'sum') {
+    resultTotal = runningTotal;
+    resultSummary = resultList.join(' + ');
+  } else if (summaryMode === 'low') {
+    resultTotal = lowest;
+    resultSummary = resultList.join(', ')
+  } else if (summaryMode === 'high') {
+    resultTotal = highest;
+    resultSummary = resultList.join(', ')
+  }
+
+  // what is the highest type of die we're queueing up to roll?
   let rollDieType = '';
-  let totalDiceRolled = 0;
   Object.keys(diceData).forEach((dieType) => {
-    if (diceData[dieType] > 0) {
-      rollDieType = dieType;
-      totalDiceRolled = totalDiceRolled + diceData[dieType];
-    }
+    if (diceData[dieType] > 0) { rollDieType = dieType;}
   });
 
   return (
@@ -64,6 +94,28 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
       <hr className='pumpkin-bar' />
       <div className='bag-container'>
+
+        <RadioGroup
+          name='summary-mode'
+          className='summary-mode'
+          selectedValue={summaryMode}
+          onChange={(value) => { setSummaryMode(value) }}
+        >
+          <label className={`mode-container ${summaryMode === 'sum' ? 'selected' : ''}`} key='mode-sum'>
+            <Radio value='sum' id='mode-sum' />
+            Sum
+          </label>
+
+          <label className={`mode-container ${summaryMode === 'high' ? 'selected' : ''}`} key='mode-high'>
+            <Radio value='high' id='mode-high' />
+            High
+          </label>
+
+          <label className={`mode-container ${summaryMode === 'low' ? 'selected' : ''}`} key='mode-low'>
+            <Radio value='low' id='mode-low' />
+            Low
+          </label>
+        </RadioGroup>
 
         <div className='rolling-surface'>
 
