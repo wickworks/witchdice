@@ -13,6 +13,10 @@ const Footer = () => {
         <a href="https://wick.itch.io/aesthetic" target="_blank" rel="noopener noreferrer">
           <span className="asset trans_pride" />
         </a>
+        ~
+        <a href="https://ko-fi.com/wickworks" target="_blank" rel="noopener noreferrer">
+          tip jar
+        </a>
       </p>
       <a href="https://twitter.com/wickglyph" target="_blank" rel="noopener noreferrer">@wickglyph</a>
       <a href="https://wick.works/" target="_blank" rel="noopener noreferrer">www.wick.works</a>

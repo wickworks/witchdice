@@ -9,7 +9,8 @@ var wordList = [
 'leaf','fruit','plant','soil','bulb','landscape','herb','acorn','berry','sunny','kiss','crisp','wind',
 'jazz','blues','folk','territory','valence','clementine','leap','acre','ballad',
 'briar','blueberry','palace','dusk','symphony','hex','cadence',
-'waltz','tango','cache','heart','thorn','ibex'
+'waltz','tango','cache','heart','thorn','ibex',
+'olive','salmon','tarot','balm','jupiter','athena'
 ];
 
 function words(options) {
