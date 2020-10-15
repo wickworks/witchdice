@@ -117,6 +117,15 @@
   font-size: 36px;
 }
 
+@mixin text_connect_button {
+  font-family: 'Bitter';
+  font-size: 20px;
+  font-style: italic;
+  font-weight: bold;
+  color: $rust;
+}
+
+
 @mixin text_party_roll_number {
   font-size: 16px;
 }

@@ -46,10 +46,10 @@
 	}
 
 	button.party-connect {
-		@include text_roll_attacks;
+		@include text_connect_button;
 		display: block;
 		margin: 15px auto 5px;
-		padding: 5px 40px;
+		padding: 5px 80px;
 		border: none;
 		border-radius: 8px;
 		background-color: $parchment_dark;

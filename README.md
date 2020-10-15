@@ -9,10 +9,9 @@
 - collapsible dice bag/party menu
 - add modifiers to dicebag rolls
 - make the background a sketch pad
-- turn "party rolls" into roll history for single-player
 
 
-
+- give dicebag sum/low/high options to know what to do with all the rolls
 
 - paralyzation//assassin; all attacks are crits
 - vulnerability, resistance, immunity

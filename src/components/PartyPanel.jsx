@@ -25,60 +25,57 @@ const PartyPanel = ({
 
 	return (
 		<div className="PartyPanel">
-			<h2>Party Rolls</h2>
+			<h2>Roll History</h2>
 
 			<hr className='pumpkin-bar' />
 			<div className='party-container'>
 
-        { (!partyConnected) ? <>
-          <div className='party-name-container'>
-            <label htmlFor='party-name'>Name</label>
-            <input type='text' id='party-name' value={partyName} onChange={(e) => updatePartyName(e.target.value)} />
-          </div>
-
-          <div className='party-room-container'>
-            <label htmlFor='party-room'>Room</label>
-            <input type='text' id='party-room' value={partyRoom} onChange={(e) => updatePartyRoom(e.target.value)}/>
-            <button
-              className='generate-new-room'
-              onClick={generateRoomName}
-            >
-              ☈
-            </button>
-          </div>
-
-          <button
-            className='party-connect'
-            onClick={() => connectToRoom()}
-            disabled={connectDisabled}
-          >
-            Connect
-          </button>
-
-        </> : <>
-
-          {(allPartyActionData.length > 0) &&
-            allPartyActionData.slice(0).reverse().map((actionData, i) => {
-              return (
-                <PartyAction
-                  actionData={actionData}
-                  key={actionData.updatedAt}
-                />
-              )
-            })
-          }
-        </> }
+        {(allPartyActionData.length > 0) &&
+          allPartyActionData.slice(0).reverse().map((actionData, i) => {
+            return (
+              <PartyAction
+                actionData={actionData}
+                key={actionData.updatedAt}
+              />
+            )
+          })
+        }
 			</div>
 			<hr className='pumpkin-bar' />
 
-      { partyConnected && <>
+      { (!partyConnected) ? <>
+        <div className='party-name-container'>
+          <label htmlFor='party-name'>Name</label>
+          <input type='text' id='party-name' value={partyName} onChange={(e) => updatePartyName(e.target.value)} />
+        </div>
+
+        <div className='party-room-container'>
+          <label htmlFor='party-room'>Room</label>
+          <input type='text' id='party-room' value={partyRoom} onChange={(e) => updatePartyRoom(e.target.value)}/>
+          <button
+            className='generate-new-room'
+            onClick={generateRoomName}
+          >
+            ☈
+          </button>
+        </div>
+
+        <button
+          className='party-connect'
+          onClick={() => connectToRoom()}
+          disabled={connectDisabled}
+        >
+          Connect
+        </button>
+
+      </> : <>
         <div className='party-name-container'>
           <label>Name:</label>
           <div>{partyName}</div>
         </div>
 
         <div className='party-room-container'>
-          <label>Party:</label>
+          <label>Room:</label>
           <div>{partyRoom}</div>
         </div>
       </> }
@@ -128,7 +125,7 @@ const PartyPanel = ({
 
 
 const PartyAction = ({actionData}) => {
-  const {name, char, conditions, type} = actionData;
+  const {name, char, conditions, type, updatedAt} = actionData;
 
   // convert the rolls into an array & sum them
   let actionRolls = [];
@@ -181,7 +178,7 @@ const PartyAction = ({actionData}) => {
                     <PartyRollDicebag
                       dieType={roll.die}
                       result={roll.result}
-                      key={i}
+                      key={`${updatedAt}-${i}`}
                     />
                   )
                 })}
@@ -203,7 +200,7 @@ const PartyAction = ({actionData}) => {
             return (
               <PartyRollAttack
                 actionRollData={actionRollData}
-                key={i}
+                key={`${updatedAt}-${i}`}
               />
             )
           }) }

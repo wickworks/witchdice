@@ -441,15 +441,78 @@ const Main = ({rollMode}) => {
 
   // =============== PARTY ROLL FUNCTIONS ==================
 
+
+  const addNewAttackPartyRoll = (actionData) => {
+    if (partyConnected) {
+      const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
+
+      // ~~ new attack roll ~~ //
+      if (partyLastAttackTimestamp === 0) {
+        const newKey = dbRef.push(actionData).key
+        setPartyLastAttackKey(newKey);
+        console.log('       pushed  new attack to firebase', actionData);
+
+      // ~~ update attack roll ~~ //
+      } else {
+        dbRef.child(partyLastAttackKey).set(actionData);
+        console.log('       set updated attack in firebase', actionData);
+      }
+    } else {
+      // add it to the single-player roll history
+      setLatestAction(actionData)
+    }
+  }
+
+  const addNewDicebagPartyRoll = (rolls) => {
+      let actionData = {};
+      actionData.name = partyName || 'Me';
+      actionData.type = 'dicebag';
+      actionData.createdAt = Date.now();
+      actionData.updatedAt = Date.now(); // dicebag rolls can't be modified
+
+      // rolls = [ {die: 'd6', result: 4}, ... ]
+      rolls.forEach((roll, i) => {
+        actionData[`roll-${i}`] = {
+          die: roll.dieType,
+          result: roll.result
+        }
+      });
+
+    if (partyConnected) {
+      // Push this single roll to Firebase
+      // (the update of the local state is handled by the firebase change)
+      console.log('       pushing roll to firebase', actionData);
+      const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
+      dbRef.push(actionData);
+
+    } else {
+      // add it to the single-player roll history
+      setLatestAction(actionData)
+    }
+  }
+
   // whenever we update rolldata
   useEffect(() => {
-    if (partyConnected && rollSummaryData.length > 0) {
+    if (rollSummaryData.length > 0) {
       // traverse rollData to pull it out in a format that we want.
       let actionData = {};
       actionData.name = partyName;
       actionData.char = characterName;
       actionData.type = 'attack';
       actionData.conditions = rollConditions.join(', ')
+
+      // ~~ new attack roll ~~ //
+      if (partyLastAttackTimestamp === 0) {
+        actionData.createdAt = Date.now();
+        actionData.updatedAt = actionData.createdAt;
+        setPartyLastAttackTimestamp(actionData.createdAt);
+
+      // ~~ update attack roll ~~ //
+      } else {
+        actionData.createdAt = partyLastAttackTimestamp
+        actionData.updatedAt = Date.now();
+      }
+
 
       // rollSummaryData = [ {attack: 20, name: 'Longsword', 'slashing': 13, 'necrotic': 4}, ... ]
       // (replaces "attack" with "save" for saving throws)
@@ -525,53 +588,6 @@ const Main = ({rollMode}) => {
     setPartyRoom( `${randomWords(1)}-${randomWords({exactly: 1, maxLength: 6})}-${randomWords({exactly: 1, maxLength: 4})}` )
   }
 
-  const addNewDicebagPartyRoll = (rolls) => {
-    if (partyConnected) {
-      let actionData = {};
-      actionData.name = partyName;
-      actionData.type = 'dicebag';
-      actionData.createdAt = Date.now();
-      actionData.updatedAt = Date.now();
-
-      // rolls = [ {die: 'd6', result: 4}, ... ]
-      rolls.forEach((roll, i) => {
-        actionData[`roll-${i}`] = {
-          die: roll.dieType,
-          result: roll.result
-        }
-      });
-
-      console.log('       pushing roll to firebase', actionData);
-
-      // Push this single roll to Firebase
-      // (the update of the local state is handled by the firebase change)
-      const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
-      dbRef.push(actionData);
-    }
-  }
-
-  const addNewAttackPartyRoll = (actionData) => {
-    if (partyConnected) {
-      const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
-
-      // ~~ new attack roll ~~ //
-      if (partyLastAttackKey.length === 0) {
-        actionData.createdAt = Date.now();
-        actionData.updatedAt = actionData.createdAt;
-        const newKey = dbRef.push(actionData).key
-        setPartyLastAttackKey(newKey);
-        setPartyLastAttackTimestamp(actionData.createdAt);
-        console.log('       pushed  new attack to firebase', actionData);
-
-      // ~~ update attack roll ~~ //
-      } else {
-        actionData.createdAt = partyLastAttackTimestamp
-        actionData.updatedAt = Date.now();
-        dbRef.child(partyLastAttackKey).set(actionData);
-        console.log('       set updated attack in firebase', actionData);
-      }
-    }
-  }
 
   return (
     <div className='Main'>
