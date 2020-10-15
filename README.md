@@ -5,7 +5,6 @@
 - better responsive design for damage edit
   - make damage source/tags look more optional
 
-- put user name all small next to character name in party panel
 - validation for damage number inputs
 - collapsible dice bag/party menu
 - add modifiers to dicebag rolls
@@ -17,8 +16,6 @@
 
 - paralyzation//assassin; all attacks are crits
 - vulnerability, resistance, immunity
-- uncanny dodge : be able to halve any roll
-  (use as general case for saving throws, resistance)
 
 - Firbase-side validate room/person name; must be length X & are only letters
   Auth system: conference-room rules.
@@ -28,6 +25,7 @@
   All rooms are cleared out twelve hours after the last message is sent on them.
   Be able to go straight to the room by visiting the room url
 
+- put together a how-to imgur album with gifs
 - import spells
 - import the monster manual
   (add legendary actions)

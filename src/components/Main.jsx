@@ -446,7 +446,8 @@ const Main = ({rollMode}) => {
     if (partyConnected && rollSummaryData.length > 0) {
       // traverse rollData to pull it out in a format that we want.
       let actionData = {};
-      actionData.name = characterName;
+      actionData.name = partyName;
+      actionData.char = characterName;
       actionData.type = 'attack';
       actionData.conditions = rollConditions.join(', ')
 

@@ -80,15 +80,18 @@
 			.title {
 				display: flex;
 				align-items: flex-end;
-				justify-content: space-between;
 				padding-bottom: 1px;
 				border-bottom: 1px solid $rust_light;
 				margin-bottom: 2px;
 
 				.name { @include text_party_roll_sum; }
+				.party-name {
+					@include text_party_roll_attackname;
+					margin: 0 12px 1px 6px;
+				}
 				.conditions {
 					@include text_party_roll_condition;
-					margin-right: 4px;
+					margin: 0 4px 1px auto;
 				}
 			}
 

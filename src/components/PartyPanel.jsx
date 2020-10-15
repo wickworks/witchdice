@@ -90,10 +90,12 @@ const PartyPanel = ({
 
 // two types of roll data: attack/damage rolls & dicebag rolls
 // const defaultPartyActionData_attack = {
+//   'char': 'Kira',
 //   'name': 'Olive',
 //   'conditions': 'advantage',
 //   'type': 'attack',
-//   'timestamp': XXXXXX,
+//   'createdAt': XXXXXX,
+//   'updatedAt': XXXXXX,
 //   'roll-1': {
 //     'attack': 11,
 //     'name': 'Longsword',
@@ -112,7 +114,8 @@ const PartyPanel = ({
 // const defaultPartyActionData_dicebag = {
 //   'name': 'Olive',
 //   'type': 'dicebag',
-//   'timestamp': XXXXXX,
+//   'createdAt': XXXXXX,
+//   'updatedAt': XXXXXX,
 //   'roll-1': {
 //     'die': 'd6',
 //     'result': '2',
@@ -125,7 +128,7 @@ const PartyPanel = ({
 
 
 const PartyAction = ({actionData}) => {
-  const {name, conditions, type} = actionData;
+  const {name, char, conditions, type} = actionData;
 
   // convert the rolls into an array & sum them
   let actionRolls = [];
@@ -161,7 +164,8 @@ const PartyAction = ({actionData}) => {
     <div className="PartyAction">
 
       <div className="title">
-        <div className="name">{name}</div>
+        <div className="name">{char}</div>
+        <div className="party-name">{name}</div>
         { conditionsDisplay &&
           <div className="conditions">{conditionsDisplay}</div>
         }
