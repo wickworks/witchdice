@@ -10,9 +10,19 @@
   align-items: center;
   justify-content: center;
 
-  h1 {
+  h1.site-title {
     @include text_h1;
     margin-bottom: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    // to get it to wrap in the right order
+    div {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
   }
 
   .beta-label {
@@ -57,5 +67,84 @@
     width: 100%;
     margin: 0;
     box-sizing: border-box;
+  }
+
+  .roll-mode {
+    input, label { cursor: pointer; }
+    h2 { display: inline; }
+
+    .mode-title {
+      display: flex;
+      align-items: center;
+    }
+
+    &.full {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 80px auto 100px;
+
+      .mode-container {
+        width: 300px;
+        border-radius: 4px;
+        margin: 10px;
+        border: 2px solid $rust;
+
+        background-color: $parchment;
+        transition: background-color .075s ease-out;
+        &:hover { background-color: $parchment_dark; }
+
+        .mode-title h2 {
+          margin: 10px auto 8px;
+        }
+
+        p.mode-desc {
+          text-align: center;
+          margin: 0 20px 20px;
+
+          &.simple { padding: 18px 0; }
+        }
+
+        input { display: none; }
+      }
+    }
+
+    &.minimized {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+
+      display: flex;
+      flex-direction: column;
+
+      .mode-container {
+        border-radius: 4px;
+
+        background-color: $parchment;
+        transition: background-color .075s ease-out;
+        &:hover {
+          background-color: $parchment_dark;
+          color: $soft_black;
+        }
+        &.selected {
+          background-color: $rust;
+          color: white;
+        }
+
+        .mode-title {
+          display: flex;
+          align-items: center;
+
+          h2 {
+            margin: 2px 6px;
+            font-size: 16px;
+            font-weight: normal;
+          }
+          input { display: none;}
+        }
+
+        .mode-desc { display: none; }
+      }
+    }
   }
 }

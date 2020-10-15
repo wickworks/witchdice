@@ -20,7 +20,6 @@ import ActiveAttackList from './ActiveAttackList.jsx';
 import Roller from './Roller.jsx';
 import DiceBag from './DiceBag.jsx';
 import PartyPanel from './PartyPanel.jsx';
-import Footer from './Footer.jsx';
 import './Main.scss';
 
 // import firebase from 'firebase/app';
@@ -28,11 +27,6 @@ import './Main.scss';
 
 import {randomWords} from '../random_words.js';
 
-
-
-
-// whenever we make a change that breaks the old data, bump up the first number
-console.log('Welcome to Roll-To-Hit version ', CURRENT_VERSION);
 
 const loadedVersion = localStorage.getItem("version");
 let brokeOldCharacterData = false;
@@ -87,7 +81,7 @@ if (!loadedVersion || brokeOldCharacterData || brokeOldMonsterData) {
 }
 
 
-const Main = () => {
+const Main = ({rollMode}) => {
   const [allCharacterEntries, setAllCharacterEntries] = useState([]);
   const [allMonsterEntries, setAllMonsterEntries] = useState([]);
 
@@ -580,16 +574,18 @@ const Main = () => {
 
   return (
     <div className='Main'>
-      <CharacterAndMonsterList
+      { rollMode === '5e' &&
+        <CharacterAndMonsterList
         setActiveCharacterID={setActiveCharacter}
         activeCharacterID={characterID}
         allCharacterEntries={allCharacterEntries}
         allMonsterEntries={allMonsterEntries}
         createNewCharacter={createNewCharacter}
       />
+      }
 
       {/*<div>(click to increase attack rolls, right-click to decrease)</div>*/}
-      {(characterName.length > 0) &&
+      {(rollMode === '5e' && characterName.length > 0) &&
         <Character
           characterName={characterName}
           setCharacterName={setCharacterName}
@@ -609,7 +605,7 @@ const Main = () => {
           addNewDicebagPartyRoll={addNewDicebagPartyRoll}
         />
 
-        {(characterName.length > 0) &&
+        {(rollMode === '5e' && characterName.length > 0) &&
           <div className='roller-i-hardly-even-knower-container'>
             <ActiveAttackList
               attackSourceData={characterAttackData}
@@ -640,7 +636,6 @@ const Main = () => {
         />
       </div>
 
-      <Footer />
     </div>
   )
 }

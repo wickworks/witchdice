@@ -2,7 +2,6 @@
 ### TODO
 
 
-- add "simple" mode, possibly with a "choose your mode" landing page & local storage to remember
 - better responsive design for damage edit
   - make damage source/tags look more optional
 
@@ -39,6 +38,7 @@
 
 - someday: switch away from the heavy firebase server to a lightweight peer-to-peer network
 
+- hover over dice bag buttons for a second to show which type of die it is (replace image)
 - setting: customize which icon shows up for natural 20s
 - sort abilities to end of roll list
 - themes e.g. dark mode
