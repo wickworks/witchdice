@@ -166,7 +166,7 @@ const PartyAction = ({actionData}) => {
     <div className="PartyAction">
 
       <div className="title">
-        { char ?
+        { char && (char.toLowerCase() !== name.toLowerCase()) ?
           <>
             <div className="name">{char}</div>
             <div className="party-name">{name}</div>
