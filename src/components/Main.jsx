@@ -463,6 +463,7 @@ const Main = ({rollMode}) => {
       }
     } else {
       // add it to the single-player roll history
+      console.log('setting single-player attack history latest action');
       setLatestAction(actionData)
     }
   }
@@ -472,7 +473,7 @@ const Main = ({rollMode}) => {
       let actionData = {};
       actionData.name = partyName || 'Me';
       actionData.type = 'dicebag';
-      actionData.sumMode = summaryMode
+      actionData.conditions = summaryMode
 
       // rolls = [ {die: 'd6', result: 4}, ... ]
       rolls.forEach((roll, i) => {
@@ -482,37 +483,37 @@ const Main = ({rollMode}) => {
         }
       });
 
+      if (isNew) {
+        actionData.createdAt = Date.now();
+        actionData.updatedAt = actionData.createdAt;
+        setPartyLastDicebagTimestamp(actionData.createdAt)
+      } else {
+        actionData.createdAt = partyLastDicebagTimestamp
+        actionData.updatedAt = Date.now();
+      }
+
       if (partyConnected) {
         const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
-
         // ~~ new dicebag roll ~~ //
         if (isNew) {
-          actionData.createdAt = Date.now();
-          actionData.updatedAt = actionData.createdAt;
-
-          console.log('       pushing Dicebag roll to firebase', actionData);
           const newKey = dbRef.push(actionData);
           setPartyLastDicebagKey(newKey);
-
+          console.log('       pushed  new dicebag roll to firebase', actionData);
         // ~~ update dicebag roll ~~ //
         } else {
-          actionData.createdAt = partyLastDicebagTimestamp
-          actionData.updatedAt = Date.now();
-
           dbRef.child(partyLastDicebagKey).set(actionData);
-          console.log('       set updated Dicebag roll in firebase', actionData);
+          console.log('       set updated dicebag roll in firebase', actionData);
         }
 
       } else {
-        console.log('       new singleplayer dicebag roll', actionData);
-
         // add it to the single-player roll history
+        console.log('setting single-player dicebag history latest action');
         setLatestAction(actionData)
       }
     }
   }
 
-  // whenever we update rolldata
+  // whenever we update the attack rolldata
   useEffect(() => {
     if (rollSummaryData.length > 0) {
       // traverse rollData to pull it out in a format that we want.
@@ -551,15 +552,19 @@ const Main = ({rollMode}) => {
     if (latestAction) {
       let newData = deepCopy(allPartyActionData);
 
+      console.log('       new action created at :', latestAction.createdAt);
+
       // is this an update or a new one?
       let isUpdate = false;
       allPartyActionData.forEach((action, i) => {
         if (action !== null && action.createdAt === latestAction.createdAt) {
           isUpdate = true;
           newData[i] = deepCopy(latestAction);
+          console.log('        was an update of index ', i);
         }
       });
       if (!isUpdate) newData.push(latestAction)
+
 
       setAllPartyActionData(newData);
     }

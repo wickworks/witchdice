@@ -130,6 +130,8 @@ const PartyAction = ({actionData}) => {
   // convert the rolls into an array & sum them
   let actionRolls = [];
   let diceBagSum = 0;
+  let diceBagHigh = 0;
+  let diceBagLow = 999999;
   let damageSum = 0;
 
   Object.keys(actionData).forEach((key, i) => {
@@ -138,7 +140,10 @@ const PartyAction = ({actionData}) => {
       actionRolls.push(rollData)
 
       if (type === 'dicebag') {
-        diceBagSum = diceBagSum + parseInt(rollData.result);
+        const result = parseInt(rollData.result);
+        diceBagSum = diceBagSum + result;
+        diceBagHigh = Math.max(diceBagHigh, result)
+        diceBagLow = Math.min(diceBagLow, result)
 
       } else if (type === 'attack') {
         allDamageTypes.forEach((damageType) => {
@@ -161,8 +166,14 @@ const PartyAction = ({actionData}) => {
     <div className="PartyAction">
 
       <div className="title">
-        <div className="name">{char}</div>
-        <div className="party-name">{name}</div>
+        { char ?
+          <>
+            <div className="name">{char}</div>
+            <div className="party-name">{name}</div>
+          </>
+        :
+          <div className="name">{name}</div>
+        }
         { conditionsDisplay &&
           <div className="conditions">{conditionsDisplay}</div>
         }
@@ -183,7 +194,15 @@ const PartyAction = ({actionData}) => {
                   )
                 })}
               </div>
-              <div className="dicebag-sum">{diceBagSum}</div>
+              <div className="dicebag-sum">
+                { conditions === 'low' ?
+                  diceBagLow
+                : conditions === 'high' ?
+                  diceBagHigh
+                :
+                  diceBagSum
+                }
+              </div>
             </>
           :
             <div className='dicebag-single'>

@@ -16,7 +16,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
 
   const [diceData, setDiceData] = useState({...blankDice}); // dice-to-roll
-  const [summaryMode, setSummaryMode] = useState('high');   // 'sum' / 'low' / 'high'
+  const [summaryMode, setSummaryMode] = useState('sum');   // 'sum' / 'low' / 'high'
   const [rollData, setRollData] = useState([]);
 
   const [lastDieRolled, setLastDieRolled] = useState('');
@@ -42,8 +42,6 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     setRollData(results)
     // reset current to-roll dice
     setDiceData({...blankDice});
-    // add/update it to the party roll panel
-    addNewDicebagPartyRoll(rollData);
   }
 
   // add it to the party roll panel
@@ -94,29 +92,6 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
       <hr className='pumpkin-bar' />
       <div className='bag-container'>
-
-        <RadioGroup
-          name='summary-mode'
-          className='summary-mode'
-          selectedValue={summaryMode}
-          onChange={(value) => { setSummaryMode(value) }}
-        >
-          <label className={`mode-container ${summaryMode === 'sum' ? 'selected' : ''}`} key='mode-sum'>
-            <Radio value='sum' id='mode-sum' />
-            Sum
-          </label>
-
-          <label className={`mode-container ${summaryMode === 'high' ? 'selected' : ''}`} key='mode-high'>
-            <Radio value='high' id='mode-high' />
-            High
-          </label>
-
-          <label className={`mode-container ${summaryMode === 'low' ? 'selected' : ''}`} key='mode-low'>
-            <Radio value='low' id='mode-low' />
-            Low
-          </label>
-        </RadioGroup>
-
         <div className='rolling-surface'>
 
           { (rollDieType.length > 0) ?
@@ -157,6 +132,28 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
           })}
         </div>
 
+
+        <RadioGroup
+          name='summary-mode'
+          className='summary-mode'
+          selectedValue={summaryMode}
+          onChange={(value) => { setSummaryMode(value) }}
+        >
+          <label className={`mode-container ${summaryMode === 'sum' ? 'selected' : ''}`} key='mode-sum'>
+            <Radio value='sum' id='mode-sum' />
+            Sum
+          </label>
+
+          <label className={`mode-container ${summaryMode === 'high' ? 'selected' : ''}`} key='mode-high'>
+            <Radio value='high' id='mode-high' />
+            High
+          </label>
+
+          <label className={`mode-container ${summaryMode === 'low' ? 'selected' : ''}`} key='mode-low'>
+            <Radio value='low' id='mode-low' />
+            Low
+          </label>
+        </RadioGroup>
       </div>
       <hr className='pumpkin-bar' />
 
