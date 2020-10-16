@@ -16,7 +16,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
 
   const [diceData, setDiceData] = useState({...blankDice}); // dice-to-roll
-  const [summaryMode, setSummaryMode] = useState('sum');   // 'sum' / 'low' / 'high'
+  const [summaryMode, setSummaryMode] = useState('total');   // 'total' / 'low' / 'high'
   const [rollData, setRollData] = useState([]);
 
   const [lastDieRolled, setLastDieRolled] = useState('');
@@ -69,7 +69,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
   let resultTotal = 0;
   let resultSummary = '';
-  if (summaryMode === 'sum') {
+  if (summaryMode === 'total') {
     resultTotal = runningTotal;
     resultSummary = resultList.join(' + ');
   } else if (summaryMode === 'low') {
@@ -107,7 +107,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                 <div className={`asset d${lastDieRolled}`} />
                 {resultTotal}
               </div>
-              { resultSummary.length > 4 &&
+              { resultSummary.length > 3 &&
                 <div className='result-summary'> {resultSummary} </div>
               }
             </div>
@@ -132,16 +132,15 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
           })}
         </div>
 
-
         <RadioGroup
           name='summary-mode'
           className='summary-mode'
           selectedValue={summaryMode}
           onChange={(value) => { setSummaryMode(value) }}
         >
-          <label className={`mode-container ${summaryMode === 'sum' ? 'selected' : ''}`} key='mode-sum'>
-            <Radio value='sum' id='mode-sum' />
-            Sum
+          <label className={`mode-container ${summaryMode === 'total' ? 'selected' : ''}`} key='mode-total'>
+            <Radio value='total' id='mode-total' />
+            Total
           </label>
 
           <label className={`mode-container ${summaryMode === 'high' ? 'selected' : ''}`} key='mode-high'>
