@@ -7,7 +7,8 @@
   .gameplay-container {
     display: flex;
     justify-content: center;
-    margin-bottom: 100px;
+    margin: 42px 30px 100px;
+    border-top: 2px solid $rust;
 
     .roller-i-hardly-even-knower-container {
       margin: 0 20px;
