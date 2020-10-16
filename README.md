@@ -3,8 +3,6 @@
 
 #### EXIST-IN-THE-WORLD ####
 - put together a how-to imgur album with gifs
-- finish the rollwith.love domain setup
-
 
 ###### LAYOUT #######
 - better responsive design for damage edit
@@ -23,6 +21,8 @@
 - setting: customize which icon shows up for natural 20s
 
 ###### TECHNICAL ######
+
+
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
   Auth system: conference-room rules.
@@ -33,7 +33,7 @@
   Be able to go straight to the room by visiting the room url
 
 - someday: switch away from the heavy firebase server to a lightweight peer-to-peer network
-
+- clear out data on firebase periodically even if nobody has visited that room in a long time
 
 #### MECHANICS ####
 - import spells

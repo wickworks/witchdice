@@ -572,10 +572,8 @@ const Main = ({rollMode}) => {
   }, [latestAction]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const connectToRoom = () => {
-    console.log('Clicked button to connect to room : ', partyRoom);
-
     try {
-      console.log('Attempting to connect to room : ', partyRoom);
+      console.log('Connecting to room : ', partyRoom);
       if (partyRoom === null || partyRoom.length === 0) { throw new Error('Invalid room name!') }
 
       const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom)
@@ -592,11 +590,21 @@ const Main = ({rollMode}) => {
       //   }
       // );
 
+
       dbRef.on('child_changed', (snapshot) => {
         if (snapshot) { setLatestAction(snapshot.val()) }
       });
       dbRef.on('child_added', (snapshot) => {
-        if (snapshot) { setLatestAction(snapshot.val()) }
+        if (snapshot) {
+          // clean out old rolls
+          var now = Date.now();
+          var cutoff = now - 72 * 60 * 60 * 1000; // 72 hours ago
+          if (snapshot.val().createdAt < cutoff) {
+            snapshot.ref.remove();
+          } else {
+            setLatestAction(snapshot.val())
+          }
+        }
       });
 
       setPartyConnected(true);
