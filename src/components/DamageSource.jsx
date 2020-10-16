@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Multiselect } from 'multiselect-react-dropdown';
 import './DamageSource.scss';
 import { allTags, allConditions, abilityTypes } from '../data.js';
-import DamageEdit from './DamageEdit.jsx';
+import {
+  DamageEditDamageType,
+  DamageEditMetadata,
+  DamageEditNumbers,
+  DamageEditDieType
+} from './DamageEdit.jsx';
 
 const DamageSource = ({
   damageID, attackID, damageData, damageFunctions,
@@ -33,9 +37,8 @@ const DamageSource = ({
   } = damageFunctions;
 
   const [hoveringOverCheckBox, setHoveringOverCheckBox] = useState(false);
-
-
-  const editingClass = isEditing ? 'editing' : '';
+  const [isEditingDieType, setIsEditingDieType] = useState(false);
+  const [isEditingDamageType, setIsEditingDamageType] = useState(false);
 
   const handleContainerClick = () => {
     if (hoveringOverCheckBox) { return }
@@ -44,10 +47,6 @@ const DamageSource = ({
 
   // =============== ADD / REMOVE TAG CRAP =============
 
-  let tagOptions = [];
-  for (const [key, value] of Object.entries(allTags)) {
-    tagOptions.push({name: value, id: key})
-  }
 
   let selectedTags = [];
   let selectedTagNames = [];
@@ -91,184 +90,130 @@ const DamageSource = ({
     setSavingThrowType(newType, attackID, damageID);
   }
 
-  function renderEditMetaData() {
-    return(
-      <>
-        <input
-          type="text"
-          className='damage-name'
-          value={name}
-          onChange={e => setName(e.target.value, attackID, damageID)}
-          placeholder={'Damage source'}
-        />
+  // =================== RENDER ==================
 
-        <div className='tag-select'>
-          <Multiselect
-            options={tagOptions}
-            displayValue="name"
-            hidePlaceholder={true}
-            selectedValues={selectedTags}
-            closeIcon='cancel'
-            onSelect={(tag) => handleTagUpdate(tag)}
-            onRemove={(tag) => handleTagUpdate(tag)}
-          />
-          {(tags.length === 0) && <label>Damage tags</label>}
-        </div>
-      </>
-    )
-  }
+  const editingClass = isEditing ? 'editing' : '';
 
   return (
     <div className={`DamageSource ${editingClass}`} onClick={handleContainerClick} >
 
-      <div className='stats-container'>
-        <input
-          type="checkbox"
-          checked={enabled}
-          onChange={() => setEnabled(!enabled, attackID, damageID)}
-          onMouseEnter={() => setHoveringOverCheckBox(true)}
-          onMouseLeave={() => setHoveringOverCheckBox(false)}
-        />
+      <input
+        type="checkbox"
+        checked={enabled}
+        onChange={() => setEnabled(!enabled, attackID, damageID)}
+        onMouseEnter={() => setHoveringOverCheckBox(true)}
+        onMouseLeave={() => setHoveringOverCheckBox(false)}
+      />
 
-        {/* SUMMARY MODE */}
-        {!isEditing ?
-          <div className="summary">
-            <div className="roll-numbers">
-              { (dieType === 0) ?
-                <>{modifier} flat</>
-              :
-                <>
-                  {dieCount}d{dieType}
-                  {modifier > 0 ? ` + ${modifier}` : ''}
-                </>
-              }
-            </div>
+      {!isEditing ?
+        <div className="summary">
+          <DamageNumbers damageData={damageData} />
 
-            <div className={`asset ${damageType}`} />
+          <DamageMetadata damageData={damageData} selectedTagNames={selectedTagNames} />
 
-            <div className="name">
-              {name.length > 0 ? name : 'damage'}
-            </div>
+        </div>
+      :
+        <div className="editing">
+          <DamageEditNumbers
+            damageID={damageID}
+            attackID={attackID}
+            damageData={damageData}
+            damageFunctions={damageFunctions}
+            isEditingDieType={isEditingDieType}
+            isEditingDamageType={isEditingDamageType}
+            setIsEditingDieType={setIsEditingDieType}
+            setIsEditingDamageType={setIsEditingDamageType}
+          />
 
-            <div className="tags">{selectedTagNames.join(', ')}</div>
-          </div>
-        :
-          <>
-          {/* EDIT MODE */}
-          <div className='edit-mode'>
-            { (dieType === 0) ? <>
-              {/* FLAT DAMAGE */}
-              <input
-                type="number"
-                value={modifier}
-                onChange={e => setModifier(e.target.value, attackID, damageID)}
-              />
-
-              <div
-                className={`asset ${damageType}`}
-              />
-
-              <span className='flat-damage'>Flat Damage</span>
-
-              {renderEditMetaData()}
-
-            </> : <>
-              {/* DICE ROLL */}
-              <input
-                type="number"
-                value={dieCount}
-                onChange={e => setDieCount(e.target.value, attackID, damageID)}
-              />
-
-              <div
-                className={`asset d${dieType}`}
-                onClick={() => onEdit(attackID, damageID)}
-              />
-
-              <span className='die-type'>d{dieType}</span>
-
-              <span className='plus'>+</span>
-              <input
-                type="number"
-                value={modifier}
-                onChange={e => setModifier(e.target.value, attackID, damageID)}
-              />
-
-              <div
-                className={`asset ${damageType}`}
-              />
-
-
-              {renderEditMetaData()}
-
-            </>}
-          </div>
-
-          </>
-        }
-      </div>
-
-      {isEditing &&
-
-        <>
-          { (tags.includes('triggeredsave') || tags.includes('condition')) &&
-            <div className='additional-info'>
-
-              { tags.includes('triggeredsave') &&
-                <div className='saving-throw'>
-                  Triggers a
-                  <div
-                    className='saving-throw-dc unselectable'
-                    onClick={(e) => handleSavingThrowDCClick(e, true)}
-                    onContextMenu={(e) => handleSavingThrowDCClick(e, false)}
-                  >
-                    DC {savingThrowDC}
-                  </div>
-                  <div
-                    className='saving-throw-type unselectable'
-                    onClick={(e) => handleSavingThrowTypeClick(e, true)}
-                    onContextMenu={(e) => handleSavingThrowTypeClick(e, false)}
-                  >
-                    {abilityTypes[savingThrowType]}
-                  </div>
-                  save.
-                </div>
-              }
-
-              { tags.includes('condition') &&
-                <div className='condition-select'>
-                  Applies the
-                  <select value={condition} onChange={(e) => setCondition(e.target.value, attackID,damageID)}>
-                    {allConditions.map((conditionName, i) => {
-                      return (<option value={conditionName} key={i}>{conditionName}</option>)
-                    })}
-                  </select>
-                  condition.
-                </div>
-              }
-            </div>
+          { isEditingDieType &&
+            <DamageEditDieType
+              attackID={attackID}
+              die={dieType}
+              setDie={(value) => setDieType(value, attackID, damageID)}
+            />
           }
 
-          <DamageEdit
+          { isEditingDamageType &&
+            <DamageEditDamageType
+              attackID={attackID}
+              type={damageType}
+              setType={(value) => setDamageType(value, attackID, damageID)}
+            />
+          }
+
+          <DamageEditMetadata
+            damageID={damageID}
             attackID={attackID}
-            die={dieType}
-            type={damageType}
-            setDie={(value) => setDieType(value, attackID, damageID)}
-            setType={(value) => setDamageType(value, attackID, damageID)}
-            onDelete={() => onDelete(damageID)}
-            onClose={() => onEdit(damageID)}
+            damageData={damageData}
+            damageFunctions={damageFunctions}
+            selectedTags={selectedTags}
+            handleTagUpdate={handleTagUpdate}
+            handleSavingThrowDCClick={handleSavingThrowDCClick}
+            handleSavingThrowTypeClick={handleSavingThrowTypeClick}
+            savingThrowDC={savingThrowDC}
+            savingThrowType={savingThrowType}
           />
-        </>
+
+
+          <div className='buttons-container'>
+            <button className='delete' onClick={() => onDelete()}>
+              <div className={'asset trash'} />
+            </button>
+            <button className='accept' onClick={() => onEdit()}>
+              <div className={'asset checkmark'} />
+            </button>
+          </div>
+        </div>
       }
     </div>
   );
 }
 
-// <input
-//   type="text"
-//   value={tags}
-//   onChange={e => setTags(e.target.value, attackID, damageID)}
-//   placeholder={'Tags'}
-// />
+const DamageNumbers = ({
+  damageData
+}) => {
+
+  const {
+    dieCount,
+    dieType,
+    modifier,
+    damageType,
+  } = damageData;
+
+  return (
+    <>
+      <div className="roll-numbers">
+        { (dieType === 0) ?
+          <>{modifier} flat</>
+        :
+          <>
+            {dieCount}d{dieType}
+            {modifier > 0 ? ` + ${modifier}` : ''}
+          </>
+        }
+      </div>
+
+      <div className={`asset ${damageType}`} />
+    </>
+  );
+}
+
+const DamageMetadata = ({
+  damageData,
+  selectedTagNames
+}) => {
+  const { name } = damageData;
+
+  return (
+    <>
+      <div className="name">
+        {name.length > 0 ? name : 'damage'}
+      </div>
+
+      <div className="tags">{selectedTagNames.join(', ')}</div>
+    </>
+  );
+}
+
 
 export default DamageSource ;
