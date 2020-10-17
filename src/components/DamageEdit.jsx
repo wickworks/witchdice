@@ -9,10 +9,6 @@ const DamageEditNumbers = ({
   damageID, attackID,
   damageData,
   damageFunctions,
-  isEditingDieType,
-  isEditingDamageType,
-  setIsEditingDieType,
-  setIsEditingDamageType,
 }) => {
 
   const {
@@ -37,15 +33,9 @@ const DamageEditNumbers = ({
           onChange={e => setModifier(e.target.value, attackID, damageID)}
         />
 
-        <div
-          className={`asset ${damageType} ${isEditingDamageType ? 'open' : ''}`}
-          onClick={() => setIsEditingDamageType(!isEditingDamageType)}
-        />
+        <div className={`asset ${damageType} damage-type`}/>
 
-        <span
-          className={`flat-damage ${isEditingDieType ? 'open' : ''}`}
-          onClick={() => setIsEditingDieType(!isEditingDieType)}
-        >
+        <span className={`flat-damage`}>
           Flat Damage
         </span>
 
@@ -58,10 +48,7 @@ const DamageEditNumbers = ({
           onChange={e => setDieCount(e.target.value, attackID, damageID)}
         />
 
-        <div
-          className={`die-button ${isEditingDieType ? 'open' : ''}`}
-          onClick={() => setIsEditingDieType(!isEditingDieType)}
-        >
+        <div className='die-container'>
           <div className={`asset d${dieType}`} />
 
           <span className='die-type'>
@@ -77,12 +64,7 @@ const DamageEditNumbers = ({
           onChange={e => setModifier(e.target.value, attackID, damageID)}
         />
 
-        <div className='damage-button'>
-          <div
-            className={`asset ${damageType}`}
-            onClick={() => setIsEditingDamageType(!isEditingDamageType)}
-          />
-        </div>
+        <div className={`asset ${damageType} damage-type`} />
 
       </>}
     </div>

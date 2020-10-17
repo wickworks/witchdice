@@ -1,10 +1,14 @@
 @import '../fonts';
 
+$damagesource_rearrange_threshold: 600px;
+
 .DamageSource .edit-mode {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   width: 100%;
+  padding-left: 8px;
+  box-sizing: border-box;
 
   > * {
     margin-bottom: 10px;
@@ -30,60 +34,65 @@
       &:hover { background-color: $parchment_mid; }
     }
 
-    .die-button, .damage-button {
+    .die-container, .damage-type {
       display: flex;
       align-items: center;
-      background-color: $parchment;
-      cursor: pointer;
+      // margin: 3px 5px;
+      margin: 0 5px;
 
-      border-radius: 4px;
-      padding: 3px 5px;
-
-      &:hover { background-color: $pink; }
       .die-type { width: 30px; margin-left: 2px;}
-      .flat-damage { white-space: nowrap; }
+    }
 
-      .asset {
-        height: 26px;
-        width: 26px;
-      }
+    .flat-damage {
+      white-space: nowrap;
+      margin-right: 20px;
+    }
+
+    .asset {
+      height: 30px;
+      width: 30px;
     }
 
     .plus { margin: 0 8px; }
-
   }
 
   .DamageEditDieType {
-    // flex-shrink: 0;
-    // border-right: 1px solid darkgrey;
-    // margin-right: 18px;
-    order: 2;
+    order: 3;
+    flex-grow: 1;
 
-    .IconMenu {
-      display: flex;
-      flex-wrap: wrap;
-      // max-width: 220px;
+    @media screen and (min-width: $damagesource_rearrange_threshold) {
+      width: 45%;
+      border-right: 1px solid darkgrey;
+      margin-right: 18px;
 
-      label { min-width: 60px; }
+      .IconMenu {
+        max-width: 220px;
+        margin: auto;
+      }
     }
+
+    .IconMenu label { min-width: 60px;}
   }
 
   .DamageEditDamageType {
-    // flex-shrink: 10;
-    order: 3;
+    order: 4;
+    flex-grow: 1;
 
-    .IconMenu {
-      display: flex;
-      flex-wrap: wrap;
-      // max-width: 290px;
+    @media screen and (min-width: $damagesource_rearrange_threshold) {
+      width: 45%;
 
+      .IconMenu {
+        margin: auto;
+      }
     }
   }
 
   .DamageEditDieType, .DamageEditDamageType {
-    width: 100%;
 
     .IconMenu {
+      display: flex;
+      flex-wrap: wrap;
+
       label {
         display: flex;
         align-items: center;
@@ -120,7 +129,11 @@
     min-height: 30px;
     min-width: 126px;
     flex: 1 0 auto;
-    order: 4;
+    order: 5;
+
+    @media screen and (min-width: $damagesource_rearrange_threshold) {
+      order: 2
+    }
 
     &:hover { background-color: $parchment_mid; }
   }
@@ -131,7 +144,7 @@
     min-width: 200px;
     margin-right: 10px;
     flex: 1 0 auto;
-    order: 5;
+    order: 6;
 
     label {
       @include text_input;
@@ -189,7 +202,7 @@
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
-    margin: 0;
+    margin: auto;
     order: 6;
 
     > * {
@@ -217,35 +230,34 @@
       }
     }
   }
+}
 
-  // accept/delete
-  .buttons-container {
-    display: flex;
-    width: 100%;
-    margin: 0;
-    order: 7;
+.accept-delete-damage-container {
+  display: flex;
+  width: 100%;
+  margin: 0;
 
-    button {
-      @include text_default;
-      border: none;
-      width: 50%;
-      padding: 4px 0;
-      cursor: pointer;
+  button {
+    @include text_default;
+    border: none;
+    width: 50%;
+    padding: 4px 0;
+    cursor: pointer;
 
-      &.accept {
-        background-color: $olive_light;
-      }
-      &.delete {
-        background-color: $rust_light;
-      }
-
+    &.accept {
+      background-color: $olive_light;
+      &:hover { background-color: #c1e895; } // lighter olive
+    }
+    &.delete {
+      background-color: $rust_light;
       &:hover { background-color: $pink; }
+    }
 
-      .asset {
-        width: 24px;
-        height: 24px;
-        margin: auto;
-      }
+
+    .asset {
+      width: 24px;
+      height: 24px;
+      margin: auto;
     }
   }
 }

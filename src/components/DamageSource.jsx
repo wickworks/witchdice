@@ -37,8 +37,8 @@ const DamageSource = ({
   } = damageFunctions;
 
   const [hoveringOverCheckBox, setHoveringOverCheckBox] = useState(false);
-  const [isEditingDieType, setIsEditingDieType] = useState(true);
-  const [isEditingDamageType, setIsEditingDamageType] = useState(true);
+  // const [isEditingDieType, setIsEditingDieType] = useState(true);
+  // const [isEditingDamageType, setIsEditingDamageType] = useState(true);
 
   const handleContainerClick = () => {
     if (hoveringOverCheckBox) { return }
@@ -46,8 +46,8 @@ const DamageSource = ({
   }
 
   const handleAccept = () => {
-    setIsEditingDieType(false);
-    setIsEditingDamageType(false);
+    // setIsEditingDieType(false);
+    // setIsEditingDamageType(false);
     onEdit(damageID);
   }
 
@@ -121,49 +121,42 @@ const DamageSource = ({
 
         </div>
       :
-        <div className="edit-mode">
-          <DamageEditNumbers
-            damageID={damageID}
-            attackID={attackID}
-            damageData={damageData}
-            damageFunctions={damageFunctions}
-            isEditingDieType={isEditingDieType}
-            isEditingDamageType={isEditingDamageType}
-            setIsEditingDieType={setIsEditingDieType}
-            setIsEditingDamageType={setIsEditingDamageType}
-          />
+        <>
+          <div className="edit-mode">
+            <DamageEditNumbers
+              damageID={damageID}
+              attackID={attackID}
+              damageData={damageData}
+              damageFunctions={damageFunctions}
+            />
 
-          { isEditingDieType &&
             <DamageEditDieType
               attackID={attackID}
               die={dieType}
               setDie={(value) => setDieType(value, attackID, damageID)}
             />
-          }
 
-          { isEditingDamageType &&
             <DamageEditDamageType
               attackID={attackID}
               type={damageType}
               setType={(value) => setDamageType(value, attackID, damageID)}
             />
-          }
 
-          <DamageEditMetadata
-            damageID={damageID}
-            attackID={attackID}
-            damageData={damageData}
-            damageFunctions={damageFunctions}
-            selectedTags={selectedTags}
-            handleTagUpdate={handleTagUpdate}
-            handleSavingThrowDCClick={handleSavingThrowDCClick}
-            handleSavingThrowTypeClick={handleSavingThrowTypeClick}
-            savingThrowDC={savingThrowDC}
-            savingThrowType={savingThrowType}
-          />
+            <DamageEditMetadata
+              damageID={damageID}
+              attackID={attackID}
+              damageData={damageData}
+              damageFunctions={damageFunctions}
+              selectedTags={selectedTags}
+              handleTagUpdate={handleTagUpdate}
+              handleSavingThrowDCClick={handleSavingThrowDCClick}
+              handleSavingThrowTypeClick={handleSavingThrowTypeClick}
+              savingThrowDC={savingThrowDC}
+              savingThrowType={savingThrowType}
+            />
+          </div>
 
-
-          <div className='buttons-container'>
+          <div className='accept-delete-damage-container'>
             <button className='accept' onClick={handleAccept}>
               <div className={'asset checkmark'} />
             </button>
@@ -171,7 +164,7 @@ const DamageSource = ({
               <div className={'asset trash'} />
             </button>
           </div>
-        </div>
+        </>
       }
     </div>
   );
@@ -214,9 +207,9 @@ const DamageMetadata = ({
 
   return (
     <>
-      <div className="name">
-        {name.length > 0 ? name : 'damage'}
-      </div>
+      { (name.length > 0) &&
+        <div className="name">{name}</div>
+      }
 
       <div className="tags">{selectedTagNames.join(', ')}</div>
     </>

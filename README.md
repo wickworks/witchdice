@@ -5,12 +5,11 @@
 - put together a how-to imgur album with gifs
 
 ###### LAYOUT #######
-- better responsive design for damage edit
-  - make damage source/tags look more optional
 
 - collapsible dice bag/party menu (or rearrange the whole thing again)
 - sort abilities to end of roll list
 
+- remove checkmark/trash for damage sources, use trash gutter & close by clicking off of it instead.
 
 ##### FEATURES ######
 - make the background a sketch pad

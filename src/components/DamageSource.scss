@@ -1,8 +1,8 @@
 @import '../fonts';
 
 .DamageSource {
-  display: flex;
-  padding: 8px 0 8px 8px;
+  // display: flex;
+  padding: 8px 0;
   border-radius: 2px;
   width: 100%;
   box-sizing: border-box;
@@ -15,6 +15,7 @@
     padding-bottom: 0;
     margin: 10px 0;
     background-color: $parchment_dark;
+    border-radius: 6px;
     cursor: auto;
 
     // .numbers-container .asset { background-color: $parchment_dark; }
@@ -36,19 +37,19 @@
     min-height: 36px;
 
     .roll-numbers {
-      margin-right: 8px;
-      min-width: 66px;
+      margin: 0 8px;
+      min-width: 54px;
     }
 
     .asset {
       height: 26px;
       width: 26px;
-      margin-right: 2px;
+      margin-right: 6px;
     }
 
     .name {
       font-style: italic;
-      min-width: 120px;
+      // min-width: 120px;
       margin-right: 12px;
     }
 
