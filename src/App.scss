@@ -91,26 +91,29 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      margin: 80px auto 100px;
+      margin: 20px auto 100px;
 
       .mode-container {
         width: 300px;
-        border-radius: 4px;
-        margin: 10px;
-        border: 2px solid $rust;
+        border-radius: 40px;
+        padding: 40px 10px 30px;
+        margin: 30px;
+        // border: 2px solid $rust;
 
-        background-color: $parchment;
-        &:hover { background-color: $parchment_dark; }
+        background-color: $pink;
+        &:hover { background-color: $rust_light; }
 
         .mode-title h2 {
-          margin: 10px auto 8px;
+          font-size: 34px;
+          margin: 10px auto 16px;
         }
 
         p.mode-desc {
+          font-size: 20px;
           text-align: center;
-          margin: 0 20px 20px;
+          margin: 0 40px 20px;
+          line-height: 1.5;
 
-          &.simple { padding: 18px 0; }
         }
 
         input { display: none; }

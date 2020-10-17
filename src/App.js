@@ -52,7 +52,7 @@ function App() {
             <h2>D&D 5e</h2>
           </div>
           <p className='mode-desc'>
-            Automatic attack, saving throw, and damage roller for 5th edition D&D characters and monsters.
+            Attack roller for D&D 5e characters & monsters.
           </p>
         </label>
 
