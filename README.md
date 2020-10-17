@@ -9,20 +9,18 @@
   - make damage source/tags look more optional
 
 - collapsible dice bag/party menu (or rearrange the whole thing again)
-- add modifiers to dicebag rolls
+- sort abilities to end of roll list
 
 
 ##### FEATURES ######
 - make the background a sketch pad
+- add modifiers to dicebag rolls
 
 - themes e.g. dark mode
 - hover over dice bag buttons for a second to show which type of die it is (replace image)
-- sort abilities to end of roll list
 - setting: customize which icon shows up for natural 20s
 
 ###### TECHNICAL ######
-
-
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
   Auth system: conference-room rules.
@@ -35,7 +33,7 @@
 - someday: switch away from the heavy firebase server to a lightweight peer-to-peer network
 - clear out data on firebase periodically even if nobody has visited that room in a long time
 
-#### MECHANICS ####
+#### DND MECHANICS ####
 - import spells
 - import the monster manual
   (add legendary actions)

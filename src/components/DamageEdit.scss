@@ -81,32 +81,5 @@
         &:hover+label { background-color: $pink; }
       }
     }
-
-    .buttons-container {
-      display: flex;
-      margin-left: auto;
-
-      button {
-        @include text_default;
-        border: none;
-        cursor: pointer;
-
-        &.accept {
-          padding: 24px 24px;
-          background-color: $olive_light;
-        }
-        &.delete {
-          padding: 24px 6px;
-          background-color: $rust_light;
-        }
-
-        &:hover { background-color: grey; }
-
-        .asset {
-          width: 30px;
-          height: 30px;
-        }
-      }
-    }
   }
 }

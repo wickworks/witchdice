@@ -106,14 +106,14 @@ const DamageSource = ({
       />
 
       {!isEditing ?
-        <div className="summary">
+        <div className="summary-mode">
           <DamageNumbers damageData={damageData} />
 
           <DamageMetadata damageData={damageData} selectedTagNames={selectedTagNames} />
 
         </div>
       :
-        <div className="editing">
+        <div className="edit-mode">
           <DamageEditNumbers
             damageID={damageID}
             attackID={attackID}
@@ -156,11 +156,11 @@ const DamageSource = ({
 
 
           <div className='buttons-container'>
-            <button className='delete' onClick={() => onDelete()}>
-              <div className={'asset trash'} />
-            </button>
             <button className='accept' onClick={() => onEdit()}>
               <div className={'asset checkmark'} />
+            </button>
+            <button className='delete' onClick={() => onDelete()}>
+              <div className={'asset trash'} />
             </button>
           </div>
         </div>

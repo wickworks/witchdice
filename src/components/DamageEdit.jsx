@@ -28,7 +28,7 @@ const DamageEditNumbers = ({
   } = damageFunctions;
 
   return (
-    <>
+    <div className='DamageEditNumbers'>
       { (dieType === 0) ? <>
         {/* FLAT DAMAGE */}
         <input
@@ -77,13 +77,15 @@ const DamageEditNumbers = ({
           onChange={e => setModifier(e.target.value, attackID, damageID)}
         />
 
-        <div
-          className={`asset ${damageType}`}
-          onClick={() => setIsEditingDamageType(!isEditingDamageType)}
-        />
+        <div className='damage-button'>
+          <div
+            className={`asset ${damageType}`}
+            onClick={() => setIsEditingDamageType(!isEditingDamageType)}
+          />
+        </div>
 
       </>}
-    </>
+    </div>
   );
 }
 

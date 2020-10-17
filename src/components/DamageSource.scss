@@ -1,7 +1,7 @@
 @import '../fonts';
 
 .DamageSource {
-  // background-color: #eeeeee;
+  display: flex;
   padding: 8px 0 8px 8px;
   border-radius: 2px;
   width: 100%;
@@ -9,35 +9,27 @@
   cursor: pointer;
 
   transition: margin .05s ease-out, background-color .075s ease-out;
-
   &:hover { background-color: $parchment_dark; }
 
   &.editing {
-    background-color: $parchment_dark;
-
-    cursor: auto;
     padding-bottom: 0;
     margin: 10px 0;
+    background-color: $parchment_dark;
+    cursor: auto;
 
-    .numbers-container .asset { background-color: $parchment_dark; }
+    // .numbers-container .asset { background-color: $parchment_dark; }
   }
 
   input[type=checkbox] {
     width: 24px;
     height: 24px;
-    margin: 0 10px 0 0 ;
+    margin: 5px 10px 0 0 ;
     flex-shrink: 0;
     z-index: 100;
   }
 
-  .stats-container {
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
-
   // SUMMARY MODE
-  .summary {
+  .summary-mode {
     display: flex;
     align-items: center;
     width: 100%;
@@ -68,24 +60,51 @@
   // EDIT MODE
   .edit-mode {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     width: 100%;
 
     > * {
+      margin-bottom: 10px;
+      // flex: 0 0 33.333%;
+
+    }
+
+    .DamageEditNumbers {
+      display: flex;
+      align-items: center;
       margin-right: 10px;
+
+      input[type=number] {
+        @include text_default;
+        background-color: $parchment;
+        border: none;
+        border-radius: 4px;
+        padding-left: 8px;
+        margin-right: 10px;
+        width: 36px;
+        min-height: 30px;
+
+        &:hover { background-color: $parchment_mid; }
+      }
+
+      .die-button, .damage-button {
+        display: flex;
+        align-items: center;
+        background-color: $parchment;
+        cursor: pointer;
+
+        border-radius: 4px;
+        padding: 3px 5px;
+
+        &:hover { background-color: $pink; }
+        .die-type { width: 30px; margin-left: 2px;}
+        .flat-damage { white-space: nowrap; }
+      }
+
+      .plus { margin: 0 8px; }
     }
 
-    input[type=number] {
-      @include text_default;
-      background-color: $parchment;
-      border: none;
-      border-radius: 4px;
-      padding-left: 8px;
-      width: 36px;
-      min-height: 30px;
-
-      &:hover { background-color: $parchment_mid; }
-    }
 
     input.damage-name {
       @include text_default;
@@ -93,8 +112,12 @@
       border: none;
       border-radius: 4px;
       padding-left: 8px;
+      margin-right: 10px;
       min-height: 30px;
-      max-width: 120px;
+      // max-width: 120px;
+      min-width: 126px;
+      flex: 1 0 auto;
+
 
       &:hover { background-color: $parchment_mid; }
     }
@@ -103,30 +126,27 @@
       height: 26px;
       width: 26px;
 
-      // border: 2px solid darkgrey;
-      // border-radius: 50%;
-      // padding: 8px;
-
       &.clickable {
         cursor: pointer;
         &:hover { background-color: $parchment_dark; }
       }
     }
 
-    .die-type {
-      width: 30px;
-    }
-    .flat-damage { white-space: nowrap; }
+
 
     .tag-select {
       position: relative;
-      width: 100%;
+      min-width: 200px;
+      margin-right: 10px;
+      flex: 1 0 auto;
 
       label {
         @include text_input;
+        color: $grey_mid;
+        font-style: normal;
 
         position: absolute;
-        top: 8px;
+        top: 7px;
         left: 8px;
         pointer-events: none;
       }
@@ -140,14 +160,26 @@
 
         // the unnamed immediate container
         > div {
-          padding: 0;
+          padding: 0 4px;
           min-height: 32px;
           border: 0;
         }
 
         .chip {
-          margin: 4px;
-          padding-right: 4px;
+          // margin: 4px;
+          margin: 0 4px;
+          border-radius: 0;
+          padding: 8px 4px 9px 8px;
+          background-color: $olive_light;
+          color: $soft_black;
+
+          .icon_cancel {
+            border-radius: 2px;
+
+            &:hover {
+              background-color: salmon;
+            }
+          }
         }
 
         input {
@@ -164,21 +196,24 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin: 12px 0 4px;
+    flex-wrap: wrap;
+    margin: 0;
 
-    > * { margin-right: 10px; }
+    > * {
+      margin: 0 10px 10px 0;
+      text-align: center;
+    }
 
     .saving-throw {
       display: flex;
 
       .saving-throw-dc, .saving-throw-type {
-        margin: 0 3px;
+        padding: 0 3px;
+        border-radius: 2px;
         font-weight: bold;
         cursor: pointer;
 
-        &:hover {
-          background-color: $rust;
-        }
+        &:hover { background-color: $pink; }
       }
     }
 
@@ -186,6 +221,35 @@
       select {
         @include text_default;
         margin: 0 6px;
+      }
+    }
+  }
+
+  .buttons-container {
+    display: flex;
+    width: 100%;
+    margin: 0;
+
+    button {
+      @include text_default;
+      border: none;
+      width: 50%;
+      padding: 4px 0;
+      cursor: pointer;
+
+      &.accept {
+        background-color: $olive_light;
+      }
+      &.delete {
+        background-color: $rust_light;
+      }
+
+      &:hover { background-color: $pink; }
+
+      .asset {
+        width: 24px;
+        height: 24px;
+        margin: auto;
       }
     }
   }

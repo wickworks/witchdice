@@ -33,7 +33,6 @@
         padding: 6px;
         box-sizing: border-box;
         background-color: $grey_light;
-        transition: background-color .075s ease-out;
         cursor: pointer;
 
 
@@ -47,7 +46,6 @@
       button.attack-count {
         @include text_attack_roll_count;
         background-color: $rust;
-        transition: background-color .075s ease-out;
         border: none;
         height: 100%;
         min-width: 40px;

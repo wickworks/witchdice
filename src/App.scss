@@ -10,6 +10,10 @@
   align-items: center;
   justify-content: center;
 
+  * {
+    transition: background-color .075s ease-out;
+  }
+
   h1.site-title {
     @include text_h1;
     margin: 26px 40px 0;
@@ -96,7 +100,6 @@
         border: 2px solid $rust;
 
         background-color: $parchment;
-        transition: background-color .075s ease-out;
         &:hover { background-color: $parchment_dark; }
 
         .mode-title h2 {
@@ -126,7 +129,6 @@
         border-radius: 4px;
 
         background-color: $parchment;
-        transition: background-color .075s ease-out;
         &:hover {
           background-color: $parchment_dark;
           color: $soft_black;

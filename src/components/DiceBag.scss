@@ -36,7 +36,6 @@
         cursor: pointer;
 
         background-color: $parchment_dark;
-        transition: background-color .075s ease-out;
         border: none;
         border-radius: 40px;
 
@@ -86,7 +85,6 @@
           border-radius: 50%;
           border: none;
           background-color: $rust;
-          transition: background-color .075s ease-out;
           cursor: pointer;
 
           &:hover { background-color: $rust_light; }
@@ -137,7 +135,6 @@
 
         cursor: pointer;
         background-color: $parchment_mid;
-        transition: background-color .075s ease-out;
 
         &:hover {
           background-color: $parchment_dark;
