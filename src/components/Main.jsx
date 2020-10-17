@@ -473,7 +473,7 @@ const Main = ({rollMode}) => {
       let actionData = {};
       actionData.name = partyName || 'Me';
       actionData.type = 'dicebag';
-      actionData.conditions = summaryMode
+      actionData.conditions = rolls.length > 1 ? summaryMode : '';
 
       // rolls = [ {die: 'd6', result: 4}, ... ]
       rolls.forEach((roll, i) => {

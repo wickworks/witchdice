@@ -374,7 +374,7 @@ const Roller = ({
                   isCrit={critFumble.isCrit}
                   isFumble={critFumble.isFumble}
                   evasion={evasion && attackSource.savingThrowType === 0}
-                  type={attackSource.type}
+                  type={rollSavingThrow ? 'save' : attackSource.type}
                   damageSourceData={attackSourceData[attackRoll.attackID].damageData}
                   attackRollData={attackRoll}
                   rollFunctions={rollFunctions}
