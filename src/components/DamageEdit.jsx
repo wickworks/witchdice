@@ -189,7 +189,7 @@ const DamageEditDieType = ({
 }) => {
 
   return (
-    <div className='dice'>
+    <div className='DamageEditDieType'>
       <IconMenu
         groupName={`select-die-type-${attackID}`}
         allIcons={[4,6,8,10,12,0]}
@@ -206,7 +206,7 @@ const DamageEditDamageType = ({
 }) => {
 
   return (
-    <div className='types'>
+    <div className='DamageEditDamageType'>
       <IconMenu
         groupName={`select-damage-type-${attackID}`}
         allIcons={allDamageTypes}

@@ -1,61 +1,87 @@
 @import '../fonts';
 
-.DamageEdit {
+.DamageSource .edit-mode {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 100%;
 
-  &.extra-css .icons-container {
-    @media screen and (max-width: 600px) {
-      flex-direction: column;
+  > * {
+    margin-bottom: 10px;
+  }
 
-      .dice {
-        border-right: none;
-        .IconMenu { max-width: none; }
+
+  .DamageEditNumbers {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+    order: 1;
+
+    input[type=number] {
+      @include text_default;
+      background-color: $parchment;
+      border: none;
+      border-radius: 4px;
+      padding-left: 8px;
+      margin-right: 8px;
+      width: 36px;
+      min-height: 30px;
+
+      &:hover { background-color: $parchment_mid; }
+    }
+
+    .die-button, .damage-button {
+      display: flex;
+      align-items: center;
+      background-color: $parchment;
+      cursor: pointer;
+
+      border-radius: 4px;
+      padding: 3px 5px;
+
+      &:hover { background-color: $pink; }
+      .die-type { width: 30px; margin-left: 2px;}
+      .flat-damage { white-space: nowrap; }
+
+      .asset {
+        height: 26px;
+        width: 26px;
       }
+    }
 
-      .types {
-        .IconMenu { max-width: none; }
-      }
+    .plus { margin: 0 8px; }
 
-      .IconMenu { justify-content: center; }
+  }
 
-      .buttons-container {
-        margin-left: 0;
-        button { padding: 6px 40px; }
-      }
+  .DamageEditDieType {
+    // flex-shrink: 0;
+    // border-right: 1px solid darkgrey;
+    // margin-right: 18px;
+    order: 2;
+
+    .IconMenu {
+      display: flex;
+      flex-wrap: wrap;
+      // max-width: 220px;
+
+      label { min-width: 60px; }
     }
   }
 
-  .icons-container {
-    display: flex;
-    align-items: center;
+  .DamageEditDamageType {
+    // flex-shrink: 10;
+    order: 3;
 
-    > * {
-      margin-top: 10px;
+    .IconMenu {
+      display: flex;
+      flex-wrap: wrap;
+      // max-width: 290px;
+
     }
+  }
 
-    .dice {
-      flex-shrink: 0;
-      border-right: 1px solid darkgrey;
-      margin-right: 18px;
-
-      .IconMenu {
-        display: flex;
-        flex-wrap: wrap;
-        max-width: 220px;
-
-        label { min-width: 60px; }
-      }
-    }
-
-    .types {
-      flex-shrink: 10;
-
-      .IconMenu {
-        display: flex;
-        flex-wrap: wrap;
-        max-width: 290px;
-
-      }
-    }
+  .DamageEditDieType, .DamageEditDamageType {
+    width: 100%;
 
     .IconMenu {
       label {
@@ -79,6 +105,146 @@
         &:focus+label { background-color: $pink; }
         &:checked+label { background-color: $olive_light; }
         &:hover+label { background-color: $pink; }
+      }
+    }
+  }
+
+  // DamageEditMetadata
+  input.damage-name {
+    @include text_default;
+    background-color: $parchment;
+    border: none;
+    border-radius: 4px;
+    padding-left: 8px;
+    margin-right: 10px;
+    min-height: 30px;
+    min-width: 126px;
+    flex: 1 0 auto;
+    order: 4;
+
+    &:hover { background-color: $parchment_mid; }
+  }
+
+  // DamageEditMetadata
+  .tag-select {
+    position: relative;
+    min-width: 200px;
+    margin-right: 10px;
+    flex: 1 0 auto;
+    order: 5;
+
+    label {
+      @include text_input;
+      color: $grey_mid;
+      font-style: normal;
+
+      position: absolute;
+      top: 7px;
+      left: 8px;
+      pointer-events: none;
+    }
+
+    #multiselectContainerReact {
+      cursor: pointer;
+      background-color: $parchment;
+      border-radius: 4px;
+
+      &:hover { background-color: $parchment_mid; }
+
+      // the unnamed immediate container
+      > div {
+        padding: 0 4px;
+        min-height: 32px;
+        border: 0;
+      }
+
+      .chip {
+        // margin: 4px;
+        margin: 0 4px;
+        border-radius: 0;
+        padding: 8px 4px 9px 8px;
+        background-color: $olive_light;
+        color: $soft_black;
+
+        .icon_cancel {
+          border-radius: 2px;
+
+          &:hover {
+            background-color: salmon;
+          }
+        }
+      }
+
+      input {
+        position: absolute;
+        left: -99999999px;
+      }
+    }
+  }
+
+
+  // DamageEditMetadata (saving throw & applied conditions)
+  .additional-info {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0;
+    order: 6;
+
+    > * {
+      margin: 0 10px 10px 0;
+      text-align: center;
+    }
+
+    .saving-throw {
+      display: flex;
+
+      .saving-throw-dc, .saving-throw-type {
+        padding: 0 3px;
+        border-radius: 2px;
+        font-weight: bold;
+        cursor: pointer;
+
+        &:hover { background-color: $pink; }
+      }
+    }
+
+    .condition-select {
+      select {
+        @include text_default;
+        margin: 0 6px;
+      }
+    }
+  }
+
+  // accept/delete
+  .buttons-container {
+    display: flex;
+    width: 100%;
+    margin: 0;
+    order: 7;
+
+    button {
+      @include text_default;
+      border: none;
+      width: 50%;
+      padding: 4px 0;
+      cursor: pointer;
+
+      &.accept {
+        background-color: $olive_light;
+      }
+      &.delete {
+        background-color: $rust_light;
+      }
+
+      &:hover { background-color: $pink; }
+
+      .asset {
+        width: 24px;
+        height: 24px;
+        margin: auto;
       }
     }
   }

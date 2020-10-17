@@ -31,7 +31,7 @@
         align-items: center;
         margin: 6px 6px;
         padding: 4px 18px;
-        width: 128px;
+        width: 112px;
         height: 80px;
         cursor: pointer;
 
@@ -43,8 +43,11 @@
         &:hover { background-color: $pink; }
         .asset { margin: auto; }
 
-        .roll-count {
-          min-width: 30px;
+        .roll-count { min-width: 30px; }
+
+        .asset {
+          width: 56px;
+          height: 56px;
         }
       }
     }

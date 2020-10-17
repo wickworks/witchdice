@@ -37,12 +37,18 @@ const DamageSource = ({
   } = damageFunctions;
 
   const [hoveringOverCheckBox, setHoveringOverCheckBox] = useState(false);
-  const [isEditingDieType, setIsEditingDieType] = useState(false);
-  const [isEditingDamageType, setIsEditingDamageType] = useState(false);
+  const [isEditingDieType, setIsEditingDieType] = useState(true);
+  const [isEditingDamageType, setIsEditingDamageType] = useState(true);
 
   const handleContainerClick = () => {
     if (hoveringOverCheckBox) { return }
     if (!isEditing) { onEdit(damageID) }
+  }
+
+  const handleAccept = () => {
+    setIsEditingDieType(false);
+    setIsEditingDamageType(false);
+    onEdit(damageID);
   }
 
   // =============== ADD / REMOVE TAG CRAP =============
@@ -156,7 +162,7 @@ const DamageSource = ({
 
 
           <div className='buttons-container'>
-            <button className='accept' onClick={() => onEdit()}>
+            <button className='accept' onClick={handleAccept}>
               <div className={'asset checkmark'} />
             </button>
             <button className='delete' onClick={() => onDelete()}>
