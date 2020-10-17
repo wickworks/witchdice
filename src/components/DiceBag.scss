@@ -3,7 +3,8 @@
 .DiceBag {
   width: 100%;
   max-width: 500px;
-  margin: 30px 20px 30px 80px;
+  // margin: 30px 20px 30px 80px;
+  margin: 30px 20px;
   flex-shrink: 100;
 
   h2 {
@@ -31,7 +32,7 @@
         align-items: center;
         margin: 6px 6px;
         padding: 4px 18px;
-        width: 112px;
+        width: 128px;
         height: 80px;
         cursor: pointer;
 
@@ -44,11 +45,6 @@
         .asset { margin: auto; }
 
         .roll-count { min-width: 30px; }
-
-        .asset {
-          width: 56px;
-          height: 56px;
-        }
       }
     }
 

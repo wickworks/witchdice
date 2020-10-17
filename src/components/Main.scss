@@ -37,17 +37,19 @@
 
     // smaller screens start to have to tweak things
     @media screen and (max-width: 880px) {
-      .Roller {
-        margin: 0 40px;
-      }
+      justify-content: space-around;
 
       .ActiveAttackList .attack-container {
         width: 100%;
       }
 
+      .Roller {
+        margin: 0 40px;
+      }
+
       .DiceBag, .PartyPanel {
-        margin-left: 20px;
-        margin-right: 20px;
+        margin-left: 0;
+        margin-right: 0;
       }
     }
   }
