@@ -103,6 +103,7 @@ const DamageSource = ({
   return (
     <div className={`DamageSource ${editingClass}`} onClick={handleContainerClick} >
 
+      {/*
       <input
         type="checkbox"
         checked={enabled}
@@ -110,6 +111,7 @@ const DamageSource = ({
         onMouseEnter={() => setHoveringOverCheckBox(true)}
         onMouseLeave={() => setHoveringOverCheckBox(false)}
       />
+      */}
 
       {!isEditing ?
         <div className="summary-mode">
