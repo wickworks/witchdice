@@ -89,7 +89,7 @@ const DamageEditMetadata = ({
   } = damageData;
 
   const {
-    setTags,
+    // setTags,
     setName,
     setCondition,
   } = damageFunctions;

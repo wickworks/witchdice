@@ -376,7 +376,7 @@ const Roller = ({
                   damageSourceData={attackSourceData[attackRoll.attackID].damageData}
                   attackRollData={attackRoll}
                   rollFunctions={rollFunctions}
-                  key={rollID}
+                  key={`${attackRoll.attackID}-${rollID}`}
                 />
               </div>
             )

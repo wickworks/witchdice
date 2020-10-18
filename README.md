@@ -2,7 +2,9 @@
 
 
 #### EXIST-IN-THE-WORLD ####
+
 - put together a how-to imgur album with gifs
+- send the tip jar towards a charity, count the number of clicks on it somehow
 
 ###### LAYOUT #######
 

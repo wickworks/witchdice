@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './DamageSource.scss';
-import { allTags, allConditions, abilityTypes } from '../data.js';
+import { allTags, abilityTypes } from '../data.js';
 import {
   DamageEditDamageType,
   DamageEditMetadata,
@@ -15,33 +15,33 @@ const DamageSource = ({
 }) => {
 
   const {
-    dieCount,
+    // dieCount,
     dieType,
-    modifier,
+    // modifier,
     tags,
     damageType,
-    enabled,
-    name,
-    condition
+    // enabled,
+    // name,
+    // condition
   } = damageData;
 
   const {
-    setDieCount,
+    // setDieCount,
     setDieType,
-    setModifier,
+    // setModifier,
     setTags,
     setDamageType,
-    setEnabled,
-    setName,
-    setCondition,
+    // setEnabled,
+    // setName,
+    // setCondition,
   } = damageFunctions;
 
-  const [hoveringOverCheckBox, setHoveringOverCheckBox] = useState(false);
+  // const [hoveringOverCheckBox, setHoveringOverCheckBox] = useState(false);
   // const [isEditingDieType, setIsEditingDieType] = useState(true);
   // const [isEditingDamageType, setIsEditingDamageType] = useState(true);
 
   const handleContainerClick = () => {
-    if (hoveringOverCheckBox) { return }
+    // if (hoveringOverCheckBox) { return }
     if (!isEditing) { onEdit(damageID) }
   }
 

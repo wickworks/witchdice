@@ -12,12 +12,12 @@ const PartyPanel = ({
 
 
   const updatePartyRoom = (value) => {
-    const filtered = value.replace(/[^A-Za-z\-]/ig, '')
+    const filtered = value.replace(/[^A-Za-z-]/ig, '')
     setPartyRoom(filtered)
   }
 
   const updatePartyName = (value) => {
-    const filtered = value.replace(/[^A-Za-z \-]/ig, '')
+    const filtered = value.replace(/[^A-Za-z -]/ig, '')
     setPartyName(filtered)
   }
 

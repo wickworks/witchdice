@@ -126,7 +126,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                 dieType={dieType}
                 dieCount={diceData[dieType]}
                 setDieCount={(newCount) => updateDiceData(dieType, newCount)}
-                key={i}
+                key={`diebutton-${i}`}
               />
             )
           })}

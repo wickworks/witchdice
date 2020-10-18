@@ -15,7 +15,7 @@ const Character = ({
   const isDeletingClass = isDeleting ? 'hidden' : '';
 
   const updateCharacterName = (value) => {
-    let filtered = value.replace(/[^A-Za-z \-]/ig, '')
+    let filtered = value.replace(/[^A-Za-z -]/ig, '')
     if (filtered.length === 0) { filtered = 'X'; }
     setCharacterName(filtered)
   }

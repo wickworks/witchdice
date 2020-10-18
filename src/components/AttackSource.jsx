@@ -10,7 +10,7 @@ import './AttackSource.scss';
 const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clearRollData}) => {
   const {
     damageData,
-    dieCount,
+    // dieCount,
     modifier,
     type,
     savingThrowDC,
@@ -21,7 +21,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
   const {
     setDamageData,
-    setDieCount,
+    // setDieCount,
     setModifier,
     setType,
     setSavingThrowDC,
@@ -253,7 +253,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                 }
 
               </div>
-              
+
               <div className={`desc ${descClass}`}>
                 <TextInput
                   textValue={desc.length > 0 ? desc : '...' }
