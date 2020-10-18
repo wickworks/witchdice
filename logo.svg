@@ -26,11 +26,11 @@
      inkscape:snap-global="false"
      showgrid="false"
      inkscape:document-rotation="0"
-     inkscape:current-layer="layer3"
+     inkscape:current-layer="g1364"
      inkscape:document-units="mm"
-     inkscape:cy="-2110.2305"
-     inkscape:cx="-391.22781"
-     inkscape:zoom="0.35858683"
+     inkscape:cy="-2228.5421"
+     inkscape:cx="389.91022"
+     inkscape:zoom="0.25355918"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -56,8 +56,8 @@
     <rect
        transform="rotate(-90)"
        ry="9.3949757"
-       y="-501.04959"
-       x="406.73123"
+       y="-767.39111"
+       x="482.13654"
        height="85.543831"
        width="85.543831"
        id="rect1307"
@@ -446,55 +446,76 @@
        id="ellipse1213"
        style="fill:#e75f67;fill-opacity:1;stroke:none;stroke-width:3.83904;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke" />
     <rect
+       inkscape:export-ydpi="95.982002"
+       inkscape:export-xdpi="95.982002"
+       inkscape:export-filename="C:\Users\wik\Desktop\witchdice_logo.png"
        transform="rotate(-90)"
-       ry="10.712893"
-       y="296.8299"
-       x="657.88678"
-       height="97.543823"
-       width="97.543823"
+       ry="10.025284"
+       y="299.96033"
+       x="661.01721"
+       height="91.282959"
+       width="91.282959"
        id="rect1217"
-       style="fill:#e75f67;fill-opacity:1;stroke:#ffffff;stroke-width:6.82177;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke" />
+       style="fill:#e75f67;fill-opacity:1;stroke:none;stroke-width:6.38391;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke" />
     <rect
+       inkscape:export-ydpi="95.982002"
+       inkscape:export-xdpi="95.982002"
+       inkscape:export-filename="C:\Users\wik\Desktop\witchdice_logo.png"
        style="fill:#f5c1c5;fill-opacity:1;stroke:none;stroke-width:6.82177;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
        id="rect1219"
        width="97.543823"
        height="97.543823"
        x="206.53387"
        y="695.28864"
-       ry="2.8868086"
+       ry="9.8963556"
        transform="rotate(-135)" />
-    <ellipse
-       cy="-388.69711"
-       cx="-706.65863"
-       id="ellipse1221"
-       style="fill:#e75f67;fill-opacity:1;stroke:none;stroke-width:4.14692;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
-       transform="rotate(90)"
-       rx="6.5963721"
-       ry="6.5963717" />
-    <ellipse
-       style="fill:#e75f67;fill-opacity:1;stroke:none;stroke-width:4.14692;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
-       id="ellipse1223"
-       cx="-706.65863"
-       cy="-302.5065"
-       transform="rotate(90)"
-       rx="6.5963721"
-       ry="6.5963717" />
-    <ellipse
-       ry="6.5963717"
-       rx="6.5963721"
-       transform="scale(-1)"
-       style="fill:#e75f67;fill-opacity:1;stroke:none;stroke-width:4.14692;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
-       id="ellipse1227"
-       cx="-345.60178"
-       cy="663.56335" />
-    <ellipse
-       ry="6.5963717"
-       rx="6.5963721"
-       transform="scale(-1)"
-       cy="749.75397"
-       cx="-345.60178"
-       id="ellipse1229"
-       style="fill:#e75f67;fill-opacity:1;stroke:none;stroke-width:4.14692;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke" />
+    <g
+       id="g1364">
+      <ellipse
+         ry="6.5963717"
+         rx="6.5963721"
+         transform="rotate(90)"
+         style="fill:#c06c72;fill-opacity:1;stroke:none;stroke-width:4.14692;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+         id="ellipse1221"
+         cx="-706.65863"
+         cy="-388.69711"
+         inkscape:export-filename="C:\Users\wik\Desktop\witchdice_logo.png"
+         inkscape:export-xdpi="95.982002"
+         inkscape:export-ydpi="95.982002" />
+      <ellipse
+         ry="6.5963717"
+         rx="6.5963721"
+         transform="rotate(90)"
+         cy="-302.5065"
+         cx="-706.65863"
+         id="ellipse1223"
+         style="fill:#c06c72;fill-opacity:1;stroke:none;stroke-width:4.14692;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+         inkscape:export-filename="C:\Users\wik\Desktop\witchdice_logo.png"
+         inkscape:export-xdpi="95.982002"
+         inkscape:export-ydpi="95.982002" />
+      <ellipse
+         cy="663.56335"
+         cx="-345.60178"
+         id="ellipse1227"
+         style="fill:#c06c72;fill-opacity:1;stroke:none;stroke-width:4.14692;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+         transform="scale(-1)"
+         rx="6.5963721"
+         ry="6.5963717"
+         inkscape:export-filename="C:\Users\wik\Desktop\witchdice_logo.png"
+         inkscape:export-xdpi="95.982002"
+         inkscape:export-ydpi="95.982002" />
+      <ellipse
+         style="fill:#c06c72;fill-opacity:1;stroke:none;stroke-width:4.14692;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+         id="ellipse1229"
+         cx="-345.60178"
+         cy="749.75397"
+         transform="scale(-1)"
+         rx="6.5963721"
+         ry="6.5963717"
+         inkscape:export-filename="C:\Users\wik\Desktop\witchdice_logo.png"
+         inkscape:export-xdpi="95.982002"
+         inkscape:export-ydpi="95.982002" />
+    </g>
     <rect
        style="fill:#e75f67;fill-opacity:1;stroke:#ffffff;stroke-width:6.82177;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
        id="rect1231"
@@ -594,15 +615,6 @@
        style="fill:#e75f67;fill-opacity:1;stroke:none;stroke-width:4.05338;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
        r="6.447566" />
     <rect
-       style="fill:#e75f67;fill-opacity:1;stroke:#ffffff;stroke-width:6.82177;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
-       id="rect1269"
-       width="97.543823"
-       height="97.543823"
-       x="667.07892"
-       y="-228.96281"
-       ry="10.712893"
-       transform="rotate(-90)" />
-    <rect
        transform="rotate(-135)"
        ry="2.8868086"
        y="329.99686"
@@ -698,6 +710,73 @@ RK5CYII=
          rx="10.68191"
          ry="10.681907" />
     </g>
+    <rect
+       transform="rotate(-135)"
+       ry="22.808764"
+       y="1.5357324"
+       x="474.76776"
+       height="97.543823"
+       width="97.543823"
+       id="rect1340"
+       style="fill:#f5c1c5;fill-opacity:1;stroke:none;stroke-width:6.82177;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke" />
+    <g
+       id="g1346"
+       transform="translate(-159.94449,141.55782)">
+      <ellipse
+         cy="146.45758"
+         cx="-551.50305"
+         id="ellipse1342"
+         style="fill:#e75f67;fill-opacity:1;stroke:none;stroke-width:6.71535;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+         transform="rotate(90)"
+         rx="10.68191"
+         ry="10.681907" />
+      <ellipse
+         ry="10.681907"
+         rx="10.68191"
+         transform="rotate(90)"
+         style="fill:#e75f67;fill-opacity:1;stroke:none;stroke-width:6.71535;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+         id="ellipse1344"
+         cx="-551.50305"
+         cy="202.90457" />
+    </g>
+    <rect
+       style="fill:#f5c1c5;fill-opacity:1;stroke:none;stroke-width:6.82177;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="rect1350"
+       width="97.543823"
+       height="97.543823"
+       x="366.3038"
+       y="109.9997"
+       ry="22.808764"
+       transform="rotate(-135)" />
+    <g
+       transform="translate(-6.5532755,141.55782)"
+       id="g1356">
+      <ellipse
+         ry="10.681907"
+         rx="10.68191"
+         transform="rotate(90)"
+         style="fill:#e75f67;fill-opacity:1;stroke:none;stroke-width:6.71535;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+         id="ellipse1352"
+         cx="-551.50305"
+         cy="146.45758" />
+      <ellipse
+         cy="202.90457"
+         cx="-551.50305"
+         id="ellipse1354"
+         style="fill:#e75f67;fill-opacity:1;stroke:none;stroke-width:6.71535;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+         transform="rotate(90)"
+         rx="10.68191"
+         ry="10.681907" />
+    </g>
+    <rect
+       style="fill:#f5c1c5;fill-opacity:1;stroke:none;stroke-width:4.36034;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="rect1269"
+       width="62.347973"
+       height="62.347973"
+       x="646.46216"
+       y="-211.36487"
+       ry="6.8474565"
+       transform="rotate(-90)" />
   </g>
   <g
      style="display:inline"
@@ -1697,6 +1776,9 @@ xU2ZAjc3V9o/hm78P+cmXMUH7S6uAAAAAElFTkSuQmCC
        x="302.56683"
        y="-366.75681" />
     <image
+       inkscape:export-ydpi="95.982002"
+       inkscape:export-xdpi="95.982002"
+       inkscape:export-filename="C:\Users\wik\Desktop\witchdice_logo.png"
        y="-731.88928"
        x="302.56683"
        width="75.596657"
@@ -2583,10 +2665,10 @@ xU2ZAjc3V9o/hm78P+cmXMUH7S6uAAAAAElFTkSuQmCC
        x="-223.22588"
        y="-741.08142" />
     <image
-       y="-554.82062"
-       x="-402.18228"
-       width="75.596657"
-       height="54.597588"
+       y="-390.9946"
+       x="-365.21909"
+       width="51.757206"
+       height="37.380207"
        preserveAspectRatio="none"
        xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQ4AAADDCAYAAABzsP97AAAABHNCSVQICAgIfAhkiAAAIABJREFU
 eJztnXlcVEe2x39NAEFRMQIacFdAxT2iLEo3IAjuMTEak0wWk0xmksnkJZm8mckk8/Iyb7K9+Uxe
@@ -2757,8 +2839,8 @@ xU2ZAjc3V9o/hm78P+cmXMUH7S6uAAAAAElFTkSuQmCC
        id="image1309" />
     <image
        style="display:inline"
-       y="-519.5401"
-       x="-208.04106"
+       y="-391.62457"
+       x="-209.14752"
        width="56.082336"
        height="38.775681"
        preserveAspectRatio="none"
@@ -2872,10 +2954,10 @@ k5aWhvj4BD4jMxMZGZnIy8tDVVXVsz8Pq2BgaAgjIyMYGxnByNgITk6O8HB359zd3dGqlR7t9Bvl
 /xMXwuIeEdBCAAAAAElFTkSuQmCC
 "
        preserveAspectRatio="none"
-       height="34.660416"
-       width="49.212502"
-       x="-566.18823"
-       y="-616.46448" />
+       height="33.553642"
+       width="47.641048"
+       x="-206.0695"
+       y="-530.50488" />
   </g>
   <g
      style="display:inline"
