@@ -10,22 +10,27 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    align-items: center;
     margin: 10px 0 20px;
-    padding: 16px 0 4px;
 
     border-top: 1px solid $rust;
     border-bottom: 1px solid $rust;
 
-    > * { width: 33%; }
-  }
-
-  .controls {
-    display: flex;
+    > * { width: 30%; }
 
     .conditions {
       display: flex;
       flex-direction: column;
-      padding-top: 4px;
+      padding: 10px 14px;
+
+      @media screen and (max-width: 600px) {
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        padding-bottom: 6px;
+        border-bottom: 1px solid $rust;
+      }
 
       label {
         display: flex;
@@ -33,8 +38,6 @@
         margin: 0 0 6px;
         cursor: pointer;
 
-        &.armor-class { margin-top: auto; }
-        &.save-mod { margin-bottom: auto; }
         &.has-evasion { margin-top: auto; }
       }
 
@@ -50,70 +53,75 @@
         margin: 0 6px 0 0;
       }
     }
-  }
 
 
-  .new-roll-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    button.new-roll {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: none;
-      background-color: $rust;
-      cursor: pointer;
-
-      &:hover { background-color: $rust_light; }
-
-      .asset {
-        margin: auto;
-        width: 80px;
-        height: 80px;
-
-        // black to pink
-        filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
-      }
-    }
-  }
-
-  .results {
-    display: flex;
-    justify-content: flex-end;
-    flex-wrap: wrap-reverse;
-
-    .type-breakdown {
+    .new-roll-container {
       display: flex;
       flex-direction: column;
-      flex-wrap: wrap-reverse;
-      max-height: 120px;
+      align-items: center;
+      justify-content: center;
+      margin: 10px 0;
 
-      margin: 0 30px 0 0;
+      button.new-roll {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: none;
+        background-color: $rust;
+        cursor: pointer;
 
-      .damage-type {
-        display: flex;
-        align-items: center;
-        margin: 0 0 10px 2px;
-
-        .amount {
-          text-align: right;
-          min-width: 40px;
-        }
+        &:hover { background-color: $rust_light; }
 
         .asset {
-          width: 26px;
-          height: 26px;
-          margin-left: 4px;
+          margin: auto;
+          width: 80px;
+          height: 80px;
+
+          // black to pink
+          filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
         }
       }
     }
 
-    .total {
-      text-align: center;
-      .count { @include text_total; }
+    .results {
+      display: flex;
+      justify-content: flex-end;
+      // flex-wrap: wrap-reverse;
+      margin-right: 14px;
+
+      .type-breakdown {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap-reverse;
+        max-height: 120px;
+
+        margin: 0 18px 0 0;
+
+        .damage-type {
+          display: flex;
+          align-items: center;
+          margin: 0 0 10px 2px;
+
+          .amount {
+            text-align: right;
+            min-width: 28px;
+          }
+
+          .asset {
+            width: 26px;
+            height: 26px;
+            margin-left: 4px;
+          }
+        }
+      }
+
+      .total {
+        text-align: center;
+        white-space: nowrap;
+        padding-top: 6px;
+
+        .count { @include text_total; }
+      }
     }
   }
 

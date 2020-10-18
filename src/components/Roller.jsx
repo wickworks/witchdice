@@ -261,40 +261,38 @@ const Roller = ({
 
       <div className="controls-and-results">
 
-        <div className="controls">
-          <div className="conditions">
-            <label>
-              <input
-                name="advantage"
-                type="checkbox"
-                checked={advantage}
-                onChange={() => setAdvantage(!advantage)}
-              />
-              Advantage
-            </label>
+        <div className="conditions">
+          <label>
+            <input
+              name="advantage"
+              type="checkbox"
+              checked={advantage}
+              onChange={() => setAdvantage(!advantage)}
+            />
+            Advantage
+          </label>
 
-            <label>
-              <input
-                name="disadvantage"
-                type="checkbox"
-                checked={disadvantage}
-                onChange={() => setDisadvantage(!disadvantage)}
-              />
-              Disadvantage
-            </label>
+          <label>
+            <input
+              name="disadvantage"
+              type="checkbox"
+              checked={disadvantage}
+              onChange={() => setDisadvantage(!disadvantage)}
+            />
+            Disadvantage
+          </label>
 
-            {showEvasionOption &&
-              <label className="has-evasion">
-                <input
-                  name="evasion"
-                  type="checkbox"
-                  checked={evasion}
-                  onChange={() => setEvasion(!evasion)}
-                />
-                Evasion?
-              </label>
-            }
-          </div>
+          {showEvasionOption &&
+            <label className="has-evasion">
+              <input
+                name="evasion"
+                type="checkbox"
+                checked={evasion}
+                onChange={() => setEvasion(!evasion)}
+              />
+              Evasion
+            </label>
+          }
         </div>
 
         <div className="new-roll-container">
