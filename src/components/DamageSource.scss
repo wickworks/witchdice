@@ -37,19 +37,19 @@
     min-height: 36px;
 
     .roll-numbers {
+      font-size: 20px;
       margin: 0 8px;
-      min-width: 54px;
+      white-space: nowrap;
     }
 
     .asset {
       height: 26px;
       width: 26px;
-      margin-right: 6px;
+      margin-right: 10px;
     }
 
     .name {
       font-style: italic;
-      // min-width: 120px;
       margin-right: 12px;
     }
 

@@ -12,68 +12,78 @@
     .titlebar {
       display: flex;
       align-items: flex-end;
+      justify-content: space-between;
       flex-wrap: wrap;
-
       border-bottom: 2px solid $rust;
 
-      .name {
-        margin-right: 10px;
-        margin-bottom: 6px;
+      .info-left {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
 
-        .display, input { @include text_attack_name; }
-      }
+        .name {
+          margin-right: 10px;
+          margin-bottom: 6px;
 
-      .is-saving-throw {
-        font-style: italic;
-      }
+          .display, input { @include text_attack_name; }
+        }
 
-      .modifier, .saving-throw-dc, .saving-throw-type, .is-saving-throw {
-        padding: 2px;
-        margin-bottom: 8px;
-        margin-right: 6px;
-        border-radius: 2px;
+        .is-saving-throw {
+          font-style: italic;
+        }
 
-        background-color: transparent;
-        cursor: pointer;
+        .modifier, .saving-throw-dc, .saving-throw-type, .is-saving-throw {
+          padding: 2px;
+          margin-bottom: 8px;
+          margin-right: 6px;
+          border-radius: 2px;
 
-        &:hover { background-color: $parchment_dark; }
-      }
-    }
+          background-color: transparent;
+          cursor: pointer;
 
-    .desc {
-      margin-left: auto;
-      margin-bottom: 8px;
-
-      .display {
-        @include text_default;
-        padding-bottom: 2px;
-      }
-
-      input {
-        width: 400px;
-      }
-
-      &.long {
-        font-style: normal;
-        line-height: 1.3;
-
-        border-top: 2px solid $rust;
-        padding-top: 10px;
-        width: 100%;
-
-        textarea {
-          @include text_default;
-          line-height: 1.3;
-          height: 200px;
-          width: 100%;
-          resize: vertical;
+          &:hover { background-color: $parchment_dark; }
         }
       }
 
-      &.short {
-        font-style: italic;
+      .desc {
+        margin-bottom: 6px;
+        flex-grow: 1;
+
+        .display {
+          @include text_default;
+          padding-bottom: 2px;
+        }
+
+        &.long {
+          font-style: normal;
+          line-height: 1.3;
+
+          border-top: 2px solid $rust;
+          padding-top: 10px;
+          width: 100%;
+
+          textarea {
+            @include text_default;
+            line-height: 1.3;
+            height: 200px;
+            width: 100%;
+            resize: vertical;
+          }
+        }
+
+        &.short {
+          font-style: italic;
+          text-align: right;
+          margin-left: 18px;
+
+          .TextInput, input {
+            width: 100%;
+            box-sizing: border-box;
+          }
+        }
       }
     }
+
 
     .statblock {
       // background-color: #eeeeee;

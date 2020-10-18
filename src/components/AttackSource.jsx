@@ -199,58 +199,61 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
         :
           <>
             <div className='titlebar'>
-              <div className='name'>
-                <TextInput
-                  textValue={name}
-                  setTextValue={(name) => setName(name, attackID)}
-                  placeholder='Attack name'
-                  suffix='.'
-                />
-              </div>
-
-              <div className='is-saving-throw'
-                onClick={() => setType(cycleActionType(type), attackID)}
-              >
-                { (type === 'attack') ?
-                  'Attack.'
-                : (type === 'save') ?
-                  'Saving throw.'
-                :
-                  'Ability.'
-                }
-              </div>
-
-              { (type === 'attack') ?
-                <div
-                  className='modifier unselectable'
-                  onClick={(e) => handleModifierClick(e, true)}
-                  onContextMenu={(e) => handleModifierClick(e, false)}
-                >
-                  {modifier >= 0 ? '+' : ''}
-                  {modifier} to hit
+              <div className='info-left'>
+                <div className='name'>
+                  <TextInput
+                    textValue={name}
+                    setTextValue={(name) => setName(name, attackID)}
+                    placeholder='Attack name'
+                    suffix='.'
+                  />
                 </div>
 
-              : (type === 'save') ?
-                <>
-                  <div
-                    className='saving-throw-dc unselectable'
-                    onClick={(e) => handleSavingThrowDCClick(e, true)}
-                    onContextMenu={(e) => handleSavingThrowDCClick(e, false)}
-                  >
-                    DC {savingThrowDC}
-                  </div>
-                  <div
-                    className='saving-throw-type unselectable'
-                    onClick={(e) => handleSavingThrowTypeClick(e, true)}
-                    onContextMenu={(e) => handleSavingThrowTypeClick(e, false)}
-                  >
-                    {abilityTypes[savingThrowType]}
-                  </div>
-                </>
-              : //ability
-                <></>
-              }
+                <div className='is-saving-throw'
+                  onClick={() => setType(cycleActionType(type), attackID)}
+                >
+                  { (type === 'attack') ?
+                    'Attack.'
+                  : (type === 'save') ?
+                    'Saving throw.'
+                  :
+                    'Ability.'
+                  }
+                </div>
 
+                { (type === 'attack') ?
+                  <div
+                    className='modifier unselectable'
+                    onClick={(e) => handleModifierClick(e, true)}
+                    onContextMenu={(e) => handleModifierClick(e, false)}
+                  >
+                    {modifier >= 0 ? '+' : ''}
+                    {modifier} to hit
+                  </div>
+
+                : (type === 'save') ?
+                  <>
+                    <div
+                      className='saving-throw-dc unselectable'
+                      onClick={(e) => handleSavingThrowDCClick(e, true)}
+                      onContextMenu={(e) => handleSavingThrowDCClick(e, false)}
+                    >
+                      DC {savingThrowDC}
+                    </div>
+                    <div
+                      className='saving-throw-type unselectable'
+                      onClick={(e) => handleSavingThrowTypeClick(e, true)}
+                      onContextMenu={(e) => handleSavingThrowTypeClick(e, false)}
+                    >
+                      {abilityTypes[savingThrowType]}
+                    </div>
+                  </>
+                : //ability
+                  <></>
+                }
+
+              </div>
+              
               <div className={`desc ${descClass}`}>
                 <TextInput
                   textValue={desc.length > 0 ? desc : '...' }
