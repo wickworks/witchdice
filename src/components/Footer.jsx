@@ -9,7 +9,10 @@ const Footer = () => {
   return (
     <div className="Footer">
       <p className="meeeeeeeeeeeee-luv-u">
-        by olive ~
+        <a href="https://wick.works/about/" target="_blank" rel="noopener noreferrer">
+          by olive
+        </a>
+        ~
         <a href="https://wick.itch.io/aesthetic" target="_blank" rel="noopener noreferrer">
           <span className="asset trans_pride" />
         </a>
@@ -18,8 +21,11 @@ const Footer = () => {
           tip jar
         </a>
       </p>
+
+      {/*
       <a href="https://twitter.com/wickglyph" target="_blank" rel="noopener noreferrer">@wickglyph</a>
       <a href="https://wick.works/" target="_blank" rel="noopener noreferrer">www.wick.works</a>
+      */}
 
       <div className="license">
         <div className='open-button' onClick={() => setCreditsOpen(!creditsOpen)}>License Information</div>

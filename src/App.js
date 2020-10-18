@@ -24,7 +24,7 @@ function App() {
   return (
     <div className="App">
       <h1 className='site-title'>
-        🌺💀<div> ~ Roll With Love ~ <div>💀🌺</div></div>
+        🌺💀<div> ~ Witch Dice ~ <div>💀🌺</div></div>
       </h1>
       <div className='beta-label'>
         beta — v{CURRENT_VERSION}

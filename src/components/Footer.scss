@@ -9,7 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 6px;
+    margin-bottom: 0;
 
     span.asset {
       display: inline-block;
@@ -35,7 +35,7 @@
 
   .license {
     @include text_license;
-    margin: 10px;
+    margin: 5px;
 
     .open-button {
       cursor: pointer;
