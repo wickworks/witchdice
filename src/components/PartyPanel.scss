@@ -26,6 +26,8 @@
 		align-items: center;
 		padding: 10px 0 0;
 
+		>div { padding: 0 8px;}
+
 		input {
 			@include text_default;
 			width: 70%;
@@ -44,6 +46,18 @@
 
 			&:hover { color: $soft_black; }
 		}
+
+		.copy-on-click {
+			border-radius: 4px;
+			cursor: pointer;
+			&:hover { background-color: $pink; }
+
+			.copy-symbol {
+				margin-right: 4px;
+			}
+		}
+
+		.copied-message { color: olive; }
 	}
 
 	button.party-connect {

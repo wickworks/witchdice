@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './PartyPanel.scss';
 import { allDamageTypes } from '../data.js';
 
@@ -9,6 +9,7 @@ const PartyPanel = ({
   generateRoomName,
   partyConnected, connectToRoom,
 }) => {
+  const [showingCopiedMessage, setShowingCopiedMessage] = useState(false);
 
 
   const updatePartyRoom = (value) => {
@@ -19,6 +20,25 @@ const PartyPanel = ({
   const updatePartyName = (value) => {
     const filtered = value.replace(/[^A-Za-z -]/ig, '')
     setPartyName(filtered)
+  }
+
+  const copyRoom = () => {
+    const roomUrl = `${window.location.hostname}${window.location.port.length > 1 ? `:${window.location.port}` : ''}/${partyRoom}`;
+
+    const el = document.createElement('textarea');
+    el.value = roomUrl
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+
+    console.log('copied room url', roomUrl);
+
+    setShowingCopiedMessage(true);
+
+    setTimeout(function(){
+      setShowingCopiedMessage(false);
+    }, 3000);
   }
 
   const connectDisabled = (partyRoom.length <= 6 || partyName.length <= 0);
@@ -76,7 +96,15 @@ const PartyPanel = ({
 
         <div className='party-room-container'>
           <label>Room:</label>
-          <div>{partyRoom}</div>
+
+          { showingCopiedMessage ?
+            <div className='copied-message'>Copied url!</div>
+          :
+            <div className='copy-on-click' onClick={copyRoom}>
+  	          <span className='copy-symbol'>⧉</span>
+              {partyRoom}
+            </div>
+          }
         </div>
       </> }
 		</div>

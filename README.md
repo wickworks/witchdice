@@ -14,7 +14,6 @@
 - remove checkmark/trash for damage sources, use trash gutter & close by clicking off of it instead.
 
 ##### FEATURES ######
-- be able to go straight to a room via a url
 
 - make the background a sketch pad
 - add modifiers to dicebag rolls

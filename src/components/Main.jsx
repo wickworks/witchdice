@@ -129,16 +129,25 @@ const Main = ({rollMode}) => {
           characterEntries.push({id: characterID, name: characterName})
         }
       }
+
     }
 
     setAllMonsterEntries(monsterEntries);
     setAllCharacterEntries(characterEntries);
 
-    const loadedRoom = localStorage.getItem("party_room");
-    if (loadedRoom) {
-      setPartyRoom(loadedRoom);
+    // get the room name from the url params // local storage
+    const urlRoom = window.location.pathname.substring(1); // slice off the leading slash
+    if (urlRoom && urlRoom.length > 6) {
+      setPartyRoom(urlRoom);
+
     } else {
-      generateRoomName()
+      const loadedRoom = localStorage.getItem("party_room");
+      if (loadedRoom) {
+        setPartyRoom(loadedRoom);
+
+      } else {
+        generateRoomName()
+      }
     }
 
     const loadedName = localStorage.getItem("party_name");
@@ -610,6 +619,11 @@ const Main = ({rollMode}) => {
       setPartyConnected(true);
       localStorage.setItem("party_name", partyName);
       localStorage.setItem("party_room", partyRoom);
+
+      // change the url
+      if (window.history.replaceState) {
+        window.history.replaceState({'room': partyRoom}, 'Witch Dice', `/${partyRoom}`);
+      }
 
     } catch (error) {
       console.log('ERROR: ',error.message);
