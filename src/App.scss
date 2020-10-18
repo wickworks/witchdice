@@ -101,11 +101,11 @@
         margin: 30px;
         // border: 2px solid $rust;
 
-        background-color: $pink;
+        background-color: #ffdfd7; // light pink
         &:hover { background-color: $rust_light; }
 
         .mode-title h2 {
-          font-size: 34px;
+          font-size: 54px;
           margin: 10px auto 16px;
         }
 

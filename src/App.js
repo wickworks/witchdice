@@ -8,7 +8,7 @@ import './App.scss';
 // whenever we make a change that breaks the old data, bump up the first number
 console.log('Welcome to Roll-To-Hit version ', CURRENT_VERSION);
 
-const loadedMode = localStorage.getItem("roll_mode");
+const loadedMode = sessionStorage.getItem("roll_mode");
 
 
 function App() {
@@ -16,7 +16,7 @@ function App() {
 
   const rollModeClass = rollMode ? 'minimized' : 'full'
   const saveRollMode = (mode) => {
-    localStorage.setItem("roll_mode", mode);
+    sessionStorage.setItem("roll_mode", mode);
     setRollMode(mode);
   }
 
