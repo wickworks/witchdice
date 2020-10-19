@@ -60,6 +60,7 @@ My understanding of the primary problems in DnD:
 - setting: customize which icon shows up for natural 20s
 
 ###### TECHNICAL ######
+
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
   Auth system: conference-room rules.
@@ -73,6 +74,9 @@ My understanding of the primary problems in DnD:
 - clear out data on firebase periodically even if nobody has visited that room in a long time
 
 #### DND MECHANICS ####
+- bug with triggered attacks: fireball, then an ice knife causes the triggered one to always show up
+
+
 - import spells
 - import the monster manual
   (add legendary actions)

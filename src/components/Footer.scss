@@ -33,16 +33,22 @@
     }
   }
 
+  .feedback {
+    font-size: 14px;
+    margin: 0 4px;
+  }
+
+
+  .open-button {
+    cursor: pointer;
+    color: seagreen;
+
+    &:hover { color: olive }
+  }
+
   .license {
     @include text_license;
     margin: 5px;
-
-    .open-button {
-      cursor: pointer;
-      color: seagreen;
-
-      &:hover { color: olive }
-    }
 
     .credits {
       background-color: $parchment;

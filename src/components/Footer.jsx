@@ -4,6 +4,7 @@ import './Footer.scss';
 
 const Footer = () => {
   const [creditsOpen, setCreditsOpen] = useState(false);
+  const [showFeedbackLinks, setShowFeedbackLinks] = useState(false);
 
 
   return (
@@ -17,9 +18,28 @@ const Footer = () => {
           <span className="asset trans_pride" />
         </a>
         ~
-        <a href="https://ko-fi.com/wickworks" target="_blank" rel="noopener noreferrer">
+
+        <div className="feedback">
+          {!showFeedbackLinks ?
+            <span className='open-button' onClick={() => setShowFeedbackLinks(!showFeedbackLinks)}>
+              feedback/bugs
+            </span>
+          :
+            <>
+              contact@wick.works or
+              <a href="https://twitter.com/wickglyph"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                @wickglyph
+              </a>
+            </>
+          }
+        </div>
+
+        {/*}<a href="https://ko-fi.com/wickworks" target="_blank" rel="noopener noreferrer">
           tip jar
-        </a>
+        </a>*/}
       </p>
 
       {/*
