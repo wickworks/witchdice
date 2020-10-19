@@ -15,6 +15,7 @@ import {
 import { getMonsterData } from '../stockdata/process_monster_srd.js';
 
 import CharacterAndMonsterList from './CharacterAndMonsterList.jsx';
+import Antiracism from './Antiracism.jsx';
 import Character from './Character.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';
 import Roller from './Roller.jsx';
@@ -649,20 +650,26 @@ const Main = ({rollMode}) => {
       }
 
       {/*<div>(click to increase attack rolls, right-click to decrease)</div>*/}
-      {(rollMode === '5e' && characterName.length > 0) &&
-        <Character
-          characterName={characterName}
-          setCharacterName={setCharacterName}
-          characterID={characterID}
-          updateAllAttackData={updateAllAttackData}
-          allAttackData={characterAttackData}
-          createAttack={createAttack}
-          deleteAttack={deleteAttack}
-          attackFunctions={attackFunctions}
-          deleteCharacter={deleteActiveCharacter}
-          clearRollData={clearRolls}
-        />
-      }
+      {(rollMode === '5e' && characterName.length > 0) && (
+        <>
+          { (characterName == "Orc" || characterName == "Goblin") &&
+            <Antiracism />
+          }
+
+          <Character
+            characterName={characterName}
+            setCharacterName={setCharacterName}
+            characterID={characterID}
+            updateAllAttackData={updateAllAttackData}
+            allAttackData={characterAttackData}
+            createAttack={createAttack}
+            deleteAttack={deleteAttack}
+            attackFunctions={attackFunctions}
+            deleteCharacter={deleteActiveCharacter}
+            clearRollData={clearRolls}
+          />
+        </>
+      )}
 
       <div className='gameplay-container'>
         <DiceBag

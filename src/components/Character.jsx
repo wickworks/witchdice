@@ -23,8 +23,6 @@ const Character = ({
   return (
     <div className="Character">
       <hr className="pumpkin-bar" />
-
-
       <div className="character-sheet">
         { isDeleting ?
           <div className='delete-character-confirm-container'>

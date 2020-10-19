@@ -1,0 +1,42 @@
+@import '../fonts';
+
+.Antiracism {
+  max-width: 800px;
+  padding: 20px;
+  margin: auto;
+  box-sizing: border-box;
+  background-color: #ffdad5;
+  border-radius: 10px;
+  border: 2px dotted salmon;
+
+  .intro-container {
+    display: flex;
+    align-items:center;
+
+    .olive_portrait {
+      width: 100px;
+      height: 100px;
+      border-radius: 100%;
+      margin: 0 15px;
+    }
+  }
+
+  .quote {
+    padding-left: 20px;
+    border-left: 2px solid salmon;
+    margin-left: 20px;
+
+    margin-bottom: 8px;
+  }
+
+  .attribution {
+    margin-top: 8px;
+    text-align: right;
+  }
+
+  .signature {
+    text-align: center;
+    margin-bottom: 0;
+    color: salmon;
+  }
+}

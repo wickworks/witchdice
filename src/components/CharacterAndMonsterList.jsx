@@ -31,10 +31,7 @@ const CharacterAndMonsterList = ({
 }
 
 const CharacterList = ({characterEntries, handleEntryClick, activeCharacterID, createNewCharacter}) => {
-
   characterEntries.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
-
-
 
   return (
     <div className="CharacterList">

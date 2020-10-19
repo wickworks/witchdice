@@ -44,9 +44,11 @@
 
   a {
     color: seagreen;
-
     &:hover { color: olive }
   }
+
+  strong { font-weight: bold; }
+  em { font-style: italic; }
 
   input[type=checkbox], input[type=radio] {
     cursor: pointer;
