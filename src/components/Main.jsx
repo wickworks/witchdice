@@ -505,13 +505,13 @@ const Main = ({rollMode}) => {
         const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
         // ~~ new dicebag roll ~~ //
         if (isNew) {
-          const newKey = dbRef.push(actionData);
+          console.log('       pushing  new dicebag roll to room',partyRoom,' : ', actionData);
+          const newKey = dbRef.push(actionData).key;
           setPartyLastDicebagKey(newKey);
-          console.log('       pushed  new dicebag roll to firebase', actionData);
         // ~~ update dicebag roll ~~ //
         } else {
-          dbRef.child(partyLastDicebagKey).set(actionData);
           console.log('       set updated dicebag roll in firebase', actionData);
+          dbRef.child(partyLastDicebagKey).set(actionData);
         }
 
       } else {
@@ -561,7 +561,7 @@ const Main = ({rollMode}) => {
     if (latestAction) {
       let newData = deepCopy(allPartyActionData);
 
-      console.log('       new action created at :', latestAction.createdAt);
+      // console.log('       new action created at :', latestAction.createdAt);
 
       // is this an update or a new one?
       let isUpdate = false;
@@ -569,7 +569,6 @@ const Main = ({rollMode}) => {
         if (action !== null && action.createdAt === latestAction.createdAt) {
           isUpdate = true;
           newData[i] = deepCopy(latestAction);
-          console.log('        was an update of index ', i);
         }
       });
       if (!isUpdate) newData.push(latestAction)
