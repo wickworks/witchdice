@@ -6,7 +6,7 @@ import { CURRENT_VERSION } from './data.js';
 import './App.scss';
 
 // whenever we make a change that breaks the old data, bump up the first number
-console.log('Welcome to Roll-To-Hit version ', CURRENT_VERSION);
+console.log('Welcome to Witch Dice version ', CURRENT_VERSION);
 
 const loadedMode = localStorage.getItem("roll_mode");
 
