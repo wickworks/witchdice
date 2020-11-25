@@ -9,7 +9,7 @@ const Footer = () => {
 
   return (
     <div className="Footer">
-      <p className="meeeeeeeeeeeee-luv-u">
+      <div className="meeeeeeeeeeeee-luv-u">
         <a href="https://wick.works/about/" target="_blank" rel="noopener noreferrer">
           by olive
         </a>
@@ -40,7 +40,7 @@ const Footer = () => {
         {/*}<a href="https://ko-fi.com/wickworks" target="_blank" rel="noopener noreferrer">
           tip jar
         </a>*/}
-      </p>
+      </div>
 
       {/*
       <a href="https://twitter.com/wickglyph" target="_blank" rel="noopener noreferrer">@wickglyph</a>
