@@ -1,99 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { deepCopy, getRandomInt } from '../utils.js';
-
-import {
-  getRandomFingerprint,
-  getCharacterStorageName,
-  getCharacterNameFromStorageName,
-  getCharacterIDFromStorageName,
-  defaultDamageData,
-  defaultAttackData,
-  defaultRollData,
-  saveCharacterData,
-  loadCharacterData
-} from './5e/data.js';
-import { getMonsterData } from './5e/stockdata/process_monster_srd.js';
-
-import CharacterAndMonsterList from './5e/CharacterAndMonsterList.jsx';
-import Antiracism from './5e/Antiracism.jsx';
-import Character from './5e/Character.jsx';
-import ActiveAttackList from './5e/ActiveAttackList.jsx';
-import Roller from './5e/Roller.jsx';
+import { CURRENT_VERSION } from '../version.js';
+import { deepCopy } from '../utils.js';
+import { randomWords } from '../random_words.js';
 
 import DiceBag from './DiceBag.jsx';
 import PartyPanel from './PartyPanel.jsx';
+
+import MainSimple from './simple/MainSimple.jsx';
+import Main5E from './5e/Main5E.jsx';
+import MainWitchCraft from './witchcraft/MainWitchCraft.jsx';
+
 import './Main.scss';
 
-import {randomWords} from '../random_words.js';
-
-// minor version increase clear out monsters, major ones clear characters
-const CURRENT_VERSION = '0.2';
-
-const loadedVersion = localStorage.getItem("version");
-let brokeOldCharacterData = false;
-let brokeOldMonsterData = false;
-if (loadedVersion) {
-  const newMajorVersion = loadedVersion.slice(0,loadedVersion.indexOf("."))
-  const newMinorVersion = loadedVersion.slice(loadedVersion.indexOf(".")+1)
-  console.log('Loading data from version', loadedVersion, '--— major version: ', newMajorVersion, ' ---- minor version', newMinorVersion);
-
-  if (newMajorVersion !== CURRENT_VERSION.slice(0,CURRENT_VERSION.indexOf("."))) {
-    brokeOldCharacterData = true;
-    brokeOldMonsterData = true;
-    console.log('Detected breaking change of saved Character data. Clearing.');
-  }
-
-  if (newMinorVersion !== CURRENT_VERSION.slice(CURRENT_VERSION.indexOf(".")+1)) {
-    brokeOldMonsterData = true;
-    console.log('Detected breaking change of saved Monster data. Resetting to defaults.');
-  }
-}
-
-// should we initialize to defaults?
-if (!loadedVersion || brokeOldCharacterData || brokeOldMonsterData) {
-  // clear out the old data
-  console.log('Clearing out old data...');
-  // let skipClears = 0;
-  // while (localStorage.length > skipClears) {
-  while (localStorage.length > 0) {
-    const key = localStorage.key(0);
-    localStorage.removeItem(key)
-
-    //
-    // // monster?
-    // if (getCharacterIDFromStorageName(key) < 100000) {
-    //   if (brokeOldMonsterData) {localStorage.removeItem(key)} else {skipClears += 1}
-    // } else {
-    //   if (brokeOldCharacterData) {localStorage.removeItem(key)} else {skipClears += 1}
-    // }
-  }
-
-  // save the new data
-  getMonsterData().forEach((data,i) => {
-    const fingerprint = (100000 + i)
-    saveCharacterData(
-      fingerprint,
-      data.name,
-      data.allAttackData
-    )
-  })
-
-  localStorage.setItem("version", CURRENT_VERSION);
-}
-
-
 const Main = ({rollMode}) => {
-  const [allCharacterEntries, setAllCharacterEntries] = useState([]);
-  const [allMonsterEntries, setAllMonsterEntries] = useState([]);
-
-  const [characterID, setCharacterID] = useState(null);
-  const [characterName, setCharacterName] = useState('');
-  const [characterAttackData, setCharacterAttackData] = useState([]);
-
-  const [rollData, setRollData] = useState([]);
-  // don't want to re-traverse the rollData for the party, so roller will build a summary for us
-  const [rollSummaryData, setRollSummaryData] = useState([]);
-  const [rollConditions, setRollConditions] = useState([]);
+  const [rollSummaryData, setRollSummaryData] = useState({});
 
   const [allPartyActionData, setAllPartyActionData] = useState([]);
   const [latestAction, setLatestAction] = useState(null);
@@ -111,31 +31,6 @@ const Main = ({rollMode}) => {
   // =============== INITIALIZE ==================
 
   useEffect(() => {
-    let monsterEntries = [];
-    let characterEntries = [];
-
-    for ( var i = 0, len = localStorage.length; i < len; ++i ) {
-      const key = localStorage.key(i);
-      // console.log('localStorage key : ', key);
-      // console.log('                item : ', localStorage.getItem(key));
-      if (key.startsWith('character-')) {
-        const characterName = getCharacterNameFromStorageName(key);
-        const characterID = getCharacterIDFromStorageName(key);
-
-        // first chunk of IDs are monsters
-        if (characterID < 200000) {
-          monsterEntries.push({id: characterID, name: characterName})
-
-        } else {
-          characterEntries.push({id: characterID, name: characterName})
-        }
-      }
-
-    }
-
-    setAllMonsterEntries(monsterEntries);
-    setAllCharacterEntries(characterEntries);
-
     // get the room name from the url params // local storage
     const urlRoom = window.location.pathname.substring(1); // slice off the leading slash
     if (urlRoom && urlRoom.length > 6) {
@@ -154,307 +49,9 @@ const Main = ({rollMode}) => {
     const loadedName = localStorage.getItem("party_name");
     if (loadedName) setPartyName(loadedName);
 
-    // firebase.initializeApp(firebaseConfig);
   }, []);
 
-  // =============== ADD/EDIT/DELETE CHARACTER FUNCTIONS ==================
-
-  const createNewCharacter = () => {
-    const fingerprint = getRandomFingerprint();
-    const name = 'Character';
-    let attackData = [deepCopy(defaultAttackData)];
-    attackData[0].damageData.push(deepCopy(defaultDamageData));
-
-    console.log('making new character with fingerprint', fingerprint);
-
-    // set it as the current character
-    setCharacterID(fingerprint);
-    setCharacterName(name);
-    setCharacterAttackData(attackData);
-    clearRolls();
-
-    // add it to the entries
-    let newData = deepCopy(allCharacterEntries);
-    newData.push({id: fingerprint, name: name});
-    setAllCharacterEntries(newData);
-
-    // save to localStorage
-    saveCharacterData(fingerprint, name, attackData);
-  }
-
-  const deleteActiveCharacter = () => {
-    // console.log('deleteActiveCharacter', characterID);
-    const storageName = getCharacterStorageName(characterID, characterName);
-    // remove from localstorage
-    localStorage.removeItem(storageName);
-
-    // remove from the current list of character entries
-    let newData = deepCopy(allCharacterEntries)
-    let characterIndex = -1;
-    allCharacterEntries.forEach((entry, i) => {
-      if (entry.id === characterID) {characterIndex = i;}
-    });
-    if (characterIndex >= 0) {
-      newData.splice(characterIndex, 1)
-      setAllCharacterEntries(newData);
-    }
-
-    clearCharacterSelection()
-  }
-
-  const setActiveCharacter = (id) => {
-    const loadedCharacter = loadCharacterData(id);
-    // console.log('setActiveCharacter', id);
-
-    if (loadedCharacter) {
-      setCharacterID(id);
-      setCharacterName(loadedCharacter.name);
-      setCharacterAttackData(loadedCharacter.allAttackData);
-    }
-    clearRolls();
-  }
-
-  const clearCharacterSelection = () => {
-    setCharacterID(null);
-    setCharacterName('');
-    setCharacterAttackData([]);
-    clearRolls();
-  }
-
-  // =============== UPDATE CHARACTER / ATTACK DATA ===================
-
-  useEffect(() => {
-    // update the localStorage
-    saveCharacterData(characterID, characterName, characterAttackData);
-
-    // update the entry
-    let newData = deepCopy(allCharacterEntries);
-    let characterIndex = -1;
-    allCharacterEntries.forEach((entry, i) => {
-      if (entry.id === characterID) {characterIndex = i;}
-    });
-    if (characterIndex >= 0) {
-      newData[characterIndex].name = characterName;
-      setAllCharacterEntries(newData);
-    }
-
-  }, [characterName]); // eslint-disable-line react-hooks/exhaustive-deps
-
-
-  const updateAllAttackData = (key, value, attackID) => {
-    // console.log('');
-    // console.log('Current attack data:', JSON.stringify(allAttackData));
-    // console.log('');
-    // console.log('updating attack data id', attackID, '   key ', key)
-    // console.log('  with value ', JSON.stringify(value));
-    // console.log('old data : ', JSON.stringify(allAttackData[attackID][key]));
-
-    let newData = deepCopy(characterAttackData)
-    newData[attackID][key] = value
-    // save new attack data to the current character object
-    setCharacterAttackData(newData);
-    // save new attack data to localStorage
-    saveCharacterData(characterID, characterName, newData)
-
-    clearRolls();
-  }
-
-  const attackFunctions = {
-    setIsActive: (value, attackID) => updateAllAttackData('isActive',value,attackID),
-    setDieCount: (value, attackID) => updateAllAttackData('dieCount',parseInt(value),attackID),
-    setModifier: (value, attackID) => updateAllAttackData('modifier',parseInt(value),attackID),
-    setType: (value, attackID) => updateAllAttackData('type',value,attackID),
-    setSavingThrowDC: (value, attackID) => updateAllAttackData('savingThrowDC',parseInt(value),attackID),
-    setSavingThrowType: (value, attackID) => updateAllAttackData('savingThrowType',parseInt(value),attackID),
-    setName: (value, attackID) => updateAllAttackData('name',value,attackID),
-    setDesc: (value, attackID) => updateAllAttackData('desc',value,attackID),
-    setDamageData: (value, attackID) => updateAllAttackData('damageData',value,attackID),
-  }
-
-  const createAttack = () => {
-    let newData = deepCopy(characterAttackData);
-    let newAttack = deepCopy(defaultAttackData);
-    newAttack.damageData.push(deepCopy(defaultDamageData))
-    newData.push(newAttack);
-    setCharacterAttackData(newData);
-
-    clearRolls();
-  }
-
-  const deleteAttack = (attackID) => {
-    let newData = deepCopy(characterAttackData);
-    newData.splice(attackID, 1);
-    setCharacterAttackData(newData);
-
-    clearRolls();
-  }
-
-  // =============== ROLLER FUNCTIONS ==================
-  const updateRollData = (key, value, rollID) => {
-    let newData = deepCopy(rollData)
-    newData[rollID][key] = value
-    setRollData(newData);
-  }
-
-  const clearRolls = () => {
-    setRollData([]);
-  }
-
-  const rollFunctions = {
-    setHit: (value, id) => updateRollData('hit',value,id),
-    setRollOne: (value, id) => updateRollData('rollOne',parseInt(value),id),
-    setRollTwo: (value, id) => updateRollData('rollTwo',parseInt(value),id),
-    setDamageRollData: (value, id) => updateRollData('damageRollData',value,id),
-    setCritRollData: (value, id) => updateRollData('critRollData',value,id),
-    setRollData: (newData) => setRollData(deepCopy(newData))
-  }
-
-  // returns [TYPE, AMOUNT, REROLLED, DAMAGE_ID]
-  function getDamageRoll(source, damageSourceID) {
-    let damageAmount = getRandomInt(source.dieType)
-    let rerolled = false;
-
-    // maximized?
-    if (source.tags.includes('maximized')) { damageAmount = source.dieType }
-
-    // reroll damage?
-    if (
-      (source.tags.includes('reroll1') && damageAmount <= 1) ||
-      (source.tags.includes('reroll2') && damageAmount <= 2)
-    ) {
-      rerolled = true;
-      damageAmount = getRandomInt(source.dieType);
-    }
-
-    // minimum 2s?
-    if (
-      (source.tags.includes('min2') && damageAmount <= 1)
-    ) {
-      rerolled = true;
-      damageAmount = 2;
-    }
-
-    return [
-      source.damageType,
-      damageAmount,
-      rerolled,
-      damageSourceID
-    ]
-  }
-
-  const generateNewRoll = () => {
-    let data = []
-
-    // console.log('');
-    // console.log('~~~~~ NEW ROLL ~~~~~');
-
-    // EACH ATTACK (that is active)
-    for (let attackID = 0; attackID < characterAttackData.length; attackID++) {
-      const attackData = characterAttackData[attackID]
-      let triggeredRollData = [];
-
-      if (attackData.isActive && attackData.damageData.length > 0) {
-
-        // EACH TO-HIT D20
-        for (let rollID = 0; rollID < attackData.dieCount; rollID++) {
-          const defaultHit = attackData.type === 'save' ? true : false;
-          let roll = deepCopy(defaultRollData);
-          roll.attackID = attackID;
-          roll.hit = defaultHit;
-          roll.attackBonus = attackData.modifier;
-
-          // roll some d20s for attacks
-          if (attackData.type === 'attack') {
-            roll.rollOne = getRandomInt(20)
-            roll.rollTwo = getRandomInt(20)
-          }
-
-          // EACH DAMAGE SOURCE
-          const damageData = attackData.damageData
-          let damageRollData = []
-          let critRollData = []
-          for (let damageSourceID = 0; damageSourceID < damageData.length; damageSourceID++) {
-            const source = damageData[damageSourceID]
-
-            // triggered damage gets added later
-            if (!source.tags.includes('triggeredsave')) {
-
-              // get both CRIT and REGULAR dice
-              const dicePools = [damageRollData,critRollData]
-              dicePools.forEach((dicePool) => {
-
-                // EACH DIE IN THAT SOURCE
-                for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
-                  const damage = getDamageRoll(source, damageSourceID);
-                  const amount = damage[1];
-                  if (amount > 0 || source.condition.length > 0) { dicePool.push(damage) }
-                }
-              })
-
-              // PLUS MODIFIER
-              if (source.modifier > 0) {
-                let damage = [
-                  source.damageType,
-                  source.modifier,
-                  false,
-                  damageSourceID
-                ]
-                damageRollData.push(damage)
-              }
-            }
-          }
-
-          roll.damageRollData = damageRollData
-          roll.critRollData = critRollData
-          data.push(roll)
-
-          // TRIGGERED-SAVING THROW ROLLS (for each damage source, again) (ignores crits)
-          for (let damageSourceID = 0; damageSourceID < damageData.length; damageSourceID++) {
-            const source = damageData[damageSourceID]
-
-            if (source.tags.includes('triggeredsave')) {
-              let triggeredroll = deepCopy(defaultRollData);
-              triggeredroll.attackID = attackID;
-              triggeredroll.hit = true;
-              triggeredroll.attackBonus = 0;
-              triggeredroll.rollOne = 0;
-              triggeredroll.rollTwo = 0;
-              triggeredroll.gatedByRollID = rollID;
-
-              for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
-                const damage = getDamageRoll(source, damageSourceID);
-                const amount = damage[1];
-                if (amount > 0 || source.condition.length > 0) { triggeredroll.damageRollData.push(damage) }
-              }
-
-              // plus modifier
-              if (source.modifier > 0) {
-                let damage = [source.damageType, source.modifier, false, damageSourceID]
-                triggeredroll.damageRollData.push(damage)
-              }
-
-              triggeredRollData.push(triggeredroll)
-            }
-          }
-        }
-
-        // add all the triggered rolls to the end of the normal roll data
-        triggeredRollData.forEach((triggeredroll) => {
-          data.push(triggeredroll);
-        });
-
-        // console.log('New Roll Data for ', attackData.name, JSON.stringify(data));
-        setRollData(data);
-
-        // clear out the last attack key so we'll push a new one in the rollData useEffect
-        setPartyLastAttackKey('');
-        setPartyLastAttackTimestamp(0);
-      }
-    }
-  }
-
   // =============== PARTY ROLL FUNCTIONS ==================
-
 
   const addNewAttackPartyRoll = (actionData) => {
     if (partyConnected) {
@@ -523,15 +120,19 @@ const Main = ({rollMode}) => {
     }
   }
 
-  // whenever we update the attack rolldata
+  // ~ NEW/UPDATE LOCAL 5e ATTACK ~ //
   useEffect(() => {
-    if (rollSummaryData.length > 0) {
+    const conditions = rollSummaryData.conditions;
+    const characterName = rollSummaryData.characterName;
+    const rolls = rollSummaryData.rolls;
+
+    if (rolls && rolls.length > 0) {
       // traverse rollData to pull it out in a format that we want.
       let actionData = {};
       actionData.name = partyName;
       actionData.char = characterName;
       actionData.type = 'attack';
-      actionData.conditions = rollConditions.join(', ')
+      actionData.conditions = conditions.join(', ')
 
       // ~~ new attack roll ~~ //
       if (partyLastAttackTimestamp === 0) {
@@ -548,7 +149,7 @@ const Main = ({rollMode}) => {
 
       // rollSummaryData = [ {attack: 20, name: 'Longsword', 'slashing': 13, 'necrotic': 4}, ... ]
       // (replaces "attack" with "save" for saving throws)
-      rollSummaryData.forEach((roll, i) => {
+      rolls.forEach((roll, i) => {
         actionData[`roll-${i}`] = { ...roll }
       });
 
@@ -557,6 +158,7 @@ const Main = ({rollMode}) => {
     }
   }, [rollSummaryData]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // ~ NEW FIREBASE ACTION DETECTED ~ //
   // since we can't read (only write) state variables from inside firebase triggers, have to do a handoff like this
   useEffect(() => {
     if (latestAction) {
@@ -573,7 +175,6 @@ const Main = ({rollMode}) => {
         }
       });
       if (!isUpdate) newData.push(latestAction)
-
 
       setAllPartyActionData(newData);
     }
@@ -631,84 +232,54 @@ const Main = ({rollMode}) => {
     }
   }
 
-
   const generateRoomName = () => {
     setPartyRoom( `${randomWords(1)}-${randomWords({exactly: 1, maxLength: 6})}-${randomWords({exactly: 1, maxLength: 4})}` )
   }
 
+  const renderDiceBag = () => { return (
+    <DiceBag
+      addNewDicebagPartyRoll={addNewDicebagPartyRoll}
+    />
+  )}
+
+  const renderPartyPanel = () => { return (
+    <PartyPanel
+      allPartyActionData={allPartyActionData}
+      partyName={partyName}
+      setPartyName={setPartyName}
+      partyRoom={partyRoom}
+      setPartyRoom={setPartyRoom}
+      generateRoomName={generateRoomName}
+      partyConnected={partyConnected}
+      connectToRoom={connectToRoom}
+    />
+  )}
 
   return (
     <div className='Main'>
-      { rollMode === '5e' &&
-        <CharacterAndMonsterList
-        setActiveCharacterID={setActiveCharacter}
-        activeCharacterID={characterID}
-        allCharacterEntries={allCharacterEntries}
-        allMonsterEntries={allMonsterEntries}
-        createNewCharacter={createNewCharacter}
-      />
-      }
+      {
+        rollMode === '5e' ?
+          <Main5E
+           renderDiceBag={renderDiceBag}
+           renderPartyPanel={renderPartyPanel}
 
-      {/*<div>(click to increase attack rolls, right-click to decrease)</div>*/}
-      {(rollMode === '5e' && characterName.length > 0) && (
-        <>
-          { (characterName === "Orc" || characterName === "Goblin") &&
-            <Antiracism />
-          }
-
-          <Character
-            characterName={characterName}
-            setCharacterName={setCharacterName}
-            characterID={characterID}
-            updateAllAttackData={updateAllAttackData}
-            allAttackData={characterAttackData}
-            createAttack={createAttack}
-            deleteAttack={deleteAttack}
-            attackFunctions={attackFunctions}
-            deleteCharacter={deleteActiveCharacter}
-            clearRollData={clearRolls}
+           setPartyLastAttackKey={setPartyLastAttackKey}
+           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+           setRollSummaryData={setRollSummaryData}
           />
-        </>
-      )}
-
-      <div className='gameplay-container'>
-        <DiceBag
-          addNewDicebagPartyRoll={addNewDicebagPartyRoll}
-        />
-
-        {(rollMode === '5e' && characterName.length > 0) &&
-          <div className='roller-i-hardly-even-knower-container'>
-            <ActiveAttackList
-              attackSourceData={characterAttackData}
-              attackFunctions={attackFunctions}
-            />
-
-            <Roller
-              rollData={rollData}
-              attackSourceData={characterAttackData}
-              handleNewRoll={generateNewRoll}
-              handleClear={clearRolls}
-              rollFunctions={rollFunctions}
-              setRollSummaryData={setRollSummaryData}
-              setRollConditions={setRollConditions}
-            />
-          </div>
-        }
-
-        <PartyPanel
-          allPartyActionData={allPartyActionData}
-          partyName={partyName}
-          setPartyName={setPartyName}
-          partyRoom={partyRoom}
-          setPartyRoom={setPartyRoom}
-          generateRoomName={generateRoomName}
-          partyConnected={partyConnected}
-          connectToRoom={connectToRoom}
-        />
-      </div>
-
+        : rollMode === 'witch+craft' ?
+          <MainWitchCraft
+           renderDiceBag={renderDiceBag}
+           renderPartyPanel={renderPartyPanel}
+          />
+        :
+          <MainSimple
+           renderDiceBag={renderDiceBag}
+           renderPartyPanel={renderPartyPanel}
+          />
+      }
     </div>
   )
 }
 
-export { Main, CURRENT_VERSION } ;
+export default Main ;

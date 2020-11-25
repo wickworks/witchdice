@@ -40,7 +40,10 @@ apple-touch-icon
 - setting: customize which icon shows up for natural 20s
 
 ###### TECHNICAL ######
-- add https to start of link in copied room
+
+- rename the party roll/action stuff to make it more consistant
+
+- when you show up with a room in the url, automatically join that room instead of just filling it in
 
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters

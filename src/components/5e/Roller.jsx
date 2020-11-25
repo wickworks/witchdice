@@ -11,8 +11,8 @@ const Roller = ({
   attackSourceData,
   handleNewRoll,
   handleClear,
-  setRollSummaryData,
-  setRollConditions
+  characterName,
+  setRollSummaryData
 }) => {
 
   const [advantage, setAdvantage] = useState(false);
@@ -135,7 +135,11 @@ const Roller = ({
     // calculate damage total & breakdown by type
     let newDamageTotal = 0;
     let newDamageBreakdown = deepCopy(startingBreakdown);
-    let rollSummaryData = [];
+    let rollSummaryData = {
+      characterName: characterName,
+      conditions: [],
+      rolls: []
+    };
 
     for (let rollID = 0; rollID < rollData.length; rollID++) {
       const roll = rollData[rollID];
@@ -220,7 +224,7 @@ const Roller = ({
           summary.attack = getRollUseDiscard(roll).rollUse;
         }
 
-        rollSummaryData.push(summary)
+        rollSummaryData.rolls.push(summary)
       }
 
       subtotal = Math.floor(subtotal);
@@ -236,15 +240,13 @@ const Roller = ({
     });
 
     // collate the roll conditions
-    let rollConditions = [];
-    if (advantage && !disadvantage) rollConditions.push('advantage')
-    if (!advantage && disadvantage) rollConditions.push('disadvantage')
-    if (evasion) rollConditions.push('evasion')
+    if (advantage && !disadvantage) rollSummaryData.conditions.push('advantage')
+    if (!advantage && disadvantage) rollSummaryData.conditions.push('disadvantage')
+    if (evasion) rollSummaryData.conditions.push('evasion')
 
     setDamageTotal(newDamageTotal);
     setDamageBreakdown(newDamageBreakdown);
     setRollSummaryData(rollSummaryData);
-    setRollConditions(rollConditions)
   }
 
   // figure out what whether to show evasion checkbox or not

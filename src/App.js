@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { CURRENT_VERSION } from './version.js';
 import ModeChooser from './components/ModeChooser.jsx';
-import {Main, CURRENT_VERSION} from './components/Main.jsx';
+import Main from './components/Main.jsx';
 import Footer from './components/Footer.jsx';
 import './App.scss';
 
