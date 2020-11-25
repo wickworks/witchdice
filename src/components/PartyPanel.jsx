@@ -23,7 +23,11 @@ const PartyPanel = ({
   }
 
   const copyRoom = () => {
-    const roomUrl = `${window.location.hostname}${window.location.port.length > 1 ? `:${window.location.port}` : ''}/${partyRoom}`;
+    const protocol = window.location.protocol.length > 1 ? `${window.location.protocol}//` : '';
+    const hostname = window.location.hostname;
+    const port = window.location.port.length > 1 ? `:${window.location.port}` : '';
+
+    const roomUrl = `${protocol}${hostname}${port}/${partyRoom}`;
 
     const el = document.createElement('textarea');
     el.value = roomUrl
