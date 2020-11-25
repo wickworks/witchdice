@@ -1,9 +1,83 @@
 
-
-
 #### EXIST-IN-THE-WORLD ####
 
-- put together a how-to imgur album with gifs
+PWA manifest & icon
+apple-touch-icon
+
+
+###### LAYOUT #######
+- have a dice summary for what was rolled : [10d6]
+- "I assumed that I was already in the room when I joined" >> how to make status clear? Should probably auto-join when following a link in.
+
+- remove the skull dice that glorify critical hits? How do I de-glorify the violence of a violence calculator?
+- add a "feedback" form or email address -- encourage people to recommend links to things that help decolonize the damn thing
+- collapsible dice bag/party menu (or rearrange the whole thing again)
+- sort abilities to end of roll list
+
+- put "damage" back into the damage summary line?
+- applies conditions >>> just say what the condition is
+- remove checkmark/trash for damage sources, use trash gutter & close by clicking off of it instead.
+- let people put in their name to auto-join when they come in via a url (integrate with "asking for permission to join")
+
+##### FEATURES ######
+
+- bug with deleting damage sources; deleting the second deleted the first
+
+- d2 and d100, and a dX
+- X-card raised :::: anonymous or not
+- add modifiers to dicebag rolls
+  - under total/high/low, inside a collapsible options menu, as a textbox with increase/decrease buttons?
+
+
+- do an ACCESSIBILITY PASS; be able to tab through it all easily
+- make the background a sketch pad -- or just have a notepad panel that saves to session storage
+
+- saving complicated expressions for re-rolling
+- sound fx for dice rolls
+
+- themes e.g. dark mode
+- hover over dice bag buttons for a second to show which type of die it is (replace image)
+- setting: customize which icon shows up for natural 20s
+
+###### TECHNICAL ######
+- add https to start of link in copied room
+
+- validation for damage number inputs
+- Firbase-side validate room/person name; must be length X & are only letters
+  Auth system: conference-room rules.
+  If you're the first to show up to a room, it's yours.
+  If there is anyone in it already, they need to give you the thumbs-up.
+    (waiting & cancel button on newcomer, confirm & requester name on all occupants)
+  All rooms are cleared out twelve hours after the last message is sent on them.
+  Be able to go straight to the room by visiting the room url
+
+- someday: switch away from the heavy firebase server to a lightweight peer-to-peer network
+- clear out data on firebase periodically even if nobody has visited that room in a long time
+
+#### DND MECHANICS ####
+- bug with triggered attacks: fireball, then an ice knife causes the triggered one to always show up
+- paralyzation//assassin; all attacks are crits
+
+- import spells
+- import the monster manual
+  (add legendary actions)
+  (add special_abilities e.g. sneak attack 1/turn)
+  (die-less damage rolls don't work; see crab)
+  (add other statistics)
+  ("if fails by 5 or more" saving throws, see drow)
+- monster search: don't show any until search filter applied. Add to front of recent list if searching, otherwise perserve recent list order. Clear filter after clicking monster while filtering
+
+- vulnerability, resistance, immunity
+
+
+
+#### other games ####
+- Lancer?
+- Royal game of UR
+
+### Antiracism corner ####
+
+
 - add in helpful pointers for how to de-colonialize dnd
   - orcs & goblins: recommend hobgoblins, it's the season to punch nazis
   - somehow recommend the class-base attribute system
@@ -37,86 +111,17 @@ My understanding of the primary problems in DnD:
   - hotpatch: flesh out non-combat mechanics. WITCH + CRAFT. Complex skill checks.
   - WITCH DICE: show them other games to play. tools for those games && links to podcasts of such.
 
-###### LAYOUT #######
-
-- remove the skull dice that glorify critical hits? How do I de-glorify the violence of a violence calculator?
-- add a "feedback" form or email address -- encourage people to recommend links to things that help decolonize the damn thing
-- collapsible dice bag/party menu (or rearrange the whole thing again)
-- sort abilities to end of roll list
-
-- remove checkmark/trash for damage sources, use trash gutter & close by clicking off of it instead.
-- let people put in their name to auto-join when they come in via a url (integrate with "asking for permission to join")
-
-##### FEATURES ######
-- do an ACCESSIBILITY PASS; be able to tab through it all easily
-- make the background a sketch pad -- or just have a notepad panel that saves to session storage
-- add modifiers to dicebag rolls
-
-- saving complicated expressions for re-rolling
-- sound fx for dice rolls
-
-- themes e.g. dark mode
-- hover over dice bag buttons for a second to show which type of die it is (replace image)
-- setting: customize which icon shows up for natural 20s
-
-###### TECHNICAL ######
-
-- validation for damage number inputs
-- Firbase-side validate room/person name; must be length X & are only letters
-  Auth system: conference-room rules.
-  If you're the first to show up to a room, it's yours.
-  If there is anyone in it already, they need to give you the thumbs-up.
-    (waiting & cancel button on newcomer, confirm & requester name on all occupants)
-  All rooms are cleared out twelve hours after the last message is sent on them.
-  Be able to go straight to the room by visiting the room url
-
-- someday: switch away from the heavy firebase server to a lightweight peer-to-peer network
-- clear out data on firebase periodically even if nobody has visited that room in a long time
-
-#### DND MECHANICS ####
-- bug with triggered attacks: fireball, then an ice knife causes the triggered one to always show up
-
-
-- import spells
-- import the monster manual
-  (add legendary actions)
-  (add special_abilities e.g. sneak attack 1/turn)
-  (die-less damage rolls don't work; see crab)
-  (add other statistics)
-  ("if fails by 5 or more" saving throws, see drow)
-- monster search: don't show any until search filter applied. Add to front of recent list if searching, otherwise perserve recent list order. Clear filter after clicking monster while filtering
-- paralyzation//assassin; all attacks are crits
-- vulnerability, resistance, immunity
-
-
-
-
-
-
-
-### domain names
-
-rolltohit.app
-rollwith.love
-rolldice.live
-
-dicetable.app
-dicefriend.app
-rollcubes.app
-rollcubes.live
-diceroll.live
-dicebag.games
-dicefriend.live
-rollfriend.app
-
-
-rollwithlove.app
-
 
 ### COMMANDS
 
-- npm start
-- Stars a server
+# start local server
+npm start
 
-- npm run build
-- firebase deploy
+# prep for deploy
+npm run build
+
+# preview the deploy
+firebase hosting:channel:deploy eye-of-newt
+
+# actually deploy
+firebase deploy
