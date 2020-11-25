@@ -20,6 +20,9 @@ apple-touch-icon
 - let people put in their name to auto-join when they come in via a url (integrate with "asking for permission to join")
 
 ##### FEATURES ######
+
+- bug with deleting damage sources; deleting the second deleted the first
+
 - d2 and d100, and a dX
 - X-card raised :::: anonymous or not
 - add modifiers to dicebag rolls
@@ -37,6 +40,7 @@ apple-touch-icon
 - setting: customize which icon shows up for natural 20s
 
 ###### TECHNICAL ######
+- add https to start of link in copied room
 
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
@@ -52,7 +56,7 @@ apple-touch-icon
 
 #### DND MECHANICS ####
 - bug with triggered attacks: fireball, then an ice knife causes the triggered one to always show up
-
+- paralyzation//assassin; all attacks are crits
 
 - import spells
 - import the monster manual
@@ -62,14 +66,14 @@ apple-touch-icon
   (add other statistics)
   ("if fails by 5 or more" saving throws, see drow)
 - monster search: don't show any until search filter applied. Add to front of recent list if searching, otherwise perserve recent list order. Clear filter after clicking monster while filtering
-- paralyzation//assassin; all attacks are crits
+
 - vulnerability, resistance, immunity
 
 
 
 #### other games ####
 - Lancer?
-
+- Royal game of UR
 
 ### Antiracism corner ####
 
@@ -110,8 +114,14 @@ My understanding of the primary problems in DnD:
 
 ### COMMANDS
 
-- npm start
-- Stars a server
+# start local server
+npm start
 
-- npm run build
-- firebase deploy
+# prep for deploy
+npm run build
+
+# preview the deploy
+firebase hosting:channel:deploy eye-of-newt
+
+# actually deploy
+firebase deploy
