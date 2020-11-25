@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './PartyPanel.scss';
-import { allDamageTypes } from '../data.js';
+import { allDamageTypes } from './5e/data.js';
 
 const PartyPanel = ({
   allPartyActionData,

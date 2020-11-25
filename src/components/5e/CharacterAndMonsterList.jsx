@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { deepCopy } from '../utils.js';
+import { deepCopy } from '../../utils.js';
 import './CharacterAndMonsterList.scss';
 
 

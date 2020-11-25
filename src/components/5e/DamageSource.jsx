@@ -1,6 +1,6 @@
 import React from 'react';
 import './DamageSource.scss';
-import { allTags, abilityTypes } from '../data.js';
+import { allTags, abilityTypes } from './data.js';
 import {
   DamageEditDamageType,
   DamageEditMetadata,

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { deepCopy } from '../utils.js';
-import { defaultDamageData, abilityTypes, actionTypes } from '../data.js';
+import { deepCopy } from '../../utils.js';
+import { defaultDamageData, abilityTypes, actionTypes } from './data.js';
 import DamageSource from './DamageSource.jsx';
-import TextInput from './TextInput.jsx';
+import TextInput from '../TextInput.jsx';
 
 import './AttackSource.scss';
 

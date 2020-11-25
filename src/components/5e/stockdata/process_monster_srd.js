@@ -8,7 +8,7 @@ import {
   defaultAttackData,
   defaultDamageData,
 } from '../data.js';
-import { deepCopy } from '../utils.js';
+import { deepCopy } from '../../../utils.js';
 
 function getMonsterData() {
   // const allMonsterOriginalData = JSON.parse(monsterJson);

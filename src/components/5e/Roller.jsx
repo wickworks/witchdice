@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { deepCopy } from '../utils.js';
-import { abilityTypes, allDamageTypes } from '../data.js';
+import { deepCopy } from '../../utils.js';
+import { abilityTypes, allDamageTypes } from './data.js';
 import Roll from './Roll.jsx';
 import './Roller.scss';
 

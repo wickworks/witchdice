@@ -1,7 +1,5 @@
 // import { deepCopy } from './utils.js';
 
-// minor version increase clear out monsters, major ones clear characters
-const CURRENT_VERSION = '0.2';
 
 const allTags = {
   'savehalf': 'Save for half',
@@ -181,7 +179,6 @@ function getRandomFingerprint() {
 }
 
 export {
-  CURRENT_VERSION,
   allTags,
   allDamageTypes,
   abilityTypes,

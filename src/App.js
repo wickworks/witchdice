@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
-import Main from './components/Main.jsx';
+import {Main, CURRENT_VERSION} from './components/Main.jsx';
 import Footer from './components/Footer.jsx';
-import { CURRENT_VERSION } from './data.js';
 import './App.scss';
 
 // whenever we make a change that breaks the old data, bump up the first number

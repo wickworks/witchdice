@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { deepCopy, getRandomInt } from '../utils.js';
+
 import {
-  CURRENT_VERSION,
   getRandomFingerprint,
   getCharacterStorageName,
   getCharacterNameFromStorageName,
@@ -11,23 +11,23 @@ import {
   defaultRollData,
   saveCharacterData,
   loadCharacterData
-} from '../data.js';
-import { getMonsterData } from '../stockdata/process_monster_srd.js';
+} from './5e/data.js';
+import { getMonsterData } from './5e/stockdata/process_monster_srd.js';
 
-import CharacterAndMonsterList from './CharacterAndMonsterList.jsx';
-import Antiracism from './Antiracism.jsx';
-import Character from './Character.jsx';
-import ActiveAttackList from './ActiveAttackList.jsx';
-import Roller from './Roller.jsx';
+import CharacterAndMonsterList from './5e/CharacterAndMonsterList.jsx';
+import Antiracism from './5e/Antiracism.jsx';
+import Character from './5e/Character.jsx';
+import ActiveAttackList from './5e/ActiveAttackList.jsx';
+import Roller from './5e/Roller.jsx';
+
 import DiceBag from './DiceBag.jsx';
 import PartyPanel from './PartyPanel.jsx';
 import './Main.scss';
 
-// import firebase from 'firebase/app';
-// import 'firebase/database';
-
 import {randomWords} from '../random_words.js';
 
+// minor version increase clear out monsters, major ones clear characters
+const CURRENT_VERSION = '0.2';
 
 const loadedVersion = localStorage.getItem("version");
 let brokeOldCharacterData = false;
@@ -652,7 +652,7 @@ const Main = ({rollMode}) => {
       {/*<div>(click to increase attack rolls, right-click to decrease)</div>*/}
       {(rollMode === '5e' && characterName.length > 0) && (
         <>
-          { (characterName == "Orc" || characterName == "Goblin") &&
+          { (characterName === "Orc" || characterName === "Goblin") &&
             <Antiracism />
           }
 
@@ -711,4 +711,4 @@ const Main = ({rollMode}) => {
   )
 }
 
-export default Main ;
+export { Main, CURRENT_VERSION } ;

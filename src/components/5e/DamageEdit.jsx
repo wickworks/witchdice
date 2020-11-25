@@ -1,7 +1,7 @@
 import React from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
 import { Multiselect } from 'multiselect-react-dropdown';
-import {allTags, allDamageTypes, abilityTypes, allConditions} from '../data.js'
+import {allTags, allDamageTypes, abilityTypes, allConditions} from './data.js'
 import './DamageEdit.scss';
 
 

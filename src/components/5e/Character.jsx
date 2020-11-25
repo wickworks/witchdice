@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import AttackSource from './AttackSource.jsx';
-import TextInput from './TextInput.jsx';
+import TextInput from '../TextInput.jsx';
 import './Character.scss';
 
 const Character = ({
