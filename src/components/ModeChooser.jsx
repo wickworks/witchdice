@@ -37,6 +37,16 @@ const ModeChooser = ({
           </p>
         </label>
 
+        <label className={`mode-container ${rollMode === 'witchcraft' ? 'selected' : ''}`} key='mode-witchcraft'>
+          <div className='mode-title'>
+            <Radio value='witchcraft' id='mode-witchcraft' />
+            <h2>Witch+Craft</h2>
+          </div>
+          <p className='mode-desc'>
+            Crafting and domestic magic system for 5e.
+          </p>
+        </label>
+
       </RadioGroup>
     </div>
   );

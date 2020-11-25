@@ -267,7 +267,7 @@ const Main = ({rollMode}) => {
            setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
            setRollSummaryData={setRollSummaryData}
           />
-        : rollMode === 'witch+craft' ?
+        : rollMode === 'witchcraft' ?
           <MainWitchCraft
            renderDiceBag={renderDiceBag}
            renderPartyPanel={renderPartyPanel}
