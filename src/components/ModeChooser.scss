@@ -1,0 +1,84 @@
+@import '../colors';
+
+.ModeChooser {
+
+  .roll-mode {
+    input, label { cursor: pointer; }
+    h2 { display: inline; }
+
+    .mode-title {
+      display: flex;
+      align-items: center;
+    }
+
+    &.full {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px auto 100px;
+
+      .mode-container {
+        width: 300px;
+        border-radius: 40px;
+        padding: 40px 10px 30px;
+        margin: 30px;
+        // border: 2px solid $rust;
+
+        background-color: #ffdfd7; // light pink
+        &:hover { background-color: $rust_light; }
+
+        .mode-title h2 {
+          font-size: 54px;
+          margin: 10px auto 16px;
+        }
+
+        p.mode-desc {
+          font-size: 20px;
+          text-align: center;
+          margin: 0 40px 20px;
+          line-height: 1.5;
+
+        }
+
+        input { display: none; }
+      }
+    }
+
+    &.minimized {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+
+      display: flex;
+      flex-direction: column;
+
+      .mode-container {
+        border-radius: 4px;
+
+        background-color: $parchment;
+        &:hover {
+          background-color: $parchment_dark;
+          color: $soft_black;
+        }
+        &.selected {
+          background-color: $rust;
+          color: white;
+        }
+
+        .mode-title {
+          display: flex;
+          align-items: center;
+
+          h2 {
+            margin: 2px 6px;
+            font-size: 16px;
+            font-weight: normal;
+          }
+          input { display: none;}
+        }
+
+        .mode-desc { display: none; }
+      }
+    }
+  }
+}
