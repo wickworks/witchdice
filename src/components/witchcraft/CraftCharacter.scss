@@ -1,0 +1,61 @@
+@import '../../fonts';
+
+.CraftCharacter {
+  max-width: 600px;
+  margin: auto;
+  border-bottom: 2px solid $rust;
+
+  .intro-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    .name-and-class {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+
+      .name {
+      }
+
+      .tier {
+        display: flex;
+
+        .crafting-tier {
+        }
+
+        .crafting-class {
+          font-style: italic;
+        }
+
+      }
+    }
+
+    .crafting-media {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+
+      .primary {
+
+      }
+
+      .secondary {
+
+      }
+    }
+  }
+
+  .stats {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    > * {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+}

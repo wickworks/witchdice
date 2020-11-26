@@ -57,7 +57,7 @@ const TextInput = ({
 
       :
         <div className='display' onClick={() => setIsEditing(true)}>
-          {currentText}
+          {currentText ? currentText : placeholder}
           {suffix && suffix}
         </div>
       }
