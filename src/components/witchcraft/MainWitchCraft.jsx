@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CraftCharacter from './CraftCharacter.jsx';
-import { defaultCraftingCharacter } from './data.js';
 import { deepCopy } from '../../utils.js';
+import { defaultCraftingCharacter } from './data.js';
 
 
 import './CraftCharacter.scss';
@@ -14,7 +14,9 @@ const MainWitchCraft = ({
 
   const updateCharacterData = (attribute, value) => {
     var newData = deepCopy(characterData)
-    characterData[value] = attribute;
+    console.log('setting character', attribute, 'to', value);
+    newData[attribute] = value;
+    console.log('new data:', newData);
     setCharacterData(newData);
   }
 

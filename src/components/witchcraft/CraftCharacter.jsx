@@ -2,18 +2,60 @@ import React from 'react';
 import Select from 'react-select'
 import TextInput from '../TextInput.jsx';
 import NumberInput from '../NumberInput.jsx';
-import { allMediaTypes, getStaminaForCharacter } from './data.js';
+import { deepCopy } from '../../utils.js';
+import {
+  allMediaTypes,
+  allTechniques,
+  getStaminaForCharacter,
+  getTechniqueCountForCharacter
+} from './data.js';
 
 import './CraftCharacter.scss';
+
+
+const mediaOptions = allMediaTypes.map(media => ({
+  "value" : media,
+  "label" : media
+}))
+
+const techniqueOptions = Object.keys(allTechniques).map(key => ({
+  "value" : key,
+  "label" : allTechniques[key].name
+}))
+
+// The react-select wants us to pass in the ENTIRE option from above to be selected, not just the value.
+// However, I don't want to store its weird-ass special object. We can just retrieve it with the key here.
+function getOptionFromValue(options, value) {
+  if (!Array.isArray(options)) { return null }
+
+  var result = options.find(option => {
+    return option.value === value
+  })
+  return result;
+}
+
 
 const CraftCharacter = ({
   characterData,
   updateCharacterData
 }) => {
-  const options = allMediaTypes.map(media => ({
-     "value" : media,
-     "label" : media[0].toUpperCase() + media.substring(1)
-   }))
+
+
+  const updateTechnique = (techniqueIndex, value) => {
+    var newData = deepCopy(characterData.techniques);
+
+    console.log('setting technique', techniqueIndex, 'to', value);
+
+    // replace one
+    if (techniqueIndex < newData.length) {
+      newData[techniqueIndex] = value;
+    // add one
+    } else {
+      newData.push(value);
+    }
+
+    updateCharacterData('techniques', newData);
+  }
 
   return (
     <div className='CraftCharacter'>
@@ -52,16 +94,16 @@ const CraftCharacter = ({
         <div className='crafting-media'>
           <div className='primary'>
             <Select
-              options={options}
-              value={characterData.mediaPrimary}
-              onChange={(value) => { updateCharacterData('mediaPrimary', value) }}
+              options={mediaOptions}
+              value={getOptionFromValue(mediaOptions,characterData.mediaPrimary)}
+              onChange={(option) => { updateCharacterData('mediaPrimary', option.value) }}
             />
           </div>
           <div className='secondary'>
             <Select
-              options={options}
-              value={characterData.mediaSecondary}
-              onChange={(value) => { updateCharacterData('mediaSecondary', value) }}
+              options={mediaOptions}
+              value={getOptionFromValue(mediaOptions,characterData.mediaSecondary)}
+              onChange={(option) => { updateCharacterData('mediaSecondary', option.value) }}
             />
           </div>
         </div>
@@ -92,30 +134,69 @@ const CraftCharacter = ({
         </div>
       </div>
 
-      <div className='features'>
-        <table>
+      <div className='techniques'>
+        <table><tbody>
           <tr>
             <td>Workshop</td>
-            <td>XX</td>
+            <td>
+              <TextInput
+                textValue={characterData.workshop}
+                setTextValue={(value) => { updateCharacterData('workshop', value) }}
+                maxLength={64}
+              />
+            </td>
           </tr>
           <tr>
             <td>Lingua Franca</td>
-            <td>XX</td>
+            <td>
+              <TextInput
+                textValue={characterData.linguaFranca}
+                setTextValue={(value) => { updateCharacterData('linguaFranca', value) }}
+                placeholder={'Language'}
+                maxLength={32}
+              />
+            </td>
           </tr>
           <tr>
             <td>Tool Proficiency</td>
-            <td>XX</td>
+            <td>
+              <TextInput
+                textValue={characterData.toolProficiency}
+                setTextValue={(value) => { updateCharacterData('toolProficiency', value) }}
+                placeholder={''}
+                maxLength={32}
+              />
+            </td>
           </tr>
 
-          {characterData.features.map(feature, i) => {
-            return (
-              <tr key={i}>
+          { characterData.techniques.map((technique, i) => {
+              return (
+                <tr key={i}>
+                  <td>
+                    <Select
+                      options={techniqueOptions}
+                      value={getOptionFromValue(techniqueOptions, technique)}
+                      onChange={(option) => { updateTechnique(i, option.value) }}
+                    />
+                  </td>
+                  <td>{allTechniques[technique].desc}</td>
+                </tr>
+              )
+          })}
 
-              </tr>
-            )
+          { (characterData.techniques.length < getTechniqueCountForCharacter(characterData)) &&
+            <tr>
+              <td>
+                <Select
+                  options={techniqueOptions}
+                  value={null}
+                  onChange={(option) => { updateTechnique((characterData.techniques.length), option.value) }}
+                />
+              </td>
+              <td>+</td>
+            </tr>
           }
-          }
-        </table>
+        </tbody></table>
       </div>
     </div>
   )
