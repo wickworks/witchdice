@@ -8,6 +8,67 @@ const allMediaTypes = [
   'Textiles'
 ]
 
+function getDefaultClass(primary, secondary) {
+  var className = 'Crafter'; // to put SOMETHING in so we don't get stuck in an infinite loop
+
+  if (primary === 'Crystals') {
+    switch(secondary) {
+      case 'Wood': className = 'Mason'; break;
+      case 'Drafting': className = 'Potter'; break;
+      case 'Living Arts': className = 'Bonecarver'; break;
+      case 'Metals': className = 'Glassblower'; break;
+      case 'Textiles': className = 'Bead Stringer'; break;
+    }
+
+  } else if (primary === 'Wood') {
+    switch(secondary) {
+      case 'Crystals': className = 'Wandmaker'; break;
+      case 'Drafting': className = 'Carpenter'; break;
+      case 'Living Arts': className = 'Carver'; break;
+      case 'Metals': className = 'Fletcher'; break;
+      case 'Textiles': className = 'Shipwright'; break;
+    }
+
+  } else if (primary === 'Drafting') {
+    switch(secondary) {
+      case 'Crystals': className = 'Architect'; break;
+      case 'Wood': className = 'Writer'; break;
+      case 'Living Arts': className = 'Painter'; break;
+      case 'Metals': className = 'Counterfeiter'; break;
+      case 'Textiles': className = 'Mapmaker'; break;
+    }
+
+  } else if (primary === 'Living Arts') {
+    switch(secondary) {
+      case 'Crystals': className = 'Alchemist'; break;
+      case 'Drafting': className = 'Beautician'; break;
+      case 'Wood': className = 'Gardener'; break;
+      case 'Metals': className = 'Chef'; break;
+      case 'Textiles': className = 'Doula'; break;
+    }
+
+  } else if (primary === 'Metals') {
+    switch(secondary) {
+      case 'Crystals': className = 'Clockmaker'; break;
+      case 'Drafting': className = 'Locksmith'; break;
+      case 'Living Arts': className = 'Gilder'; break;
+      case 'Wood': className = 'Weaponsmith'; break;
+      case 'Textiles': className = 'Blacksmith'; break;
+    }
+
+  } else if (primary === 'Textiles') {
+    switch(secondary) {
+      case 'Crystals': className = 'Taxidermist'; break;
+      case 'Drafting': className = 'Tailor'; break;
+      case 'Living Arts': className = 'Leatherworker'; break;
+      case 'Metals': className = 'Embroiderer'; break;
+      case 'Wood': className = 'Weaver'; break;
+    }
+  }
+
+  return className;
+}
+
 const allTechniques = {
   finishingTouches: {name: 'Finishing Touches', desc: 'Reroll one d6, remove a flaw, or add a boon.', prereq: [2]},
   secondNature: {name: 'Second Nature', desc: 'Forgo rolls for easy projects.', prereq: [3]},
@@ -112,9 +173,9 @@ function getProjectDC(projectData) {
 }
 
 const defaultCraftingCharacter = {
-  name: 'Character',
+  name: '',
   tier: 1,
-  class: 'Class',
+  class: '',
   mediaPrimary: '',
   mediaSecondary: '',
   proficiencyBonus: 2,
@@ -144,6 +205,7 @@ export {
   defaultRollData,
   defaultFlawBoon,
   defaultCraftingCharacter,
+  getDefaultClass,
   getTotalFlawBoonStack,
   getStaminaCostForProject,
   getBonusDiceForProject,

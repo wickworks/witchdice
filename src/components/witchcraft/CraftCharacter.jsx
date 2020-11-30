@@ -7,7 +7,8 @@ import {
   allMediaTypes,
   allTechniques,
   getStaminaForCharacter,
-  getTechniqueCountForCharacter
+  getTechniqueCountForCharacter,
+  getDefaultClass
 } from './data.js';
 
 import './CraftCharacter.scss';
@@ -52,13 +53,18 @@ const CraftCharacter = ({
     updateCharacterData('techniques', newData);
   }
 
+  // get a default class if none is entered
+  if (characterData.mediaPrimary && characterData.mediaSecondary && !characterData.class) {
+    updateCharacterData('class', getDefaultClass(characterData.mediaPrimary, characterData.mediaSecondary))
+  }
+
   return (
     <div className='CraftCharacter'>
       <div className='intro-container'>
         <div className='name-and-class'>
           <h2 className='name'>
             <TextInput
-              textValue={characterData.characterName}
+              textValue={characterData.name}
               setTextValue={(value) => { updateCharacterData('name', value) }}
               placeholder={'Name'}
               maxLength={32}
@@ -77,7 +83,7 @@ const CraftCharacter = ({
             </h3>
             <h3 className="crafting-class">
               <TextInput
-                textValue={characterData.craftingClass}
+                textValue={characterData.class}
                 setTextValue={(value) => { updateCharacterData('class', value) }}
                 placeholder={'Class'}
                 maxLength={32}
