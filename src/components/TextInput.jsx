@@ -32,6 +32,7 @@ const TextInput = ({
   }
 
   const editingClass = isEditing ? 'editing' : 'not-editing';
+  const placeholderClass = currentText ? 'not-placeholder' : 'placeholder';
 
   return (
     <div className={`TextInput ${editingClass}`}>
@@ -58,7 +59,10 @@ const TextInput = ({
           />
 
       :
-        <div className='display' onClick={() => setIsEditing(true)}>
+        <div
+          className={`display ${placeholderClass}`}
+          onClick={() => setIsEditing(true)}
+        >
           {currentText ? currentText : placeholder}
           {suffix && suffix}
         </div>

@@ -15,12 +15,14 @@
   font-family: 'Bitter';
   font-size: 16px;
   font-style: italic;
+  font-weight: normal;
   color: $soft_black;
 }
 
 @mixin text_label {
   font-family: 'Bitter';
   font-size: 18px;
+  font-style: normal;
   font-weight: normal;
   color: $rust;
 }

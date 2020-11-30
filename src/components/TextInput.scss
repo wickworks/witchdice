@@ -5,16 +5,13 @@
   box-sizing: border-box;
   border-radius: 2px;
 
-  &.not-editing {
-    padding: 3px;
-  }
-
   cursor: pointer;
   background-color: transparent;
 
-  &:hover {
-    background-color: $parchment_dark;
-  }
+  &:hover { background-color: $parchment_dark; }
+  &.not-editing { padding: 3px; }
+
+  .placeholder { font-style: italic; }
 
   input, textarea {
     box-sizing: border-box;

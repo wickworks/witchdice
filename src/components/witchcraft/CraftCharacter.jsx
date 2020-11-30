@@ -58,6 +58,25 @@ const CraftCharacter = ({
     updateCharacterData('class', getDefaultClass(characterData.mediaPrimary, characterData.mediaSecondary))
   }
 
+  const clearSelectDropdownIconStyle = {
+    indicatorsContainer: (provided, state) => {
+      const display = 'none';
+      return { ...provided, display };
+    }
+  }
+
+  const centerSelectStyle = {
+    valueContainer: (provided, state) => {
+      const justifyContent = 'center';
+      const padding = '6px'
+      return { ...provided, justifyContent, padding };
+    },
+    menu: (provided, state) => {
+      const fontSize = '16px';
+      return { ...provided, fontSize };
+    },
+  }
+
   return (
     <div className='CraftCharacter'>
       <div className='intro-container'>
@@ -95,22 +114,33 @@ const CraftCharacter = ({
         <div className='crafting-media'>
           <div className='primary'>
             <Select
+              placeholder={'Primary'}
               options={mediaOptions}
               value={getOptionFromValue(mediaOptions,characterData.mediaPrimary)}
               onChange={(option) => { updateCharacterData('mediaPrimary', option.value) }}
+              styles={ {...clearSelectDropdownIconStyle, ...centerSelectStyle} }
+              isSearchable={false}
             />
           </div>
           <div className='secondary'>
             <Select
+              placeholder={'Secondary'}
               options={mediaOptions}
               value={getOptionFromValue(mediaOptions,characterData.mediaSecondary)}
               onChange={(option) => { updateCharacterData('mediaSecondary', option.value) }}
+              styles={ {...clearSelectDropdownIconStyle, ...centerSelectStyle} }
+              isSearchable={false}
             />
           </div>
         </div>
       </div>
 
       <div className='stats'>
+        <div className='stamina'>
+          <div className='label'>Stamina</div>
+          <div className='value'>{getStaminaForCharacter(characterData)}</div>
+        </div>
+
         <div className='base-dice'>
           <div className='label'>Base Dice</div>
           <div className='value'>{`${characterData.tier}d6`}</div>
@@ -128,11 +158,6 @@ const CraftCharacter = ({
             />
           </div>
         </div>
-
-        <div className='stamina'>
-          <div className='label'>Stamina</div>
-          <div className='value'>{getStaminaForCharacter(characterData)}</div>
-        </div>
       </div>
 
       <table className='techniques'><tbody>
@@ -142,6 +167,7 @@ const CraftCharacter = ({
             <TextInput
               textValue={characterData.workshop}
               setTextValue={(value) => { updateCharacterData('workshop', value) }}
+              placeholder={'Workshop'}
               maxLength={64}
             />
           </td>
@@ -163,7 +189,7 @@ const CraftCharacter = ({
             <TextInput
               textValue={characterData.toolProficiency}
               setTextValue={(value) => { updateCharacterData('toolProficiency', value) }}
-              placeholder={''}
+              placeholder={'Tool'}
               maxLength={32}
             />
           </td>
@@ -174,9 +200,12 @@ const CraftCharacter = ({
               <tr key={i}>
                 <td>
                   <Select
+                    className={'select-technique'}
                     options={techniqueOptions}
                     value={getOptionFromValue(techniqueOptions, technique)}
                     onChange={(option) => { updateTechnique(i, option.value) }}
+                    escapeClearsValue={true}
+                    styles={clearSelectDropdownIconStyle}
                   />
                 </td>
                 <td>{allTechniques[technique].desc}</td>
@@ -188,12 +217,22 @@ const CraftCharacter = ({
           <tr>
             <td>
               <Select
+                className={'select-technique'}
                 options={techniqueOptions}
                 value={null}
                 onChange={(option) => { updateTechnique((characterData.techniques.length), option.value) }}
+                placeholder={'Technique'}
+                styles={
+                  {
+                    dropdownIndicator: (provided, state) => {
+                      const padding = '2px 4px 2px 2px';
+                      return { ...provided, padding };
+                    }
+                  }
+                }
               />
             </td>
-            <td>+</td>
+            <td></td>
           </tr>
         }
       </tbody></table>

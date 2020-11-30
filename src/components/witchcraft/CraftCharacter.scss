@@ -3,11 +3,13 @@
 .CraftCharacter {
   max-width: 600px;
   margin: auto;
+  padding: 20px 0;
   border-bottom: 2px solid $rust;
 
   .intro-container {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     width: 100%;
 
     .name-and-class {
@@ -19,7 +21,7 @@
 
       .name {
         @include text_character_name;
-        margin: 0;
+        margin: 6px 0;
         text-align: center;
 
         input { @include text_character_name; }
@@ -28,7 +30,8 @@
       .tier {
         display: flex;
         justify-content: space-between;
-        margin: 12px 0;
+        align-items: center;
+        margin: 8px 0;
 
         .crafting-tier {
           @include text_title_light_black;
@@ -53,15 +56,19 @@
 
     .crafting-media {
       width: 50%;
+      min-width: 256px;
       display: flex;
       flex-direction: column;
 
       .primary {
-
+        font-size: 38px;
+        margin: 0 10px;
       }
 
       .secondary {
-
+        font-size: 28px;
+        width: 60%;
+        margin: -1px auto 0;
       }
     }
   }
@@ -70,11 +77,35 @@
     display: flex;
     justify-content: center;
     width: 100%;
+    margin: 20px 0;
 
     > * {
       display: flex;
       flex-direction: column;
       text-align: center;
+      margin: 0 20px;
+
+      .label { margin-bottom: 6px; }
+      .value { @include text_title_light_black; }
+    }
+  }
+
+  table.techniques {
+    tr {
+      // LABEL
+      td:first-child {
+        width: 170px;
+
+        // select-technique terrible css selector
+        .select-technique {
+          margin: 0 10px 0 -10px;
+        }
+      }
+
+      // VALUE
+      td:nth-child(2) {
+        .placeholder { color: $grey_mid; }
+      }
     }
   }
 
