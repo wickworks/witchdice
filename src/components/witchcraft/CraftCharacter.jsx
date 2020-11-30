@@ -40,16 +40,11 @@ const CraftCharacter = ({
   updateCharacterData
 }) => {
 
-
   const updateTechnique = (techniqueIndex, value) => {
     var newData = deepCopy(characterData.techniques);
-
-    console.log('setting technique', techniqueIndex, 'to', value);
-
-    // replace one
+    // replace or add
     if (techniqueIndex < newData.length) {
       newData[techniqueIndex] = value;
-    // add one
     } else {
       newData.push(value);
     }
@@ -134,70 +129,68 @@ const CraftCharacter = ({
         </div>
       </div>
 
-      <div className='techniques'>
-        <table><tbody>
-          <tr>
-            <td>Workshop</td>
-            <td>
-              <TextInput
-                textValue={characterData.workshop}
-                setTextValue={(value) => { updateCharacterData('workshop', value) }}
-                maxLength={64}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>Lingua Franca</td>
-            <td>
-              <TextInput
-                textValue={characterData.linguaFranca}
-                setTextValue={(value) => { updateCharacterData('linguaFranca', value) }}
-                placeholder={'Language'}
-                maxLength={32}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>Tool Proficiency</td>
-            <td>
-              <TextInput
-                textValue={characterData.toolProficiency}
-                setTextValue={(value) => { updateCharacterData('toolProficiency', value) }}
-                placeholder={''}
-                maxLength={32}
-              />
-            </td>
-          </tr>
+      <table className='techniques'><tbody>
+        <tr>
+          <td>Workshop</td>
+          <td>
+            <TextInput
+              textValue={characterData.workshop}
+              setTextValue={(value) => { updateCharacterData('workshop', value) }}
+              maxLength={64}
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Lingua Franca</td>
+          <td>
+            <TextInput
+              textValue={characterData.linguaFranca}
+              setTextValue={(value) => { updateCharacterData('linguaFranca', value) }}
+              placeholder={'Language'}
+              maxLength={32}
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Tool Proficiency</td>
+          <td>
+            <TextInput
+              textValue={characterData.toolProficiency}
+              setTextValue={(value) => { updateCharacterData('toolProficiency', value) }}
+              placeholder={''}
+              maxLength={32}
+            />
+          </td>
+        </tr>
 
-          { characterData.techniques.map((technique, i) => {
-              return (
-                <tr key={i}>
-                  <td>
-                    <Select
-                      options={techniqueOptions}
-                      value={getOptionFromValue(techniqueOptions, technique)}
-                      onChange={(option) => { updateTechnique(i, option.value) }}
-                    />
-                  </td>
-                  <td>{allTechniques[technique].desc}</td>
-                </tr>
-              )
-          })}
+        { characterData.techniques.map((technique, i) => {
+            return (
+              <tr key={i}>
+                <td>
+                  <Select
+                    options={techniqueOptions}
+                    value={getOptionFromValue(techniqueOptions, technique)}
+                    onChange={(option) => { updateTechnique(i, option.value) }}
+                  />
+                </td>
+                <td>{allTechniques[technique].desc}</td>
+              </tr>
+            )
+        })}
 
-          { (characterData.techniques.length < getTechniqueCountForCharacter(characterData)) &&
-            <tr>
-              <td>
-                <Select
-                  options={techniqueOptions}
-                  value={null}
-                  onChange={(option) => { updateTechnique((characterData.techniques.length), option.value) }}
-                />
-              </td>
-              <td>+</td>
-            </tr>
-          }
-        </tbody></table>
-      </div>
+        { (characterData.techniques.length < getTechniqueCountForCharacter(characterData)) &&
+          <tr>
+            <td>
+              <Select
+                options={techniqueOptions}
+                value={null}
+                onChange={(option) => { updateTechnique((characterData.techniques.length), option.value) }}
+              />
+            </td>
+            <td>+</td>
+          </tr>
+        }
+      </tbody></table>
     </div>
   )
 }

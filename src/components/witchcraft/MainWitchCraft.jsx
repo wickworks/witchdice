@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import CraftCharacter from './CraftCharacter.jsx';
+import CraftSetup from './CraftSetup.jsx';
 import { deepCopy } from '../../utils.js';
-import { defaultCraftingCharacter } from './data.js';
+import {
+  defaultCraftingCharacter,
+  defaultProject
+} from './data.js';
 
 
 import './CraftCharacter.scss';
@@ -11,13 +15,18 @@ const MainWitchCraft = ({
   renderPartyPanel
 }) => {
   const [characterData, setCharacterData] = useState(defaultCraftingCharacter);
+  const [projectData, setProjectData] = useState(defaultProject);
 
   const updateCharacterData = (attribute, value) => {
     var newData = deepCopy(characterData)
-    console.log('setting character', attribute, 'to', value);
     newData[attribute] = value;
-    console.log('new data:', newData);
     setCharacterData(newData);
+  }
+
+  const updateProjectData = (attribute, value) => {
+    var newData = deepCopy(projectData)
+    newData[attribute] = value;
+    setProjectData(newData);
   }
 
   return (
@@ -27,6 +36,12 @@ const MainWitchCraft = ({
       <CraftCharacter
         characterData={characterData}
         updateCharacterData={updateCharacterData}
+      />
+
+      <CraftSetup
+        characterData={characterData}
+        projectData={projectData}
+        updateProjectData={updateProjectData}
       />
 
       <div className='gameplay-container'>

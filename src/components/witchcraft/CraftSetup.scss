@@ -1,0 +1,15 @@
+@import '../../fonts';
+
+.CraftSetup {
+  max-width: 600px;
+  margin: auto;
+  border-bottom: 2px solid $rust;
+
+
+  table {
+    .selections {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+}

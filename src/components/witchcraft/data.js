@@ -24,6 +24,39 @@ const allTechniques = {
   // xxx: {name: '', desc: '', prereq: []},
 }
 
+const allDifficulties = {
+  basic: 1,
+  simple: 2,
+  intermediate: 3,
+  advanced: 4,
+  complex: 5,
+  master: 6,
+  legendary: 7
+}
+
+const allSizes = {
+  tiny: .5,
+  small: 1,
+  medium: 2,
+  large: 3,
+  huge: 4
+}
+
+const allPreparations = [
+  'Knowledge',
+  'High-quality Materials',
+  'Assistance',
+  'Sacrifice',
+  'Generosity',
+  'Inspiration'
+]
+
+const defaultProject = {
+  difficulty: 'intermediate',
+  size: 'medium',
+  preparations: []
+}
+
 const defaultCraftingCharacter = {
   name: 'Character',
   tier: 1,
@@ -48,6 +81,10 @@ function getTechniqueCountForCharacter(characterData) {
 export {
   allMediaTypes,
   allTechniques,
+  allDifficulties,
+  allSizes,
+  allPreparations,
+  defaultProject,
   defaultCraftingCharacter,
   getStaminaForCharacter,
   getTechniqueCountForCharacter
