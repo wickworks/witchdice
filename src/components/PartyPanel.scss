@@ -18,7 +18,7 @@
 
 
 	.party-room-container, .party-name-container {
-    @include text_title_light;
+    @include text_label;
 		position: relative;
 		display: flex;
 		justify-content: space-between;

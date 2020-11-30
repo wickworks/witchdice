@@ -1,4 +1,4 @@
-@import '../../fonts';
+@import './fontsWitchCraft';
 
 .CraftCharacter {
   max-width: 600px;
@@ -11,25 +11,43 @@
     width: 100%;
 
     .name-and-class {
-      width: 50%;
       display: flex;
       flex-direction: column;
+      width: 50%;
+      padding: 0 20px;
+      box-sizing: border-box;
 
       .name {
-        font-size: 32px;
-        font-weight: normal;
+        @include text_character_name;
+        margin: 0;
+        text-align: center;
+
+        input { @include text_character_name; }
       }
 
       .tier {
         display: flex;
+        justify-content: space-between;
+        margin: 12px 0;
 
         .crafting-tier {
+          @include text_title_light_black;
+          text-align: center;
+          width: 30%;
         }
 
         .crafting-class {
+          @include text_title_light_black;
           font-style: italic;
-        }
+          text-align: right;
+          width: 70%;
 
+          .TextInput {
+            width: 100%;
+
+            input { @include text_title_light_black; }
+          }
+        }
       }
     }
 

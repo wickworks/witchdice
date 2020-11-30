@@ -31,8 +31,10 @@ const TextInput = ({
     }
   }
 
+  const editingClass = isEditing ? 'editing' : 'not-editing';
+
   return (
-    <div className="TextInput">
+    <div className={`TextInput ${editingClass}`}>
       {isEditing ?
 
         isTextbox ?

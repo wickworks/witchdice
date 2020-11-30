@@ -18,11 +18,24 @@
   color: $soft_black;
 }
 
-@mixin text_title_light {
+@mixin text_label {
   font-family: 'Bitter';
   font-size: 18px;
   font-weight: normal;
   color: $rust;
+}
+
+@mixin text_title_light {
+  font-family: 'Bitter';
+  font-size: 24px;
+  font-style: normal;
+  font-weight: normal;
+  color: $rust;
+}
+
+@mixin text_title_light_black {
+  @include text_title_light;
+  color: $soft_black;
 }
 
 @mixin text_title_heavy {

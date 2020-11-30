@@ -72,23 +72,23 @@ const CraftCharacter = ({
           </h2>
 
           <div className='tier'>
-            <h3 className="crafting-tier">
+            <div className="crafting-tier">
               <NumberInput
-                value={characterData.craftingTier}
+                value={characterData.tier}
                 setValue={(value) => { updateCharacterData('tier', value) }}
                 minValue={1}
                 maxValue={5}
                 prefix={"Tier "}
               />
-            </h3>
-            <h3 className="crafting-class">
+            </div>
+            <div className="crafting-class">
               <TextInput
                 textValue={characterData.class}
                 setTextValue={(value) => { updateCharacterData('class', value) }}
                 placeholder={'Class'}
                 maxLength={32}
               />
-            </h3>
+            </div>
           </div>
         </div>
 

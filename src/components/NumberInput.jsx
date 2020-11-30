@@ -1,6 +1,5 @@
-
 import React from 'react';
-// import './NumberInput.scss';
+import './NumberInput.scss';
 
 const NumberInput = ({
   value, setValue,
