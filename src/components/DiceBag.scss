@@ -8,8 +8,7 @@
   flex-shrink: 100;
 
   h2 {
-    @include text_attack_name;
-    color: $rust;
+    @include text_title_heavy;
     margin-bottom: 8px;
     margin-left: 12px;
   }
@@ -75,7 +74,7 @@
         min-height: 200px;
 
         .action {
-          @include text_roll_attacks;
+          @include text_title_action;
         }
 
         button.roll {

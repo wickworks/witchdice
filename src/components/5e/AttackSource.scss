@@ -1,4 +1,4 @@
-@import '../../fonts';
+@import './fonts5E';
 
 .AttackSource {
   display: flex;
@@ -25,7 +25,7 @@
           margin-right: 10px;
           margin-bottom: 6px;
 
-          .display, input { @include text_attack_name; }
+          .display, input { @include text_title_heavy_black; }
         }
 
         .is-saving-throw {
@@ -137,7 +137,7 @@
       background-color: $parchment_dark;
 
       .delete-title {
-        @include text_attack_name;
+        @include text_title_heavy_black;
         padding: 0 30px;
         margin-right: auto;
       }

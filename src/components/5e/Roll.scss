@@ -1,4 +1,4 @@
-@import '../../fonts';
+@import './fonts5E';
 
 .Roll {
   display: flex;
@@ -29,9 +29,13 @@
 
     &.reverse { flex-direction: column-reverse; }
 
-    .roll-discard { @include text_roll_discarded; }
+    .roll-discard {
+      font-size: 12px;
+      font-style: italic;
+      color: steelblue;
+    }
     .roll-use {
-      @include text_roll_used;
+      font-size: 30px;
       position: relative;
 
       .total {
@@ -42,7 +46,7 @@
       }
 
       .sum {
-        @include text_roll_used_summation;
+        font-size: 22px;
         position: absolute;
         top: 4px;
         left: 0;
@@ -213,7 +217,7 @@
       }
 
       .subtotal {
-        @include text_roll_subtotal;
+        font-size: 30px;
         display: flex;
         margin-left: 8px;
 

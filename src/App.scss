@@ -15,7 +15,7 @@
   }
 
   h1.site-title {
-    @include text_h1;
+    font-size: 40px;
     margin: 26px 40px 0;
     display: flex;
     flex-wrap: wrap;

@@ -9,8 +9,7 @@
 	flex-shrink: 100;
 
 	h2 {
-    @include text_attack_name;
-    color: $rust;
+    @include text_title_heavy;
     margin-bottom: 8px;
     margin-right: 12px;
 		text-align: right;
@@ -19,7 +18,7 @@
 
 
 	.party-room-container, .party-name-container {
-    @include text_character_list;
+    @include text_title_light;
 		position: relative;
 		display: flex;
 		justify-content: space-between;

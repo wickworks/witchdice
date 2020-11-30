@@ -1,4 +1,4 @@
-@import '../../fonts';
+@import './fonts5E';
 
 .Character {
   margin: 20px auto 0;
@@ -89,7 +89,7 @@
     background-color: $parchment_dark;
 
     .delete-title {
-      @include text_h1;
+      font-size: 40px;
       color: $rust;
 
       padding: 0 30px;

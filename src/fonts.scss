@@ -11,35 +11,6 @@
   color: $soft_black;
 }
 
-@mixin text_h1 {
-  font-size: 40px;
-}
-
-@mixin text_character_list {
-  font-size: 18px;
-  font-weight: normal;
-  color: $rust;
-}
-
-@mixin text_first_new_character {
-  font-family: 'Bitter';
-  font-size: 26px;
-  color: $rust;
-  font-weight: bold;
-}
-
-
-@mixin text_character_name {
-  font-size: 56px;
-  color: $rust;
-}
-
-@mixin text_attack_name {
-  font-size: 24px;
-  font-weight: bold;
-  font-style: italic;
-}
-
 @mixin text_input {
   font-family: 'Bitter';
   font-size: 16px;
@@ -47,66 +18,38 @@
   color: $soft_black;
 }
 
-@mixin text_active_attack_name {
+@mixin text_title_light {
+  font-family: 'Bitter';
   font-size: 18px;
-  font-weight: bold;
-  font-style: italic;
+  font-weight: normal;
+  color: $rust;
 }
 
-@mixin text_roll_attacks {
+@mixin text_title_heavy {
   font-family: 'Bitter';
-  font-size: 30px;
+  font-size: 24px;
   font-style: italic;
   font-weight: bold;
   color: $rust;
 }
 
-@mixin text_attack_roll_count {
+@mixin text_title_heavy_black {
+  @include text_title_heavy;
+  color: $soft_black;
+}
+
+@mixin text_title_action {
   font-family: 'Bitter';
-  font-size: 16px;
-  color: white;
+  font-size: 30px;
+  font-style: italic;
   font-weight: bold;
+  color: $rust;
 }
 
 @mixin text_total {
+  font-family: 'Bitter';
   font-size: 80px;
   line-height: 1.0;
-}
-
-@mixin text_roll_used {
-  font-size: 30px;
-}
-
-@mixin text_roll_used_summation {
-  font-size: 22px;
-}
-
-@mixin text_roll_discarded {
-  font-size: 12px;
-  font-style: italic;
-  color: steelblue;
-}
-
-@mixin text_critical_hit {
-  font-size: 22px;
-  color: crimson;
-}
-
-@mixin text_fumble {
-  font-size: 18px;
-  color: darkgrey;
-  font-style: italic;
-}
-
-@mixin text_roll_subtotal {
-  font-size: 30px;
-}
-
-@mixin text_clear_rolls {
-  font-family: 'Bitter';
-  font-weight: bold;
-  font-size: 16px;
-  color: $rust;
 }
 
 @mixin text_dicebag_summary {
