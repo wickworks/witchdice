@@ -51,15 +51,56 @@ const allPreparations = [
   'Inspiration'
 ]
 
+const defaultRollData = {
+  rolls: [],
+  flawCount: 0,
+  boonCount: 0,
+}
+
+const allFlaws = [
+  'Minor Flaw',
+  'Substantial Flaw',
+  'Dangerous Flaw'
+]
+
+const allBoons = [
+  'Minor Flaw',
+  'Substantial Flaw',
+  'Dangerous Flaw'
+]
+
+const defaultFlawBoon = {
+  isBoon: true, // is a flaw if not a boon
+  size: 1,
+}
+
 const defaultProject = {
   difficulty: 'intermediate',
   size: 'medium',
   preparations: [],
-  staminaSpent: 0
+  staminaSpent: 0,
+  rollData: defaultRollData,
+  cancelledCount: 0
+}
+
+function getTotalFlawBoonStack(flawOrBoonCount, projectData) {
+  const count = flawOrBoonCount - projectData.cancelledCount;
+
+  var stack = [];
+  if (count % 3 === 1) stack.push(0);  // minor flaw/boon
+  if (count % 3 === 2) stack.push(1);  // substantial flaw/boon
+  for (var i = 0; i < Math.floor(count / 3); i++) {
+    stack.push(2);  // dangerous flaw / magical boon
+  }
+
+  return stack
 }
 
 function getStaminaCostForProject(projectData) {
-  return Math.max(allSizes[projectData.size] * allDifficulties[projectData.difficulty], 1);
+  let cost = allSizes[projectData.size] * allDifficulties[projectData.difficulty];
+  cost = Math.floor(cost);
+  cost = Math.max(cost, 1);
+  return cost;
 }
 
 function getBonusDiceForProject(characterData, projectData) {
@@ -97,8 +138,13 @@ export {
   allDifficulties,
   allSizes,
   allPreparations,
+  allBoons,
+  allFlaws,
   defaultProject,
+  defaultRollData,
+  defaultFlawBoon,
   defaultCraftingCharacter,
+  getTotalFlawBoonStack,
   getStaminaCostForProject,
   getBonusDiceForProject,
   getProjectDC,

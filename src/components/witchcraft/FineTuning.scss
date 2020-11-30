@@ -1,0 +1,65 @@
+@import '../../fonts';
+
+.FineTuning {
+  max-width: 600px;
+  margin: auto;
+  border-bottom: 2px solid $rust;
+
+  .dice-container {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .flaws-and-boons {
+    display: flex;
+    justify-content: space-between;
+
+    .flaws, .boons {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 50%;
+
+      .icon-container {
+        display: flex;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .label-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+  }
+
+  button.finish-project {
+    display: block;
+    margin: auto;
+    padding: 8px 20px;
+  }
+
+  .DisplayDie {
+    display: flex;
+
+    .asset {
+      width: 32px;
+      height: 32px;
+    }
+  }
+
+  .BoonFlawIcon {
+    .asset {
+      width: 40px;
+      height: 40px;
+
+      &:hover { opacity: 0.7; }
+      &.cancelled {
+        opacity: 0.2;
+        &:hover { opacity: 0.5; }
+      }
+    }
+  }
+}

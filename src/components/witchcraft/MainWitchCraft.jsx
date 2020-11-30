@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CraftCharacter from './CraftCharacter.jsx';
 import CraftSetup from './CraftSetup.jsx';
 import CraftRoller from './CraftRoller.jsx';
+import FineTuning from './FineTuning.jsx';
 import { deepCopy } from '../../utils.js';
 import {
   defaultCraftingCharacter,
@@ -54,6 +55,14 @@ const MainWitchCraft = ({
             projectData={projectData}
             updateProjectData={updateProjectData}
           />
+
+          { projectData.rollData.rolls.length > 0 &&
+            <FineTuning
+              characterData={characterData}
+              projectData={projectData}
+              updateProjectData={updateProjectData}
+            />
+          }
         </div>
 
         {renderPartyPanel()}

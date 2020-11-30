@@ -129,6 +129,7 @@ const CraftSetup = ({
                     type="checkbox"
                     checked={isChecked}
                     onChange={() => updatePreparation(prep, !isChecked)}
+                    id={checkboxID}
                   />
                   <div className='name'>{prep}</div>
                 </label>

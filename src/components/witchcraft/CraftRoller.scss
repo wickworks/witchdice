@@ -15,17 +15,25 @@
     display: flex;
     justify-content: center;
 
-    .dc {
+    > * { width: 30%; }
+
+    .dc, .total {
       display: flex;
       flex-direction: column;
       justify-content: center;
+      text-align: center;
     }
 
     .new-roll-container {
-      background-color: $rust;
+      background-color: $rust_light;
+
+      button {
+        display: block;
+        margin: auto;
+      }
     }
 
-    .additional-dice {
+    .bonus {
       display: flex;
       align-items: center;
 

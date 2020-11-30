@@ -1,9 +1,10 @@
-import React from 'react';
-import { deepCopy } from '../../utils.js';
+import React, { useState } from 'react';
+import { deepCopy, getRandomInt } from '../../utils.js';
 import {
   getStaminaCostForProject,
   getProjectDC,
-  getBonusDiceForProject
+  getBonusDiceForProject,
+  defaultRollData
 } from './data.js';
 
 import './CraftRoller.scss';
@@ -13,6 +14,7 @@ const CraftRoller = ({
   projectData,
   updateProjectData
 }) => {
+  const bonusDiceCount = getBonusDiceForProject(characterData, projectData);
 
   const updateStaminaSpent = (increase) => {
     var staminaSpent = projectData.staminaSpent;
@@ -25,7 +27,26 @@ const CraftRoller = ({
   }
 
   function handleNewRoll() {
-    console.log('new roll!');
+    var newData = deepCopy(defaultRollData);
+
+    // all crafting rolls start with a d20
+    newData.rolls.push( getRandomInt(20) );
+    // then roll a d6 for each bonus die
+    for (var i = 0; i < bonusDiceCount; i++) {
+      const roll = getRandomInt(6);
+      newData.rolls.push(roll);
+      if (roll === 1) { newData.flawCount += 1 }
+      if (roll === 6) { newData.boonCount += 1 }
+    }
+
+    updateProjectData('rollData', newData)
+  }
+
+  function getResult() {
+    var result = 0;
+    result += projectData.rollData.rolls.reduce((a, b) => a + b, 0);
+    result += characterData.proficiencyBonus;
+    return result;
   }
 
   return (
@@ -41,6 +62,7 @@ const CraftRoller = ({
                 type="checkbox"
                 checked={isChecked}
                 onChange={() => updateStaminaSpent(!isChecked)}
+                key={i}
               />
             )
           }
@@ -59,20 +81,26 @@ const CraftRoller = ({
           </button>
         </div>
 
-        <div className='additional-dice'>
-          <div className='plus'>+</div>
-          <div className='dice-container'>
-            { [...Array(getBonusDiceForProject(characterData, projectData))].map(
-              (die, i) => (
-                <div className='asset d6' />
-              )
-            )}
-            <div className='proficiency-bonus'>+{characterData.proficiencyBonus}</div>
+        { projectData.rollData.rolls.length === 0 ?
+          <div className='bonus'>
+            <div className='plus'>+</div>
+            <div className='dice-container'>
+              { [...Array(bonusDiceCount)].map(
+                (die, i) => (
+                  <div className='asset d6' key={i}/>
+                )
+              )}
+              <div className='proficiency-bonus'>+{characterData.proficiencyBonus}</div>
+            </div>
           </div>
-        </div>
+        :
+          <div className='total'>
+            <div className='label'>Total</div>
+            <div className='number'>{getResult()}</div>
+          </div>
+        }
 
       </div>
-
     </div>
   )
 }
