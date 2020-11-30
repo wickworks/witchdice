@@ -1,0 +1,43 @@
+@import '../../fonts';
+
+.CraftRoller {
+  max-width: 600px;
+  margin: auto;
+  border-bottom: 2px solid $rust;
+
+  .stamina-bar {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+  }
+
+  .controls-and-results {
+    display: flex;
+    justify-content: center;
+
+    .dc {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .new-roll-container {
+      background-color: $rust;
+    }
+
+    .additional-dice {
+      display: flex;
+      align-items: center;
+
+      .dice-container {
+        display: flex;
+        flex-wrap: wrap;
+
+        .asset {
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+  }
+}

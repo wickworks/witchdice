@@ -1,17 +1,15 @@
 import React from 'react';
 import TextInput from '../TextInput.jsx';
 import {RadioGroup, Radio} from 'react-radio-group';
-
 import { deepCopy } from '../../utils.js';
 import {
   allDifficulties,
   allSizes,
   allPreparations,
+  getStaminaCostForProject
 } from './data.js';
 
 import './CraftSetup.scss';
-
-console.log('HELLO these are my 99 problems', allDifficulties);
 
 const CraftSetup = ({
   characterData,
@@ -85,7 +83,7 @@ const CraftSetup = ({
           <td className="label">
             <div className="name">Project Size</div>
             <div className="summary">
-              {allSizes[projectData.size] * allDifficulties[projectData.difficulty]}
+              {getStaminaCostForProject(projectData)}
             </div>
           </td>
           <td>

@@ -54,7 +54,20 @@ const allPreparations = [
 const defaultProject = {
   difficulty: 'intermediate',
   size: 'medium',
-  preparations: []
+  preparations: [],
+  staminaSpent: 0
+}
+
+function getStaminaCostForProject(projectData) {
+  return Math.max(allSizes[projectData.size] * allDifficulties[projectData.difficulty], 1);
+}
+
+function getBonusDiceForProject(characterData, projectData) {
+  return characterData.tier + projectData.preparations.length;
+}
+
+function getProjectDC(projectData) {
+  return (allDifficulties[projectData.difficulty] * 5) + 5;
 }
 
 const defaultCraftingCharacter = {
@@ -86,6 +99,9 @@ export {
   allPreparations,
   defaultProject,
   defaultCraftingCharacter,
+  getStaminaCostForProject,
+  getBonusDiceForProject,
+  getProjectDC,
   getStaminaForCharacter,
   getTechniqueCountForCharacter
 } ;
