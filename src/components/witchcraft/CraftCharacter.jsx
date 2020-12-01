@@ -79,6 +79,8 @@ const CraftCharacter = ({
 
   return (
     <div className='CraftCharacter'>
+      <hr className="pumpkin-bar" />
+
       <div className='intro-container'>
         <div className='name-and-class'>
           <h2 className='name'>
@@ -163,17 +165,19 @@ const CraftCharacter = ({
       </div>
 
       <table className='techniques'><tbody>
+
         <tr>
-          <td>Workshop</td>
+          <td>Tool Proficiency</td>
           <td>
             <TextInput
-              textValue={characterData.workshop}
-              setTextValue={(value) => { updateCharacterData('workshop', value) }}
-              placeholder={'Workshop'}
-              maxLength={64}
+              textValue={characterData.toolProficiency}
+              setTextValue={(value) => { updateCharacterData('toolProficiency', value) }}
+              placeholder={'Tool'}
+              maxLength={32}
             />
           </td>
         </tr>
+
         <tr>
           <td>Lingua Franca</td>
           <td>
@@ -185,14 +189,15 @@ const CraftCharacter = ({
             />
           </td>
         </tr>
+
         <tr>
-          <td>Tool Proficiency</td>
+          <td>Workshop</td>
           <td>
             <TextInput
-              textValue={characterData.toolProficiency}
-              setTextValue={(value) => { updateCharacterData('toolProficiency', value) }}
-              placeholder={'Tool'}
-              maxLength={32}
+              textValue={characterData.workshop}
+              setTextValue={(value) => { updateCharacterData('workshop', value) }}
+              placeholder={'Workshop'}
+              maxLength={64}
             />
           </td>
         </tr>
@@ -238,6 +243,8 @@ const CraftCharacter = ({
           </tr>
         }
       </tbody></table>
+
+      <hr className="pumpkin-bar" />
     </div>
   )
 }

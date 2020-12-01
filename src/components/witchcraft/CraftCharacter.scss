@@ -2,9 +2,9 @@
 
 .CraftCharacter {
   max-width: 600px;
-  margin: auto;
-  padding: 20px 0;
+  margin: 20px auto;
   border-bottom: 2px solid $rust;
+  background-color: $parchment;
 
   .select-dropdown * { cursor: pointer; }
 
@@ -13,14 +13,19 @@
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
+    margin-top: 20px;
     width: 100%;
 
     .name-and-class {
       display: flex;
       flex-direction: column;
-      width: 55%;
       padding: 0 30px;
       box-sizing: border-box;
+
+      width: 55%;
+      @media screen and (max-width: 600px) {
+        width: 100%;
+      }
 
       .name {
         @include text_character_name;
@@ -32,7 +37,7 @@
 
       .tier {
         display: flex;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         margin: 8px 0;
 
@@ -40,13 +45,14 @@
           @include text_title_light_black;
           text-align: center;
           width: 30%;
+          flex-shrink: 0;
         }
 
         .crafting-class {
           @include text_title_light_black;
           font-style: italic;
-          text-align: right;
-          width: 70%;
+          // text-align: right;
+          // width: 70%;
 
           .TextInput {
             width: 100%;
@@ -90,14 +96,16 @@
       margin: 0 20px;
 
       .label { margin-bottom: 6px; }
-      .value { @include text_title_light_black; }
+      .value { font-size: 30px; }
     }
   }
 
   table.techniques {
-    margin: 0 10px;
+    margin: 0 20px 30px;
 
     tr {
+      td { padding-top: 8px; }
+
       // LABEL
       td:first-child {
         width: 170px;
