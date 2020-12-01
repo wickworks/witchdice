@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ReactMarkdown from 'react-markdown'
 import './TextInput.scss';
 
 
@@ -8,6 +9,7 @@ const TextInput = ({
   placeholder,
   suffix,
   isTextbox,
+  isMarkdown,
   maxLength = -1
 }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -34,6 +36,8 @@ const TextInput = ({
   const editingClass = isEditing ? 'editing' : 'not-editing';
   const placeholderClass = currentText ? 'not-placeholder' : 'placeholder';
 
+  const displayText = `${currentText ? currentText : placeholder}${suffix ? suffix : ''}`;
+
   return (
     <div className={`TextInput ${editingClass}`}>
       {isEditing ?
@@ -41,7 +45,7 @@ const TextInput = ({
         isTextbox ?
           <textarea
             value={currentText}
-            onKeyPress={ (e) => { if (e.key === 'Enter') {stopEditing()} }}
+            onKeyPress={ (e) => { if (e.key === 'Enter' && !isMarkdown) {stopEditing()} }}
             onBlur={ () => {stopEditing()} }
             onChange={ e => handleTextChange(e.target.value) }
             placeholder={placeholder}
@@ -51,7 +55,7 @@ const TextInput = ({
           <input
             type="text"
             value={currentText}
-            onKeyPress={ (e) => { if (e.key === 'Enter') {stopEditing()} }}
+            onKeyPress={ (e) => { if (e.key === 'Enter' && !isMarkdown) {stopEditing()} }}
             onBlur={ () => {stopEditing()} }
             onChange={ e => handleTextChange(e.target.value) }
             placeholder={placeholder}
@@ -63,8 +67,12 @@ const TextInput = ({
           className={`display ${placeholderClass}`}
           onClick={() => setIsEditing(true)}
         >
-          {currentText ? currentText : placeholder}
-          {suffix && suffix}
+          {isMarkdown ?
+            <ReactMarkdown source={displayText} />
+          :
+            <>{displayText}</>
+          }
+
         </div>
       }
     </div>

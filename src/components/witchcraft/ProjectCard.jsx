@@ -37,6 +37,7 @@ const ProjectCard = ({
             placeholder='Project description'
             maxLength={512}
             isTextbox={true}
+            isMarkdown={true}
           />
         </div>
       </div>

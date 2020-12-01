@@ -176,18 +176,16 @@ function getTotalFlawBoonStack(flawOrBoonCount, projectData) {
 // generate a description.
 function buildFinishedDescription(projectData, characterData) {
   var desc = '';
-  desc += projectData.blueprint + ".\n";
-
-
-  desc += `By ${characterData.name}. `;
-  desc += buildPreparationSentence(projectData);
-  desc += '\n';
+  desc += projectData.blueprint + ".\n\n";
 
   const flawStack = getTotalFlawBoonStack(projectData.rollData.flawCount, projectData);
   const boonStack = getTotalFlawBoonStack(projectData.rollData.boonCount, projectData);
 
-  flawStack.forEach(flaw => desc += (allFlaws[flaw] + ': \n'))
-  boonStack.forEach(boon => desc += (allBoons[boon] + ': \n'))
+  flawStack.forEach(flaw => desc += ('**' + allFlaws[flaw] + '**: \n\n'))
+  boonStack.forEach(boon => desc += ('**' + allBoons[boon] + '**: \n\n'))
+
+  desc += buildPreparationSentence(projectData, characterData.name);
+  desc += '\n\n';
 
   console.log('project desc:');
   console.log(desc);
@@ -195,13 +193,18 @@ function buildFinishedDescription(projectData, characterData) {
   return desc;
 }
 
-function buildPreparationSentence(projectData) {
+function buildPreparationSentence(projectData, characterName = '') {
   if (projectData.preparations.length === 0) { return '' }
 
   const nonGiftPreparations = [...projectData.preparations]
     .filter(prep => prep !== 'Generosity');
 
   var string = 'Made';
+
+  if (characterName.length > 0) {
+    string += ` by ${characterName}`
+  }
+
   if (projectHasPreparation(projectData, 'Generosity')) {
     string += ' as a gift';
   }
@@ -209,7 +212,7 @@ function buildPreparationSentence(projectData) {
   // only a gift; end the sentence now.
   if (nonGiftPreparations.length === 0) {
     string += '.';
-    return string;
+    return '*'+string+'*';
   }
 
   // list the non-gift preparations
@@ -230,7 +233,7 @@ function buildPreparationSentence(projectData) {
     }
   );
 
-  return string;
+  return '*'+string+'*';
 }
 
 function projectHasPreparation(projectData, preparation) {
