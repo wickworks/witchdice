@@ -12,7 +12,8 @@ import './FineTuning.scss';
 const FineTuning = ({
   characterData,
   projectData,
-  updateProjectData
+  updateProjectData,
+  handleFinishProject
 }) => {
 
   const rolls = projectData.rollData.rolls;
@@ -47,52 +48,68 @@ const FineTuning = ({
       <div className='flaws-and-boons'>
         <div className='flaws'>
           <div className='icon-container'>
-            { [...Array(projectData.rollData.flawCount)].map(
-              (flaw, i) => (
-                <BoonFlawIcon
-                  isBoon={false}
-                  isCancelled={i < cancelledCount}
-                  handleClick={() => handleBoonFlawClick(i < cancelledCount)}
-                  key={i}
-                />
+            { projectData.rollData.flawCount > 0 ?
+              [...Array(projectData.rollData.flawCount)].map(
+                (flaw, i) => (
+                  <BoonFlawIcon
+                    isBoon={false}
+                    isCancelled={i < cancelledCount}
+                    handleClick={() => handleBoonFlawClick(i < cancelledCount)}
+                    key={i}
+                  />
+                )
               )
-            )}
+            :
+              <hr />
+            }
           </div>
           <div className='label-container'>
-            { flawStack.map(
-              (flawSize, i) => (
-                <div className='label'>{allFlaws[flawSize]}</div>
+            { flawStack.length > 0 ?
+              flawStack.map(
+                (flawSize, i) => (
+                  <div className='label'>{allFlaws[flawSize]}</div>
+                )
               )
-            )}
+            :
+              <div className='label'>Flawless</div>
+            }
           </div>
         </div>
 
         <div className='boons'>
           <div className='icon-container'>
-            { [...Array(projectData.rollData.boonCount)].map(
-              (boon, i) => (
-                <BoonFlawIcon
-                  isBoon={true}
-                  isCancelled={i < cancelledCount}
-                  handleClick={() => handleBoonFlawClick(i < cancelledCount)}
-                  key={i}
-                />
+            { projectData.rollData.boonCount > 0 ?
+              [...Array(projectData.rollData.boonCount)].map(
+                (boon, i) => (
+                  <BoonFlawIcon
+                    isBoon={true}
+                    isCancelled={i < cancelledCount}
+                    handleClick={() => handleBoonFlawClick(i < cancelledCount)}
+                    key={i}
+                  />
+                )
               )
-            )}
+            :
+              <hr />
+            }
           </div>
           <div className='label-container'>
-            { boonStack.map(
-              (boonSize, i) => (
-                <div className='label'>{allBoons[boonSize]}</div>
+            { boonStack.length > 0 ?
+              boonStack.map(
+                (boonSize, i) => (
+                  <div className='label'>{allBoons[boonSize]}</div>
+                )
               )
-            )}
+            :
+              <div className='label'>No boons</div>
+            }
           </div>
         </div>
 
       </div>
 
       <div className='finish-project-container'>
-        <button className='finish-project'>
+        <button className='finish-project' onClick={handleFinishProject}>
           ~ Finish Project ~
         </button>
       </div>

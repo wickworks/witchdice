@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import RollBigButton from '../RollBigButton.jsx';
+import Roll from './Roll.jsx';
 import { deepCopy } from '../../utils.js';
 import { abilityTypes, allDamageTypes } from './data.js';
-import Roll from './Roll.jsx';
 import './Roller.scss';
 
 
@@ -297,11 +298,7 @@ const Roller = ({
           }
         </div>
 
-        <div className="new-roll-container">
-          <button className="new-roll" onClick={() => handleNewRoll()}>
-              <div className='asset d20' />
-          </button>
-        </div>
+        <RollBigButton handleNewRoll={handleNewRoll} />
 
         <div className="results">
           <div className="type-breakdown">

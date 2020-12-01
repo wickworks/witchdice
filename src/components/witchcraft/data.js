@@ -136,8 +136,8 @@ const defaultFlawBoon = {
 }
 
 const defaultProject = {
-  difficulty: 'intermediate',
-  size: 'medium',
+  difficulty: 'simple',
+  size: 'small',
   preparations: [],
   staminaSpent: 0,
   rollData: defaultRollData,

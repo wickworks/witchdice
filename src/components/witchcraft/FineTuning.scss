@@ -18,37 +18,13 @@
       align-items: center;
       border-radius: 8px;
 
-
-
       .asset {
         width: 42px;
         height: 42px;
         margin-right: 4px;
+
+        // turns black to a light grey
         filter: invert(47%) sepia(3%) saturate(7%) hue-rotate(327deg) brightness(98%) contrast(89%);
-      }
-
-      // &.boon, &.flaw {
-      //   background-color: $parchment_mid;
-      // }
-
-      &.boon {
-        // background-color: $olive_dark;
-        // color: white;
-        // .asset { filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(269deg) brightness(107%) contrast(102%); }
-        // color: $olive_dark;
-        // font-weight: bold;
-        // turns black to an olive
-        // .asset { filter: invert(29%) sepia(15%) saturate(3839%) hue-rotate(39deg) brightness(98%) contrast(101%); }
-      }
-
-      &.flaw {
-        // background-color: $rust;
-        // color: white;
-        // .asset { filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(269deg) brightness(107%) contrast(102%); }
-        // font-weight: bold;
-        // color: $rust;
-        // turns black to $rust
-        // .asset { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
       }
     }
 
@@ -77,7 +53,6 @@
         justify-content: center;
         height: 100%;
 
-
         .BoonFlawIcon {
           .asset {
             width: 58px;
@@ -91,6 +66,15 @@
               &:hover { opacity: 0.5; }
             }
           }
+        }
+
+        // for when there are no flaws/boons
+        hr {
+          height: 2px;
+          width: 60px;
+          border: none;
+          margin-top: 32px;
+          background-color: $soft_black;
         }
       }
 

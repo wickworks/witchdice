@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
+import RollBigButton from '../RollBigButton.jsx';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import {
   getStaminaCostForProject,
   getProjectDC,
   getBonusDiceForProject,
+  getStaminaForCharacter,
   defaultRollData
 } from './data.js';
-
 import './CraftRoller.scss';
 
 const CraftRoller = ({
@@ -26,7 +27,7 @@ const CraftRoller = ({
     updateProjectData('staminaSpent', staminaSpent);
   }
 
-  function handleNewRoll() {
+  const handleNewRoll = () => {
     var newData = deepCopy(defaultRollData);
 
     // all crafting rolls start with a d20
@@ -49,24 +50,33 @@ const CraftRoller = ({
     return result;
   }
 
+  const characterStamina = getStaminaForCharacter(characterData);
+  const projectStaminaCost = getStaminaCostForProject(projectData);
+
+  const craftRollSucceeded = (getResult() >= getProjectDC(projectData));
+
   return (
     <div className='CraftRoller'>
       <div className='stamina-bar'>
         <div className='label'>Stamina</div>
 
-        { [...Array(getStaminaCostForProject(projectData))].map(
-          (stamina, i) => {
-            const isChecked = i < projectData.staminaSpent;
-            return (
-              <input
-                type="checkbox"
-                checked={isChecked}
-                onChange={() => updateStaminaSpent(!isChecked)}
-                key={i}
-              />
-            )
-          }
-        )}
+        <div className='checkbox-container'>
+          { [...Array(projectStaminaCost)].map(
+            (stamina, i) => {
+              const isChecked = i < projectData.staminaSpent;
+              const groupClass = (i % characterStamina === 0) ? 'break' : '';
+              return (
+                <input
+                  type="checkbox"
+                  className={groupClass}
+                  checked={isChecked}
+                  onChange={() => updateStaminaSpent(!isChecked)}
+                  key={i}
+                />
+              )
+            }
+          )}
+        </div>
       </div>
 
       <div className='controls-and-results'>
@@ -75,14 +85,19 @@ const CraftRoller = ({
           <div className='number'>{getProjectDC(projectData)}</div>
         </div>
 
-        <div className="new-roll-container">
-          <button className="new-roll" onClick={() => handleNewRoll()}>
-              <div className='asset d20' />
-          </button>
-        </div>
+        { (projectData.rollData.rolls.length === 0) ?
+          <RollBigButton
+            handleNewRoll={handleNewRoll}
+            isDisabled={projectData.staminaSpent < projectStaminaCost}
+          />
+        :
+          <div className={`success-or-failure ${craftRollSucceeded ? 'success' : 'failure'}`}>
+            { craftRollSucceeded ? 'Success!' : 'Back to the drawing board.' }
+          </div>
+        }
 
         { projectData.rollData.rolls.length === 0 ?
-          <div className='bonus'>
+          <div className='additional-dice'>
             <div className='plus'>+</div>
             <div className='dice-container'>
               { [...Array(bonusDiceCount)].map(
@@ -90,11 +105,11 @@ const CraftRoller = ({
                   <div className='asset d6' key={i}/>
                 )
               )}
-              <div className='proficiency-bonus'>+{characterData.proficiencyBonus}</div>
+              <div className='bonus'>+{characterData.proficiencyBonus}</div>
             </div>
           </div>
         :
-          <div className='total'>
+          <div className={`total ${craftRollSucceeded ? 'success' : 'failure'}`}>
             <div className='label'>Total</div>
             <div className='number'>{getResult()}</div>
           </div>

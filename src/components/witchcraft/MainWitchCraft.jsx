@@ -31,10 +31,12 @@ const MainWitchCraft = ({
     setProjectData(newData);
   }
 
+  const handleFinishProject = () => {
+    setProjectData(defaultProject);
+  }
+
   return (
     <div className='MainWitchCraft'>
-      WITCH + CRAFT
-
       <CraftCharacter
         characterData={characterData}
         updateCharacterData={updateCharacterData}
@@ -61,6 +63,7 @@ const MainWitchCraft = ({
               characterData={characterData}
               projectData={projectData}
               updateProjectData={updateProjectData}
+              handleFinishProject={handleFinishProject}
             />
           }
         </div>

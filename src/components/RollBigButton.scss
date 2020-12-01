@@ -1,0 +1,35 @@
+@import '../fonts';
+
+.RollBigButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+
+  button.new-roll {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: none;
+    background-color: $rust;
+    cursor: pointer;
+
+    &:hover { background-color: $rust_light; }
+
+    .asset {
+      margin: auto;
+      width: 80px;
+      height: 80px;
+
+      // black to pink
+      filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+    }
+
+    &.disabled {
+      cursor: auto;
+      background-color: $grey_mid;
+      .asset { filter: none; }
+    }
+  }
+}

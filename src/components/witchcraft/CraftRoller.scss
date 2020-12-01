@@ -3,48 +3,94 @@
 .CraftRoller {
   max-width: 600px;
   margin: auto;
+  padding-bottom: 20px;
   border-bottom: 2px solid $rust;
 
   .stamina-bar {
     display: flex;
     justify-content: center;
-    margin: auto;
+    align-items: center;
+    margin: 16px auto 20px;
+
+    .label {
+      @include text_label;
+    }
+
+    .checkbox-container {
+      input {
+        width: 20px;
+        height: 20px;
+
+        &.break { margin-left: 16px; }
+      }
+    }
   }
 
   .controls-and-results {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
 
-    > * { width: 30%; }
+    > * {
+      width: 38%;
+      flex-shrink: 0;
+    }
+
+    .RollBigButton, .success-or-failure {
+      width: 20%;
+    }
 
     .dc, .total {
       display: flex;
       flex-direction: column;
       justify-content: center;
       text-align: center;
+
+      .label { font-size: 32px; }
+      .number { font-size: 52px; }
     }
 
-    .new-roll-container {
-      background-color: $rust_light;
-
-      button {
-        display: block;
-        margin: auto;
-      }
+    .success-or-failure {
+      @include text_title_heavy;
+      text-align: center;
     }
 
-    .bonus {
+    .success { color: $olive_dark; }
+    .failure { color: $rust; }
+
+    .additional-dice {
       display: flex;
+      justify-content: flex-start;
       align-items: center;
+
+      .plus {
+        font-size: 32px;
+        width: 40px;
+        text-align: center;
+        flex-shrink: 0;
+      }
 
       .dice-container {
         display: flex;
         flex-wrap: wrap;
 
         .asset {
-          width: 24px;
-          height: 24px;
+          width: 42px;
+          height: 42px;
+          margin-right: 4px;
+          // turns black to a light grey
+          filter: invert(47%) sepia(3%) saturate(7%) hue-rotate(327deg) brightness(98%) contrast(89%);
         }
+      }
+
+      .bonus {
+        border: 2px solid $grey_light;
+        color: $grey_mid;
+        text-align: center;
+        font-size: 24px;
+        line-height: 40px;
+        width: 40px;
+        height: 40px;
       }
     }
   }
