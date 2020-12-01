@@ -39,16 +39,16 @@
 
           label {
             display: flex;
-            justify-content: center;
+            justify-content: flex-start;
             width: 30%;
             min-width: 110px;
-            padding: 4px 0;
+            padding: 4px 4px;
+            box-sizing: border-box;
             background-color: white;
             border-radius: 4px;
             cursor: pointer;
 
             &.preparation {
-              justify-content: flex-start;
               align-items: center;
               width: 48%;
               min-width: 170px;

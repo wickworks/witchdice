@@ -64,7 +64,8 @@ const CraftRoller = ({
           { [...Array(projectStaminaCost)].map(
             (stamina, i) => {
               const isChecked = i < projectData.staminaSpent;
-              const groupClass = (i % characterStamina === 0) ? 'break' : '';
+              const isBreak = (i % characterStamina === 0) && (i > 0);
+              const groupClass = isBreak ? 'break' : '';
               return (
                 <input
                   type="checkbox"

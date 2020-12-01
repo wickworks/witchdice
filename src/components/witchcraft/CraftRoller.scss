@@ -14,6 +14,7 @@
 
     .label {
       @include text_label;
+      margin-right: 16px;
     }
 
     .checkbox-container {
