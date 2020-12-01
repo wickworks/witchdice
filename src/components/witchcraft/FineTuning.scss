@@ -2,8 +2,7 @@
 
 .FineTuning {
   max-width: 600px;
-  margin: auto;
-  border-bottom: 2px solid $rust;
+  margin: 0 auto 40px;
 
   .dice-container {
     display: flex;
@@ -100,7 +99,6 @@
         flex-direction: column;
         justify-content: center;
         text-align: center;
-        margin-bottom: 40px;
 
         .label {
           font-size: 26px;
@@ -110,9 +108,20 @@
     }
   }
 
-  button.finish-project {
-    display: block;
-    margin: auto;
-    padding: 8px 20px;
+  .finish-project-container {
+    border-top: 1px solid $parchment_dark;
+    margin: 40px auto 0 0;
+
+    button.finish-project {
+      @include text_title_heavy;
+      display: block;
+      margin: auto;
+      padding: 8px 40px;
+      border: none;
+      background-color: $parchment_dark;
+      cursor: pointer;
+
+      &:hover { background-color: $pink; }
+    }
   }
 }

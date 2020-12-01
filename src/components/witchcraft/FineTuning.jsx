@@ -91,11 +91,11 @@ const FineTuning = ({
 
       </div>
 
-      <button className='finish-project'>
-        <div className='asset logo' />
-
-        Finish Project
-      </button>
+      <div className='finish-project-container'>
+        <button className='finish-project'>
+          ~ Finish Project ~
+        </button>
+      </div>
 
     </div>
   )
