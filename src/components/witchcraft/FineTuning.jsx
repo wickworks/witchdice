@@ -41,7 +41,7 @@ const FineTuning = ({
             key={i}
           />
         ))}
-        <div className='bonus'>{characterData.proficiencyBonus}</div>
+        <div className='bonus'>+{characterData.proficiencyBonus}</div>
       </div>
 
       <div className='flaws-and-boons'>
@@ -92,6 +92,8 @@ const FineTuning = ({
       </div>
 
       <button className='finish-project'>
+        <div className='asset logo' />
+
         Finish Project
       </button>
 
@@ -120,8 +122,15 @@ const DisplayDie = ({
   dieType,
   roll
 }) => {
+  var boonFlawClass = '';
+
+  if (dieType === 'd6') {
+    if (roll === 1) boonFlawClass = 'flaw';
+    if (roll === 6) boonFlawClass = 'boon';
+  }
+
   return (
-    <div className='DisplayDie'>
+    <div className={`DisplayDie ${boonFlawClass}`}>
       <div className={`asset ${dieType}`} />
       <div className='roll'>{roll}</div>
     </div>

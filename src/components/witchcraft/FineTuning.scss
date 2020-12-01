@@ -7,7 +7,60 @@
 
   .dice-container {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 24px 0;
+
+    > * { margin: 4px 16px; }
+
+    .DisplayDie {
+      @include text_dicebag_count;
+      display: flex;
+      align-items: center;
+      border-radius: 8px;
+
+
+
+      .asset {
+        width: 42px;
+        height: 42px;
+        margin-right: 4px;
+        filter: invert(47%) sepia(3%) saturate(7%) hue-rotate(327deg) brightness(98%) contrast(89%);
+      }
+
+      // &.boon, &.flaw {
+      //   background-color: $parchment_mid;
+      // }
+
+      &.boon {
+        // background-color: $olive_dark;
+        // color: white;
+        // .asset { filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(269deg) brightness(107%) contrast(102%); }
+        // color: $olive_dark;
+        // font-weight: bold;
+        // turns black to an olive
+        // .asset { filter: invert(29%) sepia(15%) saturate(3839%) hue-rotate(39deg) brightness(98%) contrast(101%); }
+      }
+
+      &.flaw {
+        // background-color: $rust;
+        // color: white;
+        // .asset { filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(269deg) brightness(107%) contrast(102%); }
+        // font-weight: bold;
+        // color: $rust;
+        // turns black to $rust
+        // .asset { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
+      }
+    }
+
+    .bonus {
+      border: 2px solid $grey_light;
+      text-align: center;
+      font-size: 24px;
+      line-height: 40px;
+      width: 40px;
+      height: 40px;
+    }
   }
 
   .flaws-and-boons {
@@ -24,6 +77,22 @@
         display: flex;
         justify-content: center;
         height: 100%;
+
+
+        .BoonFlawIcon {
+          .asset {
+            width: 58px;
+            height: 58px;
+            cursor: pointer;
+
+            &:hover { opacity: 0.7; }
+
+            &.cancelled {
+              opacity: 0.2;
+              &:hover { opacity: 0.5; }
+            }
+          }
+        }
       }
 
       .label-container {
@@ -31,6 +100,12 @@
         flex-direction: column;
         justify-content: center;
         text-align: center;
+        margin-bottom: 40px;
+
+        .label {
+          font-size: 26px;
+          margin: 18px 0 0;
+        }
       }
     }
   }
@@ -39,27 +114,5 @@
     display: block;
     margin: auto;
     padding: 8px 20px;
-  }
-
-  .DisplayDie {
-    display: flex;
-
-    .asset {
-      width: 32px;
-      height: 32px;
-    }
-  }
-
-  .BoonFlawIcon {
-    .asset {
-      width: 40px;
-      height: 40px;
-
-      &:hover { opacity: 0.7; }
-      &.cancelled {
-        opacity: 0.2;
-        &:hover { opacity: 0.5; }
-      }
-    }
   }
 }

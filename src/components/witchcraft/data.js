@@ -125,9 +125,9 @@ const allFlaws = [
 ]
 
 const allBoons = [
-  'Minor Flaw',
-  'Substantial Flaw',
-  'Dangerous Flaw'
+  'Minor Boon',
+  'Substantial Boon',
+  'Magical Boon'
 ]
 
 const defaultFlawBoon = {
