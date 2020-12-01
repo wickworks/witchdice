@@ -1,7 +1,7 @@
 import React from 'react';
 import TextInput from '../TextInput.jsx';
 import {RadioGroup, Radio} from 'react-radio-group';
-import { deepCopy } from '../../utils.js';
+import { deepCopy, capitalize } from '../../utils.js';
 import {
   allDifficulties,
   allSizes,
@@ -71,7 +71,7 @@ const CraftSetup = ({
                   <label className={selectedClass} htmlFor={radioID} key={`radio-${radioID}`}>
                     <Radio value={difficulty} id={radioID} />
                     <div className='name'>
-                      {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
+                      {capitalize(difficulty)}
                     </div>
                   </label>
                 )
@@ -101,7 +101,7 @@ const CraftSetup = ({
                   <label className={selectedClass} htmlFor={radioID} key={`radio-${radioID}`}>
                     <Radio value={size} id={radioID} />
                     <div className='name'>
-                      {size.charAt(0).toUpperCase() + size.slice(1)}
+                      {capitalize(size)}
                     </div>
                   </label>
                 )

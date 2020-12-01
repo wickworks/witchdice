@@ -3,10 +3,12 @@ import CraftCharacter from './CraftCharacter.jsx';
 import CraftSetup from './CraftSetup.jsx';
 import CraftRoller from './CraftRoller.jsx';
 import FineTuning from './FineTuning.jsx';
+import ProjectCard from './ProjectCard.jsx';
 import { deepCopy } from '../../utils.js';
 import {
   defaultCraftingCharacter,
-  defaultProject
+  defaultProject,
+  buildFinishedDescription
 } from './data.js';
 
 
@@ -32,7 +34,9 @@ const MainWitchCraft = ({
   }
 
   const handleFinishProject = () => {
-    setProjectData(defaultProject);
+    //setProjectData(defaultProject);
+    const desc = buildFinishedDescription(projectData, characterData);
+    updateProjectData('desc', desc);
   }
 
   return (
@@ -59,12 +63,19 @@ const MainWitchCraft = ({
           />
 
           { projectData.rollData.rolls.length > 0 &&
-            <FineTuning
-              characterData={characterData}
-              projectData={projectData}
-              updateProjectData={updateProjectData}
-              handleFinishProject={handleFinishProject}
-            />
+            <>
+              <FineTuning
+                characterData={characterData}
+                projectData={projectData}
+                updateProjectData={updateProjectData}
+                handleFinishProject={handleFinishProject}
+              />
+
+              <ProjectCard
+                projectData={projectData}
+                updateProjectData={updateProjectData}
+              />
+            </>
           }
         </div>
 

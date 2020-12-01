@@ -53,6 +53,11 @@ const CraftRoller = ({
   const characterStamina = getStaminaForCharacter(characterData);
   const projectStaminaCost = getStaminaCostForProject(projectData);
 
+  const rollButtonIsDisabled =
+    (projectData.staminaSpent < projectStaminaCost) ||
+    (projectData.blueprint.length === 0)
+
+
   const craftRollSucceeded = (getResult() >= getProjectDC(projectData));
 
   return (
@@ -89,7 +94,7 @@ const CraftRoller = ({
         { (projectData.rollData.rolls.length === 0) ?
           <RollBigButton
             handleNewRoll={handleNewRoll}
-            isDisabled={projectData.staminaSpent < projectStaminaCost}
+            isDisabled={rollButtonIsDisabled}
           />
         :
           <div className={`success-or-failure ${craftRollSucceeded ? 'success' : 'failure'}`}>

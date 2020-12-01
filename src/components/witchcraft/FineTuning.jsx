@@ -67,7 +67,7 @@ const FineTuning = ({
             { flawStack.length > 0 ?
               flawStack.map(
                 (flawSize, i) => (
-                  <div className='label'>{allFlaws[flawSize]}</div>
+                  <div className='label' key={i}>{allFlaws[flawSize]}</div>
                 )
               )
             :
@@ -97,7 +97,7 @@ const FineTuning = ({
             { boonStack.length > 0 ?
               boonStack.map(
                 (boonSize, i) => (
-                  <div className='label'>{allBoons[boonSize]}</div>
+                  <div className='label' key={i}>{allBoons[boonSize]}</div>
                 )
               )
             :

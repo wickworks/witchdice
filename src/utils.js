@@ -25,4 +25,8 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max)) + 1;
 }
 
-export {deepCopy, getRandomInt} ;
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export {deepCopy, getRandomInt, capitalize} ;

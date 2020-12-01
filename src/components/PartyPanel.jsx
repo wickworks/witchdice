@@ -89,7 +89,7 @@ const PartyPanel = ({
           onClick={() => connectToRoom()}
           disabled={connectDisabled}
         >
-          Connect
+          Join Room
         </button>
 
       </> : <>

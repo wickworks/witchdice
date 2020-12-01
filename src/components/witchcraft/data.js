@@ -135,13 +135,29 @@ const defaultFlawBoon = {
   size: 1,
 }
 
+
+const defaultCraftingCharacter = {
+  name: 'Olivine Rikino',
+  tier: 1,
+  class: '',
+  mediaPrimary: '',
+  mediaSecondary: '',
+  proficiencyBonus: 2,
+  techniques: [],
+  workshop: '',
+  linguaFranca: '',
+  toolProficiency: ''
+}
+
 const defaultProject = {
+  blueprint: 'A sword', //'',
   difficulty: 'simple',
   size: 'small',
   preparations: [],
-  staminaSpent: 0,
+  staminaSpent: 10,//0,
   rollData: defaultRollData,
-  cancelledCount: 0
+  cancelledCount: 0,
+  desc: '',
 }
 
 function getTotalFlawBoonStack(flawOrBoonCount, projectData) {
@@ -155,6 +171,70 @@ function getTotalFlawBoonStack(flawOrBoonCount, projectData) {
   }
 
   return stack
+}
+
+// generate a description.
+function buildFinishedDescription(projectData, characterData) {
+  var desc = '';
+  desc += projectData.blueprint + ".\n";
+
+
+  desc += `By ${characterData.name}. `;
+  desc += buildPreparationSentence(projectData);
+  desc += '\n';
+
+  const flawStack = getTotalFlawBoonStack(projectData.rollData.flawCount, projectData);
+  const boonStack = getTotalFlawBoonStack(projectData.rollData.boonCount, projectData);
+
+  flawStack.forEach(flaw => desc += (allFlaws[flaw] + ': \n'))
+  boonStack.forEach(boon => desc += (allBoons[boon] + ': \n'))
+
+  console.log('project desc:');
+  console.log(desc);
+
+  return desc;
+}
+
+function buildPreparationSentence(projectData) {
+  if (projectData.preparations.length === 0) { return '' }
+
+  const nonGiftPreparations = [...projectData.preparations]
+    .filter(prep => prep !== 'Generosity');
+
+  var string = 'Made';
+  if (projectHasPreparation(projectData, 'Generosity')) {
+    string += ' as a gift';
+  }
+
+  // only a gift; end the sentence now.
+  if (nonGiftPreparations.length === 0) {
+    string += '.';
+    return string;
+  }
+
+  // list the non-gift preparations
+  string += ' with ';
+  nonGiftPreparations.forEach(function (preparation, i) {
+      string += preparation.toLowerCase();
+      if (i === (nonGiftPreparations.length-1)) {
+        string += '.';
+      } else if (i === (nonGiftPreparations.length-2)) {
+        if (nonGiftPreparations.length === 2) {
+          string += ' and ';
+        } else {
+          string += ', and ';
+        }
+      } else {
+        string += ', ';
+      }
+    }
+  );
+
+  return string;
+}
+
+function projectHasPreparation(projectData, preparation) {
+  return (projectData.preparations.indexOf(preparation) >= 0);
 }
 
 function getStaminaCostForProject(projectData) {
@@ -172,18 +252,6 @@ function getProjectDC(projectData) {
   return (allDifficulties[projectData.difficulty] * 5) + 5;
 }
 
-const defaultCraftingCharacter = {
-  name: '',
-  tier: 1,
-  class: '',
-  mediaPrimary: '',
-  mediaSecondary: '',
-  proficiencyBonus: 2,
-  techniques: [],
-  workshop: '',
-  linguaFranca: '',
-  toolProficiency: ''
-}
 
 function getStaminaForCharacter(characterData) {
   return (characterData.tier + 2);
@@ -207,6 +275,7 @@ export {
   defaultCraftingCharacter,
   getDefaultClass,
   getTotalFlawBoonStack,
+  buildFinishedDescription,
   getStaminaCostForProject,
   getBonusDiceForProject,
   getProjectDC,
