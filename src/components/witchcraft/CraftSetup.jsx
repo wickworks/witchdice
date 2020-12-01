@@ -33,14 +33,14 @@ const CraftSetup = ({
 
   return (
     <div className='CraftSetup'>
-      <h4>~ Craft project ~</h4>
+      <div className='setup-title'>~ Craft Project ~</div>
       <table><tbody>
 
         <tr className="blueprint">
           <td className="label">
             <div className="name">Blueprint</div>
           </td>
-          <td className="selections">
+          <td>
             <TextInput
               textValue={projectData.blueprint}
               setTextValue={(value) => { updateProjectData('blueprint', value) }}
@@ -66,8 +66,9 @@ const CraftSetup = ({
             >
               { Object.keys(allDifficulties).map((difficulty, i) => {
                 const radioID = `difficulty-${i}`;
+                const selectedClass = (difficulty === projectData.difficulty) ? 'selected' : '';
                 return (
-                  <label htmlFor={radioID} key={`radio-${radioID}`}>
+                  <label className={selectedClass} htmlFor={radioID} key={`radio-${radioID}`}>
                     <Radio value={difficulty} id={radioID} />
                     <div className='name'>
                       {difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}
@@ -95,8 +96,9 @@ const CraftSetup = ({
             >
               { Object.keys(allSizes).map((size, i) => {
                 const radioID = `size-${i}`;
+                const selectedClass = (size === projectData.size) ? 'selected' : '';
                 return (
-                  <label htmlFor={radioID} key={`radio-${radioID}`}>
+                  <label className={selectedClass} htmlFor={radioID} key={`radio-${radioID}`}>
                     <Radio value={size} id={radioID} />
                     <div className='name'>
                       {size.charAt(0).toUpperCase() + size.slice(1)}
@@ -119,22 +121,24 @@ const CraftSetup = ({
               }
             </div>
           </td>
-          <td className="selections">
-            { allPreparations.map((prep, i) => {
-              const checkboxID = `preparation-${i}`;
-              const isChecked = projectData.preparations.indexOf(prep) >= 0;
-              return (
-                <label htmlFor={checkboxID} key={`checkbox-${checkboxID}`}>
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={() => updatePreparation(prep, !isChecked)}
-                    id={checkboxID}
-                  />
-                  <div className='name'>{prep}</div>
-                </label>
-              )
-            })}
+          <td>
+            <div className="selections">
+              { allPreparations.map((prep, i) => {
+                const checkboxID = `preparation-${i}`;
+                const isChecked = projectData.preparations.indexOf(prep) >= 0;
+                return (
+                  <label className='preparation' htmlFor={checkboxID} key={`checkbox-${checkboxID}`}>
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => updatePreparation(prep, !isChecked)}
+                      id={checkboxID}
+                    />
+                    <div className='name'>{prep}</div>
+                  </label>
+                )
+              })}
+            </div>
           </td>
         </tr>
       </tbody></table>

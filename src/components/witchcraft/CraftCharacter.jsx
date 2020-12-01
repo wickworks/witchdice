@@ -115,6 +115,7 @@ const CraftCharacter = ({
           <div className='primary'>
             <Select
               placeholder={'Primary'}
+              className={'select-dropdown'}
               options={mediaOptions}
               value={getOptionFromValue(mediaOptions,characterData.mediaPrimary)}
               onChange={(option) => { updateCharacterData('mediaPrimary', option.value) }}
@@ -125,6 +126,7 @@ const CraftCharacter = ({
           <div className='secondary'>
             <Select
               placeholder={'Secondary'}
+              className={'select-dropdown'}
               options={mediaOptions}
               value={getOptionFromValue(mediaOptions,characterData.mediaSecondary)}
               onChange={(option) => { updateCharacterData('mediaSecondary', option.value) }}
@@ -200,7 +202,7 @@ const CraftCharacter = ({
               <tr key={i}>
                 <td>
                   <Select
-                    className={'select-technique'}
+                    className={'select-dropdown'}
                     options={techniqueOptions}
                     value={getOptionFromValue(techniqueOptions, technique)}
                     onChange={(option) => { updateTechnique(i, option.value) }}
@@ -217,7 +219,7 @@ const CraftCharacter = ({
           <tr>
             <td>
               <Select
-                className={'select-technique'}
+                className={'select-dropdown'}
                 options={techniqueOptions}
                 value={null}
                 onChange={(option) => { updateTechnique((characterData.techniques.length), option.value) }}

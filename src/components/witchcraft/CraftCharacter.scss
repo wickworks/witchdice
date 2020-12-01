@@ -6,6 +6,8 @@
   padding: 20px 0;
   border-bottom: 2px solid $rust;
 
+  .select-dropdown * { cursor: pointer; }
+
   .intro-container {
     display: flex;
     justify-content: center;
@@ -91,13 +93,14 @@
   }
 
   table.techniques {
+    margin: 0 10px;
+
     tr {
       // LABEL
       td:first-child {
         width: 170px;
 
-        // select-technique terrible css selector
-        .select-technique {
+        .select-dropdown {
           margin: 0 10px 0 -10px;
         }
       }
