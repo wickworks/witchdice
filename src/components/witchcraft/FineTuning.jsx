@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { deepCopy } from '../../utils.js';
 import {
   getTotalFlawBoonStack,
-  defaultFlawBoon,
   allFlaws,
   allBoons,
 } from './data.js';

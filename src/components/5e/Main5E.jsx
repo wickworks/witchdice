@@ -1,26 +1,42 @@
 import React, { useState, useEffect } from 'react';
-import { CURRENT_VERSION } from '../../version.js';
-import { deepCopy, getRandomInt } from '../../utils.js';
-import { getMonsterData } from './stockdata/process_monster_srd.js';
-import {
-  getRandomFingerprint,
-  getCharacterStorageName,
-  getCharacterNameFromStorageName,
-  getCharacterIDFromStorageName,
-  defaultDamageData,
-  defaultAttackData,
-  defaultRollData,
-  saveCharacterData,
-  loadCharacterData
-} from './data.js';
-
 import CharacterAndMonsterList from './CharacterAndMonsterList.jsx';
 import Antiracism from './Antiracism.jsx';
 import Character from './Character.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';
 import Roller from './Roller.jsx';
+import { CURRENT_VERSION } from '../../version.js';
+import { getMonsterData } from './stockdata/process_monster_srd.js';
+import { deepCopy, getRandomInt } from '../../utils.js';
+import {
+  loadLocalData,
+  saveLocalData,
+  getStorageName,
+  getNameFromStorageName,
+  getIDFromStorageName,
+  getRandomFingerprint,
+} from '../../localstorage.js';
+import {
+  defaultDamageData,
+  defaultAttackData,
+  defaultRollData,
+} from './data.js';
 
 // import './Main5E.scss';
+
+const CHARACTER_PREFIX = 'character';
+
+function saveCharacterData(fingerprint, name, allAttackData) {
+  const characterData = {
+    id: fingerprint,
+    name: name,
+    allAttackData: allAttackData
+  }
+  saveLocalData(CHARACTER_PREFIX, fingerprint, name, characterData);
+}
+
+function loadCharacterData(fingerprint) {
+  return loadLocalData(CHARACTER_PREFIX, fingerprint);
+}
 
 const loadedVersion = localStorage.getItem("version");
 let brokeOldCharacterData = false;
@@ -74,7 +90,6 @@ if (!loadedVersion || brokeOldCharacterData || brokeOldMonsterData) {
   localStorage.setItem("version", CURRENT_VERSION);
 }
 
-
 const Main5E = ({
   renderDiceBag,
   renderPartyPanel,
@@ -101,9 +116,9 @@ const Main5E = ({
       const key = localStorage.key(i);
       // console.log('localStorage key : ', key);
       // console.log('                item : ', localStorage.getItem(key));
-      if (key.startsWith('character-')) {
-        const characterName = getCharacterNameFromStorageName(key);
-        const characterID = getCharacterIDFromStorageName(key);
+      if (key.startsWith(`${CHARACTER_PREFIX}-`)) {
+        const characterName = getNameFromStorageName(CHARACTER_PREFIX, key);
+        const characterID = getIDFromStorageName(CHARACTER_PREFIX, key);
 
         // first chunk of IDs are monsters
         if (characterID < 200000) {
@@ -119,6 +134,7 @@ const Main5E = ({
     setAllMonsterEntries(monsterEntries);
     setAllCharacterEntries(characterEntries);
   }, []);
+
 
   // =============== ADD/EDIT/DELETE CHARACTER FUNCTIONS ==================
 
@@ -147,7 +163,7 @@ const Main5E = ({
 
   const deleteActiveCharacter = () => {
     // console.log('deleteActiveCharacter', characterID);
-    const storageName = getCharacterStorageName(characterID, characterName);
+    const storageName = getStorageName(CHARACTER_PREFIX, characterID, characterName);
     // remove from localstorage
     localStorage.removeItem(storageName);
 
@@ -202,7 +218,6 @@ const Main5E = ({
     }
 
   }, [characterName]); // eslint-disable-line react-hooks/exhaustive-deps
-
 
   const updateAllAttackData = (key, value, attackID) => {
     // console.log('');

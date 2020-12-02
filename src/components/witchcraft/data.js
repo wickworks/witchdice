@@ -130,12 +130,6 @@ const allBoons = [
   'Magical Boon'
 ]
 
-const defaultFlawBoon = {
-  isBoon: true, // is a flaw if not a boon
-  size: 1,
-}
-
-
 const defaultCraftingCharacter = {
   name: 'Olivine Rikino',
   tier: 1,
@@ -264,6 +258,7 @@ function getTechniqueCountForCharacter(characterData) {
   return (characterData.tier + 1); // TODO: allow for techniques that let you choose multiple smaller techniques
 }
 
+
 export {
   allMediaTypes,
   allTechniques,
@@ -274,7 +269,6 @@ export {
   allFlaws,
   defaultProject,
   defaultRollData,
-  defaultFlawBoon,
   defaultCraftingCharacter,
   getDefaultClass,
   getTotalFlawBoonStack,
