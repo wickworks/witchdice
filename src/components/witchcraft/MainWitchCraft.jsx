@@ -6,6 +6,11 @@ import FineTuning from './FineTuning.jsx';
 import ProjectCard from './ProjectCard.jsx';
 import { deepCopy } from '../../utils.js';
 import {
+  loadLocalData,
+  saveLocalData,
+  getRandomFingerprint,
+} from '../../localstorage.js';
+import {
   defaultCraftingCharacter,
   defaultProject,
   buildFinishedDescription

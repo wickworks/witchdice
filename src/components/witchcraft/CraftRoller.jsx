@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import RollBigButton from '../RollBigButton.jsx';
+import RollBigButton from '../shared/RollBigButton.jsx';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import {
   getStaminaCostForProject,

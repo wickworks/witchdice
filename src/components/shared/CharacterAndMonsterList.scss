@@ -1,4 +1,4 @@
-@import './fonts5E';
+@import '../../fonts';
 
 .CharacterAndMonsterList {
     display: flex;
@@ -78,7 +78,8 @@
         &:hover { opacity: 1.0; }
 
         &.first {
-          @include text_first_new_character;
+          @include text_title_heavy;
+          font-style: normal;
           margin: auto;
 
           .asset.plus {

@@ -1,5 +1,5 @@
 import React from 'react';
-import TextInput from '../TextInput.jsx';
+import TextInput from '../shared/TextInput.jsx';
 import {RadioGroup, Radio} from 'react-radio-group';
 import { deepCopy, capitalize } from '../../utils.js';
 import {

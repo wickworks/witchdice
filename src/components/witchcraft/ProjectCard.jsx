@@ -1,5 +1,5 @@
 import React from 'react';
-import TextInput from '../TextInput.jsx';
+import TextInput from '../shared/TextInput.jsx';
 import { deepCopy, capitalize } from '../../utils.js';
 // import {
 //

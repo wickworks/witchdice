@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import RollBigButton from '../RollBigButton.jsx';
+import RollBigButton from '../shared/RollBigButton.jsx';
 import Roll from './Roll.jsx';
 import { deepCopy } from '../../utils.js';
 import { abilityTypes, allDamageTypes } from './data.js';

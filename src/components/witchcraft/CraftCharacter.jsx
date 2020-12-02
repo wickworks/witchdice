@@ -1,7 +1,7 @@
 import React from 'react';
 import Select from 'react-select'
-import TextInput from '../TextInput.jsx';
-import NumberInput from '../NumberInput.jsx';
+import TextInput from '../shared/TextInput.jsx';
+import NumberInput from '../shared/NumberInput.jsx';
 import { deepCopy } from '../../utils.js';
 import {
   allMediaTypes,
