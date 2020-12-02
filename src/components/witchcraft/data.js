@@ -140,7 +140,8 @@ const defaultCraftingCharacter = {
   techniques: [],
   workshop: '',
   linguaFranca: '',
-  toolProficiency: ''
+  toolProficiency: '',
+  projectIDs: []
 }
 
 const defaultProject = {
@@ -180,9 +181,6 @@ function buildFinishedDescription(projectData, characterData) {
 
   desc += buildPreparationSentence(projectData, characterData.name);
   desc += '\n\n';
-
-  console.log('project desc:');
-  console.log(desc);
 
   return desc;
 }

@@ -1,0 +1,80 @@
+@import './fontsWitchCraft';
+
+.ProjectList {
+  max-width: 600px;
+  margin: auto;
+  padding-top: 20px;
+  box-sizing: border-box;
+  background-color: $parchment;
+
+  .title-container {
+    display: flex;
+    align-items: center;
+    margin: 0 20px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid $rust_light;
+
+    .title {
+      @include text_title_light;
+    }
+
+    .new-project {
+      margin-left: 20px;
+
+      .asset {
+        @include text_default;
+        width: 40px;
+        height: 40px;
+        border: none;
+        padding: 0;
+        background-color: transparent;
+        opacity: 0.2;
+        transition: opacity .075s ease-out;
+        cursor: pointer;
+
+        .text-container {
+          position: relative;
+
+          span {
+            position: absolute;
+            left: 100%;
+            top: -10px;
+            padding: 0 10px;
+            opacity: 0.0;
+            transition: opacity .075s ease-out;
+            white-space: nowrap;
+            pointer-events: none;
+          }
+        }
+
+        &:hover {
+          opacity: 0.7;
+          span { opacity: 1.0; }
+        }
+      }
+    }
+  }
+
+  .projects-container {
+    margin-bottom: 20px;
+
+    li {
+      display: flex;
+      align-items: center;
+      margin-right: 20px;
+      padding-left: 8px;
+      cursor: pointer;
+
+      &.selected { background-color: $parchment_dark; }
+      &:hover { background-color: $pink; }
+
+      .name { @include text_handwriting; }
+      .stamina {
+        font-size: 14px;
+        margin-left: auto;
+        margin-right: 20px;
+        color: $grey_mid;
+      }
+    }
+  }
+}

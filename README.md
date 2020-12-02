@@ -23,11 +23,14 @@ apple-touch-icon
 
 - bug with deleting damage sources; deleting the second deleted the first
 
-- d2 and d100, and a dX
-- X-card raised :::: anonymous or not
 - add modifiers to dicebag rolls
-  - under total/high/low, inside a collapsible options menu, as a textbox with increase/decrease buttons?
+  - under total/high/low
+  - inside a collapsible options menu
+  - as a textbox with increase/decrease buttons?
+  
+- d2 and d100, and a dX
 
+- X-card raised :::: anonymous or not
 
 - do an ACCESSIBILITY PASS; be able to tab through it all easily
 - make the background a sketch pad -- or just have a notepad panel that saves to session storage
@@ -41,10 +44,9 @@ apple-touch-icon
 
 ###### TECHNICAL ######
 
-- rename the party roll/action stuff to make it more consistant
-
 - when you show up with a room in the url, automatically join that room instead of just filling it in
 
+- rename the party roll/action stuff to make it more consistant
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
   Auth system: conference-room rules.

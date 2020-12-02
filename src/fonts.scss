@@ -1,7 +1,7 @@
 @import './colors';
 
 @import url('https://fonts.googleapis.com/css?family=Bitter:regular,bold,italic&subset=latin,latin-ext');
-
+@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
 @mixin text_default {
   font-family: 'Bitter';
@@ -65,6 +65,14 @@
   font-family: 'Bitter';
   font-size: 80px;
   line-height: 1.0;
+}
+
+@mixin text_handwriting {
+  font-family: 'Architects Daughter', cursive;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: normal;
+  color: $rust;
 }
 
 @mixin text_dicebag_summary {

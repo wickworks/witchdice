@@ -2,8 +2,7 @@
 
 .CraftCharacter {
   max-width: 600px;
-  margin: 20px auto;
-  border-bottom: 2px solid $rust;
+  margin: 20px auto 0;
   background-color: $parchment;
 
   .select-dropdown * { cursor: pointer; }
