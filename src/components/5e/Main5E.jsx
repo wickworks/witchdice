@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import CharacterAndMonsterList from '../shared/CharacterAndMonsterList.jsx';
+import { CharacterAndMonsterList } from '../shared/CharacterAndMonsterList.jsx';
 import Antiracism from './Antiracism.jsx';
 import Character from './Character.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';

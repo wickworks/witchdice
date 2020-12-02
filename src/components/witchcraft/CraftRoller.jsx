@@ -11,11 +11,11 @@ import {
 import './CraftRoller.scss';
 
 const CraftRoller = ({
-  characterData,
+  crafterData,
   projectData,
   updateProjectData
 }) => {
-  const bonusDiceCount = getBonusDiceForProject(characterData, projectData);
+  const bonusDiceCount = getBonusDiceForProject(crafterData, projectData);
 
   const updateStaminaSpent = (increase) => {
     var staminaSpent = projectData.staminaSpent;
@@ -46,11 +46,11 @@ const CraftRoller = ({
   function getResult() {
     var result = 0;
     result += projectData.rollData.rolls.reduce((a, b) => a + b, 0);
-    result += characterData.proficiencyBonus;
+    result += crafterData.proficiencyBonus;
     return result;
   }
 
-  const characterStamina = getStaminaForCharacter(characterData);
+  const characterStamina = getStaminaForCharacter(crafterData);
   const projectStaminaCost = getStaminaCostForProject(projectData);
 
   const rollButtonIsDisabled =
@@ -111,7 +111,7 @@ const CraftRoller = ({
                   <div className='asset d6' key={i}/>
                 )
               )}
-              <div className='bonus'>+{characterData.proficiencyBonus}</div>
+              <div className='bonus'>+{crafterData.proficiencyBonus}</div>
             </div>
           </div>
         :

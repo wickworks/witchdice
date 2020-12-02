@@ -131,7 +131,7 @@ const allBoons = [
 ]
 
 const defaultCraftingCharacter = {
-  name: 'Olivine Rikino',
+  name: 'Crafter',
   tier: 1,
   class: '',
   mediaPrimary: '',
@@ -144,11 +144,11 @@ const defaultCraftingCharacter = {
 }
 
 const defaultProject = {
-  blueprint: 'A sword', //'',
+  blueprint: '',
   difficulty: 'simple',
   size: 'small',
   preparations: [],
-  staminaSpent: 10,//0,
+  staminaSpent: 0,
   rollData: defaultRollData,
   cancelledCount: 0,
   desc: '',

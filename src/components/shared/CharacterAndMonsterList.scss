@@ -1,115 +1,114 @@
 @import '../../fonts';
 
 .CharacterAndMonsterList {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 840px;
+  margin: auto;
+}
+
+.CharacterList, .MonsterList {
+  max-width: 45%;
+  min-width: 330px;
+  margin: 20px 20px;
+
+  .title-bar {
+    position: relative;
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    max-width: 840px;
-    margin: auto;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid #dedede;
 
-    .CharacterList, .MonsterList {
-      max-width: 45%;
-      min-width: 330px;
-      margin: 20px 20px;
-
-      .title-bar {
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        border-bottom: 1px solid #dedede;
-
-        h2 {
-          @include text_label;
-          margin: 0 14px 0 0;
-          padding: 6px;
-        }
-
-        // the monster filter
-        input {
-          width: 100%;
-          padding: 6px 8px;
-          margin-bottom: -1px;
-          border: 1px solid #dedede;
-        }
-
-        button.clear-filter {
-          position: absolute;
-          right: 0;
-          top: 2px;
-          height: 33px;
-          width: 33px;
-
-          display: block;
-          border: none;
-          background-color: transparent;
-          cursor: pointer;
-
-          &:hover {background-color: $parchment_dark;}
-
-          .asset.x {
-            height: 20px;
-            width: 20px;
-          }
-        }
-
-        button.new-character {
-          @include text_default;
-          height: 100%;
-
-          .asset.plus {
-            height: 22px;
-            width: 22px;
-            margin-left: 8px;
-          }
-        }
-      }
-
-      button.new-character {
-        display: flex;
-        align-items: center;
-        padding: 6px 12px;
-        border: none;
-        background: none;
-        opacity: .4;
-        transition: opacity .075s ease-out;
-        cursor: pointer;
-
-        &:hover { opacity: 1.0; }
-
-        &.first {
-          @include text_title_heavy;
-          font-style: normal;
-          margin: auto;
-
-          .asset.plus {
-            height: 40px;
-            width: 40px;
-            margin-left: 8px;
-          }
-        }
-      }
-
-
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        padding: 0;
-        margin: 6px 0;
-
-        li {
-          padding: 2px 4px;
-          width: 46%;
-          overflow: hidden;
-
-          cursor: pointer;
-
-          &:hover { background-color: $parchment;}
-          &.selected { background-color: $parchment_dark;}
-          &.highlighted { color: $rust;}
-        }
-      }
-
+    h2 {
+      @include text_label;
+      margin: 0 14px 0 0;
+      padding: 6px;
     }
+
+    // the monster filter
+    input {
+      width: 100%;
+      padding: 6px 8px;
+      margin-bottom: -1px;
+      border: 1px solid #dedede;
+    }
+
+    button.clear-filter {
+      position: absolute;
+      right: 0;
+      top: 2px;
+      height: 33px;
+      width: 33px;
+
+      display: block;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+
+      &:hover {background-color: $parchment_dark;}
+
+      .asset.x {
+        height: 20px;
+        width: 20px;
+      }
+    }
+
+    button.new-character {
+      @include text_default;
+      height: 100%;
+
+      .asset.plus {
+        height: 22px;
+        width: 22px;
+        margin-left: 8px;
+      }
+    }
+  }
+
+  button.new-character {
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+    border: none;
+    background: none;
+    opacity: .4;
+    transition: opacity .075s ease-out;
+    cursor: pointer;
+
+    &:hover { opacity: 1.0; }
+
+    &.first {
+      @include text_title_heavy;
+      font-style: normal;
+      margin: auto;
+
+      .asset.plus {
+        height: 40px;
+        width: 40px;
+        margin-left: 8px;
+      }
+    }
+  }
+
+
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0;
+    margin: 6px 0;
+
+    li {
+      padding: 2px 4px;
+      width: 46%;
+      overflow: hidden;
+
+      cursor: pointer;
+
+      &:hover { background-color: $parchment;}
+      &.selected { background-color: $parchment_dark;}
+      &.highlighted { color: $rust;}
+    }
+  }
 }

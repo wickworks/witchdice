@@ -12,7 +12,6 @@ import {
 import './CraftSetup.scss';
 
 const CraftSetup = ({
-  characterData,
   projectData,
   updateProjectData
 }) => {

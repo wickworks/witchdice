@@ -37,12 +37,12 @@ function getOptionFromValue(options, value) {
 
 
 const CraftCharacter = ({
-  characterData,
-  updateCharacterData
+  crafterData,
+  updateCrafterData
 }) => {
 
   const updateTechnique = (techniqueIndex, value) => {
-    var newData = deepCopy(characterData.techniques);
+    var newData = deepCopy(crafterData.techniques);
     // replace or add
     if (techniqueIndex < newData.length) {
       newData[techniqueIndex] = value;
@@ -50,12 +50,12 @@ const CraftCharacter = ({
       newData.push(value);
     }
 
-    updateCharacterData('techniques', newData);
+    updateCrafterData('techniques', newData);
   }
 
   // get a default class if none is entered
-  if (characterData.mediaPrimary && characterData.mediaSecondary && !characterData.class) {
-    updateCharacterData('class', getDefaultClass(characterData.mediaPrimary, characterData.mediaSecondary))
+  if (crafterData.mediaPrimary && crafterData.mediaSecondary && !crafterData.class) {
+    updateCrafterData('class', getDefaultClass(crafterData.mediaPrimary, crafterData.mediaSecondary))
   }
 
   const clearSelectDropdownIconStyle = {
@@ -85,8 +85,8 @@ const CraftCharacter = ({
         <div className='name-and-class'>
           <h2 className='name'>
             <TextInput
-              textValue={characterData.name}
-              setTextValue={(value) => { updateCharacterData('name', value) }}
+              textValue={crafterData.name}
+              setTextValue={(value) => { updateCrafterData('name', value) }}
               placeholder={'Name'}
               maxLength={32}
             />
@@ -95,8 +95,8 @@ const CraftCharacter = ({
           <div className='tier'>
             <div className="crafting-tier">
               <NumberInput
-                value={characterData.tier}
-                setValue={(value) => { updateCharacterData('tier', value) }}
+                value={crafterData.tier}
+                setValue={(value) => { updateCrafterData('tier', value) }}
                 minValue={1}
                 maxValue={5}
                 prefix={"Tier "}
@@ -104,8 +104,8 @@ const CraftCharacter = ({
             </div>
             <div className="crafting-class">
               <TextInput
-                textValue={characterData.class}
-                setTextValue={(value) => { updateCharacterData('class', value) }}
+                textValue={crafterData.class}
+                setTextValue={(value) => { updateCrafterData('class', value) }}
                 placeholder={'Class'}
                 maxLength={32}
               />
@@ -119,10 +119,11 @@ const CraftCharacter = ({
               placeholder={'Primary'}
               className={'select-dropdown'}
               options={mediaOptions}
-              value={getOptionFromValue(mediaOptions,characterData.mediaPrimary)}
-              onChange={(option) => { updateCharacterData('mediaPrimary', option.value) }}
+              value={getOptionFromValue(mediaOptions,crafterData.mediaPrimary)}
+              onChange={(option) => { updateCrafterData('mediaPrimary', option.value) }}
               styles={ {...clearSelectDropdownIconStyle, ...centerSelectStyle} }
               isSearchable={false}
+              key={`${crafterData.name}-media-primary`}
             />
           </div>
           <div className='secondary'>
@@ -130,10 +131,11 @@ const CraftCharacter = ({
               placeholder={'Secondary'}
               className={'select-dropdown'}
               options={mediaOptions}
-              value={getOptionFromValue(mediaOptions,characterData.mediaSecondary)}
-              onChange={(option) => { updateCharacterData('mediaSecondary', option.value) }}
+              value={getOptionFromValue(mediaOptions,crafterData.mediaSecondary)}
+              onChange={(option) => { updateCrafterData('mediaSecondary', option.value) }}
               styles={ {...clearSelectDropdownIconStyle, ...centerSelectStyle} }
               isSearchable={false}
+              key={`${crafterData.name}-media-secondary`}
             />
           </div>
         </div>
@@ -142,20 +144,20 @@ const CraftCharacter = ({
       <div className='stats'>
         <div className='stamina'>
           <div className='label'>Stamina</div>
-          <div className='value'>{getStaminaForCharacter(characterData)}</div>
+          <div className='value'>{getStaminaForCharacter(crafterData)}</div>
         </div>
 
         <div className='base-dice'>
           <div className='label'>Base Dice</div>
-          <div className='value'>{`${characterData.tier}d6`}</div>
+          <div className='value'>{`${crafterData.tier}d6`}</div>
         </div>
 
         <div className='proficiency'>
           <div className='label'>Proficiency</div>
           <div className='value'>
             <NumberInput
-              value={characterData.proficiencyBonus}
-              setValue={(value) => { updateCharacterData('proficiencyBonus', value) }}
+              value={crafterData.proficiencyBonus}
+              setValue={(value) => { updateCrafterData('proficiencyBonus', value) }}
               minValue={2}
               maxValue={10}
               plusPrefix={true}
@@ -170,8 +172,8 @@ const CraftCharacter = ({
           <td>Tool Proficiency</td>
           <td>
             <TextInput
-              textValue={characterData.toolProficiency}
-              setTextValue={(value) => { updateCharacterData('toolProficiency', value) }}
+              textValue={crafterData.toolProficiency}
+              setTextValue={(value) => { updateCrafterData('toolProficiency', value) }}
               placeholder={'Tool'}
               maxLength={32}
             />
@@ -182,8 +184,8 @@ const CraftCharacter = ({
           <td>Lingua Franca</td>
           <td>
             <TextInput
-              textValue={characterData.linguaFranca}
-              setTextValue={(value) => { updateCharacterData('linguaFranca', value) }}
+              textValue={crafterData.linguaFranca}
+              setTextValue={(value) => { updateCrafterData('linguaFranca', value) }}
               placeholder={'Language'}
               maxLength={32}
             />
@@ -194,15 +196,15 @@ const CraftCharacter = ({
           <td>Workshop</td>
           <td>
             <TextInput
-              textValue={characterData.workshop}
-              setTextValue={(value) => { updateCharacterData('workshop', value) }}
+              textValue={crafterData.workshop}
+              setTextValue={(value) => { updateCrafterData('workshop', value) }}
               placeholder={'Workshop'}
               maxLength={64}
             />
           </td>
         </tr>
 
-        { characterData.techniques.map((technique, i) => {
+        { crafterData.techniques.map((technique, i) => {
             return (
               <tr key={i}>
                 <td>
@@ -220,14 +222,14 @@ const CraftCharacter = ({
             )
         })}
 
-        { (characterData.techniques.length < getTechniqueCountForCharacter(characterData)) &&
+        { (crafterData.techniques.length < getTechniqueCountForCharacter(crafterData)) &&
           <tr>
             <td>
               <Select
                 className={'select-dropdown'}
                 options={techniqueOptions}
                 value={null}
-                onChange={(option) => { updateTechnique((characterData.techniques.length), option.value) }}
+                onChange={(option) => { updateTechnique((crafterData.techniques.length), option.value) }}
                 placeholder={'Technique'}
                 styles={
                   {

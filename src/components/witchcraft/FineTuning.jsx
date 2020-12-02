@@ -9,7 +9,7 @@ import {
 import './FineTuning.scss';
 
 const FineTuning = ({
-  characterData,
+  crafterData,
   projectData,
   updateProjectData,
   handleFinishProject
@@ -41,7 +41,7 @@ const FineTuning = ({
             key={i}
           />
         ))}
-        <div className='bonus'>+{characterData.proficiencyBonus}</div>
+        <div className='bonus'>+{crafterData.proficiencyBonus}</div>
       </div>
 
       <div className='flaws-and-boons'>

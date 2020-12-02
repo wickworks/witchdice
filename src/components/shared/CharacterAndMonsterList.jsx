@@ -158,4 +158,4 @@ const EntryList = ({entries, handleEntryClick, activeCharacterID, highlightIDs =
   )
 }
 
-export default CharacterAndMonsterList;
+export { CharacterAndMonsterList, CharacterList, MonsterList };
