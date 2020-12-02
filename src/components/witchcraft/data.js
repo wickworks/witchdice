@@ -145,6 +145,7 @@ const defaultCraftingCharacter = {
 }
 
 const defaultProject = {
+  stage: 'preparing', // preparing | tuning | success | failure
   blueprint: '',
   difficulty: 'simple',
   size: 'small',
@@ -247,6 +248,13 @@ function getProjectDC(projectData) {
   return (allDifficulties[projectData.difficulty] * 5) + 5;
 }
 
+function getProjectResult(projectData, crafterData) {
+  var result = 0;
+  result += projectData.rollData.rolls.reduce((a, b) => a + b, 0);
+  result += crafterData.proficiencyBonus;
+  return result;
+}
+
 
 function getStaminaForCharacter(characterData) {
   return (characterData.tier + 2);
@@ -273,6 +281,7 @@ export {
   buildFinishedDescription,
   getStaminaCostForProject,
   getBonusDiceForProject,
+  getProjectResult,
   getProjectDC,
   getStaminaForCharacter,
   getTechniqueCountForCharacter

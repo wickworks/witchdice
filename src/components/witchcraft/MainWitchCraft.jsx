@@ -18,6 +18,8 @@ import {
 import {
   defaultCraftingCharacter,
   defaultProject,
+  getProjectDC,
+  getProjectResult,
   buildFinishedDescription
 } from './data.js';
 
@@ -127,13 +129,21 @@ const MainWitchCraft = ({
   // =============== UPDATE CRAFTER / PROJECT DATA ===================
 
 
-  const updateCrafterData = (attribute, value) => {
-    // validation
-    if (attribute === 'name' && value === '') { value = 'Crafter' }
+  // can either make a single change with (attribute, value)
+  // or muliple with ( {attribute: XXX, value: YYY} )
+  const updateCrafterData = (changes, value) => {
+    console.log('update crafter data', changes, '    ', value);
 
-    // set the new state
     var newData = deepCopy(crafterData)
-    newData[attribute] = value;
+    // multiple changes
+    if (value === undefined) {
+      changes.forEach((change) => {
+        newData[change.attribute] = change.value;
+      });
+    // a single change
+    } else {
+      newData[changes] = value;
+    }
     setCrafterData(newData);
 
     // update the localstorage
@@ -151,9 +161,21 @@ const MainWitchCraft = ({
     }
   }
 
-  const updateProjectData = (attribute, value) => {
+  // can either make a single change with (attribute, value)
+  // or muliple with ( {attribute: XXX, value: YYY} )
+  const updateProjectData = (changes, value) => {
+    console.log('update project data', changes, '    ', value);
+
     var newData = deepCopy(projectData)
-    newData[attribute] = value;
+    // multiple changes
+    if (value === undefined) {
+      changes.forEach((change) => {
+        newData[change.attribute] = change.value;
+      });
+    // a single change
+    } else {
+      newData[changes] = value;
+    }
     setProjectData(newData);
 
     // update the localstorage
@@ -172,9 +194,15 @@ const MainWitchCraft = ({
   }
 
   const handleFinishProject = () => {
-    //setProjectData(defaultProject);
     const desc = buildFinishedDescription(projectData, crafterData);
-    updateProjectData('desc', desc);
+
+    const craftRollSucceeded = (getProjectResult(projectData, crafterData) >= getProjectDC(projectData));
+    const stage = craftRollSucceeded ? 'success' : 'failure';
+
+    updateProjectData([
+      {attribute: 'desc', value: desc},
+      {attribute: 'stage', value: stage},
+    ]);
   }
 
   const currentProjectEntries =
@@ -209,7 +237,9 @@ const MainWitchCraft = ({
         </>
       }
 
-      { projectData !== null &&
+      { (projectData !== null &&
+        (projectData.stage === 'preparing' ||
+        projectData.stage === 'tuning')) &&
         <CraftSetup
           crafterData={crafterData}
           projectData={projectData}
@@ -217,34 +247,34 @@ const MainWitchCraft = ({
         />
       }
 
-
       <div className='gameplay-container'>
         {renderDiceBag()}
 
         <div className='roller-i-hardly-even-knower-container'>
-
           { projectData !== null &&
             <>
-              <CraftRoller
-                crafterData={crafterData}
-                projectData={projectData}
-                updateProjectData={updateProjectData}
-              />
+              { (projectData.stage === 'preparing' || projectData.stage === 'tuning') &&
+                <CraftRoller
+                  crafterData={crafterData}
+                  projectData={projectData}
+                  updateProjectData={updateProjectData}
+                />
+              }
 
-              { projectData.rollData.rolls.length > 0 &&
-                <>
-                  <FineTuning
-                    crafterData={crafterData}
-                    projectData={projectData}
-                    updateProjectData={updateProjectData}
-                    handleFinishProject={handleFinishProject}
-                  />
+              { projectData.stage === 'tuning' &&
+                <FineTuning
+                  crafterData={crafterData}
+                  projectData={projectData}
+                  updateProjectData={updateProjectData}
+                  handleFinishProject={handleFinishProject}
+                />
+              }
 
-                  <ProjectCard
-                    projectData={projectData}
-                    updateProjectData={updateProjectData}
-                  />
-                </>
+              { projectData.stage === 'finished' &&
+                <ProjectCard
+                  projectData={projectData}
+                  updateProjectData={updateProjectData}
+                />
               }
             </>
           }

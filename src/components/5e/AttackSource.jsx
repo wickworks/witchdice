@@ -10,7 +10,6 @@ import './AttackSource.scss';
 const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clearRollData}) => {
   const {
     damageData,
-    // dieCount,
     modifier,
     type,
     savingThrowDC,
@@ -21,7 +20,6 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
   const {
     setDamageData,
-    // setDieCount,
     setModifier,
     setType,
     setSavingThrowDC,
@@ -67,13 +65,6 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     }
   }
 
-  // const updateDamage = (die, type) => {
-  //   let newData = deepCopy(damageData);
-  //   newData[editingDamageID].dieType = die
-  //   newData[editingDamageID].damageType = type
-  //   setDamageData(newData, attackID);
-  // }
-
   const createDamage = () => {
     let newData = deepCopy(damageData);
     let newDamage = deepCopy(defaultDamageData);
@@ -98,21 +89,6 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
   }, [isDamageEditOpen]);
 
   // =============== EDIT ATTACK =============
-
-  // function handleD20Click(e, leftMouse) {
-  //   let newDieCount = dieCount;
-  //
-  //   if (leftMouse && !e.shiftKey) {
-  //     newDieCount += 1;
-  //   } else {
-  //     newDieCount -= 1;
-  //     e.preventDefault()
-  //   }
-  //
-  //   newDieCount = Math.min(newDieCount, 99);
-  //   newDieCount = Math.max(newDieCount, 0);
-  //   setDieCount(newDieCount, attackID);
-  // }
 
   function handleModifierClick(e, leftMouse) {
     let newModifier = modifier;
@@ -167,21 +143,6 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
   return (
     <div className='AttackSource'>
-
-
-      {/*<div className='die-count-container'>
-        <div
-          className='asset d20_frame'
-          onClick={(e) => handleD20Click(e, true)} onContextMenu={(e) => handleD20Click(e, false)}
-        >
-          <div className='die-count unselectable'>{dieCount}</div>
-        </div>
-
-        <div className="delete-attack asset trash"
-          onClick={() => setIsDeleting(!isDeleting)}
-        />
-      </div>*/}
-
       <div className='statblock-container'>
 
         { isDeleting ?

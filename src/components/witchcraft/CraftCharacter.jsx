@@ -86,7 +86,10 @@ const CraftCharacter = ({
           <h2 className='name'>
             <TextInput
               textValue={crafterData.name}
-              setTextValue={(value) => { updateCrafterData('name', value) }}
+              setTextValue={(value) => {
+                if (value === '') { value = 'Crafter' }
+                updateCrafterData('name', value)
+              }}
               placeholder={'Name'}
               maxLength={32}
             />

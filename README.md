@@ -27,7 +27,7 @@ apple-touch-icon
   - under total/high/low
   - inside a collapsible options menu
   - as a textbox with increase/decrease buttons?
-  
+
 - d2 and d100, and a dX
 
 - X-card raised :::: anonymous or not
@@ -46,6 +46,7 @@ apple-touch-icon
 
 - when you show up with a room in the url, automatically join that room instead of just filling it in
 
+- only process the monster srd once we enter 5e mode
 - rename the party roll/action stuff to make it more consistant
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters

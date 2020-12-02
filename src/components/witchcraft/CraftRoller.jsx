@@ -4,6 +4,7 @@ import { deepCopy, getRandomInt } from '../../utils.js';
 import {
   getStaminaCostForProject,
   getProjectDC,
+  getProjectResult,
   getBonusDiceForProject,
   getStaminaForCharacter,
   defaultRollData
@@ -40,14 +41,10 @@ const CraftRoller = ({
       if (roll === 6) { newData.boonCount += 1 }
     }
 
-    updateProjectData('rollData', newData)
-  }
-
-  function getResult() {
-    var result = 0;
-    result += projectData.rollData.rolls.reduce((a, b) => a + b, 0);
-    result += crafterData.proficiencyBonus;
-    return result;
+    updateProjectData([
+      {attribute: 'rollData', value: newData},
+      {attribute: 'stage', value: 'tuning'},
+    ]);
   }
 
   const characterStamina = getStaminaForCharacter(crafterData);
@@ -58,7 +55,7 @@ const CraftRoller = ({
     (projectData.blueprint.length === 0)
 
 
-  const craftRollSucceeded = (getResult() >= getProjectDC(projectData));
+  const craftRollSucceeded = (getProjectResult(projectData, crafterData) >= getProjectDC(projectData));
 
   return (
     <div className='CraftRoller'>
@@ -117,7 +114,7 @@ const CraftRoller = ({
         :
           <div className={`total ${craftRollSucceeded ? 'success' : 'failure'}`}>
             <div className='label'>Total</div>
-            <div className='number'>{getResult()}</div>
+            <div className='number'>{getProjectResult(projectData, crafterData)}</div>
           </div>
         }
 
