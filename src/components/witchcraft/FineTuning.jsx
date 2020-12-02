@@ -28,7 +28,7 @@ const FineTuning = ({
     newCount = Math.min(newCount, projectData.rollData.flawCount);
     newCount = Math.min(newCount, projectData.rollData.boonCount);
 
-    updateProjectData('cancelledCount', newCount)
+    updateProjectData({cancelledCount: newCount})
   }
 
   return (

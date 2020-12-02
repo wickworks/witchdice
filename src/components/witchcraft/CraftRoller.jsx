@@ -25,7 +25,7 @@ const CraftRoller = ({
     } else {
       staminaSpent = staminaSpent - 1;
     }
-    updateProjectData('staminaSpent', staminaSpent);
+    updateProjectData({staminaSpent: staminaSpent});
   }
 
   const handleNewRoll = () => {
@@ -41,10 +41,10 @@ const CraftRoller = ({
       if (roll === 6) { newData.boonCount += 1 }
     }
 
-    updateProjectData([
-      {attribute: 'rollData', value: newData},
-      {attribute: 'stage', value: 'tuning'},
-    ]);
+    updateProjectData({
+      rollData: newData,
+      stage: 'tuning'
+    });
   }
 
   const characterStamina = getStaminaForCharacter(crafterData);
@@ -52,7 +52,7 @@ const CraftRoller = ({
 
   const rollButtonIsDisabled =
     (projectData.staminaSpent < projectStaminaCost) ||
-    (projectData.blueprint.length === 0)
+    (projectData.name.length === 0)
 
 
   const craftRollSucceeded = (getProjectResult(projectData, crafterData) >= getProjectDC(projectData));

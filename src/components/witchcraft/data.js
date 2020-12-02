@@ -146,7 +146,7 @@ const defaultCraftingCharacter = {
 
 const defaultProject = {
   stage: 'preparing', // preparing | tuning | success | failure
-  blueprint: '',
+  name: '',
   difficulty: 'simple',
   size: 'small',
   preparations: [],
@@ -172,7 +172,7 @@ function getTotalFlawBoonStack(flawOrBoonCount, projectData) {
 // generate a description.
 function buildFinishedDescription(projectData, characterData) {
   var desc = '';
-  desc += projectData.blueprint + ".\n\n";
+  desc += projectData.name + ".\n\n";
 
   const flawStack = getTotalFlawBoonStack(projectData.rollData.flawCount, projectData);
   const boonStack = getTotalFlawBoonStack(projectData.rollData.boonCount, projectData);

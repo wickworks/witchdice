@@ -18,8 +18,8 @@ const ProjectCard = ({
       <div className='project-container'>
         <div className='title'>
           <TextInput
-            textValue={projectData.blueprint}
-            setTextValue={(value) => { updateProjectData('blueprint', value) }}
+            textValue={projectData.name}
+            setTextValue={(value) => { updateProjectData({name: value}) }}
             placeholder={'Project name'}
             suffix={'.'}
             maxLength={128}
@@ -33,7 +33,7 @@ const ProjectCard = ({
         <div className='description'>
           <TextInput
             textValue={projectData.desc}
-            setTextValue={(value) => { updateProjectData('desc', value) }}
+            setTextValue={(value) => { updateProjectData({desc: value}) }}
             placeholder='Project description'
             maxLength={512}
             isTextbox={true}

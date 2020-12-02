@@ -27,7 +27,7 @@ const CraftSetup = ({
       newData.splice(newData.indexOf(preparation), 1);
     }
 
-    updateProjectData('preparations', newData);
+    updateProjectData({preparations: newData});
   }
 
   return (
@@ -41,8 +41,8 @@ const CraftSetup = ({
           </td>
           <td>
             <TextInput
-              textValue={projectData.blueprint}
-              setTextValue={(value) => { updateProjectData('blueprint', value) }}
+              textValue={projectData.name}
+              setTextValue={(value) => { updateProjectData({name: value}) }}
               placeholder={'What are you making?'}
               maxLength={128}
             />
@@ -61,7 +61,7 @@ const CraftSetup = ({
               name={'difficulty'}
               className={"selections"}
               selectedValue={projectData.difficulty}
-              onChange={(value) => { updateProjectData('difficulty', value) }}
+              onChange={(value) => { updateProjectData({difficulty: value}) }}
             >
               { Object.keys(allDifficulties).map((difficulty, i) => {
                 const radioID = `difficulty-${i}`;
@@ -91,7 +91,7 @@ const CraftSetup = ({
               name={'size'}
               className={"selections"}
               selectedValue={projectData.size}
-              onChange={(value) => { updateProjectData('size', value) }}
+              onChange={(value) => { updateProjectData({size: value}) }}
             >
               { Object.keys(allSizes).map((size, i) => {
                 const radioID = `size-${i}`;

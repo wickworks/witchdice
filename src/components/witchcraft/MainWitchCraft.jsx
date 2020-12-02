@@ -107,7 +107,7 @@ const MainWitchCraft = ({
     // make it the active one & add it to this crafter
     setProjectID(fingerprint);
     setProjectData(newProjectData)
-    updateCrafterData('projectIDs', [...crafterData.projectIDs, fingerprint])
+    updateCrafterData({projectIDs: [...crafterData.projectIDs, fingerprint]})
 
     // add it to the entries
     let newData = deepCopy(allProjectEntries);
@@ -128,68 +128,49 @@ const MainWitchCraft = ({
 
   // =============== UPDATE CRAFTER / PROJECT DATA ===================
 
+  // changes are in the form {name: 'Gemini Storm'}
+  const updateCrafterData = (changes) => {
+    console.log('update crafter data', changes);
 
-  // can either make a single change with (attribute, value)
-  // or muliple with ( {attribute: XXX, value: YYY} )
-  const updateCrafterData = (changes, value) => {
-    console.log('update crafter data', changes, '    ', value);
+    updateData(
+      crafterData, setCrafterData, changes,
+      CRAFTER_PREFIX, crafterID,
+      allCrafterEntries, setAllCrafterEntries
+    )
+  }
 
-    var newData = deepCopy(crafterData)
-    // multiple changes
-    if (value === undefined) {
-      changes.forEach((change) => {
-        newData[change.attribute] = change.value;
-      });
-    // a single change
-    } else {
-      newData[changes] = value;
-    }
-    setCrafterData(newData);
+  const updateProjectData = (changes) => {
+    console.log('update project data', changes);
+
+    updateData(
+      projectData, setProjectData, changes,
+      PROJECT_PREFIX, projectID,
+      allProjectEntries, setAllProjectEntries
+    )
+  }
+
+
+  function updateData(
+    currentData, setData, changes,
+    storagePrefix, storageID,
+    allEntries, setAllEntries
+  ) {
+
+    var newData = {...deepCopy(currentData), ...changes}
+    setData(newData);
 
     // update the localstorage
-    saveLocalData(CRAFTER_PREFIX, crafterID, newData.name, newData);
+    saveLocalData(storagePrefix, storageID, newData.name, newData);
 
     // update the entry
-    let newEntryData = deepCopy(allCrafterEntries);
+    let newEntryData = deepCopy(allEntries);
     let characterIndex = -1;
-    allCrafterEntries.forEach((entry, i) => {
-      if (entry.id === crafterID) {characterIndex = i;}
+    allEntries.forEach((entry, i) => {
+      if (entry.id === storageID) {characterIndex = i;}
     });
     if (characterIndex >= 0) {
       newEntryData[characterIndex].name = newData.name;
-      setAllCrafterEntries(newEntryData);
-    }
-  }
-
-  // can either make a single change with (attribute, value)
-  // or muliple with ( {attribute: XXX, value: YYY} )
-  const updateProjectData = (changes, value) => {
-    console.log('update project data', changes, '    ', value);
-
-    var newData = deepCopy(projectData)
-    // multiple changes
-    if (value === undefined) {
-      changes.forEach((change) => {
-        newData[change.attribute] = change.value;
-      });
-    // a single change
-    } else {
-      newData[changes] = value;
-    }
-    setProjectData(newData);
-
-    // update the localstorage
-    saveLocalData(PROJECT_PREFIX, projectID, newData.blueprint, newData);
-
-    // update the entry
-    let newEntryData = deepCopy(allProjectEntries);
-    let characterIndex = -1;
-    allProjectEntries.forEach((entry, i) => {
-      if (entry.id === projectID) {characterIndex = i;}
-    });
-    if (characterIndex >= 0) {
-      newEntryData[characterIndex].name = newData.blueprint;
-      setAllProjectEntries(newEntryData);
+      setAllEntries(newEntryData);
     }
   }
 
@@ -199,10 +180,10 @@ const MainWitchCraft = ({
     const craftRollSucceeded = (getProjectResult(projectData, crafterData) >= getProjectDC(projectData));
     const stage = craftRollSucceeded ? 'success' : 'failure';
 
-    updateProjectData([
-      {attribute: 'desc', value: desc},
-      {attribute: 'stage', value: stage},
-    ]);
+    updateProjectData({
+      desc: desc,
+      stage: stage
+    });
   }
 
   const currentProjectEntries =
