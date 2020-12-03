@@ -10,9 +10,10 @@ const TextInput = ({
   suffix,
   isTextbox,
   isMarkdown,
-  maxLength = -1
+  startsOpen = false,
+  maxLength = -1,
 }) => {
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(startsOpen);
   const [currentText, setCurrentText] = useState(textValue);
 
   // update if incoming data changes

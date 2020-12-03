@@ -5,6 +5,7 @@ import {
   getStaminaCostForProject,
   getProjectDC,
   getProjectResult,
+  didProjectSucceed,
   getBonusDiceForProject,
   getStaminaForCharacter,
   defaultRollData
@@ -55,7 +56,7 @@ const CraftRoller = ({
     (projectData.name.length === 0)
 
 
-  const craftRollSucceeded = (getProjectResult(projectData, crafterData) >= getProjectDC(projectData));
+  const craftRollSucceeded = didProjectSucceed(projectData, crafterData);
 
   return (
     <div className='CraftRoller'>
@@ -111,6 +112,7 @@ const CraftRoller = ({
               <div className='bonus'>+{crafterData.proficiencyBonus}</div>
             </div>
           </div>
+
         :
           <div className={`total ${craftRollSucceeded ? 'success' : 'failure'}`}>
             <div className='label'>Total</div>

@@ -18,8 +18,7 @@ import {
 import {
   defaultCraftingCharacter,
   defaultProject,
-  getProjectDC,
-  getProjectResult,
+  didProjectSucceed,
   buildFinishedDescription
 } from './data.js';
 
@@ -177,7 +176,7 @@ const MainWitchCraft = ({
   const handleFinishProject = () => {
     const desc = buildFinishedDescription(projectData, crafterData);
 
-    const craftRollSucceeded = (getProjectResult(projectData, crafterData) >= getProjectDC(projectData));
+    const craftRollSucceeded = didProjectSucceed(projectData, crafterData);
     const stage = craftRollSucceeded ? 'success' : 'failure';
 
     updateProjectData({
@@ -192,6 +191,10 @@ const MainWitchCraft = ({
         crafterData.projectIDs.indexOf(entry.id) >= 0
       )
     : []
+
+  const settingUpProject =
+    (projectData !== null) &&
+    (projectData.stage === 'preparing' || projectData.stage === 'tuning')
 
   return (
     <div className='MainWitchCraft'>
@@ -214,13 +217,12 @@ const MainWitchCraft = ({
             projectEntries={currentProjectEntries}
             handleProjectClick={setActiveProject}
             handleAddProject={createNewProject}
+            updateProjectData={updateProjectData}
           />
         </>
       }
 
-      { (projectData !== null &&
-        (projectData.stage === 'preparing' ||
-        projectData.stage === 'tuning')) &&
+      { settingUpProject &&
         <CraftSetup
           crafterData={crafterData}
           projectData={projectData}
@@ -234,7 +236,7 @@ const MainWitchCraft = ({
         <div className='roller-i-hardly-even-knower-container'>
           { projectData !== null &&
             <>
-              { (projectData.stage === 'preparing' || projectData.stage === 'tuning') &&
+              { settingUpProject &&
                 <CraftRoller
                   crafterData={crafterData}
                   projectData={projectData}
@@ -251,7 +253,7 @@ const MainWitchCraft = ({
                 />
               }
 
-              { projectData.stage === 'finished' &&
+              { (projectData.stage === 'success' || projectData.stage === 'failure') &&
                 <ProjectCard
                   projectData={projectData}
                   updateProjectData={updateProjectData}

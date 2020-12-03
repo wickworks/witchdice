@@ -58,22 +58,47 @@
   .projects-container {
     margin-bottom: 20px;
 
+    ul {
+      padding: 0;
+      margin-left: 20px;
+    }
+
     li {
       display: flex;
       align-items: center;
-      margin-right: 20px;
-      padding-left: 8px;
+      margin: 0 20px 4px 0;
+      list-style: none;
       cursor: pointer;
 
       &.selected { background-color: $parchment_dark; }
       &:hover { background-color: $pink; }
 
-      .name { @include text_handwriting; }
+      .asset {
+        width: 26px;
+        height: 26px;
+        margin-right: 10px;
+      }
+      .name {
+        @include text_handwriting;
+        min-width: 50%;
+
+        .TextInput:hover {
+          background-color: transparent;
+        }
+
+        input {
+          @include text_handwriting;
+          // width: 100%;
+        }
+
+        &.failure { text-decoration: line-through; }
+      }
       .stamina {
-        font-size: 14px;
+        @include text_handwriting;
+        font-size: 16px;
+        color: $grey_mid;
         margin-left: auto;
         margin-right: 20px;
-        color: $grey_mid;
       }
     }
   }

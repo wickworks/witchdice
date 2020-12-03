@@ -1,4 +1,37 @@
 
+
+const defaultCraftingCharacter = {
+  name: 'Crafter',
+  tier: 1,
+  class: '',
+  mediaPrimary: '',
+  mediaSecondary: '',
+  proficiencyBonus: 2,
+  techniques: [],
+  workshop: '',
+  linguaFranca: '',
+  toolProficiency: '',
+  projectIDs: []
+}
+
+const defaultRollData = {
+  rolls: [],
+  flawCount: 0,
+  boonCount: 0,
+}
+
+const defaultProject = {
+  stage: 'preparing', // preparing | tuning | success | failure
+  name: '',
+  difficulty: 'simple',
+  size: 'small',
+  preparations: [],
+  staminaSpent: 0,
+  rollData: defaultRollData,
+  cancelledCount: 0,
+  desc: '',
+}
+
 const allMediaTypes = [
   'Crystals',
   'Wood',
@@ -7,6 +40,163 @@ const allMediaTypes = [
   'Metals',
   'Textiles'
 ]
+
+const allDifficulties = {
+  basic: 1,
+  simple: 2,
+  intermediate: 3,
+  advanced: 4,
+  complex: 5,
+  master: 6,
+  legendary: 7
+}
+
+const allSizes = {
+  tiny: .5,
+  small: 1,
+  medium: 2,
+  large: 3,
+  huge: 4
+}
+
+const allPreparations = [
+  'Knowledge',
+  'High-quality Materials',
+  'Assistance',
+  'Sacrifice',
+  'Generosity',
+  'Inspiration'
+]
+
+const allFlaws = [
+  'Minor Flaw',
+  'Substantial Flaw',
+  'Dangerous Flaw'
+]
+
+const allBoons = [
+  'Minor Boon',
+  'Substantial Boon',
+  'Magical Boon'
+]
+
+
+function getTotalFlawBoonStack(flawOrBoonCount, projectData) {
+  const count = flawOrBoonCount - projectData.cancelledCount;
+
+  var stack = [];
+  if (count % 3 === 1) stack.push(0);  // minor flaw/boon
+  if (count % 3 === 2) stack.push(1);  // substantial flaw/boon
+  for (var i = 0; i < Math.floor(count / 3); i++) {
+    stack.push(2);  // dangerous flaw / magical boon
+  }
+
+  return stack
+}
+
+function buildFinishedDescription(projectData, crafterData) {
+  var desc = '';
+
+  if (!didProjectSucceed(projectData, crafterData)) {
+    desc += "This project didn't quite come together. The crafting roll was only "
+    desc += `${getProjectResult(projectData, crafterData)} against a DC of ${getProjectDC(projectData)}.\n\n`
+  }
+
+  desc += projectData.name + ".\n\n";
+
+  const flawStack = getTotalFlawBoonStack(projectData.rollData.flawCount, projectData);
+  const boonStack = getTotalFlawBoonStack(projectData.rollData.boonCount, projectData);
+
+  flawStack.forEach(flaw => desc += ('**' + allFlaws[flaw] + '**: \n\n'))
+  boonStack.forEach(boon => desc += ('**' + allBoons[boon] + '**: \n\n'))
+
+  desc += buildPreparationSentence(projectData, crafterData.name);
+  desc += '\n\n';
+
+  return desc;
+}
+
+function buildPreparationSentence(projectData, characterName = '') {
+  if (projectData.preparations.length === 0) { return '' }
+
+  const nonGiftPreparations = [...projectData.preparations]
+    .filter(prep => prep !== 'Generosity');
+
+  var string = 'Made';
+
+  if (characterName.length > 0) {
+    string += ` by ${characterName}`
+  }
+
+  if (projectHasPreparation(projectData, 'Generosity')) {
+    string += ' as a gift';
+  }
+
+  // only a gift; end the sentence now.
+  if (nonGiftPreparations.length === 0) {
+    string += '.';
+    return '*'+string+'*';
+  }
+
+  // list the non-gift preparations
+  string += ' with ';
+  nonGiftPreparations.forEach(function (preparation, i) {
+      string += preparation.toLowerCase();
+      if (i === (nonGiftPreparations.length-1)) {
+        string += '.';
+      } else if (i === (nonGiftPreparations.length-2)) {
+        if (nonGiftPreparations.length === 2) {
+          string += ' and ';
+        } else {
+          string += ', and ';
+        }
+      } else {
+        string += ', ';
+      }
+    }
+  );
+
+  return '*'+string+'*';
+}
+
+function projectHasPreparation(projectData, preparation) {
+  return (projectData.preparations.indexOf(preparation) >= 0);
+}
+
+function getStaminaCostForProject(projectData) {
+  let cost = allSizes[projectData.size] * allDifficulties[projectData.difficulty];
+  cost = Math.floor(cost);
+  cost = Math.max(cost, 1);
+  return cost;
+}
+
+function getBonusDiceForProject(characterData, projectData) {
+  return characterData.tier + projectData.preparations.length;
+}
+
+function getProjectDC(projectData) {
+  return (allDifficulties[projectData.difficulty] * 5) + 5;
+}
+
+function getProjectResult(projectData, crafterData) {
+  var result = 0;
+  result += projectData.rollData.rolls.reduce((a, b) => a + b, 0);
+  result += crafterData.proficiencyBonus;
+  return result;
+}
+
+function didProjectSucceed(projectData, crafterData) {
+  return (getProjectResult(projectData, crafterData) >= getProjectDC(projectData))
+}
+
+function getStaminaForCharacter(characterData) {
+  return (characterData.tier + 2);
+}
+
+function getTechniqueCountForCharacter(characterData) {
+  return (characterData.tier + 1); // TODO: allow for techniques that let you choose multiple smaller techniques
+}
+
 
 function getDefaultClass(primary, secondary) {
   var className = 'Crafter'; // to put SOMETHING in so we don't get stuck in an infinite loop
@@ -85,186 +275,6 @@ const allTechniques = {
   // xxx: {name: '', desc: '', prereq: []},
 }
 
-const allDifficulties = {
-  basic: 1,
-  simple: 2,
-  intermediate: 3,
-  advanced: 4,
-  complex: 5,
-  master: 6,
-  legendary: 7
-}
-
-const allSizes = {
-  tiny: .5,
-  small: 1,
-  medium: 2,
-  large: 3,
-  huge: 4
-}
-
-const allPreparations = [
-  'Knowledge',
-  'High-quality Materials',
-  'Assistance',
-  'Sacrifice',
-  'Generosity',
-  'Inspiration'
-]
-
-const defaultRollData = {
-  rolls: [],
-  flawCount: 0,
-  boonCount: 0,
-}
-
-const allFlaws = [
-  'Minor Flaw',
-  'Substantial Flaw',
-  'Dangerous Flaw'
-]
-
-const allBoons = [
-  'Minor Boon',
-  'Substantial Boon',
-  'Magical Boon'
-]
-
-const defaultCraftingCharacter = {
-  name: 'Crafter',
-  tier: 1,
-  class: '',
-  mediaPrimary: '',
-  mediaSecondary: '',
-  proficiencyBonus: 2,
-  techniques: [],
-  workshop: '',
-  linguaFranca: '',
-  toolProficiency: '',
-  projectIDs: []
-}
-
-const defaultProject = {
-  stage: 'preparing', // preparing | tuning | success | failure
-  name: '',
-  difficulty: 'simple',
-  size: 'small',
-  preparations: [],
-  staminaSpent: 0,
-  rollData: defaultRollData,
-  cancelledCount: 0,
-  desc: '',
-}
-
-function getTotalFlawBoonStack(flawOrBoonCount, projectData) {
-  const count = flawOrBoonCount - projectData.cancelledCount;
-
-  var stack = [];
-  if (count % 3 === 1) stack.push(0);  // minor flaw/boon
-  if (count % 3 === 2) stack.push(1);  // substantial flaw/boon
-  for (var i = 0; i < Math.floor(count / 3); i++) {
-    stack.push(2);  // dangerous flaw / magical boon
-  }
-
-  return stack
-}
-
-// generate a description.
-function buildFinishedDescription(projectData, characterData) {
-  var desc = '';
-  desc += projectData.name + ".\n\n";
-
-  const flawStack = getTotalFlawBoonStack(projectData.rollData.flawCount, projectData);
-  const boonStack = getTotalFlawBoonStack(projectData.rollData.boonCount, projectData);
-
-  flawStack.forEach(flaw => desc += ('**' + allFlaws[flaw] + '**: \n\n'))
-  boonStack.forEach(boon => desc += ('**' + allBoons[boon] + '**: \n\n'))
-
-  desc += buildPreparationSentence(projectData, characterData.name);
-  desc += '\n\n';
-
-  return desc;
-}
-
-function buildPreparationSentence(projectData, characterName = '') {
-  if (projectData.preparations.length === 0) { return '' }
-
-  const nonGiftPreparations = [...projectData.preparations]
-    .filter(prep => prep !== 'Generosity');
-
-  var string = 'Made';
-
-  if (characterName.length > 0) {
-    string += ` by ${characterName}`
-  }
-
-  if (projectHasPreparation(projectData, 'Generosity')) {
-    string += ' as a gift';
-  }
-
-  // only a gift; end the sentence now.
-  if (nonGiftPreparations.length === 0) {
-    string += '.';
-    return '*'+string+'*';
-  }
-
-  // list the non-gift preparations
-  string += ' with ';
-  nonGiftPreparations.forEach(function (preparation, i) {
-      string += preparation.toLowerCase();
-      if (i === (nonGiftPreparations.length-1)) {
-        string += '.';
-      } else if (i === (nonGiftPreparations.length-2)) {
-        if (nonGiftPreparations.length === 2) {
-          string += ' and ';
-        } else {
-          string += ', and ';
-        }
-      } else {
-        string += ', ';
-      }
-    }
-  );
-
-  return '*'+string+'*';
-}
-
-function projectHasPreparation(projectData, preparation) {
-  return (projectData.preparations.indexOf(preparation) >= 0);
-}
-
-function getStaminaCostForProject(projectData) {
-  let cost = allSizes[projectData.size] * allDifficulties[projectData.difficulty];
-  cost = Math.floor(cost);
-  cost = Math.max(cost, 1);
-  return cost;
-}
-
-function getBonusDiceForProject(characterData, projectData) {
-  return characterData.tier + projectData.preparations.length;
-}
-
-function getProjectDC(projectData) {
-  return (allDifficulties[projectData.difficulty] * 5) + 5;
-}
-
-function getProjectResult(projectData, crafterData) {
-  var result = 0;
-  result += projectData.rollData.rolls.reduce((a, b) => a + b, 0);
-  result += crafterData.proficiencyBonus;
-  return result;
-}
-
-
-function getStaminaForCharacter(characterData) {
-  return (characterData.tier + 2);
-}
-
-function getTechniqueCountForCharacter(characterData) {
-  return (characterData.tier + 1); // TODO: allow for techniques that let you choose multiple smaller techniques
-}
-
-
 export {
   allMediaTypes,
   allTechniques,
@@ -284,5 +294,6 @@ export {
   getProjectResult,
   getProjectDC,
   getStaminaForCharacter,
-  getTechniqueCountForCharacter
+  getTechniqueCountForCharacter,
+  didProjectSucceed,
 } ;

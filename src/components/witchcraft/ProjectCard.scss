@@ -1,54 +1,49 @@
 @import './fontsWitchCraft';
 
 .ProjectCard {
-  position: relative;
-  background-color: $parchment;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   max-width: 600px;
-  border-radius: 6px;
+  min-height: 360px;
+  box-sizing: border-box;
   margin: 40px auto;
-  padding-top: 60%; // 5:3 aspect ratio, an index card
+  padding: 12px;
+  border-radius: 6px;
+  background-color: $parchment;
 
-  .project-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+  .title {
+    @include text_character_name;
+    margin-left: 8px;
 
+    input { @include text_character_name; }
+  }
+
+  .attributes {
+    @include text_label;
+    margin: 4px 0 0 8px;
+  }
+
+  // in order for all of these to take up 100% height
+  .description, .TextInput, .display, textarea {
     display: flex;
     flex-direction: column;
+    flex: 1 1 auto;
+    height: 100%;
+  }
 
-    padding: 12px;
+  .description {
+    margin-top: 16px;
+    box-sizing: border-box;
+    border: 1px solid $rust;
 
-    .title {
-      @include text_character_name;
-      margin-left: 8px;
-
-      input { @include text_character_name; }
+    .TextInput, .display, textarea {
+      padding: 4px;
     }
 
-    .attributes {
-      @include text_label;
-      margin: 4px 0 0 8px;
-    }
-
-    .description {
-      margin-top: 16px;
-      border: 1px solid $rust;
-      box-sizing: border-box;
-      height: 100%;
-
-      .TextInput, .display, textarea {
-        height: 100%;
-        padding: 4px;
-      }
-
-      textarea {
-        @include text_default;
-        resize: none;
-      }
-
+    textarea {
+      @include text_default;
+      resize: none;
     }
   }
 }

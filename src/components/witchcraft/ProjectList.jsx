@@ -14,8 +14,51 @@ const ProjectList = ({
   activeProjectID,
   projectEntries,
   handleProjectClick,
-  handleAddProject
+  handleAddProject,
+  updateProjectData,
 }) => {
+
+  function renderProjectItem(projectData) {
+    if (!projectData) { return (<div className='name'>Missing Data</div>) }
+
+    const stage = projectData.stage;
+    const settingUpProject =
+      (projectData !== null) &&
+      (projectData.stage === 'preparing' || projectData.stage === 'tuning')
+    const listIcon =
+      (stage === 'preparing' || stage === 'tuning') ?
+        'list_dot'
+      : (stage === 'success') ?
+        'list_check'
+      :
+        'list_x'
+
+    return (
+      <>
+        <div className={`asset ${listIcon}`}/>
+        <div className={`name ${stage}`}>
+          { settingUpProject ?
+            <TextInput
+              textValue={projectData.name}
+              setTextValue={(value) => { updateProjectData({name: value}) }}
+              placeholder={'What are you making?'}
+              maxLength={128}
+              startsOpen={projectData.name === ''}
+            />
+          :
+            <>{projectData.name ? projectData.name : 'Project'}</>
+          }
+        </div>
+
+
+        { (stage === 'preparing' || stage === 'tuning') &&
+          <div className='stamina'>
+            {projectData.staminaSpent}/{getStaminaCostForProject(projectData)}
+          </div>
+        }
+      </>
+    )
+  }
 
   return (
     <div className='ProjectList'>
@@ -34,28 +77,15 @@ const ProjectList = ({
       <div className='projects-container'>
         <ul>
           { projectEntries.map((entry, i) => {
-            const id = entry.id;
-            const name = entry.name;
-            const selectedClass = (id === activeProjectID) ? 'selected' : ''
-            const projectData = loadLocalData(PROJECT_PREFIX, id);
+            const selectedClass = (entry.id === activeProjectID) ? 'selected' : ''
+            const projectData = loadLocalData(PROJECT_PREFIX, entry.id);
             return (
               <li
                 className={`project-entry ${selectedClass}`}
-                onClick={() => handleProjectClick(id)}
-                key={id}
+                onClick={() => handleProjectClick(entry.id)}
+                key={entry.id}
               >
-                { projectData ?
-                  <>
-                    <div className='name'>{name ? name : 'Project'}</div>
-                    <div className='stamina'>
-                      {projectData.staminaSpent}
-                      /
-                      {getStaminaCostForProject(projectData)}
-                    </div>
-                  </>
-                :
-                  <div className='name'>Missing Data</div>
-                }
+                {renderProjectItem(projectData)}
               </li>
             )
           })}
