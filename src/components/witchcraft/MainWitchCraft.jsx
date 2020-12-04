@@ -98,7 +98,6 @@ const MainWitchCraft = ({
 
   const createNewProject = () => {
     const fingerprint = getRandomFingerprint();
-    const name = 'Project';
     let newProjectData = deepCopy(defaultProject);
 
     console.log('making new project with fingerprint', fingerprint);
@@ -110,11 +109,11 @@ const MainWitchCraft = ({
 
     // add it to the entries
     let newData = deepCopy(allProjectEntries);
-    newData.push({id: fingerprint, name: name});
+    newData.push({id: fingerprint, name: newProjectData.name});
     setAllProjectEntries(newData);
 
     // save to localStorage
-    saveLocalData(PROJECT_PREFIX, fingerprint, name, newProjectData);
+    saveLocalData(PROJECT_PREFIX, fingerprint, newProjectData.name, newProjectData);
   }
 
   const setActiveProject = (id) => {
@@ -123,6 +122,29 @@ const MainWitchCraft = ({
       setProjectID(id);
       setProjectData(loadedProject);
     }
+  }
+
+  const deleteActiveProject = () => {
+    console.log('deleting project ', projectData);
+
+    const storageName = getStorageName(PROJECT_PREFIX, projectID, projectData.name);
+    console.log('storage name : ', storageName);
+
+    // remove from localstorage
+    localStorage.removeItem(storageName);
+
+    // remove from the current list of project entries
+    let newData = deepCopy(allProjectEntries)
+    let projectIndex = -1;
+    allProjectEntries.forEach((entry, i) => {
+      if (entry.id === projectID) {projectIndex = i;}
+    });
+    if (projectIndex >= 0) {
+      newData.splice(projectIndex, 1)
+      setAllProjectEntries(newData);
+    }
+
+    setProjectData(null);
   }
 
   // =============== UPDATE CRAFTER / PROJECT DATA ===================
@@ -141,11 +163,17 @@ const MainWitchCraft = ({
   const updateProjectData = (changes) => {
     console.log('update project data', changes);
 
-    updateData(
-      projectData, setProjectData, changes,
-      PROJECT_PREFIX, projectID,
-      allProjectEntries, setAllProjectEntries
-    )
+    // if we're saving a blank name, throw the whole thing away
+    if (('name' in changes) && changes.name === '') {
+      deleteActiveProject();
+
+    } else {
+      updateData(
+        projectData, setProjectData, changes,
+        PROJECT_PREFIX, projectID,
+        allProjectEntries, setAllProjectEntries
+      )
+    }
   }
 
 
@@ -185,15 +213,17 @@ const MainWitchCraft = ({
     });
   }
 
-  const currentProjectEntries =
-    (crafterData !== null) ?
-      allProjectEntries.filter(entry =>
-        crafterData.projectIDs.indexOf(entry.id) >= 0
-      )
-    : []
+  var currentProjectEntries = [];
+  if (crafterData) {
+    const projectIDs = crafterData.projectIDs;
+    currentProjectEntries = allProjectEntries
+      .filter(entry => projectIDs.indexOf(entry.id) >= 0)
+      .sort((a, b) => projectIDs.indexOf(b.id) - projectIDs.indexOf(a.id));
+  }
 
   const settingUpProject =
     (projectData !== null) &&
+    (projectData.name.length > 0 && projectData.name !== defaultProject.name) &&
     (projectData.stage === 'preparing' || projectData.stage === 'tuning')
 
   return (

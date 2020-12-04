@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TextInput from '../shared/TextInput.jsx';
+import DeleteButton from '../shared/DeleteButton.jsx';
 import { deepCopy, capitalize } from '../../utils.js';
 import { loadLocalData } from '../../localstorage.js';
 import {
-  getStaminaCostForProject
+  getStaminaCostForProject,
+  defaultProject
 } from './data.js';
 
 import './ProjectList.scss';
@@ -18,48 +20,6 @@ const ProjectList = ({
   updateProjectData,
 }) => {
 
-  function renderProjectItem(projectData) {
-    if (!projectData) { return (<div className='name'>Missing Data</div>) }
-
-    const stage = projectData.stage;
-    const settingUpProject =
-      (projectData !== null) &&
-      (projectData.stage === 'preparing' || projectData.stage === 'tuning')
-    const listIcon =
-      (stage === 'preparing' || stage === 'tuning') ?
-        'list_dot'
-      : (stage === 'success') ?
-        'list_check'
-      :
-        'list_x'
-
-    return (
-      <>
-        <div className={`asset ${listIcon}`}/>
-        <div className={`name ${stage}`}>
-          { settingUpProject ?
-            <TextInput
-              textValue={projectData.name}
-              setTextValue={(value) => { updateProjectData({name: value}) }}
-              placeholder={'What are you making?'}
-              maxLength={128}
-              startsOpen={projectData.name === ''}
-            />
-          :
-            <>{projectData.name ? projectData.name : 'Project'}</>
-          }
-        </div>
-
-
-        { (stage === 'preparing' || stage === 'tuning') &&
-          <div className='stamina'>
-            {projectData.staminaSpent}/{getStaminaCostForProject(projectData)}
-          </div>
-        }
-      </>
-    )
-  }
-
   return (
     <div className='ProjectList'>
       <div className='title-container'>
@@ -72,27 +32,97 @@ const ProjectList = ({
             </div>
           </button>
         </div>
+
+        <div className='stamina-label'>Stamina</div>
       </div>
 
       <div className='projects-container'>
         <ul>
           { projectEntries.map((entry, i) => {
-            const selectedClass = (entry.id === activeProjectID) ? 'selected' : ''
             const projectData = loadLocalData(PROJECT_PREFIX, entry.id);
+            const selectedClass = (entry.id === activeProjectID) ? 'selected' : ''
             return (
-              <li
-                className={`project-entry ${selectedClass}`}
-                onClick={() => handleProjectClick(entry.id)}
+              <ProjectListItem
+                projectData={projectData}
+                updateProjectData={updateProjectData}
+                selectedClass={selectedClass}
+                handleClick={() => handleProjectClick(entry.id)}
                 key={entry.id}
-              >
-                {renderProjectItem(projectData)}
-              </li>
+              />
             )
           })}
         </ul>
       </div>
       <hr className="pumpkin-bar" />
     </div>
+  )
+}
+
+
+const ProjectListItem = ({
+  projectData,
+  updateProjectData,
+  selectedClass,
+  handleClick,
+}) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    if (!selectedClass) { setIsDeleting(false) }
+  }, [selectedClass]);
+
+
+  const stage = projectData.stage;
+  const settingUpProject = (stage === 'preparing' || stage === 'tuning')
+  const listIcon =
+    settingUpProject
+      ? 'list_dot'
+      : (stage === 'success')
+        ? 'list_check'
+        : 'list_x'
+
+  // show no name if it's the default one
+  const displayName = projectData.name === defaultProject.name ? '' : projectData.name
+
+  return (
+    <li
+      className={`project-entry ${selectedClass}`}
+      onClick={handleClick}
+    >
+      <div className={`asset ${listIcon}`}/>
+      {isDeleting ?
+        <>
+          {`Delete ${displayName}?`}
+        </>
+      :
+        <>
+          <div className={`name ${stage}`}>
+            { settingUpProject ?
+              <TextInput
+                textValue={displayName}
+                setTextValue={(value) => { updateProjectData({name: value}) }}
+                placeholder={'What are you making?'}
+                maxLength={128}
+                startsOpen={projectData.name === defaultProject.name}
+              />
+            :
+              projectData.name
+            }
+          </div>
+
+          { settingUpProject ?
+            <div className='stamina'>
+              {projectData.staminaSpent}/{getStaminaCostForProject(projectData)}
+            </div>
+          :
+            <DeleteButton
+              handleClick={() => setIsDeleting(true)}
+              moreClasses='delete-project'
+            />
+          }
+        </>
+      }
+    </li>
   )
 }
 

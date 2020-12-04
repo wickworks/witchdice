@@ -7,3 +7,20 @@
   font-style: normal;
   color: $rust;
 }
+
+
+@mixin text_handwriting {
+  font-family: 'Architects Daughter', cursive;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: normal;
+  color: $rust;
+}
+
+@mixin text_handwriting_grey {
+  font-family: 'Architects Daughter', cursive;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  color: $grey_mid;
+}

@@ -32,7 +32,14 @@ const CraftSetup = ({
 
   return (
     <div className='CraftSetup'>
-      <div className='setup-title'>~ Craft Project ~</div>
+      <div className='setup-title'>
+        <TextInput
+          textValue={projectData.name}
+          setTextValue={(value) => { updateProjectData({name: value}) }}
+          placeholder={'Project title'}
+          maxLength={128}
+        />
+      </div>
       <table><tbody>
 
         <tr className="blueprint">
@@ -41,9 +48,9 @@ const CraftSetup = ({
           </td>
           <td>
             <TextInput
-              textValue={projectData.name}
-              setTextValue={(value) => { updateProjectData({name: value}) }}
-              placeholder={'What are you making?'}
+              textValue={projectData.blueprint}
+              setTextValue={(value) => { updateProjectData({blueprint: value}) }}
+              placeholder={'Additional details'}
               maxLength={128}
             />
           </td>

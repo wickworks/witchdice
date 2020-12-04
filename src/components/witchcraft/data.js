@@ -22,7 +22,8 @@ const defaultRollData = {
 
 const defaultProject = {
   stage: 'preparing', // preparing | tuning | success | failure
-  name: '',
+  name: 'new~project', //bit of a magic value; this name has to be treated as blank
+  blueprint: '',
   difficulty: 'simple',
   size: 'small',
   preparations: [],
@@ -102,7 +103,9 @@ function buildFinishedDescription(projectData, crafterData) {
     desc += `${getProjectResult(projectData, crafterData)} against a DC of ${getProjectDC(projectData)}.\n\n`
   }
 
-  desc += projectData.name + ".\n\n";
+  if (projectData.blueprint) {
+    desc += projectData.blueprint + ".\n\n";
+  }
 
   const flawStack = getTotalFlawBoonStack(projectData.rollData.flawCount, projectData);
   const boonStack = getTotalFlawBoonStack(projectData.rollData.boonCount, projectData);

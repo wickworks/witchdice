@@ -9,6 +9,8 @@
     @include text_title_action;
     text-align: center;
     margin: 14px auto 10px;
+
+    input { @include text_title_action; }
   }
 
   table {

@@ -67,14 +67,6 @@
   line-height: 1.0;
 }
 
-@mixin text_handwriting {
-  font-family: 'Architects Daughter', cursive;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: normal;
-  color: $rust;
-}
-
 @mixin text_dicebag_summary {
   font-size: 22px;
 }

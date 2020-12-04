@@ -53,6 +53,12 @@
         }
       }
     }
+
+    .stamina-label {
+      @include text_handwriting_grey;
+      margin-left: auto;
+      margin-right: 10px;
+    }
   }
 
   .projects-container {
@@ -93,10 +99,8 @@
 
         &.failure { text-decoration: line-through; }
       }
-      .stamina {
-        @include text_handwriting;
-        font-size: 16px;
-        color: $grey_mid;
+      .stamina, .delete-project {
+        @include text_handwriting_grey;
         margin-left: auto;
         margin-right: 20px;
       }
