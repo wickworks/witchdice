@@ -15,3 +15,38 @@
 
   &:hover { opacity: 0.8;}
 }
+
+.DeleteConfirmation {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color: $parchment_dark;
+
+  .delete-title {
+    @include text_default;
+    padding: 0 30px;
+    margin-right: auto;
+  }
+
+  button {
+    @include text_default;
+    font-weight: bold;
+    font-size: 16px;
+    height: 100%;
+    width: 100px;
+    padding: 15px 0;
+    border: 0;
+    cursor: pointer;
+
+    &.cancel { background-color: $olive_light; }
+    &.delete { background-color: $rust_light; }
+    &:hover { background-color: grey; }
+
+    .asset {
+      width: 40px;
+      height: 40px;
+      margin: 0 auto 6px;
+    }
+  }
+}

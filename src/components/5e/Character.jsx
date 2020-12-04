@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import AttackSource from './AttackSource.jsx';
 import TextInput from '../shared/TextInput.jsx';
-import DeleteButton from '../shared/DeleteButton.jsx';
+import { DeleteButton, DeleteConfirmation } from '../shared/DeleteButton.jsx';
 import './Character.scss';
 
 const Character = ({
@@ -26,18 +26,12 @@ const Character = ({
       <hr className="pumpkin-bar" />
       <div className="character-sheet">
         { isDeleting ?
-          <div className='delete-character-confirm-container'>
-            <div className='delete-title'>Delete {characterName}?</div>
-
-            <button className='delete' onClick={() => {setIsDeleting(false); deleteCharacter()}}>
-              <div className='asset trash' />
-              Delete
-            </button>
-            <button className='cancel' onClick={() => setIsDeleting(false)}>
-              <div className='asset x' />
-              Cancel
-            </button>
-          </div>
+          <DeleteConfirmation
+            name={characterName}
+            handleCancel={() => setIsDeleting(false)}
+            handleDelete={() => {setIsDeleting(false); deleteCharacter()}}
+            moreClasses={'delete-character-confirmation'}
+          />
         :
           <h2 className="character-name">
             <TextInput

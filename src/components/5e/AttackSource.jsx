@@ -3,7 +3,7 @@ import { deepCopy } from '../../utils.js';
 import { defaultDamageData, abilityTypes, actionTypes } from './data.js';
 import DamageSource from './DamageSource.jsx';
 import TextInput from '../shared/TextInput.jsx';
-import DeleteButton from '../shared/DeleteButton.jsx';
+import { DeleteButton, DeleteConfirmation } from '../shared/DeleteButton.jsx';
 
 import './AttackSource.scss';
 
@@ -147,17 +147,12 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
       <div className='statblock-container'>
 
         { isDeleting ?
-          <div className='delete-confirm-container'>
-            <div className='delete-title'>Delete '{name}'?</div>
-            <button className='delete' onClick={() => {setIsDeleting(false); deleteAttack(attackID)}}>
-              <div className='asset trash' />
-              Delete
-            </button>
-            <button className='cancel' onClick={() => setIsDeleting(false)}>
-              <div className='asset x' />
-              Cancel
-            </button>
-          </div>
+          <DeleteConfirmation
+            name={name}
+            handleCancel={() => setIsDeleting(false)}
+            handleDelete={() => {setIsDeleting(false); deleteAttack(attackID)}}
+            moreClasses={'delete-attack-confirmation'}
+          />
         :
           <>
             <div className='titlebar'>

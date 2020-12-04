@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TextInput from '../shared/TextInput.jsx';
-import DeleteButton from '../shared/DeleteButton.jsx';
+import { DeleteButton, DeleteConfirmation } from '../shared/DeleteButton.jsx';
 import { deepCopy, capitalize } from '../../utils.js';
 import { loadLocalData } from '../../localstorage.js';
 import {
@@ -89,13 +89,17 @@ const ProjectListItem = ({
       className={`project-entry ${selectedClass}`}
       onClick={handleClick}
     >
-      <div className={`asset ${listIcon}`}/>
+      <div className={`list-dot asset ${listIcon}`}/>
+
       {isDeleting ?
-        <>
-          {`Delete ${displayName}?`}
-        </>
+        <DeleteConfirmation
+          name={displayName}
+          handleCancel={() => setIsDeleting(false)}
+          handleDelete={() => { setIsDeleting(false); updateProjectData({name: ''}) }}
+          moreClasses={'delete-project-confirmation'}
+        />
       :
-        <>
+        <div className='project-item-container'>
           <div className={`name ${stage}`}>
             { settingUpProject ?
               <TextInput
@@ -120,7 +124,7 @@ const ProjectListItem = ({
               moreClasses='delete-project'
             />
           }
-        </>
+        </div>
       }
     </li>
   )

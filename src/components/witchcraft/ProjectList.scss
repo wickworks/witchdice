@@ -72,37 +72,65 @@
     li {
       display: flex;
       align-items: center;
-      margin: 0 20px 4px 0;
       list-style: none;
       cursor: pointer;
 
       &.selected { background-color: $parchment_dark; }
       &:hover { background-color: $pink; }
 
-      .asset {
+      .list-dot.asset {
         width: 26px;
         height: 26px;
-        margin-right: 10px;
       }
-      .name {
-        @include text_handwriting;
-        min-width: 50%;
 
-        .TextInput:hover {
-          background-color: transparent;
-        }
+      .project-item-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin: 0 20px 4px 0;
+        padding-left: 10px;
 
-        input {
+        .name {
           @include text_handwriting;
-          // width: 100%;
+          min-width: 50%;
+
+          .TextInput:hover {
+            background-color: transparent;
+          }
+
+          input {
+            @include text_handwriting;
+            // width: 100%;
+          }
+
+          &.failure { text-decoration: line-through; }
+        }
+        .stamina, .delete-project {
+          @include text_handwriting_grey;
+          margin-left: auto;
+          margin-right: 20px;
+        }
+      }
+
+      .DeleteConfirmation.delete-project-confirmation {
+        height: 46px;
+
+        .delete-title {
+          @include text_handwriting;
+          padding-left: 12px;
         }
 
-        &.failure { text-decoration: line-through; }
-      }
-      .stamina, .delete-project {
-        @include text_handwriting_grey;
-        margin-left: auto;
-        margin-right: 20px;
+        button {
+          padding: 0;
+
+          .label { display: none; }
+          .asset {
+            width: 30px;
+            height: 30px;
+            margin: auto;
+          }
+        }
+
       }
     }
   }
