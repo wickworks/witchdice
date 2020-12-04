@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AttackSource from './AttackSource.jsx';
 import TextInput from '../shared/TextInput.jsx';
+import DeleteButton from '../shared/DeleteButton.jsx';
 import './Character.scss';
 
 const Character = ({
@@ -47,8 +48,9 @@ const Character = ({
             />
           </h2>
         }
-        <div className="delete-character asset trash"
-          onClick={() => setIsDeleting(true)}
+        <DeleteButton
+          handleClick={() => setIsDeleting(true)}
+          moreClasses='delete-character'
         />
 
         <div className={`attack-container ${isDeletingClass}`}>

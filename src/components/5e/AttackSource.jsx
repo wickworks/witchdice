@@ -3,6 +3,7 @@ import { deepCopy } from '../../utils.js';
 import { defaultDamageData, abilityTypes, actionTypes } from './data.js';
 import DamageSource from './DamageSource.jsx';
 import TextInput from '../shared/TextInput.jsx';
+import DeleteButton from '../shared/DeleteButton.jsx';
 
 import './AttackSource.scss';
 
@@ -265,8 +266,9 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
         }
       </div>
 
-      <div className="delete-attack asset trash"
-        onClick={() => setIsDeleting(!isDeleting)}
+      <DeleteButton
+        handleClick={() => setIsDeleting(!isDeleting)}
+        moreClasses='delete-attack'
       />
     </div>
   );
