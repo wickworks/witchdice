@@ -34,48 +34,59 @@ const TextInput = ({
     }
   }
 
+  function handleKeyPress(key) {
+    if (key === 'Enter' && !isMarkdown) { stopEditing() } // accept
+    if (key === 'Escape') { setIsEditing(false); }        // cancel changes
+  }
+
   const editingClass = isEditing ? 'editing' : 'not-editing';
   const placeholderClass = currentText ? 'not-placeholder' : 'placeholder';
-
   const displayText = `${currentText ? currentText : placeholder}${suffix ? suffix : ''}`;
+
+
+
+  function renderInputs() {
+    return (
+      isTextbox ?
+        <textarea
+          value={currentText}
+          onKeyDown={ (e) => handleKeyPress(e.key) }
+          onBlur={ () => {stopEditing()} }
+          onChange={ e => handleTextChange(e.target.value) }
+          placeholder={placeholder}
+          autoFocus
+        />
+      :
+        <input
+          type="text"
+          value={currentText}
+          onKeyDown={ (e) => handleKeyPress(e.key) }
+          onBlur={ () => {stopEditing()} }
+          onChange={ e => handleTextChange(e.target.value) }
+          placeholder={placeholder}
+          autoFocus
+        />
+    )
+  }
+
+  function renderDisplayText() {
+    return (
+      <div
+        className={`display ${placeholderClass}`}
+        onClick={() => setIsEditing(true)}
+      >
+        { isMarkdown ?
+          <ReactMarkdown source={displayText} />
+        :
+          displayText
+        }
+      </div>
+    )
+  }
 
   return (
     <div className={`TextInput ${editingClass}`}>
-      {isEditing ?
-
-        isTextbox ?
-          <textarea
-            value={currentText}
-            onKeyPress={ (e) => { if (e.key === 'Enter' && !isMarkdown) {stopEditing()} }}
-            onBlur={ () => {stopEditing()} }
-            onChange={ e => handleTextChange(e.target.value) }
-            placeholder={placeholder}
-            autoFocus
-          />
-        :
-          <input
-            type="text"
-            value={currentText}
-            onKeyPress={ (e) => { if (e.key === 'Enter' && !isMarkdown) {stopEditing()} }}
-            onBlur={ () => {stopEditing()} }
-            onChange={ e => handleTextChange(e.target.value) }
-            placeholder={placeholder}
-            autoFocus
-          />
-
-      :
-        <div
-          className={`display ${placeholderClass}`}
-          onClick={() => setIsEditing(true)}
-        >
-          {isMarkdown ?
-            <ReactMarkdown source={displayText} />
-          :
-            <>{displayText}</>
-          }
-
-        </div>
-      }
+      { isEditing ? renderInputs() : renderDisplayText() }
     </div>
   );
 }
