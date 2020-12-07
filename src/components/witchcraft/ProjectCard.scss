@@ -16,7 +16,7 @@
     @include text_character_name;
     margin-left: 8px;
 
-    input { @include text_character_name; }
+    input[type=text] { @include text_character_name; }
   }
 
   .attributes {
