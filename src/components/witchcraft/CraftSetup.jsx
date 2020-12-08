@@ -6,20 +6,20 @@ import {
   allDifficulties,
   allSizes,
   allPreparations,
+  crafterHasTechnique,
   getStaminaCostForProject
 } from './data.js';
 
 import './CraftSetup.scss';
 
 const CraftSetup = ({
+  crafterData,
   projectData,
   updateProjectData
 }) => {
 
   const updatePreparation = (preparation, value) => {
     var newData = deepCopy(projectData.preparations);
-
-    console.log('setting prep', preparation, 'to', value);
 
     if (value) {
       newData.push(preparation)
@@ -29,6 +29,22 @@ const CraftSetup = ({
 
     updateProjectData({preparations: newData});
   }
+
+  var availablePreparations = [...allPreparations];
+  if (crafterHasTechnique(crafterData, 'collaborator')) {
+    availablePreparations.push('Assistance (2)')
+    if (crafterData.tier >= 5) availablePreparations.push('Assistance (3)')
+  }
+  if (crafterHasTechnique(crafterData, 'counselledCrafter')) {
+    availablePreparations.push('Knowledge (2)')
+    if (crafterData.tier >= 5) availablePreparations.push('Knowledge (3)')
+  }
+  if (crafterHasTechnique(crafterData, 'theGoodStuff')) {
+    availablePreparations.push('High-quality Materials (2)')
+    if (crafterData.tier >= 5) availablePreparations.push('High-quality Materials (3)')
+  }
+
+
 
   return (
     <div className='CraftSetup'>
@@ -129,7 +145,7 @@ const CraftSetup = ({
           </td>
           <td>
             <div className="selections">
-              { allPreparations.map((prep, i) => {
+              { availablePreparations.map((prep, i) => {
                 const checkboxID = `preparation-${i}`;
                 const isChecked = projectData.preparations.indexOf(prep) >= 0;
                 return (

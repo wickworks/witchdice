@@ -7,7 +7,7 @@ import {
   allMediaTypes,
   allTechniques,
   getStaminaForCharacter,
-  getTechniqueCountForCharacter,
+  crafterHasTechnique,
   getDefaultClass
 } from './data.js';
 
@@ -76,6 +76,9 @@ const CraftCharacter = ({
       return { ...provided, fontSize };
     },
   }
+
+  const techniqueCountForCrafter = (crafterData.tier + 1);
+  const unselectedTechniques = techniqueCountForCrafter - crafterData.techniques.length;
 
   return (
     <div className='CraftCharacter'>
@@ -225,27 +228,29 @@ const CraftCharacter = ({
             )
         })}
 
-        { (crafterData.techniques.length < getTechniqueCountForCharacter(crafterData)) &&
-          <tr>
-            <td>
-              <Select
-                className={'select-dropdown'}
-                options={techniqueOptions}
-                value={null}
-                onChange={(option) => { updateTechnique((crafterData.techniques.length), option.value) }}
-                placeholder={'Technique'}
-                styles={
-                  {
-                    dropdownIndicator: (provided, state) => {
-                      const padding = '2px 4px 2px 2px';
-                      return { ...provided, padding };
+        { (unselectedTechniques > 0) &&
+          [...Array(unselectedTechniques)].map( (tech, i) => (
+            <tr>
+              <td>
+                <Select
+                  className={'select-dropdown'}
+                  options={techniqueOptions}
+                  value={null}
+                  onChange={(option) => { updateTechnique((crafterData.techniques.length), option.value) }}
+                  placeholder={'Technique'}
+                  styles={
+                    {
+                      dropdownIndicator: (provided, state) => {
+                        const padding = '2px 4px 2px 2px';
+                        return { ...provided, padding };
+                      }
                     }
                   }
-                }
-              />
-            </td>
-            <td></td>
-          </tr>
+                />
+              </td>
+              <td></td>
+            </tr>
+          ))
         }
       </tbody></table>
 

@@ -196,8 +196,8 @@ function getStaminaForCharacter(characterData) {
   return (characterData.tier + 2);
 }
 
-function getTechniqueCountForCharacter(characterData) {
-  return (characterData.tier + 1); // TODO: allow for techniques that let you choose multiple smaller techniques
+function crafterHasTechnique(crafterData, technique) {
+  return (crafterData.techniques.indexOf(technique) >= 0)
 }
 
 
@@ -340,6 +340,6 @@ export {
   getProjectResult,
   getProjectDC,
   getStaminaForCharacter,
-  getTechniqueCountForCharacter,
+  crafterHasTechnique,
   didProjectSucceed,
 } ;
