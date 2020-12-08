@@ -8,6 +8,8 @@ import {
   getTotalFlawBoonStack,
   allFlaws,
   allBoons,
+  allDifficulties,
+  getManufacturerCount,
 } from './data.js';
 
 import './FineTuning.scss';
@@ -18,16 +20,6 @@ const FineTuning = ({
   updateProjectData,
   handleFinishProject
 }) => {
-  var welcomingWorkshopBonus = 3;
-  if (projectData.techniqueTempData.welcomingWorkshopBonus) {
-    welcomingWorkshopBonus = parseInt(projectData.techniqueTempData.welcomingWorkshopBonus);
-  }
-
-  var blessedRollOne, blessedRollTwo;
-  if (projectUsedTechnique(projectData, 'blessedCreation')) {
-    blessedRollOne = parseInt(projectData.techniqueTempData.blessedCreationRollOne);
-    blessedRollTwo = parseInt(projectData.techniqueTempData.blessedCreationRollTwo);
-  }
 
   const rolls = projectData.rollData.rolls;
   const cancelledCount = projectData.cancelledCount;
@@ -45,13 +37,7 @@ const FineTuning = ({
     updateProjectData({cancelledCount: newCount})
   }
 
-  function setTechniqueTempData(techniqueData) {
-    const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
-
-    updateProjectData({
-      techniqueTempData: newTechniqueTempData
-    });
-  }
+  // ======== ADD DICE, BONUSES, AND TECHNIQUE DATA ======== //
 
   function addBonusDice(bonusDiceCount, techniqueName, techniqueData = {}) {
     var newData = deepCopy(projectData.rollData);
@@ -77,9 +63,11 @@ const FineTuning = ({
   function addBonusRoll(roll, techniqueName, techniqueData = {}) {
     var newData = deepCopy(projectData.rollData);
 
-    newData.rolls.push(roll);
-    if (roll === 1) { newData.flawCount += 1 }
-    if (roll === 6) { newData.boonCount += 1 }
+    if (roll > 0) {
+      newData.rolls.push(roll);
+      if (roll === 1) { newData.flawCount += 1 }
+      if (roll === 6) { newData.boonCount += 1 }
+    }
 
     var newTechniqueData = deepCopy(projectData.techniques);
     if (techniqueName) { newTechniqueData.push(techniqueName) }
@@ -107,8 +95,31 @@ const FineTuning = ({
     });
   }
 
+  function setTechniqueTempData(techniqueData) {
+    const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
+
+    updateProjectData({
+      techniqueTempData: newTechniqueTempData
+    });
+  }
+
+
   const tier = crafterData.tier;
   const craftRollSucceeded = didProjectSucceed(projectData, crafterData);
+
+  // ======== TECHNIQUE DATA ======== //
+  var welcomingWorkshopBonus = 3;
+  if (projectData.techniqueTempData.welcomingWorkshopBonus) {
+    welcomingWorkshopBonus = parseInt(projectData.techniqueTempData.welcomingWorkshopBonus);
+  }
+
+  var blessedRollOne, blessedRollTwo;
+  if (projectUsedTechnique(projectData, 'blessedCreation')) {
+    blessedRollOne = parseInt(projectData.techniqueTempData.blessedCreationRollOne);
+    blessedRollTwo = parseInt(projectData.techniqueTempData.blessedCreationRollTwo);
+  }
+
+  var manufacturerCount = getManufacturerCount(projectData);
 
   return (
     <div className='FineTuning'>
@@ -277,6 +288,20 @@ const FineTuning = ({
                 }
               >
                 Blessed Creation: +5
+              </button>
+            </div>
+          )
+        }
+
+        { (crafterHasTechnique(crafterData, 'manufacturer') && (manufacturerCount > 1)) &&
+          ( projectUsedTechnique(projectData, 'manufacturer') ?
+            <div>Used manufacturer to make {manufacturerCount} copies.</div>
+          :
+            <div className='technique-container'>
+              <button
+                className='add-dice'
+                onClick={() => addBonusRoll(0, 'manufacturer')}>
+                Manufacturer: {manufacturerCount} copies.
               </button>
             </div>
           )

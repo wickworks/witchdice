@@ -212,6 +212,11 @@ function buildTechniqueSentences(projectData, crafterData) {
       "spells such as *detect magic* and *true sight*, or any other means that reveal hidden magic. \n\n"
   }
 
+  if (crafterHasTechnique(crafterData, 'manufacturer') && getManufacturerCount(projectData) > 1) {
+    string +=
+      `*Manufacturer:* This item was created in a batch of ${getManufacturerCount(projectData)}. \n\n`
+  }
+
   if (projectData.techniques.length > 0) {
     string += `*Created using `
 
@@ -404,6 +409,27 @@ const allTechniques = {
   symbol: {name: 'Symbol', desc: 'Your projects protect and refresh the minds of your allies.', prereq: [5]},
 }
 
+
+
+function getManufacturerCount(projectData) {
+  const difficultyLevel = allDifficulties[projectData.difficulty];
+
+  const manufacturerTable = {
+    tiny:   [100,50,25,16,12,3],
+    small:  [50, 25,16,12,3, 1],
+    medium: [25, 16,12,3, 1, 1],
+    large:  [12, 6, 3, 1, 1, 1],
+    huge:   [6,  3, 1, 1, 1, 1],
+  }
+
+  var count = 1;
+  if (difficultyLevel <= 6) {
+    count = manufacturerTable[projectData.size][difficultyLevel-1];
+  }
+
+  return count
+}
+
 export {
   allMediaTypes,
   allTechniques,
@@ -426,4 +452,5 @@ export {
   crafterHasTechnique,
   projectUsedTechnique,
   didProjectSucceed,
+  getManufacturerCount,
 } ;
