@@ -8,6 +8,7 @@ const defaultCraftingCharacter = {
   mediaSecondary: '',
   proficiencyBonus: 2,
   techniques: [],
+  techniqueDetails: {},  // some techniques require selecting one or more options
   workshop: '',
   linguaFranca: '',
   toolProficiency: '',
@@ -266,6 +267,72 @@ function buildTechniqueSentences(projectData, crafterData) {
       'rest before you can do so again. \n\n'
   }
 
+  if (projectUsedTechnique(projectData, 'alloy')) {
+    // decompose from the weird select.value format to just a normal array
+    const alloys = crafterData.techniqueDetails.alloys.map((option) => option.value);
+
+    string += "*Alloy:* This object was made with a unique alloy of three metals: \n"
+
+    if (alloys.indexOf('Illuminium') >= 0) {
+      string +=
+        "- **Illuminium:** If this metal is exposed to " +
+        "sunlight or moonlight for one minute it " +
+        "will begin to glow, replicating the type of " +
+        "light, and casting bright light for 30 feet. As " +
+        "a bonus action you can change the color of " +
+        "the glow, but it will always have the quality of " +
+        "whatever light it was most recently charged " +
+        "by. Furthermore, the metal can be used in " +
+        "conjunction with any light-creating spell " +
+        "or effect to double the spell’s light radius. " +
+        "Striking this metal in a way known only to " +
+        "you will cause it to stop glowing until it is " +
+        "exposed to light once again. \n"
+    }
+    if (alloys.indexOf('Realm Silver') >= 0) {
+      string +=
+        "- **Realm Silver:** The metal is considered either " +
+        "holy or unholy and cannot be willingly " +
+        "touched by two of the following creature " +
+        "types of your choice: fiends, celestials, fey, or " +
+        "undead. \n"
+    }
+    if (alloys.indexOf('Adamantine') >= 0) {
+      string +=
+        "- **Adamantine:** Objects made of this metal have AC 23 and a damage threshold of 10. \n"
+    }
+    if (alloys.indexOf('Deep Mountain Brass') >= 0) {
+      string +=
+        "- **Deep Mountain Brass:** Sound produced by " +
+        "anything made from this metal can be three " +
+        "times louder or three times quieter. You may " +
+        "choose which quality you prefer every time " +
+        "you craft with your alloy. \n"
+    }
+    if (alloys.indexOf('Stained Glass Steel') >= 0) {
+      string +=
+        "- **Stained Glass Steel:** The surface of this metal " +
+        "is covered with shifting patterns. During the " +
+        "craft action, you can manipulate the patterns " +
+        "to make a static shape, or a constantly moving " +
+        "one, like a holograph. The image and its state " +
+        "are set once the craft action is complete. \n"
+    }
+    if (alloys.indexOf('Morphing Mercury') >= 0) {
+      string +=
+        "- **Morphing Mercury:** You have a secret method " +
+        "of converting this metal between liquid, " +
+        "bendable, or completely rigid. You can " +
+        "activate this phase change as an action even " +
+        "after the item has been crafted. If the metal " +
+        "was separated during the liquid or bendable " +
+        "phase, it will magically rejoin the item when " +
+        "it’s returned to its rigid state. \n"
+    }
+
+    string += "\n";
+  }
+
   if (crafterHasTechnique(crafterData, 'signature')) {
     string +=
       "*Signature:* This is enchanted with an arcane mark that responds to your command and " +
@@ -507,7 +574,7 @@ const allTechniques = {
   manufacturer: {name: 'Manufacturer', desc: 'Quadruple crafting time to make larger batches.', prereq: [4, 'No spell slots higher than 5th level']},
   toolsmithOfTheTrade: {name: 'Toolsmith of the Trade', desc: 'Higher DCs to undo your work and a bonus to use your expertise.', prereq: [4, 'Expertise']},
 
-  alloy: {name: 'Alloy', desc: 'Gain knowledge of a very special alloy.', prereq: [5, 'Metals']},
+  alloy: {name: 'Alloy', desc: 'Gain knowledge of three special alloys.', prereq: [5, 'Metals']},
   evergreen: {name: 'Evergreen', desc: 'Your items mend themselves and you can awaken them.', prereq: [5, 'Wood']},
   heirloom: {name: 'Heirloom', desc: 'Can add additional boons to an item over time.', prereq: [5]},
   resonance: {name: 'Resonance', desc: 'Your items can store and release magic.', prereq: [5, '']},

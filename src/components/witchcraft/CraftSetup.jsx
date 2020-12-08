@@ -57,7 +57,8 @@ const CraftSetup = ({
   // techniques to be able to toggle on and off
   const selectableTechniques = [
     'slowAndSteady',
-    'symbol'
+    'symbol',
+    'alloy',
   ]
   const techniques = selectableTechniques.filter(tech => crafterHasTechnique(crafterData, tech));
 

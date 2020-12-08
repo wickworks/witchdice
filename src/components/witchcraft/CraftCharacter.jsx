@@ -24,6 +24,15 @@ const techniqueOptions = Object.keys(allTechniques).map(key => ({
   "label" : allTechniques[key].name
 }))
 
+const alloyOptions = [
+  {"value": "Illuminium", "label": "Illuminium"},
+  {"value": "Realm Silver", "label": "Realm Silver"},
+  {"value": "Adamantine", "label": "Adamantine"},
+  {"value": "Deep Mountain Brass", "label": "Deep Mountain Brass"},
+  {"value": "Stained Glass Steel", "label": "Stained Glass Steel"},
+  {"value": "Morphing Mercury", "label": "Morphing Mercury"},
+]
+
 // The react-select wants us to pass in the ENTIRE option from above to be selected, not just the value.
 // However, I don't want to store its weird-ass special object. We can just retrieve it with the key here.
 function getOptionFromValue(options, value) {
@@ -35,12 +44,33 @@ function getOptionFromValue(options, value) {
   return result;
 }
 
+// Style for the drop-down menus
+const centerSelectStyle = {
+  valueContainer: (provided, state) => {
+    const justifyContent = 'center';
+    const padding = '6px'
+    return { ...provided, justifyContent, padding };
+  },
+  menu: (provided, state) => {
+    const fontSize = '16px';
+    return { ...provided, fontSize };
+  },
+}
+
+const clearSelectDropdownIconStyle = {
+  indicatorsContainer: (provided, state) => {
+    const display = 'none';
+    return { ...provided, display };
+  }
+}
+
 
 const CraftCharacter = ({
   crafterData,
   updateCrafterData
 }) => {
 
+  // ===== UPDATE CRAFTER DATA ====== //
   const updateTechnique = (techniqueIndex, value) => {
     var newData = deepCopy(crafterData.techniques);
     // replace or add
@@ -58,28 +88,28 @@ const CraftCharacter = ({
     updateCrafterData({class: getDefaultClass(crafterData.mediaPrimary, crafterData.mediaSecondary)})
   }
 
-  const clearSelectDropdownIconStyle = {
-    indicatorsContainer: (provided, state) => {
-      const display = 'none';
-      return { ...provided, display };
-    }
-  }
-
-  const centerSelectStyle = {
-    valueContainer: (provided, state) => {
-      const justifyContent = 'center';
-      const padding = '6px'
-      return { ...provided, justifyContent, padding };
-    },
-    menu: (provided, state) => {
-      const fontSize = '16px';
-      return { ...provided, fontSize };
-    },
-  }
-
+  // ======== TECHNIQUES ========= //
   var techniqueCountForCrafter = (crafterData.tier + 1);
   if (crafterHasTechnique(crafterData, 'subtleTouch')) { techniqueCountForCrafter += 3 }
   const unselectedTechniques = techniqueCountForCrafter - crafterData.techniques.length;
+
+  const alloySelect = (
+    <Select
+      isMulti
+      placeholder={'Alloys'}
+      name="alloys"
+      className="technique-select"
+      options={alloyOptions}
+      value={crafterData.techniqueDetails.alloys}
+      onChange={(options) => {
+        updateCrafterData({techniqueDetails: {
+          ...crafterData.techniqueDetails,
+          alloys: options.slice(0,3)
+        }})
+      }}
+      key={`alloys`}
+    />
+  )
 
   return (
     <div className='CraftCharacter'>
@@ -235,7 +265,12 @@ const CraftCharacter = ({
                     styles={clearSelectDropdownIconStyle}
                   />
                 </td>
-                <td>{allTechniques[technique].desc}</td>
+                <td>
+                  {allTechniques[technique].desc}
+                  {(technique === 'alloy') &&
+                    alloySelect
+                  }
+                </td>
               </tr>
             )
         })}
