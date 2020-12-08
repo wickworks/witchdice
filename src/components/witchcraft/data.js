@@ -107,6 +107,8 @@ function buildFinishedDescription(projectData, crafterData) {
     desc += projectData.blueprint + ".\n\n";
   }
 
+  desc += buildTechniqueSentences(projectData, crafterData);
+
   const flawStack = getTotalFlawBoonStack(projectData.rollData.flawCount, projectData);
   const boonStack = getTotalFlawBoonStack(projectData.rollData.boonCount, projectData);
 
@@ -160,6 +162,21 @@ function buildPreparationSentence(projectData, characterName = '') {
   );
 
   return '*'+string+'*';
+}
+
+function buildTechniqueSentences(projectData, crafterData) {
+  var string = '';
+
+  if (crafterHasTechnique(crafterData, 'dazzlefly')) {
+    string +=
+      '*Dazzlefly:* As an action whenever you use an item of your creation for an ability check, ' +
+      'or as a reaction whenever someone else is using your creation within 30 feet of you, ' +
+      'the item catches the light and begins to dazzle, adding +1d4 to the associated ' +
+      'ability check roll. Once you have used this feature you must complete a short or long ' +
+      'rest before you can do so again. \n\n'
+  }
+
+  return string;
 }
 
 function projectHasPreparation(projectData, preparation) {
