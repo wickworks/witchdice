@@ -150,7 +150,18 @@ const CraftCharacter = ({
       <div className='stats'>
         <div className='stamina'>
           <div className='label'>Stamina</div>
-          <div className='value'>{getStaminaForCharacter(crafterData)}</div>
+          <div className='value'>
+            {getStaminaForCharacter(crafterData)}
+            { crafterHasTechnique(crafterData, 'meTime') &&
+              (crafterData.tier >= 5 ?
+                <span>+3</span>
+              : crafterData.tier >= 3  ?
+                <span>+2</span>
+              :
+                <span>+1</span>
+              )
+            }
+          </div>
         </div>
 
         <div className='base-dice'>
