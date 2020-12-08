@@ -190,6 +190,14 @@ function buildTechniqueSentences(projectData, crafterData) {
       'rest before you can do so again. \n\n'
   }
 
+  if (crafterHasTechnique(crafterData, 'smellOfSuccess')) {
+    string +=
+      '*Smell of Success:* This can be smelled from up to ' +
+      '100 feet away, though airtight environments and wind ' +
+      'patterns may alter this radius. A creatures’ like (or ' +
+      'dislike) of that scent is doubled within 10 feet. \n\n'
+  }
+
   if (crafterHasTechnique(crafterData, 'signature')) {
     string +=
       "*Signature:* This is enchanted with an arcane mark that responds to your command and " +
