@@ -192,6 +192,33 @@ function buildTechniqueSentences(projectData, crafterData) {
       'of other objects of its kind. Its flaws do not diminish its durability. \n\n'
   }
 
+  if (crafterHasTechnique(crafterData, 'resonance')) {
+    string +=
+      "*Resonance:* This vibrates with a familiar hum of magic, " +
+      "capable of absorbing and storing energy. Each time " +
+      "a spell (of a level equal to or higher than half the " +
+      "item’s difficulty level, rounded up) is cast within 60 " +
+      "feet, this item gains a charge " +
+      "of resonance. Once it reaches three charges, " +
+      "they can be unleashed as a bonus action, resulting in " +
+      "the casting of a spell from the list below. The spell is " +
+      "chosen by the GM or rolled on a d6. \n" +
+      "- beacon of hope \n" +
+      "- conjure animals \n" +
+      "- haste (target is the item’s user) \n" +
+      "- hypnotic pattern (DC 18) \n" +
+      "- magic circle \n" +
+      "- mass healing word (+4) \n\n" +
+      "Once the spell effect is ended, this item can begin " +
+      "absorbing new charges once again. These effects can " +
+      "only be activated by its rightful owner. " +
+      "In cases of immovable, standing structures " +
+      "(as stonemasons might make), then the charges can " +
+      "be activated by touching the frame of the nearest " +
+      "doorway or window. This item’s creator is " +
+      "arbiter of who qualifies as an item’s rightful owner. \n\n"
+  }
+
   if (crafterHasTechnique(crafterData, 'dazzlefly')) {
     string +=
       '*Dazzlefly:* As an action whenever you use an item of your creation for an ability check, ' +

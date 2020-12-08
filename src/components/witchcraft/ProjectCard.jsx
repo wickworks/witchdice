@@ -34,7 +34,6 @@ const ProjectCard = ({
           textValue={projectData.desc}
           setTextValue={(value) => { updateProjectData({desc: value}) }}
           placeholder='Project description'
-          maxLength={512}
           isTextbox={true}
           isMarkdown={true}
         />
