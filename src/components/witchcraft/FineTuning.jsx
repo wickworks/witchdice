@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NumberInput from '../shared/NumberInput.jsx';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import {
@@ -18,7 +18,16 @@ const FineTuning = ({
   updateProjectData,
   handleFinishProject
 }) => {
-  const [welcomingWorkshopBonus, setWelcomingWorkshopBonus] = useState(3);
+  var welcomingWorkshopBonus = 3;
+  if (projectData.techniqueTempData.welcomingWorkshopBonus) {
+    welcomingWorkshopBonus = parseInt(projectData.techniqueTempData.welcomingWorkshopBonus);
+  }
+
+  var blessedRollOne, blessedRollTwo;
+  if (projectUsedTechnique(projectData, 'blessedCreation')) {
+    blessedRollOne = parseInt(projectData.techniqueTempData.blessedCreationRollOne);
+    blessedRollTwo = parseInt(projectData.techniqueTempData.blessedCreationRollTwo);
+  }
 
   const rolls = projectData.rollData.rolls;
   const cancelledCount = projectData.cancelledCount;
@@ -36,7 +45,15 @@ const FineTuning = ({
     updateProjectData({cancelledCount: newCount})
   }
 
-  function addBonusDice(bonusDiceCount, techniqueName) {
+  function setTechniqueTempData(techniqueData) {
+    const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
+
+    updateProjectData({
+      techniqueTempData: newTechniqueTempData
+    });
+  }
+
+  function addBonusDice(bonusDiceCount, techniqueName, techniqueData = {}) {
     var newData = deepCopy(projectData.rollData);
 
     for (var i = 0; i < bonusDiceCount; i++) {
@@ -47,15 +64,17 @@ const FineTuning = ({
     }
 
     var newTechniqueData = deepCopy(projectData.techniques);
-    newTechniqueData.push(techniqueName);
+    if (techniqueName) { newTechniqueData.push(techniqueName) }
+    const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
 
     updateProjectData({
       rollData: newData,
-      techniques: newTechniqueData
+      techniques: newTechniqueData,
+      techniqueTempData: newTechniqueTempData
     });
   }
 
-  function addBonusRoll(roll, techniqueName) {
+  function addBonusRoll(roll, techniqueName, techniqueData = {}) {
     var newData = deepCopy(projectData.rollData);
 
     newData.rolls.push(roll);
@@ -63,24 +82,28 @@ const FineTuning = ({
     if (roll === 6) { newData.boonCount += 1 }
 
     var newTechniqueData = deepCopy(projectData.techniques);
-    newTechniqueData.push(techniqueName);
+    if (techniqueName) { newTechniqueData.push(techniqueName) }
+    const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
 
     updateProjectData({
       rollData: newData,
-      techniques: newTechniqueData
+      techniques: newTechniqueData,
+      techniqueTempData: newTechniqueTempData
     });
   }
 
-  function addBoon(techniqueName) {
+  function addBoon(techniqueName, techniqueData = {}) {
     var newData = deepCopy(projectData.rollData);
     newData.boonCount += 1;
 
     var newTechniqueData = deepCopy(projectData.techniques);
-    newTechniqueData.push(techniqueName);
+    if (techniqueName) { newTechniqueData.push(techniqueName) }
+    const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
 
     updateProjectData({
       rollData: newData,
-      techniques: newTechniqueData
+      techniques: newTechniqueData,
+      techniqueTempData: newTechniqueTempData
     });
   }
 
@@ -187,7 +210,7 @@ const FineTuning = ({
               </button>
               <NumberInput
                 value={welcomingWorkshopBonus}
-                setValue={(value) => { setWelcomingWorkshopBonus(value) }}
+                setValue={(value) => setTechniqueTempData({welcomingWorkshopBonus: value}) }
                 minValue={1}
                 maxValue={6}
                 prefix={"+"}
@@ -210,6 +233,50 @@ const FineTuning = ({
                 className='add-dice'
                 onClick={() => addBoon('comfortZone')}>
                 Comfort Zone: +Boon
+              </button>
+            </div>
+          )
+        }
+
+        { crafterHasTechnique(crafterData, 'blessedCreation') &&
+          ( projectUsedTechnique(projectData, 'blessedCreation') ?
+            <div className='technique-container'>
+              <div>Used blessed creation.</div>
+              <button
+                className='add-dice'
+                onClick={() =>
+                  addBonusRoll(blessedRollOne, '', {
+                    blessedCreationRollOne: -1*blessedRollOne,
+                  })
+                }
+                disabled={blessedRollOne <= 0}
+              >
+                Additional roll: +{Math.abs(blessedRollOne)}
+              </button>
+              <button
+                className='add-dice'
+                onClick={() =>
+                  addBonusRoll(blessedRollTwo, '', {
+                    blessedCreationRollTwo: -1*blessedRollTwo,
+                  })
+                }
+                disabled={blessedRollTwo <= 0}
+              >
+                Additional roll: +{Math.abs(blessedRollTwo)}
+              </button>
+            </div>
+          :
+            <div className='technique-container'>
+              <button
+                className='add-dice'
+                onClick={() =>
+                  addBonusRoll(5, 'blessedCreation', {
+                    blessedCreationRollOne: getRandomInt(6),
+                    blessedCreationRollTwo: getRandomInt(6)
+                  })
+                }
+              >
+                Blessed Creation: +5
               </button>
             </div>
           )
@@ -241,7 +308,6 @@ const BoonFlawIcon = ({
     </div>
   )
 }
-
 
 const DisplayDie = ({
   dieType,

@@ -112,6 +112,12 @@
       cursor: pointer;
 
       &:hover { background-color: $pink; }
+
+      &:disabled {
+        background-color: $grey_light;
+        color: $grey_dark;
+        cursor: auto;
+      }
     }
 
     .technique-container {
@@ -123,11 +129,14 @@
 
       .NumberInput {
         background-color: none;
+        border-radius: 8px;
 
         .number {
           padding: 10px;
           border-radius: 8px;
           background-color: $parchment_dark;
+
+          &:hover { background-color: $pink; }
         }
       }
     }

@@ -27,7 +27,8 @@ const defaultProject = {
   difficulty: 'simple',
   size: 'small',
   preparations: [],
-  techniques: [], // techniques applied during the action or fine-tuning stage
+  techniques: [],         // Techniques applied during the action or fine-tuning stage
+  techniqueTempData: {},  // Sometimes need to store some temporary data during the fine-tuning stage
   staminaSpent: 0,
   rollData: defaultRollData,
   cancelledCount: 0,
@@ -96,6 +97,52 @@ function getTotalFlawBoonStack(flawOrBoonCount, projectData) {
   return stack
 }
 
+function projectHasPreparation(projectData, preparation) {
+  return (projectData.preparations.indexOf(preparation) >= 0);
+}
+
+function getStaminaCostForProject(projectData) {
+  let cost = allSizes[projectData.size] * allDifficulties[projectData.difficulty];
+  cost = Math.floor(cost);
+  cost = Math.max(cost, 1);
+
+  if (projectUsedTechnique(projectData, 'slowAndSteady')) { cost *= 2 }
+
+  return cost;
+}
+
+function getBonusDiceForProject(characterData, projectData) {
+  return characterData.tier + projectData.preparations.length;
+}
+
+function getProjectDC(projectData) {
+  return (allDifficulties[projectData.difficulty] * 5) + 5;
+}
+
+function getProjectResult(projectData, crafterData) {
+  var result = 0;
+  result += projectData.rollData.rolls.reduce((a, b) => a + b, 0);
+  result += crafterData.proficiencyBonus;
+  return result;
+}
+
+function didProjectSucceed(projectData, crafterData) {
+  return (getProjectResult(projectData, crafterData) >= getProjectDC(projectData))
+}
+
+function getStaminaForCharacter(characterData) {
+  return (characterData.tier + 2);
+}
+
+function crafterHasTechnique(crafterData, technique) {
+  return (crafterData.techniques.indexOf(technique) >= 0)
+}
+
+function projectUsedTechnique(projectData, technique) {
+  return (projectData.techniques.indexOf(technique) >= 0)
+}
+
+
 function buildFinishedDescription(projectData, crafterData) {
   var desc = '';
 
@@ -122,48 +169,6 @@ function buildFinishedDescription(projectData, crafterData) {
   return desc;
 }
 
-function buildPreparationSentence(projectData, characterName = '') {
-  if (projectData.preparations.length === 0) { return '' }
-
-  const nonGiftPreparations = [...projectData.preparations]
-    .filter(prep => prep !== 'Generosity');
-
-  var string = 'Made';
-
-  if (characterName.length > 0) {
-    string += ` by ${characterName}`
-  }
-
-  if (projectHasPreparation(projectData, 'Generosity')) {
-    string += ' as a gift';
-  }
-
-  // only a gift; end the sentence now.
-  if (nonGiftPreparations.length === 0) {
-    string += '.';
-    return '*'+string+'*';
-  }
-
-  // list the non-gift preparations
-  string += ' with ';
-  nonGiftPreparations.forEach(function (preparation, i) {
-      string += preparation.toLowerCase();
-      if (i === (nonGiftPreparations.length-1)) {
-        string += '.';
-      } else if (i === (nonGiftPreparations.length-2)) {
-        if (nonGiftPreparations.length === 2) {
-          string += ' and ';
-        } else {
-          string += ', and ';
-        }
-      } else {
-        string += ', ';
-      }
-    }
-  );
-
-  return '*'+string+'*';
-}
 
 function buildTechniqueSentences(projectData, crafterData) {
   const tier = crafterData.tier;
@@ -208,74 +213,75 @@ function buildTechniqueSentences(projectData, crafterData) {
   }
 
   if (projectData.techniques.length > 0) {
-    string += `Made using ${crafterData.name}'s `
+    string += `*Created using `
 
     const techniques = projectData.techniques;
     techniques.forEach(function (tech, i) {
-        string += allTechniques[tech].name.toLowerCase();
-        if (i === (techniques.length-1)) {
-          string += '.';
-        } else if (i === (techniques.length-2)) {
-          if (techniques.length === 2) {
-            string += ' and ';
+        if (allTechniques[tech]) {
+          string += allTechniques[tech].name.toLowerCase();
+          if (i === (techniques.length-1)) {
+            string += '.';
+          } else if (i === (techniques.length-2)) {
+            if (techniques.length === 2) {
+              string += ' and ';
+            } else {
+              string += ', and ';
+            }
           } else {
-            string += ', and ';
+            string += ', ';
           }
-        } else {
-          string += ', ';
         }
       }
     );
 
-    string += '\n\n'
+    string += '* '
   }
 
   return string;
 }
 
-function projectHasPreparation(projectData, preparation) {
-  return (projectData.preparations.indexOf(preparation) >= 0);
-}
 
-function getStaminaCostForProject(projectData) {
-  let cost = allSizes[projectData.size] * allDifficulties[projectData.difficulty];
-  cost = Math.floor(cost);
-  cost = Math.max(cost, 1);
+function buildPreparationSentence(projectData, characterName = '') {
+  if (projectData.preparations.length === 0) { return '' }
 
-  if (projectUsedTechnique(projectData, 'slowAndSteady')) { cost *= 2 }
+  const nonGiftPreparations = [...projectData.preparations]
+    .filter(prep => prep !== 'Generosity');
 
-  return cost;
-}
+  var string = 'Made';
 
-function getBonusDiceForProject(characterData, projectData) {
-  return characterData.tier + projectData.preparations.length;
-}
+  if (characterName.length > 0) {
+    string += ` by ${characterName}`
+  }
 
-function getProjectDC(projectData) {
-  return (allDifficulties[projectData.difficulty] * 5) + 5;
-}
+  if (projectHasPreparation(projectData, 'Generosity')) {
+    string += ' as a gift';
+  }
 
-function getProjectResult(projectData, crafterData) {
-  var result = 0;
-  result += projectData.rollData.rolls.reduce((a, b) => a + b, 0);
-  result += crafterData.proficiencyBonus;
-  return result;
-}
+  // only a gift; end the sentence now.
+  if (nonGiftPreparations.length === 0) {
+    string += '.';
+    return '*'+string+'*';
+  }
 
-function didProjectSucceed(projectData, crafterData) {
-  return (getProjectResult(projectData, crafterData) >= getProjectDC(projectData))
-}
+  // list the non-gift preparations
+  string += ' with ';
+  nonGiftPreparations.forEach(function (preparation, i) {
+      string += preparation.toLowerCase();
+      if (i === (nonGiftPreparations.length-1)) {
+        string += '.';
+      } else if (i === (nonGiftPreparations.length-2)) {
+        if (nonGiftPreparations.length === 2) {
+          string += ' and ';
+        } else {
+          string += ', and ';
+        }
+      } else {
+        string += ', ';
+      }
+    }
+  );
 
-function getStaminaForCharacter(characterData) {
-  return (characterData.tier + 2);
-}
-
-function crafterHasTechnique(crafterData, technique) {
-  return (crafterData.techniques.indexOf(technique) >= 0)
-}
-
-function projectUsedTechnique(projectData, technique) {
-  return (projectData.techniques.indexOf(technique) >= 0)
+  return '*'+string+'*';
 }
 
 function getDefaultClass(primary, secondary) {
