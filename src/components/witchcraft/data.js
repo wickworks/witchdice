@@ -101,12 +101,14 @@ function projectHasPreparation(projectData, preparation) {
   return (projectData.preparations.indexOf(preparation) >= 0);
 }
 
-function getStaminaCostForProject(projectData) {
+function getStaminaCostForProject(projectData, includeTechniques = true) {
   let cost = allSizes[projectData.size] * allDifficulties[projectData.difficulty];
   cost = Math.floor(cost);
   cost = Math.max(cost, 1);
 
-  if (projectUsedTechnique(projectData, 'slowAndSteady')) { cost *= 2 }
+  if (includeTechniques) {
+    if (projectUsedTechnique(projectData, 'slowAndSteady')) { cost *= 2 }
+  }
 
   return cost;
 }
@@ -217,6 +219,26 @@ function buildTechniqueSentences(projectData, crafterData) {
       "be activated by touching the frame of the nearest " +
       "doorway or window. This item’s creator is " +
       "arbiter of who qualifies as an item’s rightful owner. \n\n"
+  }
+
+  if (crafterHasTechnique(crafterData, 'smallDelights')) {
+    string +=
+      "*Small Delights:* The impermanent nature of your work empowers " +
+      "it during its brief time in the world. This consumable " +
+      `project has a pool of **${getStaminaCostForProject(projectData, false)*5}** ` +
+      "temporary hit points. Whenever it is consumed " +
+      "(by eating or wearing, as the case might be) by a " +
+      "creature, that creature can gain temporary health " +
+      "from the project’s pool up to the points remaining in " +
+      "the pool. If a project produces a yield greater than one " +
+      "(i.e. a batch of cupcakes), then the temporary health " +
+      "pool is shared across every creature who partook of " +
+      "the entire yield. Furthermore, whenever a creature " +
+      "with these temporary hit points makes an attack roll, " +
+      "ability check, or saving throw it can spend 3 temp " +
+      "HP to add +1 to the roll. A creature can perform this " +
+      "exchange multiple times per roll as long as it has 3 or " +
+      "more of these temporary hit points remaining. \n\n"
   }
 
   if (crafterHasTechnique(crafterData, 'dazzlefly')) {
