@@ -28,7 +28,7 @@ const defaultProject = {
   size: 'small',
   preparations: [],
   techniques: [],         // Techniques applied during the action or fine-tuning stage
-  techniqueTempData: {},  // Sometimes need to store some temporary data during the fine-tuning stage
+  techniqueDetails: {},  // Sometimes need to store some temporary data during the fine-tuning stage
   staminaSpent: 0,
   rollData: defaultRollData,
   cancelledCount: 0,
@@ -294,7 +294,7 @@ function buildTechniqueSentences(projectData, crafterData) {
   }
 
   if (crafterHasTechnique(crafterData, 'subtext')) {
-    const subtextSelection = projectData.techniqueTempData.subtext;
+    const subtextSelection = projectData.techniqueDetails.subtext;
     if (subtextSelection === 'Animated') {
       string += '*Subtext, Animated:* Some part of the drafted work moves or otherwise animates. '
     } else if (subtextSelection === 'Hidden Message') {

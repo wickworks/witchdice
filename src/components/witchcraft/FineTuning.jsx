@@ -51,12 +51,12 @@ const FineTuning = ({
 
     var newTechniqueData = deepCopy(projectData.techniques);
     if (techniqueName) { newTechniqueData.push(techniqueName) }
-    const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
+    const newTechniqueDetails = {...deepCopy(projectData.techniqueDetails), ...techniqueData};
 
     updateProjectData({
       rollData: newData,
       techniques: newTechniqueData,
-      techniqueTempData: newTechniqueTempData
+      techniqueDetails: newTechniqueDetails
     });
   }
 
@@ -71,12 +71,12 @@ const FineTuning = ({
 
     var newTechniqueData = deepCopy(projectData.techniques);
     if (techniqueName) { newTechniqueData.push(techniqueName) }
-    const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
+    const newTechniqueDetails = {...deepCopy(projectData.techniqueDetails), ...techniqueData};
 
     updateProjectData({
       rollData: newData,
       techniques: newTechniqueData,
-      techniqueTempData: newTechniqueTempData
+      techniqueDetails: newTechniqueDetails
     });
   }
 
@@ -86,31 +86,31 @@ const FineTuning = ({
 
     var newTechniqueData = deepCopy(projectData.techniques);
     if (techniqueName) { newTechniqueData.push(techniqueName) }
-    const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
+    const newTechniqueDetails = {...deepCopy(projectData.techniqueDetails), ...techniqueData};
 
     updateProjectData({
       rollData: newData,
       techniques: newTechniqueData,
-      techniqueTempData: newTechniqueTempData
+      techniqueDetails: newTechniqueDetails
     });
   }
 
   function addTechnique(techniqueName, techniqueData = {}) {
     var newTechniqueData = deepCopy(projectData.techniques);
     if (techniqueName) { newTechniqueData.push(techniqueName) }
-    const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
+    const newTechniqueDetails = {...deepCopy(projectData.techniqueDetails), ...techniqueData};
 
     updateProjectData({
       techniques: newTechniqueData,
-      techniqueTempData: newTechniqueTempData
+      techniqueDetails: newTechniqueDetails
     });
   }
 
-  function setTechniqueTempData(techniqueData) {
-    const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
+  function setTechniqueDetails(techniqueData) {
+    const newTechniqueDetails = {...deepCopy(projectData.techniqueDetails), ...techniqueData};
 
     updateProjectData({
-      techniqueTempData: newTechniqueTempData
+      techniqueDetails: newTechniqueDetails
     });
   }
 
@@ -120,19 +120,19 @@ const FineTuning = ({
 
   // ======== TECHNIQUE DATA ======== //
   var welcomingWorkshopBonus = 3;
-  if (projectData.techniqueTempData.welcomingWorkshopBonus) {
-    welcomingWorkshopBonus = parseInt(projectData.techniqueTempData.welcomingWorkshopBonus);
+  if (projectData.techniqueDetails.welcomingWorkshopBonus) {
+    welcomingWorkshopBonus = parseInt(projectData.techniqueDetails.welcomingWorkshopBonus);
   }
 
   var blessedRollOne, blessedRollTwo;
   if (projectUsedTechnique(projectData, 'blessedCreation')) {
-    blessedRollOne = parseInt(projectData.techniqueTempData.blessedCreationRollOne);
-    blessedRollTwo = parseInt(projectData.techniqueTempData.blessedCreationRollTwo);
+    blessedRollOne = parseInt(projectData.techniqueDetails.blessedCreationRollOne);
+    blessedRollTwo = parseInt(projectData.techniqueDetails.blessedCreationRollTwo);
   }
 
   const manufacturerCount = getManufacturerCount(projectData);
 
-  const subtextSelection = projectData.techniqueTempData.subtext;
+  const subtextSelection = projectData.techniqueDetails.subtext;
 
   return (
     <div className='FineTuning'>
