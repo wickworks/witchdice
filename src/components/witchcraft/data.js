@@ -212,6 +212,16 @@ function buildTechniqueSentences(projectData, crafterData) {
       "spells such as *detect magic* and *true sight*, or any other means that reveal hidden magic. \n\n"
   }
 
+  if (crafterHasTechnique(crafterData, 'toolsmithOfTheTrade')) {
+    string +=
+      "*Toolsmith of the Trade:* Whenever this object faces an " +
+      "opposed ability check to undo, open, or discern it (such " +
+      "as locks or disguises) you may add an ability modifier " +
+      "of your choice to the object’s DC. Additionally, whenever " +
+      "you perform an ability check that uses both your " +
+      "expertise and this item, you may add an ability modifier of your choice to the roll. \n\n"
+  }
+
   if (crafterHasTechnique(crafterData, 'manufacturer') && getManufacturerCount(projectData) > 1) {
     string +=
       `*Manufacturer:* This item was created in a batch of ${getManufacturerCount(projectData)}. \n\n`
