@@ -44,12 +44,12 @@ const FineTuning = ({
       if (roll === 6) { newData.boonCount += 1 }
     }
 
-    var newTuningData = deepCopy(projectData.fineTuning);
+    var newTuningData = deepCopy(projectData.techniques);
     if (techniqueName) { newTuningData.push(techniqueName); }
 
     updateProjectData({
       rollData: newData,
-      fineTuning: newTuningData
+      techniques: newTuningData
     });
   }
 

@@ -27,7 +27,7 @@ const defaultProject = {
   difficulty: 'simple',
   size: 'small',
   preparations: [],
-  fineTuning: [], // techniques applied during the fine-tuning stage
+  techniques: [], // techniques applied during the action or fine-tuning stage
   staminaSpent: 0,
   rollData: defaultRollData,
   cancelledCount: 0,
@@ -108,13 +108,13 @@ function buildFinishedDescription(projectData, crafterData) {
     desc += projectData.blueprint + ".\n\n";
   }
 
-  desc += buildTechniqueSentences(projectData, crafterData);
-
   const flawStack = getTotalFlawBoonStack(projectData.rollData.flawCount, projectData);
   const boonStack = getTotalFlawBoonStack(projectData.rollData.boonCount, projectData);
 
   flawStack.forEach(flaw => desc += ('**' + allFlaws[flaw] + '**: \n\n'))
   boonStack.forEach(boon => desc += ('**' + allBoons[boon] + '**: \n\n'))
+
+  desc += buildTechniqueSentences(projectData, crafterData);
 
   desc += buildPreparationSentence(projectData, crafterData.name);
   desc += '\n\n';
@@ -166,7 +166,14 @@ function buildPreparationSentence(projectData, characterName = '') {
 }
 
 function buildTechniqueSentences(projectData, crafterData) {
+  const tier = crafterData.tier;
   var string = '';
+
+  if (crafterHasTechnique(crafterData, 'durableAssembly')) {
+    string +=
+      "*Durable Assembly:* This object's AC is +1 and has resistance to a " +
+      'damage type of your choice. \n\n'
+  }
 
   if (crafterHasTechnique(crafterData, 'dazzlefly')) {
     string +=
@@ -177,10 +184,13 @@ function buildTechniqueSentences(projectData, crafterData) {
       'rest before you can do so again. \n\n'
   }
 
-  if (crafterHasTechnique(crafterData, 'durableAssembly')) {
+  if (crafterHasTechnique(crafterData, 'signature')) {
     string +=
-      "*Durable Assembly:* This object's AC is +1 and has resistance to a " +
-      'damage type of your choice. \n\n'
+      "*Signature:* This is enchanted with an arcane mark that responds to your command and " +
+      "proves you're the creator. Additionally, you're instantly aware of the presence of any " +
+      `item of your creation within ${tier >= 5 ? '1000' : tier >= 3 ? '500' : '100'} feet. ` +
+      "The arcane mark is magical and can be seen with " +
+      "spells such as *detect magic* and *true sight*, or any other means that reveal hidden magic. \n\n"
   }
 
   if (projectUsedTechnique(projectData, 'inheritedTools')) {
@@ -229,7 +239,7 @@ function crafterHasTechnique(crafterData, technique) {
 }
 
 function projectUsedTechnique(projectData, technique) {
-  return (projectData.fineTuning.indexOf(technique) >= 0)
+  return (projectData.techniques.indexOf(technique) >= 0)
 }
 
 function getDefaultClass(primary, secondary) {
