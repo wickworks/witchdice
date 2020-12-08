@@ -174,6 +174,12 @@ function buildTechniqueSentences(projectData, crafterData) {
   const tier = crafterData.tier;
   var string = '';
 
+  if (crafterHasTechnique(crafterData, 'evergreen')) {
+    string +=
+      "*Evergreen:* This object mends itself. As long as it hasn't been completely destroyed " +
+      'or disintegrated, it begins to mend itself at 1 hit point per minute. \n\n'
+  }
+
   if (crafterHasTechnique(crafterData, 'durableAssembly')) {
     string +=
       "*Durable Assembly:* This object's AC is +1 and has resistance to a " +
