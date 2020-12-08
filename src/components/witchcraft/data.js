@@ -250,14 +250,6 @@ function buildTechniqueSentences(projectData, crafterData) {
       'rest before you can do so again. \n\n'
   }
 
-  if (crafterHasTechnique(crafterData, 'smellOfSuccess')) {
-    string +=
-      '*Smell of Success:* This can be smelled from up to ' +
-      '100 feet away, though airtight environments and wind ' +
-      'patterns may alter this radius. A creatures’ like (or ' +
-      'dislike) of that scent is doubled within 10 feet. \n\n'
-  }
-
   if (crafterHasTechnique(crafterData, 'signature')) {
     string +=
       "*Signature:* This is enchanted with an arcane mark that responds to your command and " +
@@ -275,6 +267,41 @@ function buildTechniqueSentences(projectData, crafterData) {
       "of your choice to the object’s DC. Additionally, whenever " +
       "you perform an ability check that uses both your " +
       "expertise and this item, you may add an ability modifier of your choice to the roll. \n\n"
+  }
+
+  if (crafterHasTechnique(crafterData, 'smellOfSuccess')) {
+    string +=
+      '*Smell of Success:* This can be smelled from up to ' +
+      '100 feet away, though airtight environments and wind ' +
+      'patterns may alter this radius. A creatures’ like (or ' +
+      'dislike) of that scent is doubled within 10 feet. \n\n'
+  }
+
+  if (crafterHasTechnique(crafterData, 'subtext')) {
+    const subtextSelection = projectData.techniqueTempData.subtext;
+    if (subtextSelection === 'Animated') {
+      string += '*Subtext, Animated:* Some part of the drafted work moves or otherwise animates. '
+    } else if (subtextSelection === 'Hidden Message') {
+      string += '*Subtext, Hidden Message:* A layer of text or image not seen in the orignal work reveals itself. '
+    } else if (subtextSelection === 'Emotion') {
+      string += '*Subtext, Emotion:* The drafted work conveys a strong emotion to the viewer. '
+    }
+    string +=
+      "\n\n" +
+      "You choose the trigger that will activate these effects, " +
+      "whether it be simple (e.g. “someone looks at it”) or " +
+      "complicated (“someone who has their doubts about " +
+      "the current regime wants to meet like-minded people " +
+      "walks by”). The trigger must be something tangible " +
+      "within the setting, and cannot be based off character " +
+      "level, CR, or hit points. The GM will intercede to " +
+      "determine what triggers are reasonable. \n\n" +
+      "When you create this object, you may also choose " +
+      "to affix a Persuasion, Deception, or Intimidation " +
+      "ability check to it, either using your passive total or rolling " +
+      "with advantage. You must choose before making the " +
+      "roll. This check will be made against anyone who " +
+      "triggers the subtextual content. \n\n"
   }
 
   if (crafterHasTechnique(crafterData, 'manufacturer') && getManufacturerCount(projectData) > 1) {

@@ -95,6 +95,17 @@ const FineTuning = ({
     });
   }
 
+  function addTechnique(techniqueName, techniqueData = {}) {
+    var newTechniqueData = deepCopy(projectData.techniques);
+    if (techniqueName) { newTechniqueData.push(techniqueName) }
+    const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
+
+    updateProjectData({
+      techniques: newTechniqueData,
+      techniqueTempData: newTechniqueTempData
+    });
+  }
+
   function setTechniqueTempData(techniqueData) {
     const newTechniqueTempData = {...deepCopy(projectData.techniqueTempData), ...techniqueData};
 
@@ -119,7 +130,9 @@ const FineTuning = ({
     blessedRollTwo = parseInt(projectData.techniqueTempData.blessedCreationRollTwo);
   }
 
-  var manufacturerCount = getManufacturerCount(projectData);
+  const manufacturerCount = getManufacturerCount(projectData);
+
+  const subtextSelection = projectData.techniqueTempData.subtext;
 
   return (
     <div className='FineTuning'>
@@ -201,9 +214,7 @@ const FineTuning = ({
           ( projectUsedTechnique(projectData, 'inheritedTools') ?
             <div>Used inherited tools.</div>
           : !craftRollSucceeded &&
-            <button
-              className='add-dice'
-              onClick={() => addBonusDice((tier >= 4 ? 2 : 1), 'inheritedTools')}>
+            <button onClick={() => addBonusDice((tier >= 4 ? 2 : 1), 'inheritedTools')}>
               Use Inherited Tools: +{(tier >= 4 ? 2 : 1)}d6
             </button>
           )
@@ -214,14 +225,12 @@ const FineTuning = ({
             <div>Used welcoming workshop.</div>
           :
             <div className='technique-container'>
-              <button
-                className='add-dice'
-                onClick={() => addBonusRoll(welcomingWorkshopBonus, 'welcomingWorkshop')}>
+              <button onClick={() => addBonusRoll(welcomingWorkshopBonus, 'welcomingWorkshop')}>
                 Use Welcoming Workshop:
               </button>
               <NumberInput
                 value={welcomingWorkshopBonus}
-                setValue={(value) => setTechniqueTempData({welcomingWorkshopBonus: value}) }
+                setValue={(value) => addTechnique('', {welcomingWorkshopBonus: value}) }
                 minValue={1}
                 maxValue={6}
                 prefix={"+"}
@@ -235,14 +244,10 @@ const FineTuning = ({
             <div>Used comfort zone.</div>
           :
             <div className='technique-container'>
-              <button
-                className='add-dice'
-                onClick={() => addBonusRoll(5, 'comfortZone')}>
+              <button onClick={() => addBonusRoll(5, 'comfortZone')}>
                 Comfort Zone: +5
               </button>
-              <button
-                className='add-dice'
-                onClick={() => addBoon('comfortZone')}>
+              <button onClick={() => addBoon('comfortZone')}>
                 Comfort Zone: +Boon
               </button>
             </div>
@@ -254,7 +259,6 @@ const FineTuning = ({
             <div className='technique-container'>
               <div>Used blessed creation.</div>
               <button
-                className='add-dice'
                 onClick={() =>
                   addBonusRoll(blessedRollOne, '', {
                     blessedCreationRollOne: -1*blessedRollOne,
@@ -265,7 +269,6 @@ const FineTuning = ({
                 Additional roll: +{Math.abs(blessedRollOne)}
               </button>
               <button
-                className='add-dice'
                 onClick={() =>
                   addBonusRoll(blessedRollTwo, '', {
                     blessedCreationRollTwo: -1*blessedRollTwo,
@@ -279,7 +282,6 @@ const FineTuning = ({
           :
             <div className='technique-container'>
               <button
-                className='add-dice'
                 onClick={() =>
                   addBonusRoll(5, 'blessedCreation', {
                     blessedCreationRollOne: getRandomInt(6),
@@ -298,10 +300,27 @@ const FineTuning = ({
             <div>Used manufacturer to make {manufacturerCount} copies.</div>
           :
             <div className='technique-container'>
-              <button
-                className='add-dice'
-                onClick={() => addBonusRoll(0, 'manufacturer')}>
+              <button onClick={() => addBonusRoll(0, 'manufacturer')}>
                 Manufacturer: {manufacturerCount} copies.
+              </button>
+            </div>
+          )
+        }
+
+        { (crafterHasTechnique(crafterData, 'subtext') && (manufacturerCount > 1)) &&
+          ( projectUsedTechnique(projectData, 'subtext') ?
+            <div>Used subtext: {subtextSelection}.</div>
+          :
+            <div className='technique-container'>
+              <div>Subtext:</div>
+              <button onClick={() => addTechnique('subtext', {subtext: 'Animated'})}>
+                Animated
+              </button>
+              <button onClick={() => addTechnique('subtext', {subtext: 'Hidden Message'})}>
+                Hidden Message
+              </button>
+              <button onClick={() => addTechnique('subtext', {subtext: 'Emotion'})}>
+                Emotion
               </button>
             </div>
           )
