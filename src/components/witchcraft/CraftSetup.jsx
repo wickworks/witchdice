@@ -39,6 +39,7 @@ const CraftSetup = ({
     updateProjectData({techniques: newData});
   }
 
+  // preparations to trigger
   var preparations = [...allPreparations];
   if (crafterHasTechnique(crafterData, 'collaborator')) {
     preparations.push('Assistance (2)')
@@ -53,10 +54,12 @@ const CraftSetup = ({
     if (crafterData.tier >= 5) preparations.push('High-quality Materials (3)')
   }
 
-  var techniques = [];
-  if (crafterHasTechnique(crafterData, 'slowAndSteady')) {
-    techniques.push('slowAndSteady')
-  }
+  // techniques to be able to toggle on and off
+  const selectableTechniques = [
+    'slowAndSteady',
+    'symbol'
+  ]
+  const techniques = selectableTechniques.filter(tech => crafterHasTechnique(crafterData, tech));
 
   return (
     <div className='CraftSetup'>

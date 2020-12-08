@@ -194,6 +194,22 @@ function buildTechniqueSentences(projectData, crafterData) {
       'of other objects of its kind. Its flaws do not diminish its durability. \n\n'
   }
 
+  if (projectUsedTechnique(projectData, 'symbol')) {
+    string +=
+      "*Symbol:* This object serves as a symbol to others, granting them comfort and guidance. " +
+      "Creatures within 600 feet that can see " +
+      "or hear it, any creature that directly follows the " +
+      "leadership of a creature that wields it, or any creature " +
+      "that acts in the object’s preservation gains the benefit " +
+      "of its symbolism. The symbol grants immunity to " +
+      "fear, immunity to the first two steps of exhaustion, " +
+      "and allows the creature to restore up to two levels of " +
+      "exhaustion and all lost hit dice on a long rest. You may " +
+      "only have one such symbol empowered at any one " +
+      "time, however you may have up to three duplicates of " +
+      "the same symbol. \n\n"
+  }
+
   if (crafterHasTechnique(crafterData, 'resonance')) {
     string +=
       "*Resonance:* This vibrates with a familiar hum of magic, " +
