@@ -92,6 +92,29 @@
     }
   }
 
+  .add-dice-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    > * {
+      @include text_title_light;
+      margin: 40px 0 0;      
+    }
+
+    button.add-dice {
+      @include text_title_light;
+      padding: 10px 30px;
+      border: none;
+      border-radius: 8px;
+      background-color: $parchment_dark;
+      cursor: pointer;
+
+      &:hover { background-color: $pink; }
+    }
+  }
+
   .finish-project-container {
     border-top: 1px solid $parchment_dark;
     margin: 40px auto 0 0;

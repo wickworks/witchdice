@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { deepCopy } from '../../utils.js';
+import { deepCopy, getRandomInt } from '../../utils.js';
 import {
+  crafterHasTechnique,
+  projectUsedTechnique,
+  didProjectSucceed,
   getTotalFlawBoonStack,
   allFlaws,
   allBoons,
@@ -30,6 +33,27 @@ const FineTuning = ({
 
     updateProjectData({cancelledCount: newCount})
   }
+
+  function addBonusDice(bonusDiceCount, techniqueName = '') {
+    var newData = deepCopy(projectData.rollData);
+
+    for (var i = 0; i < bonusDiceCount; i++) {
+      const roll = getRandomInt(6);
+      newData.rolls.push(roll);
+      if (roll === 1) { newData.flawCount += 1 }
+      if (roll === 6) { newData.boonCount += 1 }
+    }
+
+    var newTuningData = deepCopy(projectData.fineTuning);
+    if (techniqueName) { newTuningData.push(techniqueName); }
+
+    updateProjectData({
+      rollData: newData,
+      fineTuning: newTuningData
+    });
+  }
+
+  const craftRollSucceeded = didProjectSucceed(projectData, crafterData);
 
   return (
     <div className='FineTuning'>
@@ -104,7 +128,18 @@ const FineTuning = ({
             }
           </div>
         </div>
+      </div>
 
+      <div className='add-dice-container'>
+        { crafterHasTechnique(crafterData, 'inheritedTools') && (crafterData.tier >= 2) &&
+          ( projectUsedTechnique(projectData, 'inheritedTools') ?
+            <div>Used inherited tools.</div>
+          : !craftRollSucceeded &&
+            <button className='add-dice' onClick={() => addBonusDice(1, 'inheritedTools')}>
+              Inherited Tools: +1d6
+            </button>
+          )
+        }
       </div>
 
       <div className='finish-project-container'>

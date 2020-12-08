@@ -278,6 +278,7 @@ const MainWitchCraft = ({
                 <FineTuning
                   crafterData={crafterData}
                   projectData={projectData}
+                  
                   updateProjectData={updateProjectData}
                   handleFinishProject={handleFinishProject}
                 />

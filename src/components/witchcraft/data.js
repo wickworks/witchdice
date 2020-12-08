@@ -27,6 +27,7 @@ const defaultProject = {
   difficulty: 'simple',
   size: 'small',
   preparations: [],
+  fineTuning: [], // techniques applied during the fine-tuning stage
   staminaSpent: 0,
   rollData: defaultRollData,
   cancelledCount: 0,
@@ -182,6 +183,10 @@ function buildTechniqueSentences(projectData, crafterData) {
       'damage type of your choice. \n\n'
   }
 
+  if (projectUsedTechnique(projectData, 'inheritedTools')) {
+    string += `Made using ${crafterData.name}'s inherited tools. \n\n`
+  }
+
   return string;
 }
 
@@ -223,6 +228,9 @@ function crafterHasTechnique(crafterData, technique) {
   return (crafterData.techniques.indexOf(technique) >= 0)
 }
 
+function projectUsedTechnique(projectData, technique) {
+  return (projectData.fineTuning.indexOf(technique) >= 0)
+}
 
 function getDefaultClass(primary, secondary) {
   var className = 'Crafter'; // to put SOMETHING in so we don't get stuck in an infinite loop
@@ -364,5 +372,6 @@ export {
   getProjectDC,
   getStaminaForCharacter,
   crafterHasTechnique,
+  projectUsedTechnique,
   didProjectSucceed,
 } ;
