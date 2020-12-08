@@ -175,6 +175,12 @@ function buildTechniqueSentences(projectData, crafterData) {
       'damage type of your choice. \n\n'
   }
 
+  if (projectUsedTechnique(projectData, 'slowAndSteady')) {
+    string +=
+      "*Slow and Steady:* This is extremely durable and has double hit points " +
+      'of other objects of its kind. Its flaws do not diminish its durability. \n\n'
+  }
+
   if (crafterHasTechnique(crafterData, 'dazzlefly')) {
     string +=
       '*Dazzlefly:* As an action whenever you use an item of your creation for an ability check, ' +
@@ -208,6 +214,9 @@ function getStaminaCostForProject(projectData) {
   let cost = allSizes[projectData.size] * allDifficulties[projectData.difficulty];
   cost = Math.floor(cost);
   cost = Math.max(cost, 1);
+
+  if (projectUsedTechnique(projectData, 'slowAndSteady')) { cost *= 2 }
+
   return cost;
 }
 

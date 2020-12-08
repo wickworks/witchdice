@@ -53,7 +53,7 @@
             border-radius: 4px;
             cursor: pointer;
 
-            &.preparation {
+            &.preparation, &.technique {
               align-items: center;
               width: 48%;
               min-width: 170px;

@@ -6,6 +6,7 @@ import {
   allDifficulties,
   allSizes,
   allPreparations,
+  allTechniques,
   crafterHasTechnique,
   getStaminaCostForProject
 } from './data.js';
@@ -20,31 +21,42 @@ const CraftSetup = ({
 
   const updatePreparation = (preparation, value) => {
     var newData = deepCopy(projectData.preparations);
-
     if (value) {
       newData.push(preparation)
     } else {
       newData.splice(newData.indexOf(preparation), 1);
     }
-
     updateProjectData({preparations: newData});
   }
 
-  var availablePreparations = [...allPreparations];
+  const updateTechnique = (technique, value) => {
+    var newData = deepCopy(projectData.techniques);
+    if (value) {
+      newData.push(technique)
+    } else {
+      newData.splice(newData.indexOf(technique), 1);
+    }
+    updateProjectData({techniques: newData});
+  }
+
+  var preparations = [...allPreparations];
   if (crafterHasTechnique(crafterData, 'collaborator')) {
-    availablePreparations.push('Assistance (2)')
-    if (crafterData.tier >= 5) availablePreparations.push('Assistance (3)')
+    preparations.push('Assistance (2)')
+    if (crafterData.tier >= 5) preparations.push('Assistance (3)')
   }
   if (crafterHasTechnique(crafterData, 'counselledCrafter')) {
-    availablePreparations.push('Knowledge (2)')
-    if (crafterData.tier >= 5) availablePreparations.push('Knowledge (3)')
+    preparations.push('Knowledge (2)')
+    if (crafterData.tier >= 5) preparations.push('Knowledge (3)')
   }
   if (crafterHasTechnique(crafterData, 'theGoodStuff')) {
-    availablePreparations.push('High-quality Materials (2)')
-    if (crafterData.tier >= 5) availablePreparations.push('High-quality Materials (3)')
+    preparations.push('High-quality Materials (2)')
+    if (crafterData.tier >= 5) preparations.push('High-quality Materials (3)')
   }
 
-
+  var techniques = [];
+  if (crafterHasTechnique(crafterData, 'slowAndSteady')) {
+    techniques.push('slowAndSteady')
+  }
 
   return (
     <div className='CraftSetup'>
@@ -145,7 +157,7 @@ const CraftSetup = ({
           </td>
           <td>
             <div className="selections">
-              { availablePreparations.map((prep, i) => {
+              { preparations.map((prep, i) => {
                 const checkboxID = `preparation-${i}`;
                 const isChecked = projectData.preparations.indexOf(prep) >= 0;
                 return (
@@ -163,6 +175,33 @@ const CraftSetup = ({
             </div>
           </td>
         </tr>
+
+        { (techniques.length > 0) &&
+          <tr className="technique">
+            <td className="label">
+              <div className="name">Techniques</div>
+            </td>
+            <td>
+              <div className="selections">
+                { techniques.map((tech, i) => {
+                  const checkboxID = `technique-${i}`;
+                  const isChecked = projectData.techniques.indexOf(tech) >= 0;
+                  return (
+                    <label className='technique' htmlFor={checkboxID} key={`checkbox-${checkboxID}`}>
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => updateTechnique(tech, !isChecked)}
+                        id={checkboxID}
+                      />
+                      <div className='name'>{allTechniques[tech].name}</div>
+                    </label>
+                  )
+                })}
+              </div>
+            </td>
+          </tr>
+        }
       </tbody></table>
     </div>
   )
