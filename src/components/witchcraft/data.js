@@ -176,6 +176,12 @@ function buildTechniqueSentences(projectData, crafterData) {
       'rest before you can do so again. \n\n'
   }
 
+  if (crafterHasTechnique(crafterData, 'durableAssembly')) {
+    string +=
+      "*Durable Assembly:* This object's AC is +1 and has resistance to a " +
+      'damage type of your choice. \n\n'
+  }
+
   return string;
 }
 
