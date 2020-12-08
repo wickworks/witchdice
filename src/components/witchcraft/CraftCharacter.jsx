@@ -77,7 +77,8 @@ const CraftCharacter = ({
     },
   }
 
-  const techniqueCountForCrafter = (crafterData.tier + 1);
+  var techniqueCountForCrafter = (crafterData.tier + 1);
+  if (crafterHasTechnique(crafterData, 'subtleTouch')) { techniqueCountForCrafter += 3 }
   const unselectedTechniques = techniqueCountForCrafter - crafterData.techniques.length;
 
   return (

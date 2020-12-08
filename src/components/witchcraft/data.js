@@ -380,7 +380,7 @@ const allTechniques = {
   craftmaster: {name: 'Craftmaster', desc: 'Reduce the difficulty of non-magical projects.', prereq: [3]},
   noTimeToWaste: {name: 'No Time to Waste', desc: 'Finish a project in one hour 1/month.', prereq: [3]},
   salvagedArcanum: {name: 'Salvaged Arcanum', desc: 'Projects can inherit the magical properties of their materials.', prereq: [3]},
-  subtleTouch: {name: 'Subtle Touch', desc: 'Take three tier 1 techniques.', prereq: [3]},
+  subtleTouch: {name: 'Subtle Touch', desc: 'Take three additional tier 1 techniques.', prereq: [3]},
 
   arcaneCrafter: {name: 'Arcane Crafter', desc: 'Spend spell slots to instantly complete projects.', prereq: [4, 'Spellcasting']},
   blessedCreation: {name: 'Blessed Creation', desc: 'Gain bonuses and a boon through prayer 1/month', prereq: [4, 'Serve a god, deity, patron, or other higher cosmic power']},
