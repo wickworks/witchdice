@@ -100,18 +100,35 @@
 
     > * {
       @include text_title_light;
-      margin: 40px 0 0;      
+      margin: 40px 0 0;
     }
 
     button.add-dice {
       @include text_title_light;
-      padding: 10px 30px;
+      padding: 10px 20px;
       border: none;
       border-radius: 8px;
       background-color: $parchment_dark;
       cursor: pointer;
 
       &:hover { background-color: $pink; }
+    }
+
+    .welcoming-workshop-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .NumberInput {
+        margin-left: 20px;
+        background-color: none;
+
+        .number {
+          padding: 10px;
+          border-radius: 8px;
+          background-color: $parchment_dark;
+        }
+      }
     }
   }
 

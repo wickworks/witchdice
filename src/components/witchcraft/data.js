@@ -207,8 +207,27 @@ function buildTechniqueSentences(projectData, crafterData) {
       "spells such as *detect magic* and *true sight*, or any other means that reveal hidden magic. \n\n"
   }
 
-  if (projectUsedTechnique(projectData, 'inheritedTools')) {
-    string += `Made using ${crafterData.name}'s inherited tools. \n\n`
+  if (projectData.techniques.length > 0) {
+    string += `Made using ${crafterData.name}'s `
+
+    const techniques = projectData.techniques;
+    techniques.forEach(function (tech, i) {
+        string += allTechniques[tech].name.toLowerCase();
+        if (i === (techniques.length-1)) {
+          string += '.';
+        } else if (i === (techniques.length-2)) {
+          if (techniques.length === 2) {
+            string += ' and ';
+          } else {
+            string += ', and ';
+          }
+        } else {
+          string += ', ';
+        }
+      }
+    );
+
+    string += '\n\n'
   }
 
   return string;

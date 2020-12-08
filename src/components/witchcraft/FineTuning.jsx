@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import NumberInput from '../shared/NumberInput.jsx';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import {
   crafterHasTechnique,
@@ -17,6 +18,7 @@ const FineTuning = ({
   updateProjectData,
   handleFinishProject
 }) => {
+  const [welcomingWorkshopBonus, setWelcomingWorkshopBonus] = useState(3);
 
   const rolls = projectData.rollData.rolls;
   const cancelledCount = projectData.cancelledCount;
@@ -53,6 +55,23 @@ const FineTuning = ({
     });
   }
 
+  function addBonusRoll(roll, techniqueName = '') {
+    var newData = deepCopy(projectData.rollData);
+
+    newData.rolls.push(roll);
+    if (roll === 1) { newData.flawCount += 1 }
+    if (roll === 6) { newData.boonCount += 1 }
+
+    var newTuningData = deepCopy(projectData.techniques);
+    if (techniqueName) { newTuningData.push(techniqueName); }
+
+    updateProjectData({
+      rollData: newData,
+      techniques: newTuningData
+    });
+  }
+
+  const tier = crafterData.tier;
   const craftRollSucceeded = didProjectSucceed(projectData, crafterData);
 
   return (
@@ -131,13 +150,36 @@ const FineTuning = ({
       </div>
 
       <div className='add-dice-container'>
-        { crafterHasTechnique(crafterData, 'inheritedTools') && (crafterData.tier >= 2) &&
+        { crafterHasTechnique(crafterData, 'inheritedTools') && (tier >= 2) &&
           ( projectUsedTechnique(projectData, 'inheritedTools') ?
             <div>Used inherited tools.</div>
           : !craftRollSucceeded &&
-            <button className='add-dice' onClick={() => addBonusDice(1, 'inheritedTools')}>
-              Inherited Tools: +1d6
+            <button
+              className='add-dice'
+              onClick={() => addBonusDice((tier >= 4 ? 2 : 1), 'inheritedTools')}>
+              Add Inherited Tools: +{(tier >= 4 ? 2 : 1)}d6
             </button>
+          )
+        }
+
+        { crafterHasTechnique(crafterData, 'welcomingWorkshop') &&
+          ( projectUsedTechnique(projectData, 'welcomingWorkshop') ?
+            <div>Used welcoming workshop.</div>
+          :
+            <div className='welcoming-workshop-container'>
+              <button
+                className='add-dice'
+                onClick={() => addBonusRoll(welcomingWorkshopBonus, 'welcomingWorkshop')}>
+                Add Welcoming Workshop:
+              </button>
+              <NumberInput
+                value={welcomingWorkshopBonus}
+                setValue={(value) => { setWelcomingWorkshopBonus(value) }}
+                minValue={1}
+                maxValue={6}
+                prefix={"+"}
+              />
+            </div>
           )
         }
       </div>
