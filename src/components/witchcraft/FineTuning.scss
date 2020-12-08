@@ -100,7 +100,7 @@
 
     > * {
       @include text_title_light;
-      margin: 40px 0 0;
+      margin: 40px 20px 0;
     }
 
     button.add-dice {
@@ -114,13 +114,14 @@
       &:hover { background-color: $pink; }
     }
 
-    .welcoming-workshop-container {
+    .technique-container {
       display: flex;
       justify-content: center;
       align-items: center;
 
+      > * { margin: 0 10px; }
+
       .NumberInput {
-        margin-left: 20px;
         background-color: none;
 
         .number {
