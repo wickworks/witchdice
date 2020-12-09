@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select'
 import TextInput from '../shared/TextInput.jsx';
 import NumberInput from '../shared/NumberInput.jsx';
+import { DeleteButton, DeleteConfirmation } from '../shared/DeleteButton.jsx';
 import { deepCopy } from '../../utils.js';
 import {
   allMediaTypes,
@@ -74,8 +75,16 @@ const clearSelectDropdownIconStyle = {
 
 const CraftCharacter = ({
   crafterData,
-  updateCrafterData
+  updateCrafterData,
+  deleteCrafter,
 }) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+  const isDeletingClass = isDeleting ? 'hidden' : '';
+
+  useEffect(() => {
+    setIsDeleting(false);
+  }, [crafterData]);
+
 
   // ===== UPDATE CRAFTER DATA ====== //
   const updateTechnique = (techniqueIndex, value) => {
@@ -136,7 +145,7 @@ const CraftCharacter = ({
   )
 
   return (
-    <div className='CraftCharacter'>
+    <div className={`CraftCharacter ${isDeletingClass}`}>
       <hr className="pumpkin-bar" />
 
       <div className='intro-container'>
@@ -300,7 +309,7 @@ const CraftCharacter = ({
 
         { (unselectedTechniques > 0) &&
           [...Array(unselectedTechniques)].map( (tech, i) => (
-            <tr>
+            <tr key={i}>
               <td>
                 <Select
                   className={'select-dropdown'}
@@ -323,6 +332,21 @@ const CraftCharacter = ({
           ))
         }
       </tbody></table>
+
+      { isDeleting ?
+        <DeleteConfirmation
+          name={crafterData.name}
+          handleCancel={() => setIsDeleting(false)}
+          handleDelete={() => {setIsDeleting(false); deleteCrafter()}}
+          moreClasses={'delete-crafter-confirmation'}
+        />
+      :
+        <DeleteButton
+          handleClick={() => setIsDeleting(true)}
+          moreClasses='delete-project'
+        />
+      }
+
 
       <hr className="pumpkin-bar" />
     </div>

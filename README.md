@@ -61,12 +61,13 @@ apple-touch-icon
 
 
 #### WITCH+CRAFT MECHANICS ####
-- be able to delte characters
+- have it automatically add the automatic techniques
+- special "new project" button when it's empty, just like up top
 - prereqs for techniques
 - push to roll history
 - click stamina checkmarks to check ALL BOXES UP TO THAT MARK, have little message when all are filled
-- special "new project" button when it's empty, just like up top
-- have it automatically add the automatic techniques
+
+
 
 - export project cards to clipboard or to pdf
 

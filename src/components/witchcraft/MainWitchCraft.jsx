@@ -95,6 +95,29 @@ const MainWitchCraft = ({
     setProjectData(null);
   }
 
+  const deleteActiveCrafter = () => {
+    console.log('deleting crafter ', crafterData);
+
+    const storageName = getStorageName(CRAFTER_PREFIX, crafterID, crafterData.name);
+
+    // remove from localstorage
+    localStorage.removeItem(storageName);
+
+    // remove from the current list of crafter entries
+    let newData = deepCopy(allCrafterEntries)
+    let crafterIndex = -1;
+    allCrafterEntries.forEach((entry, i) => {
+      if (entry.id === crafterID) {crafterIndex = i;}
+    });
+    if (crafterIndex >= 0) {
+      newData.splice(crafterIndex, 1)
+      setAllCrafterEntries(newData);
+    }
+
+    setCrafterData(null);
+  }
+
+
 
   const createNewProject = () => {
     const fingerprint = getRandomFingerprint();
@@ -128,7 +151,6 @@ const MainWitchCraft = ({
     console.log('deleting project ', projectData);
 
     const storageName = getStorageName(PROJECT_PREFIX, projectID, projectData.name);
-    console.log('storage name : ', storageName);
 
     // remove from localstorage
     localStorage.removeItem(storageName);
@@ -240,6 +262,7 @@ const MainWitchCraft = ({
           <CraftCharacter
             crafterData={crafterData}
             updateCrafterData={updateCrafterData}
+            deleteCrafter={deleteActiveCrafter}
           />
 
           <ProjectList
