@@ -368,7 +368,7 @@ function buildTechniqueSentences(projectData, crafterData) {
       'dislike) of that scent is doubled within 10 feet. \n\n'
   }
 
-  if (crafterHasTechnique(crafterData, 'subtext')) {
+  if (projectUsedTechnique(projectData, 'subtext')) {
     const subtextSelection = projectData.techniqueDetails.subtext;
     if (subtextSelection === 'Animated') {
       string += '*Subtext, Animated:* Some part of the drafted work moves or otherwise animates. '
@@ -395,7 +395,7 @@ function buildTechniqueSentences(projectData, crafterData) {
       "triggers the subtextual content. \n\n"
   }
 
-  if (crafterHasTechnique(crafterData, 'manufacturer') && getManufacturerCount(projectData) > 1) {
+  if (projectUsedTechnique(projectData, 'manufacturer') && getManufacturerCount(projectData) > 1) {
     string +=
       `*Manufacturer:* This item was created in a batch of ${getManufacturerCount(projectData)}. \n\n`
   }

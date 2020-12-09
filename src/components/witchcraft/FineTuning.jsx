@@ -39,81 +39,45 @@ const FineTuning = ({
 
   // ======== ADD DICE, BONUSES, AND TECHNIQUE DATA ======== //
 
-  function addBonusDice(bonusDiceCount, techniqueName, techniqueData = {}) {
-    var newData = deepCopy(projectData.rollData);
+  // dice: rolls that many dice, adds boons and flaws accordingly
+  // roll: adds a specific roll, adds boon or flaw accordingly
+  // boonCount: adds this many boons
+  // flawCount: adds this many flaws
+  // technique: appends technique name
+  // techniqueDetails: sets technique detail data
+  function updateProject(update) {
+    var newRollData = deepCopy(projectData.rollData);
 
-    for (var i = 0; i < bonusDiceCount; i++) {
-      const roll = getRandomInt(6);
-      newData.rolls.push(roll);
-      if (roll === 1) { newData.flawCount += 1 }
-      if (roll === 6) { newData.boonCount += 1 }
+    if (update.dice) {
+      for (var i = 0; i < update.dice; i++) {
+        const roll = getRandomInt(6);
+        newRollData.rolls.push(roll);
+        if (roll === 1) { newRollData.flawCount += 1 }
+        if (roll === 6) { newRollData.boonCount += 1 }
+      }
     }
 
-    var newTechniqueData = deepCopy(projectData.techniques);
-    if (techniqueName) { newTechniqueData.push(techniqueName) }
-    const newTechniqueDetails = {...deepCopy(projectData.techniqueDetails), ...techniqueData};
-
-    updateProjectData({
-      rollData: newData,
-      techniques: newTechniqueData,
-      techniqueDetails: newTechniqueDetails
-    });
-  }
-
-  function addBonusRoll(roll, techniqueName, techniqueData = {}) {
-    var newData = deepCopy(projectData.rollData);
-
-    if (roll > 0) {
-      newData.rolls.push(roll);
-      if (roll === 1) { newData.flawCount += 1 }
-      if (roll === 6) { newData.boonCount += 1 }
+    if (update.roll) {
+      newRollData.rolls.push(update.roll);
+      if (update.roll === 1) { newRollData.flawCount += 1 }
+      if (update.roll === 6) { newRollData.boonCount += 1 }
     }
 
+    if (update.boonCount) newRollData.boonCount += update.boonCount;
+    if (update.flawCount) newRollData.flawCount += update.flawCount;
+
     var newTechniqueData = deepCopy(projectData.techniques);
-    if (techniqueName) { newTechniqueData.push(techniqueName) }
-    const newTechniqueDetails = {...deepCopy(projectData.techniqueDetails), ...techniqueData};
+    if (update.technique) newTechniqueData.push(update.technique);
+
+    var newTechniqueDetails = deepCopy(projectData.techniqueDetails);
+    if (update.techniqueDetails) newTechniqueDetails = {...newTechniqueDetails, ...update.techniqueDetails}
 
     updateProjectData({
-      rollData: newData,
+      rollData: newRollData,
       techniques: newTechniqueData,
       techniqueDetails: newTechniqueDetails
     });
   }
-
-  function addBoon(techniqueName, techniqueData = {}) {
-    var newData = deepCopy(projectData.rollData);
-    newData.boonCount += 1;
-
-    var newTechniqueData = deepCopy(projectData.techniques);
-    if (techniqueName) { newTechniqueData.push(techniqueName) }
-    const newTechniqueDetails = {...deepCopy(projectData.techniqueDetails), ...techniqueData};
-
-    updateProjectData({
-      rollData: newData,
-      techniques: newTechniqueData,
-      techniqueDetails: newTechniqueDetails
-    });
-  }
-
-  function addTechnique(techniqueName, techniqueData = {}) {
-    var newTechniqueData = deepCopy(projectData.techniques);
-    if (techniqueName) { newTechniqueData.push(techniqueName) }
-    const newTechniqueDetails = {...deepCopy(projectData.techniqueDetails), ...techniqueData};
-
-    updateProjectData({
-      techniques: newTechniqueData,
-      techniqueDetails: newTechniqueDetails
-    });
-  }
-
-  function setTechniqueDetails(techniqueData) {
-    const newTechniqueDetails = {...deepCopy(projectData.techniqueDetails), ...techniqueData};
-
-    updateProjectData({
-      techniqueDetails: newTechniqueDetails
-    });
-  }
-
 
   const tier = crafterData.tier;
   const craftRollSucceeded = didProjectSucceed(projectData, crafterData);
@@ -210,11 +174,19 @@ const FineTuning = ({
       </div>
 
       <div className='add-dice-container'>
+        { projectUsedTechnique(projectData, 'desperateMeasures') ?
+          <div>Used desparate measures.</div>
+        : !craftRollSucceeded &&
+          <button onClick={() => updateProject({flawCount: 1, roll: 3, technique: 'desperateMeasures'}) }>
+            Use Desperate Measures: +3, +Flaw
+          </button>
+        }
+
         { crafterHasTechnique(crafterData, 'inheritedTools') && (tier >= 2) &&
           ( projectUsedTechnique(projectData, 'inheritedTools') ?
             <div>Used inherited tools.</div>
           : !craftRollSucceeded &&
-            <button onClick={() => addBonusDice((tier >= 4 ? 2 : 1), 'inheritedTools')}>
+            <button onClick={() => updateProject({dice: (tier >= 4 ? 2 : 1), technique: 'inheritedTools'}) }>
               Use Inherited Tools: +{(tier >= 4 ? 2 : 1)}d6
             </button>
           )
@@ -225,12 +197,12 @@ const FineTuning = ({
             <div>Used welcoming workshop.</div>
           :
             <div className='technique-container'>
-              <button onClick={() => addBonusRoll(welcomingWorkshopBonus, 'welcomingWorkshop')}>
+              <button onClick={() => updateProject({roll: welcomingWorkshopBonus, technique: 'welcomingWorkshop'}) }>
                 Use Welcoming Workshop:
               </button>
               <NumberInput
                 value={welcomingWorkshopBonus}
-                setValue={(value) => addTechnique('', {welcomingWorkshopBonus: value}) }
+                setValue={(value) => updateProject({techniqueDetails: {welcomingWorkshopBonus: value}}) }
                 minValue={1}
                 maxValue={6}
                 prefix={"+"}
@@ -244,10 +216,10 @@ const FineTuning = ({
             <div>Used comfort zone.</div>
           :
             <div className='technique-container'>
-              <button onClick={() => addBonusRoll(5, 'comfortZone')}>
+              <button onClick={() => updateProject({roll: 5, technique: 'comfortZone'}) }>
                 Comfort Zone: +5
               </button>
-              <button onClick={() => addBoon('comfortZone')}>
+              <button onClick={() => updateProject({boonCount: 1, technique: 'comfortZone'}) }>
                 Comfort Zone: +Boon
               </button>
             </div>
@@ -259,21 +231,19 @@ const FineTuning = ({
             <div className='technique-container'>
               <div>Used blessed creation.</div>
               <button
-                onClick={() =>
-                  addBonusRoll(blessedRollOne, '', {
-                    blessedCreationRollOne: -1*blessedRollOne,
-                  })
-                }
+                onClick={() => updateProject({
+                  roll: blessedRollOne,
+                  techniqueDetails: { blessedCreationRollOne: -1*blessedRollOne }
+                })}
                 disabled={blessedRollOne <= 0}
               >
                 Additional roll: +{Math.abs(blessedRollOne)}
               </button>
               <button
-                onClick={() =>
-                  addBonusRoll(blessedRollTwo, '', {
-                    blessedCreationRollTwo: -1*blessedRollTwo,
-                  })
-                }
+                onClick={() => updateProject({
+                  roll: blessedRollTwo,
+                  techniqueDetails: { blessedCreationRollTwo: -1*blessedRollTwo }
+                })}
                 disabled={blessedRollTwo <= 0}
               >
                 Additional roll: +{Math.abs(blessedRollTwo)}
@@ -281,14 +251,14 @@ const FineTuning = ({
             </div>
           :
             <div className='technique-container'>
-              <button
-                onClick={() =>
-                  addBonusRoll(5, 'blessedCreation', {
-                    blessedCreationRollOne: getRandomInt(6),
-                    blessedCreationRollTwo: getRandomInt(6)
-                  })
+              <button onClick={() => updateProject({
+                roll: 5,
+                technique: 'blessedCreation',
+                techniqueDetails: {
+                  blessedCreationRollOne: getRandomInt(6),
+                  blessedCreationRollTwo: getRandomInt(6)
                 }
-              >
+              }) }>
                 Blessed Creation: +5
               </button>
             </div>
@@ -300,26 +270,26 @@ const FineTuning = ({
             <div>Used manufacturer to make {manufacturerCount} copies.</div>
           :
             <div className='technique-container'>
-              <button onClick={() => addBonusRoll(0, 'manufacturer')}>
+              <button onClick={() => updateProject({technique: 'manufacturer'}) }>
                 Manufacturer: {manufacturerCount} copies.
               </button>
             </div>
           )
         }
 
-        { (crafterHasTechnique(crafterData, 'subtext') && (manufacturerCount > 1)) &&
+        { crafterHasTechnique(crafterData, 'subtext') &&
           ( projectUsedTechnique(projectData, 'subtext') ?
             <div>Used subtext: {subtextSelection}.</div>
           :
             <div className='technique-container'>
               <div>Subtext:</div>
-              <button onClick={() => addTechnique('subtext', {subtext: 'Animated'})}>
+              <button onClick={() => updateProject({techniqueDetails: {subtext: 'Animated'}, technique: 'subtext'}) }>
                 Animated
               </button>
-              <button onClick={() => addTechnique('subtext', {subtext: 'Hidden Message'})}>
+              <button onClick={() => updateProject({techniqueDetails: {subtext: 'Hidden Message'}, technique: 'subtext'}) }>
                 Hidden Message
               </button>
-              <button onClick={() => addTechnique('subtext', {subtext: 'Emotion'})}>
+              <button onClick={() => updateProject({techniqueDetails: {subtext: 'Emotion'}, technique: 'subtext'}) }>
                 Emotion
               </button>
             </div>
