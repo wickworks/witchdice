@@ -1,6 +1,26 @@
+@import './fontsWitchCraft';
 
-.MainWitchCraft {
-  .CharacterList {
-    margin: auto;
+.Main {
+  .MainWitchCraft {
+    .CharacterList {
+      margin: auto;
+
+      .title-bar h2, .new-character.first {
+        color: $green_witch;
+        font-weight: bold;
+      }
+    }
+
+    .gameplay-container {
+      border-top: 2px solid $green_witch;
+    }
+
+    .pumpkin-bar {
+      background-color: $green_witch_pale;
+    }
+
+    .PartyPanel, .DiceBag {
+      h2 { color: $green_witch; }
+    }
   }
 }

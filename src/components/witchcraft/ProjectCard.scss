@@ -14,13 +14,18 @@
 
   .title {
     @include text_character_name;
+    color: $green_witch;
     margin-left: 8px;
 
-    input[type=text] { @include text_character_name; }
+    input[type=text] {
+      @include text_character_name;
+      color: $green_witch;
+    }
   }
 
   .attributes {
     @include text_label;
+    color: $green_witch;
     margin: 4px 0 0 8px;
   }
 
@@ -35,7 +40,7 @@
   .description {
     margin-top: 16px;
     box-sizing: border-box;
-    border: 1px solid $rust;
+    border: 1px solid $green_witch;
 
     .TextInput, .display, textarea {
       padding: 4px;

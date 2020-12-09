@@ -63,7 +63,7 @@ const CraftSetup = ({
 
   const difficultyLevel = allDifficulties[projectData.difficulty];
   if (difficultyLevel >= 3) { selectableTechniques.push('spellweaver')}
-  
+
   const techniques = selectableTechniques.filter(tech => crafterHasTechnique(crafterData, tech));
 
   return (
@@ -73,6 +73,8 @@ const CraftSetup = ({
           textValue={projectData.name}
           setTextValue={(value) => { updateProjectData({name: capitalize(value)}) }}
           placeholder={'Project title'}
+          prefix={'~ Prepare '}
+          suffix={' ~'}
           maxLength={128}
         />
       </div>

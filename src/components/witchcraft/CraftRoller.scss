@@ -4,7 +4,14 @@
   max-width: 600px;
   margin: auto;
   padding-bottom: 20px;
-  border-bottom: 2px solid $rust;
+  border-bottom: 1px solid $green_witch;
+
+  h2.roll-craft {
+    @include text_title_action;
+    color: $green_witch;
+    text-align: center;
+    margin: 20px 0 30px;
+  }
 
   .stamina-bar {
     display: flex;
@@ -14,6 +21,8 @@
 
     .label {
       @include text_label;
+      color: $grey_mid;
+      font-weight: bold;
       margin-right: 16px;
     }
 
@@ -56,8 +65,8 @@
       text-align: center;
     }
 
-    .success { color: $olive_dark; }
-    .failure { color: $rust; }
+    .success { color: $green_witch; }
+    .failure { color: $olive_dark; }
 
     .additional-dice {
       display: flex;

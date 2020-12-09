@@ -7,11 +7,13 @@
 
   .setup-title {
     @include text_title_action;
+    color: $green_witch;
     text-align: center;
     margin: 14px auto 10px;
 
     input[type=text] {
       @include text_title_action;
+      color: $green_witch;
       text-align: center;
     }
   }
@@ -68,12 +70,12 @@
               }
             }
 
+            &:hover { background-color: $green_witch_pale; }
             &.selected {
-              background-color: $rust;
+              background-color: $green_witch;
               font-weight: bold;
               color: white;
             }
-            &:hover { background-color: $pink; }
 
             input[type=radio] {
               position: absolute;

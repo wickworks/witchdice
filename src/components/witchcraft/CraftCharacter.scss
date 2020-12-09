@@ -28,10 +28,14 @@
 
       .name {
         @include text_character_name;
+        color: $green_witch;
         margin: 6px 0;
         text-align: center;
 
-        input { @include text_character_name; }
+        input {
+          @include text_character_name;
+          color: $green_witch;
+        }
       }
 
       .tier {
@@ -100,7 +104,7 @@
   }
 
   table.techniques {
-    margin: 0 20px 30px;
+    margin: 0 30px 30px;
 
     tr {
       td { padding-top: 8px; }

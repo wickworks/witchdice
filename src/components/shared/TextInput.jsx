@@ -7,7 +7,7 @@ const TextInput = ({
   textValue,
   setTextValue,
   placeholder,
-  suffix,
+  prefix,suffix,
   isTextbox,
   isMarkdown,
   startsOpen = false,
@@ -41,7 +41,7 @@ const TextInput = ({
 
   const editingClass = isEditing ? 'editing' : 'not-editing';
   const placeholderClass = currentText ? 'not-placeholder' : 'placeholder';
-  const displayText = `${currentText ? currentText : placeholder}${suffix ? suffix : ''}`;
+  const displayText = `${prefix ? prefix : ''}${currentText ? currentText : placeholder}${suffix ? suffix : ''}`;
 
 
 

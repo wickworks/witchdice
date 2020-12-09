@@ -61,6 +61,9 @@ const CraftRoller = ({
 
   return (
     <div className='CraftRoller'>
+      <h2 className="roll-craft">~ Craft Action ~</h2>
+
+
       <div className='stamina-bar'>
         <div className='label'>Stamina</div>
 

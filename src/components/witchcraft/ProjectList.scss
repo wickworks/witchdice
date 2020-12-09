@@ -10,12 +10,13 @@
   .title-container {
     display: flex;
     align-items: center;
-    margin: 0 20px;
+    margin: 0 20px 20px;
     padding-bottom: 6px;
-    border-bottom: 2px solid $rust_light;
+    border-bottom: 1px solid $green_witch;
 
     .title {
       @include text_title_light;
+      color: $green_witch;
     }
 
     .new-project {
@@ -57,16 +58,18 @@
     .stamina-label {
       @include text_handwriting_grey;
       margin-left: auto;
-      margin-right: 10px;
+      margin-right: 22px;
     }
   }
 
   .projects-container {
     margin-bottom: 20px;
+    max-height: 300px;
+    overflow-y: scroll;
 
     ul {
       padding: 0;
-      margin-left: 20px;
+      margin: 0 0 0 20px;
     }
 
     li {
@@ -75,23 +78,44 @@
       list-style: none;
       cursor: pointer;
 
-      &.selected { background-color: $parchment_dark; }
-      &:hover { background-color: $pink; }
+      &:nth-child(odd) { background-color: $green_witch_pale; }
+
+      &.selected {
+        // background-color: $parchment_dark;
+        .project-item-container {
+          .name, .stamina {
+            font-weight: bold;
+            // input { font-weight: bold; }
+          }
+        }
+
+        .list-dot.asset {
+          width: 32px;
+          height: 32px;
+        }
+      }
+      &:hover { background-color: $green_witch_grey; }
 
       .list-dot.asset {
         width: 26px;
         height: 26px;
+
+        &.list_dot, &.list_check {
+          // turns black to witch_green
+          filter: invert(44%) sepia(18%) saturate(3090%) hue-rotate(118deg) brightness(101%) contrast(101%);
+        }
       }
 
       .project-item-container {
         display: flex;
         align-items: center;
         width: 100%;
-        margin: 0 20px 4px 0;
+        margin: 2px 20px 2px 0;
         padding-left: 10px;
 
         .name {
           @include text_handwriting;
+          // color: $green_witch;
           min-width: 50%;
 
           .TextInput:hover {
@@ -100,6 +124,7 @@
 
           input {
             @include text_handwriting;
+            // color: $green_witch;
             // width: 100%;
           }
 
@@ -114,6 +139,7 @@
 
       .DeleteConfirmation.delete-project-confirmation {
         height: 46px;
+        background-color: transparent;
 
         .delete-title {
           @include text_handwriting;
