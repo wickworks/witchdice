@@ -51,7 +51,7 @@ const CraftRoller = ({
   const characterStamina = getStaminaForCharacter(crafterData);
   const projectStaminaCost = getStaminaCostForProject(projectData);
 
-  const rollButtonIsDisabled = (projectData.staminaSpent < projectStaminaCost)
+  const rollButtonIsDisabled = false; //(projectData.staminaSpent < projectStaminaCost)
 
   const craftRollSucceeded = didProjectSucceed(projectData, crafterData);
 

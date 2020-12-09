@@ -33,6 +33,13 @@ const alloyOptions = [
   {"value": "Morphing Mercury", "label": "Morphing Mercury"},
 ]
 
+const spellweaverOptions = [
+  {"value": "Abjuration", "label": "Abjuration"},
+  {"value": "Divination", "label": "Divination"},
+  {"value": "Enchantment", "label": "Enchantment"},
+  {"value": "Transmutation", "label": "Transmutation"},
+]
+
 // The react-select wants us to pass in the ENTIRE option from above to be selected, not just the value.
 // However, I don't want to store its weird-ass special object. We can just retrieve it with the key here.
 function getOptionFromValue(options, value) {
@@ -105,6 +112,23 @@ const CraftCharacter = ({
         updateCrafterData({techniqueDetails: {
           ...crafterData.techniqueDetails,
           alloys: options.slice(0,3)
+        }})
+      }}
+      key={`alloys`}
+    />
+  )
+
+  const spellweaverSelect = (
+    <Select
+      placeholder={'School of magic'}
+      name="school"
+      className="technique-select"
+      options={spellweaverOptions}
+      value={getOptionFromValue(spellweaverOptions, crafterData.techniqueDetails.spellweaver)}
+      onChange={(option) => {
+        updateCrafterData({techniqueDetails: {
+          ...crafterData.techniqueDetails,
+          spellweaver: option.value
         }})
       }}
       key={`alloys`}
@@ -267,9 +291,8 @@ const CraftCharacter = ({
                 </td>
                 <td>
                   {allTechniques[technique].desc}
-                  {(technique === 'alloy') &&
-                    alloySelect
-                  }
+                  {(technique === 'alloy') && alloySelect}
+                  {(technique === 'spellweaver') && spellweaverSelect}
                 </td>
               </tr>
             )

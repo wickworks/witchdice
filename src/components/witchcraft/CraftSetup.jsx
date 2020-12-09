@@ -55,11 +55,15 @@ const CraftSetup = ({
   }
 
   // techniques to be able to toggle on and off
-  const selectableTechniques = [
+  var selectableTechniques = [
     'slowAndSteady',
     'symbol',
     'alloy',
   ]
+
+  const difficultyLevel = allDifficulties[projectData.difficulty];
+  if (difficultyLevel >= 3) { selectableTechniques.push('spellweaver')}
+  
   const techniques = selectableTechniques.filter(tech => crafterHasTechnique(crafterData, tech));
 
   return (
@@ -67,7 +71,7 @@ const CraftSetup = ({
       <div className='setup-title'>
         <TextInput
           textValue={projectData.name}
-          setTextValue={(value) => { updateProjectData({name: value}) }}
+          setTextValue={(value) => { updateProjectData({name: capitalize(value)}) }}
           placeholder={'Project title'}
           maxLength={128}
         />

@@ -104,7 +104,7 @@ const ProjectListItem = ({
             { settingUpProject ?
               <TextInput
                 textValue={displayName}
-                setTextValue={(value) => { updateProjectData({name: value}) }}
+                setTextValue={(value) => { updateProjectData({name: capitalize(value)}) }}
                 placeholder={'What are you making?'}
                 maxLength={128}
                 startsOpen={projectData.name === defaultProject.name}

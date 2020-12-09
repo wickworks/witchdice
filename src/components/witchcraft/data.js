@@ -211,6 +211,14 @@ function buildTechniqueSentences(projectData, crafterData) {
       "the same symbol. \n\n"
   }
 
+  if (projectUsedTechnique(projectData, 'spellweaver')) {
+    const school = crafterData.techniqueDetails.spellweaver;
+
+    string +=
+      '*Spellweaver:* This work is interlaced with the very fabric of domestic magic. ' +
+      `It can be used to cast a level 1 **${school} spell** (chosen during creation) once. \n\n`
+  }
+
   if (crafterHasTechnique(crafterData, 'resonance')) {
     string +=
       "*Resonance:* This vibrates with a familiar hum of magic, " +
@@ -579,7 +587,7 @@ const allTechniques = {
   heirloom: {name: 'Heirloom', desc: 'Can add additional boons to an item over time.', prereq: [5]},
   resonance: {name: 'Resonance', desc: 'Your items can store and release magic.', prereq: [5, '']},
   smallDelights: {name: 'Small Delights', desc: 'Your consumables grant temporary hit points.', prereq: [5, 'Living Arts']},
-  spellweaver: {name: 'Spellweaver', desc: 'Your items can store a spell.', prereq: [5, 'Textiles']},
+  spellweaver: {name: 'Spellweaver', desc: 'Projects can store a spell from the chosen school.', prereq: [5, 'Textiles']},
   subtext: {name: 'Subtext', desc: 'Can imbue your items with hidden, animated, or emotional effects.', prereq: [5, 'Drafting']},
   symbol: {name: 'Symbol', desc: 'Your projects protect and refresh the minds of your allies.', prereq: [5]},
 }
