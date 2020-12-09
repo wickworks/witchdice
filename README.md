@@ -1,9 +1,20 @@
 
+#### WITCH+CRAFT MECHANICS ####
+- have it automatically add the automatic techniques
+- add new icon credits
+- special "new project" button when it's empty, just like up top
+- prereqs for techniques
+- push to roll history
+- click stamina checkmarks to check ALL BOXES UP TO THAT MARK, have little message when all are filled
+
+
+- export project cards to clipboard or to pdf
+
+
+
 #### EXIST-IN-THE-WORLD ####
 
-PWA manifest & icon
-apple-touch-icon
-
+- PWA worker??
 
 ###### LAYOUT #######
 - have a dice summary for what was rolled : [10d6]
@@ -60,16 +71,6 @@ apple-touch-icon
 - clear out data on firebase periodically even if nobody has visited that room in a long time
 
 
-#### WITCH+CRAFT MECHANICS ####
-- have it automatically add the automatic techniques
-- special "new project" button when it's empty, just like up top
-- prereqs for techniques
-- push to roll history
-- click stamina checkmarks to check ALL BOXES UP TO THAT MARK, have little message when all are filled
-
-
-
-- export project cards to clipboard or to pdf
 
 #### DND MECHANICS ####
 - bug with triggered attacks: fireball, then an ice knife causes the triggered one to always show up
@@ -91,6 +92,7 @@ apple-touch-icon
 #### other games ####
 - Lancer?
 - Royal game of UR
+- swordsfall?
 
 ### Antiracism corner ####
 

@@ -53,15 +53,8 @@ const Footer = () => {
         {creditsOpen &&
           <div className="credits">
 
-            <p>
-              Monster manual jsonified by
-              <a href="https://www.reddit.com/r/dndnext/comments/43a09o/srd_monsters_in_json_format/"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                droiddruid
-              </a>
-            </p>
+            <p>By Olive Perry.</p>
+            <p>Coded in React. Designed in Inkscape. Written using Atom.</p>
 
             <p className="noun-project">
               <strong>
@@ -91,7 +84,15 @@ const Footer = () => {
               <li>Delete by Fantastic</li>
             </ul>
 
-            <p>Coded in React. Designed in Inkscape. Written using Atom.</p>
+            <p>
+              Monster manual jsonified by
+              <a href="https://www.reddit.com/r/dndnext/comments/43a09o/srd_monsters_in_json_format/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                droiddruid
+              </a>
+            </p>
 
             <p>This tool is not affiliated with Wizards of the Coast.</p>
             <p>Monster Manual stat blocks included as per the Open Game License:</p>
