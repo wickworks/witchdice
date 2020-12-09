@@ -22,6 +22,7 @@ const FineTuning = ({
 }) => {
 
   const rolls = projectData.rollData.rolls;
+  const bonuses = projectData.bonusData;
   const cancelledCount = projectData.cancelledCount;
   const flawStack = getTotalFlawBoonStack(projectData.rollData.flawCount, projectData);
   const boonStack = getTotalFlawBoonStack(projectData.rollData.boonCount, projectData);
@@ -41,6 +42,7 @@ const FineTuning = ({
 
   // dice: rolls that many dice, adds boons and flaws accordingly
   // roll: adds a specific roll, adds boon or flaw accordingly
+  // bonus: adds a flat bonus, no flaws or boons
   // boonCount: adds this many boons
   // flawCount: adds this many flaws
   // technique: appends technique name
@@ -63,6 +65,9 @@ const FineTuning = ({
       if (update.roll === 6) { newRollData.boonCount += 1 }
     }
 
+    var newBonusData = deepCopy(projectData.bonusData);
+    if (update.bonus) newBonusData.push(update.bonus);
+
     if (update.boonCount) newRollData.boonCount += update.boonCount;
     if (update.flawCount) newRollData.flawCount += update.flawCount;
 
@@ -74,6 +79,7 @@ const FineTuning = ({
 
     updateProjectData({
       rollData: newRollData,
+      bonusData: newBonusData,
       techniques: newTechniqueData,
       techniqueDetails: newTechniqueDetails
     });
@@ -108,7 +114,10 @@ const FineTuning = ({
             key={i}
           />
         ))}
-        <div className='bonus'>+{crafterData.proficiencyBonus}</div>
+
+        { bonuses.map( (bonus, i) => (
+          <div className='bonus'>+{bonus}</div>
+        ))}
       </div>
 
       <div className='flaws-and-boons'>
@@ -177,7 +186,7 @@ const FineTuning = ({
         { projectUsedTechnique(projectData, 'desperateMeasures') ?
           <div>Used desparate measures.</div>
         : !craftRollSucceeded &&
-          <button onClick={() => updateProject({flawCount: 1, roll: 3, technique: 'desperateMeasures'}) }>
+          <button onClick={() => updateProject({flawCount: 1, bonus: 3, technique: 'desperateMeasures'}) }>
             Use Desperate Measures: +3, +Flaw
           </button>
         }
@@ -216,7 +225,7 @@ const FineTuning = ({
             <div>Used comfort zone.</div>
           :
             <div className='technique-container'>
-              <button onClick={() => updateProject({roll: 5, technique: 'comfortZone'}) }>
+              <button onClick={() => updateProject({bonus: 5, technique: 'comfortZone'}) }>
                 Comfort Zone: +5
               </button>
               <button onClick={() => updateProject({boonCount: 1, technique: 'comfortZone'}) }>
@@ -252,7 +261,7 @@ const FineTuning = ({
           :
             <div className='technique-container'>
               <button onClick={() => updateProject({
-                roll: 5,
+                bonus: 5,
                 technique: 'blessedCreation',
                 techniqueDetails: {
                   blessedCreationRollOne: getRandomInt(6),

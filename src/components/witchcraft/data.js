@@ -22,16 +22,17 @@ const defaultRollData = {
 }
 
 const defaultProject = {
-  stage: 'preparing', // preparing | tuning | success | failure
-  name: 'new~project', //bit of a magic value; this name has to be treated as blank
+  stage: 'preparing',   // preparing | tuning | success | failure
+  name: 'new~project',  // Bit of a magic value; this name has to be treated as blank
   blueprint: '',
   difficulty: 'simple',
   size: 'small',
   preparations: [],
-  techniques: [],         // Techniques applied during the action or fine-tuning stage
+  techniques: [],        // Techniques applied during the action or fine-tuning stage
   techniqueDetails: {},  // Sometimes need to store some temporary data during the fine-tuning stage
   staminaSpent: 0,
-  rollData: defaultRollData,
+  rollData: defaultRollData,  // Rolled results
+  bonusData: [],              // Flat increases e.g. proficiency bonus
   cancelledCount: 0,
   desc: '',
 }
@@ -125,7 +126,7 @@ function getProjectDC(projectData) {
 function getProjectResult(projectData, crafterData) {
   var result = 0;
   result += projectData.rollData.rolls.reduce((a, b) => a + b, 0);
-  result += crafterData.proficiencyBonus;
+  result += projectData.bonusData.reduce((a, b) => a + b, 0);
   return result;
 }
 

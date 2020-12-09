@@ -30,20 +30,24 @@ const CraftRoller = ({
   }
 
   const handleNewRoll = () => {
-    var newData = deepCopy(defaultRollData);
+    var newRollData = deepCopy(defaultRollData);
 
     // all crafting rolls start with a d20
-    newData.rolls.push( getRandomInt(20) );
+    newRollData.rolls.push( getRandomInt(20) );
     // then roll a d6 for each bonus die
     for (var i = 0; i < bonusDiceCount; i++) {
       const roll = getRandomInt(6);
-      newData.rolls.push(roll);
-      if (roll === 1) { newData.flawCount += 1 }
-      if (roll === 6) { newData.boonCount += 1 }
+      newRollData.rolls.push(roll);
+      if (roll === 1) { newRollData.flawCount += 1 }
+      if (roll === 6) { newRollData.boonCount += 1 }
     }
 
+    // add the proficiency bonus
+    var newBonusData = [crafterData.proficiencyBonus];
+
     updateProjectData({
-      rollData: newData,
+      rollData: newRollData,
+      bonusData: newBonusData,
       stage: 'tuning'
     });
   }
