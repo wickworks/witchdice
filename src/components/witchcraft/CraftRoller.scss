@@ -2,7 +2,7 @@
 
 .CraftRoller {
   max-width: 600px;
-  margin: auto;
+  width: 100%;
   padding-bottom: 20px;
   border-bottom: 1px solid $green_witch;
 
@@ -10,7 +10,7 @@
     @include text_title_action;
     color: $green_witch;
     text-align: center;
-    margin: 20px 0 30px;
+    margin: 20px 0 38px;
   }
 
   .stamina-bar {
@@ -20,9 +20,10 @@
     margin: 16px auto 20px;
 
     .label {
-      @include text_label;
-      color: $grey_mid;
-      font-weight: bold;
+      font-style: italic;
+      // @include text_label;
+      // color: $grey_mid;
+      // font-weight: bold;
       margin-right: 16px;
     }
 
@@ -40,6 +41,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid $green_witch;
+
 
     > * {
       width: 38%;
@@ -48,6 +52,17 @@
 
     .RollBigButton, .success-or-failure {
       width: 20%;
+
+      .new-roll {
+        background-color: $green_witch;
+
+        .asset {
+          // turns black to $green_witch_pale
+          filter: invert(85%) sepia(11%) saturate(216%) hue-rotate(102deg) brightness(103%) contrast(96%);
+        }
+
+        &:hover { background-color: $green_witch_mid; }
+      }
     }
 
     .dc, .total {
@@ -66,7 +81,7 @@
     }
 
     .success { color: $green_witch; }
-    .failure { color: $olive_dark; }
+    .failure { color: $rust; }
 
     .additional-dice {
       display: flex;

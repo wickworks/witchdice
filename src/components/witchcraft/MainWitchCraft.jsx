@@ -236,7 +236,7 @@ const MainWitchCraft = ({
       />
 
       { crafterData !== null &&
-        <>
+        <div className='crafter-and-projects'>
           <CraftCharacter
             crafterData={crafterData}
             updateCrafterData={updateCrafterData}
@@ -249,50 +249,49 @@ const MainWitchCraft = ({
             handleAddProject={createNewProject}
             updateProjectData={updateProjectData}
           />
-        </>
+        </div>
       }
 
       { settingUpProject &&
-        <CraftSetup
-          crafterData={crafterData}
-          projectData={projectData}
-          updateProjectData={updateProjectData}
-        />
+        <div className='setup-and-action'>
+          <CraftSetup
+            crafterData={crafterData}
+            projectData={projectData}
+            updateProjectData={updateProjectData}
+          />
+
+          <div className='roll-and-tuning'>
+
+            <CraftRoller
+              crafterData={crafterData}
+              projectData={projectData}
+              updateProjectData={updateProjectData}
+            />
+
+            { projectData.stage === 'tuning' &&
+              <FineTuning
+                crafterData={crafterData}
+                projectData={projectData}
+
+                updateProjectData={updateProjectData}
+                handleFinishProject={handleFinishProject}
+              />
+            }
+          </div>
+        </div>
+      }
+
+      { (projectData !== null) && (projectData.stage === 'success' || projectData.stage === 'failure') &&
+        <div className='roller-i-hardly-even-knower-container'>
+          <ProjectCard
+              projectData={projectData}
+              updateProjectData={updateProjectData}
+            />
+        </div>
       }
 
       <div className='gameplay-container'>
         {renderDiceBag()}
-
-        <div className='roller-i-hardly-even-knower-container'>
-          { projectData !== null &&
-            <>
-              { settingUpProject &&
-                <CraftRoller
-                  crafterData={crafterData}
-                  projectData={projectData}
-                  updateProjectData={updateProjectData}
-                />
-              }
-
-              { projectData.stage === 'tuning' &&
-                <FineTuning
-                  crafterData={crafterData}
-                  projectData={projectData}
-
-                  updateProjectData={updateProjectData}
-                  handleFinishProject={handleFinishProject}
-                />
-              }
-
-              { (projectData.stage === 'success' || projectData.stage === 'failure') &&
-                <ProjectCard
-                  projectData={projectData}
-                  updateProjectData={updateProjectData}
-                />
-              }
-            </>
-          }
-        </div>
 
         {renderPartyPanel()}
       </div>

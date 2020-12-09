@@ -11,8 +11,28 @@
       }
     }
 
+    .crafter-and-projects {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .setup-and-action {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+
+      .roll-and-tuning {
+        max-width: 600px;
+        width: 100%;
+      }
+    }
+
     .gameplay-container {
-      border-top: 2px solid $green_witch;
+      border-top: none;
+      margin-top: 0;
     }
 
     .pumpkin-bar {

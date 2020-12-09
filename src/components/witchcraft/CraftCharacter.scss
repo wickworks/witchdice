@@ -2,8 +2,11 @@
 
 .CraftCharacter {
   max-width: 600px;
-  margin: 20px auto 0;
+  margin: 20px 10px 0;
   background-color: $parchment;
+
+  // put pumpkin-bar above the project list
+  z-index: 10;
 
   .select-dropdown * { cursor: pointer; }
 
@@ -128,5 +131,4 @@
       }
     }
   }
-
 }

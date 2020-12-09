@@ -2,15 +2,16 @@
 
 .ProjectList {
   max-width: 600px;
-  margin: auto;
-  padding-top: 20px;
+  width: 100%;
+  margin: 0 10px;
   box-sizing: border-box;
   background-color: $parchment;
+  border-top: 2px solid $parchment_dark;
 
   .title-container {
     display: flex;
     align-items: center;
-    margin: 0 20px 20px;
+    margin: 10px 20px 20px;
     padding-bottom: 6px;
     border-bottom: 1px solid $green_witch;
 
@@ -64,8 +65,8 @@
 
   .projects-container {
     margin-bottom: 20px;
-    max-height: 300px;
-    overflow-y: scroll;
+    // max-height: 300px;
+    // overflow-y: scroll;
 
     ul {
       padding: 0;
@@ -144,6 +145,8 @@
         .delete-title {
           @include text_handwriting;
           padding-left: 12px;
+          margin-left: auto;
+          margin-right: 0;
         }
 
         button {
