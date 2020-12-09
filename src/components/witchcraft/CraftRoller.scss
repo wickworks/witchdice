@@ -3,8 +3,6 @@
 .CraftRoller {
   max-width: 600px;
   width: 100%;
-  padding-bottom: 20px;
-  border-bottom: 1px solid $green_witch;
 
   h2.roll-craft {
     @include text_title_action;
@@ -38,71 +36,113 @@
   }
 
   .controls-and-results {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 20px;
-    border-top: 1px solid $green_witch;
+    padding: 20px 10px;
+    border: 1px solid $green_witch;
+    border-radius: 20px;
+    background-color: $parchment;
 
-
-    > * {
-      width: 38%;
-      flex-shrink: 0;
-    }
-
-    .RollBigButton, .success-or-failure {
-      width: 20%;
-
-      .new-roll {
-        background-color: $green_witch;
-
-        .asset {
-          // turns black to $green_witch_pale
-          filter: invert(85%) sepia(11%) saturate(216%) hue-rotate(102deg) brightness(103%) contrast(96%);
-        }
-
-        &:hover { background-color: $green_witch_mid; }
-      }
-    }
-
-    .dc, .total {
+    .action-container {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      text-align: center;
-
-      .label { font-size: 32px; }
-      .number { font-size: 52px; }
-    }
-
-    .success-or-failure {
-      @include text_title_heavy;
-      text-align: center;
-    }
-
-    .success { color: $green_witch; }
-    .failure { color: $rust; }
-
-    .additional-dice {
-      display: flex;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: center;
 
-      .plus {
-        font-size: 32px;
-        width: 40px;
-        text-align: center;
+
+      > * {
+        width: 38%;
         flex-shrink: 0;
       }
 
-      .dice-container {
+      .RollBigButton, .success-or-failure {
+        width: 22%;
+
+        .new-roll {
+          background-color: $green_witch;
+
+          .asset {
+            // turns black to $green_witch_pale
+            filter: invert(85%) sepia(11%) saturate(216%) hue-rotate(102deg) brightness(103%) contrast(96%);
+          }
+
+          &:hover { background-color: $green_witch_mid; }
+        }
+      }
+
+      .dc, .total {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+
+        .label { font-size: 32px; }
+        .number { font-size: 52px; }
+      }
+
+      .success-or-failure {
+        @include text_title_heavy;
+        text-align: center;
+      }
+
+      .success { color: $green_witch; }
+      .failure { color: $rust; }
+
+      .additional-dice {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        .plus {
+          font-size: 32px;
+          width: 40px;
+          text-align: center;
+          flex-shrink: 0;
+        }
+
+        .dice-container {
+          display: flex;
+          flex-wrap: wrap;
+
+          .asset {
+            width: 42px;
+            height: 42px;
+            margin-right: 4px;
+            // turns black to a light grey
+            filter: invert(47%) sepia(3%) saturate(7%) hue-rotate(327deg) brightness(98%) contrast(89%);
+          }
+        }
+
+        .bonus {
+          border: 2px solid $grey_light;
+          color: $grey_mid;
+          text-align: center;
+          font-size: 24px;
+          line-height: 40px;
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+
+
+    .rolls-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 18px 0 0;
+      background-color: $parchment;
+
+      > * { margin: 4px 16px; }
+
+      .DisplayDie {
+        @include text_dicebag_count;
+        display: flex;
+        align-items: center;
+        border-radius: 8px;
 
         .asset {
           width: 42px;
           height: 42px;
           margin-right: 4px;
+
           // turns black to a light grey
           filter: invert(47%) sepia(3%) saturate(7%) hue-rotate(327deg) brightness(98%) contrast(89%);
         }
@@ -110,7 +150,6 @@
 
       .bonus {
         border: 2px solid $grey_light;
-        color: $grey_mid;
         text-align: center;
         font-size: 24px;
         line-height: 40px;
@@ -119,4 +158,6 @@
       }
     }
   }
+
+
 }

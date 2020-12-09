@@ -2,6 +2,7 @@
 
 .CraftCharacter {
   max-width: 600px;
+  width: 100%;
   margin: 20px 10px 0;
   background-color: $parchment;
 
@@ -32,12 +33,13 @@
       .name {
         @include text_character_name;
         color: $green_witch;
-        margin: 6px 0;
         text-align: center;
+        margin: 6px 0;
 
         input {
           @include text_character_name;
           color: $green_witch;
+          text-align: center;
         }
       }
 
@@ -109,9 +111,13 @@
   table.techniques {
     margin: 0 30px 30px;
 
+    // since I for some reason am using a table, have to space it awkwardly
     tr {
-      td { padding-top: 8px; }
+      td { padding-top: 18px; }
+      &.basic td {padding-top: 8px; }
+    }
 
+    tr {
       // LABEL
       td:first-child {
         width: 170px;

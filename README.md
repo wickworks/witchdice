@@ -20,7 +20,6 @@ apple-touch-icon
 - let people put in their name to auto-join when they come in via a url (integrate with "asking for permission to join")
 
 ##### FEATURES ######
-
 - bug with deleting damage sources; deleting the second deleted the first
 
 - add modifiers to dicebag rolls
@@ -59,6 +58,17 @@ apple-touch-icon
 
 - someday: switch away from the heavy firebase server to a lightweight peer-to-peer network
 - clear out data on firebase periodically even if nobody has visited that room in a long time
+
+
+#### WITCH+CRAFT MECHANICS ####
+- be able to delte characters
+- prereqs for techniques
+- push to roll history
+- click stamina checkmarks to check ALL BOXES UP TO THAT MARK, have little message when all are filled
+- special "new project" button when it's empty, just like up top
+- have it automatically add the automatic techniques
+
+- export project cards to clipboard or to pdf
 
 #### DND MECHANICS ####
 - bug with triggered attacks: fireball, then an ice knife causes the triggered one to always show up

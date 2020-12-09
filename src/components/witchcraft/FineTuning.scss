@@ -2,41 +2,7 @@
 
 .FineTuning {
   max-width: 600px;
-  margin: 0 auto 40px;
-
-  .dice-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 24px 0;
-
-    > * { margin: 4px 16px; }
-
-    .DisplayDie {
-      @include text_dicebag_count;
-      display: flex;
-      align-items: center;
-      border-radius: 8px;
-
-      .asset {
-        width: 42px;
-        height: 42px;
-        margin-right: 4px;
-
-        // turns black to a light grey
-        filter: invert(47%) sepia(3%) saturate(7%) hue-rotate(327deg) brightness(98%) contrast(89%);
-      }
-    }
-
-    .bonus {
-      border: 2px solid $grey_light;
-      text-align: center;
-      font-size: 24px;
-      line-height: 40px;
-      width: 40px;
-      height: 40px;
-    }
-  }
+  margin: 20px auto 40px;
 
   .flaws-and-boons {
     display: flex;
@@ -99,19 +65,21 @@
     align-items: center;
 
     > * {
-      @include text_title_light;
+      @include text_label;
+      color: $green_witch;
       margin: 40px 20px 0;
     }
 
     button {
-      @include text_title_light;
+      @include text_label;
       padding: 10px 20px;
       border: none;
       border-radius: 8px;
-      background-color: $parchment_dark;
+      color: white;
+      background-color: $green_witch;
       cursor: pointer;
 
-      &:hover { background-color: $pink; }
+      &:hover { background-color: $green_witch_mid; }
 
       &:disabled {
         background-color: $grey_light;
@@ -134,16 +102,17 @@
         .number {
           padding: 10px;
           border-radius: 8px;
-          background-color: $parchment_dark;
+          color: white;
+          background-color: $green_witch;
 
-          &:hover { background-color: $pink; }
+          &:hover { background-color: $green_witch_mid; }
         }
       }
     }
   }
 
   .finish-project-container {
-    border-top: 1px solid $parchment_dark;
+    border-top: 1px solid $green_witch;
     margin: 40px auto 0 0;
 
     button.finish-project {
@@ -152,10 +121,11 @@
       margin: auto;
       padding: 8px 40px;
       border: none;
-      background-color: $parchment_dark;
+      color: white;
+      background-color: $green_witch;
       cursor: pointer;
 
-      &:hover { background-color: $pink; }
+      &:hover { background-color: $green_witch_mid; }
     }
   }
 }

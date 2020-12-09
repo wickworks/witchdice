@@ -4,8 +4,8 @@ import { deepCopy, getRandomInt } from '../../utils.js';
 import {
   crafterHasTechnique,
   projectUsedTechnique,
-  didProjectSucceed,
   getTotalFlawBoonStack,
+  didProjectSucceed,
   allFlaws,
   allBoons,
   allDifficulties,
@@ -21,8 +21,6 @@ const FineTuning = ({
   handleFinishProject
 }) => {
 
-  const rolls = projectData.rollData.rolls;
-  const bonuses = projectData.bonusData;
   const cancelledCount = projectData.cancelledCount;
   const flawStack = getTotalFlawBoonStack(projectData.rollData.flawCount, projectData);
   const boonStack = getTotalFlawBoonStack(projectData.rollData.boonCount, projectData);
@@ -106,19 +104,7 @@ const FineTuning = ({
 
   return (
     <div className='FineTuning'>
-      <div className='dice-container'>
-        { rolls.map( (roll, i) => (
-          <DisplayDie
-            dieType={ i === 0 ? 'd20' : 'd6'}
-            roll={rolls[i]}
-            key={i}
-          />
-        ))}
 
-        { bonuses.map( (bonus, i) => (
-          <div className='bonus'>+{bonus}</div>
-        ))}
-      </div>
 
       <div className='flaws-and-boons'>
         <div className='flaws'>
@@ -187,7 +173,7 @@ const FineTuning = ({
           <div>Used desparate measures.</div>
         : !craftRollSucceeded &&
           <button onClick={() => updateProject({flawCount: 1, bonus: 3, technique: 'desperateMeasures'}) }>
-            Use Desperate Measures: +3, +Flaw
+            Use Desperate Measures : +3, Flaw
           </button>
         }
 
@@ -229,7 +215,7 @@ const FineTuning = ({
                 Comfort Zone: +5
               </button>
               <button onClick={() => updateProject({boonCount: 1, technique: 'comfortZone'}) }>
-                Comfort Zone: +Boon
+                Use Comfort Zone: +Boon
               </button>
             </div>
           )
@@ -268,7 +254,7 @@ const FineTuning = ({
                   blessedCreationRollTwo: getRandomInt(6)
                 }
               }) }>
-                Blessed Creation: +5
+                Use Blessed Creation: +5
               </button>
             </div>
           )
@@ -280,7 +266,7 @@ const FineTuning = ({
           :
             <div className='technique-container'>
               <button onClick={() => updateProject({technique: 'manufacturer'}) }>
-                Manufacturer: {manufacturerCount} copies.
+                Use Manufacturer: {manufacturerCount} copies.
               </button>
             </div>
           )
@@ -328,25 +314,6 @@ const BoonFlawIcon = ({
   return (
     <div className='BoonFlawIcon' onClick={handleClick}>
       <div className={classes} />
-    </div>
-  )
-}
-
-const DisplayDie = ({
-  dieType,
-  roll
-}) => {
-  var boonFlawClass = '';
-
-  if (dieType === 'd6') {
-    if (roll === 1) boonFlawClass = 'flaw';
-    if (roll === 6) boonFlawClass = 'boon';
-  }
-
-  return (
-    <div className={`DisplayDie ${boonFlawClass}`}>
-      <div className={`asset ${dieType}`} />
-      <div className='roll'>{roll}</div>
     </div>
   )
 }

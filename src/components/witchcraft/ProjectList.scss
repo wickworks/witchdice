@@ -6,7 +6,7 @@
   margin: 0 10px;
   box-sizing: border-box;
   background-color: $parchment;
-  border-top: 2px solid $parchment_dark;
+  border-top: 2px solid $green_witch;
 
   .title-container {
     display: flex;
@@ -59,7 +59,7 @@
     .stamina-label {
       @include text_handwriting_grey;
       margin-left: auto;
-      margin-right: 22px;
+      margin-right: 6px;
     }
   }
 

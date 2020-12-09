@@ -240,7 +240,7 @@ const CraftCharacter = ({
 
       <table className='techniques'><tbody>
 
-        <tr>
+        <tr className='basic'>
           <td>Tool Proficiency</td>
           <td>
             <TextInput
@@ -252,7 +252,7 @@ const CraftCharacter = ({
           </td>
         </tr>
 
-        <tr>
+        <tr className='basic'>
           <td>Lingua Franca</td>
           <td>
             <TextInput
@@ -264,7 +264,7 @@ const CraftCharacter = ({
           </td>
         </tr>
 
-        <tr>
+        <tr className='basic'>
           <td>Workshop</td>
           <td>
             <TextInput

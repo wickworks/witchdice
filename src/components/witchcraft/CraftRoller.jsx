@@ -17,6 +17,10 @@ const CraftRoller = ({
   projectData,
   updateProjectData
 }) => {
+
+  const rolls = projectData.rollData.rolls;
+  const bonuses = projectData.bonusData;
+
   const bonusDiceCount = getBonusDiceForProject(crafterData, projectData);
 
   const updateStaminaSpent = (increase) => {
@@ -88,43 +92,79 @@ const CraftRoller = ({
       </div>
 
       <div className='controls-and-results'>
-        <div className='dc'>
-          <div className='label'>DC</div>
-          <div className='number'>{getProjectDC(projectData)}</div>
+        <div className='action-container'>
+
+          <div className='dc'>
+            <div className='label'>DC</div>
+            <div className='number'>{getProjectDC(projectData)}</div>
+          </div>
+
+          { (projectData.rollData.rolls.length === 0) ?
+            <RollBigButton
+              handleNewRoll={handleNewRoll}
+              isDisabled={rollButtonIsDisabled}
+            />
+          :
+            <div className={`success-or-failure ${craftRollSucceeded ? 'success' : 'failure'}`}>
+              { craftRollSucceeded ? 'Success!' : 'Back to the drawing board.' }
+            </div>
+          }
+
+          { projectData.rollData.rolls.length === 0 ?
+            <div className='additional-dice'>
+              <div className='plus'>+</div>
+              <div className='dice-container'>
+                { [...Array(bonusDiceCount)].map(
+                  (die, i) => (
+                    <div className='asset d6' key={i}/>
+                  )
+                )}
+                <div className='bonus'>+{crafterData.proficiencyBonus}</div>
+              </div>
+            </div>
+
+          :
+            <div className={`total ${craftRollSucceeded ? 'success' : 'failure'}`}>
+              <div className='label'>Result</div>
+              <div className='number'>{getProjectResult(projectData, crafterData)}</div>
+            </div>
+          }
         </div>
 
-        { (projectData.rollData.rolls.length === 0) ?
-          <RollBigButton
-            handleNewRoll={handleNewRoll}
-            isDisabled={rollButtonIsDisabled}
-          />
-        :
-          <div className={`success-or-failure ${craftRollSucceeded ? 'success' : 'failure'}`}>
-            { craftRollSucceeded ? 'Success!' : 'Back to the drawing board.' }
-          </div>
-        }
+        <div className='rolls-container'>
+          { rolls.map( (roll, i) => (
+            <DisplayDie
+              dieType={ i === 0 ? 'd20' : 'd6'}
+              roll={rolls[i]}
+              key={i}
+            />
+          ))}
 
-        { projectData.rollData.rolls.length === 0 ?
-          <div className='additional-dice'>
-            <div className='plus'>+</div>
-            <div className='dice-container'>
-              { [...Array(bonusDiceCount)].map(
-                (die, i) => (
-                  <div className='asset d6' key={i}/>
-                )
-              )}
-              <div className='bonus'>+{crafterData.proficiencyBonus}</div>
-            </div>
-          </div>
-
-        :
-          <div className={`total ${craftRollSucceeded ? 'success' : 'failure'}`}>
-            <div className='label'>Total</div>
-            <div className='number'>{getProjectResult(projectData, crafterData)}</div>
-          </div>
-        }
-
+          { bonuses.map( (bonus, i) => (
+            <div className='bonus'>+{bonus}</div>
+          ))}
+        </div>
       </div>
+    </div>
+  )
+}
+
+
+const DisplayDie = ({
+  dieType,
+  roll
+}) => {
+  var boonFlawClass = '';
+
+  if (dieType === 'd6') {
+    if (roll === 1) boonFlawClass = 'flaw';
+    if (roll === 6) boonFlawClass = 'boon';
+  }
+
+  return (
+    <div className={`DisplayDie ${boonFlawClass}`}>
+      <div className={`asset ${dieType}`} />
+      <div className='roll'>{roll}</div>
     </div>
   )
 }
