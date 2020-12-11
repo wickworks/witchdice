@@ -250,6 +250,7 @@ const MainWitchCraft = ({
 
   return (
     <div className='MainWitchCraft'>
+    
       <CharacterList
         characterEntries={allCrafterEntries}
         handleEntryClick={setActiveCrafter}

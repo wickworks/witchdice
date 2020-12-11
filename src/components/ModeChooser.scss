@@ -1,6 +1,7 @@
 @import '../colors';
 
 .ModeChooser {
+  width: 100%;
 
   .roll-mode {
     input, label { cursor: pointer; }
@@ -45,17 +46,19 @@
     }
 
     &.minimized {
-      position: absolute;
-      left: 20px;
-      top: 20px;
-
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: center;
+
+      // deliniating but inoffensive
+      background-color: #f3e5e9;
+      box-shadow: 0 1px 3px 1px rgba(60, 64, 67, 0.15), 0 1px 2px 0 rgba(60, 64, 67, 0.3);
+
 
       .mode-container {
-        border-radius: 4px;
+        padding: 3px 0;
+        width: 108px;
 
-        background-color: $parchment;
         &:hover {
           background-color: $parchment_dark;
           color: $soft_black;
@@ -63,11 +66,13 @@
         &.selected {
           background-color: $rust;
           color: white;
+          .mode-title h2 { font-weight: bold; }
         }
 
         .mode-title {
           display: flex;
           align-items: center;
+          justify-content: center;
 
           h2 {
             margin: 2px 6px;

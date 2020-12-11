@@ -10,31 +10,50 @@
   align-items: center;
   justify-content: center;
 
-  * {
-    transition: background-color .075s ease-out;
+  * { transition: background-color .075s ease-out; }
+
+  .banner-and-chooser {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    &.reversed { flex-direction: column-reverse; }
   }
 
-  h1.site-title {
-    font-size: 40px;
-    margin: 26px 40px 0;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+  // WITCH DICE BANNER
+  .banner-container-container {
+    width: 100%;
+    max-width: 700px;
+    margin-top: 10px;
+    flex-shrink: 0;
 
-    // to get it to wrap in the right order
-    div {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+    .banner-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 29%;
+
+      .asset {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+      }
     }
   }
 
-  .beta-label {
-    text-align: center;
-    font-style: italic;
-    margin-bottom: 10px;
-    color: $grey_mid;
-    font-size: 14px;
+  // WITCH CRAFT BANNER
+  .witch-craft.banner-container-container {
+    padding: 0 20px;
+    margin-top: 16px;
+    box-sizing: border-box;
+
+    .banner-container {
+      display: block;
+      padding-bottom: 8%;
+      border-radius: 20px;
+      overflow: hidden;
+    }
   }
 
   @media screen and (max-width: 430px) {

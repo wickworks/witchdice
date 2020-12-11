@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import { CURRENT_VERSION } from './version.js';
 import ModeChooser from './components/ModeChooser.jsx';
 import Main from './components/Main.jsx';
 import Footer from './components/Footer.jsx';
 import './App.scss';
 
 // whenever we make a change that breaks the old data, bump up the first number
-console.log('Welcome to Witch Dice version ', CURRENT_VERSION);
+// console.log('Welcome to Witch Dice version ', CURRENT_VERSION);
 
 const loadedMode = localStorage.getItem("roll_mode");
 
@@ -20,17 +19,31 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className='site-title'>
-        🌺💀<div> ~ Witch Dice ~ <div>💀🌺</div></div>
-      </h1>
-      <div className='beta-label'>
-        beta — v{CURRENT_VERSION}
-      </div>
+      <div className={`banner-and-chooser ${rollMode ? 'reversed' : ''}`}>
+        <div className='witch-dice banner-container-container'>
+          <div className='banner-container'>
+            <div className='asset site_banner' />
+          </div>
+        </div>
 
-      <ModeChooser
-        rollMode={rollMode}
-        saveRollMode={saveRollMode}
-      />
+        { rollMode === 'witchcraft' &&
+          <div className='witch-craft banner-container-container'>
+            <a
+              className='banner-container'
+              href='http://astrolago.com/'
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div className='asset witchcraft_banner' />
+            </a>
+          </div>
+        }
+
+        <ModeChooser
+          rollMode={rollMode}
+          saveRollMode={saveRollMode}
+        />
+      </div>
 
       { rollMode &&
         <Main rollMode={rollMode}/>

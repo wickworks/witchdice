@@ -3,13 +3,14 @@
 
 .Footer {
   text-align: center;
+  margin-top: 10px;
   margin-bottom: 20px;
 
   .meeeeeeeeeeeee-luv-u {
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 8px;
+    margin-top: 4px;
     margin-bottom: 0;
 
     span.asset {
@@ -45,6 +46,14 @@
     color: seagreen;
 
     &:hover { color: olive }
+  }
+
+  .beta-label {
+    text-align: center;
+    font-style: italic;
+    // margin-bottom: 10px;
+    color: $grey_mid;
+    font-size: 14px;
   }
 
   .license {

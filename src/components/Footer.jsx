@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { CURRENT_VERSION } from '../version.js';
 import './Footer.scss';
 
 
@@ -9,6 +10,11 @@ const Footer = () => {
 
   return (
     <div className="Footer">
+
+      <div className='beta-label'>
+        beta — v{CURRENT_VERSION}
+      </div>
+
       <div className="meeeeeeeeeeeee-luv-u">
         <a href="https://wick.works/about/" target="_blank" rel="noopener noreferrer">
           by olive

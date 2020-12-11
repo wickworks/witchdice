@@ -21,7 +21,7 @@ import {
   defaultRollData,
 } from './data.js';
 
-// import './Main5E.scss';
+import './Main5E.scss';
 
 const CHARACTER_PREFIX = 'character';
 

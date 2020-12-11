@@ -30,16 +30,17 @@
       }
     }
 
-    .gameplay-container {
-      border-top: none;
-    }
-
     .pumpkin-bar {
       background-color: $green_witch_pale;
     }
 
-    .PartyPanel, .DiceBag {
-      h2 { color: $green_witch; }
+    .gameplay-container {
+      margin-top: 40px;
+
+      .PartyPanel, .DiceBag {
+        h2 { color: $green_witch; }
+      }
     }
+
   }
 }
