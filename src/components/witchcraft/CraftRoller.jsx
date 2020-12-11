@@ -8,6 +8,7 @@ import {
   didProjectSucceed,
   getBonusDiceForProject,
   getStaminaForCharacter,
+  projectUsedTechnique,
   defaultRollData
 } from './data.js';
 import './CraftRoller.scss';
@@ -17,10 +18,6 @@ const CraftRoller = ({
   projectData,
   updateProjectData
 }) => {
-
-  const rolls = projectData.rollData.rolls;
-  const bonuses = projectData.bonusData;
-
   const bonusDiceCount = getBonusDiceForProject(crafterData, projectData);
 
   const updateStaminaSpent = (increase) => {
@@ -33,7 +30,7 @@ const CraftRoller = ({
     updateProjectData({staminaSpent: staminaSpent});
   }
 
-  const handleNewRoll = () => {
+  function getNewRollData() {
     var newRollData = deepCopy(defaultRollData);
 
     // all crafting rolls start with a d20
@@ -46,14 +43,32 @@ const CraftRoller = ({
       if (roll === 6) { newRollData.boonCount += 1 }
     }
 
-    // add the proficiency bonus
-    var newBonusData = [crafterData.proficiencyBonus];
+    return newRollData;
+  }
 
-    updateProjectData({
-      rollData: newRollData,
-      bonusData: newBonusData,
-      stage: 'tuning'
-    });
+  const handleNewRoll = () => {
+    const newRollData = getNewRollData();
+
+    const newBonusData = [crafterData.proficiencyBonus];
+
+    if (projectUsedTechnique(projectData, 'insightfulTalent')) {
+      const newInsightRollData = getNewRollData();
+
+      updateProjectData({
+        rollData: newRollData,
+        insightRollData: newInsightRollData,
+        bonusData: newBonusData,
+      });
+
+    // just complete the roll
+    } else {
+      // add the proficiency bonus
+      updateProjectData({
+        rollData: newRollData,
+        bonusData: newBonusData,
+        stage: 'tuning'
+      });
+    }
   }
 
   const characterStamina = getStaminaForCharacter(crafterData);
@@ -131,20 +146,63 @@ const CraftRoller = ({
           }
         </div>
 
-        <div className='rolls-container'>
-          { rolls.map( (roll, i) => (
-            <DisplayDie
-              dieType={ i === 0 ? 'd20' : 'd6'}
-              roll={rolls[i]}
-              key={i}
-            />
-          ))}
+        <DisplayRolls rolls={projectData.rollData.rolls} bonuses={projectData.bonusData} />
 
-          { bonuses.map( (bonus, i) => (
-            <div className='bonus'>+{bonus}</div>
-          ))}
-        </div>
+        { (projectData.insightRollData !== null) &&
+          <>
+            <DisplayRolls
+              rolls={projectData.insightRollData.rolls}
+              bonuses={projectData.bonusData}
+              switchable={true}
+              handleSwitch={() => {
+                updateProjectData({
+                  rollData: projectData.insightRollData,
+                  insightRollData: projectData.rollData,
+                });
+              }}
+            />
+
+            <button
+              className='confirm-insight'
+              onClick={() => {
+                updateProjectData({
+                  insightRollData: null,
+                  stage: 'tuning'
+                });
+              }}
+            >
+              Continue to fine-tuning.
+            </button>
+          </>
+        }
       </div>
+    </div>
+  )
+}
+
+const DisplayRolls = ({
+  rolls, bonuses,
+  switchable, handleSwitch
+}) => {
+  return (
+    <div className='DisplayRolls'>
+      { switchable &&
+        <button className={'switch-rolls'} onClick={handleSwitch}>
+          Use this roll
+        </button>
+      }
+
+      { rolls.map( (roll, i) => (
+        <DisplayDie
+          dieType={ i === 0 ? 'd20' : 'd6'}
+          roll={rolls[i]}
+          key={i}
+        />
+      ))}
+
+      { bonuses.map( (bonus, i) => (
+        <div className='bonus'>+{bonus}</div>
+      ))}
     </div>
   )
 }

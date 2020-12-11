@@ -32,6 +32,7 @@ const defaultProject = {
   techniqueDetails: {},  // Sometimes need to store some temporary data during the fine-tuning stage
   staminaSpent: 0,
   rollData: defaultRollData,  // Rolled results
+  insightRollData: null,      // Insightful Talent lets us roll twice
   bonusData: [],              // Flat increases e.g. proficiency bonus
   cancelledCount: 0,
   desc: '',
@@ -110,6 +111,7 @@ function getStaminaCostForProject(projectData, includeTechniques = true) {
 
   if (includeTechniques) {
     if (projectUsedTechnique(projectData, 'slowAndSteady')) { cost *= 2 }
+    if (projectUsedTechnique(projectData, 'insightfulTalent')) { cost *= 2 }
   }
 
   return cost;
@@ -139,7 +141,13 @@ function getStaminaForCharacter(characterData) {
 }
 
 function crafterHasTechnique(crafterData, technique) {
-  return (crafterData.techniques.indexOf(technique) >= 0)
+  const selected = (crafterData.techniques.indexOf(technique) >= 0)
+  const automatic =
+    (technique === 'finishingTouches' && crafterData.tier >= 2) ||
+    (technique === 'secondNature'     && crafterData.tier >= 3) ||
+    (technique === 'insightfulTalent' && crafterData.tier >= 5)
+
+  return (selected || automatic)
 }
 
 function projectUsedTechnique(projectData, technique) {

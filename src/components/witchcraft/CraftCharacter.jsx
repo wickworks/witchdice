@@ -285,6 +285,30 @@ const CraftCharacter = ({
           </td>
         </tr>
 
+        { crafterHasTechnique(crafterData, 'finishingTouches') &&
+          <tr className='basic'>
+            <td>{allTechniques.finishingTouches.name}</td>
+            <td>
+              {allTechniques.finishingTouches.desc}
+              { crafterData.tier >= 4 && ' You can use this feature twice per project.' }
+            </td>
+          </tr>
+        }
+
+        { crafterHasTechnique(crafterData, 'secondNature') &&
+          <tr className='basic'>
+            <td>{allTechniques.secondNature.name}</td>
+            <td>{allTechniques.secondNature.desc}</td>
+          </tr>
+        }
+
+        { crafterHasTechnique(crafterData, 'insightfulTalent') &&
+          <tr className='basic'>
+            <td>{allTechniques.insightfulTalent.name}</td>
+            <td>{allTechniques.insightfulTalent.desc}</td>
+          </tr>
+        }
+
         { crafterData.techniques.map((technique, i) => {
             return (
               <tr key={i}>

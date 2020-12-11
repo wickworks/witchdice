@@ -59,12 +59,12 @@ const CraftSetup = ({
     'slowAndSteady',
     'symbol',
     'alloy',
+    'insightfulTalent'
   ]
-
   const difficultyLevel = allDifficulties[projectData.difficulty];
   if (difficultyLevel >= 3) { selectableTechniques.push('spellweaver')}
 
-  const techniques = selectableTechniques.filter(tech => crafterHasTechnique(crafterData, tech));
+  var techniques = selectableTechniques.filter(tech => crafterHasTechnique(crafterData, tech));
 
   return (
     <div className='CraftSetup'>
