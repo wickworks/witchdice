@@ -79,6 +79,7 @@
 
 
 	.party-container {
+		@include shadow;
 		background-color: $parchment;
 		margin: 2px 0;
 		padding: 10px 20px;

@@ -36,10 +36,11 @@
   }
 
   .controls-and-results {
+    @include shadow;
+    background-color: $parchment;
     padding: 20px 10px;
     border: 1px solid $green_witch;
     border-radius: 20px;
-    background-color: $parchment;
 
     .action-container {
       display: flex;
@@ -128,7 +129,6 @@
       justify-content: center;
       flex-wrap: wrap;
       margin: 18px 0 0;
-      background-color: $parchment;
 
       > * { margin: 4px 16px; }
 

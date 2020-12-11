@@ -1,11 +1,12 @@
 @import './fontsWitchCraft';
 
 .CraftCharacter {
+  @include shadow;
+  background-color: $parchment;
   position: relative;
   max-width: 600px;
   width: 100%;
   margin: 20px 10px 0;
-  background-color: $parchment;
 
   // put pumpkin-bar above the project list
   z-index: 10;

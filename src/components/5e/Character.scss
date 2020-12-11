@@ -1,6 +1,8 @@
 @import './fonts5E';
 
 .Character {
+  @include shadow;
+  background-color: $parchment;
   margin: 20px auto 0;
   max-width: 800px;
   display: flex;
@@ -8,8 +10,6 @@
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-
-  background-color: $parchment;
 
   .character-sheet {
     position: relative;

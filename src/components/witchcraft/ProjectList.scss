@@ -1,11 +1,12 @@
 @import './fontsWitchCraft';
 
 .ProjectList {
+  @include shadow;
+  background-color: $parchment;
   max-width: 600px;
   width: 100%;
   margin: 0 10px;
   box-sizing: border-box;
-  background-color: $parchment;
   border-top: 2px solid $green_witch;
 
   .title-container {

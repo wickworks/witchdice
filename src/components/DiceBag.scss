@@ -14,6 +14,7 @@
   }
 
   .bag-container {
+    @include shadow;
     display: flex;
     flex-direction: column;
     background-color: $parchment;
