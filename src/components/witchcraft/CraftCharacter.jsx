@@ -30,13 +30,36 @@ function getTechniqueOptions(crafterData) {
   // turn it into react-select's weird format
   .map(key => ({
     "value" : key,
-    "label" : allTechniques[key].name
+    "label" : allTechniques[key].name,
   }))
 
   return techniqueOptions;
 }
 
-
+function getTechniquesGroupedByTier(techniqueOptions) {
+  return [
+    {
+      label: 'Tier 1',
+      options: techniqueOptions.filter(option => {
+        const key = option.value;
+        const tier = allTechniques[key].prereq[0];
+        return (tier === 1);
+      })
+    },{
+      label: 'Tier 2',
+      options: techniqueOptions.filter(option => allTechniques[option.value].prereq[0] === 2 )
+    },{
+      label: 'Tier 3',
+      options: techniqueOptions.filter(option => allTechniques[option.value].prereq[0] === 3 )
+    },{
+      label: 'Tier 4',
+      options: techniqueOptions.filter(option => allTechniques[option.value].prereq[0] === 4 )
+    },{
+      label: 'Tier 5',
+      options: techniqueOptions.filter(option => allTechniques[option.value].prereq[0] === 5 )
+    },
+  ]
+}
 
 const alloyOptions = [
   {"value": "Illuminium", "label": "Illuminium"},
@@ -128,6 +151,7 @@ const CraftCharacter = ({
 
   // ======== TECHNIQUES ========= //
   const techniqueOptions = getTechniqueOptions(crafterData);
+  const techniqueOptionsGroupedByTier = getTechniquesGroupedByTier(techniqueOptions);
 
   var techniqueCountForCrafter = (crafterData.tier + 1);
   if (crafterHasTechnique(crafterData, 'subtleTouch')) { techniqueCountForCrafter += 3 }
@@ -339,11 +363,12 @@ const CraftCharacter = ({
                 <td className='selected-technique'>
                   <Select
                     className={'select-dropdown'}
-                    options={techniqueOptions}
+                    options={techniqueOptionsGroupedByTier}
                     isOptionDisabled={tech => (
                       tech.value !== technique &&
                       crafterHasTechnique(crafterData, tech.value)
                     )}
+                    formatGroupLabel={data => (<div className='tier-group'>{data.label}</div>)}
                     value={getOptionFromValue(techniqueOptions, technique)}
                     onChange={(option) => { updateTechnique(i, option.value) }}
                     escapeClearsValue={true}
@@ -362,11 +387,13 @@ const CraftCharacter = ({
         { (unselectedTechniques > 0) &&
           [...Array(unselectedTechniques)].map( (technique, i) => (
             <tr key={i}>
+              <td></td>
               <td>
                 <Select
                   className={'select-dropdown'}
-                  options={techniqueOptions}
+                  options={techniqueOptionsGroupedByTier}
                   isOptionDisabled={tech => crafterHasTechnique(crafterData, tech.value)}
+                  formatGroupLabel={data => (<div className='tier-group'>{data.label}</div>)}
                   value={null}
                   onChange={(option) => { updateTechnique((crafterData.techniques.length), option.value) }}
                   placeholder={'Choose Technique'}
@@ -380,7 +407,6 @@ const CraftCharacter = ({
                   }
                 />
               </td>
-              <td></td>
             </tr>
           ))
         }

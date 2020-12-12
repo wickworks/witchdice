@@ -11,7 +11,16 @@
   // put pumpkin-bar above the project list
   z-index: 10;
 
-  .select-dropdown * { cursor: pointer; }
+  .select-dropdown * {
+    cursor: pointer;
+
+    &.tier-group {
+      text-align: center;
+      color: salmon;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  }
 
   .intro-container {
     display: flex;
@@ -130,9 +139,7 @@
       td:first-child {
         width: 180px;
 
-        .select-dropdown {
-          margin: 0 10px 0 -10px;
-        }
+        .select-dropdown { margin: 0 10px 0 -10px; }
       }
 
       // VALUE
