@@ -16,7 +16,8 @@ import './CraftRoller.scss';
 const CraftRoller = ({
   crafterData,
   projectData,
-  updateProjectData
+  updateProjectData,
+  addNewCraftingPartyRoll
 }) => {
   const bonusDiceCount = getBonusDiceForProject(crafterData, projectData);
 

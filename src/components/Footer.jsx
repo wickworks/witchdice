@@ -88,6 +88,12 @@ const Footer = () => {
               <li>checkmark by unlimicon</li>
               <li>X by Richard Kunák</li>
               <li>Delete by Fantastic</li>
+              <li>sprout by Gregor Cresnar</li>
+              <li>jewel by pejyt</li>
+              <li>Drafting by Anil</li>
+              <li>Wood by tesyar azhari</li>
+              <li>Anvil by Robert Almeida</li>
+              <li>textile by Olena Panasovska</li>
             </ul>
 
             <p>

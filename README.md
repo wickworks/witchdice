@@ -1,10 +1,8 @@
 
 #### WITCH+CRAFT MECHANICS ####
-- prereqs for techniques
 - push to roll history
-
+- use the media icons somehow
 - export project cards to clipboard or to pdf
-- add new icon credits
 
 
 #### EXIST-IN-THE-WORLD ####
