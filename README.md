@@ -2,9 +2,6 @@
 #### WITCH+CRAFT MECHANICS ####
 - prereqs for techniques
 - push to roll history
-- delete all of a character's projects when they are deleted
-- can manually adjust final roll
-- prevent double-technique-selection
 
 - export project cards to clipboard or to pdf
 - add new icon credits

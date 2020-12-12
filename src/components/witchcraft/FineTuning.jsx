@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NumberInput from '../shared/NumberInput.jsx';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import {
@@ -19,6 +19,7 @@ const FineTuning = ({
   projectData,
   updateProjectData
 }) => {
+  const [manualAddValue, setManualAddValue] = useState(0);
 
   const cancelledCount = projectData.cancelledCount;
   const flawStack = getTotalFlawBoonStack(projectData.rollData.flawCount, projectData);
@@ -359,6 +360,21 @@ const FineTuning = ({
             </div>
           )
         }
+
+        {/*<div className='technique-container'>
+          <div className="label">Manual Adjustment</div>
+          <NumberInput
+            value={manualAddValue}
+            setValue={(value) => setManualAddValue(value) }
+            minValue={-20}
+            maxValue={20}
+            prefix={manualAddValue >= 0 ? '+' : ''}
+          />
+          <button onClick={() => updateProject({bonus: manualAddValue}) }>
+            Add
+          </button>
+        </div> */}
+
       </div>
     </div>
   )

@@ -20,10 +20,18 @@ const mediaOptions = allMediaTypes.map(media => ({
   "label" : media
 }))
 
-const techniqueOptions = Object.keys(allTechniques).map(key => ({
-  "value" : key,
-  "label" : allTechniques[key].name
-}))
+// function getTechniqueOptions(crafterData) {
+  const techniqueOptions = Object.keys(allTechniques)
+  // // do we already have it?
+  // .filter(tech => tech !== 'Generosity');
+  .map(key => ({
+    "value" : key,
+    "label" : allTechniques[key].name
+  }))
+
+// }
+
+
 
 const alloyOptions = [
   {"value": "Illuminium", "label": "Illuminium"},
@@ -325,6 +333,10 @@ const CraftCharacter = ({
                   <Select
                     className={'select-dropdown'}
                     options={techniqueOptions}
+                    isOptionDisabled={tech => (
+                      tech.value !== technique &&
+                      crafterHasTechnique(crafterData, tech.value)
+                    )}
                     value={getOptionFromValue(techniqueOptions, technique)}
                     onChange={(option) => { updateTechnique(i, option.value) }}
                     escapeClearsValue={true}
@@ -341,12 +353,13 @@ const CraftCharacter = ({
         })}
 
         { (unselectedTechniques > 0) &&
-          [...Array(unselectedTechniques)].map( (tech, i) => (
+          [...Array(unselectedTechniques)].map( (technique, i) => (
             <tr key={i}>
               <td>
                 <Select
                   className={'select-dropdown'}
                   options={techniqueOptions}
+                  isOptionDisabled={tech => crafterHasTechnique(crafterData, tech.value)}
                   value={null}
                   onChange={(option) => { updateTechnique((crafterData.techniques.length), option.value) }}
                   placeholder={'Choose Technique'}
