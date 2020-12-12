@@ -17,8 +17,7 @@ import './FineTuning.scss';
 const FineTuning = ({
   crafterData,
   projectData,
-  updateProjectData,
-  handleFinishProject
+  updateProjectData
 }) => {
 
   const cancelledCount = projectData.cancelledCount;
@@ -63,7 +62,7 @@ const FineTuning = ({
       if (update.roll === 6) { newRollData.boonCount += 1 }
     }
 
-    if (update.bonus) newRollData.push(update.bonus);
+    if (update.bonus) newRollData.bonuses.push(update.bonus);
 
     if (update.boonCount) newRollData.boonCount += update.boonCount;
     if (update.flawCount) newRollData.flawCount += update.flawCount;
@@ -102,6 +101,7 @@ const FineTuning = ({
 
   return (
     <div className='FineTuning'>
+      <h2 className="fine-tune">~ Fine-tuning ~</h2>
 
 
       <div className='flaws-and-boons'>
@@ -289,13 +289,6 @@ const FineTuning = ({
           )
         }
       </div>
-
-      <div className='finish-project-container'>
-        <button className='finish-project' onClick={handleFinishProject}>
-          ~ Finish Project ~
-        </button>
-      </div>
-
     </div>
   )
 }

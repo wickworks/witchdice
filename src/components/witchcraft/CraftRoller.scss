@@ -1,8 +1,9 @@
 @import '../../fonts';
 
 .CraftRoller {
-  max-width: 600px;
   width: 100%;
+  max-width: 600px;
+  margin: 0 10px;
 
   h2.roll-craft {
     @include text_title_action;

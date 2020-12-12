@@ -1,8 +1,16 @@
 @import '../../fonts';
 
 .FineTuning {
+  width: 100%;
   max-width: 600px;
-  margin: 20px auto 40px;
+  margin: 0 10px;
+
+  h2.fine-tune {
+    @include text_title_action;
+    color: $green_witch;
+    text-align: center;
+    margin: 20px 0 38px;
+  }
 
   .flaws-and-boons {
     display: flex;
@@ -63,11 +71,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 10px;
 
     > * {
       @include text_label;
       color: $green_witch;
-      margin: 40px 20px 0;
+      margin: 20px 20px 0;
     }
 
     button {
@@ -89,11 +98,13 @@
     }
 
     .technique-container {
+      width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-wrap: wrap;
 
-      > * { margin: 0 10px; }
+      > * { margin: 4px 10px; }
 
       .NumberInput {
         background-color: none;
@@ -108,24 +119,6 @@
           &:hover { background-color: $green_witch_mid; }
         }
       }
-    }
-  }
-
-  .finish-project-container {
-    border-top: 4px solid $green_witch;
-    margin: 40px auto 0 0;
-
-    button.finish-project {
-      @include text_title_heavy;
-      display: block;
-      margin: auto;
-      padding: 8px 40px;
-      border: none;
-      color: white;
-      background-color: $green_witch;
-      cursor: pointer;
-
-      &:hover { background-color: $green_witch_mid; }
     }
   }
 }

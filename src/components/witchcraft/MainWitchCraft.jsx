@@ -250,7 +250,7 @@ const MainWitchCraft = ({
 
   return (
     <div className='MainWitchCraft'>
-    
+
       <CharacterList
         characterEntries={allCrafterEntries}
         handleEntryClick={setActiveCrafter}
@@ -277,31 +277,38 @@ const MainWitchCraft = ({
       }
 
       { settingUpProject &&
-        <div className='setup-and-action'>
-          <CraftSetup
-            crafterData={crafterData}
-            projectData={projectData}
-            updateProjectData={updateProjectData}
-          />
-
-          <div className='roll-and-tuning'>
-
-            <CraftRoller
+        <div className={`setup-and-action ${projectData.stage}`}>
+          { projectData.stage === 'preparing' &&
+            <CraftSetup
               crafterData={crafterData}
               projectData={projectData}
               updateProjectData={updateProjectData}
             />
+          }
 
-            { projectData.stage === 'tuning' &&
-              <FineTuning
-                crafterData={crafterData}
-                projectData={projectData}
+          { projectData.stage === 'tuning' &&
+            <FineTuning
+              crafterData={crafterData}
+              projectData={projectData}
 
-                updateProjectData={updateProjectData}
-                handleFinishProject={handleFinishProject}
-              />
-            }
-          </div>
+              updateProjectData={updateProjectData}
+              handleFinishProject={handleFinishProject}
+            />
+          }
+
+          <CraftRoller
+            crafterData={crafterData}
+            projectData={projectData}
+            updateProjectData={updateProjectData}
+          />
+        </div>
+      }
+
+      { (settingUpProject && (projectData.stage === 'tuning')) &&
+        <div className='finish-project-container'>
+          <button className='finish-project' onClick={handleFinishProject}>
+            ~ Finish Project ~
+          </button>
         </div>
       }
 

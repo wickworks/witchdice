@@ -1,46 +1,63 @@
 @import './fontsWitchCraft';
 
-.Main {
-  .MainWitchCraft {
-    .CharacterList {
-      margin: 20px auto 0;
+.Main .MainWitchCraft {
+  .CharacterList {
+    margin: 20px auto 0;
 
-      .title-bar h2, .new-character.first {
-        color: $green_witch;
-        font-weight: bold;
-      }
+    .title-bar h2, .new-character.first {
+      color: $green_witch;
+      font-weight: bold;
     }
+  }
 
-    .crafter-and-projects {
-      display: flex;
-      justify-content: center;
+  .crafter-and-projects {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .setup-and-action {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+
+    &.tuning {
+      flex-wrap: wrap-reverse;
       align-items: flex-end;
-      flex-wrap: wrap;
     }
+  }
 
-    .setup-and-action {
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      flex-wrap: wrap;
+  .pumpkin-bar {
+    background-color: $green_witch_pale;
+  }
 
-      .roll-and-tuning {
-        max-width: 600px;
-        width: 100%;
-      }
+  .gameplay-container {
+    margin-top: 40px;
+
+    .PartyPanel, .DiceBag {
+      h2 { color: $green_witch; }
     }
+  }
 
-    .pumpkin-bar {
-      background-color: $green_witch_pale;
+
+  .finish-project-container {
+    border-top: 4px solid $green_witch;
+    margin: 40px 4% 0;
+
+    button.finish-project {
+      @include text_title_heavy;
+      font-size: 30px;
+      display: block;
+      margin: auto;
+      padding: 8px 30px;
+      border: none;
+      color: white;
+      background-color: $green_witch;
+      cursor: pointer;
+
+      &:hover { background-color: $green_witch_mid; }
     }
-
-    .gameplay-container {
-      margin-top: 40px;
-
-      .PartyPanel, .DiceBag {
-        h2 { color: $green_witch; }
-      }
-    }
-
   }
 }
