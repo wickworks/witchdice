@@ -97,6 +97,10 @@
       }
     }
 
+    .used {
+      font-style: italic;
+    }
+
     .technique-container {
       width: 100%;
       display: flex;
@@ -105,6 +109,12 @@
       flex-wrap: wrap;
 
       > * { margin: 4px 10px; }
+
+      .label {
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+      }
 
       .NumberInput {
         background-color: none;

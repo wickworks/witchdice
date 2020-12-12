@@ -187,29 +187,53 @@ const FineTuning = ({
 
       <div className='add-dice-container'>
         { projectUsedTechnique(projectData, 'desperateMeasures') ?
-          <div>Used desparate measures.</div>
+          <div className="used">Used desparate measures.</div>
         : !craftRollSucceeded &&
-          <button onClick={() => updateProject({flawCount: 1, bonus: 3, technique: 'desperateMeasures'}) }>
-            Use Desperate Measures : +3, Flaw
-          </button>
+          <div className='technique-container'>
+            <div className="label">Desparate Measures:</div>
+            <button onClick={() => updateProject({flawCount: 1, bonus: 3, technique: 'desperateMeasures'}) }>
+              Add +3 and a flaw
+            </button>
+          </div>
         }
 
         { crafterHasTechnique(crafterData, 'finishingTouches') &&
           ( projectUsedTechnique(projectData, 'finishingTouches') ?
-            <div>Used finishing touches.</div>
+            <div className="used">Used finishing touches.</div>
           :
             <div className='technique-container'>
-              <div>Finishing touches: </div>
+              <div className="label">Finishing touches: </div>
               <button onClick={() => updateProject({removeLowest: true, dice: 1, technique: 'finishingTouches'}) }>
-                Reroll lowest die.
+                Reroll lowest die
               </button>
               { projectData.rollData.flawCount > 0 &&
                 <button onClick={() => updateProject({flawCount: -1, technique: 'finishingTouches'}) }>
-                  Remove a flaw.
+                  Remove a flaw
                 </button>
               }
               <button onClick={() => updateProject({boonCount: 1, technique: 'finishingTouches'}) }>
-                Add a boon.
+                Add a boon
+              </button>
+            </div>
+          )
+        }
+
+        { crafterHasTechnique(crafterData, 'finishingTouches') &&
+          ( (projectUsedTechnique(projectData, 'finishingTouches') && projectData.techniqueDetails.doubleFinishingTouches) ?
+            <div className="used">Used finishing touches (tier 4).</div>
+          :
+            <div className='technique-container'>
+              <div className="label">Finishing touches (tier 4): </div>
+              <button onClick={() => updateProject({removeLowest: true, dice: 1, technique: 'finishingTouches', techniqueDetails: {doubleFinishingTouches:true} }) }>
+                Reroll lowest die
+              </button>
+              { projectData.rollData.flawCount > 0 &&
+                <button onClick={() => updateProject({flawCount: -1, technique: 'finishingTouches', techniqueDetails: {doubleFinishingTouches:true} }) }>
+                  Remove a flaw
+                </button>
+              }
+              <button onClick={() => updateProject({boonCount: 1, technique: 'finishingTouches', techniqueDetails: {doubleFinishingTouches:true} }) }>
+                Add a boon
               </button>
             </div>
           )
@@ -217,22 +241,23 @@ const FineTuning = ({
 
         { crafterHasTechnique(crafterData, 'inheritedTools') && (tier >= 2) &&
           ( projectUsedTechnique(projectData, 'inheritedTools') ?
-            <div>Used inherited tools.</div>
+            <div className="used">Used inherited tools.</div>
           : !craftRollSucceeded &&
-            <button onClick={() => updateProject({dice: (tier >= 4 ? 2 : 1), technique: 'inheritedTools'}) }>
-              Use Inherited Tools: +{(tier >= 4 ? 2 : 1)}d6
-            </button>
+            <div className='technique-container'>
+              <div className="label">Inherited Tools</div>
+              <button onClick={() => updateProject({dice: (tier >= 4 ? 2 : 1), technique: 'inheritedTools'}) }>
+                Add +{(tier >= 4 ? 2 : 1)}d6
+              </button>
+            </div>
           )
         }
 
         { crafterHasTechnique(crafterData, 'welcomingWorkshop') &&
           ( projectUsedTechnique(projectData, 'welcomingWorkshop') ?
-            <div>Used welcoming workshop.</div>
+            <div className="used">Used welcoming workshop.</div>
           :
             <div className='technique-container'>
-              <button onClick={() => updateProject({roll: welcomingWorkshopBonus, technique: 'welcomingWorkshop'}) }>
-                Use Welcoming Workshop:
-              </button>
+              <div className="label">Welcoming workshop</div>
               <NumberInput
                 value={welcomingWorkshopBonus}
                 setValue={(value) => updateProject({techniqueDetails: {welcomingWorkshopBonus: value}}) }
@@ -240,20 +265,24 @@ const FineTuning = ({
                 maxValue={6}
                 prefix={"+"}
               />
+              <button onClick={() => updateProject({roll: welcomingWorkshopBonus, technique: 'welcomingWorkshop'}) }>
+                Add
+              </button>
             </div>
           )
         }
 
         { crafterHasTechnique(crafterData, 'comfortZone') &&
           ( projectUsedTechnique(projectData, 'comfortZone') ?
-            <div>Used comfort zone.</div>
+            <div className="used">Used comfort zone.</div>
           :
             <div className='technique-container'>
+              <div className="label">Comfort Zone:</div>
               <button onClick={() => updateProject({bonus: 5, technique: 'comfortZone'}) }>
-                Comfort Zone: +5
+                Add +5
               </button>
               <button onClick={() => updateProject({boonCount: 1, technique: 'comfortZone'}) }>
-                Use Comfort Zone: +Boon
+                Add a boon
               </button>
             </div>
           )
@@ -262,7 +291,7 @@ const FineTuning = ({
         { crafterHasTechnique(crafterData, 'blessedCreation') &&
           ( projectUsedTechnique(projectData, 'blessedCreation') ?
             <div className='technique-container'>
-              <div>Used blessed creation.</div>
+              <div className="label used">Used blessed creation.</div>
               <button
                 onClick={() => updateProject({
                   roll: blessedRollOne,
@@ -284,6 +313,7 @@ const FineTuning = ({
             </div>
           :
             <div className='technique-container'>
+              <div className="label">Blessed Creation:</div>
               <button onClick={() => updateProject({
                 bonus: 5,
                 technique: 'blessedCreation',
@@ -292,7 +322,7 @@ const FineTuning = ({
                   blessedCreationRollTwo: getRandomInt(6)
                 }
               }) }>
-                Use Blessed Creation: +5
+                Add +5 and additional options
               </button>
             </div>
           )
@@ -300,11 +330,12 @@ const FineTuning = ({
 
         { (crafterHasTechnique(crafterData, 'manufacturer') && (manufacturerCount > 1)) &&
           ( projectUsedTechnique(projectData, 'manufacturer') ?
-            <div>Used manufacturer to make {manufacturerCount} copies.</div>
+            <div className="used">Used manufacturer to make {manufacturerCount} copies.</div>
           :
             <div className='technique-container'>
+              <div className="label">Manufacturer:</div>
               <button onClick={() => updateProject({technique: 'manufacturer'}) }>
-                Use Manufacturer: {manufacturerCount} copies.
+                Create {manufacturerCount} copies
               </button>
             </div>
           )
@@ -312,10 +343,10 @@ const FineTuning = ({
 
         { crafterHasTechnique(crafterData, 'subtext') &&
           ( projectUsedTechnique(projectData, 'subtext') ?
-            <div>Used subtext: {subtextSelection}.</div>
+            <div className="used">Used subtext: {subtextSelection}.</div>
           :
             <div className='technique-container'>
-              <div>Subtext:</div>
+              <div className="label">Subtext:</div>
               <button onClick={() => updateProject({techniqueDetails: {subtext: 'Animated'}, technique: 'subtext'}) }>
                 Animated
               </button>
