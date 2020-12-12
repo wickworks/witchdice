@@ -24,8 +24,10 @@
     .new-project {
       margin-left: 20px;
 
-      .asset {
-        @include text_default;
+      button.asset {
+        @include text_title_action;
+        font-style: normal;
+        color: $green_witch;
         width: 40px;
         height: 40px;
         border: none;
@@ -41,7 +43,7 @@
           span {
             position: absolute;
             left: 100%;
-            top: -10px;
+            top: -18px;
             padding: 0 10px;
             opacity: 0.0;
             transition: opacity .075s ease-out;
@@ -54,6 +56,19 @@
           opacity: 0.7;
           span { opacity: 1.0; }
         }
+        //
+        // &.first {
+        //   @include text_title_heavy;
+        //   font-size: 32px;
+        //   font-style: normal;
+        //   margin: auto;
+        //
+        //   .asset.plus {
+        //     height: 40px;
+        //     width: 40px;
+        //     margin-left: 8px;
+        //   }
+        // }
       }
     }
 
@@ -117,18 +132,14 @@
 
         .name {
           @include text_handwriting;
-          // color: $green_witch;
-          min-width: 50%;
+          width: 100%;
+          margin-right: 10px;
 
           .TextInput:hover {
             background-color: transparent;
           }
 
-          input {
-            @include text_handwriting;
-            // color: $green_witch;
-            // width: 100%;
-          }
+          input { @include text_handwriting; }
 
           &.failure { text-decoration: line-through; }
         }

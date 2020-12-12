@@ -26,14 +26,14 @@ const ProjectList = ({
         <div className='title'>Projects</div>
 
         <div className='new-project'>
-          <button className="asset plus" onClick={handleAddProject}>
+          <button className={`asset plus ${projectEntries.length === 0 ? 'first' : ''}`} onClick={handleAddProject}>
             <div className='text-container'>
-              <span>New Project</span>
+              <span>New</span>
             </div>
           </button>
         </div>
 
-        <div className='stamina-label'>Stamina</div>
+        {/* <div className='stamina-label'>Stamina</div> */}
       </div>
 
       <div className='projects-container'>
@@ -114,11 +114,12 @@ const ProjectListItem = ({
             }
           </div>
 
-          { settingUpProject ?
+          {/* { settingUpProject ?
             <div className='stamina'>
               {projectData.staminaSpent}/{getStaminaCostForProject(projectData)}
             </div>
-          :
+          : */}
+          { displayName.length > 0 &&
             <DeleteButton
               handleClick={() => setIsDeleting(true)}
               moreClasses='delete-project'

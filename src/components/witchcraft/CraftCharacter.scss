@@ -148,15 +148,17 @@
 
   .DeleteButton {
     position: absolute;
-    right: 6px;
-    bottom: 8px;
+    left: 6px;
+    top: 8px;
   }
 
   .DeleteConfirmation {
     position: absolute;
-    right: 0px;
-    bottom: 9px;
-    height: 200px;
+    left: 0px;
+    top: 9px;
+    height: fit-content;
+    display: flex;
+    flex-wrap: wrap;
 
     .delete-title {
       font-size: 40px;
