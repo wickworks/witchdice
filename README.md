@@ -1,12 +1,12 @@
 
 #### WITCH+CRAFT MECHANICS ####
-- have it automatically add the automatic techniques
 - implement the automatic techniques
 - prereqs for techniques
 - special "new project" button when it's empty, just like up top
 - push to roll history
 - click stamina checkmarks to check ALL BOXES UP TO THAT MARK, have little message when all are filled
 - delete all of a character's projects when they are deleted
+- can manually adjust final roll
 
 - export project cards to clipboard or to pdf
 - add new icon credits

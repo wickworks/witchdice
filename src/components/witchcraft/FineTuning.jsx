@@ -44,22 +44,39 @@ const FineTuning = ({
   // flawCount: adds this many flaws
   // technique: appends technique name
   // techniqueDetails: sets technique detail data
+  // removeLowest: removes the lowest die roll (for rerolling, pair with dice param)
   function updateProject(update) {
     var newRollData = deepCopy(projectData.rollData);
+
+    if (update.removeLowest) {
+      // find the lowest die (skipping the d20 roll)
+      let lowestIndex = 0;
+      let lowestValue = 100;
+      for (var i = 1; i < newRollData.rolls; i++) {
+        if (newRollData.rolls[i] < lowestValue) {
+          lowestValue = newRollData.rolls[i];
+          lowestIndex = i;
+        }
+      }
+      // remove that roll & the associated boon/flaw
+      newRollData.rolls.splice(lowestIndex, 1)
+      if (lowestValue === 1) newRollData.flawCount -= 1
+      if (lowestValue === 6) newRollData.boonCount -= 1
+    }
 
     if (update.dice) {
       for (var i = 0; i < update.dice; i++) {
         const roll = getRandomInt(6);
         newRollData.rolls.push(roll);
-        if (roll === 1) { newRollData.flawCount += 1 }
-        if (roll === 6) { newRollData.boonCount += 1 }
+        if (roll === 1) newRollData.flawCount += 1
+        if (roll === 6) newRollData.boonCount += 1
       }
     }
 
     if (update.roll) {
       newRollData.rolls.push(update.roll);
-      if (update.roll === 1) { newRollData.flawCount += 1 }
-      if (update.roll === 6) { newRollData.boonCount += 1 }
+      if (update.roll === 1) newRollData.flawCount += 1
+      if (update.roll === 6) newRollData.boonCount += 1
     }
 
     if (update.bonus) newRollData.bonuses.push(update.bonus);
@@ -72,6 +89,8 @@ const FineTuning = ({
 
     var newTechniqueDetails = deepCopy(projectData.techniqueDetails);
     if (update.techniqueDetails) newTechniqueDetails = {...newTechniqueDetails, ...update.techniqueDetails}
+
+
 
     updateProjectData({
       rollData: newRollData,
@@ -173,6 +192,27 @@ const FineTuning = ({
           <button onClick={() => updateProject({flawCount: 1, bonus: 3, technique: 'desperateMeasures'}) }>
             Use Desperate Measures : +3, Flaw
           </button>
+        }
+
+        { crafterHasTechnique(crafterData, 'finishingTouches') &&
+          ( projectUsedTechnique(projectData, 'finishingTouches') ?
+            <div>Used finishing touches.</div>
+          :
+            <div className='technique-container'>
+              <div>Finishing touches: </div>
+              <button onClick={() => updateProject({removeLowest: true, dice: 1, technique: 'finishingTouches'}) }>
+                Reroll lowest die.
+              </button>
+              { projectData.rollData.flawCount > 0 &&
+                <button onClick={() => updateProject({flawCount: -1, technique: 'finishingTouches'}) }>
+                  Remove a flaw.
+                </button>
+              }
+              <button onClick={() => updateProject({boonCount: 1, technique: 'finishingTouches'}) }>
+                Add a boon.
+              </button>
+            </div>
+          )
         }
 
         { crafterHasTechnique(crafterData, 'inheritedTools') && (tier >= 2) &&
