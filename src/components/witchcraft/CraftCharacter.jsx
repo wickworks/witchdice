@@ -72,6 +72,15 @@ const clearSelectDropdownIconStyle = {
   }
 }
 
+const disguiseSelectStyle = {
+  control: (provided, state) => {
+    const backgroundColor = 'transparent';
+    const border = 'none';
+    return { ...provided, backgroundColor, border };
+  },
+  ...clearSelectDropdownIconStyle
+}
+
 
 const CraftCharacter = ({
   crafterData,
@@ -312,14 +321,14 @@ const CraftCharacter = ({
         { crafterData.techniques.map((technique, i) => {
             return (
               <tr key={i}>
-                <td>
+                <td className='selected-technique'>
                   <Select
                     className={'select-dropdown'}
                     options={techniqueOptions}
                     value={getOptionFromValue(techniqueOptions, technique)}
                     onChange={(option) => { updateTechnique(i, option.value) }}
                     escapeClearsValue={true}
-                    styles={clearSelectDropdownIconStyle}
+                    styles={disguiseSelectStyle}
                   />
                 </td>
                 <td>
@@ -340,7 +349,7 @@ const CraftCharacter = ({
                   options={techniqueOptions}
                   value={null}
                   onChange={(option) => { updateTechnique((crafterData.techniques.length), option.value) }}
-                  placeholder={'Technique'}
+                  placeholder={'Choose Technique'}
                   styles={
                     {
                       dropdownIndicator: (provided, state) => {
