@@ -20,16 +20,21 @@ const mediaOptions = allMediaTypes.map(media => ({
   "label" : media
 }))
 
-// function getTechniqueOptions(crafterData) {
+function getTechniqueOptions(crafterData) {
   const techniqueOptions = Object.keys(allTechniques)
-  // // do we already have it?
-  // .filter(tech => tech !== 'Generosity');
+  // do we meet the prereqs?
+  .filter(key => {
+    const minTier = allTechniques[key].prereq[0];
+    return crafterData.tier >= minTier;
+  })
+  // turn it into react-select's weird format
   .map(key => ({
     "value" : key,
     "label" : allTechniques[key].name
   }))
 
-// }
+  return techniqueOptions;
+}
 
 
 
@@ -122,6 +127,8 @@ const CraftCharacter = ({
   }
 
   // ======== TECHNIQUES ========= //
+  const techniqueOptions = getTechniqueOptions(crafterData);
+
   var techniqueCountForCrafter = (crafterData.tier + 1);
   if (crafterHasTechnique(crafterData, 'subtleTouch')) { techniqueCountForCrafter += 3 }
   const unselectedTechniques = techniqueCountForCrafter - crafterData.techniques.length;
