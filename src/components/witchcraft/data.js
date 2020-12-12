@@ -17,6 +17,7 @@ const defaultCraftingCharacter = {
 
 const defaultRollData = {
   rolls: [],
+  bonuses: [],     // Flat increases e.g. proficiency bonus
   flawCount: 0,
   boonCount: 0,
 }
@@ -33,7 +34,6 @@ const defaultProject = {
   staminaSpent: 0,
   rollData: defaultRollData,  // Rolled results
   insightRollData: null,      // Insightful Talent lets us roll twice
-  bonusData: [],              // Flat increases e.g. proficiency bonus
   cancelledCount: 0,
   desc: '',
 }
@@ -125,15 +125,15 @@ function getProjectDC(projectData) {
   return (allDifficulties[projectData.difficulty] * 5) + 5;
 }
 
-function getProjectResult(projectData, crafterData) {
+function getProjectResult(rollData, crafterData) {
   var result = 0;
-  result += projectData.rollData.rolls.reduce((a, b) => a + b, 0);
-  result += projectData.bonusData.reduce((a, b) => a + b, 0);
+  result += rollData.rolls.reduce((a, b) => a + b, 0);
+  result += rollData.bonuses.reduce((a, b) => a + b, 0);
   return result;
 }
 
 function didProjectSucceed(projectData, crafterData) {
-  return (getProjectResult(projectData, crafterData) >= getProjectDC(projectData))
+  return (getProjectResult(projectData.rollData, crafterData) >= getProjectDC(projectData))
 }
 
 function getStaminaForCharacter(characterData) {
@@ -160,7 +160,7 @@ function buildFinishedDescription(projectData, crafterData) {
 
   if (!didProjectSucceed(projectData, crafterData)) {
     desc += "This project didn't quite come together. The crafting roll was only "
-    desc += `${getProjectResult(projectData, crafterData)} against a DC of ${getProjectDC(projectData)}.\n\n`
+    desc += `${getProjectResult(projectData.rollData, crafterData)} against a DC of ${getProjectDC(projectData)}.\n\n`
   }
 
   if (projectData.blueprint) {

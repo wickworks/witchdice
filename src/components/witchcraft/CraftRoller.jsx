@@ -43,29 +43,27 @@ const CraftRoller = ({
       if (roll === 6) { newRollData.boonCount += 1 }
     }
 
+    // add the proficiency bonus
+    newRollData.bonuses.push(crafterData.proficiencyBonus);
+
     return newRollData;
   }
 
   const handleNewRoll = () => {
     const newRollData = getNewRollData();
 
-    const newBonusData = [crafterData.proficiencyBonus];
-
+    // make a second roll to choose
     if (projectUsedTechnique(projectData, 'insightfulTalent')) {
       const newInsightRollData = getNewRollData();
-
       updateProjectData({
         rollData: newRollData,
         insightRollData: newInsightRollData,
-        bonusData: newBonusData,
       });
 
     // just complete the roll
     } else {
-      // add the proficiency bonus
       updateProjectData({
         rollData: newRollData,
-        bonusData: newBonusData,
         stage: 'tuning'
       });
     }
@@ -141,26 +139,42 @@ const CraftRoller = ({
           :
             <div className={`total ${craftRollSucceeded ? 'success' : 'failure'}`}>
               <div className='label'>Result</div>
-              <div className='number'>{getProjectResult(projectData, crafterData)}</div>
+              <div className='number'>{getProjectResult(projectData.rollData, crafterData)}</div>
             </div>
           }
         </div>
 
-        <DisplayRolls rolls={projectData.rollData.rolls} bonuses={projectData.bonusData} />
+        <DisplayRolls rollData={projectData.rollData} />
 
         { (projectData.insightRollData !== null) &&
-          <>
-            <DisplayRolls
-              rolls={projectData.insightRollData.rolls}
-              bonuses={projectData.bonusData}
-              switchable={true}
-              handleSwitch={() => {
-                updateProjectData({
+          <div className='insightful-talent'>
+            <div className='label'>
+              Insightful Talent roll:
+            </div>
+
+            <div className='extra-roll-container'>
+              <div className='results-container'>
+                <div className='summary'>
+                  <span>{ `Result: ${getProjectResult(projectData.insightRollData)} ` }</span>
+                  <span>{ `Boons: ${projectData.insightRollData.boonCount} ` }</span>
+                  <span>{ `Flaws: ${projectData.insightRollData.flawCount} ` }</span>
+                </div>
+
+                <DisplayRolls
+                  rollData={projectData.insightRollData}
+                />
+              </div>
+
+              <button
+                className={'switch-rolls'}
+                onClick={() => { updateProjectData({
                   rollData: projectData.insightRollData,
                   insightRollData: projectData.rollData,
-                });
-              }}
-            />
+                }); }}
+              >
+                Use
+              </button>
+            </div>
 
             <button
               className='confirm-insight'
@@ -173,7 +187,7 @@ const CraftRoller = ({
             >
               Continue to fine-tuning.
             </button>
-          </>
+          </div>
         }
       </div>
     </div>
@@ -181,26 +195,19 @@ const CraftRoller = ({
 }
 
 const DisplayRolls = ({
-  rolls, bonuses,
-  switchable, handleSwitch
+  rollData,
 }) => {
   return (
     <div className='DisplayRolls'>
-      { switchable &&
-        <button className={'switch-rolls'} onClick={handleSwitch}>
-          Use this roll
-        </button>
-      }
-
-      { rolls.map( (roll, i) => (
+      { rollData.rolls.map( (roll, i) => (
         <DisplayDie
           dieType={ i === 0 ? 'd20' : 'd6'}
-          roll={rolls[i]}
+          roll={roll}
           key={i}
         />
       ))}
 
-      { bonuses.map( (bonus, i) => (
+      { rollData.bonuses.map( (bonus, i) => (
         <div className='bonus'>+{bonus}</div>
       ))}
     </div>
