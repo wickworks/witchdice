@@ -7,38 +7,53 @@ import { deepCopy, capitalize } from '../../utils.js';
 
 import './ProjectCard.scss';
 
-
 const ProjectCard = ({
   projectData,
   updateProjectData
 }) => {
 
+
+  var jsonData = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projectData));
+
+
   return (
-    <div className='ProjectCard'>
-      <div className='title'>
-        <TextInput
-          textValue={projectData.name}
-          setTextValue={(value) => { updateProjectData({name: value}) }}
-          placeholder={'Project name'}
-          suffix={'.'}
-          maxLength={128}
-        />
+    <>
+      <div className='ProjectCard'>
+        <div className='title'>
+          <TextInput
+            textValue={projectData.name}
+            setTextValue={(value) => { updateProjectData({name: value}) }}
+            placeholder={'Project name'}
+            suffix={'.'}
+            maxLength={128}
+          />
+        </div>
+
+        <div className='attributes'>
+          {`${capitalize(projectData.size)}, ${projectData.difficulty} project.`}
+        </div>
+
+        <div className='description'>
+          <TextInput
+            textValue={projectData.desc}
+            setTextValue={(value) => { updateProjectData({desc: value}) }}
+            placeholder='Project description'
+            isTextbox={true}
+            isMarkdown={true}
+          />
+        </div>
       </div>
 
-      <div className='attributes'>
-        {`${capitalize(projectData.size)}, ${projectData.difficulty} project.`}
+      <div className='export-container'>
+        <a
+          className='export-json'
+          href={`data:'${jsonData}'`}
+          download='project_data.json'
+        >
+          Export Json
+        </a>
       </div>
-
-      <div className='description'>
-        <TextInput
-          textValue={projectData.desc}
-          setTextValue={(value) => { updateProjectData({desc: value}) }}
-          placeholder='Project description'
-          isTextbox={true}
-          isMarkdown={true}
-        />
-      </div>
-    </div>
+    </>
   )
 }
 

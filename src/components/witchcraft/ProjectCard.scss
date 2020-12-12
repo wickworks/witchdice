@@ -1,5 +1,15 @@
 @import './fontsWitchCraft';
 
+.export-container {
+  width: 100%;
+  text-align: center;
+
+  button.export-json {
+    margin: auto;
+
+  }
+}
+
 .ProjectCard {
   @include shadow;
   background-color: $parchment;
