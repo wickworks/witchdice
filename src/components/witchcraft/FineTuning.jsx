@@ -112,8 +112,8 @@ const FineTuning = ({
                 (flaw, i) => (
                   <BoonFlawIcon
                     isBoon={false}
-                    isCancelled={i < cancelledCount}
-                    handleClick={() => handleBoonFlawClick(i < cancelledCount)}
+                    isCancelled={i >= (projectData.rollData.flawCount - cancelledCount)}
+                    handleClick={(isCancelled) => handleBoonFlawClick(isCancelled)}
                     key={i}
                   />
                 )
@@ -142,8 +142,8 @@ const FineTuning = ({
                 (boon, i) => (
                   <BoonFlawIcon
                     isBoon={true}
-                    isCancelled={i < cancelledCount}
-                    handleClick={() => handleBoonFlawClick(i < cancelledCount)}
+                    isCancelled={i >= (projectData.rollData.boonCount - cancelledCount)}
+                    handleClick={(isCancelled) => handleBoonFlawClick(isCancelled)}
                     key={i}
                   />
                 )
@@ -310,7 +310,7 @@ const BoonFlawIcon = ({
   classes += isCancelled ? 'cancelled' : '';
 
   return (
-    <div className='BoonFlawIcon' onClick={handleClick}>
+    <div className='BoonFlawIcon' onClick={() => handleClick(isCancelled)}>
       <div className={classes} />
     </div>
   )
