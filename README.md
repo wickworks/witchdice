@@ -2,7 +2,6 @@
 #### WITCH+CRAFT MECHANICS ####
 - prereqs for techniques
 - push to roll history
-- click stamina checkmarks to check ALL BOXES UP TO THAT MARK, have little message when all are filled
 - delete all of a character's projects when they are deleted
 - can manually adjust final roll
 - prevent double-technique-selection

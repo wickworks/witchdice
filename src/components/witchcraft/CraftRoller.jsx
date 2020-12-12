@@ -20,14 +20,9 @@ const CraftRoller = ({
 }) => {
   const bonusDiceCount = getBonusDiceForProject(crafterData, projectData);
 
-  const updateStaminaSpent = (increase) => {
-    var staminaSpent = projectData.staminaSpent;
-    if (increase) {
-      staminaSpent = staminaSpent + 1;
-    } else {
-      staminaSpent = staminaSpent - 1;
-    }
-    updateProjectData({staminaSpent: staminaSpent});
+  const updateStaminaSpent = (stamina, wasChecked) => {
+    if (!wasChecked) stamina += 1;
+    updateProjectData({staminaSpent: stamina});
   }
 
   function getNewRollData() {
@@ -99,7 +94,7 @@ const CraftRoller = ({
                   type="checkbox"
                   className={groupClass}
                   checked={isChecked}
-                  onChange={() => updateStaminaSpent(!isChecked)}
+                  onChange={() => updateStaminaSpent(i, isChecked)}
                   key={i}
                 />
               )
