@@ -1,6 +1,4 @@
 
-#### WITCH+CRAFT MECHANICS ####
-- push to roll history
 
 #### EXIST-IN-THE-WORLD ####
 
@@ -21,8 +19,6 @@
 - let people put in their name to auto-join when they come in via a url (integrate with "asking for permission to join")
 
 ##### FEATURES ######
-- bug with deleting damage sources; deleting the second deleted the first
-
 - add modifiers to dicebag rolls
   - under total/high/low
   - inside a collapsible options menu
@@ -77,6 +73,8 @@
 
 - vulnerability, resistance, immunity
 
+#### WITCH+CRAFT MECHANICS ####
+- push to roll history
 
 
 #### other games ####

@@ -15,39 +15,22 @@ const DamageSource = ({
 }) => {
 
   const {
-    // dieCount,
     dieType,
-    // modifier,
     tags,
     damageType,
-    // enabled,
-    // name,
-    // condition
   } = damageData;
 
   const {
-    // setDieCount,
     setDieType,
-    // setModifier,
     setTags,
     setDamageType,
-    // setEnabled,
-    // setName,
-    // setCondition,
   } = damageFunctions;
 
-  // const [hoveringOverCheckBox, setHoveringOverCheckBox] = useState(false);
-  // const [isEditingDieType, setIsEditingDieType] = useState(true);
-  // const [isEditingDamageType, setIsEditingDamageType] = useState(true);
-
   const handleContainerClick = () => {
-    // if (hoveringOverCheckBox) { return }
     if (!isEditing) { onEdit(damageID) }
   }
 
   const handleAccept = () => {
-    // setIsEditingDieType(false);
-    // setIsEditingDamageType(false);
     onEdit(damageID);
   }
 
@@ -103,16 +86,6 @@ const DamageSource = ({
   return (
     <div className={`DamageSource ${editingClass}`} onClick={handleContainerClick} >
 
-      {/*
-      <input
-        type="checkbox"
-        checked={enabled}
-        onChange={() => setEnabled(!enabled, attackID, damageID)}
-        onMouseEnter={() => setHoveringOverCheckBox(true)}
-        onMouseLeave={() => setHoveringOverCheckBox(false)}
-      />
-      */}
-
       {!isEditing ?
         <div className="summary-mode">
           <DamageNumbers damageData={damageData} />
@@ -160,7 +133,7 @@ const DamageSource = ({
             <button className='accept' onClick={handleAccept}>
               <div className={'asset checkmark'} />
             </button>
-            <button className='delete' onClick={() => onDelete()}>
+            <button className='delete' onClick={() => onDelete(damageID)}>
               <div className={'asset trash'} />
             </button>
           </div>
