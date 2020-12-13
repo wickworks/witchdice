@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Switch, Route } from "react-router-dom";
+
 import { CURRENT_VERSION } from '../version.js';
 import { deepCopy, capitalize } from '../utils.js';
 import { randomWords } from '../random_words.js';
@@ -274,8 +276,8 @@ const Main = ({rollMode}) => {
 
   return (
     <div className='Main'>
-      {
-        rollMode === '5e' ?
+      <Switch>
+        <Route path="/5e">
           <Main5E
            renderDiceBag={renderDiceBag}
            renderPartyPanel={renderPartyPanel}
@@ -284,17 +286,22 @@ const Main = ({rollMode}) => {
            setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
            setRollSummaryData={setRollSummaryData}
           />
-        : rollMode === 'witchcraft' ?
+        </Route>
+
+        <Route path="/craft">
           <MainWitchCraft
            renderDiceBag={renderDiceBag}
            renderPartyPanel={renderPartyPanel}
           />
-        :
+        </Route>
+
+        <Route path="/simple">
           <MainSimple
            renderDiceBag={renderDiceBag}
            renderPartyPanel={renderPartyPanel}
           />
-      }
+        </Route>
+      </Switch>
     </div>
   )
 }

@@ -3,8 +3,12 @@
 .ModeChooser {
   width: 100%;
 
+  &.minimized {
+    order: -1;
+  }
+
   .roll-mode {
-    input, label { cursor: pointer; }
+    a { cursor: pointer; }
     h2 { display: inline; }
 
     .mode-title {
@@ -18,12 +22,14 @@
       justify-content: center;
       margin: 20px auto 100px;
 
-      .mode-container {
+      a {
+        display: block;
         width: 340px;
         border-radius: 40px;
         padding: 40px 10px 30px;
         margin: 30px;
-        // border: 2px solid $rust;
+        color: $soft_black;
+        text-decoration: none;
 
         background-color: #ffdfd7; // light pink
         &:hover { background-color: $rust_light; }
@@ -54,9 +60,12 @@
       background-color: #f3e5e9;
       @include shadow;
 
-      .mode-container {
+      a {
+        display: block;
         padding: 3px 0;
         width: 108px;
+        color: $soft_black;
+        text-decoration: none;
 
         &:hover {
           background-color: $parchment_dark;

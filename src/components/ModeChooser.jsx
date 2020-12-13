@@ -1,53 +1,44 @@
 import React from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
+import { Link, useLocation } from "react-router-dom";
 import './ModeChooser.scss';
 
-const ModeChooser = ({
-  rollMode,
-  saveRollMode
-}) => {
-
-  const rollModeClass = rollMode ? 'minimized' : 'full'
+const ModeChooser = () => {
+  const location = useLocation().pathname;
+  const rollModeClass = location.length > 1 ? 'minimized' : 'full'
 
   return (
-    <div className="ModeChooser">
-      <RadioGroup
-        name={'roll-mode'}
-        className={`roll-mode ${rollModeClass}`}
-        selectedValue={rollMode}
-        onChange={(value) => { saveRollMode(value) }}
-      >
-        <label className={`mode-container ${rollMode === 'simple' ? 'selected' : ''}`} key='mode-simple'>
+    <div className={`ModeChooser ${rollModeClass}`}>
+      <div className={`roll-mode ${rollModeClass}`}>
+
+        <Link to='/simple' className={location === '/simple' ? 'selected' : ''}>
           <div className='mode-title'>
-            <Radio value='simple' id='mode-simple' />
             <h2>Simple</h2>
           </div>
           <p className='mode-desc simple'>
             Just a bag of dice & a table to share.
           </p>
-        </label>
+        </Link>
 
-        <label className={`mode-container ${rollMode === '5e' ? 'selected' : ''}`} key='mode-5e'>
+        <Link to='/5e' className={location === '/5e' ? 'selected' : ''}>
           <div className='mode-title'>
-            <Radio value='5e' id='mode-5e' />
             <h2>D&D 5e</h2>
           </div>
           <p className='mode-desc'>
             Attack roller for D&D 5e characters & monsters.
           </p>
-        </label>
+        </Link>
 
-        <label className={`mode-container ${rollMode === 'witchcraft' ? 'selected' : ''}`} key='mode-witchcraft'>
+        <Link to='/craft' className={location === '/craft' ? 'selected' : ''}>
           <div className='mode-title'>
-            <Radio value='witchcraft' id='mode-witchcraft' />
             <h2>Witch+Craft</h2>
           </div>
           <p className='mode-desc'>
             Crafting and domestic magic system for 5e.
           </p>
-        </label>
+        </Link>
 
-      </RadioGroup>
+      </div>
     </div>
   );
 }
