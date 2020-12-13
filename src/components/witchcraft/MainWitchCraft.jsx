@@ -117,13 +117,18 @@ const MainWitchCraft = ({
     setCrafterData(null);
   }
 
-
-
-  const createNewProject = () => {
+  const createNewProject = (uploadedJson = null) => {
     const fingerprint = getRandomFingerprint();
     let newProjectData = deepCopy(defaultProject);
 
     console.log('making new project with fingerprint', fingerprint);
+
+    // import data?
+    if (uploadedJson) {
+      console.log('    > importing from json:', uploadedJson);
+      const importedProject = JSON.parse(uploadedJson);
+      newProjectData = {...newProjectData, ...importedProject}
+    }
 
     // make it the active one & add it to this crafter
     setProjectID(fingerprint);
@@ -131,9 +136,9 @@ const MainWitchCraft = ({
     updateCrafterData({projectIDs: [...crafterData.projectIDs, fingerprint]})
 
     // add it to the entries
-    let newData = deepCopy(allProjectEntries);
-    newData.push({id: fingerprint, name: newProjectData.name});
-    setAllProjectEntries(newData);
+    let newEntryData = deepCopy(allProjectEntries);
+    newEntryData.push({id: fingerprint, name: newProjectData.name});
+    setAllProjectEntries(newEntryData);
 
     // save to localStorage
     saveLocalData(PROJECT_PREFIX, fingerprint, newProjectData.name, newProjectData);

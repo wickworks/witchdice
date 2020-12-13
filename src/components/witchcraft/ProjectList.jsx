@@ -12,6 +12,7 @@ import './ProjectList.scss';
 
 const PROJECT_PREFIX = 'project';
 
+
 const ProjectList = ({
   activeProjectID,
   projectEntries,
@@ -20,18 +21,38 @@ const ProjectList = ({
   updateProjectData,
 }) => {
 
+  const [isImportingFile, setIsImportingFile] = useState(false);
+
+  const handleFileUpload = e => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = e => {
+      handleAddProject(e.target.result);
+      setIsImportingFile(false);
+    };
+  };
+
   return (
     <div className='ProjectList'>
       <div className='title-container'>
         <div className='title'>Projects</div>
 
         <div className='new-project'>
-          <button className={`asset plus ${projectEntries.length === 0 ? 'first' : ''}`} onClick={handleAddProject}>
+          <button className={`asset plus ${projectEntries.length === 0 ? 'first' : ''}`} onClick={() => handleAddProject()}>
             <div className='text-container'>
               <span>New</span>
             </div>
           </button>
         </div>
+
+        <div className='import-container'>
+          {isImportingFile ?
+            <input type="file" onChange={handleFileUpload} />
+          :
+            <a onClick={() => setIsImportingFile(true)}>Import</a>
+          }
+        </div>
+
 
         {/* <div className='stamina-label'>Stamina</div> */}
       </div>
@@ -42,13 +63,17 @@ const ProjectList = ({
             const projectData = loadLocalData(PROJECT_PREFIX, entry.id);
             const selectedClass = (entry.id === activeProjectID) ? 'selected' : ''
             return (
-              <ProjectListItem
-                projectData={projectData}
-                updateProjectData={updateProjectData}
-                selectedClass={selectedClass}
-                handleClick={() => handleProjectClick(entry.id)}
-                key={entry.id}
-              />
+              <>{ projectData ?
+                <ProjectListItem
+                  projectData={projectData}
+                  updateProjectData={updateProjectData}
+                  selectedClass={selectedClass}
+                  handleClick={() => handleProjectClick(entry.id)}
+                  key={entry.id}
+                />
+              :
+                <div>Error: cannot find project entry ~{entry.id}</div>
+              }</>
             )
           })}
         </ul>

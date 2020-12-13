@@ -1,10 +1,6 @@
 import React from 'react';
 import TextInput from '../shared/TextInput.jsx';
 import { deepCopy, capitalize } from '../../utils.js';
-// import {
-//
-// } from './data.js';
-
 import './ProjectCard.scss';
 
 const ProjectCard = ({
@@ -12,13 +8,14 @@ const ProjectCard = ({
   updateProjectData
 }) => {
 
-
   var jsonData = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(projectData));
 
 
   return (
-    <>
-      <div className='ProjectCard'>
+    <div className='ProjectCard'>
+
+      <div className='card'>
+
         <div className='title'>
           <TextInput
             textValue={projectData.name}
@@ -47,14 +44,16 @@ const ProjectCard = ({
       <div className='export-container'>
         <a
           className='export-json'
-          href={`data:'${jsonData}'`}
-          download='project_data.json'
+          href={`data:${jsonData}`}
+          download={`${projectData.name}.json`}
         >
-          Export Json
+          Export
         </a>
       </div>
-    </>
+    </div>
   )
 }
+
+
 
 export default ProjectCard ;

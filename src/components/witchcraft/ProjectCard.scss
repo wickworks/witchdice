@@ -1,65 +1,73 @@
 @import './fontsWitchCraft';
 
-.export-container {
-  width: 100%;
-  text-align: center;
-
-  button.export-json {
-    margin: auto;
-
-  }
-}
-
 .ProjectCard {
-  @include shadow;
-  background-color: $parchment;
-  display: flex;
-  flex-direction: column;
   width: 100%;
   max-width: 600px;
-  min-height: 360px;
-  box-sizing: border-box;
   margin: 50px auto 0;
-  padding: 16px;
-  border-radius: 6px;
 
-  .title {
-    @include text_character_name;
-    color: $green_witch;
-    margin-left: 8px;
-
-    input[type=text] {
-      @include text_character_name;
-      color: $green_witch;
-    }
-  }
-
-  .attributes {
-    @include text_label;
-    color: $green_witch;
-    margin: 4px 0 0 8px;
-  }
-
-  // in order for all of these to take up 100% height
-  .description, .TextInput, .display, textarea {
+  .card {
+    @include shadow;
+    background-color: $parchment;
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;
-    height: 100%;
-  }
-
-  .description {
-    margin-top: 16px;
+    width: 100%;
+    max-width: 600px;
+    min-height: 360px;
     box-sizing: border-box;
-    border: 1px solid $green_witch;
+    padding: 16px;
+    border-radius: 6px;
 
-    .TextInput, .display, textarea {
-      padding: 4px;
+    .title {
+      @include text_character_name;
+      color: $green_witch;
+      margin-left: 8px;
+
+      input[type=text] {
+        @include text_character_name;
+        color: $green_witch;
+      }
     }
 
-    textarea {
-      @include text_default;
-      resize: none;
+    .attributes {
+      @include text_label;
+      color: $green_witch;
+      margin: 4px 0 0 8px;
+    }
+
+    // in order for all of these to take up 100% height
+    .description, .TextInput, .display, textarea {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      height: 100%;
+    }
+
+    .description {
+      margin-top: 16px;
+      box-sizing: border-box;
+      border: 1px solid $green_witch;
+
+      .TextInput, .display, textarea {
+        padding: 4px;
+      }
+
+      textarea {
+        @include text_default;
+        resize: none;
+      }
+    }
+  }
+
+  .export-container {
+    width: 100%;
+    text-align: right;
+    margin-top: 10px;
+
+    a {
+      color: $green_witch_grey;
+      text-decoration: none;
+
+      &:hover { color: $green_witch; }
     }
   }
 }
