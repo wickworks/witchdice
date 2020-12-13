@@ -1,9 +1,6 @@
 
 #### WITCH+CRAFT MECHANICS ####
 - push to roll history
-- use the media icons somehow
-- export project cards to clipboard or to pdf
-
 
 #### EXIST-IN-THE-WORLD ####
 

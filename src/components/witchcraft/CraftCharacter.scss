@@ -70,14 +70,16 @@
         .crafting-class {
           @include text_title_light_black;
           font-style: italic;
-          // text-align: right;
+          display: flex;
+          justify-content: space-between;
           // width: 70%;
 
           .TextInput {
             width: 100%;
-
             input { @include text_title_light_black; }
           }
+
+          .asset { width: 32px; height: 32px; }
         }
       }
     }

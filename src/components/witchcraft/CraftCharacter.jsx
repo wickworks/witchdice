@@ -227,6 +227,12 @@ const CraftCharacter = ({
                 placeholder={'Class'}
                 maxLength={32}
               />
+              { crafterData.mediaPrimary &&
+                <div className={`asset ${crafterData.mediaPrimary.toLowerCase().replace(/\s+/g, '')}`} />
+              }
+              { crafterData.mediaSecondary &&
+                <div className={`asset ${crafterData.mediaSecondary.toLowerCase().replace(/\s+/g, '')}`} />
+              }
             </div>
           </div>
         </div>
