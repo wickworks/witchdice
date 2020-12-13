@@ -1,0 +1,40 @@
+@import '../fonts';
+
+
+.ChangeLog {
+  width: 100%;
+
+  .beta-label {
+    color: seagreen;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 8px;
+    cursor: pointer;
+
+    &:hover { color: olive; }
+  }
+
+  .change-container {
+    background-color: $parchment;
+    width: 100%;
+    max-width: 500px;
+    padding: 10px 0;
+    margin: 10px auto;
+    border-radius: 20px;
+
+    .version-label {
+      margin: 10px 0 6px;
+    }
+
+    ul {
+      @include text_license;
+      text-align: left;
+      margin: 0 0 16px;
+
+      li {
+        margin-bottom: 4px;
+      }
+    }
+  }
+
+}

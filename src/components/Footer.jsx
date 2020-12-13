@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CURRENT_VERSION } from '../version.js';
+import ChangeLog from './ChangeLog.jsx';
 import './Footer.scss';
 
 
@@ -10,10 +10,6 @@ const Footer = () => {
 
   return (
     <div className="Footer">
-
-      <div className='beta-label'>
-        beta — v{CURRENT_VERSION}
-      </div>
 
       <div className="meeeeeeeeeeeee-luv-u">
         <a href="https://wick.works/about/" target="_blank" rel="noopener noreferrer">
@@ -32,7 +28,7 @@ const Footer = () => {
             </span>
           :
             <>
-              contact@wick.works or
+              olive@wick.works or
               <a href="https://twitter.com/wickglyph"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -52,6 +48,8 @@ const Footer = () => {
       <a href="https://twitter.com/wickglyph" target="_blank" rel="noopener noreferrer">@wickglyph</a>
       <a href="https://wick.works/" target="_blank" rel="noopener noreferrer">www.wick.works</a>
       */}
+
+      <ChangeLog />
 
       <div className="license">
         <div className='open-button' onClick={() => setCreditsOpen(!creditsOpen)}>License Information</div>
@@ -106,7 +104,7 @@ const Footer = () => {
               </a>
             </p>
 
-            <p>This tool is not affiliated with Wizards of the Coast.</p>
+            <p>This tool is not affiliated with Wizards of the Coast (D&D) or Astrolago Press (Witch+Craft).</p>
             <p>Monster Manual stat blocks included as per the Open Game License:</p>
 
             <div className="legalese">

@@ -1,7 +1,6 @@
 
 
 #### EXIST-IN-THE-WORLD ####
-
 - PWA worker??
 
 ###### LAYOUT #######
@@ -82,9 +81,13 @@
 - Royal game of UR
 - swordsfall?
 
+
+
+
+
+
+
 ### Antiracism corner ####
-
-
 - add in helpful pointers for how to de-colonialize dnd
   - orcs & goblins: recommend hobgoblins, it's the season to punch nazis
   - somehow recommend the class-base attribute system
