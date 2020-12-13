@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CURRENT_VERSION } from '../version.js';
-import { deepCopy } from '../utils.js';
+import { deepCopy, capitalize } from '../utils.js';
 import { randomWords } from '../random_words.js';
 
 import DiceBag from './DiceBag.jsx';
@@ -20,6 +20,7 @@ const Main = ({rollMode}) => {
 
   const [partyRoom, setPartyRoom] = useState('');
   const [partyName, setPartyName] = useState('');
+  const [partyAutoconnect, setPartyAutoconnect] = useState(false); //set to TRUE to attempt to join a room immediately
   const [partyConnected, setPartyConnected] = useState(false);
   const [partyLastAttackKey, setPartyLastAttackKey] = useState('');
   const [partyLastAttackTimestamp, setPartyLastAttackTimestamp] = useState(0);
@@ -31,25 +32,37 @@ const Main = ({rollMode}) => {
   // =============== INITIALIZE ==================
 
   useEffect(() => {
-    // get the room name from the url params // local storage
     const urlRoom = window.location.pathname.substring(1); // slice off the leading slash
+    const loadedRoom = localStorage.getItem("party_room");
+    const loadedName = localStorage.getItem("party_name");
+
+    if (loadedName) setPartyName(loadedName);
+
+    // join the room from the URL
     if (urlRoom && urlRoom.length > 6) {
+      console.log('we are joining from a link, connecting...');
+      if (!loadedName) generatePartyName();
       setPartyRoom(urlRoom);
+      setPartyAutoconnect(true);
 
     } else {
-      const loadedRoom = localStorage.getItem("party_room");
+      // prefill the room name from local storage
       if (loadedRoom) {
         setPartyRoom(loadedRoom);
 
+      // new here? get a random name
       } else {
         generateRoomName()
       }
     }
 
-    const loadedName = localStorage.getItem("party_name");
-    if (loadedName) setPartyName(loadedName);
 
   }, []);
+
+  // automatically try to connect to a room if we flag it to do so
+  useEffect(() => {
+    if (partyAutoconnect) connectToRoom()
+  }, [partyAutoconnect]);
 
   // =============== PARTY ROLL FUNCTIONS ==================
 
@@ -234,6 +247,10 @@ const Main = ({rollMode}) => {
 
   const generateRoomName = () => {
     setPartyRoom( `${randomWords(1)}-${randomWords({exactly: 1, maxLength: 6})}-${randomWords({exactly: 1, maxLength: 4})}` )
+  }
+
+  const generatePartyName = () => {
+    setPartyName( capitalize(`${randomWords(1)}`) )
   }
 
   const renderDiceBag = () => { return (

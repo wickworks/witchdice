@@ -27,9 +27,18 @@
 
 		>div { padding: 0 8px;}
 
-		input {
-			@include text_default;
-			width: 70%;
+		&.disconnected {
+			input {
+				@include text_default;
+				width: 70%;
+			}
+		}
+
+		&.connected {
+			.TextInput input {
+				@include text_label;
+				text-align: right;
+			}
 		}
 
 		.generate-new-room {

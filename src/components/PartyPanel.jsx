@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import TextInput from './shared/TextInput.jsx';
 import './PartyPanel.scss';
 import { allDamageTypes } from './5e/data.js';
 
@@ -68,12 +69,12 @@ const PartyPanel = ({
 			<hr className='pumpkin-bar' />
 
       { (!partyConnected) ? <>
-        <div className='party-name-container'>
+        <div className='party-name-container disconnected'>
           <label htmlFor='party-name'>Name</label>
           <input type='text' id='party-name' value={partyName} onChange={(e) => updatePartyName(e.target.value)} />
         </div>
 
-        <div className='party-room-container'>
+        <div className='party-room-container disconnected'>
           <label htmlFor='party-room'>Room</label>
           <input type='text' id='party-room' value={partyRoom} onChange={(e) => updatePartyRoom(e.target.value)}/>
           <button
@@ -93,12 +94,17 @@ const PartyPanel = ({
         </button>
 
       </> : <>
-        <div className='party-name-container'>
+        <div className='party-name-container connected'>
           <label>Name:</label>
-          <div>{partyName}</div>
+          <TextInput
+            textValue={partyName}
+            setTextValue={setPartyName}
+            placeholder='Name'
+            maxLength={50}
+          />
         </div>
 
-        <div className='party-room-container'>
+        <div className='party-room-container connected'>
           <label>Room:</label>
 
           { showingCopiedMessage ?

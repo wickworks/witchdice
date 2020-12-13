@@ -20,6 +20,7 @@ const ChangeLog = () => {
             <li>Added nice site banner & mode selector.</li>
             <li>Added metadata so shortcuts on phones show up properly.</li>
             <li>Fixed bug with deleting damage sources.</li>
+            <li>Following a room url now automatically connects to that room.</li>
           </ul>
 
 
