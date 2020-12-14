@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import { CURRENT_VERSION } from '../version.js';
 import { deepCopy, capitalize } from '../utils.js';
@@ -278,6 +279,13 @@ const Main = ({rollMode}) => {
     <div className='Main'>
       <Switch>
         <Route path="/5e">
+          <Helmet>
+              <title>Witch Dice ~ D&D 5e damage roller</title>
+              <meta
+                name="description"
+                content="Dice roller for D&D 5e that takes the math out of combat. Press a button and get instant results."
+              />
+          </Helmet>
           <Main5E
            renderDiceBag={renderDiceBag}
            renderPartyPanel={renderPartyPanel}
@@ -289,6 +297,13 @@ const Main = ({rollMode}) => {
         </Route>
 
         <Route path="/craft">
+          <Helmet>
+              <title>Witch Dice ~ Witch+Craft character sheet</title>
+              <meta
+                name="description"
+                content="Character sheet and crafting roller for the Witch+Dice 5e crafting and domestic magic supplemental."
+              />
+          </Helmet>
           <MainWitchCraft
            renderDiceBag={renderDiceBag}
            renderPartyPanel={renderPartyPanel}
@@ -296,6 +311,13 @@ const Main = ({rollMode}) => {
         </Route>
 
         <Route path="/simple">
+          <Helmet>
+              <title>Witch Dice ~ cute dice roller</title>
+              <meta
+                name="description"
+                content="A cute & elegant dice roller for playing tabletop games online with friends."
+              />
+          </Helmet>
           <MainSimple
            renderDiceBag={renderDiceBag}
            renderPartyPanel={renderPartyPanel}

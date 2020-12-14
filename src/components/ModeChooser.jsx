@@ -5,7 +5,7 @@ import './ModeChooser.scss';
 
 const ModeChooser = () => {
   const location = useLocation().pathname;
-  const rollModeClass = location.length > 1 ? 'minimized' : 'full'
+  const rollModeClass = ['/simple','/5e','/craft'].includes(location) ? 'minimized' : 'full'
 
   return (
     <div className={`ModeChooser ${rollModeClass}`}>
