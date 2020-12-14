@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 import TextInput from './shared/TextInput.jsx';
 import './PartyPanel.scss';
 import { allDamageTypes } from './5e/data.js';
@@ -9,9 +10,11 @@ const PartyPanel = ({
   setPartyRoom, setPartyName,
   generateRoomName,
   partyConnected, connectToRoom,
+  rollmodeParam, roomParam
 }) => {
   const [showingCopiedMessage, setShowingCopiedMessage] = useState(false);
 
+  console.log('party params  rollmode: ', rollmodeParam, '   room:', roomParam);
 
   const updatePartyRoom = (value) => {
     const filtered = value.replace(/[^A-Za-z-]/ig, '')
@@ -28,7 +31,7 @@ const PartyPanel = ({
     const hostname = window.location.hostname;
     const port = window.location.port.length > 1 ? `:${window.location.port}` : '';
 
-    const roomUrl = `${protocol}${hostname}${port}/${partyRoom}`;
+    const roomUrl = `${protocol}${hostname}${port}/${rollmodeParam}/${roomParam}`;
 
     const el = document.createElement('textarea');
     el.value = roomUrl
@@ -47,6 +50,7 @@ const PartyPanel = ({
   }
 
   const connectDisabled = (partyRoom.length <= 6 || partyName.length <= 0);
+
 
 	return (
 		<div className="PartyPanel">
@@ -85,13 +89,14 @@ const PartyPanel = ({
           </button>
         </div>
 
-        <button
+        <Link
           className='party-connect'
-          onClick={() => connectToRoom()}
+          to={`/${rollmodeParam}/${partyRoom}`}
+          onClick={() => connectToRoom(partyRoom)}
           disabled={connectDisabled}
         >
           Join Room
-        </button>
+        </Link>
 
       </> : <>
         <div className='party-name-container connected'>

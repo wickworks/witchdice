@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { CURRENT_VERSION } from '../version.js';
@@ -15,16 +15,17 @@ import MainWitchCraft from './witchcraft/MainWitchCraft.jsx';
 
 import './Main.scss';
 
-const Main = ({rollMode}) => {
+const Main = ({
+  partyRoom, setPartyRoom,
+  partyConnected, setPartyConnected
+}) => {
   const [rollSummaryData, setRollSummaryData] = useState({});
 
   const [allPartyActionData, setAllPartyActionData] = useState([]);
   const [latestAction, setLatestAction] = useState(null);
 
-  const [partyRoom, setPartyRoom] = useState('');
   const [partyName, setPartyName] = useState('');
   const [partyAutoconnect, setPartyAutoconnect] = useState(false); //set to TRUE to attempt to join a room immediately
-  const [partyConnected, setPartyConnected] = useState(false);
   const [partyLastAttackKey, setPartyLastAttackKey] = useState('');
   const [partyLastAttackTimestamp, setPartyLastAttackTimestamp] = useState(0);
 
@@ -34,8 +35,18 @@ const Main = ({rollMode}) => {
 
   // =============== INITIALIZE ==================
 
+  const { rollmode, room } = useParams();
   useEffect(() => {
-    const urlRoom = window.location.pathname.substring(1); // slice off the leading slash
+    initializeRoomByUrl(room)
+  }, []);
+
+  // automatically try to connect to a room if we flag it to do so
+  useEffect(() => {
+    if (partyAutoconnect) connectToRoom(partyRoom)
+  }, [partyAutoconnect]);
+
+  // also called by the route wildcard
+  const initializeRoomByUrl = (urlRoom) => {
     const loadedRoom = localStorage.getItem("party_room");
     const loadedName = localStorage.getItem("party_name");
 
@@ -58,14 +69,7 @@ const Main = ({rollMode}) => {
         generateRoomName()
       }
     }
-
-
-  }, []);
-
-  // automatically try to connect to a room if we flag it to do so
-  useEffect(() => {
-    if (partyAutoconnect) connectToRoom()
-  }, [partyAutoconnect]);
+  }
 
   // =============== PARTY ROLL FUNCTIONS ==================
 
@@ -197,12 +201,12 @@ const Main = ({rollMode}) => {
 
   }, [latestAction]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const connectToRoom = () => {
+  const connectToRoom = (roomName) => {
     try {
-      console.log('Connecting to room : ', partyRoom);
-      if (partyRoom === null || partyRoom.length === 0) { throw new Error('Invalid room name!') }
+      console.log('Connecting to room : ', roomName);
+      if (roomName === null || roomName.length === 0) { throw new Error('Invalid room name!') }
 
-      const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom)
+      const dbRef = window.firebase.database().ref().child('rooms').child(roomName)
 
       // get the current list of data >> don't need to do this, it'll call child_added for all ones initially
       // dbRef.once('value',
@@ -235,12 +239,12 @@ const Main = ({rollMode}) => {
 
       setPartyConnected(true);
       localStorage.setItem("party_name", partyName);
-      localStorage.setItem("party_room", partyRoom);
+      localStorage.setItem("party_room", roomName);
 
       // change the url
-      if (window.history.replaceState) {
-        window.history.replaceState({'room': partyRoom}, 'Witch Dice', `/${partyRoom}`);
-      }
+      // if (window.history.replaceState) {
+      //   window.history.replaceState({'room': roomName}, 'Witch Dice', `/${roomName}`);
+      // }
 
     } catch (error) {
       console.log('ERROR: ',error.message);
@@ -272,6 +276,8 @@ const Main = ({rollMode}) => {
       generateRoomName={generateRoomName}
       partyConnected={partyConnected}
       connectToRoom={connectToRoom}
+      rollmodeParam={rollmode}
+      roomParam={room}
     />
   )}
 
@@ -323,9 +329,24 @@ const Main = ({rollMode}) => {
            renderPartyPanel={renderPartyPanel}
           />
         </Route>
+
+        <Route path="/:room?">
+          <SetPartyRoomEffect initializeRoomByUrl={initializeRoomByUrl} />
+        </Route>
       </Switch>
     </div>
   )
+}
+
+// if we get a non-standard roller, it must be someone trying to get into a room
+const SetPartyRoomEffect = ({ initializeRoomByUrl }) => {
+  const { room } = useParams();
+  useEffect(() => {
+    console.log('SET PARTY ROOM EFFECT START', room);
+    if (room && room.length > 6) initializeRoomByUrl(room)
+  }, []);
+
+  return (<div />);
 }
 
 export default Main ;
