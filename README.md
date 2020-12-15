@@ -38,14 +38,12 @@
 - setting: customize which icon shows up for natural 20s
 
 ###### TECHNICAL ######
-
-- when you show up with a room in the url, automatically join that room instead of just filling it in
-
 - only process the monster srd once we enter 5e mode
 - rename the party roll/action stuff to make it more consistant
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
-  Auth system: conference-room rules.
+
+- Auth system: conference-room rules.
   If you're the first to show up to a room, it's yours.
   If there is anyone in it already, they need to give you the thumbs-up.
     (waiting & cancel button on newcomer, confirm & requester name on all occupants)
