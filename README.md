@@ -5,14 +5,8 @@
 
 ###### LAYOUT #######
 - have a dice summary for what was rolled : [10d6]
-- "I assumed that I was already in the room when I joined" >> how to make status clear? Should probably auto-join when following a link in.
 
-- remove the skull dice that glorify critical hits? How do I de-glorify the violence of a violence calculator?
-- add a "feedback" form or email address -- encourage people to recommend links to things that help decolonize the damn thing
-- collapsible dice bag/party menu (or rearrange the whole thing again)
 - sort abilities to end of roll list
-
-- put "damage" back into the damage summary line?
 - applies conditions >>> just say what the condition is
 - remove checkmark/trash for damage sources, use trash gutter & close by clicking off of it instead.
 - let people put in their name to auto-join when they come in via a url (integrate with "asking for permission to join")
