@@ -7,17 +7,20 @@
   font-family: 'Bitter';
   font-style: normal;
   src: local('Bitter'), url('./fonts/Bitter-VariableFont_wght.ttf') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Bitter';
   font-style: italic;
   src: local('Bitter'), url('./fonts/Bitter-Italic-VariableFont_wght.ttf') format('truetype');
+  font-display: swap;
 }
 
 @font-face {
   font-family: 'Architects Daughter';
   src: local('Architects Daughter'), url('./fonts/ArchitectsDaughter-Regular.ttf') format('truetype');
+  font-display: swap;
 }
 
 
