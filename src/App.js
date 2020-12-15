@@ -17,16 +17,16 @@ function App() {
                   className='banner-container'
                   href='http://astrolago.com/'
                   target="_blank"
-                  rel="noopener noreferrer"
+                  rel="noopener noreferrer nofollow"
                 >
-                  <div className='asset witchcraft_banner' />
+                  <div className='asset witchcraft_banner' role="img" alt="Witch+Craft banner" />
                 </a>
               </div>
             </Route>
 
             <div className='witch-dice banner-container-container'>
               <div className='banner-container'>
-                <div className='asset site_banner' />
+                <div className='asset site_banner' role="img" alt="WITCH DICE"/>
               </div>
             </div>
 
