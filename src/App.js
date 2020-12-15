@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import ModeChooser from './components/ModeChooser.jsx';
-import Main from './components/Main.jsx';
 import Footer from './components/Footer.jsx';
 import './App.scss';
+
+// import Main from './components/Main.jsx';
+const Main = lazy(() => import('./components/Main.jsx'));
 
 function App() {
   return (
@@ -33,7 +35,9 @@ function App() {
             <ModeChooser />
           </div>
 
-          <Main />
+          <Suspense fallback={<div />}>
+            <Main />
+          </Suspense>
 
           <Footer />
 
