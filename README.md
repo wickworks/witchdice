@@ -6,10 +6,12 @@
 ###### LAYOUT #######
 - have a dice summary for what was rolled : [10d6]
 
+- better mobile layout for attacks; right now it gets scrambled
 - sort abilities to end of roll list
 - applies conditions >>> just say what the condition is
 - remove checkmark/trash for damage sources, use trash gutter & close by clicking off of it instead.
-- let people put in their name to auto-join when they come in via a url (integrate with "asking for permission to join")
+
+- better border decorations to match the banner
 
 ##### FEATURES ######
 - add modifiers to dicebag rolls
@@ -36,6 +38,8 @@
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
 
+- don't do the monster-processing client-side. Just do it myself and include the resulting data file as a json
+
 - Auth system: conference-room rules.
   If you're the first to show up to a room, it's yours.
   If there is anyone in it already, they need to give you the thumbs-up.
@@ -49,8 +53,16 @@
 
 
 #### DND MECHANICS ####
+- redesign damage addition. I think we could simplify it. Let's remove "damage source"? I think abilities cover that.
+- add attack presets
+- have new attacks use the attack bonus of the last one, same with spell DCs
+- bug: if have an attack apply a condition then remove that effect, the condition data remains and shows up on the attack
 - bug with triggered attacks: fireball, then an ice knife causes the triggered one to always show up
-- paralyzation//assassin; all attacks are crits
+- paralyzation//assassin; all attacks are crits. be able to set any attack to be a crit (or toggle a crit off)
+
+- add character class presets
+
+- monster search: don't show any until search filter applied. Add to front of recent list if searching, otherwise perserve recent list order. Clear filter after clicking monster while filtering
 
 - import spells
 - import the monster manual
@@ -59,7 +71,7 @@
   (die-less damage rolls don't work; see crab)
   (add other statistics)
   ("if fails by 5 or more" saving throws, see drow)
-- monster search: don't show any until search filter applied. Add to front of recent list if searching, otherwise perserve recent list order. Clear filter after clicking monster while filtering
+
 
 - vulnerability, resistance, immunity
 
