@@ -23,8 +23,8 @@ function getMonsterData() {
       monsterNew.name = monsterOriginal.name;
       monsterNew.allAttackData = [];
 
-      console.log('~');
-      console.log('processing monster', monsterOriginal.name);
+      // console.log('~');
+      // console.log('processing monster', monsterOriginal.name);
 
       if ('actions' in monsterOriginal) {
         let hasMultiattack = false;
@@ -41,8 +41,7 @@ function getMonsterData() {
           attackData.modifier = attackOriginal.attack_bonus;
           attackData.desc = attackOriginal.desc;
 
-
-          console.log('       processing attack ', attackData.name);
+          // console.log('       processing attack ', attackData.name);
 
           const desc = attackOriginal.desc;
           const dcIndex = desc.indexOf('DC');

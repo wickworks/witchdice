@@ -38,57 +38,6 @@ function loadCharacterData(fingerprint) {
   return loadLocalData(CHARACTER_PREFIX, fingerprint);
 }
 
-const loadedVersion = localStorage.getItem("version");
-let brokeOldCharacterData = false;
-let brokeOldMonsterData = false;
-if (loadedVersion) {
-  const newMajorVersion = loadedVersion.slice(0,loadedVersion.indexOf("."))
-  const newMinorVersion = loadedVersion.slice(loadedVersion.indexOf(".")+1)
-  console.log('Loading data from version', loadedVersion, '--— major version: ', newMajorVersion, ' ---- minor version', newMinorVersion);
-
-  if (newMajorVersion !== CURRENT_VERSION.slice(0,CURRENT_VERSION.indexOf("."))) {
-    brokeOldCharacterData = true;
-    brokeOldMonsterData = true;
-    console.log('Detected breaking change of saved Character data. Clearing.');
-  }
-
-  if (newMinorVersion !== CURRENT_VERSION.slice(CURRENT_VERSION.indexOf(".")+1)) {
-    brokeOldMonsterData = true;
-    console.log('Detected breaking change of saved Monster data. Resetting to defaults.');
-  }
-}
-
-// should we initialize to defaults?
-if (!loadedVersion || brokeOldCharacterData || brokeOldMonsterData) {
-  // clear out the old data
-  console.log('Clearing out old data...');
-  // let skipClears = 0;
-  // while (localStorage.length > skipClears) {
-  while (localStorage.length > 0) {
-    const key = localStorage.key(0);
-    localStorage.removeItem(key)
-
-    //
-    // // monster?
-    // if (getCharacterIDFromStorageName(key) < 100000) {
-    //   if (brokeOldMonsterData) {localStorage.removeItem(key)} else {skipClears += 1}
-    // } else {
-    //   if (brokeOldCharacterData) {localStorage.removeItem(key)} else {skipClears += 1}
-    // }
-  }
-
-  // save the new data
-  getMonsterData().forEach((data,i) => {
-    const fingerprint = (100000 + i)
-    saveCharacterData(
-      fingerprint,
-      data.name,
-      data.allAttackData
-    )
-  })
-
-  localStorage.setItem("version", CURRENT_VERSION);
-}
 
 const Main5E = ({
   renderDiceBag,
@@ -109,6 +58,8 @@ const Main5E = ({
   // =============== INITIALIZE ==================
 
   useEffect(() => {
+    initializeCharactersAndMonsters();
+
     let monsterEntries = [];
     let characterEntries = [];
 
@@ -135,6 +86,60 @@ const Main5E = ({
     setAllCharacterEntries(characterEntries);
   }, []);
 
+
+  function initializeCharactersAndMonsters() {
+    const loadedVersion = localStorage.getItem("version");
+    let brokeOldCharacterData = false;
+    let brokeOldMonsterData = false;
+    if (loadedVersion) {
+      const newMajorVersion = loadedVersion.slice(0,loadedVersion.indexOf("."))
+      const newMinorVersion = loadedVersion.slice(loadedVersion.indexOf(".")+1)
+      console.log('Loading data from version', loadedVersion, '--— major version: ', newMajorVersion, ' ---- minor version', newMinorVersion);
+
+      if (newMajorVersion !== CURRENT_VERSION.slice(0,CURRENT_VERSION.indexOf("."))) {
+        brokeOldCharacterData = true;
+        brokeOldMonsterData = true;
+        console.log('Detected breaking change of saved Character data. Clearing.');
+      }
+
+      if (newMinorVersion !== CURRENT_VERSION.slice(CURRENT_VERSION.indexOf(".")+1)) {
+        brokeOldMonsterData = true;
+        console.log('Detected breaking change of saved Monster data. Resetting to defaults.');
+      }
+    }
+
+    // should we initialize to defaults?
+    if (!loadedVersion || brokeOldCharacterData || brokeOldMonsterData) {
+    //   // clear out the old data
+    //   console.log('Clearing out old data...');
+    //   // let skipClears = 0;
+    //   // while (localStorage.length > skipClears) {
+    //   while (localStorage.length > 0) {
+    //     const key = localStorage.key(0);
+    //     localStorage.removeItem(key)
+    //
+    //     //
+    //     // // monster?
+    //     // if (getCharacterIDFromStorageName(key) < 100000) {
+    //     //   if (brokeOldMonsterData) {localStorage.removeItem(key)} else {skipClears += 1}
+    //     // } else {
+    //     //   if (brokeOldCharacterData) {localStorage.removeItem(key)} else {skipClears += 1}
+    //     // }
+    //   }
+
+      // PARSE MONSTER JSON
+      getMonsterData().forEach((data,i) => {
+        const fingerprint = (100000 + i)
+        saveCharacterData(
+          fingerprint,
+          data.name,
+          data.allAttackData
+        )
+      })
+
+      localStorage.setItem("version", CURRENT_VERSION);
+    }
+  }
 
   // =============== ADD/EDIT/DELETE CHARACTER FUNCTIONS ==================
 
