@@ -2,6 +2,7 @@ import React, { useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import ModeChooser from './components/ModeChooser.jsx';
 import Footer from './components/Footer.jsx';
+import LoadinDots from './components/shared/LoadinDots.jsx';
 import './App.scss';
 
 // import Main from './components/Main.jsx';
@@ -35,7 +36,7 @@ function App() {
             <ModeChooser />
           </div>
 
-          <Suspense fallback={<div />}>
+          <Suspense fallback={<LoadinDots />}>
             <Main />
           </Suspense>
 
