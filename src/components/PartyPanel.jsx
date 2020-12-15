@@ -10,11 +10,9 @@ const PartyPanel = ({
   setPartyRoom, setPartyName,
   generateRoomName,
   partyConnected, connectToRoom,
-  rollmodeParam, roomParam
+  rollMode
 }) => {
   const [showingCopiedMessage, setShowingCopiedMessage] = useState(false);
-
-  console.log('party params  rollmode: ', rollmodeParam, '   room:', roomParam);
 
   const updatePartyRoom = (value) => {
     const filtered = value.replace(/[^A-Za-z-]/ig, '')
@@ -31,7 +29,7 @@ const PartyPanel = ({
     const hostname = window.location.hostname;
     const port = window.location.port.length > 1 ? `:${window.location.port}` : '';
 
-    const roomUrl = `${protocol}${hostname}${port}/${rollmodeParam}/${roomParam}`;
+    const roomUrl = `${protocol}${hostname}${port}/${rollMode}?r=${partyRoom}`;
 
     const el = document.createElement('textarea');
     el.value = roomUrl
@@ -46,7 +44,7 @@ const PartyPanel = ({
 
     setTimeout(function(){
       setShowingCopiedMessage(false);
-    }, 3000);
+    }, 2000);
   }
 
   const connectDisabled = (partyRoom.length <= 6 || partyName.length <= 0);
@@ -89,14 +87,18 @@ const PartyPanel = ({
           </button>
         </div>
 
-        <Link
-          className='party-connect'
-          to={`/${rollmodeParam}/${partyRoom}`}
-          onClick={() => connectToRoom(partyRoom)}
-          disabled={connectDisabled}
-        >
-          Join Room
-        </Link>
+        { connectDisabled ?
+          <span className='party-connect disabled'>Join Room</span>
+        :
+          <Link
+            className='party-connect'
+            to={`/${rollMode}?r=${partyRoom}`}
+            onClick={() => connectToRoom(partyRoom)}
+          >
+            Join Room
+          </Link>
+        }
+
 
       </> : <>
         <div className='party-name-container connected'>

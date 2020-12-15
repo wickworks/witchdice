@@ -19,10 +19,10 @@ function getIDFromStorageName(prefix, storageName) {
 }
 
 function saveLocalData(prefix, id, newName, localData) {
-  console.log('saving', prefix, newName, '   ', id);
   if (id <= 0 || newName.length <= 0) {
     return null;
   }
+  console.log('saving', prefix, newName, '   ', id);
 
   const storageName = getStorageName(prefix, id, newName);
   localStorage.setItem(storageName, JSON.stringify(localData));

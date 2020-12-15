@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, Route, useParams } from "react-router-dom";
+import { Switch, Route, useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
 import { CURRENT_VERSION } from '../version.js';
@@ -15,15 +15,18 @@ import MainWitchCraft from './witchcraft/MainWitchCraft.jsx';
 
 import './Main.scss';
 
-const Main = ({
-  partyRoom, setPartyRoom,
-  partyConnected, setPartyConnected
-}) => {
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
+
+const Main = () => {
   const [rollSummaryData, setRollSummaryData] = useState({});
 
   const [allPartyActionData, setAllPartyActionData] = useState([]);
   const [latestAction, setLatestAction] = useState(null);
 
+  const [partyRoom, setPartyRoom] = useState('');
+  const [partyConnected, setPartyConnected] = useState(false);
   const [partyName, setPartyName] = useState('');
   const [partyAutoconnect, setPartyAutoconnect] = useState(false); //set to TRUE to attempt to join a room immediately
   const [partyLastAttackKey, setPartyLastAttackKey] = useState('');
@@ -32,21 +35,11 @@ const Main = ({
   const [partyLastDicebagKey, setPartyLastDicebagKey] = useState('');
   const [partyLastDicebagTimestamp, setPartyLastDicebagTimestamp] = useState(0);
 
-
   // =============== INITIALIZE ==================
-
-  const { rollmode, room } = useParams();
+  const { rollmode } = useParams();
+  const queryParams = useQuery();
   useEffect(() => {
-    initializeRoomByUrl(room)
-  }, []);
-
-  // automatically try to connect to a room if we flag it to do so
-  useEffect(() => {
-    if (partyAutoconnect) connectToRoom(partyRoom)
-  }, [partyAutoconnect]);
-
-  // also called by the route wildcard
-  const initializeRoomByUrl = (urlRoom) => {
+    const urlRoom = queryParams.get('r');
     const loadedRoom = localStorage.getItem("party_room");
     const loadedName = localStorage.getItem("party_name");
 
@@ -58,18 +51,21 @@ const Main = ({
       if (!loadedName) generatePartyName();
       setPartyRoom(urlRoom);
       setPartyAutoconnect(true);
-
     } else {
       // prefill the room name from local storage
       if (loadedRoom) {
         setPartyRoom(loadedRoom);
-
       // new here? get a random name
       } else {
         generateRoomName()
       }
     }
-  }
+  }, []);
+
+  // automatically try to connect to a room if we flag it to do so
+  useEffect(() => {
+    if (partyAutoconnect) connectToRoom(partyRoom)
+  }, [partyAutoconnect]);
 
   // =============== PARTY ROLL FUNCTIONS ==================
 
@@ -276,8 +272,7 @@ const Main = ({
       generateRoomName={generateRoomName}
       partyConnected={partyConnected}
       connectToRoom={connectToRoom}
-      rollmodeParam={rollmode}
-      roomParam={room}
+      rollMode={rollmode}
     />
   )}
 
@@ -329,24 +324,10 @@ const Main = ({
            renderPartyPanel={renderPartyPanel}
           />
         </Route>
-
-        <Route path="/:room?">
-          <SetPartyRoomEffect initializeRoomByUrl={initializeRoomByUrl} />
-        </Route>
       </Switch>
     </div>
   )
 }
 
-// if we get a non-standard roller, it must be someone trying to get into a room
-const SetPartyRoomEffect = ({ initializeRoomByUrl }) => {
-  const { room } = useParams();
-  useEffect(() => {
-    console.log('SET PARTY ROOM EFFECT START', room);
-    if (room && room.length > 6) initializeRoomByUrl(room)
-  }, []);
-
-  return (<div />);
-}
 
 export default Main ;

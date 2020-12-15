@@ -1,25 +1,20 @@
 import React from 'react';
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { RadioGroup, Radio } from 'react-radio-group';
 import './ModeChooser.scss';
 
-const ModeChooser = ({
-  partyRoom,
-  partyConnected
-}) => {
-  const { rollmode, room } = useParams();
+function useQuery() {
+  return new URLSearchParams(useLocation().search);
+}
 
-  // prioritize using the actully-connected room, then the current url bar, then blank
-  let roomLink = '';
-  if (partyConnected && partyRoom) {
-    roomLink = `/${partyRoom}`
-  } else if (room) {
-    roomLink = `/${room}`
-  }
+const ModeChooser = () => {
+  const { rollmode } = useParams();
+
+  const queryParams = useQuery();
+  const urlRoom = queryParams.get('r');
+  const roomLink = urlRoom ? `?r=${urlRoom}` : ''
 
   const rollModeClass = ['simple','5e','craft'].includes(rollmode) ? 'minimized' : 'full'
-
-  console.log('chooser params  rollmode: ', rollmode, '   room:', room,  'partyRoom:', partyRoom, '      linkroomparam:',roomLink);
 
   return (
     <div className={`ModeChooser ${rollModeClass}`}>

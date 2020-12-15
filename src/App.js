@@ -6,15 +6,11 @@ import Footer from './components/Footer.jsx';
 import './App.scss';
 
 function App() {
-  const [partyRoom, setPartyRoom] = useState('');
-  const [partyConnected, setPartyConnected] = useState(false);
-
   return (
     <Router>
-      <Route path="/:rollmode?/:room?">
+      <Route path="/:rollmode?">
         <div className="App">
           <div className='banner-and-chooser'>
-
             <Route path="/craft">
               <div className='witch-craft banner-container-container'>
                 <a
@@ -34,19 +30,10 @@ function App() {
               </div>
             </div>
 
-
-            <ModeChooser
-              partyRoom={partyRoom}
-              partyConnected={partyConnected}
-            />
+            <ModeChooser />
           </div>
 
-          <Main
-            partyRoom={partyRoom}
-            setPartyRoom={setPartyRoom}
-            partyConnected={partyConnected}
-            setPartyConnected={setPartyConnected}
-          />
+          <Main />
 
           <Footer />
 

@@ -68,8 +68,11 @@
 		.copied-message { color: olive; }
 	}
 
-	button.party-connect {
+	.party-connect {
 		@include text_connect_button;
+		text-decoration: none;
+		text-align: center;
+		width: fit-content;
 		display: block;
 		margin: 15px auto 5px;
 		padding: 5px 80px;
@@ -78,8 +81,11 @@
 		background-color: $parchment_dark;
 		cursor: pointer;
 
-		&:hover { background-color: $pink; }
-		&:disabled {
+		&:hover {
+			background-color: $pink;
+			color: $rust;
+		}
+		&.disabled {
 			cursor: auto;
 			background-color: $grey_light;
 			color: $grey_mid;
