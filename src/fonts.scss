@@ -25,7 +25,7 @@
 
 
 @mixin text_default {
-  font-family: 'Bitter';
+  font-family: 'Bitter', serif;
   font-size: 16px;
   font-style: normal;
   font-weight: normal;
@@ -33,7 +33,7 @@
 }
 
 @mixin text_input {
-  font-family: 'Bitter';
+  font-family: 'Bitter', serif;
   font-size: 16px;
   font-style: italic;
   font-weight: normal;
@@ -41,7 +41,7 @@
 }
 
 @mixin text_label {
-  font-family: 'Bitter';
+  font-family: 'Bitter', serif;
   font-size: 18px;
   font-style: normal;
   font-weight: normal;
@@ -49,7 +49,7 @@
 }
 
 @mixin text_title_light {
-  font-family: 'Bitter';
+  font-family: 'Bitter', serif;
   font-size: 24px;
   font-style: normal;
   font-weight: normal;
@@ -62,7 +62,7 @@
 }
 
 @mixin text_title_heavy {
-  font-family: 'Bitter';
+  font-family: 'Bitter', serif;
   font-size: 24px;
   font-style: italic;
   font-weight: bold;
@@ -75,7 +75,7 @@
 }
 
 @mixin text_title_action {
-  font-family: 'Bitter';
+  font-family: 'Bitter', serif;
   font-size: 30px;
   font-style: italic;
   font-weight: bold;
@@ -83,7 +83,7 @@
 }
 
 @mixin text_total {
-  font-family: 'Bitter';
+  font-family: 'Bitter', serif;
   font-size: 80px;
   line-height: 1.0;
 }
@@ -93,12 +93,12 @@
 }
 
 @mixin text_dicebag_count {
-  font-family: 'Bitter';
+  font-family: 'Bitter', serif;
   font-size: 36px;
 }
 
 @mixin text_connect_button {
-  font-family: 'Bitter';
+  font-family: 'Bitter', serif;
   font-size: 20px;
   font-style: italic;
   font-weight: bold;
