@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Switch, Route, useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
@@ -6,14 +6,19 @@ import { CURRENT_VERSION } from '../version.js';
 import { deepCopy, capitalize } from '../utils.js';
 import { randomWords } from '../random_words.js';
 
+import LoadinDots from './shared/LoadinDots.jsx';
 import DiceBag from './DiceBag.jsx';
 import PartyPanel from './PartyPanel.jsx';
 
-import MainSimple from './simple/MainSimple.jsx';
-import Main5E from './5e/Main5E.jsx';
-import MainWitchCraft from './witchcraft/MainWitchCraft.jsx';
-
 import './Main.scss';
+
+// import MainSimple from './simple/MainSimple.jsx';
+// import Main5E from './5e/Main5E.jsx';
+// import MainWitchCraft from './witchcraft/MainWitchCraft.jsx';
+
+const MainSimple = lazy(() => import('./simple/MainSimple.jsx'));
+const Main5E = lazy(() => import('./5e/Main5E.jsx'));
+const MainWitchCraft = lazy(() => import('./witchcraft/MainWitchCraft.jsx'));
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -287,14 +292,15 @@ const Main = () => {
                 content="Dice roller for D&D 5e that takes the math out of combat. Press a button and get instant results."
               />
           </Helmet>
-          <Main5E
-           renderDiceBag={renderDiceBag}
-           renderPartyPanel={renderPartyPanel}
-
-           setPartyLastAttackKey={setPartyLastAttackKey}
-           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-           setRollSummaryData={setRollSummaryData}
-          />
+          <Suspense fallback={<LoadinDots />}>
+            <Main5E
+             renderDiceBag={renderDiceBag}
+             renderPartyPanel={renderPartyPanel}
+             setPartyLastAttackKey={setPartyLastAttackKey}
+             setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+             setRollSummaryData={setRollSummaryData}
+            />
+          </Suspense>
         </Route>
 
         <Route path="/craft">
@@ -305,10 +311,12 @@ const Main = () => {
                 content="Character sheet and crafting roller for the Witch+Dice 5e crafting and domestic magic supplemental."
               />
           </Helmet>
-          <MainWitchCraft
-           renderDiceBag={renderDiceBag}
-           renderPartyPanel={renderPartyPanel}
-          />
+          <Suspense fallback={<LoadinDots />}>
+            <MainWitchCraft
+             renderDiceBag={renderDiceBag}
+             renderPartyPanel={renderPartyPanel}
+            />
+          </Suspense>
         </Route>
 
         <Route path="/simple">
@@ -319,10 +327,12 @@ const Main = () => {
                 content="A cute & elegant dice roller for playing tabletop games online with friends."
               />
           </Helmet>
-          <MainSimple
-           renderDiceBag={renderDiceBag}
-           renderPartyPanel={renderPartyPanel}
-          />
+          <Suspense fallback={<LoadinDots />}>
+            <MainSimple
+             renderDiceBag={renderDiceBag}
+             renderPartyPanel={renderPartyPanel}
+            />
+          </Suspense>
         </Route>
       </Switch>
     </div>
