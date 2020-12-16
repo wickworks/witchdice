@@ -158,6 +158,7 @@ const PartyPanel = ({
 //   'type': 'dicebag',
 //   'createdAt': XXXXXX,
 //   'updatedAt': XXXXXX,
+//   'conditions': 'total'
 //   'roll-1': {
 //     'die': 'd6',
 //     'result': '2',
@@ -177,6 +178,7 @@ const PartyAction = ({actionData}) => {
   let diceBagSum = 0;
   let diceBagHigh = 0;
   let diceBagLow = 999999;
+  let diceBagModifier = 0;
   let damageSum = 0;
 
   Object.keys(actionData).forEach((key, i) => {
@@ -186,9 +188,13 @@ const PartyAction = ({actionData}) => {
 
       if (type === 'dicebag') {
         const result = parseInt(rollData.result);
-        diceBagSum = diceBagSum + result;
-        diceBagHigh = Math.max(diceBagHigh, result)
-        diceBagLow = Math.min(diceBagLow, result)
+        if (rollData.die !== 'plus') {
+          diceBagSum = diceBagSum + result;
+          diceBagHigh = Math.max(diceBagHigh, result)
+          diceBagLow = Math.min(diceBagLow, result)
+        } else {
+          diceBagModifier = result; // modifier is handled different in different roll modes
+        }
 
       } else if (type === 'attack') {
         allDamageTypes.forEach((damageType) => {
@@ -241,11 +247,11 @@ const PartyAction = ({actionData}) => {
               </div>
               <div className="dicebag-sum">
                 { conditions === 'low' ?
-                  diceBagLow
+                  diceBagLow + diceBagModifier
                 : conditions === 'high' ?
-                  diceBagHigh
+                  diceBagHigh + diceBagModifier
                 :
-                  diceBagSum
+                  diceBagSum + diceBagModifier
                 }
               </div>
             </>
