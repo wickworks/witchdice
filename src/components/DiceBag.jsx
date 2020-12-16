@@ -10,16 +10,15 @@ const blankDice = {
   '10': 0,
   '12': 0,
   '20': 0,
+  'plus': 0,
 }
 
 const DiceBag = ({addNewDicebagPartyRoll}) => {
-
-
   const [diceData, setDiceData] = useState({...blankDice}); // dice-to-roll
-  const [summaryMode, setSummaryMode] = useState('total');   // 'total' / 'low' / 'high'
-  const [rollData, setRollData] = useState([]);
+  const [rollData, setRollData] = useState([]);             // roll results
+  const [summaryMode, setSummaryMode] = useState('total');  // 'total' / 'low' / 'high'
 
-  const [lastDieRolled, setLastDieRolled] = useState('');
+  const [lastDieRolled, setLastDieRolled] = useState('');   // for the rolled icon up top
 
   const updateDiceData = (dieType, dieCount) => {
     let newData = {...diceData}
@@ -32,11 +31,18 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
     Object.keys(diceData).forEach((dieType, i) => {
       for (let rollID = 0; rollID < diceData[dieType]; rollID++) {
-        const result = getRandomInt(parseInt(dieType));
-        results.push( {dieType: `d${dieType}`, result: result} )
-        setLastDieRolled(dieType);
+        if (dieType !== 'plus') {
+          const result = getRandomInt(parseInt(dieType));
+          const dieIcon = `d${dieType}`;
+          results.push( {dieType: dieIcon, result: result} )
+          setLastDieRolled(dieIcon);
+        }
       }
     });
+
+    if (diceData['plus'] > 0) {
+      results.push( {dieType: 'plus', result: parseInt(diceData['plus'])} )
+    }
 
     // store what was rolled
     setRollData(results)
@@ -55,36 +61,42 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   }, [summaryMode]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
+  // what is the highest type of die we're queueing up to roll?
+  let rollDieType = '';
+  Object.keys(diceData).forEach((dieType) => {
+    if (diceData[dieType] > 0 && dieType !== 'plus') { rollDieType = dieType;}
+  });
+
   // summarize the results
   let runningTotal = 0;
   let highest = 0;
   let lowest = 999999;
+  let addModifier = 0;
   let resultList = [];
   rollData.forEach((roll) => {
+    if (roll.dieType !== 'plus') {
       resultList.push(roll.result)
       runningTotal += roll.result
       highest = Math.max(highest, roll.result)
       lowest = Math.min(lowest, roll.result)
+    } else {
+      addModifier = roll.result; // modifier is handled different in different roll modes
+    }
   });
 
   let resultTotal = 0;
   let resultSummary = '';
   if (summaryMode === 'total') {
-    resultTotal = runningTotal;
+    resultTotal = runningTotal + addModifier;
     resultSummary = resultList.join(' + ');
   } else if (summaryMode === 'low') {
-    resultTotal = lowest;
+    resultTotal = lowest + addModifier;
     resultSummary = resultList.join(', ')
   } else if (summaryMode === 'high') {
-    resultTotal = highest;
+    resultTotal = highest + addModifier;
     resultSummary = resultList.join(', ')
   }
-
-  // what is the highest type of die we're queueing up to roll?
-  let rollDieType = '';
-  Object.keys(diceData).forEach((dieType) => {
-    if (diceData[dieType] > 0) { rollDieType = dieType;}
-  });
+  if (addModifier) resultSummary = `( ${resultSummary} ) + ${addModifier}`
 
   return (
     <div className="DiceBag">
@@ -104,7 +116,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
           : lastDieRolled ?
             <div className='post-roll'>
               <div className='result-total'>
-                <div className={`asset d${lastDieRolled}`} />
+                <div className={`asset ${lastDieRolled}`} />
                 {resultTotal}
               </div>
               { resultSummary.length > 3 &&
@@ -119,7 +131,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
         </div>
 
         <div className='die-button-container'>
-          { Object.keys(diceData).map((dieType, i) => {
+          { Object.keys(diceData).reverse().map((dieType, i) => {
 
             return (
               <DieButton
@@ -161,8 +173,11 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 }
 
 
-const DieButton = (props) => {
-  const { dieType, dieCount, setDieCount } = props;
+const DieButton = ({
+  dieType,
+  dieCount,
+  setDieCount
+}) => {
 
   function handleClick(e, leftMouse) {
     let newDieCount = dieCount;
@@ -180,6 +195,7 @@ const DieButton = (props) => {
   }
 
   const dieClass = dieCount > 0 ? 'will-roll' : '';
+  const dieIcon = dieType === 'plus' ? 'plus' : `d${dieType}`;
 
   return (
     <button className={`DieButton ${dieClass}`}
@@ -189,7 +205,7 @@ const DieButton = (props) => {
       {(dieCount > 0) &&
         <div className='roll-count'>{dieCount}</div>
       }
-      <div className={`asset d${dieType}`} />
+      <div className={`asset ${dieIcon}`} />
     </button>
   )
 }

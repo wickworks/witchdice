@@ -42,7 +42,11 @@
 
         &.will-roll { background-color: $pink; }
         &:hover { background-color: $pink; }
-        .asset { margin: auto; }
+        .asset {
+          margin: auto;
+
+          &.plus { order: -1; }
+        }
 
         .roll-count { min-width: 30px; }
       }
