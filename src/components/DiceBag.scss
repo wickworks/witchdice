@@ -40,15 +40,16 @@
         border: none;
         border-radius: 40px;
 
+        &.last { order: 10; }
         &.will-roll { background-color: $pink; }
         &:hover { background-color: $pink; }
-        .asset {
-          margin: auto;
-
-          &.plus { order: -1; }
-        }
 
         .roll-count { min-width: 30px; }
+
+        .asset {
+          margin: auto;
+          &.plus { order: -1; }
+        }
       }
     }
 

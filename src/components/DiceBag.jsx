@@ -194,8 +194,12 @@ const DieButton = ({
     setDieCount(newDieCount)
   }
 
-  const dieClass = dieCount > 0 ? 'will-roll' : '';
-  const dieIcon = dieType === 'plus' ? 'plus' : `d${dieType}`;
+  let dieClass = dieCount > 0 ? 'will-roll' : '';
+  let dieIcon = `d${dieType}`;
+  if (dieType === 'plus') {
+    dieIcon = 'plus';
+    dieClass += ' last'
+  }
 
   return (
     <button className={`DieButton ${dieClass}`}
