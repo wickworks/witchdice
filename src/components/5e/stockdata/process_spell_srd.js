@@ -1,6 +1,5 @@
-// import allSpellOriginalData from './srd_spells.json';
-import allSpellOriginalData from './srd_spells_test.json';
-
+import allSpellOriginalData from './srd_spells.json';
+// import allSpellOriginalData from './srd_spells_test.json';
 import {
   allDamageTypes,
   allConditions,
@@ -16,19 +15,22 @@ import {
 
 import { deepCopy, capitalize } from '../../../utils.js';
 
+import TurndownService from 'turndown';
+
 function getSpellData() {
+  const turndownService = new TurndownService()
   let allSpellData = {};
 
   for ( var i = 0; i < allSpellOriginalData.length; ++i ) {
     const spellOriginal = allSpellOriginalData[i];
 
     if ('name' in spellOriginal) {
-      console.log('~');
-      console.log('processing spell', spellOriginal.name);
+      // console.log('~');
+      // console.log('processing spell', spellOriginal.name);
 
       let attackData = deepCopy(defaultAttackData);
       attackData.name = spellOriginal.name;
-      attackData.desc = spellOriginal.desc;
+      attackData.desc = turndownService.turndown(spellOriginal.desc);
       attackData.modifier = 0;
       attackData.type = 'attack';
 
@@ -50,7 +52,7 @@ function getSpellData() {
 
         attackData.type = 'save';
         attackData.savingThrowType = Math.max(savingThrowType, 0)
-        console.log('    saving throw type:', saveString, ': ',attackData.savingThrowType);
+        // console.log('    saving throw type:', saveString, ': ',attackData.savingThrowType);
       }
 
       // DAMAGE
@@ -74,8 +76,14 @@ function getSpellData() {
 
         attackData.damageData.push(damageData);
 
-        console.log('      damage:', dieString, ': ',damageData.dieCount,'d',damageData.dieType);
-        console.log('       types:', damageTypes);
+        // console.log('      damage:', dieString, ': ',damageData.dieCount,'d',damageData.dieType);
+        // console.log('       types:', damageTypes);
+
+      } else {
+        // no damage and no save means it's information-only
+        if (attackData.type !== 'save') {
+          attackData.type = 'ability';
+        }
       }
 
 

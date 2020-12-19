@@ -54,6 +54,8 @@
           padding-bottom: 2px;
         }
 
+        p:last-of-type { margin-bottom: 0; }
+
         &.long {
           font-style: normal;
           line-height: 1.3;
