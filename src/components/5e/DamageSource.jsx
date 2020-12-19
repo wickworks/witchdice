@@ -90,7 +90,12 @@ const DamageSource = ({
         <div className="summary-mode">
           <DamageNumbers damageData={damageData} />
 
-          <DamageMetadata damageData={damageData} selectedTagNames={selectedTagNames} />
+          <DamageMetadata
+            damageData={damageData}
+            selectedTags={selectedTags}
+            savingThrowDC={savingThrowDC}
+            savingThrowType={savingThrowType}
+          />
 
         </div>
       :
@@ -174,9 +179,21 @@ const DamageNumbers = ({
 
 const DamageMetadata = ({
   damageData,
-  selectedTagNames
+  selectedTags,
+  savingThrowDC, savingThrowType
 }) => {
   const { name } = damageData;
+
+  const displayTags =
+    selectedTags.map(tag => {
+      if (tag.id === 'triggeredsave') {
+        return `${tag.name}: DC ${savingThrowDC} ${abilityTypes[savingThrowType]}`
+      } else if (tag.id === 'condition') {
+        return damageData.condition
+      } else {
+        return tag.name
+      }
+    })
 
   return (
     <>
@@ -184,7 +201,7 @@ const DamageMetadata = ({
         <div className="name">{name}</div>
       }
 
-      <div className="tags">{selectedTagNames.join(', ')}</div>
+      <div className="tags">{displayTags.join(', ')}</div>
     </>
   );
 }
