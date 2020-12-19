@@ -23,6 +23,8 @@
 
 - X-card raised :::: anonymous or not
 
+- be able to rearrange 5e attacks
+
 - do an ACCESSIBILITY PASS; be able to tab through it all easily
 - make the background a sketch pad -- or just have a notepad panel that saves to session storage
 

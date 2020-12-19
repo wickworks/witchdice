@@ -10,6 +10,7 @@ const Character = ({
   updateAllAttackData, deleteAttack, createAttack,
   attackFunctions,
   deleteCharacter,
+  allPresetEntries, setToCharacterPreset,
   clearRollData
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -60,6 +61,17 @@ const Character = ({
               />
             )
           })}
+
+          { allAttackData.length === 0 &&
+            <div className='character-preset-container'>
+              <select value={''} onChange={(e) => setToCharacterPreset(e.target.value)}>
+                <option value={''} key={'blank'} disabled>Select preset...</option>
+                {allPresetEntries.map((preset) => {
+                  return (<option value={preset.id} key={preset.id}>{preset.name}</option>)
+                })}
+              </select>
+            </div>
+          }
 
           <div className='add-attack' onClick={createAttack}>
             <div className={`asset plus`} />

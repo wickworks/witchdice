@@ -30,7 +30,7 @@
       margin-top: 16px;
       padding-bottom: 16px;
       border-bottom: 4px solid $rust;
-      margin-bottom: 34px;
+      // margin-bottom: 34px;
 
       .display { @include text_character_name; }
 
@@ -76,6 +76,19 @@
           height: 40px;
           margin-right: 16px;
         }
+      }
+    }
+
+    .character-preset-container {
+      text-align: center;
+
+      select {
+        @include text_label;
+        text-align: left;
+        color: $soft_black;
+        background-color: $parchment_dark;
+        padding: 4px 60px 4px 4px;
+        cursor: pointer;
       }
     }
   }

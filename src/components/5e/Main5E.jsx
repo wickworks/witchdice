@@ -5,8 +5,9 @@ import Character from './Character.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';
 import Roller from './Roller.jsx';
 import { CURRENT_VERSION } from '../../version.js';
-import { getMonsterData } from './stockdata/process_monster_srd.js';
 import { deepCopy, getRandomInt } from '../../utils.js';
+import { getMonsterData } from './stockdata/process_monster_srd.js';
+import allCharacterPresetData from './stockdata/character_presets.json';
 import {
   loadLocalData,
   saveLocalData,
@@ -48,6 +49,7 @@ const Main5E = ({
 }) => {
   const [allCharacterEntries, setAllCharacterEntries] = useState([]);
   const [allMonsterEntries, setAllMonsterEntries] = useState([]);
+  const [allPresetEntries, setAllPresetEntries] = useState([]);
 
   const [characterID, setCharacterID] = useState(null);
   const [characterName, setCharacterName] = useState('');
@@ -62,6 +64,7 @@ const Main5E = ({
 
     let monsterEntries = [];
     let characterEntries = [];
+    let presetEntries = [];
 
     for ( var i = 0, len = localStorage.length; i < len; ++i ) {
       const key = localStorage.key(i);
@@ -72,8 +75,12 @@ const Main5E = ({
         const characterID = getIDFromStorageName(CHARACTER_PREFIX, key);
 
         // first chunk of IDs are monsters
-        if (characterID < 200000) {
+        if (characterID < 120000) {
           monsterEntries.push({id: characterID, name: characterName})
+
+        // second chunk are character presets
+        } else if (characterID < 200000) {
+          presetEntries.push({id: characterID, name: characterName})
 
         } else {
           characterEntries.push({id: characterID, name: characterName})
@@ -84,6 +91,7 @@ const Main5E = ({
 
     setAllMonsterEntries(monsterEntries);
     setAllCharacterEntries(characterEntries);
+    setAllPresetEntries(presetEntries);
 
     // if we were looking at a character, restore that
     const oldSelectedID = localStorage.getItem("5e-selected-character");
@@ -141,6 +149,17 @@ const Main5E = ({
         )
       })
 
+      // PARSE PRESET JSON
+      for ( var i = 0; i < allCharacterPresetData.length; ++i ) {
+        const presetData = allCharacterPresetData[i];
+
+        saveCharacterData(
+          presetData.id,
+          presetData.name,
+          presetData.allAttackData
+        )
+      }
+
       localStorage.setItem("version", CURRENT_VERSION);
     }
   }
@@ -150,8 +169,9 @@ const Main5E = ({
   const createNewCharacter = () => {
     const fingerprint = getRandomFingerprint();
     const name = 'Character';
-    let attackData = [deepCopy(defaultAttackData)];
-    attackData[0].damageData.push(deepCopy(defaultDamageData));
+    const attackData = [];
+    // let attackData = [deepCopy(defaultAttackData)];
+    // attackData[0].damageData.push(deepCopy(defaultDamageData));
 
     console.log('making new character with fingerprint', fingerprint);
 
@@ -191,7 +211,7 @@ const Main5E = ({
   }
 
   const setActiveCharacter = (id) => {
-    const loadedCharacter = loadCharacterData(id);
+    const loadedCharacter = loadCharacterData( parseInt(id) );
     // console.log('setActiveCharacter', id, '     data', loadedCharacter);
 
     if (loadedCharacter) {
@@ -202,6 +222,16 @@ const Main5E = ({
     clearRolls();
 
     localStorage.setItem("5e-selected-character", id);
+  }
+
+  const setToCharacterPreset = (id) => {
+    const loadedCharacterPreset = loadCharacterData( parseInt(id) );
+
+    if (loadedCharacterPreset) {
+      setCharacterName(loadedCharacterPreset.name);
+      setCharacterAttackData(loadedCharacterPreset.allAttackData);
+    }
+    clearRolls();
   }
 
   const clearCharacterSelection = () => {
@@ -469,6 +499,8 @@ const Main5E = ({
             deleteAttack={deleteAttack}
             attackFunctions={attackFunctions}
             deleteCharacter={deleteActiveCharacter}
+            allPresetEntries={allPresetEntries}
+            setToCharacterPreset={setToCharacterPreset}
             clearRollData={clearRolls}
           />
         </>
