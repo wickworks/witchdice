@@ -57,37 +57,57 @@
     }
 
     .attack-container {
+
       &.hidden { visibility: hidden; }
 
-      .add-attack {
+      .add-attack-container {
         display: flex;
+        justify-content: flex-start;
         align-items: center;
-        padding: 4px 16px 4px 8px;
-        width: max-content;
-        margin-right: auto;
-        opacity: 0.4;
-        transition: opacity .075s ease-out;
-        cursor: pointer;
+        flex-wrap: wrap;
+        margin-bottom: 8px;
 
-        &:hover { opacity: 0.9; }
+        .add-button {
+          display: flex;
+          flex-shrink: 0;
+          align-items: center;
+          padding: 8px 16px 0 8px;
+          margin-bottom: 8px;
+          width: max-content;
+          opacity: 0.4;
+          transition: opacity .075s ease-out;
+          cursor: pointer;
 
-        .asset {
-          width: 40px;
-          height: 40px;
-          margin-right: 16px;
+          &:hover { opacity: 0.9; }
+
+          .asset {
+            width: 40px;
+            height: 40px;
+            margin-right: 4px;
+          }
+        }
+
+        .add-spell-container {
+          display: flex;
+          align-items: center;
+          width: 100%;
+          max-width: 400px;
+
+          .select-spell-dropdown {
+            width: 100%;
+          }
         }
       }
     }
 
     .character-preset-container {
-      text-align: center;
+      margin-bottom: 8px;
+      margin-left: 12px;
 
       select {
         @include text_label;
-        text-align: left;
         color: $soft_black;
-        background-color: $parchment_dark;
-        padding: 4px 60px 4px 4px;
+        padding: 4px 100px 4px 4px;
         cursor: pointer;
       }
     }

@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
+import Select from 'react-select'
 import AttackSource from './AttackSource.jsx';
 import TextInput from '../shared/TextInput.jsx';
 import { DeleteButton, DeleteConfirmation } from '../shared/DeleteButton.jsx';
 import './Character.scss';
+
+const allSpellOptions = [
+  'Firebolt',
+  'Fireball',
+  'Chromatic Sphere'
+]
+
+const spellOptions = allSpellOptions.map(spell => ({
+  "value" : spell,
+  "label" : spell
+}))
 
 const Character = ({
   characterName, setCharacterName,
@@ -13,6 +25,8 @@ const Character = ({
   allPresetEntries, setToCharacterPreset,
   clearRollData
 }) => {
+  const [isAddingSpell, setIsAddingSpell] = useState(false);
+
   const [isDeleting, setIsDeleting] = useState(false);
   const isDeletingClass = isDeleting ? 'hidden' : '';
 
@@ -20,6 +34,10 @@ const Character = ({
     let filtered = value.replace(/[^A-Za-z -]/ig, '')
     if (filtered.length === 0) { filtered = 'X'; }
     setCharacterName(filtered)
+  }
+
+  const addSpell = (spellName) => {
+    console.log('add ', spellName);
   }
 
   return (
@@ -73,9 +91,31 @@ const Character = ({
             </div>
           }
 
-          <div className='add-attack' onClick={createAttack}>
-            <div className={`asset plus`} />
-            Add Attack
+          <div className='add-attack-container'>
+            <div className='add-button' onClick={createAttack}>
+              <div className={`asset plus`} />
+              Add Attack
+            </div>
+
+            {!isAddingSpell ?
+              <div className='add-button' onClick={() => setIsAddingSpell(true)}>
+                <div className={`asset plus`} />
+                Add Spell
+              </div>
+            :
+              <div className='add-spell-container'>
+                <div className='add-button' onClick={() => setIsAddingSpell(false)}>
+                  <div className={`asset x`} />
+                </div>
+                <Select
+                  placeholder={'Spell name'}
+                  className={'select-spell-dropdown'}
+                  options={spellOptions}
+                  value={''}
+                  onChange={(option) => { addSpell(option.value) }}
+                />
+              </div>
+            }
           </div>
         </div>
       </div>
