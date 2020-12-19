@@ -36,6 +36,9 @@
 - setting: customize which icon shows up for natural 20s
 
 ###### TECHNICAL ######
+
+- bug: can't toggle off crits for final (or just not first?) ability
+
 - rename the party roll/action stuff to make it more consistant
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters

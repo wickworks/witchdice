@@ -1,5 +1,5 @@
-import allSpellOriginalData from './srd_spells.json';
-// import allSpellOriginalData from './srd_spells_test.json';
+// import allSpellOriginalData from './srd_spells.json';
+import allSpellOriginalData from './srd_spells_test.json';
 import {
   allDamageTypes,
   allConditions,
@@ -31,7 +31,7 @@ function getSpellData() {
 
       let attackData = deepCopy(defaultAttackData);
       attackData.name = spellOriginal.name;
-      attackData.desc = turndownService.turndown(spellOriginal.desc);
+      attackData.desc = turndownService.turndown(spellOriginal.desc + spellOriginal.higher_level);
       attackData.modifier = 0;
 
       const desc = spellOriginal.desc;
@@ -66,8 +66,12 @@ function getSpellData() {
       }
 
       // DAMAGE
-      const takeIndex = desc.indexOf(' take');
+      const takeIndex = Math.max(
+        desc.indexOf(' take'),
+        desc.indexOf(' deal'),
+      );
       const damageIndex = desc.indexOf(' damage');
+      const bonusIndex = desc.indexOf(' + ');
       if (takeIndex > 0 && damageIndex > 0) {
         let damageData = deepCopy(defaultDamageData);
 
@@ -78,6 +82,12 @@ function getSpellData() {
         const countAndType = getCountAndTypeFromDiceString(dieString);
         damageData.dieCount = countAndType.count;
         damageData.dieType = countAndType.dietype;
+
+        if (bonusIndex > 0) {
+          damageData.modifier = parseInt(
+            desc.slice(bonusIndex+3, bonusIndex+5).trim()
+          )
+        }
 
         const damageTypes = getDamageTypesFromDesc(desc);
         if (damageTypes[0]) { damageData.damageType = damageTypes[0] }
