@@ -299,6 +299,7 @@ const Main5E = ({
   const createAttack = () => {
     let newData = deepCopy(characterAttackData);
     let newAttack = deepCopy(defaultAttackData);
+    newAttack.savingThrowDC = getCharacterSaveDC(characterAttackData);
     newAttack.damageData.push(deepCopy(defaultDamageData))
     newData.push(newAttack);
     setCharacterAttackData(newData);
@@ -313,13 +314,10 @@ const Main5E = ({
 
     if (spellData) {
       let newAttack = deepCopy(spellData);
+      newAttack.savingThrowDC = getCharacterSaveDC(characterAttackData);
       newData.push(newAttack);
 
       setCharacterAttackData(newData);
-
-      console.log('added new attack from spell ', spellName);
-      console.log(spellData);
-
       clearRolls();
     }
   }
@@ -330,6 +328,16 @@ const Main5E = ({
     setCharacterAttackData(newData);
 
     clearRolls();
+  }
+
+  // harvests the save dc from the first attack with one that we find
+  function getCharacterSaveDC(allAttackData) {
+    let prevDC = -1;
+    allAttackData.forEach((attackData) => {
+      if (attackData.type === 'save') prevDC = Math.max(attackData.savingThrowDC);
+    })
+    prevDC = prevDC > 0 ? prevDC : 12; //default
+    return prevDC
   }
 
   // =============== ROLLER FUNCTIONS ==================
