@@ -84,6 +84,10 @@ const Main5E = ({
 
     setAllMonsterEntries(monsterEntries);
     setAllCharacterEntries(characterEntries);
+
+    // if we were looking at a character, restore that
+    const oldSelectedID = localStorage.getItem("5e-selected-character");
+    if (oldSelectedID) setActiveCharacter( parseInt(oldSelectedID) )
   }, []);
 
 
@@ -188,7 +192,7 @@ const Main5E = ({
 
   const setActiveCharacter = (id) => {
     const loadedCharacter = loadCharacterData(id);
-    // console.log('setActiveCharacter', id);
+    // console.log('setActiveCharacter', id, '     data', loadedCharacter);
 
     if (loadedCharacter) {
       setCharacterID(id);
@@ -196,6 +200,8 @@ const Main5E = ({
       setCharacterAttackData(loadedCharacter.allAttackData);
     }
     clearRolls();
+
+    localStorage.setItem("5e-selected-character", id);
   }
 
   const clearCharacterSelection = () => {
