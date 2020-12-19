@@ -32,19 +32,24 @@ function getSpellData() {
       attackData.name = spellOriginal.name;
       attackData.desc = turndownService.turndown(spellOriginal.desc);
       attackData.modifier = 0;
-      attackData.type = 'attack';
 
       const desc = spellOriginal.desc;
 
-      // SAVING THROW
+      const attackIndex = desc.indexOf('spell attack');
       const saveIndex = Math.max(
-        desc.indexOf('succeed on a'),
-        desc.indexOf(' must make a')
+        desc.indexOf('cceed on a'),
+        desc.indexOf('ust make a'),
+        desc.indexOf(' to make a')
       );
 
-      if (saveIndex > 0) {
+      // ATTACK
+      if (attackIndex > 0) {
+        attackData.type = 'attack';
+
+      // SAVING THROW
+      } else if (saveIndex > 0) {
         const saveString =
-          desc.slice(saveIndex+13, desc.indexOf(' ', saveIndex+14))
+          desc.slice(saveIndex+11, desc.indexOf(' ', saveIndex+12))
           .trim()
           .slice(0,3);
 
@@ -53,6 +58,10 @@ function getSpellData() {
         attackData.type = 'save';
         attackData.savingThrowType = Math.max(savingThrowType, 0)
         // console.log('    saving throw type:', saveString, ': ',attackData.savingThrowType);
+
+      // ABILITY
+      } else {
+        attackData.type = 'ability';
       }
 
       // DAMAGE
@@ -74,16 +83,12 @@ function getSpellData() {
 
         if (desc.indexOf('half as much') >= 0) { damageData.tags.push('savehalf') }
 
-        attackData.damageData.push(damageData);
+        if (damageData.dieCount && damageData.dieType) {
+          attackData.damageData.push(damageData);
+        }
 
         // console.log('      damage:', dieString, ': ',damageData.dieCount,'d',damageData.dieType);
         // console.log('       types:', damageTypes);
-
-      } else {
-        // no damage and no save means it's information-only
-        if (attackData.type !== 'save') {
-          attackData.type = 'ability';
-        }
       }
 
 
