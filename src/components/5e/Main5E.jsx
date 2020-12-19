@@ -299,8 +299,9 @@ const Main5E = ({
   const createAttack = () => {
     let newData = deepCopy(characterAttackData);
     let newAttack = deepCopy(defaultAttackData);
-    newAttack.savingThrowDC = getCharacterSaveDC(characterAttackData);
     newAttack.damageData.push(deepCopy(defaultDamageData))
+    newAttack.modifier = getCharacterAttackBonus(characterAttackData);
+    newAttack.savingThrowDC = getCharacterSaveDC(characterAttackData);
     newData.push(newAttack);
     setCharacterAttackData(newData);
 
@@ -314,6 +315,7 @@ const Main5E = ({
 
     if (spellData) {
       let newAttack = deepCopy(spellData);
+      newAttack.modifier = getCharacterAttackBonus(characterAttackData);
       newAttack.savingThrowDC = getCharacterSaveDC(characterAttackData);
       newData.push(newAttack);
 
@@ -334,10 +336,19 @@ const Main5E = ({
   function getCharacterSaveDC(allAttackData) {
     let prevDC = -1;
     allAttackData.forEach((attackData) => {
-      if (attackData.type === 'save') prevDC = Math.max(attackData.savingThrowDC);
+      if (attackData.type === 'save') prevDC = Math.max(prevDC, attackData.savingThrowDC);
     })
     prevDC = prevDC > 0 ? prevDC : 12; //default
     return prevDC
+  }
+
+  // harvests the attack from the first attack
+  function getCharacterAttackBonus(allAttackData) {
+    let prevBonus = 0;
+    allAttackData.forEach((attackData) => {
+      prevBonus = Math.max(prevBonus, attackData.modifier);
+    })
+    return prevBonus
   }
 
   // =============== ROLLER FUNCTIONS ==================
