@@ -423,10 +423,10 @@ const Main5E = ({
           let roll = deepCopy(defaultRollData);
           roll.attackID = attackID;
           roll.hit = defaultHit;
-          roll.attackBonus = attackData.modifier;
 
           // roll some d20s for attacks
           if (attackData.type === 'attack') {
+            roll.attackBonus = attackData.modifier;
             roll.rollOne = getRandomInt(20)
             roll.rollTwo = getRandomInt(20)
           }
