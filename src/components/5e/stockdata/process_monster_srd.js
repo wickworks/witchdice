@@ -11,6 +11,7 @@ import {
 
 import {
   getDamageTypesFromDesc,
+  getConditionFromDesc,
   getCountAndTypeFromDiceString,
 } from './process_utils.js';
 
@@ -223,19 +224,5 @@ function getLastNumberBeforeIndex(multiattackDesc, nameIndex) {
   // turn the numberword back into an int
   return numberWords.indexOf(currentBestNumber) + 1;
 }
-
-function getConditionFromDesc(desc) {
-  desc = desc.toLowerCase();
-  let appliedCondition = null;
-
-  allConditions.forEach((condition, i) => {
-    if (desc.indexOf(condition.toLowerCase()) >= 0) {
-      appliedCondition = condition;
-    }
-  })
-
-  return appliedCondition;
-}
-
 
 export {getMonsterData};

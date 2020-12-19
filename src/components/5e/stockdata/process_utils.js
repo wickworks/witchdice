@@ -28,6 +28,19 @@ function getDamageTypesFromDesc(desc) {
   return damageTypesOrdered;
 }
 
+function getConditionFromDesc(desc) {
+  desc = desc.toLowerCase();
+  let appliedCondition = null;
+
+  allConditions.forEach((condition, i) => {
+    if (desc.indexOf(condition.toLowerCase()) >= 0) {
+      appliedCondition = condition;
+    }
+  })
+
+  return appliedCondition;
+}
+
 // turns '10d6' into {count: 10, dietype: 6}
 function getCountAndTypeFromDiceString(dice) {
   const count = parseInt(dice.slice(0, dice.indexOf('d')));
@@ -38,5 +51,6 @@ function getCountAndTypeFromDiceString(dice) {
 
 export {
   getDamageTypesFromDesc,
+  getConditionFromDesc,
   getCountAndTypeFromDiceString,
 }

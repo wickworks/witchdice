@@ -10,6 +10,7 @@ import {
 
 import {
   getDamageTypesFromDesc,
+  getConditionFromDesc,
   getCountAndTypeFromDiceString,
 } from './process_utils.js';
 
@@ -86,9 +87,21 @@ function getSpellData() {
         if (damageData.dieCount && damageData.dieType) {
           attackData.damageData.push(damageData);
         }
-
         // console.log('      damage:', dieString, ': ',damageData.dieCount,'d',damageData.dieType);
         // console.log('       types:', damageTypes);
+      }
+
+      // CONDITION
+      const appliedCondition = getConditionFromDesc(desc);
+      if (appliedCondition) {
+        // make a 0-damage thing that applies a condition
+        let savingThrowDamageData = deepCopy(defaultDamageData);
+        savingThrowDamageData.tags.push('condition')
+        savingThrowDamageData.condition = appliedCondition;
+        savingThrowDamageData.dieType = 0;
+        savingThrowDamageData.modifier = 0;
+        savingThrowDamageData.damageType = 'psychic'; //just because
+        attackData.damageData.push(savingThrowDamageData);
       }
 
 
