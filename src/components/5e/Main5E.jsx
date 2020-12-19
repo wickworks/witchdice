@@ -7,6 +7,7 @@ import Roller from './Roller.jsx';
 import { CURRENT_VERSION } from '../../version.js';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import { getMonsterData } from './stockdata/process_monster_srd.js';
+import { getSpellData } from './stockdata/process_spell_srd.js';
 import allCharacterPresetData from './stockdata/character_presets.json';
 import {
   loadLocalData,
@@ -50,12 +51,14 @@ const Main5E = ({
   const [allCharacterEntries, setAllCharacterEntries] = useState([]);
   const [allMonsterEntries, setAllMonsterEntries] = useState([]);
   const [allPresetEntries, setAllPresetEntries] = useState([]);
+  const [allSpellData, setAllSpellData] = useState({});
 
   const [characterID, setCharacterID] = useState(null);
   const [characterName, setCharacterName] = useState('');
   const [characterAttackData, setCharacterAttackData] = useState([]);
 
   const [rollData, setRollData] = useState([]);
+
 
   // =============== INITIALIZE ==================
 
@@ -92,6 +95,9 @@ const Main5E = ({
     setAllMonsterEntries(monsterEntries);
     setAllCharacterEntries(characterEntries);
     setAllPresetEntries(presetEntries);
+
+    // PARSE SPELL DATA
+    setAllSpellData(getSpellData());
 
     // if we were looking at a character, restore that
     const oldSelectedID = localStorage.getItem("5e-selected-character");
@@ -300,6 +306,24 @@ const Main5E = ({
     clearRolls();
   }
 
+  const createAttackFromSpell = (spellName) => {
+    let newData = deepCopy(characterAttackData);
+
+    const spellData = allSpellData[spellName];
+
+    if (spellData) {
+      let newAttack = deepCopy(spellData);
+      newData.push(newAttack);
+
+      setCharacterAttackData(newData);
+
+      console.log('added new attack from spell ', spellName);
+      console.log(spellData);
+
+      clearRolls();
+    }
+  }
+
   const deleteAttack = (attackID) => {
     let newData = deepCopy(characterAttackData);
     newData.splice(attackID, 1);
@@ -496,11 +520,13 @@ const Main5E = ({
             updateAllAttackData={updateAllAttackData}
             allAttackData={characterAttackData}
             createAttack={createAttack}
+            createAttackFromSpell={createAttackFromSpell}
             deleteAttack={deleteAttack}
             attackFunctions={attackFunctions}
             deleteCharacter={deleteActiveCharacter}
             allPresetEntries={allPresetEntries}
             setToCharacterPreset={setToCharacterPreset}
+            allSpellData={allSpellData}
             clearRollData={clearRolls}
           />
         </>

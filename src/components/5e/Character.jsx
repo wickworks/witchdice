@@ -5,24 +5,15 @@ import TextInput from '../shared/TextInput.jsx';
 import { DeleteButton, DeleteConfirmation } from '../shared/DeleteButton.jsx';
 import './Character.scss';
 
-const allSpellOptions = [
-  'Firebolt',
-  'Fireball',
-  'Chromatic Sphere'
-]
-
-const spellOptions = allSpellOptions.map(spell => ({
-  "value" : spell,
-  "label" : spell
-}))
-
 const Character = ({
   characterName, setCharacterName,
   allAttackData,
-  updateAllAttackData, deleteAttack, createAttack,
+  updateAllAttackData, deleteAttack,
+  createAttack, createAttackFromSpell,
   attackFunctions,
   deleteCharacter,
   allPresetEntries, setToCharacterPreset,
+  allSpellData,
   clearRollData
 }) => {
   const [isAddingSpell, setIsAddingSpell] = useState(false);
@@ -36,8 +27,14 @@ const Character = ({
     setCharacterName(filtered)
   }
 
-  const addSpell = (spellName) => {
-    console.log('add ', spellName);
+  const spellOptions = Object.keys(allSpellData).map(spellName => ({
+    "value" : spellName,
+    "label" : spellName
+  }))
+
+  const selectSpell = (spellOption) => {
+    setIsAddingSpell(false);
+    createAttackFromSpell(spellOption.value);
   }
 
   return (
@@ -112,7 +109,8 @@ const Character = ({
                   className={'select-spell-dropdown'}
                   options={spellOptions}
                   value={''}
-                  onChange={(option) => { addSpell(option.value) }}
+                  onChange={selectSpell}
+                  defaultMenuIsOpen
                 />
               </div>
             }

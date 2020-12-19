@@ -1,5 +1,5 @@
-import allMonsterOriginalData from './srd_monsters.json';
-// import allMonsterOriginalData from './srd_monsters_test.json';
+// import allMonsterOriginalData from './srd_monsters.json';
+import allMonsterOriginalData from './srd_monsters_test.json';
 
 import {
   allDamageTypes,
@@ -8,6 +8,12 @@ import {
   defaultAttackData,
   defaultDamageData,
 } from '../data.js';
+
+import {
+  getDamageTypesFromDesc,
+  getCountAndTypeFromDiceString,
+} from './process_utils.js';
+
 import { deepCopy } from '../../../utils.js';
 
 function getMonsterData() {
@@ -174,34 +180,6 @@ function getMonsterData() {
   }
 
   return allMonsterData;
-}
-
-function getCountAndTypeFromDiceString(dice) {
-  const count = parseInt(dice.slice(0, dice.indexOf('d')));
-  const dietype = parseInt(dice.slice(dice.indexOf('d')+1));
-  return {count: count, dietype: dietype}
-}
-
-function getDamageTypesFromDesc(desc) {
-  let damageTypesWithIndex = [];
-
-  allDamageTypes.forEach((type, i) => {
-    const damageindex = desc.indexOf(type);
-    if (damageindex >= 0) {
-      damageTypesWithIndex.push([damageindex, type]);
-    }
-  });
-
-  // earlier indices come first
-  damageTypesWithIndex.sort((a, b) => (a[0] > b[0]) ? 1 : -1)
-
-  // now reduce 'em down without the indices
-  let damageTypesOrdered = [];
-  damageTypesWithIndex.forEach((typeAndIndex, i) => {
-    damageTypesOrdered.push(typeAndIndex[1])
-  });
-
-  return damageTypesOrdered;
 }
 
 function getLastDamageFromDesc(desc) {
