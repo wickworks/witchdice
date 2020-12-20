@@ -14,6 +14,16 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+
+          <div className='version-label'>v0.4 — December 2020</div>
+          <ul>
+            <li>Added character presets.</li>
+            <li>Added spell presets for attacks.</li>
+            <li>Added modifier for dicebag.</li>
+            <li>Can click individual damage dice to reroll them.</li>
+            <li>Condensed 5e character sheets.</li>
+          </ul>
+
           <div className='version-label'>v0.3 — December 2020</div>
           <ul>
             <li>Added WITCH+CRAFT character sheet and project roller.</li>
@@ -22,7 +32,6 @@ const ChangeLog = () => {
             <li>Fixed bug with deleting damage sources.</li>
             <li>Following a room url now automatically connects to that room.</li>
           </ul>
-
 
           <div className='version-label'>v0.2 — October 2020</div>
           <ul>
