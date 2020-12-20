@@ -15,6 +15,7 @@
     flex-wrap: wrap;
 
     .attack-container {
+      @include shadow;
       display: flex;
       margin: 6px 4px;
       width: 30%;
