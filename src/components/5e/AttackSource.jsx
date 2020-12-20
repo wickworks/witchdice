@@ -229,7 +229,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
             <div className='statblock'>
               { damageData.map((data, i) => {
                 return (
-                  <>
+                  <React.Fragment key={i}>
                     <DamageSource
                       damageData={damageData[i]}
                       damageID={i}
@@ -237,7 +237,6 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                       savingThrowType={savingThrowType}
                       isEditing={editingDamageID === i}
                       toggleEdit={toggleDamageSourceEdit}
-                      key={i}
                     />
 
                     { (isDamageEditOpen && editingDamageID === i) &&
@@ -254,7 +253,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                         onDelete={deleteDamage}
                       />
                     }
-                  </>
+                  </React.Fragment>
                 )
               })}
 

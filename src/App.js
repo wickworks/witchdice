@@ -1,4 +1,4 @@
-import React, { useState, lazy, Suspense } from 'react';
+import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import ModeChooser from './components/ModeChooser.jsx';
 import Footer from './components/Footer.jsx';

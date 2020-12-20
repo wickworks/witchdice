@@ -103,7 +103,7 @@ const Main5E = ({
     // if we were looking at a character, restore that
     const oldSelectedID = localStorage.getItem("5e-selected-character");
     if (oldSelectedID) setActiveCharacter( parseInt(oldSelectedID) )
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   function initializeCharactersAndMonsters() {
@@ -305,6 +305,7 @@ const Main5E = ({
     newAttack.savingThrowDC = getCharacterSaveDC(characterAttackData);
     newData.push(newAttack);
     setCharacterAttackData(newData);
+    saveCharacterData(characterID, characterName, newData)
 
     clearRolls();
   }
@@ -321,6 +322,7 @@ const Main5E = ({
       newData.push(newAttack);
 
       setCharacterAttackData(newData);
+      saveCharacterData(characterID, characterName, newData)
       clearRolls();
     }
   }
@@ -329,6 +331,7 @@ const Main5E = ({
     let newData = deepCopy(characterAttackData);
     newData.splice(attackID, 1);
     setCharacterAttackData(newData);
+    saveCharacterData(characterID, characterName, newData)
 
     clearRolls();
   }

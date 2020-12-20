@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link, useParams, useLocation } from "react-router-dom";
-import { RadioGroup, Radio } from 'react-radio-group';
 import './ModeChooser.scss';
 
 function useQuery() {
