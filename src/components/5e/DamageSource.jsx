@@ -5,13 +5,19 @@ import { allTags, abilityTypes } from './data.js';
 const DamageSource = ({
   damageData, damageID,
   savingThrowDC, savingThrowType,
-  selectedTags,
   isEditing, toggleEdit,
 }) => {
   const {
     tags,
   } = damageData;
-  
+
+  let selectedTags = [];
+  let selectedTagNames = [];
+  tags.forEach((tagKey, i) => {
+    selectedTags.push({name: allTags[tagKey], id: tagKey})
+    selectedTagNames.push(allTags[tagKey])
+  })
+
   const editingClass = isEditing ? 'editing' : '';
 
   return (
@@ -20,7 +26,7 @@ const DamageSource = ({
 
       <DamageMetadata
         damageData={damageData}
-        selectedTags={tags}
+        selectedTags={selectedTags}
         savingThrowDC={savingThrowDC}
         savingThrowType={savingThrowType}
       />
@@ -67,7 +73,7 @@ const DamageMetadata = ({
   const displayTags =
     selectedTags.map(tag => {
       if (tag.id === 'triggeredsave') {
-        return `${tag.name}: DC ${savingThrowDC} ${abilityTypes[savingThrowType]}`
+        return `DC ${savingThrowDC} ${abilityTypes[savingThrowType]}`
       } else if (tag.id === 'condition') {
         return damageData.condition
       } else {

@@ -1,6 +1,6 @@
 @import './fonts5E';
 
-// $damagesource_rearrange_threshold: 600px;
+$damagesource_rearrange_threshold: 600px;
 
 .DamageEdit {
   display: flex;
@@ -9,11 +9,9 @@
   justify-content: center;
   width: 100%;
   padding: 8px;
-  box-sizing: border-box;
-
   padding-bottom: 0;
-  // margin: 10px 0;
   background-color: $parchment_dark;
+  box-sizing: border-box;
   cursor: auto;
 
   > * {
@@ -27,85 +25,50 @@
     &.full { width: 100%; }
   }
 
+  input[type=number] {
+    @include text_default;
+    font-size: 22px;
+    background-color: $parchment;
+    border: none;
+    border-radius: 4px;
+    padding-left: 8px;
+    margin-right: 8px;
+    width: 36px;
+    min-height: 30px;
 
-  // .DamageEditNumbers {
-  //   display: flex;
-  //   align-items: center;
-  //   margin-right: 8px;
-  //   // order: 1;
-
-    input[type=number] {
-      @include text_default;
-      font-size: 22px;
-      background-color: $parchment;
-      border: none;
-      border-radius: 4px;
-      padding-left: 8px;
-      margin-right: 8px;
-      width: 36px;
-      min-height: 30px;
-
-      &:hover { background-color: $parchment_mid; }
-    }
-
-    .die-container, .damage-type {
-      display: flex;
-      align-items: center;
-      // margin: 3px 5px;
-      margin: 0 5px;
-
-      .die-type { width: 30px; margin-left: 2px;}
-    }
-
-    .flat-damage {
-      white-space: nowrap;
-      margin-right: 20px;
-    }
-
-    .asset {
-      height: 30px;
-      width: 30px;
-    }
-
-    .plus {
-      font-size: 20px;
-      margin: 0 8px;
-    }
-  // }
-
-  .DamageEditDieType {
-    // order: 3;
-    // flex-grow: 1;
-
-    // @media screen and (min-width: $damagesource_rearrange_threshold) {
-      // width: 45%;
-      // border-right: 1px solid darkgrey;
-      // margin-right: 18px;
-
-      // .IconMenu {
-      //   max-width: 220px;
-      //   margin: auto;
-      // }
-    // }
-
-    .IconMenu label { min-width: 60px;}
+    &:hover { background-color: $parchment_mid; }
   }
 
-  .DamageEditDamageType {
-    // order: 4;
-    // flex-grow: 1;
+  .die-container, .damage-type {
+    display: flex;
+    align-items: center;
+    // margin: 3px 5px;
+    margin: 0 5px;
 
-    // @media screen and (min-width: $damagesource_rearrange_threshold) {
-    //   width: 45%;
-    //
-    //   .IconMenu {
-    //     margin: auto;
-    //   }
-    // }
+    .die-type { width: 30px; margin-left: 2px;}
   }
+
+  .flat-damage {
+    white-space: nowrap;
+    margin-right: 20px;
+  }
+
+  .asset {
+    height: 30px;
+    width: 30px;
+  }
+
+  .plus {
+    font-size: 20px;
+    margin: 0 8px;
+  }
+
+  // @media screen and (min-width: $damagesource_rearrange_threshold) {
+
 
   .DamageEditDieType {
     max-width: 220px;
+    .IconMenu label { min-width: 60px;}
   }
 
   .DamageEditDamageType {
@@ -138,26 +101,6 @@
       &:checked+label { background-color: $olive_light; }
       &:hover+label { background-color: $pink; }
     }
-  }
-
-  // DamageEditMetadata
-  input.damage-name {
-    @include text_default;
-    background-color: $parchment;
-    border: none;
-    border-radius: 4px;
-    padding-left: 8px;
-    margin-right: 10px;
-    min-height: 30px;
-    min-width: 126px;
-    flex: 1 0 auto;
-    // order: 5;
-
-    // @media screen and (min-width: $damagesource_rearrange_threshold) {
-    //   order: 2
-    // }
-
-    &:hover { background-color: $parchment_mid; }
   }
 
   // DamageEditMetadata
@@ -219,7 +162,7 @@
   }
 
 
-  // DamageEditMetadata (saving throw & applied conditions)
+  // saving throw & applied conditions
   .additional-info {
     display: flex;
     justify-content: space-around;

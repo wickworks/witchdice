@@ -33,13 +33,17 @@ const DamageEdit = ({
 
   // =============== ADD / REMOVE TAG CRAP =============
 
-
   let selectedTags = [];
   let selectedTagNames = [];
   tags.forEach((tagKey, i) => {
     selectedTags.push({name: allTags[tagKey], id: tagKey})
     selectedTagNames.push(allTags[tagKey])
   })
+
+  let tagOptions = [];
+  for (const [key, value] of Object.entries(allTags)) {
+    tagOptions.push({name: value, id: key})
+  }
 
   const handleTagUpdate = (selectedTags) => {
     let newTags = []
@@ -109,23 +113,36 @@ const DamageEdit = ({
       </div>
 
       <div className='row full'>
-        <DamageEditMetadata
-          damageID={damageID}
-          attackID={attackID}
-          damageData={damageData}
-          damageFunctions={damageFunctions}
-          selectedTags={selectedTags}
-          handleTagUpdate={handleTagUpdate}
-          handleSavingThrowDCClick={handleSavingThrowDCClick}
-          handleSavingThrowTypeClick={handleSavingThrowTypeClick}
-          savingThrowDC={savingThrowDC}
-          savingThrowType={savingThrowType}
-        />
+        <div className='tag-select'>
+          <Multiselect
+            options={tagOptions}
+            displayValue="name"
+            hidePlaceholder={true}
+            selectedValues={selectedTags}
+            closeIcon='cancel'
+            onSelect={(tag) => handleTagUpdate(tag)}
+            onRemove={(tag) => handleTagUpdate(tag)}
+          />
+          {(tags.length === 0) && <label>Damage tags</label>}
+        </div>
 
         <button className='delete' onClick={() => onDelete(damageID)}>
           <div className={'asset trash'} />
         </button>
       </div>
+
+      <DamageEditMetadata
+        damageID={damageID}
+        attackID={attackID}
+        damageData={damageData}
+        damageFunctions={damageFunctions}
+        selectedTags={selectedTags}
+        handleTagUpdate={handleTagUpdate}
+        handleSavingThrowDCClick={handleSavingThrowDCClick}
+        handleSavingThrowTypeClick={handleSavingThrowTypeClick}
+        savingThrowDC={savingThrowDC}
+        savingThrowType={savingThrowType}
+      />
     </div>
   );
 }
@@ -153,35 +170,8 @@ const DamageEditMetadata = ({
     setCondition,
   } = damageFunctions;
 
-
-  let tagOptions = [];
-  for (const [key, value] of Object.entries(allTags)) {
-    tagOptions.push({name: value, id: key})
-  }
-
   return (
     <>
-      {/*<input
-        type="text"
-        className='damage-name'
-        value={name}
-        onChange={e => setName(e.target.value, attackID, damageID)}
-        placeholder={'Damage source'}
-      />*/}
-
-      <div className='tag-select'>
-        <Multiselect
-          options={tagOptions}
-          displayValue="name"
-          hidePlaceholder={true}
-          selectedValues={selectedTags}
-          closeIcon='cancel'
-          onSelect={(tag) => handleTagUpdate(tag)}
-          onRemove={(tag) => handleTagUpdate(tag)}
-        />
-        {(tags.length === 0) && <label>Damage tags</label>}
-      </div>
-
       { (tags.includes('triggeredsave') || tags.includes('condition')) &&
         <div className='additional-info'>
 
