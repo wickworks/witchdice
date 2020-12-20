@@ -1,6 +1,6 @@
 import React from 'react';
 import TextInput from '../shared/TextInput.jsx';
-import { deepCopy, capitalize } from '../../utils.js';
+import { capitalize } from '../../utils.js';
 import './ProjectCard.scss';
 
 const ProjectCard = ({

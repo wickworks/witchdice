@@ -2,7 +2,6 @@
 import {
   allDamageTypes,
   allConditions,
-  abilityTypes,
 } from '../data.js';
 
 // returns an array of damage type IDs in the order that they appear in the desc

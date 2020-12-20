@@ -1,8 +1,6 @@
 import allSpellOriginalData from './srd_spells.json';
 // import allSpellOriginalData from './srd_spells_test.json';
 import {
-  allDamageTypes,
-  allConditions,
   abilityTypes,
   defaultAttackData,
   defaultDamageData,

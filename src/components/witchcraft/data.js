@@ -491,6 +491,7 @@ function getDefaultClass(primary, secondary) {
       case 'Living Arts': className = 'Bonecarver'; break;
       case 'Metals': className = 'Glassblower'; break;
       case 'Textiles': className = 'Bead Stringer'; break;
+      default: break;
     }
 
   } else if (primary === 'Wood') {
@@ -500,6 +501,7 @@ function getDefaultClass(primary, secondary) {
       case 'Living Arts': className = 'Carver'; break;
       case 'Metals': className = 'Fletcher'; break;
       case 'Textiles': className = 'Shipwright'; break;
+      default: break;
     }
 
   } else if (primary === 'Drafting') {
@@ -509,6 +511,7 @@ function getDefaultClass(primary, secondary) {
       case 'Living Arts': className = 'Painter'; break;
       case 'Metals': className = 'Counterfeiter'; break;
       case 'Textiles': className = 'Mapmaker'; break;
+      default: break;
     }
 
   } else if (primary === 'Living Arts') {
@@ -518,6 +521,7 @@ function getDefaultClass(primary, secondary) {
       case 'Wood': className = 'Gardener'; break;
       case 'Metals': className = 'Chef'; break;
       case 'Textiles': className = 'Doula'; break;
+      default: break;
     }
 
   } else if (primary === 'Metals') {
@@ -527,6 +531,7 @@ function getDefaultClass(primary, secondary) {
       case 'Living Arts': className = 'Gilder'; break;
       case 'Wood': className = 'Weaponsmith'; break;
       case 'Textiles': className = 'Blacksmith'; break;
+      default: break;
     }
 
   } else if (primary === 'Textiles') {
@@ -536,6 +541,7 @@ function getDefaultClass(primary, secondary) {
       case 'Living Arts': className = 'Leatherworker'; break;
       case 'Metals': className = 'Embroiderer'; break;
       case 'Wood': className = 'Weaver'; break;
+      default: break;
     }
   }
 

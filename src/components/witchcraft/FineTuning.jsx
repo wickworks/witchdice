@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NumberInput from '../shared/NumberInput.jsx';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import {
@@ -8,7 +8,6 @@ import {
   didProjectSucceed,
   allFlaws,
   allBoons,
-  allDifficulties,
   getManufacturerCount,
 } from './data.js';
 
@@ -19,7 +18,7 @@ const FineTuning = ({
   projectData,
   updateProjectData
 }) => {
-  const [manualAddValue, setManualAddValue] = useState(0);
+  // const [manualAddValue, setManualAddValue] = useState(0);
 
   const cancelledCount = projectData.cancelledCount;
   const flawStack = getTotalFlawBoonStack(projectData.rollData.flawCount, projectData);
@@ -66,7 +65,7 @@ const FineTuning = ({
     }
 
     if (update.dice) {
-      for (var i = 0; i < update.dice; i++) {
+      for (var j = 0; j < update.dice; j++) {
         const roll = getRandomInt(6);
         newRollData.rolls.push(roll);
         if (roll === 1) newRollData.flawCount += 1

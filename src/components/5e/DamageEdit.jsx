@@ -54,7 +54,7 @@ const DamageEdit = ({
     if (damageData.condition !== '' && !damageData.tags.includes('condition')) {
       setCondition('', attackID, damageID)
     }
-  }, [damageData]);
+  }, [damageData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // =============== CHANGE MODIFIERS =============
 

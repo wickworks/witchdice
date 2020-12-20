@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import TextInput from '../shared/TextInput.jsx';
 import { DeleteButton, DeleteConfirmation } from '../shared/DeleteButton.jsx';
-import { deepCopy, capitalize } from '../../utils.js';
+import { capitalize } from '../../utils.js';
 import { loadLocalData } from '../../localstorage.js';
 import {
-  getStaminaCostForProject,
   defaultProject
 } from './data.js';
 
@@ -49,7 +48,7 @@ const ProjectList = ({
           {isImportingFile ?
             <input type="file" onChange={handleFileUpload} />
           :
-            <a onClick={() => setIsImportingFile(true)}>Import</a>
+            <button onClick={() => setIsImportingFile(true)}>Import</button>
           }
         </div>
 
@@ -63,17 +62,18 @@ const ProjectList = ({
             const projectData = loadLocalData(PROJECT_PREFIX, entry.id);
             const selectedClass = (entry.id === activeProjectID) ? 'selected' : ''
             return (
-              <>{ projectData ?
-                <ProjectListItem
-                  projectData={projectData}
-                  updateProjectData={updateProjectData}
-                  selectedClass={selectedClass}
-                  handleClick={() => handleProjectClick(entry.id)}
-                  key={entry.id}
-                />
-              :
-                <div>Error: cannot find project entry ~{entry.id}</div>
-              }</>
+              <React.Fragment key={i}>
+                { projectData ?
+                  <ProjectListItem
+                    projectData={projectData}
+                    updateProjectData={updateProjectData}
+                    selectedClass={selectedClass}
+                    handleClick={() => handleProjectClick(entry.id)}
+                  />
+                :
+                  <div>Error: cannot find project entry ~{entry.id}</div>
+                }
+              </React.Fragment>
             )
           })}
         </ul>

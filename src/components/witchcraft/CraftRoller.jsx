@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import RollBigButton from '../shared/RollBigButton.jsx';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import {
@@ -208,7 +208,7 @@ const DisplayRolls = ({
       ))}
 
       { rollData.bonuses.map( (bonus, i) => (
-        <div className='bonus'>+{bonus}</div>
+        <div className='bonus' key={i}>+{bonus}</div>
       ))}
     </div>
   )

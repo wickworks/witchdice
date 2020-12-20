@@ -82,7 +82,10 @@
       margin-left: auto;
       margin-right: 6px;
 
-      a {
+      button {
+        @include text_default;
+        background-color: transparent;
+        border: none;
         color: $green_witch_grey;
         text-decoration: none;
         cursor: pointer;

@@ -9,7 +9,7 @@ const Antiracism = () => {
       <div className="intro-container">
         <div className="asset olive_portrait" />
         <div>
-          <h3> <span roll='img' aria-label='flower'>🌺</span> Olive's Fun Anti-Racism Corner — Orcs! <span roll='img' aria-label='flower'>🌺</span> </h3>
+          <h3> <span role='img' aria-label='flower'>🌺</span> Olive's Fun Anti-Racism Corner — Orcs! <span role='img' aria-label='flower'>🌺</span> </h3>
           <p><strong>Did you know?</strong> Orcs and goblins, in their current standard-fantasy incarnation, come from J.R.R. Tolkein's seminal <em>Lord of the Rings</em> trilogy. Their design is, somewhat incoveniently, <strong>staggeringly racist.</strong></p>
         </div>
       </div>

@@ -2,7 +2,6 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Switch, Route, useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 
-import { CURRENT_VERSION } from '../version.js';
 import { deepCopy, capitalize } from '../utils.js';
 import { randomWords } from '../random_words.js';
 
@@ -65,12 +64,12 @@ const Main = () => {
         generateRoomName()
       }
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // automatically try to connect to a room if we flag it to do so
   useEffect(() => {
     if (partyAutoconnect) connectToRoom(partyRoom)
-  }, [partyAutoconnect]);
+  }, [partyAutoconnect]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // =============== PARTY ROLL FUNCTIONS ==================
 
