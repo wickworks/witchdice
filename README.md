@@ -23,7 +23,10 @@
 - do an ACCESSIBILITY PASS; be able to tab through it all easily
 - make the background a sketch pad -- or just have a notepad panel that saves to session storage
 
-- saving complicated expressions for re-rolling >> click something in roll history to set it back up
+- saving complicated expressions for re-rolling
+  - click something in roll history to set it back up
+  - or click the rolled dice to roll it again
+  
 - sound fx for dice rolls
 
 - themes e.g. dark mode

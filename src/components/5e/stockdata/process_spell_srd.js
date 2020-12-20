@@ -1,5 +1,5 @@
-// import allSpellOriginalData from './srd_spells.json';
-import allSpellOriginalData from './srd_spells_test.json';
+import allSpellOriginalData from './srd_spells.json';
+// import allSpellOriginalData from './srd_spells_test.json';
 import {
   allDamageTypes,
   allConditions,
@@ -31,7 +31,8 @@ function getSpellData() {
 
       let attackData = deepCopy(defaultAttackData);
       attackData.name = spellOriginal.name;
-      attackData.desc = turndownService.turndown(spellOriginal.desc + spellOriginal.higher_level);
+      const fullDesc = `${spellOriginal.desc}${spellOriginal.higher_level ? spellOriginal.higher_level : ''}`;
+      attackData.desc = turndownService.turndown(fullDesc);
       attackData.modifier = 0;
 
       const desc = spellOriginal.desc;
