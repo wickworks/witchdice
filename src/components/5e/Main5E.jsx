@@ -7,7 +7,8 @@ import Roller from './Roller.jsx';
 import { CURRENT_VERSION } from '../../version.js';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import { getMonsterData } from './stockdata/process_monster_srd.js';
-import { getSpellData } from './stockdata/process_spell_srd.js';
+// import { getSpellData } from './stockdata/process_spell_srd.js';
+import parsedSpellData from './stockdata/srd_spells_parsed.json';
 import allCharacterPresetData from './stockdata/character_presets.json';
 import {
   loadLocalData,
@@ -98,7 +99,10 @@ const Main5E = ({
     setAllPresetEntries(presetEntries);
 
     // PARSE SPELL DATA
-    setAllSpellData(getSpellData());
+    // setAllSpellData(getSpellData());
+
+    // USE PREPARSED SPELL DATA
+    setAllSpellData(parsedSpellData);
 
     // if we were looking at a character, restore that
     const oldSelectedID = localStorage.getItem("5e-selected-character");

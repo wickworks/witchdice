@@ -35,10 +35,12 @@
 
 
 ###### TECHNICAL ######
+
+- don't do the monster-processing client-side. Just do it myself and include the resulting data file as a json
+
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
 
-- don't do the monster-processing client-side. Just do it myself and include the resulting data file as a json
 
 - Auth system: conference-room rules.
   If you're the first to show up to a room, it's yours.
