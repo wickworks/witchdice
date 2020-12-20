@@ -5,6 +5,151 @@ import {allTags, allDamageTypes, abilityTypes, allConditions} from './data.js'
 import './DamageEdit.scss';
 
 
+const DamageEdit = ({
+  damageID, attackID, damageData, damageFunctions,
+  toggleEdit, onDelete,
+  setSavingThrowDC, setSavingThrowType, savingThrowDC, savingThrowType
+}) => {
+
+  const {
+    dieCount,
+    dieType,
+    modifier,
+    tags,
+    damageType,
+  } = damageData;
+
+  const {
+    setDieCount,
+    setModifier,
+    setDieType,
+    setTags,
+    setDamageType,
+  } = damageFunctions;
+
+  const handleAccept = () => {
+    toggleEdit(damageID);
+  }
+
+  // =============== ADD / REMOVE TAG CRAP =============
+
+
+  let selectedTags = [];
+  let selectedTagNames = [];
+  tags.forEach((tagKey, i) => {
+    selectedTags.push({name: allTags[tagKey], id: tagKey})
+    selectedTagNames.push(allTags[tagKey])
+  })
+
+  const handleTagUpdate = (selectedTags) => {
+    let newTags = []
+    selectedTags.forEach((tag) => { newTags.push(tag.id) })
+    setTags(newTags, attackID, damageID)
+  }
+
+  function handleSavingThrowDCClick(e, leftMouse) {
+    let newDC = savingThrowDC;
+
+    if (leftMouse && !e.shiftKey) {
+      newDC += 1;
+    } else {
+      newDC -= 1;
+      e.preventDefault()
+    }
+
+    newDC = Math.min(newDC, 40);
+    newDC = Math.max(newDC, 0);
+    setSavingThrowDC(newDC, attackID, damageID);
+  }
+
+  function handleSavingThrowTypeClick(e, leftMouse) {
+    let newType = savingThrowType;
+
+    if (leftMouse && !e.shiftKey) {
+      newType += 1;
+    } else {
+      newType -= 1;
+      e.preventDefault()
+    }
+
+    newType = newType % abilityTypes.length
+    setSavingThrowType(newType, attackID, damageID);
+  }
+
+  // =================== RENDER ==================
+
+  // <DamageEditNumbers
+  //   damageID={damageID}
+  //   attackID={attackID}
+  //   damageData={damageData}
+  //   damageFunctions={damageFunctions}
+  // />
+
+  // <div className='accept-delete-damage-container'>
+  //   <button className='accept' onClick={handleAccept}>
+  //     <div className={'asset checkmark'} />
+  //   </button>
+  //   <button className='delete' onClick={() => onDelete(damageID)}>
+  //     <div className={'asset trash'} />
+  //   </button>
+  // </div>
+
+
+  return (
+    <div className='DamageEdit' >
+
+      <div className='row'>
+        <input
+          type="number"
+          value={dieCount}
+          onChange={e => setDieCount(e.target.value, attackID, damageID)}
+        />
+
+        <DamageEditDieType
+          attackID={attackID}
+          die={dieType}
+          setDie={(value) => setDieType(value, attackID, damageID)}
+        />
+      </div>
+
+      <div className='row'>
+        <span className='plus'>+</span>
+        <input
+          type="number"
+          value={modifier}
+          onChange={e => setModifier(e.target.value, attackID, damageID)}
+        />
+
+        <DamageEditDamageType
+          attackID={attackID}
+          type={damageType}
+          setType={(value) => setDamageType(value, attackID, damageID)}
+        />
+      </div>
+
+      <div className='row full'>
+        <DamageEditMetadata
+          damageID={damageID}
+          attackID={attackID}
+          damageData={damageData}
+          damageFunctions={damageFunctions}
+          selectedTags={selectedTags}
+          handleTagUpdate={handleTagUpdate}
+          handleSavingThrowDCClick={handleSavingThrowDCClick}
+          handleSavingThrowTypeClick={handleSavingThrowTypeClick}
+          savingThrowDC={savingThrowDC}
+          savingThrowType={savingThrowType}
+        />
+
+        <button className='delete' onClick={() => onDelete(damageID)}>
+          <div className={'asset trash'} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+
 const DamageEditNumbers = ({
   damageID, attackID,
   damageData,
@@ -246,4 +391,4 @@ const IconMenu = (props) => {
   )
 }
 
-export {DamageEditDamageType, DamageEditMetadata, DamageEditNumbers, DamageEditDieType};
+export default DamageEdit;

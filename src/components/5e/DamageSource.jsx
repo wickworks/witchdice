@@ -1,151 +1,31 @@
 import React from 'react';
 import './DamageSource.scss';
 import { allTags, abilityTypes } from './data.js';
-import {
-  DamageEditDamageType,
-  DamageEditMetadata,
-  DamageEditNumbers,
-  DamageEditDieType
-} from './DamageEdit.jsx';
 
 const DamageSource = ({
-  damageID, attackID, damageData, damageFunctions,
-  isEditing, onEdit, onDelete,
-  setSavingThrowDC, setSavingThrowType, savingThrowDC, savingThrowType
+  damageData, damageID,
+  savingThrowDC, savingThrowType,
+  selectedTags,
+  isEditing, toggleEdit,
 }) => {
-
   const {
-    dieType,
     tags,
-    damageType,
   } = damageData;
-
-  const {
-    setDieType,
-    setTags,
-    setDamageType,
-  } = damageFunctions;
-
-  const handleContainerClick = () => {
-    if (!isEditing) { onEdit(damageID) }
-  }
-
-  const handleAccept = () => {
-    onEdit(damageID);
-  }
-
-  // =============== ADD / REMOVE TAG CRAP =============
-
-
-  let selectedTags = [];
-  let selectedTagNames = [];
-  tags.forEach((tagKey, i) => {
-    selectedTags.push({name: allTags[tagKey], id: tagKey})
-    selectedTagNames.push(allTags[tagKey])
-  })
-
-  const handleTagUpdate = (selectedTags) => {
-    let newTags = []
-    selectedTags.forEach((tag) => { newTags.push(tag.id) })
-    setTags(newTags, attackID, damageID)
-  }
-
-  function handleSavingThrowDCClick(e, leftMouse) {
-    let newDC = savingThrowDC;
-
-    if (leftMouse && !e.shiftKey) {
-      newDC += 1;
-    } else {
-      newDC -= 1;
-      e.preventDefault()
-    }
-
-    newDC = Math.min(newDC, 40);
-    newDC = Math.max(newDC, 0);
-    setSavingThrowDC(newDC, attackID, damageID);
-  }
-
-  function handleSavingThrowTypeClick(e, leftMouse) {
-    let newType = savingThrowType;
-
-    if (leftMouse && !e.shiftKey) {
-      newType += 1;
-    } else {
-      newType -= 1;
-      e.preventDefault()
-    }
-
-    newType = newType % abilityTypes.length
-    setSavingThrowType(newType, attackID, damageID);
-  }
-
-  // =================== RENDER ==================
-
+  
   const editingClass = isEditing ? 'editing' : '';
 
   return (
-    <div className={`DamageSource ${editingClass}`} onClick={handleContainerClick} >
+    <div className={`DamageSource ${editingClass}`} onClick={() => toggleEdit(damageID)} >
+      <DamageNumbers damageData={damageData} />
 
-      {!isEditing ?
-        <div className="summary-mode">
-          <DamageNumbers damageData={damageData} />
-
-          <DamageMetadata
-            damageData={damageData}
-            selectedTags={selectedTags}
-            savingThrowDC={savingThrowDC}
-            savingThrowType={savingThrowType}
-          />
-
-        </div>
-      :
-        <>
-          <div className="edit-mode">
-            <DamageEditNumbers
-              damageID={damageID}
-              attackID={attackID}
-              damageData={damageData}
-              damageFunctions={damageFunctions}
-            />
-
-            <DamageEditDieType
-              attackID={attackID}
-              die={dieType}
-              setDie={(value) => setDieType(value, attackID, damageID)}
-            />
-
-            <DamageEditDamageType
-              attackID={attackID}
-              type={damageType}
-              setType={(value) => setDamageType(value, attackID, damageID)}
-            />
-
-            <DamageEditMetadata
-              damageID={damageID}
-              attackID={attackID}
-              damageData={damageData}
-              damageFunctions={damageFunctions}
-              selectedTags={selectedTags}
-              handleTagUpdate={handleTagUpdate}
-              handleSavingThrowDCClick={handleSavingThrowDCClick}
-              handleSavingThrowTypeClick={handleSavingThrowTypeClick}
-              savingThrowDC={savingThrowDC}
-              savingThrowType={savingThrowType}
-            />
-          </div>
-
-          <div className='accept-delete-damage-container'>
-            <button className='accept' onClick={handleAccept}>
-              <div className={'asset checkmark'} />
-            </button>
-            <button className='delete' onClick={() => onDelete(damageID)}>
-              <div className={'asset trash'} />
-            </button>
-          </div>
-        </>
-      }
+      <DamageMetadata
+        damageData={damageData}
+        selectedTags={tags}
+        savingThrowDC={savingThrowDC}
+        savingThrowType={savingThrowType}
+      />
     </div>
-  );
+  )
 }
 
 const DamageNumbers = ({

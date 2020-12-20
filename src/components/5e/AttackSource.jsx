@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { deepCopy } from '../../utils.js';
 import { defaultDamageData, abilityTypes, actionTypes } from './data.js';
 import DamageSource from './DamageSource.jsx';
+import DamageEdit from './DamageEdit.jsx';
 import TextInput from '../shared/TextInput.jsx';
 import { DeleteButton, DeleteConfirmation } from '../shared/DeleteButton.jsx';
 
@@ -57,7 +58,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
   // =============== ADD / EDIT DAMAGE SOURCES =============
 
-  const openEditForDamage = (damageID) => {
+  const toggleDamageSourceEdit = (damageID) => {
     if (editingDamageID === damageID) { // already open; we clicked to close
       setIsDamageEditOpen(false);
     } else {
@@ -229,19 +230,12 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
               { damageData.map((data, i) => {
                 return (
                   <DamageSource
-                    damageID={i}
-                    attackID={attackID}
                     damageData={damageData[i]}
-                    damageFunctions={damageFunctions}
-
-                    setSavingThrowDC={setSavingThrowDC}
-                    setSavingThrowType={setSavingThrowType}
+                    damageID={i}
                     savingThrowDC={savingThrowDC}
                     savingThrowType={savingThrowType}
-
                     isEditing={editingDamageID === i}
-                    onEdit={openEditForDamage}
-                    onDelete={deleteDamage}
+                    toggleEdit={toggleDamageSourceEdit}
                     key={i}
                   />
                 )
@@ -251,7 +245,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                 <button
                   className={`add-damage-button asset plus ${shuntAddDamageClass}`}
                   onClick={() => {
-                    openEditForDamage(damageData.length);
+                    toggleDamageSourceEdit(damageData.length);
                     createDamage();
                   }}
                 >
@@ -261,6 +255,21 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                 </button>
               }
             </div>
+
+            { isDamageEditOpen &&
+              <DamageEdit
+                damageID={editingDamageID}
+                attackID={attackID}
+                damageData={damageData[editingDamageID]}
+                damageFunctions={damageFunctions}
+                setSavingThrowDC={setSavingThrowDC}
+                setSavingThrowType={setSavingThrowType}
+                savingThrowDC={savingThrowDC}
+                savingThrowType={savingThrowType}
+                toggleEdit={toggleDamageSourceEdit}
+                onDelete={deleteDamage}
+              />
+            }
           </>
         }
       </div>

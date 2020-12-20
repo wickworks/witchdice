@@ -1,6 +1,10 @@
 @import './fonts5E';
 
 .DamageSource {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+
   padding: 4px 12px 4px 0;
   margin-right: 32px;
   border-radius: 2px;
@@ -8,15 +12,9 @@
   cursor: pointer;
 
   transition: margin .05s ease-out, background-color .075s ease-out;
-  &:hover { background-color: $parchment_dark; }
 
-  &.editing {
-    padding-bottom: 0;
-    margin: 10px 0;
-    background-color: $parchment_dark;
-    border-radius: 6px;
-    cursor: auto;
-  }
+  &.editing { background-color: $pink; }
+  &:hover { background-color: $parchment_dark; }
 
   input[type=checkbox] {
     width: 24px;
@@ -26,32 +24,24 @@
     z-index: 100;
   }
 
-  // SUMMARY MODE
-  .summary-mode {
-    display: flex;
-    align-items: center;
-    min-height: 36px;
-
-    .roll-numbers {
-      font-size: 18px;
-      margin: 0 8px;
-      white-space: nowrap;
-    }
-
-    .asset {
-      height: 26px;
-      width: 26px;
-      margin-right: 10px;
-    }
-
-    .name {
-      font-style: italic;
-      margin-right: 12px;
-    }
-
-    .tags {
-      max-width: 280px;
-    }
+  .roll-numbers {
+    font-size: 20px;
+    margin: 0 8px;
+    white-space: nowrap;
   }
 
+  .asset {
+    height: 26px;
+    width: 26px;
+    margin-right: 10px;
+  }
+
+  .name {
+    font-style: italic;
+    margin-right: 12px;
+  }
+
+  .tags {
+    max-width: 280px;
+  }
 }
