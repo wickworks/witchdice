@@ -20,21 +20,21 @@
 
 - be able to rearrange 5e attacks
 
-- do an ACCESSIBILITY PASS; be able to tab through it all easily
-- make the background a sketch pad -- or just have a notepad panel that saves to session storage
-
 - saving complicated expressions for re-rolling
   - click something in roll history to set it back up
   - or click the rolled dice to roll it again
-  
+
 - sound fx for dice rolls
 
 - themes e.g. dark mode
 - hover over dice bag buttons for a second to show which type of die it is (replace image)
 - setting: customize which icon shows up for natural 20s
 
+- do an ACCESSIBILITY PASS; be able to tab through it all easily
+- make the background a sketch pad -- or just have a notepad panel that saves to session storage
+
+
 ###### TECHNICAL ######
-- rename the party roll/action stuff to make it more consistant
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
 
@@ -47,24 +47,18 @@
   All rooms are cleared out twelve hours after the last message is sent on them.
   Be able to go straight to the room by visiting the room url
 
-- someday: switch away from the heavy firebase server to a lightweight peer-to-peer network
-- clear out data on firebase periodically even if nobody has visited that room in a long time
-
+- rename the party roll/action stuff to make it more consistant
 
 
 #### DND MECHANICS ####
 - redesign damage addition. I think we could simplify it. Let's remove "damage source"? I think abilities cover that.
-- add attack presets
-- have new attacks use the attack bonus of the last one, same with spell DCs
+
 - bug: if have an attack apply a condition then remove that effect, the condition data remains and shows up on the attack
 - bug with triggered attacks: fireball, then an ice knife causes the triggered one to always show up
 - paralyzation//assassin; all attacks are crits. be able to set any attack to be a crit (or toggle a crit off)
 
-- add character class presets
-
 - monster search: don't show any until search filter applied. Add to front of recent list if searching, otherwise perserve recent list order. Clear filter after clicking monster while filtering
 
-- import spells
 - import the monster manual
   (add legendary actions)
   (add special_abilities e.g. sneak attack 1/turn)
