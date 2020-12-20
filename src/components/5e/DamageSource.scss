@@ -1,17 +1,20 @@
 @import './fonts5E';
 
+$damagesource_rearrange_threshold: 600px;
+
 .DamageSource {
   display: flex;
   align-items: center;
   min-height: 36px;
-
   padding: 4px 20px 4px 0;
-  // margin-right: 32px;
-  // border-radius: 2px;
   box-sizing: border-box;
   cursor: pointer;
 
   transition: margin .05s ease-out, background-color .075s ease-out;
+
+  @media screen and (max-width: $damagesource_rearrange_threshold) {
+    width: 100%;
+  }
 
   &.editing { background-color: $parchment_dark; }
   &:hover { background-color: $pink; }

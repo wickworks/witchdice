@@ -6,7 +6,6 @@
   position: relative;
 
   .statblock-container {
-    // width: 704px;
     width: 100%;
 
     .titlebar {
@@ -91,14 +90,11 @@
       }
     }
 
-
     .statblock {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       position: relative;
-      // padding: 1px 0 0;
-      // min-height: 38px;
 
       .add-damage-button.asset {
         @include text_default;

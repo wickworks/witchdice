@@ -229,15 +229,32 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
             <div className='statblock'>
               { damageData.map((data, i) => {
                 return (
-                  <DamageSource
-                    damageData={damageData[i]}
-                    damageID={i}
-                    savingThrowDC={savingThrowDC}
-                    savingThrowType={savingThrowType}
-                    isEditing={editingDamageID === i}
-                    toggleEdit={toggleDamageSourceEdit}
-                    key={i}
-                  />
+                  <>
+                    <DamageSource
+                      damageData={damageData[i]}
+                      damageID={i}
+                      savingThrowDC={savingThrowDC}
+                      savingThrowType={savingThrowType}
+                      isEditing={editingDamageID === i}
+                      toggleEdit={toggleDamageSourceEdit}
+                      key={i}
+                    />
+
+                    { (isDamageEditOpen && editingDamageID === i) &&
+                      <DamageEdit
+                        damageID={editingDamageID}
+                        attackID={attackID}
+                        damageData={damageData[editingDamageID]}
+                        damageFunctions={damageFunctions}
+                        setSavingThrowDC={setSavingThrowDC}
+                        setSavingThrowType={setSavingThrowType}
+                        savingThrowDC={savingThrowDC}
+                        savingThrowType={savingThrowType}
+                        toggleEdit={toggleDamageSourceEdit}
+                        onDelete={deleteDamage}
+                      />
+                    }
+                  </>
                 )
               })}
 
@@ -254,20 +271,6 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
               </button>
             </div>
 
-            { isDamageEditOpen &&
-              <DamageEdit
-                damageID={editingDamageID}
-                attackID={attackID}
-                damageData={damageData[editingDamageID]}
-                damageFunctions={damageFunctions}
-                setSavingThrowDC={setSavingThrowDC}
-                setSavingThrowType={setSavingThrowType}
-                savingThrowDC={savingThrowDC}
-                savingThrowType={savingThrowType}
-                toggleEdit={toggleDamageSourceEdit}
-                onDelete={deleteDamage}
-              />
-            }
           </>
         }
       </div>

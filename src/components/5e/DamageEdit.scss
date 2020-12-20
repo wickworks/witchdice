@@ -14,6 +14,10 @@ $damagesource_rearrange_threshold: 600px;
   box-sizing: border-box;
   cursor: auto;
 
+  @media screen and (min-width: $damagesource_rearrange_threshold) {
+    order: 100;
+  }
+
   > * {
     margin-bottom: 10px;
   }
@@ -42,7 +46,6 @@ $damagesource_rearrange_threshold: 600px;
   .die-container, .damage-type {
     display: flex;
     align-items: center;
-    // margin: 3px 5px;
     margin: 0 5px;
 
     .die-type { width: 30px; margin-left: 2px;}
@@ -62,9 +65,6 @@ $damagesource_rearrange_threshold: 600px;
     font-size: 20px;
     margin: 0 8px;
   }
-
-  // @media screen and (min-width: $damagesource_rearrange_threshold) {
-
 
   .DamageEditDieType {
     max-width: 220px;
