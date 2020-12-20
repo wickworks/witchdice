@@ -111,6 +111,7 @@ const Character = ({
                   value={''}
                   onChange={selectSpell}
                   defaultMenuIsOpen
+                  autoFocus
                 />
               </div>
             }

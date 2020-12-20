@@ -217,7 +217,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                   setTextValue={(desc) => setDesc(desc, attackID)}
                   placeholder='Attack description'
                   isTextbox={descClass === 'long'}
-                  isMarkdown={true}
+                  isMarkdown={descClass === 'long'}
                 />
               </div>
             </div>
