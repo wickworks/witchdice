@@ -52,7 +52,6 @@
 
 #### DND MECHANICS ####
 
-- bug: if apply a condition, it applies to all damages in the attack
 - bug: if have an attack apply a condition then remove that effect, the condition data remains and shows up on the attack
 - bug with triggered attacks: fireball, then an ice knife causes the triggered one to always show up
 - paralyzation//assassin; all attacks are crits. be able to set any attack to be a crit (or toggle a crit off)

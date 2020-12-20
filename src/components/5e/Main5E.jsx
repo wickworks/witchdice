@@ -379,6 +379,7 @@ const Main5E = ({
     damageRoll.amount = getRandomInt(source.dieType)
     damageRoll.rerolledAmount = getRandomInt(source.dieType)
     damageRoll.rerolled = false;
+    damageRoll.sourceID = damageSourceID;
 
     // maximized?
     if (source.tags.includes('maximized')) { damageRoll.amount = source.dieType }
