@@ -102,13 +102,13 @@ const DamageEditMetadata = ({
 
   return (
     <>
-      <input
+      {/*<input
         type="text"
         className='damage-name'
         value={name}
         onChange={e => setName(e.target.value, attackID, damageID)}
         placeholder={'Damage source'}
-      />
+      />*/}
 
       <div className='tag-select'>
         <Multiselect

@@ -140,7 +140,10 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     return actionTypes[ (currentIndex+1) % actionTypes.length ]
   }
 
-  const descClass = (desc.length > 64) ? 'long' : 'short'
+  const descClass = (desc.length > 64) ? 'long' : 'short';
+
+  // shuffle the add damage button off to the side when it's wordy and has no damage
+  const shuntAddDamageClass = (descClass === 'long' && damageData.length === 0) ? 'shunted' : '';
 
   return (
     <div className='AttackSource'>
@@ -155,7 +158,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
           />
         :
           <>
-            <div className='titlebar'>
+            <div className={`titlebar ${descClass}`}>
               <div className='info-left'>
                 <div className='name'>
                   <TextInput
@@ -246,7 +249,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
               { !isDamageEditOpen &&
                 <button
-                  className="add-damage-button asset plus"
+                  className={`add-damage-button asset plus ${shuntAddDamageClass}`}
                   onClick={() => {
                     openEditForDamage(damageData.length);
                     createDamage();

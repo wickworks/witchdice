@@ -2,7 +2,7 @@
 
 .AttackSource {
   display: flex;
-  margin-top: 32px;
+  margin-top: 20px;
   position: relative;
 
   .statblock-container {
@@ -16,6 +16,8 @@
       flex-wrap: wrap;
       border-bottom: 2px solid $rust;
 
+      &.long { border: none; }
+
       .info-left {
         display: flex;
         flex-wrap: wrap;
@@ -23,7 +25,6 @@
 
         .name {
           margin-right: 10px;
-          margin-bottom: 6px;
 
           .display, input { @include text_title_heavy_black; }
         }
@@ -34,7 +35,7 @@
 
         .modifier, .saving-throw-dc, .saving-throw-type, .is-saving-throw {
           padding: 2px;
-          margin-bottom: 8px;
+          margin-bottom: 2px;
           margin-right: 6px;
           border-radius: 2px;
 
@@ -46,7 +47,6 @@
       }
 
       .desc {
-        margin-bottom: 6px;
         flex-grow: 1;
 
         .display {
@@ -54,14 +54,19 @@
           padding-bottom: 2px;
         }
 
-        p:last-of-type { margin-bottom: 0; }
+        p {
+          margin-bottom: 6px;
+
+          &:last-of-type { margin-bottom: 2px; }
+        }
+
 
         &.long {
           font-style: normal;
           line-height: 1.3;
 
           border-top: 2px solid $rust;
-          padding-top: 10px;
+          padding-top: 6px;
           width: 100%;
 
           textarea {
@@ -88,31 +93,38 @@
 
 
     .statblock {
-      // background-color: #eeeeee;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
       position: relative;
       padding: 1px 0;
-      min-height: 38px;
+      // min-height: 38px;
 
       .add-damage-button.asset {
         @include text_default;
-        position: absolute;
-        bottom: 1px;
-        right: -43px;
-        width: 40px;
-        height: 40px;
+        width: 32px;
+        height: 32px;
         border: none;
         padding: 0;
+        margin-right: 100px;
         background-color: transparent;
-        opacity: 0.2;
+        opacity: 0.1;
         transition: opacity .075s ease-out;
         cursor: pointer;
+
+        &.shunted {
+          position: absolute;
+          right: -38px;
+          top: -40px;
+          margin: 0;
+        }
 
         .text-container {
           position: relative;
 
           span {
             position: absolute;
-            right: 100%;
+            left: 36px;
             top: -10px;
             padding: 0 10px;
             opacity: 0.0;
@@ -136,8 +148,8 @@
 
   .delete-attack {
     position: absolute;
-    right: -38px;
-    top: 8px;
+    right: -34px;
+    top: 12px;
   }
 
 }

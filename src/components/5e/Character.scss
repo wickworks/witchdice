@@ -13,7 +13,7 @@
 
   .character-sheet {
     position: relative;
-    padding: 0 48px 0 18px;
+    padding: 0 44px 0 18px;
     width: 100%;
     box-sizing: border-box;
 
@@ -40,10 +40,10 @@
     .asset.delete-character {
       position: absolute;
       right: 10px;
-      top: 80px;
+      top: 86px;
 
-      width: 30px;
-      height: 30px;
+      width: 24px;
+      height: 24px;
       display: block;
       margin-left: auto;
       transition: opacity .075s ease-out;
