@@ -97,7 +97,7 @@
       flex-wrap: wrap;
       align-items: center;
       position: relative;
-      padding: 1px 0;
+      // padding: 1px 0 0;
       // min-height: 38px;
 
       .add-damage-button.asset {
@@ -107,6 +107,7 @@
         border: none;
         padding: 0;
         margin-right: 100px;
+        margin-left: 4px;
         background-color: transparent;
         opacity: 0.15;
         transition: opacity .075s ease-out;

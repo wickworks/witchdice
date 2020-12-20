@@ -76,27 +76,8 @@ const DamageEdit = ({
     setSavingThrowType(newType, attackID, damageID);
   }
 
-  // =================== RENDER ==================
-
-  // <DamageEditNumbers
-  //   damageID={damageID}
-  //   attackID={attackID}
-  //   damageData={damageData}
-  //   damageFunctions={damageFunctions}
-  // />
-
-  // <div className='accept-delete-damage-container'>
-  //   <button className='accept' onClick={handleAccept}>
-  //     <div className={'asset checkmark'} />
-  //   </button>
-  //   <button className='delete' onClick={() => onDelete(damageID)}>
-  //     <div className={'asset trash'} />
-  //   </button>
-  // </div>
-
-
   return (
-    <div className='DamageEdit' >
+    <div className='DamageEdit'>
 
       <div className='row'>
         <input
@@ -145,73 +126,6 @@ const DamageEdit = ({
           <div className={'asset trash'} />
         </button>
       </div>
-    </div>
-  );
-}
-
-
-const DamageEditNumbers = ({
-  damageID, attackID,
-  damageData,
-  damageFunctions,
-}) => {
-
-  const {
-    dieCount,
-    dieType,
-    modifier,
-    damageType,
-  } = damageData;
-
-  const {
-    setDieCount,
-    setModifier,
-  } = damageFunctions;
-
-  return (
-    <div className='DamageEditNumbers'>
-      { (dieType === 0) ? <>
-        {/* FLAT DAMAGE */}
-        <input
-          type="number"
-          value={modifier}
-          onChange={e => setModifier(e.target.value, attackID, damageID)}
-        />
-
-        <div className={`asset ${damageType} damage-type`}/>
-
-        <span className={`flat-damage`}>
-          Flat Damage
-        </span>
-
-
-      </> : <>
-        {/* DICE ROLL */}
-        <input
-          type="number"
-          value={dieCount}
-          onChange={e => setDieCount(e.target.value, attackID, damageID)}
-        />
-
-        <div className='die-container'>
-          <div className={`asset d${dieType}`} />
-
-          <span className='die-type'>
-            d{dieType}
-          </span>
-        </div>
-
-        <span className='plus'>+</span>
-
-        <input
-          type="number"
-          value={modifier}
-          onChange={e => setModifier(e.target.value, attackID, damageID)}
-        />
-
-        <div className={`asset ${damageType} damage-type`} />
-
-      </>}
     </div>
   );
 }

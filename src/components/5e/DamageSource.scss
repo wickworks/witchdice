@@ -5,16 +5,18 @@
   align-items: center;
   min-height: 36px;
 
-  padding: 4px 12px 4px 0;
-  margin-right: 32px;
-  border-radius: 2px;
+  padding: 4px 20px;
+  // margin-right: 32px;
+  // border-radius: 2px;
   box-sizing: border-box;
   cursor: pointer;
 
   transition: margin .05s ease-out, background-color .075s ease-out;
 
-  &.editing { background-color: $pink; }
-  &:hover { background-color: $parchment_dark; }
+  &:first-of-type { padding-left: 0; }
+
+  &.editing { background-color: $parchment_dark; }
+  &:hover { background-color: $pink; }
 
   input[type=checkbox] {
     width: 24px;

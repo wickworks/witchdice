@@ -1,6 +1,6 @@
 @import './fonts5E';
 
-$damagesource_rearrange_threshold: 600px;
+// $damagesource_rearrange_threshold: 600px;
 
 .DamageEdit {
   display: flex;
@@ -12,9 +12,8 @@ $damagesource_rearrange_threshold: 600px;
   box-sizing: border-box;
 
   padding-bottom: 0;
-  margin: 10px 0;
+  // margin: 10px 0;
   background-color: $parchment_dark;
-  border-radius: 6px;
   cursor: auto;
 
   > * {

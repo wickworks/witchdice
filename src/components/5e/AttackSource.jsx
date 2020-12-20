@@ -241,19 +241,17 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                 )
               })}
 
-              { !isDamageEditOpen &&
-                <button
-                  className={`add-damage-button asset plus ${shuntAddDamageClass}`}
-                  onClick={() => {
-                    toggleDamageSourceEdit(damageData.length);
-                    createDamage();
-                  }}
-                >
-                  <div className='text-container'>
-                    <span>Add Damage</span>
-                  </div>
-                </button>
-              }
+              <button
+                className={`add-damage-button asset plus ${shuntAddDamageClass}`}
+                onClick={() => {
+                  toggleDamageSourceEdit(damageData.length);
+                  createDamage();
+                }}
+              >
+                <div className='text-container'>
+                  <span>Add Damage</span>
+                </div>
+              </button>
             </div>
 
             { isDamageEditOpen &&
