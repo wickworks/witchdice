@@ -97,7 +97,14 @@ const defaultRollData = {
   critRollData: [],
   gatedByRollID: -1
 };
-// damageRollData: [ [TYPE, AMOUNT, REROLLED, DAMAGE_ID], [], ...]
+
+const defaultDamageRoll = {
+  type: 'fire',
+  amount: 0,
+  rerolledAmount: 0,
+  rerolled: false,
+  sourceID: 0, //the damage source ID that we belong to
+}
 
 
 
@@ -111,4 +118,5 @@ export {
   defaultDamageData,
   defaultAttackData,
   defaultRollData,
+  defaultDamageRoll
 };

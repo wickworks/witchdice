@@ -82,16 +82,16 @@ const Main = () => {
       if (partyLastAttackTimestamp === 0) {
         const newKey = dbRef.push(actionData).key
         setPartyLastAttackKey(newKey);
-        console.log('       pushed  new attack to firebase', actionData);
+        // console.log('       pushed  new attack to firebase', actionData);
 
       // ~~ update attack roll ~~ //
       } else {
         dbRef.child(partyLastAttackKey).set(actionData);
-        console.log('       set updated attack in firebase', actionData);
+        // console.log('       set updated attack in firebase', actionData);
       }
     } else {
       // add it to the single-player roll history
-      console.log('setting single-player attack history latest action');
+      // console.log('setting single-player attack history latest action');
       setLatestAction(actionData)
     }
   }
@@ -124,18 +124,18 @@ const Main = () => {
         const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
         // ~~ new dicebag roll ~~ //
         if (isNew) {
-          console.log('       pushing  new dicebag roll to room',partyRoom,' : ', actionData);
+          // console.log('       pushing  new dicebag roll to room',partyRoom,' : ', actionData);
           const newKey = dbRef.push(actionData).key;
           setPartyLastDicebagKey(newKey);
         // ~~ update dicebag roll ~~ //
         } else {
-          console.log('       set updated dicebag roll in firebase', actionData);
+          // console.log('       set updated dicebag roll in firebase', actionData);
           dbRef.child(partyLastDicebagKey).set(actionData);
         }
 
       } else {
         // add it to the single-player roll history
-        console.log('setting single-player dicebag history latest action');
+        // console.log('setting single-player dicebag history latest action');
         setLatestAction(actionData)
       }
     }

@@ -161,11 +161,9 @@ const Roller = ({
           const damageRollData = dicePool;
           for (let damageRollID = 0; damageRollID < damageRollData.length; damageRollID++) {
             const damageRoll = damageRollData[damageRollID];
-            const type = damageRoll[0];
-            let amount = damageRoll[1];
-            const rerolled = damageRoll[2];
-            const sourceID = damageRoll[3];
-            const damageSource = damageSourceData[sourceID];
+            const damageSource = damageSourceData[damageRoll.sourceID];
+            let amount = damageRoll.amount;
+            if (damageRoll.rerolled) { amount = damageRoll.rerolledAmount}
 
             let applyDamage = false;
             if (roll.hit || critFumble.isCrit) { applyDamage = true; }
@@ -198,7 +196,7 @@ const Roller = ({
             if (applyDamage && damageSource.tags.includes("condition")) { appliedCondition = damageSource.condition }
             if (applyDamage && amount > 0) {
               subtotal = subtotal + amount;
-              subtotalBreakdown[type] = subtotalBreakdown[type] + amount
+              subtotalBreakdown[damageRoll.type] = subtotalBreakdown[damageRoll.type] + amount
             }
           }
         }

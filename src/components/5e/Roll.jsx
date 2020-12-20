@@ -1,4 +1,5 @@
 import React from 'react';
+import { deepCopy } from '../../utils.js';
 import './Roll.scss';
 
 const Roll = ({
@@ -13,17 +14,25 @@ const Roll = ({
 
   // no 'crit' here; use isCrit from props instead
   const {hit, attackBonus, damageRollData, critRollData} = attackRollData;
-  const {setHit, setRollOne} = rollFunctions
+  const {setHit, setRollOne, setDamageRollData, setCritRollData} = rollFunctions;
 
-  // saving throws are reversed
+  // saving throws are reversed, it's confusing, I know
   const isHit = (type === 'save' ? !hit : hit);
 
-  const useLowerRollClass =
-    (rollUse < rollDiscard) ?
-    'reverse' : '';
+  const useLowerRollClass = (rollUse < rollDiscard) ? 'reverse' : '';
 
-  const handleDamageClick = (damageSourceID, damageRollID) => {
-    console.log('TODO: make this reroll the die');
+  const handleDamageClick = (damageSourceID, damageRollID, isCritRoll) => {
+    let newData = [];
+    newData = isCritRoll ? deepCopy(critRollData) : deepCopy(damageRollData);
+
+    // flip the "rerolled" flag
+    newData[damageRollID].rerolled = !newData[damageRollID].rerolled;
+
+    if (isCritRoll) {
+      setCritRollData(newData, damageSourceID);
+    } else {
+      setDamageRollData(newData, damageSourceID);
+    }
   }
 
   const handleHitClick = () => { setHit(!hit, rollID) }
@@ -44,16 +53,15 @@ const Roll = ({
     // only include the crit dice pool if we got the critical hit
     if (dicePoolIndex === 0 || isCrit) {
 
-      dicePool.forEach((damage, i) => {
-        const icon = damage[0];
-        let amount = damage[1];
-        const rerolled = damage[2];
-        const sourceID = damage[3];
-        const damageSource = damageSourceData[sourceID];
+      dicePool.forEach((damageRoll, i) => {
+        const damageSource = damageSourceData[damageRoll.sourceID];
+        const icon = damageRoll.type;
+        let amount = damageRoll.amount;
+        if (damageRoll.rerolled) { amount = damageRoll.rerolledAmount}
 
         let showDamageRoll = (hit || isCrit) && !isFumble
 
-        let rerollClass = rerolled ? 'rerolled' : '';
+        let rerollClass = damageRoll.rerolled ? 'rerolled' : '';
         let critClass = (isCrit && dicePoolIndex === 1) ? 'crit' : '';
         let halvedClass = '';
 
@@ -90,7 +98,7 @@ const Roll = ({
               <div
                 className={`damage-roll ${rerollClass} ${critClass} ${halvedClass}`}
                 key={`${i}-${dicePoolIndex}`}
-                onClick={() => handleDamageClick(sourceID, i)}
+                onClick={() => handleDamageClick(rollID, i, (isCrit && dicePoolIndex === 1))}
               >
                 <div className={`asset ${icon}`} />
                 <div className='amount'>{amount}</div>

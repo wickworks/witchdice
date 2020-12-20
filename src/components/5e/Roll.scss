@@ -145,6 +145,9 @@
       .damage-roll {
         display: flex;
         align-items: center;
+        border-radius: 4px;
+        margin-right: 4px;
+        cursor: pointer;
 
         .asset {
           width: 26px;
@@ -152,21 +155,23 @@
           margin-right: 6px;
         }
 
-        .amount {
-          width: 32px;
+        .amount { width: 28px; }
+
+        &.crit {
+          .asset, .amount {
+            // turn black to red
+            filter: invert(17%) sepia(62%) saturate(5292%) hue-rotate(339deg) brightness(87%) contrast(98%);
+            color: crimson;
+          }
         }
+        &.halved { color: #235e90; font-style: italic;}
+        &.rerolled { background-color: $parchment_dark; }
+        &:hover { background-color: $parchment_mid; }
 
         &.disabled {
           .asset { opacity: 25%; }
           .amount { visibility: hidden; }
         }
-        &.crit {
-          // turn black to red
-          filter: invert(17%) sepia(62%) saturate(5292%) hue-rotate(339deg) brightness(87%) contrast(98%);
-          color: crimson;
-        }
-        &.rerolled { background-color: $rust; }
-        &.halved { color: steelblue; font-style: italic;}
       }
 
       hr.miss {

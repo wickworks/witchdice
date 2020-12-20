@@ -21,6 +21,7 @@ import {
   defaultDamageData,
   defaultAttackData,
   defaultRollData,
+  defaultDamageRoll,
 } from './data.js';
 
 import './Main5E.scss';
@@ -363,45 +364,42 @@ const Main5E = ({
   }
 
   const rollFunctions = {
+    setRollData: (newData) => setRollData(deepCopy(newData)),
     setHit: (value, id) => updateRollData('hit',value,id),
     setRollOne: (value, id) => updateRollData('rollOne',parseInt(value),id),
     setRollTwo: (value, id) => updateRollData('rollTwo',parseInt(value),id),
     setDamageRollData: (value, id) => updateRollData('damageRollData',value,id),
     setCritRollData: (value, id) => updateRollData('critRollData',value,id),
-    setRollData: (newData) => setRollData(deepCopy(newData))
   }
 
-  // returns [TYPE, AMOUNT, REROLLED, DAMAGE_ID]
   function getDamageRoll(source, damageSourceID) {
-    let damageAmount = getRandomInt(source.dieType)
-    let rerolled = false;
+    let damageRoll = deepCopy(defaultDamageRoll);
+
+    damageRoll.type = source.damageType;
+    damageRoll.amount = getRandomInt(source.dieType)
+    damageRoll.rerolledAmount = getRandomInt(source.dieType)
+    damageRoll.rerolled = false;
 
     // maximized?
-    if (source.tags.includes('maximized')) { damageAmount = source.dieType }
+    if (source.tags.includes('maximized')) { damageRoll.amount = source.dieType }
 
     // reroll damage?
     if (
-      (source.tags.includes('reroll1') && damageAmount <= 1) ||
-      (source.tags.includes('reroll2') && damageAmount <= 2)
+      (source.tags.includes('reroll1') && damageRoll.amount <= 1) ||
+      (source.tags.includes('reroll2') && damageRoll.amount <= 2)
     ) {
-      rerolled = true;
-      damageAmount = getRandomInt(source.dieType);
+      damageRoll.rerolled = true;
     }
 
     // minimum 2s?
     if (
-      (source.tags.includes('min2') && damageAmount <= 1)
+      (source.tags.includes('min2'))
     ) {
-      rerolled = true;
-      damageAmount = 2;
+      damageRoll.amount = Math.max(damageRoll.amount, 2);
+      damageRoll.rerolledAmount = Math.max(damageRoll.rerolledAmount, 2);
     }
 
-    return [
-      source.damageType,
-      damageAmount,
-      rerolled,
-      damageSourceID
-    ]
+    return damageRoll;
   }
 
   const generateNewRoll = () => {
@@ -448,19 +446,19 @@ const Main5E = ({
                 // EACH DIE IN THAT SOURCE
                 for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
                   const damage = getDamageRoll(source, damageSourceID);
-                  const amount = damage[1];
+                  const amount = damage.rerolled ? damage.rerolledAmount : damage.amount;
                   if (amount > 0 || source.condition.length > 0) { dicePool.push(damage) }
                 }
               })
 
               // PLUS MODIFIER
               if (source.modifier > 0) {
-                let damage = [
-                  source.damageType,
-                  source.modifier,
-                  false,
-                  damageSourceID
-                ]
+                let damage = deepCopy(defaultDamageRoll);
+                damage.type = source.damageType;
+                damage.amount = source.modifier;
+                damage.rerolledAmount = source.modifier;
+                damage.rerolled = false;
+                damage.sourceID = damageSourceID;
                 damageRollData.push(damage)
               }
             }
@@ -491,7 +489,12 @@ const Main5E = ({
 
               // plus modifier
               if (source.modifier > 0) {
-                let damage = [source.damageType, source.modifier, false, damageSourceID]
+                let damage = deepCopy(defaultDamageRoll);
+                damage.type = source.damageType;
+                damage.amount = source.modifier;
+                damage.rerolledAmount = source.modifier;
+                damage.rerolled = false;
+                damage.sourceID = damageSourceID;
                 triggeredroll.damageRollData.push(damage)
               }
 
