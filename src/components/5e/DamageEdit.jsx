@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
 import { Multiselect } from 'multiselect-react-dropdown';
 import {allTags, allDamageTypes, abilityTypes, allConditions} from './data.js'
@@ -24,12 +24,9 @@ const DamageEdit = ({
     setModifier,
     setDieType,
     setTags,
+    setCondition,
     setDamageType,
   } = damageFunctions;
-
-  const handleAccept = () => {
-    toggleEdit(damageID);
-  }
 
   // =============== ADD / REMOVE TAG CRAP =============
 
@@ -50,6 +47,16 @@ const DamageEdit = ({
     selectedTags.forEach((tag) => { newTags.push(tag.id) })
     setTags(newTags, attackID, damageID)
   }
+
+  // lose the condition data if we lose the associated tag
+  // (should really just update it along with the tags, but we need a multi-property updating function)
+  useEffect(() => {
+    if (damageData.condition !== '' && !damageData.tags.includes('condition')) {
+      setCondition('', attackID, damageID)
+    }
+  }, [damageData]);
+
+  // =============== CHANGE MODIFIERS =============
 
   function handleSavingThrowDCClick(e, leftMouse) {
     let newDC = savingThrowDC;
@@ -160,13 +167,10 @@ const DamageEditMetadata = ({
 }) => {
   const {
     tags,
-    name,
     condition
   } = damageData;
 
   const {
-    // setTags,
-    setName,
     setCondition,
   } = damageFunctions;
 
@@ -200,6 +204,7 @@ const DamageEditMetadata = ({
             <div className='condition-select'>
               Applies the
               <select value={condition} onChange={(e) => setCondition(e.target.value, attackID,damageID)}>
+                <option value='' key='blank' disabled>Select...</option>
                 {allConditions.map((conditionName, i) => {
                   return (<option value={conditionName} key={i}>{conditionName}</option>)
                 })}
