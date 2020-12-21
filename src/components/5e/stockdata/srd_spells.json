@@ -4931,8 +4931,8 @@
   },
   {
     "name":"Scorching Ray",
-    "desc":"<p>You generate three rays of fire and will throw to targets in the range of the spell. You can project them on one or more targets.</p><p>Perform a remote attack spell for each department. If it hits, the target takes 2d6 fire damage.</p>",
-    "higher_level":"<p>When you cast this spell using a 3 or higher level spell slot, you generate an additional radius for each level of higher spell slot 2.</p>",
+    "desc":"<p>You create three rays of fire and hurl them at targets within range. You can hurl them at one target or several. Make a ranged spell attack for each ray. On a hit, the target takes 2d6 fire damage.</p>",
+    "higher_level":"<p>When you cast this spell using a spell slot of 3rd level or higher, you create one additional ray for each slot level above 2nd.</p>",
     "page":"phb 273",
     "range":"120 feet",
     "components":"V, S",
