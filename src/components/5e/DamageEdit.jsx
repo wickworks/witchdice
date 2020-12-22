@@ -87,15 +87,26 @@ const DamageEdit = ({
     setSavingThrowType(newType, attackID, damageID);
   }
 
+  const isRolledDie = (dieType !== 0);
+
   return (
     <div className='DamageEdit'>
 
       <div className='row'>
-        <input
-          type="number"
-          value={dieCount}
-          onChange={e => setDieCount(e.target.value, attackID, damageID)}
-        />
+
+        { isRolledDie ?
+          <input
+            type="number"
+            value={dieCount}
+            onChange={e => setDieCount(e.target.value, attackID, damageID)}
+          />
+        :
+          <input
+            type="number"
+            value={modifier}
+            onChange={e => setModifier(e.target.value, attackID, damageID)}
+          />
+        }
 
         <DamageEditDieType
           attackID={attackID}
@@ -105,12 +116,14 @@ const DamageEdit = ({
       </div>
 
       <div className='row'>
-        <span className='plus'>+</span>
-        <input
-          type="number"
-          value={modifier}
-          onChange={e => setModifier(e.target.value, attackID, damageID)}
-        />
+        { isRolledDie && <>
+          <span className='plus'>+</span>
+          <input
+            type="number"
+            value={modifier}
+            onChange={e => setModifier(e.target.value, attackID, damageID)}
+          />
+        </>}
 
         <DamageEditDamageType
           attackID={attackID}

@@ -55,7 +55,6 @@
 #### DND MECHANICS ####
 
 - bug: 0-damage triggered effects don't show their conditons
-- hide the dice count for flat rolls
 
 - have active attacks get cleared on a roll. just have them be local state, default false, instead of stored as part of the attack data.
 - paralyzation//assassin; all attacks are crits. be able to set any attack to be a crit (or toggle a crit off)
