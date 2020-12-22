@@ -22,6 +22,8 @@ const DamageSource = ({
 
   return (
     <div className={`DamageSource ${editingClass}`} onClick={() => toggleEdit(damageID)} >
+      {editingClass && <div className='asset checkmark finish-edit-icon' />}
+
       <DamageNumbers damageData={damageData} />
 
       <DamageMetadata

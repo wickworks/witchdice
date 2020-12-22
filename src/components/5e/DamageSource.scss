@@ -16,8 +16,12 @@ $damagesource_rearrange_threshold: 600px;
     width: 100%;
   }
 
-  &.editing { background-color: $parchment_dark; }
+  &.editing { background-color: $olive_light; }
   &:hover { background-color: $pink; }
+
+  .finish-edit-icon {
+    margin-left: 8px;
+  }
 
   input[type=checkbox] {
     width: 24px;

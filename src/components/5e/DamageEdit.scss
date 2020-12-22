@@ -31,13 +31,13 @@ $damagesource_rearrange_threshold: 600px;
 
   input[type=number] {
     @include text_default;
-    font-size: 22px;
+    font-size: 26px;
     background-color: $parchment;
     border: none;
     border-radius: 4px;
     padding-left: 8px;
     margin-right: 8px;
-    width: 36px;
+    width: 48px;
     min-height: 30px;
 
     &:hover { background-color: $parchment_mid; }
@@ -57,13 +57,16 @@ $damagesource_rearrange_threshold: 600px;
   }
 
   .plus {
-    font-size: 20px;
-    margin: 0 8px;
+    font-size: 28px;
+    margin-right: 8px;
   }
 
   .DamageEditDieType {
     max-width: 220px;
-    .IconMenu label { min-width: 60px;}
+
+    .IconMenu label {
+      min-width: 60px;
+    }
   }
 
   .DamageEditDamageType {
@@ -85,6 +88,11 @@ $damagesource_rearrange_threshold: 600px;
       .asset {
         width: 32px;
         height: 32px;
+        opacity: .25;
+      }
+
+      .label {
+        opacity: .5;
       }
     }
 
@@ -92,9 +100,15 @@ $damagesource_rearrange_threshold: 600px;
       position: absolute;
       left: -99999999px;
 
-      &:focus+label { background-color: $pink; }
-      &:checked+label { background-color: $olive_light; }
+      &:focus+label { outline: 2px solid $pink; }
       &:hover+label { background-color: $pink; }
+
+      &:checked+label {
+        .asset, .label {
+          opacity: 1.0;
+          font-weight: bold;
+        }
+      }
     }
   }
 
