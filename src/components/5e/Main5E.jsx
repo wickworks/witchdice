@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from "react-helmet";
 import { CharacterAndMonsterList } from '../shared/CharacterAndMonsterList.jsx';
 import Antiracism from './Antiracism.jsx';
 import Character from './Character.jsx';
@@ -529,6 +530,10 @@ const Main5E = ({
 
   return (
     <div className='Main5E'>
+      { (characterName && characterName.length > 0) &&
+        <Helmet> <title>{characterName} ~ Witch Dice</title> </Helmet>
+      }
+
       <CharacterAndMonsterList
         setActiveCharacterID={setActiveCharacter}
         activeCharacterID={characterID}

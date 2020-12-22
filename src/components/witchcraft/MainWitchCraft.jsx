@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from "react-helmet";
 import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 import CraftCharacter from './CraftCharacter.jsx';
 import ProjectList from './ProjectList.jsx';
@@ -255,6 +256,9 @@ const MainWitchCraft = ({
 
   return (
     <div className='MainWitchCraft'>
+      { (crafterData && crafterData.name.length > 0) &&
+        <Helmet> <title>{crafterData.name} ~ Witch Dice</title> </Helmet>
+      }
 
       <CharacterList
         characterEntries={allCrafterEntries}
