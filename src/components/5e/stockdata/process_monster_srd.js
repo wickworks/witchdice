@@ -178,6 +178,8 @@ function getMonsterData() {
     }
   }
 
+  // console.log(JSON.stringify(allMonsterData));
+
   return allMonsterData;
 }
 
