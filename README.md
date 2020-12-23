@@ -50,9 +50,7 @@
 
 #### DND MECHANICS ####
 
-- bug: 0-damage triggered effects don't show their conditons
-- bug: only first attack can trigger DCs
-- bug with triggered attacks: fireball, then an ice knife causes the triggered one to always show up
+- spell triggered effects aren't being automatically generated
 
 - have active attacks get cleared on a roll. just have them be local state, default false, instead of stored as part of the attack data.
 - paralyzation//assassin; all attacks are crits. be able to set any attack to be a crit (or toggle a crit off)

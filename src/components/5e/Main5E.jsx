@@ -496,8 +496,7 @@ const Main5E = ({
 
               for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
                 const damage = getDamageRoll(source, damageSourceID);
-                const amount = damage[1];
-                if (amount > 0 || source.condition.length > 0) { triggeredroll.damageRollData.push(damage) }
+                if (damage.amount > 0 || source.condition.length > 0) { triggeredroll.damageRollData.push(damage) }
               }
 
               // plus modifier
