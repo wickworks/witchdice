@@ -113,6 +113,11 @@ function getSpellData() {
         attackData.damageData.push(savingThrowDamageData);
       }
 
+      // MANUAL TWEAKS
+      switch(spellOriginal.name) {
+        case 'Magic Missile': attackData.type = 'ability'; break;
+        default: break;
+      }
 
       allSpellData[spellOriginal.name] = attackData;
     }
