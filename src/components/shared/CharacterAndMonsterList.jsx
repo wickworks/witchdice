@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { deepCopy } from '../../utils.js';
+import React, { useState, useEffect } from 'react';
+import { deepCopy, getRandomInt } from '../../utils.js';
 import './CharacterAndMonsterList.scss';
 
 
@@ -65,6 +65,13 @@ const MonsterList = ({monsterEntries, handleEntryClick, activeCharacterID}) => {
   const [filter, setFilter] = useState('');
   const [recentMonsters, setRecentMonsters] = useState([]);
 
+  const [scrambleSeed, setScrambleSeed] = useState(0)
+  useEffect(() => {
+    if (monsterEntries.length > 24) {
+      setScrambleSeed( getRandomInt(monsterEntries.length-12) )
+    }
+  }, [monsterEntries]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // intercept entry clicks to store in the recent monster list
   const processEntryClick = (id) => {
     let newRecentMonsters = [...recentMonsters];
@@ -89,21 +96,46 @@ const MonsterList = ({monsterEntries, handleEntryClick, activeCharacterID}) => {
     monsterEntries.forEach((entry, i) => {
       if (entry.name.toLowerCase().includes(filterLowercase)) { filteredEntries.push(entry) }
     });
+
+  // list of recent monsters
+  } else if (recentMonsters.length > 0) {
+
+    monsterEntries.forEach((entry, i) => {
+      if (recentMonsters.includes(entry.id)) { filteredEntries.push(entry) }
+    });
+
+    filteredEntries.sort((a, b) => {
+      const recentA = recentMonsters.indexOf(a.id);
+      const recentB = recentMonsters.indexOf(b.id);
+
+      if ((recentA >= 0) || (recentB >= 0)) {
+        return (recentA > recentB) ? -1 : 1
+      } else {
+        return (a.name > b.name) ? 1 : -1
+      }
+    });
+
+  // get a random collection of eight
   } else {
     filteredEntries = deepCopy(monsterEntries);
   }
 
   // sort, with most recent monsters first
-  filteredEntries.sort((a, b) => {
-    const recentA = recentMonsters.indexOf(a.id);
-    const recentB = recentMonsters.indexOf(b.id);
+  // filteredEntries.sort((a, b) => {
+  //   const recentA = recentMonsters.indexOf(a.id);
+  //   const recentB = recentMonsters.indexOf(b.id);
+  //
+  //   if ((recentA >= 0) || (recentB >= 0)) {
+  //     return (recentA > recentB) ? -1 : 1
+  //   } else {
+  //     return (a.name > b.name) ? 1 : -1
+  //   }
+  // });
 
-    if ((recentA >= 0) || (recentB >= 0)) {
-      return (recentA > recentB) ? -1 : 1
-    } else {
-      return (a.name > b.name) ? 1 : -1
-    }
-  });
+  // if we have no filter or recent monsters, slice out a bunch
+  if (filter.length === 0 && recentMonsters.length === 0) {
+    filteredEntries = filteredEntries.slice(scrambleSeed);
+  }
 
   // limit to 8 results
   filteredEntries = filteredEntries.slice(0,8);
