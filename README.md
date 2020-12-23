@@ -9,7 +9,6 @@
 - better mobile layout for attacks; right now it gets scrambled
 - sort abilities to end of roll list
 - applies conditions >>> just say what the condition is
-- remove checkmark/trash for damage sources, use trash gutter & close by clicking off of it instead.
 
 - better border decorations to match the banner
 
@@ -36,11 +35,8 @@
 
 ###### TECHNICAL ######
 
-- don't do the monster-processing client-side. Just do it myself and include the resulting data file as a json
-
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
-
 
 - Auth system: conference-room rules.
   If you're the first to show up to a room, it's yours.
@@ -55,12 +51,11 @@
 #### DND MECHANICS ####
 
 - bug: 0-damage triggered effects don't show their conditons
+- bug: only first attack can trigger DCs
+- bug with triggered attacks: fireball, then an ice knife causes the triggered one to always show up
 
 - have active attacks get cleared on a roll. just have them be local state, default false, instead of stored as part of the attack data.
 - paralyzation//assassin; all attacks are crits. be able to set any attack to be a crit (or toggle a crit off)
-
-- bug with triggered attacks: fireball, then an ice knife causes the triggered one to always show up
-- monster search: don't show any until search filter applied. Add to front of recent list if searching, otherwise perserve recent list order. Clear filter after clicking monster while filtering
 
 - import the monster manual
   (add legendary actions)

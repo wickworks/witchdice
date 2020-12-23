@@ -55,9 +55,11 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     addNewDicebagPartyRoll(rollData, summaryMode, true);
   }, [rollData]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // update it on the party roll panel
+  // update it on the party roll panel — IF we're not busy queueing up a new roll
   useEffect(() => {
-    addNewDicebagPartyRoll(rollData, summaryMode, false);
+    if (rollDieType.length === 0) {
+      addNewDicebagPartyRoll(rollData, summaryMode, false);
+    }
   }, [summaryMode]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
