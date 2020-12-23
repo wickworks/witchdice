@@ -492,7 +492,7 @@ const Main5E = ({
               triggeredroll.attackBonus = 0;
               triggeredroll.rollOne = 0;
               triggeredroll.rollTwo = 0;
-              triggeredroll.gatedByRollID = rollID;
+              triggeredroll.gatedByRollID = (data.length-1); // the current roll ID === the length of the roll data
 
               for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
                 const damage = getDamageRoll(source, damageSourceID);

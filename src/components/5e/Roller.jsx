@@ -334,7 +334,7 @@ const Roller = ({
             // handle gated rolls; the gated roll ID must have hit for us to show up, Otherwise, RETURN EARLY.
             if (attackRoll.gatedByRollID >= 0) {
               const gatingAttackRoll = rollData[attackRoll.gatedByRollID];
-              if (!gatingAttackRoll.hit) { return (<></>) }
+              if (!gatingAttackRoll.hit) { return (<React.Fragment key={rollID}></React.Fragment>) }
 
               // also, force the roll to be its own thing & a saving throw
               rollName = rollName + " saving throw";
