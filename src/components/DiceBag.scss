@@ -48,7 +48,20 @@
 
         .asset {
           margin: auto;
-          &.plus { order: -1; }
+          &.plus {
+            width: 40px;
+            height: 40px;
+            order: -1;
+          }
+        }
+
+        // for entering a modifier
+        input {
+          @include text_dicebag_count;
+          text-align: center;
+          width: 60px;
+          background-color: transparent;
+          border: none;
         }
       }
     }

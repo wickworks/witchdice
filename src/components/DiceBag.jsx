@@ -189,8 +189,10 @@ const DieButton = ({
       e.preventDefault()
     }
 
+    const min = (dieType === 'plus') ? -99 : 0;
+
     newDieCount = Math.min(newDieCount, 99);
-    newDieCount = Math.max(newDieCount, 0);
+    newDieCount = Math.max(newDieCount, min);
     setDieCount(newDieCount)
   }
 
@@ -206,7 +208,16 @@ const DieButton = ({
       onClick={(e) => handleClick(e, true)}
       onContextMenu={(e) => handleClick(e, false)}
     >
-      {(dieCount > 0) &&
+      {(dieType === 'plus') ?
+        <input
+          type="number"
+          value={dieCount}
+          onChange={e => setDieCount( Math.max(Math.min(e.target.value, 99), -99) )}
+          onClick={e => e.stopPropagation()}
+          onFocus={e => e.target.select()}
+          onKeyDown={e => { if (e.key === 'Enter') {e.target.blur()} }}
+        />
+      : (dieCount > 0) &&
         <div className='roll-count'>{dieCount}</div>
       }
       <div className={`asset ${dieIcon}`} />
