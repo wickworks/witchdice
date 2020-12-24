@@ -20,9 +20,12 @@ const ChangeLog = () => {
             <li>Added character presets.</li>
             <li>Added spell presets for attacks.</li>
             <li>Added modifier for dicebag.</li>
-            <li>Can click individual damage dice to reroll them.</li>
+            <li>Can click individual 5e damage dice to reroll them.</li>
             <li>Condensed 5e character sheets.</li>
+            <li>Dice bag gives a summary of what you're about to roll.</li>
             <li>Can roll a d100 by selecting two d10s.</li>
+            <li>Can reroll last set of dice by clicking the result.</li>
+            <li>Can clear selected dice by clicking top-right X.</li>
           </ul>
 
           <div className='version-label'>v0.3 — December 2020</div>
