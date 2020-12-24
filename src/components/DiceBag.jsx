@@ -76,9 +76,15 @@ function getResultsSummary(rollData, summaryMode) {
 
 // d20 -> d4, then plus
 function sortedDice(diceData) {
-  return Object.keys(diceData).sort((a, b) => {
+  let sorted = Object.keys(diceData).sort((a, b) => {
     return (parseInt(a) > parseInt(b)) ? -1 : 1
   });
+
+  // this returns different results on different browsers (???) so we need to then cherry-pick
+  sorted.splice( sorted.indexOf('plus'), 1);
+  sorted.push('plus');
+
+  return sorted;
 }
 
 const DiceBag = ({addNewDicebagPartyRoll}) => {
