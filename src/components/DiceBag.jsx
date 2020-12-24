@@ -15,7 +15,7 @@ const blankDice = {
 
 
 function getToRollString(diceData, summaryMode) {
-  const toRollArray = Object.keys(diceData)
+  const toRollArray = sortedDice(diceData)
     .map(dieType => {
       const dieCount = diceData[dieType]
       if (dieCount > 0 && dieType !== 'plus') {
@@ -25,7 +25,6 @@ function getToRollString(diceData, summaryMode) {
       }
     })
     .filter(e => {return e} ) // filter out empty values
-    .reverse()
 
   let toRollSummary = ''
   if (summaryMode === 'total') {
@@ -46,7 +45,7 @@ function getResultsSummary(rollData, summaryMode) {
   let lowest = 999999
   let modifier = 0
   let resultArray = []
-  rollData.reverse().forEach((roll) => {
+  rollData.forEach((roll) => {
     if (roll.dieType !== 'plus') {
       resultArray.push(roll.result)
       runningTotal += roll.result
@@ -131,9 +130,6 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
       results.push( {dieType: 'plus', result: parseInt(rollDice['plus'])} )
     }
 
-    // for some reason it came out backwards
-    results.reverse()
-
     // store the results that we rolled
     setRollData(results)
     // store the dice that **were** rolled, in case we want to reroll
@@ -207,7 +203,17 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                   </div>
                 :
                   <div className={`to-roll-summary ${isComplexRoll ? 'complex' : ''}`}>
-                    {!isComplexRoll && 'Roll '}
+                    {!isComplexRoll &&
+                      <span className='verb'>
+                        {summaryMode === 'high' ?
+                          'Max of '
+                        : summaryMode === 'low' ?
+                          'Min of '
+                        :
+                          'Roll '
+                        }
+                      </span>
+                    }
                     {toRollString}
                   </div>
                 }

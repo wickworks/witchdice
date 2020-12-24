@@ -126,9 +126,13 @@
             }
           }
 
-          .to-roll-summary.complex {
-            @include text_dicebag_summary;
-            line-height: 36px;
+          .to-roll-summary {
+            &.complex {
+              @include text_dicebag_summary;
+              line-height: 36px;
+            }
+
+            .verb { margin-right: 4px; }
           }
         }
 
