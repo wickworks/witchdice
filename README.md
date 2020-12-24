@@ -6,7 +6,6 @@
 ###### LAYOUT #######
 - have a dice summary for what was rolled : [10d6]
 
-- bigger number buttons
 - better border decorations to match the banner
 
 - better mobile layout for attacks; right now it gets scrambled
@@ -20,16 +19,12 @@
 
 - saving complicated expressions for re-rolling
   - click something in roll history to set it back up
-  - or click the rolled dice to roll it again
 
 - sound fx for dice rolls
-
 
 - be able to rearrange 5e attacks
 
 - themes e.g. dark mode
-- hover over dice bag buttons for a second to show which type of die it is (replace image)
-- setting: customize which icon shows up for natural 20s
 
 - make the background a sketch pad -- or just have a notepad panel that saves to session storage
 
