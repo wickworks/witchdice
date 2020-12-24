@@ -4,9 +4,10 @@
 - PWA worker??
 
 ###### LAYOUT #######
-- have a dice summary for what was rolled : [10d6]
-
+- background that's not boring white??
 - better border decorations to match the banner
+
+- sort modifier so it's not last when people are tabbing through it
 
 - better mobile layout for attacks; right now it gets scrambled
 - sort abilities to end of roll list

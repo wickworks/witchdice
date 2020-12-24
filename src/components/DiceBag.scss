@@ -84,10 +84,10 @@
 
     .rolling-surface {
       position: relative;
-
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 0 16px;
 
       .starting-roll {
         min-height: 200px;
@@ -111,7 +111,9 @@
 
         .action {
           @include text_title_action;
-          margin-top: 4px;
+          font-style: normal;
+          text-align: center;
+          margin-top: 10px;
 
           .percentile-option {
             display: flex;
@@ -122,6 +124,11 @@
               width: 24px;
               height: 24px;
             }
+          }
+
+          .to-roll-summary.complex {
+            @include text_dicebag_summary;
+            line-height: 36px;
           }
         }
 
@@ -161,12 +168,14 @@
             width: 32px;
             height: 32px;
 
-            // black to rust_light
-            filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+            // black to pink
+            filter: invert(58%) sepia(19%) saturate(1080%) hue-rotate(324deg) brightness(91%) contrast(88%);
+            // filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
 
             &:hover {
-              // black to rust_light
-              filter: invert(58%) sepia(19%) saturate(1080%) hue-rotate(324deg) brightness(91%) contrast(88%);
+              // black to rust
+              // filter: invert(58%) sepia(19%) saturate(1080%) hue-rotate(324deg) brightness(91%) contrast(88%);
+              filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
             }
           }
         }

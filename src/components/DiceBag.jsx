@@ -13,6 +13,71 @@ const blankDice = {
   'plus': 0,
 }
 
+
+function getToRollString(diceData, summaryMode) {
+  const toRollArray = Object.keys(diceData)
+    .map(dieType => {
+      const dieCount = diceData[dieType]
+      if (dieCount > 0 && dieType !== 'plus') {
+        return `${dieCount}d${dieType}`
+      } else {
+        return ''
+      }
+    })
+    .filter(e => {return e} ) // filter out empty values
+    .reverse()
+
+  let toRollSummary = ''
+  if (summaryMode === 'total') {
+    toRollSummary = toRollArray.join(' + ')
+  } else if (summaryMode === 'low' || summaryMode === 'high') {
+    toRollSummary = toRollArray.join(', ')
+  }
+
+  const modifier = diceData['plus']
+  if (modifier !== 0) toRollSummary = `( ${toRollSummary} ) ${modifier > 0 ? '+' : ''} ${modifier}`
+
+  return toRollSummary
+}
+
+function getResultsSummary(rollData, summaryMode) {
+  let runningTotal = 0
+  let highest = 0
+  let lowest = 999999
+  let modifier = 0
+  let resultArray = []
+  rollData.reverse().forEach((roll) => {
+    if (roll.dieType !== 'plus') {
+      resultArray.push(roll.result)
+      runningTotal += roll.result
+      highest = Math.max(highest, roll.result)
+      lowest = Math.min(lowest, roll.result)
+    } else {
+      modifier = roll.result // modifier is handled different in different roll modes
+    }
+  });
+
+  // console.log('pre results', resultArray);
+  // resultArray.reverse(); // so d20 comes first
+  // console.log('reversed   ', resultArray);
+
+  let resultTotal = 0
+  let resultSummary = ''
+  if (summaryMode === 'total') {
+    resultTotal = runningTotal + modifier
+    resultSummary = resultArray.join(' + ')
+  } else if (summaryMode === 'low') {
+    resultTotal = lowest + modifier;
+    resultSummary = resultArray.join(', ')
+  } else if (summaryMode === 'high') {
+    resultTotal = highest + modifier;
+    resultSummary = resultArray.join(', ')
+  }
+  if (modifier !== 0) resultSummary = `( ${resultSummary} ) ${modifier > 0 ? '+' : ''} ${modifier}`
+
+  return {total: resultTotal, summary: resultSummary}
+}
+
 const DiceBag = ({addNewDicebagPartyRoll}) => {
   const [lastDieRolled, setLastDieRolled] = useState('');   // for the rolled icon up top
   const [previousDiceData, setPreviousDiceData] = useState({}); // for re-rolling the last set
@@ -21,7 +86,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   const [rollData, setRollData] = useState([]);             // roll results
 
   const [summaryMode, setSummaryMode] = useState('total');  // 'total' / 'low' / 'high'
-  const [percentileMode, setPercentileMode] = useState(false);  // when true && percentileAvailable, overrides summary mode to 'percent'
+  const [percentileMode, setPercentileMode] = useState(false);
 
   const percentileAvailable = (diceData['10'] === 2);
 
@@ -84,36 +149,14 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     if (diceData[dieType] > 0 && dieType !== 'plus') { rollDieType = dieType;}
   });
 
-  // summarize the results
-  let runningTotal = 0;
-  let highest = 0;
-  let lowest = 999999;
-  let addModifier = 0;
-  let resultList = [];
-  rollData.forEach((roll) => {
-    if (roll.dieType !== 'plus') {
-      resultList.push(roll.result)
-      runningTotal += roll.result
-      highest = Math.max(highest, roll.result)
-      lowest = Math.min(lowest, roll.result)
-    } else {
-      addModifier = roll.result; // modifier is handled different in different roll modes
-    }
-  });
+  // summarize what we're going to roll
+  const toRollString = getToRollString(diceData, summaryMode)
 
-  let resultTotal = 0;
-  let resultSummary = '';
-  if (summaryMode === 'total') {
-    resultTotal = runningTotal + addModifier;
-    resultSummary = resultList.join(' + ');
-  } else if (summaryMode === 'low') {
-    resultTotal = lowest + addModifier;
-    resultSummary = resultList.join(', ')
-  } else if (summaryMode === 'high') {
-    resultTotal = highest + addModifier;
-    resultSummary = resultList.join(', ')
-  }
-  if (addModifier !== 0) resultSummary = `( ${resultSummary} ) ${addModifier > 0 ? '+' : ''} ${addModifier}`
+  // summarize the results
+  const result = getResultsSummary(rollData, summaryMode)
+
+  // have we queued up something complicated?
+  const isComplexRoll = toRollString.length > 14
 
   return (
     <div className="DiceBag">
@@ -134,16 +177,18 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
               <div className='action'>
                 {percentileAvailable ?
                   <div className='percentile-option'>
-                    ~ Roll d100
+                    Roll d100?
                     <input
                       type="checkbox"
                       checked={percentileMode}
                       onChange={() => setPercentileMode(!percentileMode)}
                     />
-                    ~
                   </div>
                 :
-                  <>~ Roll ~</>
+                  <div className={`to-roll-summary ${isComplexRoll ? 'complex' : ''}`}>
+                    {!isComplexRoll && 'Roll '}
+                    {toRollString}
+                  </div>
                 }
               </div>
             </div>
@@ -151,10 +196,10 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
             <div className='post-roll'>
               <button className='result-total' onClick={() => setDiceData(previousDiceData)} key='reroll'>
                 <div className={`asset ${lastDieRolled}`} />
-                {resultTotal}
+                {result.total}
               </button>
-              { resultSummary.length > 3 &&
-                <div className='result-summary'> {resultSummary} </div>
+              { result.summary.length > 3 &&
+                <div className='result-summary'> {result.summary} </div>
               }
             </div>
           :
