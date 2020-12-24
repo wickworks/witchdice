@@ -40,7 +40,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
       }
     });
 
-    if (diceData['plus'] > 0) {
+    if (diceData['plus'] !== 0) {
       results.push( {dieType: 'plus', result: parseInt(diceData['plus'])} )
     }
 
@@ -98,7 +98,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     resultTotal = highest + addModifier;
     resultSummary = resultList.join(', ')
   }
-  if (addModifier) resultSummary = `( ${resultSummary} ) + ${addModifier}`
+  if (addModifier !== 0) resultSummary = `( ${resultSummary} ) ${addModifier > 0 ? '+' : ''} ${addModifier}`
 
   return (
     <div className="DiceBag">
