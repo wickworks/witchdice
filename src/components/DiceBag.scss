@@ -30,8 +30,10 @@
         @include text_dicebag_count;
         display: flex;
         align-items: center;
+        justify-content: flex-start;
+
         margin: 6px 6px;
-        padding: 4px 18px;
+        padding: 4px 16px;
         width: 128px;
         height: 80px;
         cursor: pointer;
@@ -40,26 +42,40 @@
         border: none;
         border-radius: 40px;
 
-        &.last { order: 10; }
-        &.will-roll { background-color: $pink; }
+        &.will-roll {
+          justify-content: center;
+          background-color: $pink;
+        }
+        &.last {
+          justify-content: flex-start;
+          order: 10;
+        }
+
         &:hover { background-color: $pink; }
 
         .roll-count { min-width: 30px; }
 
         .asset {
-          margin: auto;
+          width: 46px; height: 46px;
+          margin-right: 2px;
+
           &.plus {
-            width: 40px;
-            height: 40px;
+            // width: 46px; height: 46px;
+            margin-left: 2px;
             order: -1;
           }
+        }
+
+        .die-type-label {
+          font-size: 28px;
+          .dee { margin-right: 1px; }
         }
 
         // for entering a modifier
         input {
           @include text_dicebag_count;
-          text-align: center;
-          width: 90px;
+          // text-align: center;
+          width: 80px;
           background-color: transparent;
           border: none;
         }
@@ -67,10 +83,13 @@
     }
 
     .rolling-surface {
+      position: relative;
+
       display: flex;
       align-items: center;
+      justify-content: center;
       // max-width: 150px;
-      margin: auto;
+      // margin: auto;
 
       .starting-roll {
         min-height: 200px;
@@ -94,6 +113,7 @@
 
         .action {
           @include text_title_action;
+          margin-top: 4px;
 
           .percentile-option {
             display: flex;
@@ -124,6 +144,37 @@
 
             // black to pink
             filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+          }
+        }
+
+        button.reset {
+          position: absolute;
+          top: 6px;
+          right: 4px;
+          width: 32px;
+          height: 32px;
+
+          background-color: transparent;
+          border: none;
+          border-radius: 50%;
+          padding: 0;
+          cursor: pointer;
+
+
+
+          .asset {
+            width: 32px;
+            height: 32px;
+
+            // black to rust_light
+            filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+
+            &:hover {
+              // background-color: $pink;
+              // black to rust_light
+              filter: invert(58%) sepia(19%) saturate(1080%) hue-rotate(324deg) brightness(91%) contrast(88%);
+
+            }
           }
         }
       }
@@ -162,7 +213,7 @@
         padding: 2px 6px;
 
         cursor: pointer;
-        background-color: $parchment_mid;
+        // background-color: $parchment_mid;
 
         &:hover {
           background-color: $parchment_dark;

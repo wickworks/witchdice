@@ -6,18 +6,17 @@
 ###### LAYOUT #######
 - have a dice summary for what was rolled : [10d6]
 
-- better mobile layout for attacks; right now it gets scrambled
-- sort abilities to end of roll list
-- applies conditions >>> just say what the condition is
-
+- bigger number buttons
 - better border decorations to match the banner
 
+- better mobile layout for attacks; right now it gets scrambled
+- sort abilities to end of roll list
+
+
 ##### FEATURES ######
-- d2 and d100, and a dX
-
+- dX dice?
 - X-card raised :::: anonymous or not
-
-- be able to rearrange 5e attacks
+- do an ACCESSIBILITY PASS; be able to tab through it all easily
 
 - saving complicated expressions for re-rolling
   - click something in roll history to set it back up
@@ -25,11 +24,13 @@
 
 - sound fx for dice rolls
 
+
+- be able to rearrange 5e attacks
+
 - themes e.g. dark mode
 - hover over dice bag buttons for a second to show which type of die it is (replace image)
 - setting: customize which icon shows up for natural 20s
 
-- do an ACCESSIBILITY PASS; be able to tab through it all easily
 - make the background a sketch pad -- or just have a notepad panel that saves to session storage
 
 

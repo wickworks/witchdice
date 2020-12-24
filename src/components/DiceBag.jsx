@@ -122,6 +122,9 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
           { (rollDieType.length > 0) ?
             <div className='pre-roll'>
+              <button className='reset' onClick={() => setDiceData({...blankDice})}>
+                <div className='asset x' />
+              </button>
               <button className='roll' onClick={handleRoll}>
                 <div className={`asset d${rollDieType}`} />
               </button>
@@ -249,6 +252,12 @@ const DieButton = ({
         <div className='roll-count'>{dieCount}</div>
       }
       <div className={`asset ${dieIcon}`} />
+      {(dieType !== 'plus' && dieCount === 0) &&
+        <div className='die-type-label'>
+          <span className='dee'>d</span>
+          <span className='type'>{dieType}</span>
+        </div>
+      }
     </button>
   )
 }
