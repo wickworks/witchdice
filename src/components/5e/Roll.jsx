@@ -87,7 +87,7 @@ const Roll = ({
         if (showDamageRoll) {
           if (damageSource.condition.length > 0) { appliedConditions.push(damageSource.condition) }
 
-          if (amount > 0) {
+          if (amount !== 0) {
             if (icon in damageBreakdown) {
               damageBreakdown[icon] = damageBreakdown[icon] + amount
             } else {
@@ -220,7 +220,7 @@ const Roll = ({
             { Object.keys(damageBreakdown).map((icon, i) => {
               return (
                 <div className='subtotal' key={i}>
-                  <div className='amount'>{Math.floor(damageBreakdown[icon])}</div>
+                  <div className='amount'>{Math.max( Math.floor(damageBreakdown[icon]), 0)}</div>
                   <div className={`asset ${icon}`} />
                 </div>
               )

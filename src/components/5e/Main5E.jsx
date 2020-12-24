@@ -465,7 +465,7 @@ const Main5E = ({
               })
 
               // PLUS MODIFIER
-              if (source.modifier > 0) {
+              if (source.modifier !== 0) {
                 let damage = deepCopy(defaultDamageRoll);
                 damage.type = source.damageType;
                 damage.amount = source.modifier;

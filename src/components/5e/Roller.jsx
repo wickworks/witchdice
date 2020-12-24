@@ -194,7 +194,7 @@ const Roller = ({
             if (!damageSource.enabled) { applyDamage = false; }
 
             if (applyDamage && damageSource.tags.includes("condition")) { appliedCondition = damageSource.condition }
-            if (applyDamage && amount > 0) {
+            if (applyDamage && amount !== 0) {
               subtotal = subtotal + amount;
               subtotalBreakdown[damageRoll.type] = subtotalBreakdown[damageRoll.type] + amount
             }
@@ -226,7 +226,7 @@ const Roller = ({
         rollSummaryData.rolls.push(summary)
       }
 
-      subtotal = Math.floor(subtotal);
+      subtotal = Math.max( Math.floor(subtotal), 0);
       newDamageTotal = newDamageTotal + subtotal;
       allDamageTypes.forEach((type) => {
         newDamageBreakdown[type] = newDamageBreakdown[type] + Math.floor(subtotalBreakdown[type]);

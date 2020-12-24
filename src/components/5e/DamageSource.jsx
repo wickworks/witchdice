@@ -55,7 +55,7 @@ const DamageNumbers = ({
         :
           <>
             {dieCount}d{dieType}
-            {modifier > 0 ? ` + ${modifier}` : ''}
+            {modifier !== 0 ? ` ${modifier > 0 ? '+' : ''} ${modifier}` : ''}
           </>
         }
       </div>
