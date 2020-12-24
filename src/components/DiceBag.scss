@@ -59,7 +59,7 @@
         input {
           @include text_dicebag_count;
           text-align: center;
-          width: 60px;
+          width: 90px;
           background-color: transparent;
           border: none;
         }
@@ -94,6 +94,17 @@
 
         .action {
           @include text_title_action;
+
+          .percentile-option {
+            display: flex;
+            align-items: center;
+
+            input {
+              margin: 0 10px;
+              width: 24px;
+              height: 24px;
+            }
+          }
         }
 
         button.roll {

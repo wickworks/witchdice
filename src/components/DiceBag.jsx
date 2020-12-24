@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
-import { getRandomInt } from '../utils.js';
+import { deepCopy, getRandomInt } from '../utils.js';
 import './DiceBag.scss';
 
 const blankDice = {
@@ -14,11 +14,15 @@ const blankDice = {
 }
 
 const DiceBag = ({addNewDicebagPartyRoll}) => {
+  const [lastDieRolled, setLastDieRolled] = useState('');   // for the rolled icon up top
+
   const [diceData, setDiceData] = useState({...blankDice}); // dice-to-roll
   const [rollData, setRollData] = useState([]);             // roll results
-  const [summaryMode, setSummaryMode] = useState('total');  // 'total' / 'low' / 'high'
 
-  const [lastDieRolled, setLastDieRolled] = useState('');   // for the rolled icon up top
+  const [summaryMode, setSummaryMode] = useState('total');  // 'total' / 'low' / 'high'
+  const [percentileMode, setPercentileMode] = useState(false);  // when true && percentileAvailable, overrides summary mode to 'percent'
+
+  const percentileAvailable = (diceData['10'] === 2);
 
   const updateDiceData = (dieType, dieCount) => {
     let newData = {...diceData}
@@ -29,8 +33,16 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   const handleRoll = () => {
     let results = [];
 
-    Object.keys(diceData).forEach((dieType, i) => {
-      for (let rollID = 0; rollID < diceData[dieType]; rollID++) {
+    let rollDice = deepCopy(diceData);
+
+    // hijack d10s in percentile mode
+    if (percentileAvailable && percentileMode) {
+      rollDice['10'] = 0;
+      rollDice['100'] = 1;
+    }
+
+    Object.keys(rollDice).forEach((dieType, i) => {
+      for (let rollID = 0; rollID < rollDice[dieType]; rollID++) {
         if (dieType !== 'plus') {
           const result = getRandomInt(parseInt(dieType));
           const dieIcon = `d${dieType}`;
@@ -40,8 +52,8 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
       }
     });
 
-    if (diceData['plus'] !== 0) {
-      results.push( {dieType: 'plus', result: parseInt(diceData['plus'])} )
+    if (rollDice['plus'] !== 0) {
+      results.push( {dieType: 'plus', result: parseInt(rollDice['plus'])} )
     }
 
     // store what was rolled
@@ -113,7 +125,21 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
               <button className='roll' onClick={handleRoll}>
                 <div className={`asset d${rollDieType}`} />
               </button>
-              <div  className='action'>~ Roll ~</div>
+              <div className='action'>
+                {percentileAvailable ?
+                  <div className='percentile-option'>
+                    ~ Roll d100
+                    <input
+                      type="checkbox"
+                      checked={percentileMode}
+                      onChange={() => setPercentileMode(!percentileMode)}
+                    />
+                    ~
+                  </div>
+                :
+                  <>~ Roll ~</>
+                }
+              </div>
             </div>
           : lastDieRolled ?
             <div className='post-roll'>
