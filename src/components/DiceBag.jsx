@@ -57,10 +57,6 @@ function getResultsSummary(rollData, summaryMode) {
     }
   });
 
-  // console.log('pre results', resultArray);
-  // resultArray.reverse(); // so d20 comes first
-  // console.log('reversed   ', resultArray);
-
   let resultTotal = 0
   let resultSummary = ''
   if (summaryMode === 'total') {
@@ -76,6 +72,13 @@ function getResultsSummary(rollData, summaryMode) {
   if (modifier !== 0) resultSummary = `( ${resultSummary} ) ${modifier > 0 ? '+' : ''} ${modifier}`
 
   return {total: resultTotal, summary: resultSummary}
+}
+
+// d20 -> d4, then plus
+function sortedDice(diceData) {
+  return Object.keys(diceData).sort((a, b) => {
+    return (parseInt(a) > parseInt(b)) ? -1 : 1
+  });
 }
 
 const DiceBag = ({addNewDicebagPartyRoll}) => {
@@ -107,7 +110,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
       rollDice['100'] = 1;
     }
 
-    Object.keys(rollDice).forEach((dieType, i) => {
+    sortedDice(rollDice).forEach((dieType, i) => {
       for (let rollID = 0; rollID < rollDice[dieType]; rollID++) {
         if (dieType !== 'plus') {
           const result = getRandomInt(parseInt(dieType));
@@ -121,6 +124,9 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     if (rollDice['plus'] !== 0) {
       results.push( {dieType: 'plus', result: parseInt(rollDice['plus'])} )
     }
+
+    // for some reason it came out backwards
+    results.reverse()
 
     // store the results that we rolled
     setRollData(results)
@@ -168,13 +174,22 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
           { (rollDieType.length > 0) ?
             <div className='pre-roll'>
-              <button className='reset' onClick={() => setDiceData({...blankDice})} key='reset'>
+              <button
+                className='reset'
+                aria-label='Clear queued dice.'
+                onClick={() => setDiceData({...blankDice})}
+                key='reset'
+              >
                 <div className='asset x' />
               </button>
-              <button className='roll' onClick={handleRoll}>
+              <button
+                className='roll'
+                onClick={handleRoll}
+                aria-labelledby='roll-action'
+              >
                 <div className={`asset d${rollDieType}`} />
               </button>
-              <div className='action'>
+              <div className='action' id='roll-action'>
                 {percentileAvailable ?
                   <div className='percentile-option'>
                     Roll d100?
@@ -210,7 +225,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
         </div>
 
         <div className='die-button-container'>
-          { Object.keys(diceData).reverse().map((dieType, i) => {
+          { sortedDice(diceData).map((dieType, i) => {
 
             return (
               <DieButton
