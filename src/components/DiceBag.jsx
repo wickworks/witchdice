@@ -15,6 +15,7 @@ const blankDice = {
 
 const DiceBag = ({addNewDicebagPartyRoll}) => {
   const [lastDieRolled, setLastDieRolled] = useState('');   // for the rolled icon up top
+  const [previousDiceData, setPreviousDiceData] = useState({}); // for re-rolling the last set
 
   const [diceData, setDiceData] = useState({...blankDice}); // dice-to-roll
   const [rollData, setRollData] = useState([]);             // roll results
@@ -56,8 +57,10 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
       results.push( {dieType: 'plus', result: parseInt(rollDice['plus'])} )
     }
 
-    // store what was rolled
+    // store the results that we rolled
     setRollData(results)
+    // store the dice that **were** rolled, in case we want to reroll
+    setPreviousDiceData({...diceData})
     // reset current to-roll dice
     setDiceData({...blankDice});
   }
@@ -122,7 +125,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
           { (rollDieType.length > 0) ?
             <div className='pre-roll'>
-              <button className='reset' onClick={() => setDiceData({...blankDice})}>
+              <button className='reset' onClick={() => setDiceData({...blankDice})} key='reset'>
                 <div className='asset x' />
               </button>
               <button className='roll' onClick={handleRoll}>
@@ -146,10 +149,10 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
             </div>
           : lastDieRolled ?
             <div className='post-roll'>
-              <div className='result-total'>
+              <button className='result-total' onClick={() => setDiceData(previousDiceData)} key='reroll'>
                 <div className={`asset ${lastDieRolled}`} />
                 {resultTotal}
-              </div>
+              </button>
               { resultSummary.length > 3 &&
                 <div className='result-summary'> {resultSummary} </div>
               }

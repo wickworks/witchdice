@@ -88,8 +88,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      // max-width: 150px;
-      // margin: auto;
 
       .starting-roll {
         min-height: 200px;
@@ -153,14 +151,11 @@
           right: 4px;
           width: 32px;
           height: 32px;
-
           background-color: transparent;
           border: none;
           border-radius: 50%;
           padding: 0;
           cursor: pointer;
-
-
 
           .asset {
             width: 32px;
@@ -170,10 +165,8 @@
             filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
 
             &:hover {
-              // background-color: $pink;
               // black to rust_light
               filter: invert(58%) sepia(19%) saturate(1080%) hue-rotate(324deg) brightness(91%) contrast(88%);
-
             }
           }
         }
@@ -186,10 +179,19 @@
         justify-content: center;
         min-height: 200px;
 
-        .result-total {
+        button.result-total {
           @include text_total;
           display: flex;
           align-items: center;
+
+          background-color: transparent;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+
+          &:hover {
+            background-color: $parchment_dark;
+          }
 
           .asset { margin-right: 6px;}
         }
