@@ -22,6 +22,7 @@ const ChangeLog = () => {
             <li>Added modifier for dicebag.</li>
             <li>Can click individual damage dice to reroll them.</li>
             <li>Condensed 5e character sheets.</li>
+            <li>Can roll a d100 by selecting two d10s.</li>
           </ul>
 
           <div className='version-label'>v0.3 — December 2020</div>
