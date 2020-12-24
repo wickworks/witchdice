@@ -224,6 +224,7 @@
       margin: 6px auto 12px;
 
       .mode-container {
+        position: relative;
         border-radius: 4px;
         padding: 2px 6px;
 
@@ -239,7 +240,11 @@
           color: white;
         }
 
-        input { display: none; }
+        input {
+          position: absolute;
+          left: -99999999px;
+          top: 0;
+        }
       }
     }
   }
