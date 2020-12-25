@@ -93,6 +93,7 @@
 
 
 	.party-container {
+		@include nouveau_border;
 		@include shadow;
 		// background-color: $parchment;
 		background-image: url('/assets/bg_parchment.png');

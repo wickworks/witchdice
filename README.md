@@ -10,6 +10,8 @@
 - better mobile layout for attacks; right now it gets scrambled
 - sort abilities to end of roll list
 
+- add some "what the heck is this" description text for each mode
+
 
 ##### FEATURES ######
 - dX dice?
