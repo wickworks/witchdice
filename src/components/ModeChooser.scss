@@ -52,13 +52,16 @@
     }
 
     &.minimized {
+      @include shadow;
       display: flex;
       flex-direction: row;
       justify-content: center;
 
       // deliniating but inoffensive
-      background-color: #f3e5e9;
-      @include shadow;
+      // background-color: #f3e5e9;
+
+      // beige
+      background-color: #d29e8a;
 
       a {
         display: block;

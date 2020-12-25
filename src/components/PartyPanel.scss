@@ -10,12 +10,11 @@
 
 	h2 {
     @include text_title_heavy;
+		color: $rust_dark;
     margin-bottom: 8px;
     margin-right: 12px;
 		text-align: right;
   }
-
-
 
 	.party-room-container, .party-name-container {
     @include text_label;
@@ -95,7 +94,9 @@
 
 	.party-container {
 		@include shadow;
-		background-color: $parchment;
+		// background-color: $parchment;
+		background-image: url('/assets/bg_parchment.png');
+
 		margin: 2px 0;
 		padding: 10px 20px;
 		min-height: 100px;

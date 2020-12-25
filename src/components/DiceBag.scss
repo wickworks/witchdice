@@ -9,6 +9,7 @@
 
   h2 {
     @include text_title_heavy;
+    color: $rust_dark;
     margin-bottom: 8px;
     margin-left: 12px;
   }
@@ -17,7 +18,8 @@
     @include shadow;
     display: flex;
     flex-direction: column;
-    background-color: $parchment;
+    // background-color: $parchment;
+    background-image: url('/assets/bg_parchment.png');
 
     .die-button-container {
       display: flex;
