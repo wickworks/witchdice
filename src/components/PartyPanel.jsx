@@ -54,9 +54,7 @@ const PartyPanel = ({
 		<div className="PartyPanel">
 			<h2>Roll History</h2>
 
-			<hr className='pumpkin-bar' />
 			<div className='party-container'>
-
         {(allPartyActionData.length > 0) &&
           allPartyActionData.slice(0).reverse().map((actionData, i) => {
             return (
@@ -68,7 +66,6 @@ const PartyPanel = ({
           })
         }
 			</div>
-			<hr className='pumpkin-bar' />
 
       { (!partyConnected) ? <>
         <div className='party-name-container disconnected'>
