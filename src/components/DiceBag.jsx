@@ -300,7 +300,7 @@ const DieButton = ({
     setDieCount(newDieCount)
   }
 
-  let dieClass = dieCount > 0 ? 'will-roll' : '';
+  let dieClass = dieCount !== 0 ? 'will-roll' : '';
   let dieIcon = `d${dieType}`;
   if (dieType === 'plus') {
     dieIcon = 'plus';

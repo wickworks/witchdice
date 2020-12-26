@@ -37,26 +37,47 @@
         align-items: center;
         justify-content: flex-start;
 
-        margin: 6px 6px;
-        padding: 4px 16px;
         width: 128px;
         height: 80px;
+        margin: 6px 6px;
+        padding: 4px 16px;
         cursor: pointer;
 
-        background-color: $parchment_dark;
+        // background-color: $parchment_dark;
+        background-color: #fff6e6; // almost-white tan
         border: none;
         border-radius: 40px;
 
+        &:hover { background-color: $parchment_mid; }
+
         &.will-roll {
           justify-content: center;
-          background-color: $pink;
-        }
-        &.last {
-          justify-content: flex-start;
-          // order: 10;
+          background-color: $rust;
+          // background-color: #c56047; // lighter rust
+          // background-color: #8e594c; // crushed earth
+
+          // background-color: #d7c9dd; // violet
+
+          color: $pink;
+          input { color: $pink; }
+
+          // turn black to white
+          // .asset { filter: invert(100%) sepia(100%) saturate(19%) hue-rotate(347deg) brightness(106%) contrast(104%); }
+
+          // black to pink
+          .asset { filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%); }
+
+          // black to rust
+          // .asset { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
+
+          &:hover {
+            background-color: #ae3e25; // rust, but highlighted a little (not as much as rust_light)
+          }
         }
 
-        &:hover { background-color: $pink; }
+
+
+        &.last { justify-content: flex-start; }
 
         .roll-count { min-width: 30px; }
 
@@ -158,13 +179,16 @@
 
             // black to pink
             filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+
+            // black to white
+            // filter: invert(100%) sepia(0%) saturate(3221%) hue-rotate(231deg) brightness(125%) contrast(110%);
           }
         }
 
         button.reset {
           position: absolute;
           top: 6px;
-          right: 4px;
+          right: 18px;
           width: 32px;
           height: 32px;
           background-color: transparent;
@@ -177,14 +201,11 @@
             width: 32px;
             height: 32px;
 
-            // black to pink
-            filter: invert(58%) sepia(19%) saturate(1080%) hue-rotate(324deg) brightness(91%) contrast(88%);
-            // filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+            // black to rust
+            filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
 
             &:hover {
-              // black to rust
-              // filter: invert(58%) sepia(19%) saturate(1080%) hue-rotate(324deg) brightness(91%) contrast(88%);
-              filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+              filter: none;
             }
           }
         }
