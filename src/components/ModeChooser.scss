@@ -58,20 +58,21 @@
       // deliniating but inoffensive
       // background-color: #f3e5e9;
 
-      // beige
-      background-color: #d29e8a;
+      // maroon
+      background-color: #6a2328;
       // background-image: url('/assets/bg_parchment.png');
 
       a {
         display: block;
         padding: 3px 0;
         width: 108px;
-        color: $soft_black;
+        // color: $soft_black;
+        color: $pink;
         text-decoration: none;
 
         &:hover {
-          background-color: $parchment_dark;
-          color: $soft_black;
+          background-color: $rust_dark;
+          color: white;
         }
         &.selected {
           background-color: $rust;
