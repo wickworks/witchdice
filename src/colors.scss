@@ -36,9 +36,11 @@ $soft_black: #0f0a03;
 @mixin nouveau_border {
   border-style: solid;
 
-  border-image-source: url('/assets/nouveau_border.png');
+  border-image-source: url('/assets/border_nouveau.svg');
   border-image-slice: 33%;
-  border-image-width: 109px;
-  border-image-outset: 0;
+  border-image-width: 118px;
+  border-image-outset: 6px;
   border-image-repeat: stretch;
+
+  outline: 2px solid #4b2021;
 }

@@ -21,6 +21,7 @@
     flex-direction: column;
     // background-color: $parchment;
     background-image: url('/assets/bg_parchment.png');
+    padding: 12px 0 ;
 
     .die-button-container {
       display: flex;
@@ -30,6 +31,7 @@
       padding: 6px;
 
       .DieButton {
+        @include shadow;
         @include text_dicebag_count;
         display: flex;
         align-items: center;
