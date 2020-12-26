@@ -35,14 +35,20 @@ $soft_black: #0f0a03;
 
 @mixin nouveau_border {
   border-style: solid;
+  border-radius: 14px;
 
-  border-image-source: url('/assets/border_nouveau.svg');
   border-image-slice: 33%;
   border-image-width: 166px;
-  border-image-outset: 30px;
+  border-image-outset: 16px;
   border-image-repeat: stretch;
+}
 
-  border-radius: 8px;
+@mixin nouveau_border_1 {
+  @include nouveau_border;
+  border-image-source: url('/assets/border_nouveau_1.svg');
+}
 
-  // outline: 3px solid #4b2021;
+@mixin nouveau_border_2 {
+  @include nouveau_border;
+  border-image-source: url('/assets/border_nouveau_2.svg');
 }

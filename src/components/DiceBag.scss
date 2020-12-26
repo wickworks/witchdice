@@ -15,7 +15,7 @@
   }
 
   .bag-container {
-    @include nouveau_border;
+    @include nouveau_border_1;
     @include shadow;
     display: flex;
     flex-direction: column;
