@@ -3,14 +3,18 @@
 .CharacterAndMonsterList {
   display: flex;
   justify-content: center;
+  // justify-content: space-between;
   flex-wrap: wrap;
   max-width: 840px;
   margin: auto;
 }
 
 .CharacterList, .MonsterList {
-  max-width: 45%;
-  width: 100%;
+  @include nouveau_border;
+  border-image-source: url('/assets/border_nouveau_list_characters.svg');
+  background-image: url('/assets/bg_parchment.png');
+
+  width: 44%;
   min-width: 320px;
   margin: 20px 20px;
 
@@ -93,13 +97,13 @@
     }
   }
 
-
-  ul {
+  ul.EntryList {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 0;
     margin: 6px 0;
+    min-height: 88px;
 
     li {
       padding: 2px 4px;
