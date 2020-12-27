@@ -3,6 +3,18 @@
 .Main5E {
   .roller-i-hardly-even-knower-container {
     width: 100%;
-    margin: 0 20px;
+    padding: 0 20px;
+    box-sizing: border-box;
+  }
+
+  // smaller screens start to have to tweak things
+  @media screen and (max-width: 800px) {
+    .ActiveAttackList .attack-container {
+      width: 100%;
+    }
+
+    .Roller {
+      margin: 0;
+    }
   }
 }
