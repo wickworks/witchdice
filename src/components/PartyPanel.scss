@@ -93,16 +93,23 @@
 
 
 	.party-container {
-		@include nouveau_border_2;
+		// @include nouveau_border_2;
 		@include shadow;
 		// background-color: $parchment;
 		background-image: url('/assets/bg_parchment.png');
+    border-radius: 14px;
 
 		margin: 2px 0;
-		padding: 10px 20px;
 		min-height: 300px;
 		max-height: 505px;
 		overflow-y: auto;
+
+    .nouveau-border {
+      @include nouveau_border_2;
+      padding: 18px 24px;
+      // width: 100%;
+      min-height: 256px;
+    }
 
 		.PartyAction {
 			width: 100%;

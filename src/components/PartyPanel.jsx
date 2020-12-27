@@ -54,17 +54,19 @@ const PartyPanel = ({
 		<div className="PartyPanel">
 			<h2>Roll History</h2>
 
-			<div className='party-container'>
-        {(allPartyActionData.length > 0) &&
-          allPartyActionData.slice(0).reverse().map((actionData, i) => {
-            return (
-              <PartyAction
-                actionData={actionData}
-                key={actionData.updatedAt}
-              />
-            )
-          })
-        }
+      <div className='party-container'>
+  			<div className='nouveau-border'>
+          {(allPartyActionData.length > 0) &&
+            allPartyActionData.slice(0).reverse().map((actionData, i) => {
+              return (
+                <PartyAction
+                  actionData={actionData}
+                  key={actionData.updatedAt}
+                />
+              )
+            })
+          }
+        </div>
 			</div>
 
       { (!partyConnected) ? <>

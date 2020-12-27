@@ -40,7 +40,7 @@ $soft_black: #0f0a03;
   border-image-slice: 33%;
   border-image-width: 166px;
   border-image-outset: 16px;
-  border-image-repeat: stretch;
+  border-image-repeat: repeat;
 }
 
 @mixin nouveau_border_1 {

@@ -12,14 +12,22 @@
 
 - add some "what the heck is this" description text for each mode
 
+-- roll dice icons :: grey out a little
 
 ##### FEATURES ######
 - dX dice?
 - X-card raised :::: anonymous or not
 - do an ACCESSIBILITY PASS; be able to tab through it all easily
 
+- be able to type in # of dice
+
+- "success dice" -- dice matching, or "x about this"
+
 - saving complicated expressions for re-rolling
   - click something in roll history to set it back up
+  - a list of saved rolls
+
+- success dice :: "how many time did I roll over X"
 
 - sound fx for dice rolls
 
@@ -31,6 +39,8 @@
 
 
 ###### TECHNICAL ######
+
+- fonts aren't working on older firefox
 
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
