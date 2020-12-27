@@ -28,10 +28,7 @@ import './MainWitchCraft.scss';
 const CRAFTER_PREFIX = 'crafter';
 const PROJECT_PREFIX = 'project';
 
-const MainWitchCraft = ({
-  renderDiceBag,
-  renderPartyPanel
-}) => {
+const MainWitchCraft = () => {
   const [allCrafterEntries, setAllCrafterEntries] = useState([]);
   const [allProjectEntries, setAllProjectEntries] = useState([]);
 
@@ -329,12 +326,6 @@ const MainWitchCraft = ({
             />
         </div>
       }
-
-      <div className='gameplay-container'>
-        {renderDiceBag()}
-
-        {renderPartyPanel()}
-      </div>
     </div>
   )
 }

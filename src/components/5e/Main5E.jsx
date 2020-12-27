@@ -46,8 +46,6 @@ function loadCharacterData(fingerprint) {
 
 
 const Main5E = ({
-  renderDiceBag,
-  renderPartyPanel,
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
   setRollSummaryData,
@@ -570,30 +568,24 @@ const Main5E = ({
         </>
       )}
 
-      <div className='gameplay-container'>
-        {renderDiceBag()}
+      {(characterName.length > 0) &&
+        <div className='roller-i-hardly-even-knower-container'>
+          <ActiveAttackList
+            attackSourceData={characterAttackData}
+            attackFunctions={attackFunctions}
+          />
 
-        {(characterName.length > 0) &&
-          <div className='roller-i-hardly-even-knower-container'>
-            <ActiveAttackList
-              attackSourceData={characterAttackData}
-              attackFunctions={attackFunctions}
-            />
-
-            <Roller
-              rollData={rollData}
-              attackSourceData={characterAttackData}
-              handleNewRoll={generateNewRoll}
-              handleClear={clearRolls}
-              rollFunctions={rollFunctions}
-              characterName={characterName}
-              setRollSummaryData={setRollSummaryData}
-            />
-          </div>
-        }
-
-        {renderPartyPanel()}
-      </div>
+          <Roller
+            rollData={rollData}
+            attackSourceData={characterAttackData}
+            handleNewRoll={generateNewRoll}
+            handleClear={clearRolls}
+            rollFunctions={rollFunctions}
+            characterName={characterName}
+            setRollSummaryData={setRollSummaryData}
+          />
+        </div>
+      }
 
     </div>
   )

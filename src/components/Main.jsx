@@ -260,26 +260,6 @@ const Main = () => {
     setPartyName( capitalize(`${randomWords(1)}`) )
   }
 
-  const renderDiceBag = () => { return (
-    <DiceBag
-      addNewDicebagPartyRoll={addNewDicebagPartyRoll}
-    />
-  )}
-
-  const renderPartyPanel = () => { return (
-    <PartyPanel
-      allPartyActionData={allPartyActionData}
-      partyName={partyName}
-      setPartyName={setPartyName}
-      partyRoom={partyRoom}
-      setPartyRoom={setPartyRoom}
-      generateRoomName={generateRoomName}
-      partyConnected={partyConnected}
-      connectToRoom={connectToRoom}
-      rollMode={rollmode}
-    />
-  )}
-
   return (
     <div className='Main'>
       <Switch>
@@ -293,8 +273,6 @@ const Main = () => {
           </Helmet>
           <Suspense fallback={<LoadinDots />}>
             <Main5E
-             renderDiceBag={renderDiceBag}
-             renderPartyPanel={renderPartyPanel}
              setPartyLastAttackKey={setPartyLastAttackKey}
              setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
              setRollSummaryData={setRollSummaryData}
@@ -311,10 +289,7 @@ const Main = () => {
               />
           </Helmet>
           <Suspense fallback={<LoadinDots />}>
-            <MainWitchCraft
-             renderDiceBag={renderDiceBag}
-             renderPartyPanel={renderPartyPanel}
-            />
+            <MainWitchCraft />
           </Suspense>
         </Route>
 
@@ -327,13 +302,28 @@ const Main = () => {
               />
           </Helmet>
           <Suspense fallback={<LoadinDots />}>
-            <MainSimple
-             renderDiceBag={renderDiceBag}
-             renderPartyPanel={renderPartyPanel}
-            />
+            <MainSimple />
           </Suspense>
         </Route>
       </Switch>
+
+      <div className="dicebag-and-history">
+        <DiceBag
+          addNewDicebagPartyRoll={addNewDicebagPartyRoll}
+        />
+
+        <PartyPanel
+          allPartyActionData={allPartyActionData}
+          partyName={partyName}
+          setPartyName={setPartyName}
+          partyRoom={partyRoom}
+          setPartyRoom={setPartyRoom}
+          generateRoomName={generateRoomName}
+          partyConnected={partyConnected}
+          connectToRoom={connectToRoom}
+          rollMode={rollmode}
+        />
+      </div>
     </div>
   )
 }
