@@ -59,10 +59,12 @@
       // background-color: #f3e5e9;
 
       // maroon
-      background-color: #6a2328;
+      // background-color: #6a2328;
 
       // royal blue
-      background-color: #2e2a4d;
+      // background-color: #2e2a4d;
+
+      background-color: $rust;
 
       // background-image: url('/assets/bg_parchment.png');
 
@@ -71,15 +73,15 @@
         padding: 3px 0;
         width: 108px;
         // color: $soft_black;
-        color: white;
+        color: $pink;
         text-decoration: none;
 
         &:hover {
-          background-color: $rust_dark;
+          background-color: $pink_logo_dark;
           color: white;
         }
         &.selected {
-          background-color: $rust;
+          background-color: $rust_dark;
           color: white;
           .mode-title h2 { font-weight: bold; }
         }

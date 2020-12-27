@@ -40,6 +40,15 @@
   color: $soft_black;
 }
 
+@mixin text_card_label {
+  font-family: 'Bitter', serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  color: $soft_black;
+}
+
+
 @mixin text_label {
   font-family: 'Bitter', serif;
   font-size: 18px;

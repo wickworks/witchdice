@@ -16,8 +16,9 @@
 
   width: 49%;
   min-width: 320px;
+  min-height: 178px;
   margin: 20px 0;
-  padding: 20px;
+  padding: 10px 11px;
   box-sizing: border-box;
 
   .title-bar {
@@ -25,20 +26,23 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    border-bottom: 1px solid #dedede;
+    background-color: $faded_grey;
+    // border-bottom: 1px solid $faded_grey;
+    border-radius: 6px 6px 0 0;
 
     h2 {
-      @include text_label;
+      @include text_card_label;
       margin: 0 14px 0 0;
-      padding: 6px;
+      padding: 6px 0 6px 12px;
     }
 
     // the monster filter
     input {
       width: 100%;
       padding: 6px 8px;
-      margin-bottom: -1px;
-      border: 1px solid #dedede;
+      // margin-bottom: -1px;
+      border: 1px solid $faded_grey;
+      border-radius: 0 6px 0 0;
     }
 
     button.clear-filter {
@@ -89,7 +93,7 @@
       @include text_title_heavy;
       font-size: 32px;
       font-style: normal;
-      margin: auto;
+      margin: 16px auto 0;
 
       .asset.plus {
         height: 40px;
@@ -103,9 +107,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    padding: 0;
+    padding: 0 9px 12px;
     margin: 6px 0;
-    min-height: 88px;
 
     li {
       padding: 2px 4px;
