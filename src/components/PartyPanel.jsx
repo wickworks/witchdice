@@ -47,6 +47,29 @@ const PartyPanel = ({
     }, 2000);
   }
 
+  function renderActionRolls() {
+    let previousName = '';
+    let previousChar = '';
+    const actionRolls = allPartyActionData.slice(0).reverse().map((actionData, i) => {
+      const showName =
+        actionData.name !== previousName ||
+        actionData.char !== previousChar ||
+        actionData.char;
+      previousName = actionData.name
+      previousChar = actionData.char
+
+      return (
+        <PartyAction
+          actionData={actionData}
+          showName={showName}
+          key={actionData.updatedAt}
+        />
+      )
+    })
+
+    return actionRolls
+  }
+
   const connectDisabled = (partyRoom.length <= 6 || partyName.length <= 0);
 
   const isEmpty = allPartyActionData.length === 0;
@@ -62,14 +85,7 @@ const PartyPanel = ({
               Roll some dice to get started.
             </div>
           :
-            allPartyActionData.slice(0).reverse().map((actionData, i) => {
-              return (
-                <PartyAction
-                  actionData={actionData}
-                  key={actionData.updatedAt}
-                />
-              )
-            })
+            renderActionRolls()
           }
         </div>
 			</div>
@@ -180,7 +196,7 @@ const PartyPanel = ({
 // }
 
 
-const PartyAction = ({actionData}) => {
+const PartyAction = ({actionData, showName}) => {
   const {name, char, conditions, type, updatedAt} = actionData;
 
   // convert the rolls into an array & sum them
@@ -227,13 +243,16 @@ const PartyAction = ({actionData}) => {
     <div className="PartyAction">
 
       <div className="title">
-        { char && (char.toLowerCase() !== name.toLowerCase()) ?
+        {/** showName && char && (char.toLowerCase() !== name.toLowerCase()) ?
           <>
             <div className="name">{char}</div>
             <div className="party-name">{name}</div>
           </>
-        :
+        : showName &&
           <div className="name">{name}</div>
+        **/}
+        {showName &&
+          <div className="name">{char ? char : name}</div>
         }
         { conditionsDisplay &&
           <div className="conditions">{conditionsDisplay}</div>

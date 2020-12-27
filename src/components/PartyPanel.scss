@@ -30,7 +30,7 @@
     .nouveau-border {
       @include nouveau_border;
       border-image-source: url('/assets/border_nouveau_party.svg');
-      padding: 18px 24px;
+      padding: 12px 12px 18px;
       min-height: 256px;
     }
 
@@ -39,23 +39,31 @@
       font-style: normal;
       font-weight: normal;
       color: $rust_light;
+      padding: 0 20px 0;
       margin: 86px auto 0;
       text-align: center;
     }
 
 		.PartyAction {
 			width: 100%;
-			margin: 0 0 18px;
 			animation: .75s ease-out 0s 1 flashIn;
+      // padding-bottom: 4px;
+      padding: 8px 0;
+      // margin: 0 0 18px;
+      border-bottom: 1px solid $faded_gold;
+
+      // &:nth-child(odd) { background-color: $faded_gold; }
 
 			.title {
 				display: flex;
 				align-items: flex-end;
-				padding-bottom: 1px;
-				border-bottom: 1px solid $rust_light;
+        padding: 0 8px 5px 12px;
+				// border-bottom: 1px solid $faded_gold;
 				margin-bottom: 2px;
 
-				.name { @include text_party_roll_sum; }
+				.name {
+          @include text_party_roll_name;
+        }
 				.party-name {
 					@include text_party_roll_attackname;
 					margin: 0 12px 1px 6px;
@@ -69,13 +77,14 @@
 			.dicebag-container {
 				display: flex;
 				justify-content: space-between;
-				padding-right: 4px;
+        padding: 0 12px 0 12px;
 
 				.dicebag-single {
 					@include text_party_roll_sum;
 					display: flex;
 					align-items: center;
 					margin-left: auto;
+          margin-top: -6px;
 
 					.asset {
 						width: 28px;
@@ -104,12 +113,16 @@
 					}
 				}
 
-				.dicebag-sum { @include text_party_roll_sum; }
+				.dicebag-sum {
+          @include text_party_roll_sum;
+          margin-left: 12px;
+        }
 			}
 
 			.attack-container {
 				display: flex;
 				flex-direction: column;
+        padding: 0 16px 0 12px;
 
 				.PartyRollAttack {
 					display: flex;

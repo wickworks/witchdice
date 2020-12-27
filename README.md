@@ -39,7 +39,7 @@
 
 
 ###### TECHNICAL ######
-
+- BUG: adding sneak attack abilities aren't working (create barb from preset then try to add a sneak attack)
 - fonts aren't working on older firefox
 
 - validation for damage number inputs
