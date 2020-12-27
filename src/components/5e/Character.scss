@@ -2,9 +2,15 @@
 
 .Character {
   @include shadow;
-  background-color: $parchment;
+  @include nouveau_border;
+  border-image-source: url('/assets/border_nouveau_character.svg');
+  // background-color: $parchment;
+  background-image: url('/assets/bg_parchment.png');
+
   margin: 20px auto 0;
   max-width: 800px;
+  box-sizing: border-box;
+  
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,7 +19,7 @@
 
   .character-sheet {
     position: relative;
-    padding: 0 44px 0 18px;
+    padding: 8px 54px 8px 30px;
     width: 100%;
     box-sizing: border-box;
 
@@ -39,7 +45,7 @@
 
     .asset.delete-character {
       position: absolute;
-      right: 10px;
+      right: 20px;
       top: 86px;
 
       width: 24px;

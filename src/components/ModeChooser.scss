@@ -3,9 +3,7 @@
 .ModeChooser {
   width: 100%;
 
-  &.minimized {
-    order: -1;
-  }
+  &.minimized { order: -1; }
 
   .roll-mode {
     a { cursor: pointer; }
@@ -52,24 +50,33 @@
     }
 
     &.minimized {
+      @include shadow;
       display: flex;
       flex-direction: row;
       justify-content: center;
 
       // deliniating but inoffensive
-      background-color: #f3e5e9;
-      @include shadow;
+      // background-color: #f3e5e9;
+
+      // maroon
+      background-color: #6a2328;
+
+      // royal blue
+      background-color: #2e2a4d;
+
+      // background-image: url('/assets/bg_parchment.png');
 
       a {
         display: block;
         padding: 3px 0;
         width: 108px;
-        color: $soft_black;
+        // color: $soft_black;
+        color: white;
         text-decoration: none;
 
         &:hover {
-          background-color: $parchment_dark;
-          color: $soft_black;
+          background-color: $rust_dark;
+          color: white;
         }
         &.selected {
           background-color: $rust;

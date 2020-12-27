@@ -170,7 +170,6 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     <div className="DiceBag">
       <h2>Dice Bag</h2>
 
-      <hr className='pumpkin-bar' />
       <div className='bag-container'>
         <div className='rolling-surface'>
 
@@ -272,7 +271,6 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
           </label>
         </RadioGroup>
       </div>
-      <hr className='pumpkin-bar' />
 
     </div>
   );
@@ -302,7 +300,7 @@ const DieButton = ({
     setDieCount(newDieCount)
   }
 
-  let dieClass = dieCount > 0 ? 'will-roll' : '';
+  let dieClass = dieCount !== 0 ? 'will-roll' : '';
   let dieIcon = `d${dieType}`;
   if (dieType === 'plus') {
     dieIcon = 'plus';

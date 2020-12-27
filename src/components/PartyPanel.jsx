@@ -54,76 +54,81 @@ const PartyPanel = ({
 		<div className="PartyPanel">
 			<h2>Roll History</h2>
 
-			<hr className='pumpkin-bar' />
-			<div className='party-container'>
-
-        {(allPartyActionData.length > 0) &&
-          allPartyActionData.slice(0).reverse().map((actionData, i) => {
-            return (
-              <PartyAction
-                actionData={actionData}
-                key={actionData.updatedAt}
-              />
-            )
-          })
-        }
-			</div>
-			<hr className='pumpkin-bar' />
-
-      { (!partyConnected) ? <>
-        <div className='party-name-container disconnected'>
-          <label htmlFor='party-name'>Name</label>
-          <input type='text' id='party-name' value={partyName} onChange={(e) => updatePartyName(e.target.value)} />
-        </div>
-
-        <div className='party-room-container disconnected'>
-          <label htmlFor='party-room'>Room</label>
-          <input type='text' id='party-room' value={partyRoom} onChange={(e) => updatePartyRoom(e.target.value)}/>
-          <button
-            className='generate-new-room'
-            onClick={generateRoomName}
-          >
-            ☈
-          </button>
-        </div>
-
-        { connectDisabled ?
-          <span className='party-connect disabled'>Join Room</span>
-        :
-          <Link
-            className='party-connect'
-            to={`/${rollMode}?r=${partyRoom}`}
-            onClick={() => connectToRoom(partyRoom)}
-          >
-            Join Room
-          </Link>
-        }
-
-
-      </> : <>
-        <div className='party-name-container connected'>
-          <label>Name:</label>
-          <TextInput
-            textValue={partyName}
-            setTextValue={setPartyName}
-            placeholder='Name'
-            maxLength={50}
-          />
-        </div>
-
-        <div className='party-room-container connected'>
-          <label>Room:</label>
-
-          { showingCopiedMessage ?
-            <div className='copied-message'>Copied url!</div>
-          :
-            <div className='copy-on-click' onClick={copyRoom}>
-  	          <span className='copy-symbol'>⧉</span>
-              {partyRoom}
-            </div>
+      <div className='party-container'>
+  			<div className='nouveau-border'>
+          {(allPartyActionData.length > 0) &&
+            allPartyActionData.slice(0).reverse().map((actionData, i) => {
+              return (
+                <PartyAction
+                  actionData={actionData}
+                  key={actionData.updatedAt}
+                />
+              )
+            })
           }
         </div>
-      </> }
+			</div>
+
+      <div className={`connection-container ${partyConnected ? 'connected' : 'disconnected'}`}>
+        { (!partyConnected) ?
+          <>
+            <div className='party-name-container disconnected'>
+              <label htmlFor='party-name'>Name</label>
+              <input type='text' id='party-name' value={partyName} onChange={(e) => updatePartyName(e.target.value)} />
+            </div>
+
+            <div className='party-room-container disconnected'>
+              <label htmlFor='party-room'>Room</label>
+              <input type='text' id='party-room' value={partyRoom} onChange={(e) => updatePartyRoom(e.target.value)}/>
+              <button
+                className='generate-new-room'
+                onClick={generateRoomName}
+              >
+                ☈
+              </button>
+            </div>
+
+            { connectDisabled ?
+              <span className='party-connect disabled'>Join Room</span>
+            :
+              <Link
+                className='party-connect'
+                to={`/${rollMode}?r=${partyRoom}`}
+                onClick={() => connectToRoom(partyRoom)}
+              >
+                Join Room
+              </Link>
+            }
+
+
+          </>
+        :
+          <>
+            <div className='party-name-container connected'>
+              <label>Name:</label>
+              <TextInput
+                textValue={partyName}
+                setTextValue={setPartyName}
+                placeholder='Name'
+                maxLength={50}
+              />
+            </div>
+
+            <div className='party-room-container connected'>
+              <label>Room:</label>
+
+              { showingCopiedMessage ?
+                <div className='copied-message'>Copied url!</div>
+              :
+                <div className='copy-on-click' onClick={copyRoom}>
+      	          <span className='copy-symbol'>⧉</span>
+                  {partyRoom}
+                </div>
+              }
+            </div>
+          </>
+        }
+      </div>
 		</div>
 	);
 }

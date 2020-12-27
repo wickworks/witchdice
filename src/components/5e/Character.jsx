@@ -39,7 +39,6 @@ const Character = ({
 
   return (
     <div className="Character">
-      <hr className="pumpkin-bar" />
       <div className="character-sheet">
         { isDeleting ?
           <DeleteConfirmation
@@ -119,7 +118,6 @@ const Character = ({
         </div>
       </div>
 
-      <hr className="pumpkin-bar" />
     </div>
   );
 }
