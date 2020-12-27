@@ -47,12 +47,13 @@
 		.PartyAction {
 			width: 100%;
 			animation: .75s ease-out 0s 1 flashIn;
-      // padding-bottom: 4px;
       padding: 18px 0;
-      // margin: 0 0 18px;
       border-bottom: 1px solid $faded_gold;
 
-      // &:nth-child(odd) { background-color: $faded_gold; }
+      &.one-liner {
+        display: flex;
+        justify-content: space-between;
+      }
 
 			.title {
 				display: flex;

@@ -239,8 +239,10 @@ const PartyAction = ({actionData, showName}) => {
   // }
   const conditionsDisplay = conditionsArray.join(', ');
 
+  const oneLineClass = (type === 'dicebag' && actionRolls.length === 1) ? 'one-liner' : '';
+
   return (
-    <div className="PartyAction">
+    <div className={`PartyAction ${oneLineClass}`}>
 
       <div className="title">
         {/** showName && char && (char.toLowerCase() !== name.toLowerCase()) ?
