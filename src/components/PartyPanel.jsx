@@ -234,9 +234,9 @@ const PartyAction = ({actionData, showName}) => {
 
   let conditionsArray = [];
   if (conditions) conditionsArray.push(conditions);
-  if (type === 'attack' && actionRolls.length > 1) {
-    conditionsArray.push(`${damageSum} total`);
-  }
+  // if (type === 'attack' && actionRolls.length > 1) {
+  //   conditionsArray.push(`${damageSum} total`);
+  // }
   const conditionsDisplay = conditionsArray.join(', ');
 
   return (
@@ -303,6 +303,10 @@ const PartyAction = ({actionData, showName}) => {
               />
             )
           }) }
+
+          <div className="total-damage">
+            {`${damageSum} damage`}
+          </div>
         </div>
       }
     </div>

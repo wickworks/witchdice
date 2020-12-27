@@ -130,14 +130,14 @@
 }
 
 @mixin text_party_roll_condition {
-  font-size: 14px;
+  font-size: 16px;
+  // font-weight: 500;
   font-style: italic;
 }
 
 @mixin text_party_roll_attackname {
-  font-size: 14px;
+  font-size: 16px;
   font-style: italic;
-  color: $grey_mid;
 }
 
 @mixin text_license {

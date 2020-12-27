@@ -4,7 +4,7 @@
   @include shadow;
   @include nouveau_border;
   border-image-source: url('/assets/border_nouveau_character.svg');
-  // background-color: $parchment;
+  background-color: $parchment;
   background-image: url('/assets/bg_parchment.png');
 
   margin: 20px auto 0;

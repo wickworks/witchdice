@@ -18,7 +18,7 @@
 
 	.party-container {
 		@include shadow;
-		// background-color: $parchment;
+		background-color: $parchment;
 		background-image: url('/assets/bg_parchment.png');
     border-radius: 14px;
 
@@ -48,7 +48,7 @@
 			width: 100%;
 			animation: .75s ease-out 0s 1 flashIn;
       // padding-bottom: 4px;
-      padding: 8px 0;
+      padding: 18px 0;
       // margin: 0 0 18px;
       border-bottom: 1px solid $faded_gold;
 
@@ -122,7 +122,7 @@
 			.attack-container {
 				display: flex;
 				flex-direction: column;
-        padding: 0 16px 0 12px;
+        padding: 0 8px 0 12px;
 
 				.PartyRollAttack {
 					display: flex;
@@ -182,7 +182,7 @@
 						justify-content: flex-end;
 
 						.damage {
-							@include text_party_roll_sum;
+							@include text_party_roll_number;
 							display: flex;
 							align-items: center;
 							margin-left: 14px;
@@ -196,12 +196,19 @@
 						}
 					}
 				}
-			}
+
+        .total-damage {
+          @include text_party_roll_sum;
+          text-align: right;
+          margin: 6px 4px 2px;
+        }
+      }
 		}
 	}
 
   .connection-container {
     @include shadow;
+    background-color: $parchment;
     background-image: url('/assets/bg_parchment.png');
     padding: 16px 30px 18px;
     margin-top: 22px;
