@@ -34,6 +34,15 @@
       min-height: 256px;
     }
 
+    .no-rolls-container {
+      font-size: 32px;
+      font-style: normal;
+      font-weight: normal;
+      color: $rust_light;
+      margin: 86px auto 0;
+      text-align: center;
+    }
+
 		.PartyAction {
 			width: 100%;
 			margin: 0 0 18px;

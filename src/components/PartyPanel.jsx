@@ -49,6 +49,7 @@ const PartyPanel = ({
 
   const connectDisabled = (partyRoom.length <= 6 || partyName.length <= 0);
 
+  const isEmpty = allPartyActionData.length === 0;
 
 	return (
 		<div className="PartyPanel">
@@ -56,7 +57,11 @@ const PartyPanel = ({
 
       <div className='party-container'>
   			<div className='nouveau-border'>
-          {(allPartyActionData.length > 0) &&
+          { isEmpty ?
+            <div className='no-rolls-container'>
+              Roll some dice to get started.
+            </div>
+          :
             allPartyActionData.slice(0).reverse().map((actionData, i) => {
               return (
                 <PartyAction
