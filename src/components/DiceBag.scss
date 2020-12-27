@@ -15,8 +15,9 @@
   }
 
   .bag-container {
-    @include nouveau_border_1;
     @include shadow;
+    @include nouveau_border;
+    border-image-source: url('/assets/border_nouveau_dicebag.svg');
     display: flex;
     flex-direction: column;
     // background-color: $parchment;

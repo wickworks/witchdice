@@ -17,7 +17,6 @@
   }
 
 	.party-container {
-		// @include nouveau_border_2;
 		@include shadow;
 		// background-color: $parchment;
 		background-image: url('/assets/bg_parchment.png');
@@ -29,7 +28,8 @@
 		overflow-y: auto;
 
     .nouveau-border {
-      @include nouveau_border_2;
+      @include nouveau_border;
+      border-image-source: url('/assets/border_nouveau_party.svg');
       padding: 18px 24px;
       min-height: 256px;
     }
@@ -186,10 +186,12 @@
     // min-height: 116px;
 
     &.disconnected {
-      @include nouveau_border_3;
+      @include nouveau_border;
+      border-image-source: url('/assets/border_nouveau_room_disconnected.svg');
     }
     &.connected {
-      @include nouveau_border_4;
+      @include nouveau_border;
+      border-image-source: url('/assets/border_nouveau_room_connected.svg');
       padding-bottom: 26px;
     }
 
