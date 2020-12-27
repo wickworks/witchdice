@@ -2,21 +2,23 @@
 
 .CharacterAndMonsterList {
   display: flex;
-  justify-content: center;
-  // justify-content: space-between;
+  justify-content: space-between;
   flex-wrap: wrap;
-  max-width: 840px;
+  max-width: 800px;
   margin: auto;
 }
 
 .CharacterList, .MonsterList {
+  @include shadow;
   @include nouveau_border;
   border-image-source: url('/assets/border_nouveau_list_characters.svg');
   background-image: url('/assets/bg_parchment.png');
 
-  width: 44%;
+  width: 49%;
   min-width: 320px;
-  margin: 20px 20px;
+  margin: 20px 0;
+  padding: 20px;
+  box-sizing: border-box;
 
   .title-bar {
     position: relative;

@@ -9,6 +9,10 @@
 
   // smaller screens start to have to tweak things
   @media screen and (max-width: 800px) {
+    .CharacterList, .MonsterList {
+      width: 100%;
+    }
+
     .ActiveAttackList .attack-container {
       width: 100%;
     }

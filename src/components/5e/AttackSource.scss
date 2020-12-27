@@ -13,7 +13,7 @@
       align-items: flex-end;
       justify-content: space-between;
       flex-wrap: wrap;
-      border-bottom: 2px solid $rust;
+      border-bottom: 2px solid $rust_light;
 
       &.long { border: none; }
 
@@ -25,7 +25,7 @@
         .name {
           margin-right: 10px;
 
-          .display, input { @include text_title_heavy_black; }
+          .display, input { @include text_title_heavy; }
         }
 
         .is-saving-throw {
@@ -64,7 +64,7 @@
           font-style: normal;
           line-height: 1.3;
 
-          border-top: 2px solid $rust;
+          border-top: 2px solid $rust_light;
           padding-top: 6px;
           width: 100%;
 
@@ -112,8 +112,10 @@
         &.shunted {
           position: absolute;
           right: -38px;
-          top: -40px;
+          top: -30px;
           margin: 0;
+
+          .text-container { display: none; }
         }
 
         .text-container {

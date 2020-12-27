@@ -10,7 +10,7 @@
   margin: 20px auto 0;
   max-width: 800px;
   box-sizing: border-box;
-  
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,8 +34,8 @@
 
       margin-right: auto;
       margin-top: 16px;
-      padding-bottom: 16px;
-      border-bottom: 4px solid $rust;
+      // padding-bottom: 16px;
+      // border-bottom: 4px solid $rust_light;
       // margin-bottom: 34px;
 
       .display { @include text_character_name; }
