@@ -70,6 +70,9 @@ function getResultsSummary(rollData, summaryMode) {
   }
   if (modifier !== 0) resultSummary = `( ${resultSummary} ) ${modifier > 0 ? '+' : ''} ${modifier}`
 
+  if (summaryMode === 'low') resultSummary = 'Min: ' + resultSummary
+  if (summaryMode === 'high') resultSummary = 'Max: ' + resultSummary
+
   return {total: resultTotal, summary: resultSummary}
 }
 
