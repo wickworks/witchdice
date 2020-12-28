@@ -92,6 +92,7 @@ const Footer = () => {
               <li>Wood by tesyar azhari</li>
               <li>Anvil by Robert Almeida</li>
               <li>textile by Olena Panasovska</li>
+              <li>hibiscus by iconfield</li>
             </ul>
 
             <p>
