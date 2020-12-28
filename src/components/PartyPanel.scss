@@ -5,7 +5,7 @@
 	width: 100%;
 	max-width: 340px;
 	// margin: 30px 80px 30px 20px;
-	margin: 0 20px;
+	margin: 10px 20px;
 	flex-shrink: 100;
 
 	h2 {
@@ -300,8 +300,8 @@
   		}
   		&.disabled {
   			cursor: auto;
-  			background-color: $grey_light;
-  			color: $grey_mid;
+  			background-color: #bbb;
+  			color: $grey_dark;
   		}
   	}
   }

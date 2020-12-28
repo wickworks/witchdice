@@ -4,7 +4,7 @@
   width: 100%;
   max-width: 340px;
   // margin: 30px 20px 30px 80px;
-  margin: 0 20px;
+  margin: 10px 20px;
   flex-shrink: 100;
 
   h2 {
@@ -264,7 +264,7 @@
           color: $soft_black;
         }
         &.selected {
-          background-color: $rust_light;
+          background-color: $rust;
           color: white;
         }
 
