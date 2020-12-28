@@ -48,7 +48,7 @@
 			width: 100%;
 			animation: .75s ease-out 0s 1 flashIn;
       padding: 18px 0;
-      border-bottom: 1px solid $faded_gold;
+      border-bottom: 2px solid $faded_gold;
 
       &.one-liner {
         display: flex;
@@ -59,7 +59,6 @@
 				display: flex;
 				align-items: flex-end;
         padding: 0 8px 5px 12px;
-				// border-bottom: 1px solid $faded_gold;
 				margin-bottom: 2px;
 
 				.name {

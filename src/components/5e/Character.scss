@@ -1,27 +1,23 @@
 @import './fonts5E';
 
 .Character {
-  @include shadow;
-  @include nouveau_border;
-  border-image-source: url('/assets/border_nouveau_character.svg');
-  background-color: $parchment;
-  background-image: url('/assets/bg_parchment.png');
-
-  margin: 20px auto 0;
-  max-width: 800px;
-  box-sizing: border-box;
-
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  box-sizing: border-box;
+  margin: 20px 20px 0;
 
   .character-sheet {
+    @include shadow;
+    @include nouveau_border;
+    border-image-source: url('/assets/border_nouveau_character.svg');
+    background-color: $parchment;
+    background-image: url('/assets/bg_parchment.png');
+
     position: relative;
+    box-sizing: border-box;
     padding: 8px 54px 8px 30px;
     width: 100%;
-    box-sizing: border-box;
+    max-width: 800px;
 
     .character-name {
       display: flex;

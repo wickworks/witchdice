@@ -5,16 +5,10 @@
   color: $rust;
 }
 
-@mixin text_active_attack_name {
-  font-size: 18px;
-  font-weight: bold;
-  font-style: italic;
-}
-
 @mixin text_attack_roll_count {
   font-family: 'Bitter';
   font-size: 16px;
-  color: white;
+  // color: white;
   font-weight: bold;
 }
 

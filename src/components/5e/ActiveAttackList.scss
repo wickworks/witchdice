@@ -1,13 +1,21 @@
 @import './fonts5E';
 
 .ActiveAttackList {
-  max-width: 810px;
-  margin: 20px auto 0;
+  // @include shadow;
+  // @include nouveau_border;
+  // border-image-source: url('/assets/border_nouveau_room_connected.svg');
+  // background-image: url('/assets/bg_parchment.png');
+  // background-color: $parchment;
+
+  // margin: 20px auto 20px;
+  // padding: 16px 16px;
+  // box-sizing: border-box;
+  // max-width: 800px;
 
   h2.roll-attacks {
     @include text_title_action;
     text-align: center;
-    margin: 40px 0 0;
+    margin: 10px 0;
   }
 
   .all-attacks-container {
@@ -16,12 +24,14 @@
     justify-content: center;
 
     .attack-container {
-      @include shadow;
+      // @include shadow;
       display: flex;
-      margin: 6px 4px;
-      width: 30%;
       align-items: center;
       justify-content: center;
+
+      box-sizing: border-box;
+      margin: 8px 10px;
+      width: 45%;
       min-height: 40px;
 
       .attack {
@@ -29,24 +39,28 @@
         align-items: center;
         justify-content: flex-start;
 
+        border-radius: 6px 0 0 6px;
+        font-size: 18px;
+
+        box-sizing: border-box;
+        padding: 6px;
         width: 100%;
         height: 100%;
-        padding: 6px;
-        box-sizing: border-box;
-        background-color: $grey_light;
         cursor: pointer;
 
-        &.active { background-color: $parchment_dark; }
-        &:hover { background-color: $pink; }
+        color: white;
+        background-color: #757575;
+        &:hover { background-color: #909090; }
 
         input { margin: 0 10px 0 0; }
-        .name { @include text_active_attack_name; }
       }
 
       button.attack-count {
         @include text_attack_roll_count;
-        background-color: $rust;
+        background-color: #d2806e;
         border: none;
+        border-radius: 0 6px 6px 0;
+
         height: 100%;
         min-width: 40px;
         padding: 0;
@@ -54,7 +68,25 @@
         white-space: nowrap;
         cursor: pointer;
 
-        &:hover { background-color: $rust_light; }
+        color: white;
+        background-color: #404040;
+        &:hover { background-color: $grey_dark; }
+      }
+
+      &.active {
+
+        .attack {
+          font-weight: bold;
+          color: $soft_black;
+          background-color: $pink;
+          &:hover { background-color: $pink_logo_light; }
+        }
+
+        button.attack-count {
+          color: white;
+          background-color: $pink_logo_dark;
+          &:hover { background-color: $rust_light; }
+        }
       }
     }
   }

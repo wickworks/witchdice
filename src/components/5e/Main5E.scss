@@ -1,16 +1,27 @@
 @import '../../fonts';
 
 .Main5E {
+
   .roller-i-hardly-even-knower-container {
-    width: 100%;
-    padding: 0 20px;
+    @include shadow;
+    @include nouveau_border;
+    border-image-source: url('/assets/border_nouveau_character.svg');
+    background-image: url('/assets/bg_parchment.png');
+    background-color: $parchment;
+
     box-sizing: border-box;
+    padding: 20px 20px;
+    margin: 30px auto;
+    width: 100%;
+    max-width: 800px;
+    flex-shrink: 0;
   }
 
   // smaller screens start to have to tweak things
   @media screen and (max-width: 800px) {
     .CharacterList, .MonsterList {
       width: 100%;
+      margin: 10px 20px;
     }
 
     .ActiveAttackList .attack-container {

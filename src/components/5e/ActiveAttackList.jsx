@@ -19,7 +19,7 @@ const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
     }
 
     newDieCount = Math.min(newDieCount, 99);
-    newDieCount = Math.max(newDieCount, 0);
+    newDieCount = Math.max(newDieCount, 1);
     setDieCount(newDieCount, attackID);
   }
 
@@ -38,8 +38,8 @@ const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
 
           if (showAttack) {
             return (
-              <div className="attack-container" key={attackID}>
-                <label className={`attack unselectable ${activeClass}`} key={`active-${attackSource.name}`}>
+              <div className={`attack-container ${activeClass}`} key={attackID}>
+                <label className='attack unselectable' key={`active-${attackSource.name}`}>
                   <input
                     type="checkbox"
                     checked={isActive}
