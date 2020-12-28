@@ -4,10 +4,6 @@
 - PWA worker??
 
 ###### LAYOUT #######
-- background that's not boring white??
-- better border decorations to match the banner
-
-- better mobile layout for attacks; right now it gets scrambled
 - sort abilities to end of roll list
 
 - monster srd mungs: make single br turn into a markdown-br (eg ancient silver dragon's breath weapons)

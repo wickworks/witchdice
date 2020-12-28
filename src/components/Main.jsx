@@ -260,53 +260,8 @@ const Main = () => {
     setPartyName( capitalize(`${randomWords(1)}`) )
   }
 
-  return (
-    <div className='Main'>
-      <Switch>
-        <Route path="/5e">
-          <Helmet>
-              <title>Witch Dice ~ D&D 5e damage roller</title>
-              <meta
-                name="description"
-                content="Dice roller for D&D 5e that takes the math out of combat. Press a button and get instant results."
-              />
-          </Helmet>
-          <Suspense fallback={<LoadinDots />}>
-            <Main5E
-             setPartyLastAttackKey={setPartyLastAttackKey}
-             setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-             setRollSummaryData={setRollSummaryData}
-            />
-          </Suspense>
-        </Route>
-
-        <Route path="/craft">
-          <Helmet>
-              <title>Witch Dice ~ Witch+Craft character sheet</title>
-              <meta
-                name="description"
-                content="Character sheet and crafting roller for the Witch+Dice 5e crafting and domestic magic supplemental."
-              />
-          </Helmet>
-          <Suspense fallback={<LoadinDots />}>
-            <MainWitchCraft />
-          </Suspense>
-        </Route>
-
-        <Route path="/simple">
-          <Helmet>
-              <title>Witch Dice ~ cute dice roller</title>
-              <meta
-                name="description"
-                content="A cute & elegant dice roller for playing tabletop games online with friends."
-              />
-          </Helmet>
-          <Suspense fallback={<LoadinDots />}>
-            <MainSimple />
-          </Suspense>
-        </Route>
-      </Switch>
-
+  function renderDicebag() {
+    return (
       <div className="dicebag-and-history">
         <DiceBag
           addNewDicebagPartyRoll={addNewDicebagPartyRoll}
@@ -324,6 +279,58 @@ const Main = () => {
           rollMode={rollmode}
         />
       </div>
+    )
+  }
+
+  return (
+    <div className='Main'>
+      <Switch>
+        <Route path="/5e">
+          <Helmet>
+              <title>Witch Dice ~ D&D 5e damage roller</title>
+              <meta
+                name="description"
+                content="Dice roller for D&D 5e that takes the math out of combat. Press a button and get instant results."
+              />
+          </Helmet>
+          <Suspense fallback={<LoadinDots />}>
+            <Main5E
+             setPartyLastAttackKey={setPartyLastAttackKey}
+             setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+             setRollSummaryData={setRollSummaryData}
+            />
+            {renderDicebag()}
+          </Suspense>
+        </Route>
+
+        <Route path="/craft">
+          <Helmet>
+              <title>Witch Dice ~ Witch+Craft character sheet</title>
+              <meta
+                name="description"
+                content="Character sheet and crafting roller for the Witch+Dice 5e crafting and domestic magic supplemental."
+              />
+          </Helmet>
+          <Suspense fallback={<LoadinDots />}>
+            <MainWitchCraft />
+            {renderDicebag()}
+          </Suspense>
+        </Route>
+
+        <Route path="/simple">
+          <Helmet>
+              <title>Witch Dice ~ cute dice roller</title>
+              <meta
+                name="description"
+                content="A cute & elegant dice roller for playing tabletop games online with friends."
+              />
+          </Helmet>
+          <Suspense fallback={<LoadinDots />}>
+            <MainSimple />
+            {renderDicebag()}
+          </Suspense>
+        </Route>
+      </Switch>
     </div>
   )
 }
