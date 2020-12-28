@@ -1,16 +1,6 @@
 @import './fonts5E';
 
 .Roller {
-  // @include shadow;
-  // @include nouveau_border;
-  // border-image-source: url('/assets/border_nouveau_character.svg');
-  // background-image: url('/assets/bg_parchment.png');
-  // background-color: $parchment;
-
-  // margin: auto;
-  // padding: 0 16px;
-  // box-sizing: border-box;
-
   .controls-and-results {
     display: flex;
     justify-content: space-between;
@@ -20,10 +10,6 @@
 
     border-top: 2px solid $faded_gold;
     border-bottom: 2px solid $faded_gold;
-
-    // @media screen and (max-width: 800px) {
-    //   justify-content: space-around;
-    // }
 
     > * {
       width: 30%;
