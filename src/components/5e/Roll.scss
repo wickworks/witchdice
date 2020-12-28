@@ -6,6 +6,10 @@
   padding: 10px 10px;
   min-height: 54px;
 
+  @media screen and (max-width: 500px) {
+    flex-wrap: wrap;
+  }
+
   input[type=checkbox] {
     width: 28px;
     height: 28px;
@@ -176,14 +180,16 @@
 
       hr.miss {
         width: 100px;
-        height: 2px;
+        height: 1px;
         border: none;
-        background-color: darkgrey;
-        margin-right: auto;
-        margin-left: 0;
+        background-color: $grey_dark;
+        margin: 22px auto 22px 0;
       }
 
-      .fumble { @include text_fumble; }
+      .fumble {
+        @include text_fumble;
+        margin: 12px 0;
+      }
     }
 
 

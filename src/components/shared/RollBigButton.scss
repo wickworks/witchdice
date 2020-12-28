@@ -5,7 +5,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 10px 0;
+  
+  box-sizing: border-box;
+  margin: 10px 20px;
 
   button.new-roll {
     width: 100px;

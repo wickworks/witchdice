@@ -16,25 +16,32 @@
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
-    margin: 10px 0 20px;
+    margin: 10px 0 32px;
 
-    border-top: 1px solid $rust;
-    border-bottom: 1px solid $rust;
+    border-top: 2px solid $faded_gold;
+    border-bottom: 2px solid $faded_gold;
 
-    > * { width: 30%; }
+    // @media screen and (max-width: 800px) {
+    //   justify-content: space-around;
+    // }
+
+    > * {
+      width: 30%;
+      box-sizing: border-box;
+    }
 
     .conditions {
       display: flex;
       flex-direction: column;
-      padding: 10px 14px;
+      padding: 6px 14px;
 
-      @media screen and (max-width: 600px) {
+      @media screen and (max-width: 800px) {
         width: 100%;
         flex-direction: row;
         justify-content: space-between;
         flex-wrap: wrap;
-        padding-bottom: 6px;
-        border-bottom: 1px solid $rust;
+        padding: 14px 14px 8px;
+        border-bottom: 2px solid $faded_gold;
       }
 
       label {
@@ -59,11 +66,17 @@
       }
     }
 
+    .RollBigButton {
+      @media screen and (max-width: 800px) {
+        margin: 30px 20px;
+      }
+    }
+
     .results {
       display: flex;
       justify-content: flex-end;
-      // flex-wrap: wrap-reverse;
-      margin-right: 14px;
+      align-items: center;
+      padding-right: 30px;
 
       .type-breakdown {
         display: flex;
@@ -71,7 +84,9 @@
         flex-wrap: wrap-reverse;
         max-height: 120px;
 
-        margin: 0 18px 0 0;
+        @media screen and (max-width: 500px) {
+          display: none;
+        }
 
         .damage-type {
           display: flex;
@@ -95,6 +110,7 @@
         text-align: center;
         white-space: nowrap;
         padding-top: 6px;
+        margin: 0 0 0 34px;
 
         .count { @include text_total; }
       }
@@ -121,15 +137,16 @@
   }
 
   .clear-roll-container {
-    border-top: 1px solid $parchment_dark;
+    // border-top: 1px solid $parchment_dark;
     margin: 40px auto 0 0;
 
     button.clear-rolls {
       @include text_clear_rolls;
       display: block;
       margin: auto;
-      padding: 5px 80px;
+      padding: 6px 80px;
       border: none;
+      border-radius: 6px 6px 0 0;
       background-color: $parchment_dark;
       cursor: pointer;
 
