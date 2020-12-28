@@ -171,7 +171,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
   return (
     <div className="DiceBag">
-      <h2>Dice Bag</h2>
+      {/**<h2>Dice Bag</h2>**/}
 
       <div className='bag-container'>
         <div className='rolling-surface'>

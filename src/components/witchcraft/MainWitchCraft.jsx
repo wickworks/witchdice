@@ -152,6 +152,7 @@ const MainWitchCraft = () => {
 
   const deleteActiveProject = () => {
     console.log('deleting project ', projectData);
+    if (!projectData) return;
 
     const storageName = getStorageName(PROJECT_PREFIX, projectID, projectData.name);
 

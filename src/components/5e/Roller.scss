@@ -8,8 +8,8 @@
     align-items: center;
     margin: 10px 0 32px;
 
-    border-top: 2px solid $faded_gold;
-    border-bottom: 2px solid $faded_gold;
+    border-top: 3px solid $faded_gold;
+    border-bottom: 3px solid $faded_gold;
 
     > * {
       width: 30%;
@@ -27,7 +27,7 @@
         justify-content: space-between;
         flex-wrap: wrap;
         padding: 14px 14px 8px;
-        border-bottom: 2px solid $faded_gold;
+        border-bottom: 3px solid $faded_gold;
       }
 
       label {

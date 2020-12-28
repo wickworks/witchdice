@@ -76,13 +76,14 @@ const PartyPanel = ({
 
 	return (
 		<div className="PartyPanel">
-			<h2>Roll History</h2>
+			{/**<h2>Roll History</h2>**/}
 
       <div className='party-container'>
   			<div className='nouveau-border'>
           { isEmpty ?
             <div className='no-rolls-container'>
               Roll some dice to get started.
+              <span className='asset flower' />
             </div>
           :
             renderActionRolls()
