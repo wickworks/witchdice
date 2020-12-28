@@ -314,6 +314,12 @@ const DieButton = ({
     <button className={`DieButton ${dieClass}`}
       onClick={(e) => handleClick(e, true)}
       onContextMenu={(e) => handleClick(e, false)}
+      onKeyDown={e => {
+        if (dieType !== 'plus') {
+          if (parseInt(e.key)) setDieCount(parseInt(e.key))
+          if (e.key === 'Backspace' || e.key === 'Delete') setDieCount(0)
+        }
+      }}
     >
       {(dieType === 'plus') ?
         <input
@@ -322,7 +328,7 @@ const DieButton = ({
           onChange={e => setDieCount( Math.max(Math.min(e.target.value, 99), -99) )}
           onClick={e => e.stopPropagation()}
           onFocus={e => e.target.select()}
-          onKeyDown={e => { if (e.key === 'Enter') {e.target.blur()} }}
+          onKeyDown={e => { if (e.key === 'Enter') e.target.blur() }}
         />
       : (dieCount > 0) &&
         <div className='roll-count'>{dieCount}</div>
