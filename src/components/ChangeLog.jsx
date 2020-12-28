@@ -15,6 +15,13 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
+          <div className='version-label'>v0.5 — December 2020</div>
+          <ul>
+            <li>Total aesthetic overhaul. Now with color & arty borders!</li>
+            <li>Hid some redundant 5e damage icons for mobile.</li>
+            <li>Can click dice and then press a number key as a shortcut.</li>
+          </ul>
+
           <div className='version-label'>v0.4 — December 2020</div>
           <ul>
             <li>Added character presets.</li>
