@@ -2,9 +2,14 @@
 
 .ProjectList {
   @include shadow;
+  @include nouveau_border;
+  border-image-source: url('/assets/border_nouveau_crafting_character.svg');
+  background-image: url('/assets/bg_parchment.png');
   background-color: $parchment;
+
   max-width: 500px;
   width: 100%;
+  min-height: 300px;
   margin: 0 10px;
   box-sizing: border-box;
   border-top: 2px solid $green_witch;
@@ -12,9 +17,9 @@
   .title-container {
     display: flex;
     align-items: center;
-    margin: 10px 20px 20px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid $green_witch;
+    margin: 26px 32px 20px;
+    // padding-bottom: 6px;
+    // border-bottom: 1px solid $green_witch;
 
     .title {
       @include text_title_light;
@@ -80,7 +85,7 @@
 
     .import-container {
       margin-left: auto;
-      margin-right: 6px;
+      margin-right: 80px;
 
       button {
         @include text_default;
@@ -102,7 +107,7 @@
 
     ul {
       padding: 0;
-      margin: 0 0 0 20px;
+      margin: 0 12px;
     }
 
     li {

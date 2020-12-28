@@ -2,7 +2,11 @@
 
 .CraftCharacter {
   @include shadow;
+  @include nouveau_border;
+  border-image-source: url('/assets/border_nouveau_crafting_character.svg');
+  background-image: url('/assets/bg_parchment.png');
   background-color: $parchment;
+
   position: relative;
   max-width: 700px;
   width: 100%;
@@ -123,7 +127,7 @@
   }
 
   table.techniques {
-    margin: 0 2% 30px;
+    margin: 0 1.5% 30px;
     border-spacing: 0;
 
     // since I for some reason am using a table, have to space it awkwardly
@@ -157,8 +161,8 @@
 
   .DeleteButton {
     position: absolute;
-    left: 6px;
-    top: 8px;
+    left: 20px;
+    top: 16px;
   }
 
   .DeleteConfirmation {

@@ -78,7 +78,6 @@ const ProjectList = ({
           })}
         </ul>
       </div>
-      <hr className="pumpkin-bar" />
     </div>
   )
 }

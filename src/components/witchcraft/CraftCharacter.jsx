@@ -194,8 +194,6 @@ const CraftCharacter = ({
 
   return (
     <div className={`CraftCharacter ${isDeletingClass}`}>
-      <hr className="pumpkin-bar" />
-
       <div className='intro-container'>
         <div className='name-and-class'>
           <h2 className='name'>
@@ -432,8 +430,6 @@ const CraftCharacter = ({
         />
       }
 
-
-      <hr className="pumpkin-bar" />
     </div>
   )
 }

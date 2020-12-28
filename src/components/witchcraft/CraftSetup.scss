@@ -1,9 +1,16 @@
 @import '../../fonts';
 
 .CraftSetup {
+  @include shadow;
+  @include nouveau_border;
+  border-image-source: url('/assets/border_nouveau_crafting_character.svg');
+  background-image: url('/assets/bg_parchment.png');
+  background-color: $parchment;
+
   width: 100%;
   max-width: 600px;
   padding: 10px 10px 30px;
+  margin: 20px 10px;
 
   .setup-title {
     @include text_title_action;
@@ -51,7 +58,7 @@
             min-width: 110px;
             padding: 4px 4px;
             box-sizing: border-box;
-            background-color: white;
+            // background-color: white;
             border-radius: 4px;
             cursor: pointer;
 

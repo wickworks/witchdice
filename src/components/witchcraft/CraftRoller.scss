@@ -1,15 +1,22 @@
 @import '../../fonts';
 
 .CraftRoller {
+  @include shadow;
+  @include nouveau_border;
+  border-image-source: url('/assets/border_nouveau_crafting_character.svg');
+  background-image: url('/assets/bg_parchment.png');
+  background-color: $parchment;
+
   width: 100%;
   max-width: 600px;
-  margin: 0 10px;
+  margin: 20px 10px;
+  padding-bottom: 20px;
 
   h2.roll-craft {
     @include text_title_action;
     color: $green_witch;
     text-align: center;
-    margin: 20px 0 38px;
+    margin: 20px 0 10px;
   }
 
   .stamina-bar {
@@ -37,11 +44,13 @@
   }
 
   .controls-and-results {
-    @include shadow;
-    background-color: $parchment;
+    // @include shadow;
+    // background-color: $parchment;
     padding: 20px 10px;
-    border: 1px solid $green_witch;
-    border-radius: 20px;
+    margin: 0 10px;
+
+    border-top: 3px solid $faded_green;
+    // border-radius: 20px;
 
     .action-container {
       display: flex;
