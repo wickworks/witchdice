@@ -98,13 +98,13 @@ const DamageEdit = ({
           <input
             type="number"
             value={dieCount}
-            onChange={e => setDieCount(e.target.value, attackID, damageID)}
+            onChange={e => setDieCount(e.target.value || 0, attackID, damageID)}
           />
         :
           <input
             type="number"
             value={modifier}
-            onChange={e => setModifier(e.target.value, attackID, damageID)}
+            onChange={e => setModifier(e.target.value || 0, attackID, damageID)}
           />
         }
 
@@ -121,7 +121,7 @@ const DamageEdit = ({
           <input
             type="number"
             value={modifier}
-            onChange={e => setModifier(e.target.value, attackID, damageID)}
+            onChange={e => setModifier(e.target.value || 0, attackID, damageID)}
           />
         </>}
 

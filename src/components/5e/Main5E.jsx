@@ -415,6 +415,7 @@ const Main5E = ({
 
   const generateNewRoll = () => {
     let data = []
+    let abilityData = [] // these go at the end of the other attacks
 
     // console.log('');
     // console.log('~~~~~ NEW ROLL ~~~~~');
@@ -425,6 +426,9 @@ const Main5E = ({
       let triggeredRollData = [];
 
       if (attackData.isActive && attackData.damageData.length > 0) {
+
+        // we direct abilities towards their own list
+        const currentData = attackData.type === 'ability' ? abilityData : data;
 
         // EACH TO-HIT D20
         for (let rollID = 0; rollID < attackData.dieCount; rollID++) {
@@ -477,7 +481,7 @@ const Main5E = ({
 
           roll.damageRollData = damageRollData
           roll.critRollData = critRollData
-          data.push(roll)
+          currentData.push(roll)
 
           // TRIGGERED-SAVING THROW ROLLS (for each damage source, again) (ignores crits)
           for (let damageSourceID = 0; damageSourceID < damageData.length; damageSourceID++) {
@@ -514,18 +518,19 @@ const Main5E = ({
         }
 
         // add all the triggered rolls to the end of the normal roll data
-        triggeredRollData.forEach((triggeredroll) => {
-          data.push(triggeredroll);
-        });
-
-        // console.log('New Roll Data for ', attackData.name, JSON.stringify(data));
-        setRollData(data);
-
-        // clear out the last attack key so we'll push a new one in the rollData useEffect
-        setPartyLastAttackKey('');
-        setPartyLastAttackTimestamp(0);
+        triggeredRollData.forEach((triggeredroll) => currentData.push(triggeredroll) )
       }
     }
+
+    // add all the ability rolls to the rest of the attacks
+    abilityData.forEach((abilityRoll) => data.push(abilityRoll) )
+
+    console.log('New Roll Data', JSON.stringify(data));
+    setRollData(data);
+
+    // clear out the last attack key so we'll push a new one in the rollData useEffect
+    setPartyLastAttackKey('');
+    setPartyLastAttackTimestamp(0);
   }
 
 

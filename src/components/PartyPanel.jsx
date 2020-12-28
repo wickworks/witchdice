@@ -82,8 +82,11 @@ const PartyPanel = ({
   			<div className='nouveau-border'>
           { isEmpty ?
             <div className='no-rolls-container'>
-              Roll some dice to get started.
-              <span className='asset flower' />
+              <div>Welcome!</div>
+              <div>
+                Roll some dice to get started.
+                <span className='asset flower' />
+              </div>
             </div>
           :
             renderActionRolls()

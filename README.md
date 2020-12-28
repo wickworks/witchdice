@@ -4,13 +4,11 @@
 - PWA worker??
 
 ###### LAYOUT #######
-- sort abilities to end of roll list
-
 - monster srd mungs: make single br turn into a markdown-br (eg ancient silver dragon's breath weapons)
 
-- add some "what the heck is this" description text for each mode
+- move character deletion controls to the Character list
 
--- roll dice icons :: grey out a little
+- add some "what the heck is this" description text for each mode
 
 ##### FEATURES ######
 - dX dice?
@@ -32,7 +30,6 @@
 
 
 ###### TECHNICAL ######
-- BUG: adding sneak attack abilities aren't working (create barb from preset then try to add a sneak attack)
 - fonts aren't working on older firefox
 
 - validation for damage number inputs

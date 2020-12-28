@@ -75,7 +75,7 @@ const defaultDamageData = {
 
 const actionTypes = ['attack', 'save', 'ability']
 const defaultAttackData = {
-  isActive: false,
+  isActive: true,
   dieCount: 1,
   modifier: 0,
   name: 'Longsword',
