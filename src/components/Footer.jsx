@@ -105,8 +105,18 @@ const Footer = () => {
               </a>
             </p>
 
+            <p>
+              Background images generated at
+              <a href="http://bg.siteorigin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                bg.siteorigin.com
+              </a>
+            </p>
+
             <p>This tool is not affiliated with Wizards of the Coast (D&D) or Astrolago Press (Witch+Craft).</p>
-            <p>Monster Manual stat blocks included as per the Open Game License:</p>
+            <p>Spells & Monster Manual stat blocks included as per the Open Game License:</p>
 
             <div className="legalese">
               OPEN GAME LICENSE Version 1.0a
