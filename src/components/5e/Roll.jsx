@@ -54,16 +54,18 @@ const Roll = ({
     if (dicePoolIndex === 0 || isCrit) {
 
       dicePool.forEach((damageRoll, i) => {
-        const damageSource = damageSourceData[damageRoll.sourceID];
-        const icon = damageRoll.type;
-        let amount = damageRoll.amount;
+        const damageSource = damageSourceData[damageRoll.sourceID]
+        const icon = damageRoll.type
+        let amount = damageRoll.amount
         if (damageRoll.rerolled) { amount = damageRoll.rerolledAmount}
 
         let showDamageRoll = (hit || isCrit) && !isFumble
 
-        let rerollClass = damageRoll.rerolled ? 'rerolled' : '';
-        let critClass = (isCrit && dicePoolIndex === 1) ? 'crit' : '';
-        let halvedClass = '';
+        const isRerollable = (damageRoll.rerolledAmount > 0)
+
+        let rerollClass = !isRerollable ? 'no-reroll' : damageRoll.rerolled ? 'rerolled' : ''
+        let critClass = (isCrit && dicePoolIndex === 1) ? 'crit' : ''
+        let halvedClass = ''
 
         if (!damageSource.enabled) { showDamageRoll = false; }
         if ((type === 'save') && damageSource.tags.includes("savehalf")) {
@@ -98,7 +100,9 @@ const Roll = ({
               <div
                 className={`damage-roll ${rerollClass} ${critClass} ${halvedClass}`}
                 key={`${i}-${dicePoolIndex}`}
-                onClick={() => handleDamageClick(rollID, i, (isCrit && dicePoolIndex === 1))}
+                onClick={() => {
+                  if (isRerollable) handleDamageClick(rollID, i, (isCrit && dicePoolIndex === 1))
+                }}
               >
                 <div className={`asset ${icon}`} />
                 <div className='amount'>{amount}</div>

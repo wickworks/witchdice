@@ -169,8 +169,13 @@
           }
         }
         &.halved { color: #235e90; font-style: italic;}
-        &.rerolled { background-color: $parchment_dark; }
-        &:hover { background-color: $parchment_mid; }
+        &.rerolled { background-color: $faded_grey; }
+        &:hover { background-color: $pink; }
+
+        &.no-reroll {
+          background-color: transparent;
+          cursor: auto;
+        }
 
         &.disabled {
           .asset { opacity: 25%; }

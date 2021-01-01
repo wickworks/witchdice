@@ -471,7 +471,7 @@ const Main5E = ({
                 let damage = deepCopy(defaultDamageRoll);
                 damage.type = source.damageType;
                 damage.amount = source.modifier;
-                damage.rerolledAmount = source.modifier;
+                damage.rerolledAmount = -1; // can't be rerolled
                 damage.rerolled = false;
                 damage.sourceID = damageSourceID;
                 damageRollData.push(damage)
@@ -506,7 +506,7 @@ const Main5E = ({
                 let damage = deepCopy(defaultDamageRoll);
                 damage.type = source.damageType;
                 damage.amount = source.modifier;
-                damage.rerolledAmount = source.modifier;
+                damage.rerolledAmount = -1; // can't be rerolled
                 damage.rerolled = false;
                 damage.sourceID = damageSourceID;
                 triggeredroll.damageRollData.push(damage)
