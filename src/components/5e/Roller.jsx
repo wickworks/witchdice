@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import RollBigButton from '../shared/RollBigButton.jsx';
 import Roll from './Roll.jsx';
 import { deepCopy } from '../../utils.js';
-import { abilityTypes, allDamageTypes } from './data.js';
+import { abilityTypes, allDamageTypes, anyDamageSourceContains } from './data.js';
 import './Roller.scss';
 
 
@@ -93,35 +93,40 @@ const Roller = ({
     let isFumble = false;
 
     // only attacks can crit
-    const type = attackSourceData[roll.attackID].type
+    const source = attackSourceData[roll.attackID]
+    const type = source.type
     if (type !== 'attack' && type !== 'ability') { return false; }
 
+    // allow for expanded crit ranges
+    let rollCritMinimum = 20
+    if (anyDamageSourceContains(source, 'expandedcrit1')) rollCritMinimum = 19
+    if (anyDamageSourceContains(source, 'expandedcrit2')) rollCritMinimum = 18
 
     const rollSorted = [roll.rollOne, roll.rollTwo].sort((a,b)=>a-b);
 
     // ADVANTAGE: use the higher roll's crit
     if (advantage && !disadvantage) {
       if (roll.rollOne === rollSorted[1]) {
-        isCrit = roll.rollOne === 20;
+        isCrit = roll.rollOne >= rollCritMinimum;
         isFumble = roll.rollOne === 1;
       } else {
-        isCrit = roll.rollTwo === 20;
+        isCrit = roll.rollTwo >= rollCritMinimum;
         isFumble = roll.rollTwo === 1;
       }
 
     // DISADVANTAGE: use the lower roll's crit
     } else if (disadvantage && !advantage) {
       if (roll.rollOne === rollSorted[1]) {
-        isCrit = roll.rollTwo === 20;
+        isCrit = roll.rollTwo >= rollCritMinimum;
         isFumble = roll.rollTwo === 1;
       } else {
-        isCrit = roll.rollOne === 20;
+        isCrit = roll.rollOne >= rollCritMinimum;
         isFumble = roll.rollOne === 1;
       }
 
     // NEUTRAL: use the first roll's crit
     } else {
-      isCrit = roll.rollOne === 20;
+      isCrit = roll.rollOne >= rollCritMinimum;
       isFumble = roll.rollOne === 1;
     }
 
@@ -155,9 +160,8 @@ const Roller = ({
       for (let dicePoolIndex = 0; dicePoolIndex < 2; dicePoolIndex++) {
         const dicePool = [roll.damageRollData, roll.critRollData][dicePoolIndex]
 
-        // abort the crit dice pool unless this was a critical hit
+        // skip adding up the crit dice pool unless this **was** a critical hit
         if (dicePoolIndex === 0 || critFumble.isCrit) {
-
           const damageRollData = dicePool;
           for (let damageRollID = 0; damageRollID < damageRollData.length; damageRollID++) {
             const damageRoll = damageRollData[damageRollID];

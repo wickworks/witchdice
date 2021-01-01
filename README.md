@@ -51,6 +51,7 @@
 
 - have active attacks get cleared on a roll. just have them be local state, default false, instead of stored as part of the attack data.
 - paralyzation//assassin; all attacks are crits. be able to set any attack to be a crit (or toggle a crit off)
+- savage attacks: +1 damage die roll on critical hits
 
 - import the monster manual
   (add legendary actions)

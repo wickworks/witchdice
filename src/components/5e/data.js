@@ -10,7 +10,8 @@ const allTags = {
   'reroll2': 'Reroll 1+2s',
   'min2': 'Treat 1s as 2s.',
   'expandedcrit1': 'Crits 19-20',
-  'expandedcrit2': 'Crits 18-20'
+  'expandedcrit2': 'Crits 18-20',
+  // 'extracritdie': 'Crits get +1d' // TODO
 }
 
 const allDamageTypes = [
@@ -106,6 +107,14 @@ const defaultDamageRoll = {
   sourceID: 0, //the damage source ID that we belong to
 }
 
+// scans an attack's damage sources for a specific tag (e.g. improved crit range)
+const anyDamageSourceContains = (attackSource, tagname) => {
+  for (let i = 0; i < attackSource.damageData.length; i++) {
+    const damageSource = attackSource.damageData[i];
+    if (damageSource.tags.includes(tagname)) return true
+  }
+  return false
+}
 
 
 
@@ -118,5 +127,6 @@ export {
   defaultDamageData,
   defaultAttackData,
   defaultRollData,
-  defaultDamageRoll
+  defaultDamageRoll,
+  anyDamageSourceContains
 };
