@@ -8,6 +8,8 @@
 
 - move character deletion controls to the Character list
 
+- add a nouveau dark background divider between damage roller and dice bag for non-simple modes, just to break it up a little
+
 ##### FEATURES ######
 - dX dice?
 - X-card raised :::: anonymous or not
@@ -50,6 +52,8 @@
 - have active attacks get cleared on a roll. just have them be local state, default false, instead of stored as part of the attack data.
 - paralyzation//assassin; all attacks are crits. be able to set any attack to be a crit (or toggle a crit off)
 - savage attacks: +1 damage die roll on critical hits
+
+- initiative roller
 
 - import the monster manual
   (add legendary actions)
