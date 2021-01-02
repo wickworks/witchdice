@@ -24,20 +24,31 @@ function useQuery() {
 }
 
 const Main = () => {
-  const [rollSummaryData, setRollSummaryData] = useState({});
+  // List of all the characters in initiative order
+  const [allInitiativeData, setAllInitiativeData] = useState([]);
 
+  // List of all the rolls to display in the party panel.
   const [allPartyActionData, setAllPartyActionData] = useState([]);
+
+  // When we see a new roll in firebase, we put it here.
+  // This triggers triggering it getting added to allPartyActionData.
   const [latestAction, setLatestAction] = useState(null);
 
+  // 5e summary of the current roll. On change, we push it to firebase.
+  // Or, if disconnected, just send straight to latestAction.
+  const [rollSummaryData, setRollSummaryData] = useState({});
+
+  // Store the key/timestamp of the last roll so we can update it.
+  const [partyLastAttackKey, setPartyLastAttackKey] = useState('');
+  const [partyLastAttackTimestamp, setPartyLastAttackTimestamp] = useState(0);
+  const [partyLastDicebagKey, setPartyLastDicebagKey] = useState('');
+  const [partyLastDicebagTimestamp, setPartyLastDicebagTimestamp] = useState(0);
+
+  // Values for connecting to a room.
   const [partyRoom, setPartyRoom] = useState('');
   const [partyConnected, setPartyConnected] = useState(false);
   const [partyName, setPartyName] = useState('');
-  const [partyAutoconnect, setPartyAutoconnect] = useState(false); //set to TRUE to attempt to join a room immediately
-  const [partyLastAttackKey, setPartyLastAttackKey] = useState('');
-  const [partyLastAttackTimestamp, setPartyLastAttackTimestamp] = useState(0);
-
-  const [partyLastDicebagKey, setPartyLastDicebagKey] = useState('');
-  const [partyLastDicebagTimestamp, setPartyLastDicebagTimestamp] = useState(0);
+  const [partyAutoconnect, setPartyAutoconnect] = useState(false);
 
   // =============== INITIALIZE ==================
   const { rollmode } = useParams();
@@ -72,20 +83,19 @@ const Main = () => {
   }, [partyAutoconnect]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // =============== PARTY ROLL FUNCTIONS ==================
-
   const addNewAttackPartyRoll = (actionData) => {
     if (partyConnected) {
-      const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
+      const dbRollsRef = window.firebase.database().ref().child('rolls').child(partyRoom);
 
       // ~~ new attack roll ~~ //
       if (partyLastAttackTimestamp === 0) {
-        const newKey = dbRef.push(actionData).key
+        const newKey = dbRollsRef.push(actionData).key
         setPartyLastAttackKey(newKey);
         // console.log('       pushed  new attack to firebase', actionData);
 
       // ~~ update attack roll ~~ //
       } else {
-        dbRef.child(partyLastAttackKey).set(actionData);
+        dbRollsRef.child(partyLastAttackKey).set(actionData);
         // console.log('       set updated attack in firebase', actionData);
       }
     } else {
@@ -120,16 +130,16 @@ const Main = () => {
       }
 
       if (partyConnected) {
-        const dbRef = window.firebase.database().ref().child('rooms').child(partyRoom);
+        const dbRollsRef = window.firebase.database().ref().child('rolls').child(partyRoom);
         // ~~ new dicebag roll ~~ //
         if (isNew) {
           // console.log('       pushing  new dicebag roll to room',partyRoom,' : ', actionData);
-          const newKey = dbRef.push(actionData).key;
+          const newKey = dbRollsRef.push(actionData).key;
           setPartyLastDicebagKey(newKey);
         // ~~ update dicebag roll ~~ //
         } else {
           // console.log('       set updated dicebag roll in firebase', actionData);
-          dbRef.child(partyLastDicebagKey).set(actionData);
+          dbRollsRef.child(partyLastDicebagKey).set(actionData);
         }
 
       } else {
@@ -166,7 +176,6 @@ const Main = () => {
         actionData.updatedAt = Date.now();
       }
 
-
       // rollSummaryData = [ {attack: 20, name: 'Longsword', 'slashing': 13, 'necrotic': 4}, ... ]
       // (replaces "attack" with "save" for saving throws)
       rolls.forEach((roll, i) => {
@@ -174,7 +183,6 @@ const Main = () => {
       });
 
       addNewAttackPartyRoll(actionData);
-
     }
   }, [rollSummaryData]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -206,29 +214,16 @@ const Main = () => {
       console.log('Connecting to room : ', roomName);
       if (roomName === null || roomName.length === 0) { throw new Error('Invalid room name!') }
 
-      const dbRef = window.firebase.database().ref().child('rooms').child(roomName)
-
-      // get the current list of data >> don't need to do this, it'll call child_added for all ones initially
-      // dbRef.once('value',
-      //   (snapshot) => {
-      //     const rawActionData = snapshot.val();
-      //     if (rawActionData !== null) {
-      //       let newActionData = []; // turn a buncha { "action-1": {data} } into just an array e.g. [ {data}, ... ]
-      //       Object.keys(rawActionData).forEach((actionKey) => { newActionData.push(rawActionData[actionKey]) });
-      //       setAllPartyActionData( newActionData );
-      //     }
-      //   }
-      // );
-
-
-      dbRef.on('child_changed', (snapshot) => {
+      // ~~ DICEBAG AND DAMAGE ROLLS ~~~
+      const dbRollsRef = window.firebase.database().ref().child('rolls').child(roomName)
+      dbRollsRef.on('child_changed', (snapshot) => {
         if (snapshot) { setLatestAction(snapshot.val()) }
       });
-      dbRef.on('child_added', (snapshot) => {
+      dbRollsRef.on('child_added', (snapshot) => {
         if (snapshot) {
-          // clean out old rolls
+          // clean out old rolls?
           var now = Date.now();
-          var cutoff = now - 72 * 60 * 60 * 1000; // 72 hours ago
+          var cutoff = now - 3 * 24 * 60 * 60 * 1000; // 3 days ago
           if (snapshot.val().createdAt < cutoff) {
             snapshot.ref.remove();
           } else {
@@ -237,14 +232,18 @@ const Main = () => {
         }
       });
 
+      // ~~ INITIATIVE TRACKER ~~~
+      // const dbInitiativeRef = window.firebase.database().ref().child('initiative').child(roomName)
+      // dbInitiativeRef.on('child_changed', (snapshot) => {
+      //   if (snapshot) updateInitiativeEntry(snapshot.val())
+      // });
+      // dbInitiativeRef.on('child_added', (snapshot) => {
+      //   if (snapshot) addInitiativeEntry(snapshot.val())
+      // });
+
       setPartyConnected(true);
       localStorage.setItem("party_name", partyName);
       localStorage.setItem("party_room", roomName);
-
-      // change the url
-      // if (window.history.replaceState) {
-      //   window.history.replaceState({'room': roomName}, 'Witch Dice', `/${roomName}`);
-      // }
 
     } catch (error) {
       console.log('ERROR: ',error.message);
@@ -298,6 +297,8 @@ const Main = () => {
              setPartyLastAttackKey={setPartyLastAttackKey}
              setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
              setRollSummaryData={setRollSummaryData}
+             allInitiativeData={allInitiativeData}
+             setAllInitiativeData={setAllInitiativeData}
             />
             {renderDicebag()}
           </Suspense>

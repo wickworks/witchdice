@@ -5,9 +5,8 @@ import { deepCopy, capitalize } from '../../utils.js';
 import './InitiativeList.scss';
 
 const InitiativeList = ({
-  // partyConnected
+  allInitiativeData, setAllInitiativeData
 }) => {
-  const [allInitiativeData, setAllInitiativeData] = useState([]);
 
   const [isAdding, setIsAdding] = useState(false);
   const [addingName, setAddingName] = useState('');

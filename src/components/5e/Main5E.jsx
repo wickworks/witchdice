@@ -50,6 +50,8 @@ const Main5E = ({
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
   setRollSummaryData,
+  allInitiativeData,
+  setAllInitiativeData,
 }) => {
   const [allCharacterEntries, setAllCharacterEntries] = useState([]);
   const [allMonsterEntries, setAllMonsterEntries] = useState([]);
@@ -541,7 +543,10 @@ const Main5E = ({
         <Helmet> <title>{characterName} ~ Witch Dice</title> </Helmet>
       }
 
-      <InitiativeList />
+      <InitiativeList
+        allInitiativeData={allInitiativeData}
+        setAllInitiativeData={setAllInitiativeData}
+      />
 
       <CharacterAndMonsterList
         setActiveCharacterID={setActiveCharacter}
