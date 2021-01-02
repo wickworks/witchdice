@@ -216,7 +216,7 @@
     @include shadow;
     background-color: $parchment;
     background-image: url('/assets/bg_parchment.png');
-    padding: 16px 30px 18px;
+    padding: 16px 22px 18px;
     margin-top: 22px;
     // min-height: 116px;
 
@@ -234,9 +234,15 @@
       @include text_label;
   		position: relative;
   		display: flex;
-  		justify-content: space-between;
+  		justify-content: flex-start;
   		align-items: center;
       padding: 10px 0 0;
+
+			label {
+				min-width: 56px;
+				text-align: right;
+				margin-right: 8px;
+			}
 
   		>div { padding: 0 8px;}
 
@@ -250,14 +256,13 @@
   		&.connected {
   			.TextInput input {
   				@include text_label;
-  				text-align: right;
   			}
   		}
 
   		.generate-new-room {
   			position: absolute;
-  			right: 0;
-  			top: 9px;
+  			right: 4px;
+  			top: 10px;
   			background: none;
   			border: none;
   			font-size: 20px;
@@ -270,12 +275,12 @@
 
   		.copy-on-click {
   			border-radius: 4px;
+				padding-top: 1px;
   			cursor: pointer;
+
   			&:hover { background-color: $pink; }
 
-  			.copy-symbol {
-  				margin-right: 4px;
-  			}
+  			.copy-symbol { margin-left: 4px; }
   		}
 
   		.copied-message { color: olive; }

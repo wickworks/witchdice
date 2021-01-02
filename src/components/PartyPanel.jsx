@@ -146,8 +146,8 @@ const PartyPanel = ({
                 <div className='copied-message'>Copied url!</div>
               :
                 <div className='copy-on-click' onClick={copyRoom}>
-      	          <span className='copy-symbol'>⧉</span>
                   {partyRoom}
+                  <span className='copy-symbol'>⧉</span>
                 </div>
               }
             </div>
