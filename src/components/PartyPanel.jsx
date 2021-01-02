@@ -84,7 +84,7 @@ const PartyPanel = ({
             <div className='no-rolls-container'>
               <div>Welcome!</div>
               <div>
-                Dice you roll will be recorded here.
+                Your rolls will be recorded here.
                 <span className='asset flower' />
               </div>
             </div>
