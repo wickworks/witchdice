@@ -5,6 +5,7 @@ import Antiracism from './Antiracism.jsx';
 import Character from './Character.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';
 import Roller from './Roller.jsx';
+import InitiativeList from './InitiativeList.jsx';
 import { CURRENT_VERSION } from '../../version.js';
 import { deepCopy, getRandomInt } from '../../utils.js';
 // import { getMonsterData } from './stockdata/process_monster_srd.js';
@@ -539,6 +540,8 @@ const Main5E = ({
       { (characterName && characterName.length > 0) &&
         <Helmet> <title>{characterName} ~ Witch Dice</title> </Helmet>
       }
+
+      <InitiativeList />
 
       <CharacterAndMonsterList
         setActiveCharacterID={setActiveCharacter}

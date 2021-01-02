@@ -21,15 +21,19 @@
   @media screen and (max-width: 800px) {
     .CharacterList, .MonsterList {
       width: 100%;
-      margin: 10px 20px;
+      margin: 10px 0;
+    }
+
+    .Character {
+      margin: 20px 10px;
     }
 
     .ActiveAttackList .attack-container {
       width: 100%;
     }
 
-    .Roller {
-      margin: 0;
-    }
+    // .roller-i-hardly-even-knower-container {
+    //   margin: 30px 0;
+    // }
   }
 }

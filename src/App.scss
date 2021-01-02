@@ -86,6 +86,10 @@
     @include text_input;
   }
 
+  button {
+    cursor: pointer;
+  }
+
   .unselectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;

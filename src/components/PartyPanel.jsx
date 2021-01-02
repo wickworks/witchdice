@@ -50,6 +50,8 @@ const PartyPanel = ({
   function renderActionRolls() {
     let previousName = '';
     let previousChar = '';
+    
+    // slice(0) makes a copy so we can reverse it
     const actionRolls = allPartyActionData.slice(0).reverse().map((actionData, i) => {
       const showName =
         actionData.name !== previousName ||

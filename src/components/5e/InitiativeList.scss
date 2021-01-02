@@ -1,0 +1,115 @@
+@import '../../fonts';
+
+.InitiativeList {
+	width: 100%;
+	max-width: 340px;
+	margin: 10px auto;
+
+  button {
+    border: none;
+    background-color: transparent;
+    opacity: 0.4;
+
+    &:hover {
+      opacity: 1.0;
+    }
+  }
+
+  .list-container {
+    @include shadow;
+    @include nouveau_border;
+    border-image-source: url('/assets/border_nouveau_list_characters.svg');
+		background-color: $parchment;
+		background-image: url('/assets/bg_parchment.png');
+    padding: 12px 12px 18px;
+
+    h3 {
+      text-align: center;
+      margin: 6px 0 12px;
+    }
+
+    .adding-container {
+      display: flex;
+      margin: 10px 8px;
+
+      input.character-name {
+        width: 100%;
+        // margin-left: 8px;
+        padding: 4px 0 4px 6px;
+        font-size: 16px;
+      }
+
+      input.initiative-count {
+        width: 38px;
+        margin: 0 8px;
+        padding: 4px 0 4px 6px;
+        font-size: 16px;
+        // text-align: center;
+      }
+
+      button.confirm-entry {
+        padding: 0 2px;
+        opacity: 1.0;
+        border-radius: 4px;
+        background-color: $olive_light;
+        &:hover { background-color: $pink; }
+
+        .asset {
+          width: 28px;
+          height: 28px;
+        }
+      }
+    }
+
+    button.new-entry {
+      position: relative;
+      width: 36px;
+      height: 36px;
+      margin: 4px 0 0 4px;
+
+      span {
+        @include text_default;
+        position: absolute;
+        left: 120%;
+        top: 8px;
+        width: 250px;
+        text-align: left;
+      }
+    }
+  }
+
+
+  .InitiativeEntry {
+    display: flex;
+    align-items: center;
+    margin: 4px 8px;
+    box-sizing: border-box;
+
+    .handle.asset {
+      width: 28px;
+      height: 28px;
+      margin-right: 4px;
+      margin-left: -8px;
+
+      cursor: grab;
+
+      &:hover {
+        background-color: $pink;
+      }
+    }
+
+    .character-name {
+    }
+
+    .initiative-count {
+      margin-left: auto;
+      padding: 0 12px;
+      font-size: 18px;
+    }
+
+    .delete-button.asset {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
