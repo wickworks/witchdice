@@ -120,7 +120,7 @@
 
       cursor: pointer;
 
-      &:hover { background-color: $parchment;}
+      &:hover { background-color: $pink;}
       &.selected { background-color: $parchment_dark;}
       &.highlighted { color: $rust;}
     }

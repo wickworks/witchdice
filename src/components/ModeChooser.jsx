@@ -33,7 +33,7 @@ const ModeChooser = () => {
             <h2>D&D 5e</h2>
           </div>
           <p className='mode-desc'>
-            Attack roller for D&D 5e characters & monsters.
+            Attack and damage dice for characters & monsters.
           </p>
         </Link>
 

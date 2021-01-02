@@ -8,8 +8,6 @@
 
 - move character deletion controls to the Character list
 
-- add some "what the heck is this" description text for each mode
-
 ##### FEATURES ######
 - dX dice?
 - X-card raised :::: anonymous or not

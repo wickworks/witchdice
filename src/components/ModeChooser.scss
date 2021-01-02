@@ -55,19 +55,11 @@
       flex-direction: row;
       justify-content: center;
 
-      // deliniating but inoffensive
-      // background-color: #f3e5e9;
-
-      // maroon
-      // background-color: #6a2328;
-
-      // royal blue
-      // background-color: #2e2a4d;
-
       // crushed velvet
       background-color: #593240;
 
-      // background-image: url('/assets/bg_parchment.png');
+      padding-bottom: 32px;
+      margin-bottom: 6px;
 
       a {
         display: block;
@@ -81,10 +73,28 @@
           background-color: $pink_logo_dark;
           color: white;
         }
+
+        .mode-desc {
+          display: none;
+        }
+
         &.selected {
           background-color: $rust_dark;
           color: white;
+
           .mode-title h2 { font-weight: bold; }
+
+          .mode-desc {
+            position: absolute;
+            display: block;
+            width: 100vw;
+            left: 0;
+            text-align: center;
+            padding: 6px 0;
+            margin: 3px 0;
+            color: $pink;
+            background-color: $rust_dark;
+          }
         }
 
         .mode-title {
@@ -97,10 +107,9 @@
             font-size: 16px;
             font-weight: normal;
           }
+
           input { display: none;}
         }
-
-        .mode-desc { display: none; }
       }
     }
   }
