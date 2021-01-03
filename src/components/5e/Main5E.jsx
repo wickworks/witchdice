@@ -5,7 +5,7 @@ import Antiracism from './Antiracism.jsx';
 import Character from './Character.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';
 import Roller from './Roller.jsx';
-import InitiativeList from './InitiativeList.jsx';
+import InitiativeTracker from './InitiativeTracker.jsx';
 import { CURRENT_VERSION } from '../../version.js';
 import { deepCopy, getRandomInt } from '../../utils.js';
 // import { getMonsterData } from './stockdata/process_monster_srd.js';
@@ -50,9 +50,8 @@ const Main5E = ({
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
   setRollSummaryData,
-  allInitiativeData,
-  addInitiativeEntry,
-  deleteInitiativeEntry,
+  partyRoom,
+  partyConnected,
 }) => {
   const [allCharacterEntries, setAllCharacterEntries] = useState([]);
   const [allMonsterEntries, setAllMonsterEntries] = useState([]);
@@ -544,10 +543,9 @@ const Main5E = ({
         <Helmet> <title>{characterName} ~ Witch Dice</title> </Helmet>
       }
 
-      <InitiativeList
-        allInitiativeData={allInitiativeData}
-        addInitiativeEntry={addInitiativeEntry}
-        deleteInitiativeEntry={deleteInitiativeEntry}
+      <InitiativeTracker
+        partyConnected={partyConnected}
+        partyRoom={partyRoom}
       />
 
       <CharacterAndMonsterList

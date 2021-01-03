@@ -38,10 +38,6 @@ const Main = () => {
   // List of all the rolls to display in the party panel.
   const [allPartyActionData, setAllPartyActionData] = useState([]);
 
-  // Same pattern as above.
-  const [latestInitiative, setLatestInitiative] = useState(null);
-  const [allInitiativeData, setAllInitiativeData] = useState([]);
-
   // Store the key/timestamp of the last roll so we can update it.
   const [partyLastAttackKey, setPartyLastAttackKey] = useState('');
   const [partyLastAttackTimestamp, setPartyLastAttackTimestamp] = useState(0);
@@ -218,63 +214,6 @@ const Main = () => {
 
   // =============== FIREBASE INITIATIVE FUNCTIONS ==================
 
-  // always sort the initiative data before setting it
-  const updateAllInitiativeData = (newData) => {
-    newData.sort((a, b) => (a.initiative < b.initiative) ? 1 : -1)
-    setAllInitiativeData(newData)
-  }
-
-  // we clicked "add character" locally
-  const addInitiativeEntry = (newEntry) => {
-    if (partyConnected) {
-      const dbInitiativeRef = getFirebaseDB().child('initiative').child(partyRoom)
-      const newKey = dbInitiativeRef.push(newEntry).key
-
-      // add the firebase key to the locally-saved entry
-      newEntry.firebaseKey = newKey
-    }
-
-    // add it to the local allInitiativeData
-    let newData = deepCopy(allInitiativeData)
-    newData.push(newEntry)
-    updateAllInitiativeData(newData)
-  }
-
-  // we clicked "delete character" locally
-  const deleteInitiativeEntry = (index) => {
-    if (index < 0 || index >= allInitiativeData.length) return
-
-    if (partyConnected) {
-      const firebaseKey = allInitiativeData[index].firebaseKey
-      const dbInitiativeRef = getFirebaseDB().child('initiative').child(partyRoom).child(firebaseKey).remove()
-    }
-
-    let newData = deepCopy(allInitiativeData)
-    newData.splice(index, 1);
-    updateAllInitiativeData(newData)
-  }
-
-  useEffect(() => {
-    if (latestInitiative) {
-      let newData = deepCopy(allInitiativeData)
-
-      // is this an update or a new one?
-      let isUpdate = false;
-      allInitiativeData.forEach((entry, i) => {
-        if (entry !== null && entry.firebaseKey === latestInitiative.firebaseKey) {
-          isUpdate = true;
-          newData[i] = deepCopy(latestInitiative);
-        }
-      });
-      if (!isUpdate) newData.push(latestInitiative)
-
-      // sort by initiative TODO: copied code from above, consolidate
-      updateAllInitiativeData(newData)
-    }
-
-  }, [latestInitiative]); // eslint-disable-line react-hooks/exhaustive-deps
-
-
   const connectToRoom = (roomName) => {
     try {
       console.log('Connecting to room : ', roomName);
@@ -295,20 +234,6 @@ const Main = () => {
           } else {
             setLatestAction(snapshot.val())
           }
-        }
-      });
-
-      // ~~ INITIATIVE TRACKER ~~~
-      const dbInitiativeRef = getFirebaseDB().child('initiative').child(roomName)
-      // dbInitiativeRef.on('child_changed', (snapshot) => {
-      //   if (snapshot) updateInitiativeEntry(snapshot.val())
-      // });
-      dbInitiativeRef.on('child_added', (snapshot) => {
-        if (snapshot) {
-          // restore the firebase key to the entry's object
-          let newEntry = snapshot.val()
-          newEntry.firebaseKey = snapshot.key
-          setLatestInitiative(newEntry)
         }
       });
 
@@ -368,9 +293,8 @@ const Main = () => {
              setPartyLastAttackKey={setPartyLastAttackKey}
              setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
              setRollSummaryData={setRollSummaryData}
-             allInitiativeData={allInitiativeData}
-             addInitiativeEntry={addInitiativeEntry}
-             deleteInitiativeEntry={deleteInitiativeEntry}
+             partyConnected={partyConnected}
+             partyRoom={partyRoom}
             />
             {renderDicebag()}
           </Suspense>
