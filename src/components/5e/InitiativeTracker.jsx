@@ -123,6 +123,14 @@ const InitiativeTracker = ({
           }
         });
 
+        // add all the current local ones to the party, in case we rolled too soon
+        allInitiativeData.forEach((entry, i) => {
+          if (entry !== null) {
+            const newKey = dbInitiativeRef.push(entry).key
+            entry.firebaseKey = newKey
+          }
+        })
+
       } catch (error) {
         console.log('ERROR: ',error.message);
       }
