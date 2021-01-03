@@ -106,6 +106,7 @@ const InitiativeAdder = ({
     let initiativeEntry = deepCopy(defaultInitiativeEntry)
     initiativeEntry.name = capitalize(addingName)
     initiativeEntry.initiative = addingInitiative
+    initiativeEntry.bonus = 0;
 
     addInitiativeEntry(initiativeEntry)
 

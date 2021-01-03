@@ -119,6 +119,7 @@ const anyDamageSourceContains = (attackSource, tagname) => {
 const defaultInitiativeEntry = {
   name: '',
   initiative: 1,
+  bonus: 0, // works as tiebreaker
   // firebaseKey: '' // this is added dynamically at the appropriate time
 };
 

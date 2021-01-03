@@ -30,6 +30,7 @@ const InitiativeRoller = ({
     let newEntry = deepCopy(defaultInitiativeEntry)
     newEntry.name = addingName
     newEntry.initiative = roll
+    newEntry.bonus = addingBonus
 
     addInitiativeEntry(newEntry)
 

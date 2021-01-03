@@ -24,7 +24,13 @@ const InitiativeTracker = ({
 
   // always sort the initiative data before setting it
   const updateAllInitiativeData = (newData) => {
-    newData.sort((a, b) => (a.initiative < b.initiative) ? 1 : -1)
+    newData.sort((a, b) => {
+      if (a.initiative === b.initiative) {
+        return (a.bonus < b.bonus) ? 1 : -1   
+      } else {
+        return (a.initiative < b.initiative) ? 1 : -1
+      }
+    })
     setAllInitiativeData(newData)
   }
 
