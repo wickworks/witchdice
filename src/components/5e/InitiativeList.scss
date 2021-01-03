@@ -41,6 +41,10 @@
       align-items: center;
       margin: 4px 8px;
       box-sizing: border-box;
+			cursor: pointer;
+
+			&:hover { background-color: $pink; }
+			&.highlighted { background-color: $parchment_dark; }
 
       .handle.asset {
         width: 28px;

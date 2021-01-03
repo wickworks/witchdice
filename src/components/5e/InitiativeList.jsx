@@ -6,11 +6,11 @@ import './InitiativeList.scss';
 
 const InitiativeList = ({
   allInitiativeData,
-  addInitiativeEntry,
-  deleteInitiativeEntry,
-  clearInitiativeData,
+  addEntry,
+  highlightEntry,
+  deleteEntry,
+  clearData,
 }) => {
-
   const [isAdding, setIsAdding] = useState(false);
   const [isRolling, setIsRolling] = useState(false);
 
@@ -25,7 +25,8 @@ const InitiativeList = ({
         { allInitiativeData.map((initiativeData, i) => {
             return (<InitiativeEntry
               initiativeData={initiativeData}
-              onDelete={() => deleteInitiativeEntry(i)}
+              onDelete={() => deleteEntry(i)}
+              onClick={() => highlightEntry(i)}
               key={`${initiativeData.name}-${i}`}
             />)
         })}
@@ -33,13 +34,13 @@ const InitiativeList = ({
 
       { isAdding ?
         <InitiativeAdder
-          addInitiativeEntry={addInitiativeEntry}
+          addEntry={addEntry}
           setIsAdding={setIsAdding}
           entryLength={allInitiativeData.length}
         />
       : isRolling ?
         <InitiativeRoller
-          addInitiativeEntry={addInitiativeEntry}
+          addEntry={addEntry}
           setIsRolling={setIsRolling}
         />
       :
@@ -64,7 +65,7 @@ const InitiativeList = ({
 
       {!isEmpty &&
         <div className="clear-roll-container">
-          <button className="clear-rolls" onClick={clearInitiativeData}>
+          <button className="clear-rolls" onClick={clearData}>
             Clear
           </button>
         </div>
@@ -74,11 +75,18 @@ const InitiativeList = ({
 	);
 }
 
-const InitiativeEntry = ({initiativeData, onDelete}) => {
-  const {name, initiative} = initiativeData;
+const InitiativeEntry = ({
+  initiativeData,
+  onDelete,
+  onClick
+}) => {
+  const {name, initiative, highlighted} = initiativeData;
 
   return (
-    <div className='InitiativeEntry'>
+    <div
+      className={`InitiativeEntry ${highlighted && 'highlighted'}`}
+      onClick={onClick}
+    >
       <div className='handle asset list_dot' />
       <div className='character-name'>
         {name}
@@ -95,7 +103,7 @@ const InitiativeEntry = ({initiativeData, onDelete}) => {
 }
 
 const InitiativeAdder = ({
-  addInitiativeEntry,
+  addEntry,
   setIsAdding,
   entryLength,
 }) => {
@@ -108,7 +116,7 @@ const InitiativeAdder = ({
     initiativeEntry.initiative = addingInitiative
     initiativeEntry.bonus = 0;
 
-    addInitiativeEntry(initiativeEntry)
+    addEntry(initiativeEntry)
 
     setAddingName('')
     setAddingInitiative(1)

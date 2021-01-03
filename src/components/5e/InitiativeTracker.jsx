@@ -26,7 +26,7 @@ const InitiativeTracker = ({
   const updateAllInitiativeData = (newData) => {
     newData.sort((a, b) => {
       if (a.initiative === b.initiative) {
-        return (a.bonus < b.bonus) ? 1 : -1   
+        return (a.bonus < b.bonus) ? 1 : -1
       } else {
         return (a.initiative < b.initiative) ? 1 : -1
       }
@@ -35,7 +35,7 @@ const InitiativeTracker = ({
   }
 
   // we clicked "add character" locally
-  const addInitiativeEntry = (newEntry) => {
+  const addEntry = (newEntry) => {
     if (partyConnected) {
       const dbInitiativeRef = getFirebaseDB().child('initiative').child(partyRoom)
       const newKey = dbInitiativeRef.push(newEntry).key
@@ -50,8 +50,25 @@ const InitiativeTracker = ({
     updateAllInitiativeData(newData)
   }
 
+  // toggle this entry to highlighted, all other ones false
+  const highlightEntry = (hightlightIndex) => {
+    if (hightlightIndex < 0 || hightlightIndex >= allInitiativeData.length) return
+
+    let newData = deepCopy(allInitiativeData)
+    newData.forEach((entry, i) => {
+      entry.highlighted = (i === hightlightIndex )
+
+      // if we're changing it, push the new one to firebase
+      if (partyConnected && entry.highlighted !== allInitiativeData[i].highlighted) {
+        getFirebaseDB().child('initiative').child(partyRoom).child(entry.firebaseKey).set(entry)
+      }
+    })
+
+    updateAllInitiativeData(newData)
+  }
+
   // we clicked "delete character" locally
-  const deleteInitiativeEntry = (index) => {
+  const deleteEntry = (index) => {
     if (index < 0 || index >= allInitiativeData.length) return
 
     if (partyConnected) {
@@ -65,7 +82,7 @@ const InitiativeTracker = ({
   }
 
   // we clicked the "clear" button locally
-  const clearInitiativeData = () => {
+  const clearData = () => {
     if (partyConnected) {
       getFirebaseDB().child('initiative').child(partyRoom).remove()
     }
@@ -112,7 +129,7 @@ const InitiativeTracker = ({
         const dbInitiativeRef = getFirebaseDB().child('initiative').child(partyRoom)
 
         // dbInitiativeRef.on('child_changed', (snapshot) => {
-        //   if (snapshot) updateInitiativeEntry(snapshot.val())
+        //   if (snapshot) highlightEntry(snapshot.val())
         // });
 
         dbInitiativeRef.on('child_added', (snapshot) => {
@@ -149,9 +166,10 @@ const InitiativeTracker = ({
 		<div className="InitiativeTracker">
       <InitiativeList
         allInitiativeData={allInitiativeData}
-        addInitiativeEntry={addInitiativeEntry}
-        deleteInitiativeEntry={deleteInitiativeEntry}
-        clearInitiativeData={clearInitiativeData}
+        addEntry={addEntry}
+        highlightEntry={highlightEntry}
+        deleteEntry={deleteEntry}
+        clearData={clearData}
       />
 		</div>
 	);
