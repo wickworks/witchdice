@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
-import { Multiselect } from 'multiselect-react-dropdown';
+import Select from 'react-select'
 import {allTags, allDamageTypes, abilityTypes, allConditions} from './data.js'
+import { getOptionFromValue } from '../../utils.js';
 import './DamageEdit.scss';
 
 
@@ -30,21 +31,19 @@ const DamageEdit = ({
 
   // =============== ADD / REMOVE TAG CRAP =============
 
-  let selectedTags = [];
-  let selectedTagNames = [];
-  tags.forEach((tagKey, i) => {
-    selectedTags.push({name: allTags[tagKey], id: tagKey})
-    selectedTagNames.push(allTags[tagKey])
-  })
-
   let tagOptions = [];
   for (const [key, value] of Object.entries(allTags)) {
-    tagOptions.push({name: value, id: key})
+    tagOptions.push({'value': key, 'label': value})
   }
+
+  let selectedTags = [];
+  tags.forEach((tagKey, i) => {
+    selectedTags.push(getOptionFromValue(tagOptions, tagKey))
+  })
 
   const handleTagUpdate = (selectedTags) => {
     let newTags = []
-    selectedTags.forEach((tag) => { newTags.push(tag.id) })
+    selectedTags.forEach((tag) => { newTags.push(tag.value) })
     setTags(newTags, attackID, damageID)
   }
 
@@ -134,16 +133,16 @@ const DamageEdit = ({
 
       <div className='row full'>
         <div className='tag-select'>
-          <Multiselect
+          <Select
+            isMulti
+            placeholder='Damage properties'
+            name="tags"
             options={tagOptions}
-            displayValue="name"
-            hidePlaceholder={true}
-            selectedValues={selectedTags}
-            closeIcon='cancel'
-            onSelect={(tag) => handleTagUpdate(tag)}
-            onRemove={(tag) => handleTagUpdate(tag)}
+            value={selectedTags}
+            onChange={tags => handleTagUpdate(tags)}
+            key='tags'
           />
-          {(tags.length === 0) && <label>Damage tags</label>}
+
         </div>
 
         <button className='delete' onClick={() => onDelete(damageID)}>
@@ -156,7 +155,6 @@ const DamageEdit = ({
         attackID={attackID}
         damageData={damageData}
         damageFunctions={damageFunctions}
-        selectedTags={selectedTags}
         handleTagUpdate={handleTagUpdate}
         handleSavingThrowDCClick={handleSavingThrowDCClick}
         handleSavingThrowTypeClick={handleSavingThrowTypeClick}
@@ -172,7 +170,6 @@ const DamageEditMetadata = ({
   attackID, damageID,
   damageData,
   damageFunctions,
-  selectedTags,
   handleTagUpdate,
   handleSavingThrowDCClick,
   handleSavingThrowTypeClick,

@@ -29,4 +29,15 @@ function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-export {deepCopy, getRandomInt, capitalize} ;
+// The react-select wants us to pass in the ENTIRE option from above to be selected, not just the value.
+// However, I don't want to store its weird-ass special object. We can just retrieve it with the key here.
+function getOptionFromValue(options, value) {
+  if (!Array.isArray(options)) { return null }
+
+  var result = options.find(option => {
+    return option.value === value
+  })
+  return result;
+}
+
+export {deepCopy, getRandomInt, capitalize, getOptionFromValue} ;

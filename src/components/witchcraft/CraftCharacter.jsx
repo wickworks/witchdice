@@ -3,7 +3,7 @@ import Select from 'react-select'
 import TextInput from '../shared/TextInput.jsx';
 import NumberInput from '../shared/NumberInput.jsx';
 import { DeleteButton, DeleteConfirmation } from '../shared/DeleteButton.jsx';
-import { deepCopy } from '../../utils.js';
+import { deepCopy, getOptionFromValue } from '../../utils.js';
 import {
   allMediaTypes,
   allTechniques,
@@ -77,17 +77,6 @@ const spellweaverOptions = [
   {"value": "Transmutation", "label": "Transmutation"},
 ]
 
-// The react-select wants us to pass in the ENTIRE option from above to be selected, not just the value.
-// However, I don't want to store its weird-ass special object. We can just retrieve it with the key here.
-function getOptionFromValue(options, value) {
-  if (!Array.isArray(options)) { return null }
-
-  var result = options.find(option => {
-    return option.value === value
-  })
-  return result;
-}
-
 // Style for the drop-down menus
 const centerSelectStyle = {
   valueContainer: (provided, state) => {
@@ -160,9 +149,9 @@ const CraftCharacter = ({
   const alloySelect = (
     <Select
       isMulti
-      placeholder={'Alloys'}
-      name="alloys"
-      className="technique-select"
+      placeholder='Alloys'
+      name='alloys'
+      className='technique-select'
       options={alloyOptions}
       value={crafterData.techniqueDetails.alloys}
       onChange={(options) => {
@@ -171,13 +160,13 @@ const CraftCharacter = ({
           alloys: options.slice(0,3)
         }})
       }}
-      key={`alloys`}
+      key='alloys'
     />
   )
 
   const spellweaverSelect = (
     <Select
-      placeholder={'School of magic'}
+      placeholder='School of magic'
       name="school"
       className="technique-select"
       options={spellweaverOptions}
@@ -188,7 +177,7 @@ const CraftCharacter = ({
           spellweaver: option.value
         }})
       }}
-      key={`alloys`}
+      key='alloys'
     />
   )
 

@@ -116,60 +116,7 @@ $damagesource_rearrange_threshold: 600px;
   .tag-select {
     position: relative;
     width: 100%;
-    // min-width: 200px;
-    // margin-right: 10px;
-    // flex: 1 0 auto;
-    // order: 6;
-
-    label {
-      @include text_input;
-      color: $grey_mid;
-      font-style: normal;
-
-      position: absolute;
-      top: 7px;
-      left: 8px;
-      pointer-events: none;
-    }
-
-    #multiselectContainerReact {
-      cursor: pointer;
-      background-color: $parchment;
-      border-radius: 4px;
-
-      &:hover { background-color: $parchment_mid; }
-
-      // the unnamed immediate container
-      > div {
-        padding: 0 4px;
-        min-height: 32px;
-        border: 0;
-      }
-
-      .chip {
-        // margin: 4px;
-        margin: 0 4px;
-        border-radius: 0;
-        padding: 8px 4px 9px 8px;
-        background-color: $olive_light;
-        color: $soft_black;
-
-        .icon_cancel {
-          border-radius: 2px;
-
-          &:hover {
-            background-color: salmon;
-          }
-        }
-      }
-
-      input {
-        position: absolute;
-        left: -99999999px;
-      }
-    }
   }
-
 
   // saving throw & applied conditions
   .additional-info {
