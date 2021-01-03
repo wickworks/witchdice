@@ -51,7 +51,8 @@ const Main5E = ({
   setPartyLastAttackTimestamp,
   setRollSummaryData,
   allInitiativeData,
-  setAllInitiativeData,
+  addInitiativeEntry,
+  deleteInitiativeEntry,
 }) => {
   const [allCharacterEntries, setAllCharacterEntries] = useState([]);
   const [allMonsterEntries, setAllMonsterEntries] = useState([]);
@@ -545,7 +546,8 @@ const Main5E = ({
 
       <InitiativeList
         allInitiativeData={allInitiativeData}
-        setAllInitiativeData={setAllInitiativeData}
+        addInitiativeEntry={addInitiativeEntry}
+        deleteInitiativeEntry={deleteInitiativeEntry}
       />
 
       <CharacterAndMonsterList

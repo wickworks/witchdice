@@ -28,19 +28,19 @@ function getFirebaseDB() {
 }
 
 const Main = () => {
-  // List of all the characters in initiative order
-  const [allInitiativeData, setAllInitiativeData] = useState([]);
-
-  // List of all the rolls to display in the party panel.
-  const [allPartyActionData, setAllPartyActionData] = useState([]);
+  // 5e summary of the current roll. On change, we push it to firebase.
+  // Or, if disconnected, just send straight to latestAction.
+  const [rollSummaryData, setRollSummaryData] = useState({});
 
   // When we see a new roll in firebase, we put it here.
   // This triggers triggering it getting added to allPartyActionData.
   const [latestAction, setLatestAction] = useState(null);
+  // List of all the rolls to display in the party panel.
+  const [allPartyActionData, setAllPartyActionData] = useState([]);
 
-  // 5e summary of the current roll. On change, we push it to firebase.
-  // Or, if disconnected, just send straight to latestAction.
-  const [rollSummaryData, setRollSummaryData] = useState({});
+  // Same pattern as above.
+  const [latestInitiative, setLatestInitiative] = useState(null);
+  const [allInitiativeData, setAllInitiativeData] = useState([]);
 
   // Store the key/timestamp of the last roll so we can update it.
   const [partyLastAttackKey, setPartyLastAttackKey] = useState('');
@@ -86,7 +86,9 @@ const Main = () => {
     if (partyAutoconnect) connectToRoom(partyRoom)
   }, [partyAutoconnect]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // =============== PARTY ROLL FUNCTIONS ==================
+  // =============== FIREBASE DICE ROLL FUNCTIONS ==================
+
+  // Push a 5e damage roll to firebase
   const addNewAttackPartyRoll = (actionData) => {
     if (partyConnected) {
       const dbRollsRef = getFirebaseDB().child('rolls').child(partyRoom);
@@ -109,6 +111,7 @@ const Main = () => {
     }
   }
 
+  // Push a dicebag roll to firebase
   const addNewDicebagPartyRoll = (rolls, summaryMode, isNew) => {
     if (rolls.length > 0) {
       let actionData = {};
@@ -154,7 +157,7 @@ const Main = () => {
     }
   }
 
-  // ~ NEW/UPDATE LOCAL 5e ATTACK ~ //
+  // We created or updated our 5e damage roll data — prepare it to push to firebase.
   useEffect(() => {
     const conditions = rollSummaryData.conditions;
     const characterName = rollSummaryData.characterName;
@@ -190,7 +193,7 @@ const Main = () => {
     }
   }, [rollSummaryData]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ~ NEW FIREBASE ACTION DETECTED ~ //
+  // Detect new roll actions coming in from firebase => update allPartyActionData
   useEffect(() => {
     if (latestAction) {
       let newData = deepCopy(allPartyActionData);
@@ -212,6 +215,66 @@ const Main = () => {
 
   }, [latestAction]); // eslint-disable-line react-hooks/exhaustive-deps
 
+
+  // =============== FIREBASE INITIATIVE FUNCTIONS ==================
+
+  // always sort the initiative data before setting it
+  const updateAllInitiativeData = (newData) => {
+    newData.sort((a, b) => (a.initiative < b.initiative) ? 1 : -1)
+    setAllInitiativeData(newData)
+  }
+
+  // we clicked "add character" locally
+  const addInitiativeEntry = (newEntry) => {
+    if (partyConnected) {
+      const dbInitiativeRef = getFirebaseDB().child('initiative').child(partyRoom)
+      const newKey = dbInitiativeRef.push(newEntry).key
+
+      // add the firebase key to the locally-saved entry
+      newEntry.firebaseKey = newKey
+    }
+
+    // add it to the local allInitiativeData
+    let newData = deepCopy(allInitiativeData)
+    newData.push(newEntry)
+    updateAllInitiativeData(newData)
+  }
+
+  // we clicked "delete character" locally
+  const deleteInitiativeEntry = (index) => {
+    if (index < 0 || index >= allInitiativeData.length) return
+
+    if (partyConnected) {
+      const firebaseKey = allInitiativeData[index].firebaseKey
+      const dbInitiativeRef = getFirebaseDB().child('initiative').child(partyRoom).child(firebaseKey).remove()
+    }
+
+    let newData = deepCopy(allInitiativeData)
+    newData.splice(index, 1);
+    updateAllInitiativeData(newData)
+  }
+
+  useEffect(() => {
+    if (latestInitiative) {
+      let newData = deepCopy(allInitiativeData)
+
+      // is this an update or a new one?
+      let isUpdate = false;
+      allInitiativeData.forEach((entry, i) => {
+        if (entry !== null && entry.firebaseKey === latestInitiative.firebaseKey) {
+          isUpdate = true;
+          newData[i] = deepCopy(latestInitiative);
+        }
+      });
+      if (!isUpdate) newData.push(latestInitiative)
+
+      // sort by initiative TODO: copied code from above, consolidate
+      updateAllInitiativeData(newData)
+    }
+
+  }, [latestInitiative]); // eslint-disable-line react-hooks/exhaustive-deps
+
+
   const connectToRoom = (roomName) => {
     try {
       console.log('Connecting to room : ', roomName);
@@ -225,10 +288,10 @@ const Main = () => {
       dbRollsRef.on('child_added', (snapshot) => {
         if (snapshot) {
           // clean out old rolls?
-          var now = Date.now();
-          var cutoff = now - 3 * 24 * 60 * 60 * 1000; // 3 days ago
+          var now = Date.now()
+          var cutoff = now - 3 * 24 * 60 * 60 * 1000 // 3 days ago
           if (snapshot.val().createdAt < cutoff) {
-            snapshot.ref.remove();
+            snapshot.ref.remove()
           } else {
             setLatestAction(snapshot.val())
           }
@@ -236,13 +299,18 @@ const Main = () => {
       });
 
       // ~~ INITIATIVE TRACKER ~~~
-      // const dbInitiativeRef = getFirebaseDB().child('initiative').child(roomName)
+      const dbInitiativeRef = getFirebaseDB().child('initiative').child(roomName)
       // dbInitiativeRef.on('child_changed', (snapshot) => {
       //   if (snapshot) updateInitiativeEntry(snapshot.val())
       // });
-      // dbInitiativeRef.on('child_added', (snapshot) => {
-      //   if (snapshot) addInitiativeEntry(snapshot.val())
-      // });
+      dbInitiativeRef.on('child_added', (snapshot) => {
+        if (snapshot) {
+          // restore the firebase key to the entry's object
+          let newEntry = snapshot.val()
+          newEntry.firebaseKey = snapshot.key
+          setLatestInitiative(newEntry)
+        }
+      });
 
       setPartyConnected(true);
       localStorage.setItem("party_name", partyName);
@@ -301,7 +369,8 @@ const Main = () => {
              setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
              setRollSummaryData={setRollSummaryData}
              allInitiativeData={allInitiativeData}
-             setAllInitiativeData={setAllInitiativeData}
+             addInitiativeEntry={addInitiativeEntry}
+             deleteInitiativeEntry={deleteInitiativeEntry}
             />
             {renderDicebag()}
           </Suspense>

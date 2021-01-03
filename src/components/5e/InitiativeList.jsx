@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import TextInput from '../shared/TextInput.jsx';
 import NumberInput from '../shared/NumberInput.jsx';
 import { deepCopy, capitalize } from '../../utils.js';
+import { defaultInitiativeEntry } from './data.js';
 import './InitiativeList.scss';
 
 const InitiativeList = ({
-  allInitiativeData, setAllInitiativeData
+  allInitiativeData,
+  addInitiativeEntry,
+  deleteInitiativeEntry,
 }) => {
 
   const [isAdding, setIsAdding] = useState(false);
@@ -13,30 +16,15 @@ const InitiativeList = ({
   const [addingInitiative, setAddingInitiative] = useState(1);
 
   const confirmNewCharacter = () => {
-    let newData = deepCopy(allInitiativeData)
-    newData.push({
-      name: capitalize(addingName),
-      initiative: addingInitiative
-    })
+    let initiativeEntry = deepCopy(defaultInitiativeEntry)
+    initiativeEntry.name = capitalize(addingName)
+    initiativeEntry.initiative = addingInitiative
 
-    console.log('presort', newData);
-
-    // sort by initiative
-    newData.sort((a, b) => (a.initiative < b.initiative) ? 1 : -1)
-
-    console.log('postsort', newData);
-
-    setAllInitiativeData(newData)
+    addInitiativeEntry(initiativeEntry)
 
     setAddingName('')
     setAddingInitiative(1)
     // setIsAdding(false)
-  }
-
-  const deleteEntry = (index) => {
-    let newData = deepCopy(allInitiativeData);
-    newData.splice(index, 1);
-    setAllInitiativeData(newData);
   }
 
 	return (
@@ -48,7 +36,7 @@ const InitiativeList = ({
         { allInitiativeData.map((initiativeData, i) => {
             return (<InitiativeEntry
               initiativeData={initiativeData}
-              onDelete={() => deleteEntry(i)}
+              onDelete={() => deleteInitiativeEntry(i)}
               key={`${initiativeData.name}-${i}`}
             />)
         })}

@@ -116,7 +116,11 @@ const anyDamageSourceContains = (attackSource, tagname) => {
   return false
 }
 
-
+const defaultInitiativeEntry = {
+  name: '',
+  initiative: 1,
+  // firebaseKey: '' // this is added dynamically at the appropriate time
+};
 
 export {
   allTags,
@@ -128,5 +132,6 @@ export {
   defaultAttackData,
   defaultRollData,
   defaultDamageRoll,
+  defaultInitiativeEntry,
   anyDamageSourceContains
 };
