@@ -167,8 +167,8 @@ const Main5E = ({
       }
 
       // PARSE PRESET JSON
-      for ( var i = 0; i < allCharacterPresetData.length; ++i ) {
-        const presetData = allCharacterPresetData[i];
+      for ( var j = 0; j < allCharacterPresetData.length; ++j ) {
+        const presetData = allCharacterPresetData[j];
 
         saveCharacterData(
           presetData.id,

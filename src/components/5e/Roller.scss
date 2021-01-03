@@ -129,20 +129,10 @@
   }
 
   .clear-roll-container {
-    // border-top: 1px solid $parchment_dark;
     margin: 40px auto 0 0;
 
     button.clear-rolls {
-      @include text_clear_rolls;
-      display: block;
-      margin: auto;
-      padding: 6px 80px;
-      border: none;
-      border-radius: 6px 6px 0 0;
-      background-color: $parchment_dark;
-      cursor: pointer;
-
-      &:hover { background-color: $pink; }
+      @include button_clear_rolls;
     }
   }
 }

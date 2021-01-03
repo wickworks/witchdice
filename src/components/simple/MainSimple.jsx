@@ -1,7 +1,6 @@
 import React from 'react';
 
-const MainSimple = ({
-}) => {
+const MainSimple = () => {
 
   return (
     <div className='MainSimple'>

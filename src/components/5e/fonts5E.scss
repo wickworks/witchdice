@@ -23,18 +23,20 @@
   font-style: italic;
 }
 
-@mixin text_clear_rolls {
+
+@mixin button_clear_rolls {
   font-family: 'Bitter';
   font-weight: bold;
   font-size: 16px;
   color: $rust;
-}
 
-@mixin text_initiative_header {
-  font-family: 'Bitter';
-  font-size: 22px;
-  font-style: italic;
-  color: $rust;
-  text-align: center;
-  margin: 14px 0 12px;
+  display: block;
+  margin: auto;
+  padding: 6px 80px;
+  border: none;
+  border-radius: 6px 6px 0 0;
+  background-color: $parchment_dark;
+  cursor: pointer;
+
+  &:hover { background-color: $pink; }
 }

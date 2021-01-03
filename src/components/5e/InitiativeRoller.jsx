@@ -6,6 +6,7 @@ import './InitiativeRoller.scss';
 
 const InitiativeRoller = ({
   addInitiativeEntry,
+  setIsRolling,
 }) => {
   const [addingName, setAddingName] = useState('');
   const [addingBonus, setAddingBonus] = useState(0);
@@ -41,58 +42,56 @@ const InitiativeRoller = ({
 	return (
 		<div className="InitiativeRoller">
 
-      <div className='roller-container'>
-        <h3>~ Roll Initiative ~</h3>
+      <input
+        type='text'
+        className='character-name'
+        placeholder='Character name'
+        value={addingName}
+        onChange={e => setAddingName(e.target.value || '')}
+        onBlur={() => {if (addingName === '') setIsRolling(false)} }
+        ref={nameInputRef}
+        autoFocus
+      />
 
-        <input
-          type='text'
-          className='character-name'
-          placeholder='Character name'
-          value={addingName}
-          onChange={e => setAddingName(e.target.value || '')}
-          ref={nameInputRef}
+      <div className='dice-container'>
+        <div className='bonus-container'>
+          <div>Bonus</div>
+
+          <input
+            type="number"
+            className='bonus'
+            value={addingBonus}
+            onChange={e => setAddingBonus(parseInt(e.target.value) || 0)}
+          />
+        </div>
+
+        <BigRollButton
+          handleNewRoll={handleRoll}
+          isDisabled={!addingName}
         />
 
-        <div className='dice-container'>
-          <div className='bonus-container'>
-            <div>Bonus</div>
-
+        <div className='advantage-container'>
+          <label>
             <input
-              type="number"
-              className='bonus'
-              value={addingBonus}
-              onChange={e => setAddingBonus(parseInt(e.target.value) || 0)}
+              name="advantage"
+              type="checkbox"
+              checked={advantage}
+              onChange={() => setAdvantage(!advantage)}
             />
-          </div>
+            Advantage
+          </label>
 
-          <BigRollButton
-            handleNewRoll={handleRoll}
-            isDisabled={!addingName}
-          />
-
-          <div className='advantage-container'>
-            <label>
-              <input
-                name="advantage"
-                type="checkbox"
-                checked={advantage}
-                onChange={() => setAdvantage(!advantage)}
-              />
-              Advantage
-            </label>
-
-            <label>
-              <input
-                name="disadvantage"
-                type="checkbox"
-                checked={disadvantage}
-                onChange={() => setDisadvantage(!disadvantage)}
-              />
-              Disadvantage
-            </label>
-          </div>
-
+          <label>
+            <input
+              name="disadvantage"
+              type="checkbox"
+              checked={disadvantage}
+              onChange={() => setDisadvantage(!disadvantage)}
+            />
+            Disadvantage
+          </label>
         </div>
+
       </div>
 
 		</div>

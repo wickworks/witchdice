@@ -2,115 +2,135 @@
 @import './fonts5E';
 
 .InitiativeList {
-	width: 49%;
-	min-width: 340px;
+  @include shadow;
+  @include nouveau_border;
+  border-image-width: 112px;
+  border-image-outset: 0;
+  border-image-source: url('/assets/border_nouveau_initiative_list.svg');
+  background-color: $parchment;
+  background-image: url('/assets/bg_parchment.png');
+  padding: 12px 12px 16px;
+  margin: auto;
+  box-sizing: border-box;
+	width: 100%;
+	max-width: 400px;
+  min-height: 224px;
 
   button {
     border: none;
     background-color: transparent;
-    opacity: 0.4;
+  }
 
-    &:hover {
-      opacity: 1.0;
-    }
+  h3 {
+    font-family: 'Bitter';
+    font-size: 22px;
+    font-style: italic;
+    color: $rust;
+    text-align: center;
+    margin: 14px 0 20px;
   }
 
   .list-container {
-    @include shadow;
-    @include nouveau_border;
-    border-image-width: 112px;
-    border-image-outset: 0;
-    border-image-source: url('/assets/border_nouveau_initiative_list.svg');
-		background-color: $parchment;
-		background-image: url('/assets/bg_parchment.png');
-    padding: 12px 12px 18px;
-    min-height: 184px;
+    margin-bottom: 22px;
+    padding: 0 26px;
 
-		h3 {
-      @include text_initiative_header;
-    }
+    &.empty { margin-bottom: 36px; }
 
-    .adding-container {
+    .InitiativeEntry {
       display: flex;
-      margin: 10px 8px;
+      align-items: center;
+      margin: 4px 8px;
+      box-sizing: border-box;
 
-      input.character-name {
-        width: 100%;
-        // margin-left: 8px;
-        padding: 4px 0 4px 6px;
-        font-size: 16px;
+      .handle.asset {
+        width: 28px;
+        height: 28px;
+        margin-right: 4px;
+        margin-left: -8px;
+        // cursor: grab;
+  			//
+        // &:hover { background-color: $pink; }
       }
 
-      input.initiative-count {
-        width: 38px;
-        margin: 0 8px;
-        padding: 4px 0 4px 6px;
-        font-size: 16px;
-        // text-align: center;
+      .character-name {
+        font-size: 18px;
       }
 
-      button.confirm-entry {
-        padding: 0 2px;
-        opacity: 1.0;
-        border-radius: 4px;
-        background-color: $olive_light;
-        &:hover { background-color: $pink; }
-
-        .asset {
-          width: 28px;
-          height: 28px;
-        }
+      .initiative-count {
+        margin-left: auto;
+        padding: 0 12px;
+        font-size: 22px;
       }
-    }
 
-    button.new-entry {
-      position: relative;
-			display: block;
-      width: 36px;
-      height: 36px;
-      margin: 4px auto;
-
-      span {
-        @include text_default;
-        position: absolute;
-        left: 120%;
-        top: 8px;
-        width: 250px;
-        text-align: left;
+      .delete-button.asset {
+        width: 28px;
+        height: 28px;
+        opacity: 0.4;
+        &:hover { opacity: 1.0; }
       }
     }
   }
 
-
-  .InitiativeEntry {
+  .InitiativeAdder {
     display: flex;
-    align-items: center;
-    margin: 4px 8px;
-    box-sizing: border-box;
+    margin: 0 0 15px;
 
-    .handle.asset {
-      width: 28px;
-      height: 28px;
-      margin-right: 4px;
-      margin-left: -8px;
-      // cursor: grab;
-			//
-      // &:hover { background-color: $pink; }
+    input.character-name {
+      width: 100%;
+      margin-left: 16px;
+      padding: 4px 0 4px 6px;
+      font-size: 22px;
     }
 
-    .character-name {
-      font-size: 18px;
+    input.initiative-count {
+      width: 42px;
+      margin: 0 8px;
+      padding: 4px 0 4px 6px;
+      font-size: 22px;
+      // text-align: center;
     }
 
-    .initiative-count {
-      margin-left: auto;
-      padding: 0 12px;
-      font-size: 18px;
-    }
+    button.confirm-entry {
+      padding: 0 2px;
+      opacity: 1.0;
+      border-radius: 4px;
+      background-color: $olive_light;
+      &:hover { background-color: $pink; }
 
-    .delete-button.asset {
-      width: 24px;
-      height: 24px;
+      .asset {
+        width: 34px;
+        height: 34px;
+      }
+    }
+  }
+
+  .add-button-container {
+    display: flex;
+    justify-content: space-around;
+
+    label {
+      @include text_default;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      opacity: 0.85;
+      &:hover { opacity: 1.0; }
+
+      button {
+        display: block;
+        width: 36px;
+        height: 36px;
+        margin: 4px 4px;
+      }
+    }
+  }
+
+  .clear-roll-container {
+    margin: 10px auto 0 0;
+
+    button.clear-rolls {
+      @include button_clear_rolls;
     }
   }
 }

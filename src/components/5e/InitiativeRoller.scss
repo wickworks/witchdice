@@ -2,83 +2,64 @@
 @import './fonts5E';
 
 .InitiativeRoller {
-	width: 49%;
-	min-width: 340px;
+  margin: 26px 0 18px;
 
-	button {
-		border: none;
-		background-color: transparent;
+	input.character-name {
+		@include text_default;
+		font-size: 22px;
+
+		display: block;
+		width: 85%;
+		box-sizing: border-box;
+		margin: 12px auto 8px;
+		padding: 2px 8px;
 	}
 
-	.roller-container {
-		@include shadow;
-		@include nouveau_border;
-		border-image-source: url('/assets/border_nouveau_initiative_roll.svg');
-		background-color: $parchment;
-		background-image: url('/assets/bg_parchment.png');
-		padding: 12px 16px 26px;
+	.dice-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 
-		h3 {
-      @include text_initiative_header;
-    }
+		.bonus-container {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			flex-direction: column;
+			font-size: 14px;
 
-		input.character-name {
-			@include text_default;
-			font-size: 22px;
-
-			display: block;
-			width: 92%;
-			box-sizing: border-box;
-			margin: 12px auto 8px;
-			padding: 2px 8px;
+			input {
+				@include text_default;
+				font-size: 24px;
+				width: 44px;
+				margin-bottom: 16px;
+			}
 		}
 
-		.dice-container {
+		.BigRollButton {
+			margin: 0 12px 0 20px;
+
+			button.new-roll {
+				width: 80px;
+				height: 80px;
+			}
+		}
+
+		.advantage-container {
 			display: flex;
-			align-items: center;
-			justify-content: center;
+			justify-content: flex-start;
+			flex-direction: column;
+			font-size: 14px;
 
-			.bonus-container {
+			label {
 				display: flex;
-				justify-content: center;
 				align-items: center;
-				flex-direction: column;
-				font-size: 14px;
-
-				input {
-					@include text_default;
-					font-size: 24px;
-					width: 44px;
-					margin-bottom: 16px;
-				}
+				cursor: pointer;
 			}
 
-			.BigRollButton {
-				margin: 0 12px 0 20px;
-
-				button.new-roll {
-					width: 80px;
-					height: 80px;
-				}
-			}
-
-			.advantage-container {
-				display: flex;
-				justify-content: flex-start;
-				flex-direction: column;
-				font-size: 14px;
-
-				label {
-					display: flex;
-					align-items: center;
-					cursor: pointer;
-				}
-
-				input {
-					width: 18px;
-					height: 18px;
-					margin-right: 4px;
-				}
+			input {
+				width: 18px;
+				height: 18px;
+				margin-right: 4px;
 			}
 		}
 	}

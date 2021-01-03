@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { deepCopy, capitalize } from '../../utils.js';
+import { deepCopy,  } from '../../utils.js';
 import InitiativeList from './InitiativeList.jsx';
-import InitiativeRoller from './InitiativeRoller.jsx';
 import './InitiativeTracker.scss';
 
 function getFirebaseDB() {
@@ -15,6 +14,9 @@ const InitiativeTracker = ({
   // When we see a new entry in firebase, we put it here.
   // This triggers triggering it getting added to allInitiativeData.
   const [latestInitiative, setLatestInitiative] = useState(null);
+
+  // Similar logic, but for targeted destruction of keys
+  const [latestDestroyKey, setLatestDestroyKey] = useState('');
 
   // List of all the entries to display.
   const [allInitiativeData, setAllInitiativeData] = useState([]);
@@ -48,7 +50,7 @@ const InitiativeTracker = ({
 
     if (partyConnected) {
       const firebaseKey = allInitiativeData[index].firebaseKey
-      const dbInitiativeRef = getFirebaseDB().child('initiative').child(partyRoom).child(firebaseKey).remove()
+      getFirebaseDB().child('initiative').child(partyRoom).child(firebaseKey).remove()
     }
 
     let newData = deepCopy(allInitiativeData)
@@ -56,11 +58,19 @@ const InitiativeTracker = ({
     updateAllInitiativeData(newData)
   }
 
+  // we clicked the "clear" button locally
+  const clearInitiativeData = () => {
+    if (partyConnected) {
+      getFirebaseDB().child('initiative').child(partyRoom).remove()
+    }
+    setAllInitiativeData([])
+  }
+
+  // ~~ CREATE ~~
+  // There's a new kid in town! let's welcome them and add them to the data
   useEffect(() => {
     if (latestInitiative) {
       let newData = deepCopy(allInitiativeData)
-
-      // is this an update or a new one?
       let isUpdate = false;
       allInitiativeData.forEach((entry, i) => {
         if (entry !== null && entry.firebaseKey === latestInitiative.firebaseKey) {
@@ -69,12 +79,25 @@ const InitiativeTracker = ({
         }
       });
       if (!isUpdate) newData.push(latestInitiative)
-
-      // sort by initiative TODO: copied code from above, consolidate
       updateAllInitiativeData(newData)
     }
 
   }, [latestInitiative]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ~~ DESTROY ~~
+  // We have a new target. Search and destroy, by any means necessary.
+  useEffect(() => {
+    if (latestDestroyKey) {
+      let newData = deepCopy(allInitiativeData)
+      allInitiativeData.forEach((entry, i) => {
+        if (entry !== null && entry.firebaseKey === latestDestroyKey) {
+          newData.splice(i, 1);
+        }
+      });
+      updateAllInitiativeData(newData)
+    }
+
+  }, [latestDestroyKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   useEffect(() => {
@@ -88,10 +111,15 @@ const InitiativeTracker = ({
 
         dbInitiativeRef.on('child_added', (snapshot) => {
           if (snapshot) {
-            // restore the firebase key to the entry's object
-            let newEntry = snapshot.val()
+            let newEntry = snapshot.val() // restore the firebase key to the entry's object
             newEntry.firebaseKey = snapshot.key
             setLatestInitiative(newEntry)
+          }
+        });
+
+        dbInitiativeRef.on('child_removed', (snapshot) => {
+          if (snapshot) {
+            setLatestDestroyKey(snapshot.key) // triggers a search and destroy
           }
         });
 
@@ -105,14 +133,11 @@ const InitiativeTracker = ({
 
 	return (
 		<div className="InitiativeTracker">
-      <InitiativeRoller
-        addInitiativeEntry={addInitiativeEntry}
-      />
-
       <InitiativeList
         allInitiativeData={allInitiativeData}
         addInitiativeEntry={addInitiativeEntry}
         deleteInitiativeEntry={deleteInitiativeEntry}
+        clearInitiativeData={clearInitiativeData}
       />
 		</div>
 	);
