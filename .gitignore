@@ -26,3 +26,6 @@ gifs
 roll_to_hit_design.svg
 witch+craft_design.svg
 witch+craft_wireframe_1.png
+database-debug.log
+ui-debug.log
+firebase-debug.log

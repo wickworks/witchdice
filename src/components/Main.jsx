@@ -23,6 +23,10 @@ function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
 
+function getFirebaseDB() {
+  return window.firebase.database().ref()
+}
+
 const Main = () => {
   // List of all the characters in initiative order
   const [allInitiativeData, setAllInitiativeData] = useState([]);
@@ -85,7 +89,7 @@ const Main = () => {
   // =============== PARTY ROLL FUNCTIONS ==================
   const addNewAttackPartyRoll = (actionData) => {
     if (partyConnected) {
-      const dbRollsRef = window.firebase.database().ref().child('rolls').child(partyRoom);
+      const dbRollsRef = getFirebaseDB().child('rolls').child(partyRoom);
 
       // ~~ new attack roll ~~ //
       if (partyLastAttackTimestamp === 0) {
@@ -130,7 +134,7 @@ const Main = () => {
       }
 
       if (partyConnected) {
-        const dbRollsRef = window.firebase.database().ref().child('rolls').child(partyRoom);
+        const dbRollsRef = getFirebaseDB().child('rolls').child(partyRoom);
         // ~~ new dicebag roll ~~ //
         if (isNew) {
           // console.log('       pushing  new dicebag roll to room',partyRoom,' : ', actionData);
@@ -187,7 +191,6 @@ const Main = () => {
   }, [rollSummaryData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // ~ NEW FIREBASE ACTION DETECTED ~ //
-  // since we can't read (only write) state variables from inside firebase triggers, have to do a handoff like this
   useEffect(() => {
     if (latestAction) {
       let newData = deepCopy(allPartyActionData);
@@ -215,7 +218,7 @@ const Main = () => {
       if (roomName === null || roomName.length === 0) { throw new Error('Invalid room name!') }
 
       // ~~ DICEBAG AND DAMAGE ROLLS ~~~
-      const dbRollsRef = window.firebase.database().ref().child('rolls').child(roomName)
+      const dbRollsRef = getFirebaseDB().child('rolls').child(roomName)
       dbRollsRef.on('child_changed', (snapshot) => {
         if (snapshot) { setLatestAction(snapshot.val()) }
       });
@@ -233,7 +236,7 @@ const Main = () => {
       });
 
       // ~~ INITIATIVE TRACKER ~~~
-      // const dbInitiativeRef = window.firebase.database().ref().child('initiative').child(roomName)
+      // const dbInitiativeRef = getFirebaseDB().child('initiative').child(roomName)
       // dbInitiativeRef.on('child_changed', (snapshot) => {
       //   if (snapshot) updateInitiativeEntry(snapshot.val())
       // });
