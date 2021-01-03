@@ -5,7 +5,7 @@ import BigRollButton from '../shared/BigRollButton.jsx'
 import './InitiativeRoller.scss';
 
 const InitiativeRoller = ({
-  addInitiativeEntry,
+  addEntry,
   setIsRolling,
 }) => {
   const [addingName, setAddingName] = useState('');
@@ -32,7 +32,7 @@ const InitiativeRoller = ({
     newEntry.initiative = roll
     newEntry.bonus = addingBonus
 
-    addInitiativeEntry(newEntry)
+    addEntry(newEntry)
 
     setAddingName('')
     setAddingBonus(0)
