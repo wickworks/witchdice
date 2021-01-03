@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from "react-helmet";
 import { CharacterAndMonsterList } from '../shared/CharacterAndMonsterList.jsx';
+import NouveauDivider from '../shared/NouveauDivider.jsx';
 import Antiracism from './Antiracism.jsx';
 import Character from './Character.jsx';
 import ActiveAttackList from './ActiveAttackList.jsx';
@@ -548,6 +549,8 @@ const Main5E = ({
         partyRoom={partyRoom}
       />
 
+      <NouveauDivider />
+
       <CharacterAndMonsterList
         setActiveCharacterID={setActiveCharacter}
         activeCharacterID={characterID}
@@ -599,6 +602,8 @@ const Main5E = ({
           />
         </div>
       }
+
+      <NouveauDivider />
 
     </div>
   )

@@ -36,6 +36,8 @@ const InitiativeRoller = ({
 
     setAddingName('')
     setAddingBonus(0)
+    setAdvantage(false)
+    setDisadvantage(false)
 
     nameInputRef.current.focus()
   }
