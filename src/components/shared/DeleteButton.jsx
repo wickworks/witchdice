@@ -28,7 +28,7 @@ const DeleteConfirmation = ({
       </button>
       <button className='cancel' onClick={handleCancel}>
         <div className='asset x' />
-        <div className='label'>cancel</div>
+        <div className='label'>Cancel</div>
       </button>
     </div>
   );

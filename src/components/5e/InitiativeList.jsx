@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NumberInput from '../shared/NumberInput.jsx';
 import InitiativeRoller from './InitiativeRoller.jsx';
+import { DeleteConfirmation } from '../shared/DeleteButton.jsx';
 import { deepCopy, capitalize } from '../../utils.js';
 import { defaultInitiativeEntry } from './data.js';
 import './InitiativeList.scss';
@@ -15,6 +16,8 @@ const InitiativeList = ({
 }) => {
   const [isAdding, setIsAdding] = useState(false);
   const [isRolling, setIsRolling] = useState(false);
+
+  const [isConfirmingClear, setIsConfirmingClear] = useState(false);
 
   const isEmpty = (allInitiativeData.length === 0)
 
@@ -77,9 +80,19 @@ const InitiativeList = ({
 
       {!isEmpty &&
         <div className="clear-roll-container">
-          <button className="clear-rolls" onClick={clearData}>
-            Clear
-          </button>
+
+          {!isConfirmingClear ?
+            <button className="clear-rolls" onClick={() => setIsConfirmingClear(true)}>
+              Clear
+            </button>
+          :
+            <DeleteConfirmation
+              name={'initiative order'}
+              handleCancel={() => setIsConfirmingClear(false)}
+              handleDelete={() => {setIsConfirmingClear(false); clearData()}}
+              moreClasses={'clear-confirmation'}
+            />
+          }
         </div>
       }
 
@@ -99,9 +112,11 @@ const InitiativeEntry = ({
   return (
     <div
       className={`InitiativeEntry ${highlighted ? 'highlighted' : ''}`}
-      onClick={onClick}
     >
-      <div className='handle asset list_dot' />
+      <div
+        className='handle asset list_dot'
+        onClick={onClick}
+      />
       <div className='character-name'>
         {name}
       </div>
