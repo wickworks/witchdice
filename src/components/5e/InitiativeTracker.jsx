@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { deepCopy, capitalize } from '../../utils.js';
 import InitiativeList from './InitiativeList.jsx';
+import InitiativeRoller from './InitiativeRoller.jsx';
 import './InitiativeTracker.scss';
 
 function getFirebaseDB() {
@@ -104,6 +105,10 @@ const InitiativeTracker = ({
 
 	return (
 		<div className="InitiativeTracker">
+      <InitiativeRoller
+        addInitiativeEntry={addInitiativeEntry}
+      />
+
       <InitiativeList
         allInitiativeData={allInitiativeData}
         addInitiativeEntry={addInitiativeEntry}

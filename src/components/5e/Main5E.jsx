@@ -543,11 +543,6 @@ const Main5E = ({
         <Helmet> <title>{characterName} ~ Witch Dice</title> </Helmet>
       }
 
-      <InitiativeTracker
-        partyConnected={partyConnected}
-        partyRoom={partyRoom}
-      />
-
       <CharacterAndMonsterList
         setActiveCharacterID={setActiveCharacter}
         activeCharacterID={characterID}
@@ -599,6 +594,11 @@ const Main5E = ({
           />
         </div>
       }
+
+      <InitiativeTracker
+        partyConnected={partyConnected}
+        partyRoom={partyRoom}
+      />
 
     </div>
   )

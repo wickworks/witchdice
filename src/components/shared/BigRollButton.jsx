@@ -1,13 +1,13 @@
 import React from 'react';
-import './RollBigButton.scss';
+import './BigRollButton.scss';
 
-const RollBigButton = ({
+const BigRollButton = ({
   handleNewRoll,
   isDisabled,
 }) => {
   const disabledClass = isDisabled ? 'disabled' : '';
   return (
-    <div className='RollBigButton'>
+    <div className='BigRollButton'>
       <button
         className={`new-roll ${disabledClass}`}
         onClick={handleNewRoll}
@@ -19,4 +19,4 @@ const RollBigButton = ({
   );
 }
 
-export default RollBigButton ;
+export default BigRollButton ;

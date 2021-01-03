@@ -1,5 +1,5 @@
 import React from 'react';
-import RollBigButton from '../shared/RollBigButton.jsx';
+import BigRollButton from '../shared/BigRollButton.jsx';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import {
   getStaminaCostForProject,
@@ -113,7 +113,7 @@ const CraftRoller = ({
           </div>
 
           { (projectData.rollData.rolls.length === 0) ?
-            <RollBigButton
+            <BigRollButton
               handleNewRoll={handleNewRoll}
               isDisabled={rollButtonIsDisabled}
             />

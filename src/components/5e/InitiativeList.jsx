@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import TextInput from '../shared/TextInput.jsx';
-import NumberInput from '../shared/NumberInput.jsx';
 import { deepCopy, capitalize } from '../../utils.js';
 import { defaultInitiativeEntry } from './data.js';
 import './InitiativeList.scss';
@@ -24,7 +22,6 @@ const InitiativeList = ({
 
     setAddingName('')
     setAddingInitiative(1)
-    // setIsAdding(false)
   }
 
 	return (
@@ -97,7 +94,7 @@ const InitiativeEntry = ({initiativeData, onDelete}) => {
         {initiative}
       </div>
       <button
-        className='delete-button asset trash'
+        className='delete-button asset necrotic'
         onClick={onDelete}
       />
     </div>

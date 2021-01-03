@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import RollBigButton from '../shared/RollBigButton.jsx';
+import BigRollButton from '../shared/BigRollButton.jsx';
 import Roll from './Roll.jsx';
 import { deepCopy } from '../../utils.js';
 import { abilityTypes, allDamageTypes, anyDamageSourceContains } from './data.js';
@@ -300,7 +300,7 @@ const Roller = ({
           }
         </div>
 
-        <RollBigButton handleNewRoll={handleNewRoll} />
+        <BigRollButton handleNewRoll={handleNewRoll} />
 
         <div className="results">
           <div className="type-breakdown">

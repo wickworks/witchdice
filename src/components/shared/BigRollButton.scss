@@ -1,11 +1,11 @@
 @import '../../fonts';
 
-.RollBigButton {
+.BigRollButton {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
+
   box-sizing: border-box;
   margin: 10px 20px;
 
@@ -21,8 +21,8 @@
 
     .asset {
       margin: auto;
-      width: 80px;
-      height: 80px;
+      width: 80%;
+      height: 80%;
 
       // black to pink
       filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
