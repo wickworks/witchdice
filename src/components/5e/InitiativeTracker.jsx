@@ -26,7 +26,11 @@ const InitiativeTracker = ({
   const updateAllInitiativeData = (newData) => {
     newData.sort((a, b) => {
       if (a.initiative === b.initiative) {
-        return (a.bonus < b.bonus) ? 1 : -1
+        if (a.bonus === b.bonus) {
+          return (a.name < b.name) ? 1 : -1
+        } else {
+          return (a.bonus < b.bonus) ? 1 : -1
+        }
       } else {
         return (a.initiative < b.initiative) ? 1 : -1
       }
@@ -89,7 +93,7 @@ const InitiativeTracker = ({
     setAllInitiativeData([])
   }
 
-  // ~~ CREATE ~~
+  // ~~ CREATE / UPDATE ~~
   // There's a new kid in town! let's welcome them and add them to the data
   useEffect(() => {
     if (latestInitiative) {
@@ -128,9 +132,13 @@ const InitiativeTracker = ({
       try {
         const dbInitiativeRef = getFirebaseDB().child('initiative').child(partyRoom)
 
-        // dbInitiativeRef.on('child_changed', (snapshot) => {
-        //   if (snapshot) highlightEntry(snapshot.val())
-        // });
+        dbInitiativeRef.on('child_changed', (snapshot) => {
+          if (snapshot) {
+            let newEntry = snapshot.val() // restore the firebase key to the entry's object
+            newEntry.firebaseKey = snapshot.key
+            setLatestInitiative(newEntry)
+          }
+        });
 
         dbInitiativeRef.on('child_added', (snapshot) => {
           if (snapshot) {

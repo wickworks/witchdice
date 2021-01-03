@@ -84,7 +84,7 @@ const InitiativeEntry = ({
 
   return (
     <div
-      className={`InitiativeEntry ${highlighted && 'highlighted'}`}
+      className={`InitiativeEntry ${highlighted ? 'highlighted' : ''}`}
       onClick={onClick}
     >
       <div className='handle asset list_dot' />
@@ -96,7 +96,7 @@ const InitiativeEntry = ({
       </div>
       <button
         className='delete-button asset necrotic'
-        onClick={onDelete}
+        onClick={e => { onDelete(); e.stopPropagation();} }
       />
     </div>
   );

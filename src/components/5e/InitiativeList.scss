@@ -39,7 +39,7 @@
     .InitiativeEntry {
       display: flex;
       align-items: center;
-      margin: 4px 8px;
+      padding: 2px 8px;
       box-sizing: border-box;
 			cursor: pointer;
 
@@ -80,7 +80,7 @@
     margin: 0 0 15px;
 
     input.character-name {
-      width: 100%;
+      width: 60%;
       margin-left: 16px;
       padding: 4px 0 4px 6px;
       font-size: 22px;
