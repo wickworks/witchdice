@@ -4,7 +4,7 @@
 .InitiativeList {
   @include shadow;
   @include nouveau_border;
-  border-image-width: 112px;
+  border-image-width: 92px;
   border-image-outset: 0;
   border-image-source: url('/assets/border_nouveau_initiative_list.svg');
   background-color: $parchment;
