@@ -33,8 +33,12 @@
 
     &.disabled {
       cursor: auto;
-      background-color: $grey_mid;
-      .asset { filter: none; }
+      background-color: $grey_mid_light;
+
+      .asset {
+        // black to grey_mid
+        filter: invert(49%) sepia(0%) saturate(0%) hue-rotate(72deg) brightness(95%) contrast(93%);
+      }
     }
   }
 }

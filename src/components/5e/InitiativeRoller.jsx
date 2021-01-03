@@ -38,7 +38,7 @@ const InitiativeRoller = ({
 		<div className="InitiativeRoller">
 
       <div className='roller-container'>
-        <h3>Roll Initiative</h3>
+        <h3>~ Roll Initiative ~</h3>
 
         <input
           type='text'

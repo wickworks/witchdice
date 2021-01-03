@@ -43,6 +43,7 @@ const InitiativeList = ({
             <input
               type='text'
               className='character-name'
+              placeholder='Character name'
               value={addingName}
               onChange={e => setAddingName(e.target.value || '')}
               onBlur={() => {if (addingName === '') setIsAdding(false)} }
@@ -72,7 +73,7 @@ const InitiativeList = ({
             className='new-entry asset plus'
             onClick={() => setIsAdding(true)}
           >
-            <span>Add character to initiative order</span>
+            {/**<span>Add character</span>**/}
           </button>
         }
       </div>

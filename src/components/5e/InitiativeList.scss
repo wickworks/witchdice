@@ -1,4 +1,5 @@
 @import '../../fonts';
+@import './fonts5E';
 
 .InitiativeList {
 	width: 100%;
@@ -23,9 +24,9 @@
 		background-image: url('/assets/bg_parchment.png');
     padding: 12px 12px 18px;
 
-    h3 {
-      text-align: center;
-      margin: 6px 0 12px;
+		h3 {
+      @include text_initiative_header;
+			margin: 6px 0 12px;
     }
 
     .adding-container {
@@ -63,9 +64,10 @@
 
     button.new-entry {
       position: relative;
+			display: block;
       width: 36px;
       height: 36px;
-      margin: 4px 0 0 4px;
+      margin: 4px auto 12px;
 
       span {
         @include text_default;
@@ -90,12 +92,9 @@
       height: 28px;
       margin-right: 4px;
       margin-left: -8px;
-
-      cursor: grab;
-
-      &:hover {
-        background-color: $pink;
-      }
+      // cursor: grab;
+			//
+      // &:hover { background-color: $pink; }
     }
 
     .character-name {

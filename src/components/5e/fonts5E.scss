@@ -29,3 +29,11 @@
   font-size: 16px;
   color: $rust;
 }
+
+@mixin text_initiative_header {
+  font-family: 'Bitter';
+  font-size: 22px;
+  font-style: italic;
+  color: $rust;
+  text-align: center;
+}
