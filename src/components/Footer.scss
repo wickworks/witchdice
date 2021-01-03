@@ -61,11 +61,13 @@
       background-image: url('/assets/bg_parchment.png');
       background-color: $parchment;
 
+      box-sizing: border-box;
       max-width: 800px;
-      padding: 10px 0;
+      padding: 10px 16px;
       margin: 10px auto;
       border-radius: 20px;
 
+      p { margin: 8px 16px; }
 
       .noun-project {
         margin-top: 12px;
@@ -76,20 +78,26 @@
       ul {
         text-align: left;
         margin: 0 0 10px;
+        padding-left: 20px;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
 
         li {
-          margin: 0 10px;
+          margin: 0 10px 0 0;
           width: 30%;
+
+          @media screen and (max-width: 480px) {
+            width: 100%;
+            margin: 0;
+          }
         }
       }
 
       .legalese {
         @include text_legalese;
         text-align: left;
-        padding: 8px 50px 40px;
+        padding: 8px 34px 40px;
 
         p {
           margin: 2px 0;
