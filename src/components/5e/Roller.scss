@@ -6,10 +6,10 @@
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
-    margin: 10px 0 32px;
+    padding: 6px 0;
+    margin: 10px 0 0;
 
     border-top: 3px solid $faded_gold;
-    border-bottom: 3px solid $faded_gold;
 
     > * {
       width: 30%;
@@ -54,7 +54,7 @@
 
     .BigRollButton {
       @media screen and (max-width: 800px) {
-        margin: 30px 20px;
+        margin: 20px 20px;
       }
     }
 
@@ -104,6 +104,12 @@
   }
 
   .rolls {
+    padding-top: 16px;
+    border-top: 3px solid $faded_gold;
+
+    @media screen and (max-width: 800px) {
+      padding-left: 10px;
+    }
 
     .roll-container {
       position: relative;

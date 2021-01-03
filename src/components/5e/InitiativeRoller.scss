@@ -2,9 +2,8 @@
 @import './fonts5E';
 
 .InitiativeRoller {
-	width: 100%;
-	max-width: 340px;
-	margin: 10px 10px;
+	width: 49%;
+	min-width: 340px;
 
 	button {
 		border: none;
@@ -14,14 +13,13 @@
 	.roller-container {
 		@include shadow;
 		@include nouveau_border;
-		border-image-source: url('/assets/border_nouveau_list_characters.svg');
+		border-image-source: url('/assets/border_nouveau_initiative_roll.svg');
 		background-color: $parchment;
 		background-image: url('/assets/bg_parchment.png');
 		padding: 12px 16px 26px;
 
 		h3 {
       @include text_initiative_header;
-			margin: 6px 0;
     }
 
 		input.character-name {

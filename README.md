@@ -117,11 +117,11 @@ My understanding of the primary problems in DnD:
 
 ### COMMANDS
 
-# start local server & firebase emulator
+# start local server
 npm start
-firebase emulators:start --only database
 
-# view the local firebase emulator
+# start and view the local firebase emulator
+firebase emulators:start --only database
 http://localhost:4000
 
 # prep for deploy

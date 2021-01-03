@@ -321,78 +321,78 @@ const Roller = ({
         </div>
       </div>
 
-      <div className="rolls">
-        {/* <div className="hit-label">Hit?</div>*/}
+      {rollData.length > 0 && <>
+        <div className="rolls">
+          {/* <div className="hit-label">Hit?</div>*/}
 
-        {
-          rollData.map((attackRoll, rollID) => {
-            let {rollUse, rollDiscard} = getRollUseDiscard(attackRoll);
-            const critFumble = getCritOrFumble(attackRoll);
+          {
+            rollData.map((attackRoll, rollID) => {
+              let {rollUse, rollDiscard} = getRollUseDiscard(attackRoll);
+              const critFumble = getCritOrFumble(attackRoll);
 
-            const attackSource = attackSourceData[attackRoll.attackID];
-            let rollName = attackSource.name;
-            let rollSavingThrow = attackSource.type === 'save';
-            let rollSavingThrowDC = attackSource.savingThrowDC;
-            let rollSavingThrowType = attackSource.savingThrowType;
+              const attackSource = attackSourceData[attackRoll.attackID];
+              let rollName = attackSource.name;
+              let rollSavingThrow = attackSource.type === 'save';
+              let rollSavingThrowDC = attackSource.savingThrowDC;
+              let rollSavingThrowType = attackSource.savingThrowType;
 
-            // handle gated rolls; the gated roll ID must have hit for us to show up, Otherwise, RETURN EARLY.
-            if (attackRoll.gatedByRollID >= 0) {
-              const gatingAttackRoll = rollData[attackRoll.gatedByRollID];
-              if (!gatingAttackRoll.hit) { return (<React.Fragment key={rollID}></React.Fragment>) }
+              // handle gated rolls; the gated roll ID must have hit for us to show up, Otherwise, RETURN EARLY.
+              if (attackRoll.gatedByRollID >= 0) {
+                const gatingAttackRoll = rollData[attackRoll.gatedByRollID];
+                if (!gatingAttackRoll.hit) { return (<React.Fragment key={rollID}></React.Fragment>) }
 
-              // also, force the roll to be its own thing & a saving throw
-              rollName = rollName + " saving throw";
-              rollSavingThrow = true;
-            }
+                // also, force the roll to be its own thing & a saving throw
+                rollName = rollName + " saving throw";
+                rollSavingThrow = true;
+              }
 
-            let renderAttackName = false;
-            if (currentAttackName !== rollName) {
-              currentAttackName = rollName;
-              renderAttackName = true;
-            }
+              let renderAttackName = false;
+              if (currentAttackName !== rollName) {
+                currentAttackName = rollName;
+                renderAttackName = true;
+              }
 
-            return (
-              <div className='roll-container' key={`roll-container-${rollID}`}>
-                { renderAttackName &&
-                  <>
-                    <h4>
-                      {currentAttackName}
-                      {rollSavingThrow && ` — DC ${rollSavingThrowDC} ${abilityTypes[rollSavingThrowType]}`}
-                    </h4>
-                    { (attackSource.type !== 'ability') &&
-                      <div className='roll-type-hint'>
-                        {rollSavingThrow ? 'Saved?' : 'Hit?'}
-                      </div>
-                    }
-                  </>
-                }
-                <Roll
-                  rollID={rollID}
-                  rollUse={rollUse}
-                  rollDiscard={rollDiscard}
-                  isCrit={critFumble.isCrit}
-                  isFumble={critFumble.isFumble}
-                  evasion={evasion && attackSource.savingThrowType === 0}
-                  type={rollSavingThrow ? 'save' : attackSource.type}
-                  damageSourceData={attackSourceData[attackRoll.attackID].damageData}
-                  attackRollData={attackRoll}
-                  rollFunctions={rollFunctions}
-                  key={`${attackRoll.attackID}-${rollID}`}
-                />
-              </div>
-            )
-          })
-        }
+              return (
+                <div className='roll-container' key={`roll-container-${rollID}`}>
+                  { renderAttackName &&
+                    <>
+                      <h4>
+                        {currentAttackName}
+                        {rollSavingThrow && ` — DC ${rollSavingThrowDC} ${abilityTypes[rollSavingThrowType]}`}
+                      </h4>
+                      { (attackSource.type !== 'ability') &&
+                        <div className='roll-type-hint'>
+                          {rollSavingThrow ? 'Saved?' : 'Hit?'}
+                        </div>
+                      }
+                    </>
+                  }
+                  <Roll
+                    rollID={rollID}
+                    rollUse={rollUse}
+                    rollDiscard={rollDiscard}
+                    isCrit={critFumble.isCrit}
+                    isFumble={critFumble.isFumble}
+                    evasion={evasion && attackSource.savingThrowType === 0}
+                    type={rollSavingThrow ? 'save' : attackSource.type}
+                    damageSourceData={attackSourceData[attackRoll.attackID].damageData}
+                    attackRollData={attackRoll}
+                    rollFunctions={rollFunctions}
+                    key={`${attackRoll.attackID}-${rollID}`}
+                  />
+                </div>
+              )
+            })
+          }
 
-      </div>
+        </div>
 
-      { rollData.length > 0 &&
         <div className="clear-roll-container">
           <button className="clear-rolls" onClick={() => {handleClear()}}>
             Clear
           </button>
         </div>
-      }
+      </>}
     </div>
   );
 }

@@ -3,7 +3,7 @@
 .Roll {
   display: flex;
   align-items: center;
-  padding: 10px 10px;
+  padding: 2px 10px 10px;
   min-height: 54px;
 
   @media screen and (max-width: 500px) {
@@ -20,6 +20,7 @@
   .asset.d20 {
     width: 36px;
     height: 36px;
+    margin: 6px 0;
     flex-shrink: 0;
   }
 

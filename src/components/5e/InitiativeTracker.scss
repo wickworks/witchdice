@@ -2,6 +2,10 @@
 
 .InitiativeTracker {
 	display: flex;
-	justify-content: center;
-	flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+	flex-wrap: wrap-reverse;
+  max-width: 800px;
+  width: 100%;
+  margin: auto;
 }

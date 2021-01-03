@@ -2,9 +2,8 @@
 @import './fonts5E';
 
 .InitiativeList {
-	width: 100%;
-	max-width: 340px;
-	margin: 10px 10px;
+	width: 49%;
+	min-width: 340px;
 
   button {
     border: none;
@@ -19,14 +18,16 @@
   .list-container {
     @include shadow;
     @include nouveau_border;
-    border-image-source: url('/assets/border_nouveau_list_characters.svg');
+    border-image-width: 112px;
+    border-image-outset: 0;
+    border-image-source: url('/assets/border_nouveau_initiative_list.svg');
 		background-color: $parchment;
 		background-image: url('/assets/bg_parchment.png');
     padding: 12px 12px 18px;
+    min-height: 184px;
 
 		h3 {
       @include text_initiative_header;
-			margin: 6px 0 12px;
     }
 
     .adding-container {
@@ -67,7 +68,7 @@
 			display: block;
       width: 36px;
       height: 36px;
-      margin: 4px auto 12px;
+      margin: 4px auto;
 
       span {
         @include text_default;
@@ -98,6 +99,7 @@
     }
 
     .character-name {
+      font-size: 18px;
     }
 
     .initiative-count {

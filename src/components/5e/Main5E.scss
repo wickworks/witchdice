@@ -21,7 +21,7 @@
   @media screen and (max-width: 800px) {
     .CharacterList, .MonsterList {
       width: 100%;
-      margin: 10px 0;
+      margin: 10px 10px;
     }
 
     .Character {
@@ -35,5 +35,12 @@
     // .roller-i-hardly-even-knower-container {
     //   margin: 30px 0;
     // }
+  }
+
+  @media screen and (max-width: 700px) {
+    .InitiativeRoller, .InitiativeList {
+      width: 100%;
+      margin: 10px 10px;
+    }
   }
 }

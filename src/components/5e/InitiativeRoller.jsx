@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { getRandomInt, deepCopy } from '../../utils.js';
 import { defaultInitiativeEntry } from './data.js';
 import BigRollButton from '../shared/BigRollButton.jsx'
@@ -12,6 +12,8 @@ const InitiativeRoller = ({
 
   const [advantage, setAdvantage] = useState(false);
   const [disadvantage, setDisadvantage] = useState(false);
+
+  const nameInputRef = useRef(null);
 
   const handleRoll = () => {
     let roll = 0;
@@ -32,6 +34,8 @@ const InitiativeRoller = ({
 
     setAddingName('')
     setAddingBonus(0)
+
+    nameInputRef.current.focus()
   }
 
 	return (
@@ -46,6 +50,7 @@ const InitiativeRoller = ({
           placeholder='Character name'
           value={addingName}
           onChange={e => setAddingName(e.target.value || '')}
+          ref={nameInputRef}
         />
 
         <div className='dice-container'>
