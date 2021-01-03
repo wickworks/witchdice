@@ -73,7 +73,7 @@ const TextInput = ({
     return (
       <div
         className={`display ${placeholderClass}`}
-        onClick={() => setIsEditing(true)}
+        onClick={ (e) => {setIsEditing(true); e.stopPropagation();} }
       >
         { isMarkdown ?
           <ReactMarkdown source={displayText} />

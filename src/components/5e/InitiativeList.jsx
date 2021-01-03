@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import NumberInput from '../shared/NumberInput.jsx';
 import InitiativeRoller from './InitiativeRoller.jsx';
 import { deepCopy, capitalize } from '../../utils.js';
 import { defaultInitiativeEntry } from './data.js';
@@ -8,6 +9,7 @@ const InitiativeList = ({
   allInitiativeData,
   addEntry,
   highlightEntry,
+  setEntryBonus,
   deleteEntry,
   clearData,
 }) => {
@@ -15,6 +17,14 @@ const InitiativeList = ({
   const [isRolling, setIsRolling] = useState(false);
 
   const isEmpty = (allInitiativeData.length === 0)
+
+  // find which inititiative #s have duplicates
+  let initiatives = new Set()
+  let duplicates = new Set()
+  allInitiativeData.forEach((entry) => {
+    if (initiatives.has(entry.initiative)) duplicates.add(entry.initiative)
+    initiatives.add(entry.initiative)
+  });
 
 	return (
 		<div className="InitiativeList">
@@ -25,8 +35,10 @@ const InitiativeList = ({
         { allInitiativeData.map((initiativeData, i) => {
             return (<InitiativeEntry
               initiativeData={initiativeData}
+              showBonus={duplicates.has(initiativeData.initiative)}
+              setBonus={bonus => setEntryBonus(i, bonus)}
               onDelete={() => deleteEntry(i)}
-              onClick={() => highlightEntry(i)}
+              onClick={() => highlightEntry(i, !initiativeData.highlighted)}
               key={`${initiativeData.name}-${i}`}
             />)
         })}
@@ -77,10 +89,12 @@ const InitiativeList = ({
 
 const InitiativeEntry = ({
   initiativeData,
+  showBonus,
+  setBonus,
   onDelete,
   onClick
 }) => {
-  const {name, initiative, highlighted} = initiativeData;
+  const {name, bonus, initiative, highlighted} = initiativeData;
 
   return (
     <div
@@ -92,6 +106,14 @@ const InitiativeEntry = ({
         {name}
       </div>
       <div className='initiative-count'>
+        {showBonus &&
+          <NumberInput
+            value={bonus}
+            minValue={-20}
+            setValue={value => setBonus(value) }
+            plusPrefix={true}
+          />
+        }
         {initiative}
       </div>
       <button

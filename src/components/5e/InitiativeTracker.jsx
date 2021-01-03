@@ -54,26 +54,52 @@ const InitiativeTracker = ({
     updateAllInitiativeData(newData)
   }
 
+  function updateEntryInFirebase(entry) {
+    const firebaseEntry = deepCopy(entry)
+    const firebaseKey = firebaseEntry.firebaseKey
+    delete firebaseEntry.firebaseKey // keep the key itself out of the firebase object
+    getFirebaseDB().child('initiative').child(partyRoom).child(firebaseKey).set(firebaseEntry)
+  }
+
   // toggle this entry to highlighted, all other ones false
-  const highlightEntry = (hightlightIndex) => {
+  const highlightEntry = (hightlightIndex, setHighlight) => {
     if (hightlightIndex < 0 || hightlightIndex >= allInitiativeData.length) return
 
     let newData = deepCopy(allInitiativeData)
     newData.forEach((entry, i) => {
-      entry.highlighted = (i === hightlightIndex )
+      entry.highlighted = (i === hightlightIndex && setHighlight)
 
       // if we're changing it, push the new one to firebase
       if (partyConnected && entry.highlighted !== allInitiativeData[i].highlighted) {
-        getFirebaseDB().child('initiative').child(partyRoom).child(entry.firebaseKey).set(entry)
+        updateEntryInFirebase(entry)
       }
     })
 
     updateAllInitiativeData(newData)
   }
 
+  // set the bonus value for this entry
+  const setEntryBonus = (index, bonus) => {
+    if (index < 0 || index >= allInitiativeData.length) return
+
+    let newEntry = deepCopy(allInitiativeData[index])
+    newEntry.bonus = bonus
+
+    // if we're changing it, push the new one to firebase
+    if (partyConnected && newEntry.highlighted !== allInitiativeData[index].highlighted) {
+      updateEntryInFirebase(newEntry)
+    }
+
+    let newData = deepCopy(allInitiativeData)
+    newData[index] = newEntry
+    updateAllInitiativeData(newData)
+  }
+
   // we clicked "delete character" locally
   const deleteEntry = (index) => {
     if (index < 0 || index >= allInitiativeData.length) return
+
+    console.log('deleting entry');
 
     if (partyConnected) {
       const firebaseKey = allInitiativeData[index].firebaseKey
@@ -99,10 +125,12 @@ const InitiativeTracker = ({
     if (latestInitiative) {
       let newData = deepCopy(allInitiativeData)
       let isUpdate = false;
+
       allInitiativeData.forEach((entry, i) => {
         if (entry !== null && entry.firebaseKey === latestInitiative.firebaseKey) {
-          isUpdate = true;
-          newData[i] = deepCopy(latestInitiative);
+          isUpdate = true
+          let newEntry = deepCopy(latestInitiative)
+          newData[i] = newEntry
         }
       });
       if (!isUpdate) newData.push(latestInitiative)
@@ -175,6 +203,7 @@ const InitiativeTracker = ({
       <InitiativeList
         allInitiativeData={allInitiativeData}
         addEntry={addEntry}
+        setEntryBonus={setEntryBonus}
         highlightEntry={highlightEntry}
         deleteEntry={deleteEntry}
         clearData={clearData}

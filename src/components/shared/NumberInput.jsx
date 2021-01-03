@@ -31,6 +31,7 @@ const NumberInput = ({
     }
 
     setValue(newValue);
+    e.stopPropagation()
   }
 
   return (
