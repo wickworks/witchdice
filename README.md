@@ -23,6 +23,7 @@
 
 - sound fx for dice rolls
 
+- be able to click initiative names to bring up that character's sheet
 - be able to rearrange 5e attacks
 
 - themes e.g. dark mode

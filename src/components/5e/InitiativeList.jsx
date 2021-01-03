@@ -31,7 +31,7 @@ const InitiativeList = ({
 
 	return (
 		<div className="InitiativeList">
-      <h3>Initiative Order</h3>
+      <h3>Initiative</h3>
 
       <div className={`list-container ${isEmpty && 'empty'}`}>
 

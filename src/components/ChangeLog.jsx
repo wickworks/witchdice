@@ -15,6 +15,12 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
+          <div className='version-label'>v0.6 — January 2021</div>
+          <ul>
+            <li>Initiative tracker; syncs for everyone in the room.</li>
+            <li>Little summary message for each mode at the top of the screen.</li>
+          </ul>
+
           <div className='version-label'>v0.5 — December 2020</div>
           <ul>
             <li>Total aesthetic overhaul. Now with color & arty borders!</li>
