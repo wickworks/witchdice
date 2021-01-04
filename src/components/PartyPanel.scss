@@ -29,7 +29,7 @@
 
     .nouveau-border {
       @include nouveau_border;
-      border-image-source: url('/assets/border_nouveau_party.svg');
+      border-image-source: url('/assets/borders/nouveau_party.svg');
       padding: 12px 12px 18px;
       min-height: 256px;
     }
@@ -222,11 +222,11 @@
 
     &.disconnected {
       @include nouveau_border;
-      border-image-source: url('/assets/border_nouveau_room_disconnected.svg');
+      border-image-source: url('/assets/borders/nouveau_room_disconnected.svg');
     }
     &.connected {
       @include nouveau_border;
-      border-image-source: url('/assets/border_nouveau_room_connected.svg');
+      border-image-source: url('/assets/borders/nouveau_room_connected.svg');
       padding-bottom: 26px;
     }
 

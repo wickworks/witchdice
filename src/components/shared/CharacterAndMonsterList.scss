@@ -12,7 +12,7 @@
 .CharacterList, .MonsterList {
   @include shadow;
   @include nouveau_border;
-  border-image-source: url('/assets/border_nouveau_list_characters.svg');
+  border-image-source: url('/assets/borders/nouveau_list_characters.svg');
   background-image: url('/assets/bg_parchment.png');
 
   width: 49%;
