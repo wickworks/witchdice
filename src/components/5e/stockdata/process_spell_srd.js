@@ -117,7 +117,10 @@ function getSpellData() {
 
       // MANUAL TWEAKS
       switch(spellOriginal.name) {
-        case 'Magic Missile': attackData.type = 'ability'; break;
+        case 'Magic Missile':
+          attackData.type = 'ability';
+          attackData.dieCount = 3;
+          break;
         default: break;
       }
 

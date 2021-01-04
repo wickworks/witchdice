@@ -319,7 +319,7 @@ const Main = () => {
               <title>Witch Dice ~ cute dice roller</title>
               <meta
                 name="description"
-                content="A cute & elegant dice roller for playing tabletop games online with friends."
+                content="A cute & elegant online dice roller for playing tabletop games online with friends."
               />
           </Helmet>
           <Suspense fallback={<LoadinDots />}>
