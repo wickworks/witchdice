@@ -143,7 +143,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
   const descClass = (desc.length > 64) ? 'long' : 'short'
   const isVeryLong = (desc.length > 256)
-  const expandedClass = expandedDescription ? 'expanded' : ''
+  const expandedClass = (expandedDescription || !isVeryLong) ? 'expanded' : ''
 
   // shuffle the add damage button off to the side when it's wordy and has no damage
   const shuntAddDamageClass = (descClass === 'long' && damageData.length === 0) ? 'shunted' : '';
@@ -217,21 +217,23 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
               </div>
 
-              <div className={`desc ${descClass} ${expandedClass}`}>
-                <TextInput
-                  textValue={desc.length > 0 ? desc : '...' }
-                  setTextValue={(desc) => setDesc(desc, attackID)}
-                  placeholder='Attack description'
-                  isTextbox={descClass === 'long'}
-                  isMarkdown={descClass === 'long'}
-                />
+              <div className={`desc-container ${descClass}`}>
+                <div className={`desc ${descClass} ${expandedClass}`}>
+                  <TextInput
+                    textValue={desc.length > 0 ? desc : '...' }
+                    setTextValue={(desc) => setDesc(desc, attackID)}
+                    placeholder='Attack description'
+                    isTextbox={descClass === 'long'}
+                    isMarkdown={descClass === 'long'}
+                  />
+                </div>
+                {isVeryLong &&
+                  <button
+                    className={`expand-arrow asset arrow ${expandedClass}`}
+                    onClick={() => setExpandedDescription(!expandedDescription)}
+                  />
+                }
               </div>
-              {isVeryLong &&
-                <button
-                  className={`expand-arrow asset arrow ${expandedClass}`}
-                  onClick={() => setExpandedDescription(!expandedDescription)}
-                />
-              }
 
             </div>
 
