@@ -80,7 +80,7 @@ const defaultAttackData = {
   dieCount: 1,
   modifier: 0,
   name: 'Longsword',
-  desc: 'Reach 5ft, one target.',
+  desc: '',
   damageData: [],
   type: 'attack', // attack | save | ability | info
 

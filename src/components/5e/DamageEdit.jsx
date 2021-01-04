@@ -55,30 +55,27 @@ const DamageEdit = ({
     }
   }, [damageData]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // =============== CHANGE MODIFIERS =============
-
+  // =============== CHANGE MODIFIERS ============= //
   function handleSavingThrowDCClick(e, leftMouse) {
-    let newDC = savingThrowDC;
-
+    let newDC = savingThrowDC
     if (leftMouse && !e.shiftKey) {
-      newDC += 1;
+      newDC += 1
     } else {
-      newDC -= 1;
+      newDC -= 1
       e.preventDefault()
     }
 
-    newDC = Math.min(newDC, 40);
-    newDC = Math.max(newDC, 0);
-    setSavingThrowDC(newDC, attackID, damageID);
+    newDC = Math.min(newDC, 40)
+    newDC = Math.max(newDC, 0)
+    setSavingThrowDC(newDC, attackID, damageID)
   }
 
   function handleSavingThrowTypeClick(e, leftMouse) {
-    let newType = savingThrowType;
-
+    let newType = savingThrowType
     if (leftMouse && !e.shiftKey) {
-      newType += 1;
+      newType += 1
     } else {
-      newType -= 1;
+      newType -= 1
       e.preventDefault()
     }
 

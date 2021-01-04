@@ -30,10 +30,10 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     setDesc
   } = attackFunctions;
 
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isDamageEditOpen, setIsDamageEditOpen] = useState(false);
-  const [editingDamageID, setEditingDamageID] = useState(null);
-
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isDamageEditOpen, setIsDamageEditOpen] = useState(false)
+  const [editingDamageID, setEditingDamageID] = useState(null)
+  const [expandedDescription, setExpandedDescription] = useState(false)
 
   // =============== DATA PASSING =============
 
@@ -141,7 +141,9 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     return actionTypes[ (currentIndex+1) % actionTypes.length ]
   }
 
-  const descClass = (desc.length > 64) ? 'long' : 'short';
+  const descClass = (desc.length > 64) ? 'long' : 'short'
+  const isVeryLong = (desc.length > 256)
+  const expandedClass = expandedDescription ? 'expanded' : ''
 
   // shuffle the add damage button off to the side when it's wordy and has no damage
   const shuntAddDamageClass = (descClass === 'long' && damageData.length === 0) ? 'shunted' : '';
@@ -215,7 +217,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
               </div>
 
-              <div className={`desc ${descClass}`}>
+              <div className={`desc ${descClass} ${expandedClass}`}>
                 <TextInput
                   textValue={desc.length > 0 ? desc : '...' }
                   setTextValue={(desc) => setDesc(desc, attackID)}
@@ -224,6 +226,13 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                   isMarkdown={descClass === 'long'}
                 />
               </div>
+              {isVeryLong &&
+                <button
+                  className={`expand-arrow asset arrow ${expandedClass}`}
+                  onClick={() => setExpandedDescription(!expandedDescription)}
+                />
+              }
+
             </div>
 
             <div className='statblock'>

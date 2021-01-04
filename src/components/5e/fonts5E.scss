@@ -3,6 +3,10 @@
 @mixin text_character_name {
   font-size: 56px;
   color: $rust;
+
+  @media screen and (max-width: 800px) {
+    font-size: 40px;
+  }
 }
 
 @mixin text_attack_roll_count {
@@ -33,10 +37,8 @@
   display: block;
   margin: auto;
   padding: 6px 80px;
-  border: none;
   border-radius: 6px 6px 0 0;
   background-color: $parchment_dark;
-  cursor: pointer;
 
   &:hover { background-color: $pink; }
 }

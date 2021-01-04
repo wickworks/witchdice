@@ -156,11 +156,8 @@ $damagesource_rearrange_threshold: 600px;
 
   button.delete {
     @include text_default;
-    border: none;
     width: 60px;
     padding: 4px 0;
-    background-color: transparent;
-    cursor: pointer;
 
     .asset {
       width: 24px;
