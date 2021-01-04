@@ -1,18 +1,15 @@
 @import '../fonts';
 
+.bookmarks-and-bag {
+  display: flex;
+  margin: 10px 10px;
+}
+
 .DiceBag {
   width: 100%;
   max-width: 340px;
-  // margin: 30px 20px 30px 80px;
-  margin: 10px 10px;
   flex-shrink: 100;
-
-  h2 {
-    @include text_title_heavy;
-    color: $rust_dark;
-    margin-bottom: 8px;
-    margin-left: 12px;
-  }
+  z-index: 2; // in front of bookmarks
 
   .bag-container {
     @include shadow;

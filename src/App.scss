@@ -83,6 +83,7 @@
   }
 
   button {
+    @include text_default;
     background-color: transparent;
     border: none;
     cursor: pointer;
@@ -90,10 +91,6 @@
 
   input[type=text] {
     @include text_input;
-  }
-
-  button {
-    cursor: pointer;
   }
 
   .unselectable {

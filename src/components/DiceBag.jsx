@@ -1,93 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
+import DiceBookmarks from './DiceBookmarks';
 import { deepCopy, getRandomInt } from '../utils.js';
+import {
+  blankDice,
+  getToRollString,
+  getResultsSummary,
+  sortedDice,
+} from './DiceBagData.js';
 import './DiceBag.scss';
 
-const blankDice = {
-  '4': 0,
-  '6': 0,
-  '8': 0,
-  '10': 0,
-  '12': 0,
-  '20': 0,
-  'plus': 0,
-}
-
-
-function getToRollString(diceData, summaryMode) {
-  const toRollArray = sortedDice(diceData)
-    .map(dieType => {
-      const dieCount = diceData[dieType]
-      if (dieCount > 0 && dieType !== 'plus') {
-        return `${dieCount}d${dieType}`
-      } else {
-        return ''
-      }
-    })
-    .filter(e => {return e} ) // filter out empty values
-
-  let toRollSummary = ''
-  if (summaryMode === 'total') {
-    toRollSummary = toRollArray.join(' + ')
-  } else if (summaryMode === 'low' || summaryMode === 'high') {
-    toRollSummary = toRollArray.join(', ')
-  }
-
-  const modifier = diceData['plus']
-  if (modifier !== 0) toRollSummary = `( ${toRollSummary} ) ${modifier > 0 ? '+' : ''} ${modifier}`
-
-  return toRollSummary
-}
-
-function getResultsSummary(rollData, summaryMode) {
-  let runningTotal = 0
-  let highest = 0
-  let lowest = 999999
-  let modifier = 0
-  let resultArray = []
-  rollData.forEach((roll) => {
-    if (roll.dieType !== 'plus') {
-      resultArray.push(roll.result)
-      runningTotal += roll.result
-      highest = Math.max(highest, roll.result)
-      lowest = Math.min(lowest, roll.result)
-    } else {
-      modifier = roll.result // modifier is handled different in different roll modes
-    }
-  });
-
-  let resultTotal = 0
-  let resultSummary = ''
-  if (summaryMode === 'total') {
-    resultTotal = runningTotal + modifier
-    resultSummary = resultArray.join(' + ')
-  } else if (summaryMode === 'low') {
-    resultTotal = lowest + modifier;
-    resultSummary = resultArray.join(', ')
-  } else if (summaryMode === 'high') {
-    resultTotal = highest + modifier;
-    resultSummary = resultArray.join(', ')
-  }
-  if (modifier !== 0) resultSummary = `( ${resultSummary} ) ${modifier > 0 ? '+' : ''} ${modifier}`
-
-  if (summaryMode === 'low') resultSummary = 'Min: ' + resultSummary
-  if (summaryMode === 'high') resultSummary = 'Max: ' + resultSummary
-
-  return {total: resultTotal, summary: resultSummary}
-}
-
-// d20 -> d4, then plus
-function sortedDice(diceData) {
-  let sorted = Object.keys(diceData).sort((a, b) => {
-    return (parseInt(a) > parseInt(b)) ? -1 : 1
-  });
-
-  // this returns different results on different browsers (???) so we need to then cherry-pick
-  sorted.splice( sorted.indexOf('plus'), 1);
-  sorted.push('plus');
-
-  return sorted;
-}
 
 const DiceBag = ({addNewDicebagPartyRoll}) => {
   const [lastDieRolled, setLastDieRolled] = useState('');   // for the rolled icon up top
@@ -161,7 +83,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   });
 
   // summarize what we're going to roll
-  const toRollString = getToRollString(diceData, summaryMode)
+  const toRollString = getToRollString(diceData, summaryMode, percentileMode)
 
   // summarize the results
   const result = getResultsSummary(rollData, summaryMode)
@@ -170,111 +92,121 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   const isComplexRoll = toRollString.length > 14
 
   return (
-    <div className="DiceBag">
-      {/**<h2>Dice Bag</h2>**/}
+    <div className="bookmarks-and-bag">
 
-      <div className='bag-container'>
-        <div className='rolling-surface'>
+      <DiceBookmarks
+        currentDice={diceData}
+        summaryMode={summaryMode}
+        percentileMode={percentileMode}
+        setCurrentDice={setDiceData}
+        setSummaryMode={setSummaryMode}
+        setPercentileMode={setPercentileMode}
+      />
 
-          { (rollDieType.length > 0) ?
-            <div className='pre-roll'>
-              <button
-                className='reset'
-                aria-label='Clear queued dice.'
-                onClick={() => setDiceData({...blankDice})}
-                key='reset'
-              >
-                <div className='asset x' />
-              </button>
-              <button
-                className='roll'
-                onClick={handleRoll}
-                aria-labelledby='roll-action'
-              >
-                <div className={`asset d${rollDieType}`} />
-              </button>
-              <div className='action' id='roll-action'>
-                {percentileAvailable ?
-                  <div className='percentile-option'>
-                    Roll d100?
-                    <input
-                      type="checkbox"
-                      checked={percentileMode}
-                      onChange={() => setPercentileMode(!percentileMode)}
-                    />
-                  </div>
-                :
-                  <div className={`to-roll-summary ${isComplexRoll ? 'complex' : ''}`}>
-                    {!isComplexRoll &&
-                      <span className='verb'>
-                        {summaryMode === 'high' ?
-                          'Max of '
-                        : summaryMode === 'low' ?
-                          'Min of '
-                        :
-                          'Roll '
-                        }
-                      </span>
-                    }
-                    {toRollString}
-                  </div>
+      <div className="DiceBag">
+
+        <div className='bag-container'>
+          <div className='rolling-surface'>
+
+            { (rollDieType.length > 0) ?
+              <div className='pre-roll'>
+                <button
+                  className='reset'
+                  aria-label='Clear queued dice.'
+                  onClick={() => setDiceData({...blankDice})}
+                  key='reset'
+                >
+                  <div className='asset x' />
+                </button>
+                <button
+                  className='roll'
+                  onClick={handleRoll}
+                  aria-labelledby='roll-action'
+                >
+                  <div className={`asset d${rollDieType}`} />
+                </button>
+                <div className='action' id='roll-action'>
+                  {percentileAvailable ?
+                    <div className='percentile-option'>
+                      Roll d100?
+                      <input
+                        type="checkbox"
+                        checked={percentileMode}
+                        onChange={() => setPercentileMode(!percentileMode)}
+                      />
+                    </div>
+                  :
+                    <div className={`to-roll-summary ${isComplexRoll ? 'complex' : ''}`}>
+                      {!isComplexRoll &&
+                        <span className='verb'>
+                          {summaryMode === 'high' ?
+                            'Max of '
+                          : summaryMode === 'low' ?
+                            'Min of '
+                          :
+                            'Roll '
+                          }
+                        </span>
+                      }
+                      {toRollString}
+                    </div>
+                  }
+                </div>
+              </div>
+            : lastDieRolled ?
+              <div className='post-roll'>
+                <button className='result-total' onClick={() => setDiceData(previousDiceData)} key='reroll'>
+                  <div className={`asset ${lastDieRolled}`} />
+                  {result.total}
+                </button>
+                { result.summary.length > 3 &&
+                  <div className='result-summary'> {result.summary} </div>
                 }
               </div>
-            </div>
-          : lastDieRolled ?
-            <div className='post-roll'>
-              <button className='result-total' onClick={() => setDiceData(previousDiceData)} key='reroll'>
-                <div className={`asset ${lastDieRolled}`} />
-                {result.total}
-              </button>
-              { result.summary.length > 3 &&
-                <div className='result-summary'> {result.summary} </div>
-              }
-            </div>
-          :
-            <div className='starting-roll'>
-              <div className={`asset d6`} />
-            </div>
-          }
+            :
+              <div className='starting-roll'>
+                <div className={`asset d6`} />
+              </div>
+            }
+          </div>
+
+          <div className='die-button-container'>
+            { sortedDice(diceData).map((dieType, i) => {
+
+              return (
+                <DieButton
+                  dieType={dieType}
+                  dieCount={diceData[dieType]}
+                  setDieCount={(newCount) => updateDiceData(dieType, newCount)}
+                  key={`diebutton-${i}`}
+                />
+              )
+            })}
+          </div>
+
+          <RadioGroup
+            name='summary-mode'
+            className='summary-mode'
+            selectedValue={summaryMode}
+            onChange={(value) => { setSummaryMode(value) }}
+          >
+            <label className={`mode-container ${summaryMode === 'total' ? 'selected' : ''}`} key='mode-total'>
+              <Radio value='total' id='mode-total' />
+              Total
+            </label>
+
+            <label className={`mode-container ${summaryMode === 'high' ? 'selected' : ''}`} key='mode-high'>
+              <Radio value='high' id='mode-high' />
+              High
+            </label>
+
+            <label className={`mode-container ${summaryMode === 'low' ? 'selected' : ''}`} key='mode-low'>
+              <Radio value='low' id='mode-low' />
+              Low
+            </label>
+          </RadioGroup>
         </div>
-
-        <div className='die-button-container'>
-          { sortedDice(diceData).map((dieType, i) => {
-
-            return (
-              <DieButton
-                dieType={dieType}
-                dieCount={diceData[dieType]}
-                setDieCount={(newCount) => updateDiceData(dieType, newCount)}
-                key={`diebutton-${i}`}
-              />
-            )
-          })}
-        </div>
-
-        <RadioGroup
-          name='summary-mode'
-          className='summary-mode'
-          selectedValue={summaryMode}
-          onChange={(value) => { setSummaryMode(value) }}
-        >
-          <label className={`mode-container ${summaryMode === 'total' ? 'selected' : ''}`} key='mode-total'>
-            <Radio value='total' id='mode-total' />
-            Total
-          </label>
-
-          <label className={`mode-container ${summaryMode === 'high' ? 'selected' : ''}`} key='mode-high'>
-            <Radio value='high' id='mode-high' />
-            High
-          </label>
-
-          <label className={`mode-container ${summaryMode === 'low' ? 'selected' : ''}`} key='mode-low'>
-            <Radio value='low' id='mode-low' />
-            Low
-          </label>
-        </RadioGroup>
       </div>
-
     </div>
   );
 }

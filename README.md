@@ -8,16 +8,14 @@
 
 - move character deletion controls to the Character list
 
+- make bookmarks system work for mobile
+
 ##### FEATURES ######
 - dX dice?
 - X-card raised :::: anonymous or not
 - do an ACCESSIBILITY PASS; be able to tab through it all easily
 
 - "success dice" -- dice matching, or "x above this"
-
-- saving complicated expressions for re-rolling
-  - click something in roll history to set it back up
-  - a list of saved rolls
 
 - sound fx for dice rolls
 

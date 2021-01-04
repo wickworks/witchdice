@@ -1,0 +1,55 @@
+@import '../fonts';
+
+.DiceBookmarks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  width: 0; // does not alter position of the dicebag
+
+  // todo: make work on mobile
+  @media screen and (max-width: 575px) { display: none; }
+
+  .Bookmark {
+    @include shadow;
+
+    width: 120px;
+    font-size: 18px;
+    color: $grey_light;
+    background-color: $rust;
+    border-radius: 6px 0 0 6px;
+    padding: 4px 4px 4px 6px;
+    margin: 10px 0;
+
+    &:hover { background-color: $rust_light; }
+
+    &:disabled {
+      background-color: $grey_dark;
+      color: $grey_mid_light;
+      cursor: auto;
+    }
+
+    &.new {
+      z-index: 1;
+      text-align: left;
+      transform: translateX(100px);
+
+      -webkit-transition: transform .2s;
+      -moz-transition: transform .2s;
+      -ms-transition: transform .2s;
+      -o-transition: transform .2s;
+      transition: transform .2s;
+
+      .hover-string { display: none; }
+      .tucked-string { display: inline; }
+
+      &:hover, &:focus {
+        text-align: center;
+        transform: translateX(0);
+
+        .hover-string { display: inline; }
+        .tucked-string { display: none; }
+      }
+    }
+  }
+}
