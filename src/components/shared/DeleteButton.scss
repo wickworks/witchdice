@@ -37,11 +37,11 @@
     width: 100px;
     padding: 15px 0;
     border: 0;
-    cursor: pointer;
+    opacity: .85;
 
     &.cancel { background-color: $olive_light; }
     &.delete { background-color: $rust_light; }
-    &:hover { background-color: grey; }
+    &:hover { opacity: 1.0; }
 
     .asset {
       width: 40px;

@@ -78,7 +78,7 @@ const InitiativeList = ({
         </div>
       }
 
-      {!isEmpty &&
+      {!isEmpty && !isAdding && !isRolling &&
         <div className="clear-roll-container">
 
           {!isConfirmingClear ?

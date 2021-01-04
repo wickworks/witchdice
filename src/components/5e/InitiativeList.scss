@@ -9,7 +9,7 @@
   border-image-source: url('/assets/borders/nouveau_initiative_list.svg');
   background-color: $parchment;
   background-image: url('/assets/bg_parchment.png');
-  padding: 12px 12px 16px;
+  padding: 12px 12px 14px;
   margin: 30px auto;
   box-sizing: border-box;
 	width: 100%;
@@ -87,7 +87,7 @@
 
   .InitiativeAdder {
     display: flex;
-    margin: 0 0 15px;
+    margin: 0 0 36px;
 
     input.character-name {
       width: 60%;
@@ -144,14 +144,18 @@
     margin: auto;
 
     button.clear-rolls {
-      @include button_clear_rolls;
-			background-color: transparent;
+      display: block;
+      margin: auto;
 			padding: 6px 32px;
+      font-weight: bold;
+      color: $soft_black;
+      opacity: .65;
+      &:hover { opacity: 1.0; }
     }
 
 		.DeleteConfirmation {
 			height: 30px;
-			margin: 12px 0 0;
+			margin: 24px 0 0;
 			background-color: transparent;
 			justify-content: center;
 
@@ -172,7 +176,6 @@
 
 				&.cancel { border-radius: 0 6px 0 0; }
 		    &.delete { border-radius: 6px 0 0 0; }
-				&:hover { background-color: $grey_mid_light; }
 			}
 		}
   }
