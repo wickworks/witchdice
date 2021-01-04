@@ -17,6 +17,8 @@ import { deepCopy, capitalize } from '../../../utils.js';
 import TurndownService from 'turndown';
 
 function getSpellData() {
+  console.log('~~~ PROCESSING SPELL SRD ~~~');
+
   const turndownService = new TurndownService()
   let allSpellData = {};
 
@@ -123,6 +125,7 @@ function getSpellData() {
     }
   }
 
+  // console.log(JSON.stringify(allSpellData));
   return allSpellData;
 }
 

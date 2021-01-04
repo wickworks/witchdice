@@ -16,6 +16,8 @@ import {
 import { deepCopy } from '../../../utils.js';
 
 function getMonsterData() {
+  console.log('~~~ PROCESSING MONSTER SRD ~~~');
+
   // const allMonsterOriginalData = JSON.parse(monsterJson);
   let allMonsterData = [];
 

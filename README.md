@@ -51,10 +51,7 @@
 - paralyzation//assassin; all attacks are crits. be able to set any attack to be a crit (or toggle a crit off)
 - +1 damage die roll on critical hits
 
-- lots of spells don't have the damage or anything correct. swap back to smaller, better srd?
 - spell triggered effects aren't being automatically generated
-- spell bugs:
-  Black Tentacles "SD backup" ??
 
 - import the monster manual
   (add legendary actions)
