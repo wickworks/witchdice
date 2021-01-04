@@ -6,6 +6,18 @@ import {
 } from './DiceBagData.js';
 import './DiceBookmarks.scss';
 
+function getToRollStringWithPrefix (bookmarkData, summaryMode, percentileMode) {
+  let string =
+    summaryMode === 'high' ?
+      'Max '
+    : summaryMode === 'low' ?
+      'Min '
+    :
+      ''
+  string += getToRollString(bookmarkData, summaryMode, percentileMode)
+  return string
+}
+
 const DiceBookmarks = ({
   currentDice,
   summaryMode,
@@ -16,21 +28,35 @@ const DiceBookmarks = ({
 }) => {
   const [allBookmarkData, setAllBookmarkData] = useState([]);
 
+  // load up all the bookmarks from localstorage
+  useEffect(() => {
+    const loadedBookmarks = localStorage.getItem("dice-bookmarks");
+    if (loadedBookmarks) {
+      setAllBookmarkData(JSON.parse(loadedBookmarks))
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+
   const addNewBookmark = () => {
     let bookmarkData = deepCopy(currentDice)
     bookmarkData.summaryMode = summaryMode
     bookmarkData.percentileMode = percentileMode
 
-    console.log('adding bookmark', bookmarkData);
     let newData = deepCopy(allBookmarkData)
     newData.push(bookmarkData)
     setAllBookmarkData(newData)
+
+    localStorage.setItem('dice-bookmarks', JSON.stringify(newData))
   }
 
   const deleteBookmark = (index) => {
+    const bookmarkData = allBookmarkData[index]
+
     let newData = deepCopy(allBookmarkData)
     newData.splice(index, 1)
     setAllBookmarkData(newData)
+
+    localStorage.setItem('dice-bookmarks', JSON.stringify(newData))
   }
 
   // what is the highest type of die we're queueing up to roll?
@@ -63,7 +89,10 @@ const DiceBookmarks = ({
         >
           <span className='hover-string'>
             { hasSomethingQueued ?
-              `Save ${getToRollString(currentDice, summaryMode, percentileMode)}`
+              <>
+                <div>Save</div>
+                <div>{getToRollStringWithPrefix(currentDice, summaryMode, percentileMode)}</div>
+              </>
             :
               'Save roll'
             }
@@ -95,8 +124,6 @@ const Bookmark = ({
       delete diceData.summaryMode
       delete diceData.percentileMode
 
-      console.log('restoring ', summaryMode, percentileMode);
-
       setSummaryMode(summaryMode)
       setPercentileMode(percentileMode)
       setCurrentDice(diceData)
@@ -114,12 +141,7 @@ const Bookmark = ({
       onClick={(e) => handleClick(e, true)}
       onContextMenu={(e) => handleClick(e, false)}
     >
-      {bookmarkData.summaryMode === 'high' ?
-        'Max '
-      : bookmarkData.summaryMode === 'low' &&
-        'Min '
-      }
-      {getToRollString(
+      {getToRollStringWithPrefix(
         bookmarkData,
         bookmarkData.summaryMode,
         bookmarkData.percentileMode
