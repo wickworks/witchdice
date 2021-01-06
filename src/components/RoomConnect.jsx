@@ -45,6 +45,7 @@ const RoomConnect = ({
     }, 2000);
   }
 
+
   const connectDisabled = (partyRoom.length <= 6 || partyName.length <= 0);
 
 
@@ -100,10 +101,10 @@ const RoomConnect = ({
             { showingCopiedMessage ?
               <div className='copied-message'>Copied url!</div>
             :
-              <div className='copy-on-click' onClick={copyRoom}>
+              <button className='copy-on-click' onClick={copyRoom}>
                 {partyRoom}
                 <span className='copy-symbol'>⧉</span>
-              </div>
+              </button>
             }
           </div>
         </>

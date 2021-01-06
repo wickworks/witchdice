@@ -9,6 +9,7 @@ import LoadinDots from './shared/LoadinDots.jsx';
 import DiceBag from './DiceBag.jsx';
 import RollHistory from './RollHistory.jsx';
 import RoomConnect from './RoomConnect.jsx';
+import XCard from './XCard.jsx';
 
 import './Main.scss';
 
@@ -268,16 +269,20 @@ const Main = () => {
             allPartyActionData={allPartyActionData}
           />
 
-          <RoomConnect
-            partyName={partyName}
-            setPartyName={setPartyName}
-            partyRoom={partyRoom}
-            setPartyRoom={setPartyRoom}
-            generateRoomName={generateRoomName}
-            partyConnected={partyConnected}
-            connectToRoom={connectToRoom}
-            rollMode={rollmode}
-          />
+          <div className="room-and-xcard">
+            <RoomConnect
+              partyName={partyName}
+              setPartyName={setPartyName}
+              partyRoom={partyRoom}
+              setPartyRoom={setPartyRoom}
+              generateRoomName={generateRoomName}
+              partyConnected={partyConnected}
+              connectToRoom={connectToRoom}
+              rollMode={rollmode}
+            />
+
+            <XCard />
+          </div>
         </div>
       </div>
     )

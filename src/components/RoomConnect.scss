@@ -6,7 +6,7 @@
   background-image: url('/assets/bg_parchment.png');
   padding: 16px 22px 18px;
   margin-top: 22px;
-  // min-height: 116px;
+  z-index: 2; // in front of XCard
 
   &.disconnected {
     @include nouveau_border;
@@ -18,7 +18,7 @@
     padding-bottom: 26px;
   }
 
-  .party-room-container, .party-name-container {
+  .party-room-container, .party-name-container, .x-card-container {
     @include text_label;
     position: relative;
     display: flex;
@@ -26,13 +26,9 @@
     align-items: center;
     padding: 10px 0 0;
 
-    label {
-      min-width: 56px;
-      text-align: right;
-      margin-right: 8px;
-    }
+    label { width: 66px; }
 
-    >div { padding: 0 8px;}
+    .TextInput { padding: 0; }
 
     &.disconnected {
       input {
@@ -46,7 +42,9 @@
         @include text_label;
       }
     }
+  }
 
+  .party-room-container {
     .generate-new-room {
       position: absolute;
       right: 4px;
@@ -62,8 +60,10 @@
     }
 
     .copy-on-click {
+      @include text_label;
       border-radius: 4px;
-      padding-top: 1px;
+      margin-top: 1px;
+      padding: 0;
       cursor: pointer;
 
       &:hover { background-color: $pink; }
@@ -71,9 +71,13 @@
       .copy-symbol { margin-left: 4px; }
     }
 
-    .copied-message { color: olive; }
+    .copied-message {
+      color: olive;
+      font-size: 16px;
+    }
   }
 
+  // either a disabled span or a clickable Link
   .party-connect {
     @include text_connect_button;
     text-decoration: none;
@@ -89,7 +93,7 @@
 
     &:hover {
       background-color: $rust_light;
-      // color: $rust;
+      color: white;
     }
     &.disabled {
       cursor: auto;
@@ -97,4 +101,5 @@
       color: $grey_dark;
     }
   }
+
 }

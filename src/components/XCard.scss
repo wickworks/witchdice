@@ -1,0 +1,54 @@
+@import '../fonts';
+
+.XCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+
+  background-color: $rust;
+  color: white;
+  border-radius: 8px;
+  // margin-top: -40px;
+
+  -webkit-transition: margin-top .2s;
+  -moz-transition: margin-top .2s;
+  -ms-transition: margin-top .2s;
+  -o-transition: margin-top .2s;
+  transition: margin-top .2s;
+
+  &:hover {
+    margin-top: 0;
+  }
+
+  .controls {
+    text-align: center;
+    margin: auto;
+
+    button {
+      background-color: $rust;
+      color: white;
+      border-radius: 8px;
+      padding: 2px 8px;
+      margin: 0 8px 4px;
+
+      &:hover {
+        background-color: $rust_light;
+      }
+    }
+
+    label.anonymous {
+      @include text_default;
+      color: white;
+      width: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+  }
+
+  .decorative-x {
+    text-align: center;
+  }
+}
