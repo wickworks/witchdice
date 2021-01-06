@@ -57,10 +57,12 @@ const Character = ({
             />
           </h2>
         }
-        <DeleteButton
-          handleClick={() => setIsDeleting(true)}
-          moreClasses='delete-character'
-        />
+        {!isDeleting &&
+          <DeleteButton
+            handleClick={() => setIsDeleting(true)}
+            moreClasses='delete-character'
+          />
+        }
 
         <div className={`attack-container ${isDeletingClass}`}>
           { allAttackData.map((data, i) => {

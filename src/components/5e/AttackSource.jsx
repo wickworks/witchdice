@@ -285,10 +285,12 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
         }
       </div>
 
-      <DeleteButton
-        handleClick={() => setIsDeleting(!isDeleting)}
-        moreClasses='delete-attack'
-      />
+      {!isDeleting &&
+        <DeleteButton
+          handleClick={() => setIsDeleting(!isDeleting)}
+          moreClasses='delete-attack'
+        />
+      }
     </div>
   );
 }

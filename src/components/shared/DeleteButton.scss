@@ -21,32 +21,53 @@
   align-items: center;
   height: 100%;
   width: 100%;
-  background-color: $parchment_dark;
+
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+
+    .controls {
+      width: 100%;
+    }
+  }
 
   .delete-title {
     @include text_default;
-    padding: 0 30px;
+    padding: 20px 30px;
     margin-right: auto;
+    background-color: $parchment_dark;
+    
   }
 
-  button {
-    @include text_default;
-    font-weight: bold;
-    font-size: 16px;
-    height: 100%;
-    width: 100px;
-    padding: 15px 0;
-    border: 0;
-    opacity: .85;
+  .controls {
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    // width: 100%;
 
-    &.cancel { background-color: $olive_light; }
-    &.delete { background-color: $rust_light; }
-    &:hover { opacity: 1.0; }
+    button {
+      @include text_default;
+      font-weight: bold;
+      font-size: 16px;
+      // height: 100%;
+      // width: 100%;
+      width: 100px;
+      padding: 15px 0;
+      border: 0;
+      opacity: .85;
 
-    .asset {
-      width: 40px;
-      height: 40px;
-      margin: 0 auto 6px;
+      @media screen and (max-width: 800px) {
+        width: 100%;
+      }
+
+      &.cancel { background-color: $olive_light; }
+      &.delete { background-color: $rust_light; }
+      &:hover { opacity: 1.0; }
+
+      .asset {
+        width: 40px;
+        height: 40px;
+        margin: 0 auto 6px;
+      }
     }
   }
 }
