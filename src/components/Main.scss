@@ -9,52 +9,12 @@
     justify-content: center;
     flex-wrap: wrap;
     margin: 26px 0 20px;
-  }
 
-  //
-  // .gameplay-container {
-  //   display: flex;
-  //   justify-content: center;
-  //   margin: 0 12px 20px;
-  //
-  //
-  //
-  //   // for huuuge screens, put the roll stuff all on the same line
-  //   @media screen and (max-width: 1500px) {
-  //     flex-wrap: wrap;
-  //     justify-content: center;
-  //
-  //     .roller-i-hardly-even-knower-container {
-  //       order: 0;
-  //       width: 100%;
-  //       flex-shrink: 0;
-  //     }
-  //     .DiceBag {
-  //       order: 1;
-  //       max-width: 340px;
-  //     }
-  //     .PartyPanel {
-  //       order: 2;
-  //       max-width: 340px;
-  //     }
-  //   }
-  //
-  //   // smaller screens start to have to tweak things
-  //   @media screen and (max-width: 880px) {
-  //     justify-content: space-around;
-  //
-  //     .ActiveAttackList .attack-container {
-  //       width: 100%;
-  //     }
-  //
-  //     .Roller {
-  //       margin: 0;
-  //     }
-  //
-  //     .DiceBag, .PartyPanel {
-  //       margin-left: 0;
-  //       margin-right: 0;
-  //     }
-  //   }
-  // }
+    .history-and-room {
+      width: 100%;
+    	max-width: 340px;
+    	margin: 10px 10px;
+    	flex-shrink: 100;
+    }
+  }
 }

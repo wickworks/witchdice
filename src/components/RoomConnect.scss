@@ -1,0 +1,100 @@
+@import '../fonts';
+
+.RoomConnect {
+  @include shadow;
+  background-color: $parchment;
+  background-image: url('/assets/bg_parchment.png');
+  padding: 16px 22px 18px;
+  margin-top: 22px;
+  // min-height: 116px;
+
+  &.disconnected {
+    @include nouveau_border;
+    border-image-source: url('/assets/borders/nouveau_room_disconnected.svg');
+  }
+  &.connected {
+    @include nouveau_border;
+    border-image-source: url('/assets/borders/nouveau_room_connected.svg');
+    padding-bottom: 26px;
+  }
+
+  .party-room-container, .party-name-container {
+    @include text_label;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 10px 0 0;
+
+    label {
+      min-width: 56px;
+      text-align: right;
+      margin-right: 8px;
+    }
+
+    >div { padding: 0 8px;}
+
+    &.disconnected {
+      input {
+        @include text_default;
+        width: 74%;
+      }
+    }
+
+    &.connected {
+      .TextInput input {
+        @include text_label;
+      }
+    }
+
+    .generate-new-room {
+      position: absolute;
+      right: 4px;
+      top: 10px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: $grey_mid;
+      transition: color .075s ease-out;
+      cursor: pointer;
+
+      &:hover { color: $soft_black; }
+    }
+
+    .copy-on-click {
+      border-radius: 4px;
+      padding-top: 1px;
+      cursor: pointer;
+
+      &:hover { background-color: $pink; }
+
+      .copy-symbol { margin-left: 4px; }
+    }
+
+    .copied-message { color: olive; }
+  }
+
+  .party-connect {
+    @include text_connect_button;
+    text-decoration: none;
+    text-align: center;
+    width: fit-content;
+    display: block;
+    margin: 15px auto 5px;
+    padding: 5px 80px;
+    border: none;
+    border-radius: 8px;
+    background-color: $rust;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $rust_light;
+      // color: $rust;
+    }
+    &.disabled {
+      cursor: auto;
+      background-color: #bbb;
+      color: $grey_dark;
+    }
+  }
+}

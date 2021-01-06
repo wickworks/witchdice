@@ -7,7 +7,8 @@ import { randomWords } from '../random_words.js';
 
 import LoadinDots from './shared/LoadinDots.jsx';
 import DiceBag from './DiceBag.jsx';
-import PartyPanel from './PartyPanel.jsx';
+import RollHistory from './RollHistory.jsx';
+import RoomConnect from './RoomConnect.jsx';
 
 import './Main.scss';
 
@@ -262,17 +263,22 @@ const Main = () => {
           addNewDicebagPartyRoll={addNewDicebagPartyRoll}
         />
 
-        <PartyPanel
-          allPartyActionData={allPartyActionData}
-          partyName={partyName}
-          setPartyName={setPartyName}
-          partyRoom={partyRoom}
-          setPartyRoom={setPartyRoom}
-          generateRoomName={generateRoomName}
-          partyConnected={partyConnected}
-          connectToRoom={connectToRoom}
-          rollMode={rollmode}
-        />
+        <div className="history-and-room">
+          <RollHistory
+            allPartyActionData={allPartyActionData}
+          />
+
+          <RoomConnect
+            partyName={partyName}
+            setPartyName={setPartyName}
+            partyRoom={partyRoom}
+            setPartyRoom={setPartyRoom}
+            generateRoomName={generateRoomName}
+            partyConnected={partyConnected}
+            connectToRoom={connectToRoom}
+            rollMode={rollmode}
+          />
+        </div>
       </div>
     )
   }

@@ -1,56 +1,15 @@
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
-import TextInput from './shared/TextInput.jsx';
-import './PartyPanel.scss';
+import React from 'react';
 import { allDamageTypes } from './5e/data.js';
+import './RollHistory.scss';
 
-const PartyPanel = ({
+const RollHistory = ({
   allPartyActionData,
-  partyRoom, partyName,
-  setPartyRoom, setPartyName,
-  generateRoomName,
-  partyConnected, connectToRoom,
-  rollMode
 }) => {
-  const [showingCopiedMessage, setShowingCopiedMessage] = useState(false);
-
-  const updatePartyRoom = (value) => {
-    const filtered = value.replace(/[^A-Za-z-]/ig, '')
-    setPartyRoom(filtered)
-  }
-
-  const updatePartyName = (value) => {
-    const filtered = value.replace(/[^A-Za-z -]/ig, '')
-    setPartyName(filtered)
-  }
-
-  const copyRoom = () => {
-    const protocol = window.location.protocol.length > 1 ? `${window.location.protocol}//` : '';
-    const hostname = window.location.hostname;
-    const port = window.location.port.length > 1 ? `:${window.location.port}` : '';
-
-    const roomUrl = `${protocol}${hostname}${port}/${rollMode}?r=${partyRoom}`;
-
-    const el = document.createElement('textarea');
-    el.value = roomUrl
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-
-    console.log('copied room url', roomUrl);
-
-    setShowingCopiedMessage(true);
-
-    setTimeout(function(){
-      setShowingCopiedMessage(false);
-    }, 2000);
-  }
 
   function renderActionRolls() {
     let previousName = '';
     let previousChar = '';
-    
+
     // slice(0) makes a copy so we can reverse it
     const actionRolls = allPartyActionData.slice(0).reverse().map((actionData, i) => {
       const showName =
@@ -72,88 +31,22 @@ const PartyPanel = ({
     return actionRolls
   }
 
-  const connectDisabled = (partyRoom.length <= 6 || partyName.length <= 0);
 
   const isEmpty = allPartyActionData.length === 0;
 
 	return (
-		<div className="PartyPanel">
-			{/**<h2>Roll History</h2>**/}
-
-      <div className='party-container'>
-  			<div className='nouveau-border'>
-          { isEmpty ?
-            <div className='no-rolls-container'>
-              <div>Welcome!</div>
-              <div>
-                Your rolls will be recorded here.
-                <span className='asset flower' />
-              </div>
+		<div className="RollHistory">
+			<div className='nouveau-border'>
+        { isEmpty ?
+          <div className='no-rolls-container'>
+            <div>Welcome!</div>
+            <div>
+              Your rolls will be recorded here.
+              <span className='asset flower' />
             </div>
-          :
-            renderActionRolls()
-          }
-        </div>
-			</div>
-
-      <div className={`connection-container ${partyConnected ? 'connected' : 'disconnected'}`}>
-        { (!partyConnected) ?
-          <>
-            <div className='party-name-container disconnected'>
-              <label htmlFor='party-name'>Name</label>
-              <input type='text' id='party-name' value={partyName} onChange={(e) => updatePartyName(e.target.value)} />
-            </div>
-
-            <div className='party-room-container disconnected'>
-              <label htmlFor='party-room'>Room</label>
-              <input type='text' id='party-room' value={partyRoom} onChange={(e) => updatePartyRoom(e.target.value)}/>
-              <button
-                className='generate-new-room'
-                onClick={generateRoomName}
-              >
-                ☈
-              </button>
-            </div>
-
-            { connectDisabled ?
-              <span className='party-connect disabled'>Join Room</span>
-            :
-              <Link
-                className='party-connect'
-                to={`/${rollMode}?r=${partyRoom}`}
-                onClick={() => connectToRoom(partyRoom)}
-              >
-                Join Room
-              </Link>
-            }
-
-
-          </>
+          </div>
         :
-          <>
-            <div className='party-name-container connected'>
-              <label>Name:</label>
-              <TextInput
-                textValue={partyName}
-                setTextValue={setPartyName}
-                placeholder='Name'
-                maxLength={50}
-              />
-            </div>
-
-            <div className='party-room-container connected'>
-              <label>Room:</label>
-
-              { showingCopiedMessage ?
-                <div className='copied-message'>Copied url!</div>
-              :
-                <div className='copy-on-click' onClick={copyRoom}>
-                  {partyRoom}
-                  <span className='copy-symbol'>⧉</span>
-                </div>
-              }
-            </div>
-          </>
+          renderActionRolls()
         }
       </div>
 		</div>
@@ -380,4 +273,4 @@ const PartyRollAttack = ({actionRollData}) => {
   );
 }
 
-export default PartyPanel;
+export default RollHistory;
