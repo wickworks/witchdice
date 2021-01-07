@@ -133,43 +133,32 @@
       align-items: center;
       position: relative;
 
-      button.add-damage-button.asset {
+      button.add-damage-button {
         @include text_default;
-        width: 32px;
-        height: 32px;
+        display: flex;
+        align-items: center;
         padding: 0;
         margin-right: 100px;
         margin-left: 4px;
         opacity: 0.45;
         transition: opacity .075s ease-out;
 
-        &.shunted {
-          position: absolute;
-          right: -38px;
-          top: -20px;
-          margin: 0;
-
-          .text-container { display: none; }
+        .asset {
+          width: 32px;
+          height: 32px;
+          margin-right: 4px;
         }
 
-        .text-container {
-          position: relative;
+        .desc {
+          opacity: 0.0;
+          transition: opacity .075s ease-out;
 
-          span {
-            position: absolute;
-            left: 36px;
-            top: -10px;
-            padding: 0 10px;
-            opacity: 0.0;
-            transition: opacity .075s ease-out;
-            white-space: nowrap;
-            pointer-events: none;
-          }
+          &.show { opacity: 1.0; }
         }
 
         &:hover {
           opacity: 0.7;
-          span { opacity: 1.0; }
+          .desc { opacity: 1.0; }
         }
       }
     }

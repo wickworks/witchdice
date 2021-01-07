@@ -145,9 +145,6 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
   const isVeryLong = (desc.length > 256)
   const expandedClass = (expandedDescription || !isVeryLong) ? 'expanded' : ''
 
-  // shuffle the add damage button off to the side when it's wordy and has no damage
-  const shuntAddDamageClass = (descClass === 'long' && damageData.length === 0) ? 'shunted' : '';
-
   return (
     <div className='AttackSource'>
       <div className='statblock-container'>
@@ -269,15 +266,14 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
               })}
 
               <button
-                className={`add-damage-button asset plus ${shuntAddDamageClass}`}
+                className='add-damage-button'
                 onClick={() => {
                   toggleDamageSourceEdit(damageData.length);
                   createDamage();
                 }}
               >
-                <div className='text-container'>
-                  <span>Add Damage</span>
-                </div>
+                <div className='asset plus' />
+                <span className={`desc ${damageData.length === 0 ? 'show' : ''}`}>Add Damage</span>
               </button>
             </div>
 
