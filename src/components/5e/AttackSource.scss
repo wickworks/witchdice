@@ -102,7 +102,12 @@
           &.short {
             font-style: italic;
             text-align: right;
-            margin-left: auto;
+            width: 100%;
+
+            .TextInput {
+              margin-left: auto;
+              &.editing { margin-left: 0; }
+            }
 
             .TextInput, input {
               width: 100%;
