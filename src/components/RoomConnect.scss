@@ -6,6 +6,8 @@
   background-image: url('/assets/bg_parchment.png');
   padding: 16px 22px 18px;
   margin-top: 22px;
+  box-sizing: border-box;
+  width: 100%;
   z-index: 2; // in front of XCard
 
   &.disconnected {

@@ -6,6 +6,8 @@
 ###### LAYOUT #######
 - make bookmarks system work for mobile
 
+- add a nice nouveau border to the xcard
+
 ##### FEATURES ######
 - dX dice?
 - X-card raised :::: anonymous or not
@@ -19,7 +21,6 @@
 - be able to rearrange 5e attacks
 
 - themes e.g. dark mode
-- make the background a sketch pad -- or just have a notepad panel that saves to session storage
 
 
 ###### TECHNICAL ######
