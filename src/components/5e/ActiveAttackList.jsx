@@ -34,8 +34,8 @@ const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
 
           const showAttack =
             (attackSource.type === 'attack' && attackSource.damageData.length > 0) ||
-            attackSource.type === 'save' ||
-            attackSource.type === 'ability';
+            (attackSource.type === 'save') ||
+            (attackSource.type === 'ability' && attackSource.damageData.length > 0);
 
           if (showAttack) {
             return (

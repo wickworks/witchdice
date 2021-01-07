@@ -4,9 +4,6 @@
 - PWA worker??
 
 ###### LAYOUT #######
-
-- move character deletion controls to the Character list
-
 - make bookmarks system work for mobile
 
 ##### FEATURES ######
