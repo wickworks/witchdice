@@ -4,16 +4,14 @@
   display: block;
   width: 24px;
   height: 24px;
-
-  margin: 6px auto;
   cursor: pointer;
 
   // turns black to $rust
   filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
-  opacity: 0.2;
+  opacity: 0.5;
   transition: opacity .075s ease-out;
 
-  &:hover { opacity: 0.8;}
+  &:hover { opacity: 1.80;}
 }
 
 .DeleteConfirmation {
@@ -21,6 +19,7 @@
   align-items: center;
   height: 100%;
   width: 100%;
+  background-color: $parchment_dark;
 
   @media screen and (max-width: 800px) {
     flex-direction: column;
@@ -34,13 +33,16 @@
     display: flex;
     align-items: center;
     background-color: $parchment_dark;
-    padding: 15px 30px;
-    margin-right: auto;
+    padding: 15px 8px;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
 
-    .delete-title { @include text_default; }
+    .delete-title {
+      @include text_default;
+      width: 100%;
+      text-align: center;
+    }
   }
 
   .controls {

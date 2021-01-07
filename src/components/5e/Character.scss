@@ -39,25 +39,6 @@
       input { @include text_character_name; }
     }
 
-    .asset.delete-character {
-      position: absolute;
-      right: 20px;
-      top: 86px;
-
-      width: 24px;
-      height: 24px;
-      display: block;
-      margin-left: auto;
-      transition: opacity .075s ease-out;
-      cursor: pointer;
-
-      // turns black to $rust
-      filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
-      opacity: 0.2;
-
-      &:hover { opacity: 1.0;}
-    }
-
     .attack-container {
 
       &.hidden { visibility: hidden; }
@@ -116,16 +97,4 @@
       }
     }
   }
-
-  .DeleteConfirmation.delete-character-confirmation {
-    height: 100px;
-    width: 100%;
-    margin: 21px 0;
-
-    .delete-title {
-      font-size: 40px;
-      color: $rust;
-    }
-  }
-
 }

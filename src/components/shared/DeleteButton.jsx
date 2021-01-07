@@ -3,7 +3,7 @@ import './DeleteButton.scss';
 
 const DeleteButton = ({
   handleClick,
-  moreClasses
+  moreClasses = ''
 }) => {
   return (
     <div
@@ -17,12 +17,12 @@ const DeleteConfirmation = ({
   name,
   handleCancel,
   handleDelete,
-  moreClasses
+  moreClasses = ''
 }) => {
   return (
     <div className={`DeleteConfirmation ${moreClasses}`}>
       <div className='title-container'>
-        <div className='delete-title'>Delete '{name}'?</div>
+        <div className='delete-title'>Delete {name}?</div>
       </div>
 
       <div className='controls'>

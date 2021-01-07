@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { DeleteButton, DeleteConfirmation } from './DeleteButton.jsx';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import './CharacterAndMonsterList.scss';
 
@@ -7,6 +8,7 @@ import './CharacterAndMonsterList.scss';
 const CharacterAndMonsterList = ({
   setActiveCharacterID,
   activeCharacterID,
+  deleteActiveCharacter,
   allCharacterEntries,
   allMonsterEntries,
   createNewCharacter
@@ -18,19 +20,27 @@ const CharacterAndMonsterList = ({
         characterEntries={allCharacterEntries}
         handleEntryClick={setActiveCharacterID}
         activeCharacterID={activeCharacterID}
+        deleteActiveCharacter={deleteActiveCharacter}
         createNewCharacter={createNewCharacter}
       />
 
       <MonsterList
         monsterEntries={allMonsterEntries}
         handleEntryClick={setActiveCharacterID}
+        deleteActiveCharacter={deleteActiveCharacter}
         activeCharacterID={activeCharacterID}
       />
     </div>
   );
 }
 
-const CharacterList = ({characterEntries, handleEntryClick, activeCharacterID, createNewCharacter}) => {
+const CharacterList = ({
+  characterEntries,
+  handleEntryClick,
+  activeCharacterID,
+  deleteActiveCharacter,
+  createNewCharacter,
+}) => {
   characterEntries.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
 
   return (
@@ -49,6 +59,7 @@ const CharacterList = ({characterEntries, handleEntryClick, activeCharacterID, c
         entries={characterEntries}
         handleEntryClick={handleEntryClick}
         activeCharacterID={activeCharacterID}
+        deleteActiveCharacter={deleteActiveCharacter}
       />
 
       { characterEntries.length === 0 &&
@@ -61,7 +72,12 @@ const CharacterList = ({characterEntries, handleEntryClick, activeCharacterID, c
   )
 }
 
-const MonsterList = ({monsterEntries, handleEntryClick, activeCharacterID}) => {
+const MonsterList = ({
+  monsterEntries,
+  handleEntryClick,
+  deleteActiveCharacter,
+  activeCharacterID,
+}) => {
   const [filter, setFilter] = useState('');
   const [recentMonsters, setRecentMonsters] = useState([]);
 
@@ -161,31 +177,57 @@ const MonsterList = ({monsterEntries, handleEntryClick, activeCharacterID}) => {
         entries={filteredEntries}
         handleEntryClick={processEntryClick}
         activeCharacterID={activeCharacterID}
+        deleteActiveCharacter={deleteActiveCharacter}
         highlightIDs={recentMonsters}
       />
     </div>
   )
 }
 
-const EntryList = ({entries, handleEntryClick, activeCharacterID, highlightIDs = []}) => {
+const EntryList = ({
+  entries,
+  handleEntryClick,
+  activeCharacterID,
+  deleteActiveCharacter,
+  highlightIDs = []
+}) => {
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  const activeCharacter = entries.find(entry => {
+    return entry.id === activeCharacterID
+  })
 
   return (
     <ul className="EntryList">
-      { entries.map((entry, i) => {
-        const id = entry.id;
-        const name = entry.name;
-        const selectedClass = (id === activeCharacterID) ? 'selected' : ''
-        const highlightClass = (highlightIDs.indexOf(id) >= 0) ? 'highlighted' : ''
-        return (
-          <li
-            className={`${selectedClass} ${highlightClass}`}
-            onClick={() => handleEntryClick(id)}
-            key={id}
-          >
-            {name}
-          </li>
-        )
-      })}
+      { isDeleting ?
+        <DeleteConfirmation
+          name={activeCharacter.name}
+          handleCancel={() => setIsDeleting(false)}
+          handleDelete={() => {setIsDeleting(false); deleteActiveCharacter()}}
+        />
+      :
+        entries.map((entry, i) => {
+          const id = entry.id;
+          const name = entry.name;
+          const selectedClass = (id === activeCharacterID) ? 'selected' : ''
+          const highlightClass = (highlightIDs.indexOf(id) >= 0) ? 'highlighted' : ''
+          return (
+            <li
+              className={`${selectedClass} ${highlightClass}`}
+              onClick={() => handleEntryClick(id)}
+              key={id}
+            >
+              <span className='name'>
+                {name}
+              </span>
+
+              {(id === activeCharacterID) &&
+                <DeleteButton handleClick={() => setIsDeleting(true)} />
+              }
+            </li>
+          )
+        })
+      }
     </ul>
   )
 }

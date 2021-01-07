@@ -556,6 +556,7 @@ const Main5E = ({
         activeCharacterID={characterID}
         allCharacterEntries={allCharacterEntries}
         allMonsterEntries={allMonsterEntries}
+        deleteActiveCharacter={deleteActiveCharacter}
         createNewCharacter={createNewCharacter}
       />
 
@@ -575,7 +576,6 @@ const Main5E = ({
             createAttackFromSpell={createAttackFromSpell}
             deleteAttack={deleteAttack}
             attackFunctions={attackFunctions}
-            deleteCharacter={deleteActiveCharacter}
             allPresetEntries={allPresetEntries}
             setToCharacterPreset={setToCharacterPreset}
             allSpellData={allSpellData}

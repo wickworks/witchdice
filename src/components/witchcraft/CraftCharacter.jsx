@@ -110,15 +110,7 @@ const disguiseSelectStyle = {
 const CraftCharacter = ({
   crafterData,
   updateCrafterData,
-  deleteCrafter,
 }) => {
-  const [isDeleting, setIsDeleting] = useState(false);
-  const isDeletingClass = isDeleting ? 'hidden' : '';
-
-  useEffect(() => {
-    setIsDeleting(false);
-  }, [crafterData]);
-
 
   // ===== UPDATE CRAFTER DATA ====== //
   const updateTechnique = (techniqueIndex, value) => {
@@ -182,7 +174,7 @@ const CraftCharacter = ({
   )
 
   return (
-    <div className={`CraftCharacter ${isDeletingClass}`}>
+    <div className='CraftCharacter'>
       <div className='intro-container'>
         <div className='name-and-class'>
           <h2 className='name'>
@@ -404,20 +396,6 @@ const CraftCharacter = ({
           ))
         }
       </tbody></table>
-
-      { isDeleting ?
-        <DeleteConfirmation
-          name={crafterData.name}
-          handleCancel={() => setIsDeleting(false)}
-          handleDelete={() => {setIsDeleting(false); deleteCrafter()}}
-          moreClasses={'delete-crafter-confirmation'}
-        />
-      :
-        <DeleteButton
-          handleClick={() => setIsDeleting(true)}
-          moreClasses='delete-project'
-        />
-      }
 
     </div>
   )

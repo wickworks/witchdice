@@ -169,7 +169,7 @@
     }
 
     .DeleteConfirmation.delete-attack-confirmation {
-      .delete-title { @include text_title_heavy_black; }
+      .delete-title { @include text_title_light_black; }
     }
   }
 

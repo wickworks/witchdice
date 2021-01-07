@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Select from 'react-select'
 import AttackSource from './AttackSource.jsx';
 import TextInput from '../shared/TextInput.jsx';
-import { DeleteButton, DeleteConfirmation } from '../shared/DeleteButton.jsx';
 import './Character.scss';
 
 const Character = ({
@@ -11,15 +10,11 @@ const Character = ({
   updateAllAttackData, deleteAttack,
   createAttack, createAttackFromSpell,
   attackFunctions,
-  deleteCharacter,
   allPresetEntries, setToCharacterPreset,
   allSpellData,
   clearRollData
 }) => {
   const [isAddingSpell, setIsAddingSpell] = useState(false);
-
-  const [isDeleting, setIsDeleting] = useState(false);
-  const isDeletingClass = isDeleting ? 'hidden' : '';
 
   const updateCharacterName = (value) => {
     let filtered = value.replace(/[^A-Za-z -]/ig, '')
@@ -40,31 +35,17 @@ const Character = ({
   return (
     <div className="Character">
       <div className="character-sheet">
-        { isDeleting ?
-          <DeleteConfirmation
-            name={characterName}
-            handleCancel={() => setIsDeleting(false)}
-            handleDelete={() => {setIsDeleting(false); deleteCharacter()}}
-            moreClasses={'delete-character-confirmation'}
-          />
-        :
-          <h2 className="character-name">
-            <TextInput
-              textValue={characterName}
-              setTextValue={updateCharacterName}
-              placeholder='Name'
-              maxLength={50}
-            />
-          </h2>
-        }
-        {!isDeleting &&
-          <DeleteButton
-            handleClick={() => setIsDeleting(true)}
-            moreClasses='delete-character'
-          />
-        }
 
-        <div className={`attack-container ${isDeletingClass}`}>
+        <h2 className="character-name">
+          <TextInput
+            textValue={characterName}
+            setTextValue={updateCharacterName}
+            placeholder='Name'
+            maxLength={50}
+          />
+        </h2>
+
+        <div className='attack-container'>
           { allAttackData.map((data, i) => {
             return (
               <AttackSource

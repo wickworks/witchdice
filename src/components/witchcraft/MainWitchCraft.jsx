@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from "react-helmet";
 import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
+import NouveauDivider from '../shared/NouveauDivider.jsx';
 import CraftCharacter from './CraftCharacter.jsx';
 import ProjectList from './ProjectList.jsx';
 import CraftSetup from './CraftSetup.jsx';
@@ -263,6 +264,7 @@ const MainWitchCraft = () => {
         handleEntryClick={setActiveCrafter}
         activeCharacterID={crafterID}
         createNewCharacter={createNewCrafter}
+        deleteActiveCharacter={deleteActiveCrafter}
       />
 
       { crafterData !== null &&
@@ -270,7 +272,6 @@ const MainWitchCraft = () => {
           <CraftCharacter
             crafterData={crafterData}
             updateCrafterData={updateCrafterData}
-            deleteCrafter={deleteActiveCrafter}
           />
 
           <ProjectList
@@ -327,6 +328,9 @@ const MainWitchCraft = () => {
             />
         </div>
       }
+
+      <NouveauDivider />
+
     </div>
   )
 }

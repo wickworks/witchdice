@@ -112,17 +112,38 @@
     margin: 6px 0;
 
     li {
-      padding: 2px 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       width: 46%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+
 
       cursor: pointer;
 
       &:hover { background-color: $pink;}
       &.selected { background-color: $parchment_dark;}
       &.highlighted { color: $rust;}
+
+      .name {
+        width: 100%;
+        padding: 2px 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .DeleteButton {
+        display: inline-block;
+        width: 19px;
+        height: 19px;
+      }
+    }
+
+    .DeleteConfirmation {
+      button .asset {
+        width: 32px;
+        height: 32px;
+      }
     }
   }
 }

@@ -159,26 +159,6 @@
     }
   }
 
-  .DeleteButton {
-    position: absolute;
-    left: 20px;
-    top: 16px;
-  }
-
-  .DeleteConfirmation {
-    position: absolute;
-    left: 0px;
-    top: 9px;
-    height: fit-content;
-    display: flex;
-    flex-wrap: wrap;
-
-    .delete-title {
-      font-size: 40px;
-      color: $rust;
-    }
-  }
-
   &.hidden {
     .intro-container, .stats, .techniques { opacity: 0%; }
   }
