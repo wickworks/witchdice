@@ -170,49 +170,50 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
                   />
                 </div>
 
-                <div className='is-saving-throw'
-                  onClick={() => setType(cycleActionType(type), attackID)}
-                >
-                  { (type === 'attack') ?
-                    'Attack.'
-                  : (type === 'save') ?
-                    'Saving throw.'
-                  :
-                    'Ability.'
-                  }
-                </div>
-
-                { (type === 'attack') ?
-                  <div
-                    className='modifier unselectable'
-                    onClick={(e) => handleModifierClick(e, true)}
-                    onContextMenu={(e) => handleModifierClick(e, false)}
+                <div className='attack-type-container'>
+                  <div className='is-saving-throw'
+                    onClick={() => setType(cycleActionType(type), attackID)}
                   >
-                    {modifier >= 0 ? '+' : ''}
-                    {modifier} to hit
+                    { (type === 'attack') ?
+                      'Attack.'
+                    : (type === 'save') ?
+                      'Saving throw.'
+                    :
+                      'Ability.'
+                    }
                   </div>
 
-                : (type === 'save') ?
-                  <>
+                  { (type === 'attack') ?
                     <div
-                      className='saving-throw-dc unselectable'
-                      onClick={(e) => handleSavingThrowDCClick(e, true)}
-                      onContextMenu={(e) => handleSavingThrowDCClick(e, false)}
+                      className='modifier unselectable'
+                      onClick={(e) => handleModifierClick(e, true)}
+                      onContextMenu={(e) => handleModifierClick(e, false)}
                     >
-                      DC {savingThrowDC}
+                      {modifier >= 0 ? '+' : ''}
+                      {modifier} to hit
                     </div>
-                    <div
-                      className='saving-throw-type unselectable'
-                      onClick={(e) => handleSavingThrowTypeClick(e, true)}
-                      onContextMenu={(e) => handleSavingThrowTypeClick(e, false)}
-                    >
-                      {abilityTypes[savingThrowType]}
-                    </div>
-                  </>
-                : //ability
-                  <></>
-                }
 
+                  : (type === 'save') ?
+                    <>
+                      <div
+                        className='saving-throw-dc unselectable'
+                        onClick={(e) => handleSavingThrowDCClick(e, true)}
+                        onContextMenu={(e) => handleSavingThrowDCClick(e, false)}
+                      >
+                        DC {savingThrowDC}
+                      </div>
+                      <div
+                        className='saving-throw-type unselectable'
+                        onClick={(e) => handleSavingThrowTypeClick(e, true)}
+                        onContextMenu={(e) => handleSavingThrowTypeClick(e, false)}
+                      >
+                        {abilityTypes[savingThrowType]}
+                      </div>
+                    </>
+                  : //ability
+                    <></>
+                  }
+                </div>
               </div>
 
               <div className={`desc-container ${descClass}`}>
@@ -243,6 +244,13 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
             </div>
 
             <div className='statblock'>
+              {!isDeleting &&
+                <DeleteButton
+                  handleClick={() => setIsDeleting(!isDeleting)}
+                  moreClasses='delete-attack'
+                />
+              }
+
               { damageData.map((data, i) => {
                 return (
                   <React.Fragment key={i}>
@@ -288,13 +296,6 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
           </>
         }
       </div>
-
-      {!isDeleting &&
-        <DeleteButton
-          handleClick={() => setIsDeleting(!isDeleting)}
-          moreClasses='delete-attack'
-        />
-      }
     </div>
   );
 }

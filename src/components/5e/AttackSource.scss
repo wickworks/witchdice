@@ -21,6 +21,7 @@
         display: flex;
         flex-wrap: wrap;
         align-items: flex-end;
+        margin-right: auto;
 
         .name {
           margin-right: 10px;
@@ -28,26 +29,30 @@
           .display, input { @include text_title_heavy; }
         }
 
-        .is-saving-throw {
-          font-style: italic;
-        }
+        .attack-type-container {
+          display: flex;
+          
+          .is-saving-throw {
+            font-style: italic;
+          }
 
-        .modifier, .saving-throw-dc, .saving-throw-type, .is-saving-throw {
-          padding: 2px;
-          margin-bottom: 2px;
-          margin-right: 6px;
-          border-radius: 2px;
+          .modifier, .saving-throw-dc, .saving-throw-type, .is-saving-throw {
+            padding: 2px;
+            margin-bottom: 2px;
+            margin-right: 6px;
+            border-radius: 2px;
 
-          background-color: transparent;
-          cursor: pointer;
+            background-color: transparent;
+            cursor: pointer;
 
-          &:hover { background-color: $parchment_dark; }
+            &:hover { background-color: $parchment_dark; }
+          }
         }
       }
 
       .desc-container {
         display: flex;
-        flex-grow: 1;
+        // flex-grow: 1;
 
         &.long {
           border-top: 2px solid $rust_light;
@@ -68,6 +73,8 @@
 
           .collapsed-snippet {
             cursor: pointer;
+            padding: 3px;
+
             &:hover {
               background-color: $parchment_dark;
             }
@@ -101,16 +108,16 @@
 
           &.short {
             font-style: italic;
-            text-align: right;
-            width: 100%;
+            // text-align: right;
+            // width: 100%;
 
-            .TextInput {
-              margin-left: auto;
-              &.editing { margin-left: 0; }
-            }
+            // .TextInput {
+            //   margin-left: auto;
+            //   &.editing { margin-left: 0; }
+            // }
 
-            .TextInput, input {
-              width: 100%;
+            input {
+              width: 280px;
               box-sizing: border-box;
             }
           }
@@ -142,6 +149,12 @@
       flex-wrap: wrap;
       align-items: center;
       position: relative;
+
+      .delete-attack {
+        position: absolute;
+        right: 8px;
+        top: 6px;
+      }
 
       button.add-damage-button {
         @include text_default;
@@ -177,11 +190,4 @@
       .delete-title { @include text_title_light_black; }
     }
   }
-
-  .delete-attack {
-    position: absolute;
-    right: -34px;
-    top: 12px;
-  }
-
 }
