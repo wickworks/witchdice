@@ -46,7 +46,10 @@ function getMonsterData() {
           let attackData = deepCopy(defaultAttackData);
           attackData.name = attackOriginal.name;
           attackData.modifier = attackOriginal.attack_bonus;
-          attackData.desc = attackOriginal.desc;
+
+          // turn each line break into two, for markdown's sake
+          const markdownDesc = attackOriginal.desc.replace(/(?:\r\n|\r|\n)/g, '\n\n');
+          attackData.desc = markdownDesc;
 
           // console.log('       processing attack ', attackData.name);
 
@@ -180,7 +183,7 @@ function getMonsterData() {
     }
   }
 
-  // console.log(JSON.stringify(allMonsterData));
+  console.log(JSON.stringify(allMonsterData));
 
   return allMonsterData;
 }

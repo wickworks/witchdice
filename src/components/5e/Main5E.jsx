@@ -165,7 +165,7 @@ const Main5E = ({
           monsterData.name,
           monsterData.allAttackData
         )
-      }
+      } // )
 
       // PARSE PRESET JSON
       for ( var j = 0; j < allCharacterPresetData.length; ++j ) {

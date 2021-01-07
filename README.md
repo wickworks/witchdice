@@ -4,7 +4,6 @@
 - PWA worker??
 
 ###### LAYOUT #######
-- monster srd mungs: make single br turn into a markdown-br (eg ancient silver dragon's breath weapons)
 
 - move character deletion controls to the Character list
 
