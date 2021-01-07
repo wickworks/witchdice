@@ -56,15 +56,21 @@
         }
 
         .desc {
-          .display {
+          .TextInput .display {
             @include text_default;
             padding-bottom: 2px;
           }
 
           p {
             margin-bottom: 6px;
-
             &:last-of-type { margin-bottom: 2px; }
+          }
+
+          .collapsed-snippet {
+            cursor: pointer;
+            &:hover {
+              background-color: $parchment_dark;
+            }
           }
 
           &.long {
@@ -89,15 +95,14 @@
             }
 
             &.expanded {
-              max-height: 800px;
-              overflow-y: scroll;
+              max-height: 2000px;
             }
           }
 
           &.short {
             font-style: italic;
             text-align: right;
-            margin-left: 18px;
+            margin-left: auto;
 
             .TextInput, input {
               width: 100%;

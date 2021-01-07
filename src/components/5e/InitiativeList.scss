@@ -9,7 +9,7 @@
   border-image-source: url('/assets/borders/nouveau_initiative_list.svg');
   background-color: $parchment;
   background-image: url('/assets/bg_parchment.png');
-  padding: 12px 12px 14px;
+  padding: 12px 12px 11px;
   margin: 30px auto;
   box-sizing: border-box;
 	width: 100%;
@@ -162,23 +162,28 @@
 			background-color: transparent;
 			justify-content: center;
 
-			.delete-title { display: none; }
+			.title-container { display: none; }
 
-			button {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				padding: 0;
-				width: 40%;
+      .controls {
+        width: 100%;
+        justify-content: center;
 
-				.asset {
-					width: 24px;
-		      height: 24px;
-		      margin: 0 4px;
-				}
+  			button {
+  				display: flex;
+  				align-items: center;
+  				justify-content: center;
+  				padding: 0;
+  				width: 40%;
 
-				&.cancel { border-radius: 0 6px 0 0; }
-		    &.delete { border-radius: 6px 0 0 0; }
+  				.asset {
+  					width: 24px;
+  		      height: 24px;
+  		      margin: 0 4px;
+  				}
+
+  				&.cancel { border-radius: 0 6px 0 0; }
+  		    &.delete { border-radius: 6px 0 0 0; }
+        }
 			}
 		}
   }

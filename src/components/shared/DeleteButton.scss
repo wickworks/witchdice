@@ -30,12 +30,17 @@
     }
   }
 
-  .delete-title {
-    @include text_default;
-    padding: 20px 30px;
-    margin-right: auto;
+  .title-container {
+    display: flex;
+    align-items: center;
     background-color: $parchment_dark;
-    
+    padding: 15px 30px;
+    margin-right: auto;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+
+    .delete-title { @include text_default; }
   }
 
   .controls {

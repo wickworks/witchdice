@@ -21,7 +21,9 @@ const DeleteConfirmation = ({
 }) => {
   return (
     <div className={`DeleteConfirmation ${moreClasses}`}>
-      <div className='delete-title'>Delete '{name}'?</div>
+      <div className='title-container'>
+        <div className='delete-title'>Delete '{name}'?</div>
+      </div>
 
       <div className='controls'>
         <button className='delete' onClick={handleDelete}>

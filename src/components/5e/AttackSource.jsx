@@ -33,7 +33,7 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
   const [isDeleting, setIsDeleting] = useState(false)
   const [isDamageEditOpen, setIsDamageEditOpen] = useState(false)
   const [editingDamageID, setEditingDamageID] = useState(null)
-  const [expandedDescription, setExpandedDescription] = useState(false)
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false)
 
   // =============== DATA PASSING =============
 
@@ -141,9 +141,10 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
     return actionTypes[ (currentIndex+1) % actionTypes.length ]
   }
 
-  const descClass = (desc.length > 64) ? 'long' : 'short'
+  const isLong = (desc.length > 64)
   const isVeryLong = (desc.length > 256)
-  const expandedClass = (expandedDescription || !isVeryLong) ? 'expanded' : ''
+  const descClass = (isVeryLong || isLong) ? 'long' : 'short'
+  const expandedClass = (isDescriptionExpanded || !isVeryLong) ? 'expanded' : ''
 
   return (
     <div className='AttackSource'>
@@ -216,18 +217,25 @@ const AttackSource = ({attackID, attackData, attackFunctions, deleteAttack, clea
 
               <div className={`desc-container ${descClass}`}>
                 <div className={`desc ${descClass} ${expandedClass}`}>
-                  <TextInput
-                    textValue={desc.length > 0 ? desc : '...' }
-                    setTextValue={(desc) => setDesc(desc, attackID)}
-                    placeholder='Attack description'
-                    isTextbox={descClass === 'long'}
-                    isMarkdown={descClass === 'long'}
-                  />
+
+                  { isVeryLong && !isDescriptionExpanded ?
+                    <div className='collapsed-snippet' onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}>
+                      {desc}
+                    </div>
+                  :
+                    <TextInput
+                      textValue={desc.length > 0 ? desc : '...' }
+                      setTextValue={(desc) => setDesc(desc, attackID)}
+                      placeholder='Attack description'
+                      isTextbox={isLong}
+                      isMarkdown={isLong}
+                    />
+                  }
                 </div>
                 {isVeryLong &&
                   <button
                     className={`expand-arrow asset arrow ${expandedClass}`}
-                    onClick={() => setExpandedDescription(!expandedDescription)}
+                    onClick={() => setIsDescriptionExpanded(!isDescriptionExpanded)}
                   />
                 }
               </div>
