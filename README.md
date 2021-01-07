@@ -8,6 +8,8 @@
 
 - add a nice nouveau border to the xcard
 
+- bug: mode summary at the top expands the whole window
+
 ##### FEATURES ######
 - dX dice?
 - X-card raised :::: anonymous or not
