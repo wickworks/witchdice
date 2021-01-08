@@ -88,7 +88,7 @@
           .mode-desc {
             position: absolute;
             display: block;
-            width: 100vw;
+            width: calc(100vw - 20px);
             left: 0;
             text-align: center;
             padding: 6px 0;

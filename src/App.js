@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import ModeChooser from './components/ModeChooser.jsx';
 import Footer from './components/Footer.jsx';
@@ -9,10 +9,12 @@ import './App.scss';
 const Main = lazy(() => import('./components/Main.jsx'));
 
 function App() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <Router>
       <Route path="/:rollmode?">
-        <div className="App">
+        <div className="App" aria-hidden={isModalOpen}>
           <div className='banner-and-chooser'>
             <Route path="/craft">
               <div className='witch-craft banner-container-container'>
@@ -37,7 +39,9 @@ function App() {
           </div>
 
           <Suspense fallback={<LoadinDots />}>
-            <Main />
+            <Main
+              setIsModalOpen={setIsModalOpen}
+            />
           </Suspense>
 
           <Footer />

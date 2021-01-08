@@ -9,7 +9,7 @@ import LoadinDots from './shared/LoadinDots.jsx';
 import DiceBag from './DiceBag.jsx';
 import RollHistory from './RollHistory.jsx';
 import RoomConnect from './RoomConnect.jsx';
-import XCard from './XCard.jsx';
+import {XCard, XCardModal} from './XCard.jsx';
 
 import './Main.scss';
 
@@ -29,7 +29,9 @@ function getFirebaseDB() {
   return window.firebase.database().ref()
 }
 
-const Main = () => {
+const Main = ({setIsModalOpen}) => {
+  const [xCardRaisedBy, setXCardRaisedBy] = useState('');
+
   // 5e summary of the current roll. On change, we push it to firebase.
   // Or, if disconnected, just send straight to latestAction.
   const [rollSummaryData, setRollSummaryData] = useState({});
@@ -214,7 +216,7 @@ const Main = () => {
   }, [latestAction]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
-  // =============== FIREBASE INITIATIVE FUNCTIONS ==================
+  // =============== UTILS ==================
 
   const connectToRoom = (roomName) => {
     try {
@@ -257,6 +259,16 @@ const Main = () => {
     setPartyName( capitalize(`${randomWords(1)}`) )
   }
 
+  const handleXCardRaise = () => {
+
+  }
+
+  useEffect(() => {
+    setIsModalOpen( (xCardRaisedBy.length > 0) )
+  }, [xCardRaisedBy]); // eslint-disable-line react-hooks/exhaustive-deps
+
+
+
   function renderDicebag() {
     return (
       <div className="dicebag-and-history">
@@ -281,7 +293,7 @@ const Main = () => {
               rollMode={rollmode}
             />
 
-            <XCard />
+            <XCard handleXCardRaise={() => setXCardRaisedBy(partyName)} />
           </div>
         </div>
       </div>
@@ -339,6 +351,13 @@ const Main = () => {
           </Suspense>
         </Route>
       </Switch>
+
+      { xCardRaisedBy &&
+        <XCardModal
+          raisedBy={xCardRaisedBy}
+          handleClose={() => setXCardRaisedBy('')}
+        />
+      }
     </div>
   )
 }
