@@ -30,7 +30,6 @@ const XCard = ({
       var now = Date.now()
       var cutoff = now - 60 * 1000 // 60 seconds ago
       if (latestRaiseEvent.time > cutoff) {
-        console.log('got raise event', latestRaiseEvent);
         setXCardRaisedBy(latestRaiseEvent.name)
       }
     }
@@ -69,8 +68,6 @@ const XCard = ({
         time: Date.now()
       }
       dbInitiativeRef.child('raiseEvent').set(raiseEvent)
-
-      console.log('pushing event to db');
     }
   }
 
