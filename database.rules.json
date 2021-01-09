@@ -17,6 +17,14 @@
       }
     },
 
+    "xcard": {
+      "$room": {
+        ".read": true,
+        ".write": true,
+        ".validate": "$room.length > 6 && $room.length < 40 && $room.matches(/^[a-zA-Z-]+$/i)"
+      }
+    },
+
     // but no other child paths are allowed
     "$other": {
     	".read": false,

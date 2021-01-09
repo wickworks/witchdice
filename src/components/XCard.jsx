@@ -4,21 +4,79 @@ import { Helmet } from "react-helmet";
 import FocusTrap from 'focus-trap-react'
 import './XCard.scss';
 
+function getFirebaseDB() {
+  return window.firebase.database().ref()
+}
+
 let restoreFocusOnElement = null;
 
 const XCard = ({
-  handleXCardRaise,
+  setXCardRaisedBy,
+  partyConnected,
+  partyRoom,
+  partyName,
 }) => {
+
+  // When we see a new entry in firebase, we put it here.
+  // Whenever it changes, we raise the xcard
+  const [latestRaiseEvent, setLatestRaiseEvent] = useState(null);
+
+  // ~~ CREATE / UPDATE ~~
+  // There's a new kid in town! let's welcome them and add them to the data
+  useEffect(() => {
+    if (latestRaiseEvent) {
+
+      // was this raise within the last minute?
+      var now = Date.now()
+      var cutoff = now - 60 * 1000 // 60 seconds ago
+      if (latestRaiseEvent.time > cutoff) {
+        console.log('got raise event', latestRaiseEvent);
+        setXCardRaisedBy(latestRaiseEvent.name)
+      }
+    }
+
+  }, [latestRaiseEvent]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (partyConnected) {
+      try {
+        const dbInitiativeRef = getFirebaseDB().child('xcard').child(partyRoom)
+
+        dbInitiativeRef.on('child_changed', (snapshot) => {
+          if (snapshot) setLatestRaiseEvent(snapshot.val())
+        })
+
+        dbInitiativeRef.on('child_added', (snapshot) => {
+          if (snapshot) setLatestRaiseEvent(snapshot.val())
+        })
+
+      } catch (error) {
+        console.log('ERROR: ',error.message);
+      }
+    }
+
+  }, [partyConnected]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleRaiseButton = () => {
+    setXCardRaisedBy(partyName)
+    restoreFocusOnElement = document.activeElement
+
+    if (partyConnected) {
+      const dbInitiativeRef = getFirebaseDB().child('xcard').child(partyRoom)
+
+      const raiseEvent = {
+        name: partyName,
+        time: Date.now()
+      }
+      dbInitiativeRef.child('raiseEvent').set(raiseEvent)
+
+      console.log('pushing event to db');
+    }
+  }
 
 	return (
     <div className='XCard'>
-      <button
-        className='touch'
-        onClick={() => {
-          restoreFocusOnElement = document.activeElement
-          handleXCardRaise()
-        }}
-      >
+      <button className='touch' onClick={handleRaiseButton}>
         Raise
       </button>
 
@@ -84,7 +142,7 @@ const XCardModal = ({
         aria-labelledby='whodunnit'
         role='alertdialogue'
         tabIndex='-1'
-        onClick={handleClose}
+        onClick={closeModal}
         onKeyDown={e => { if (e.keyCode === 27) closeModal() }}
       >
         <Helmet>

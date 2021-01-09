@@ -259,9 +259,6 @@ const Main = ({setIsModalOpen}) => {
     setPartyName( capitalize(`${randomWords(1)}`) )
   }
 
-  const handleXCardRaise = () => {
-
-  }
 
   useEffect(() => {
     setIsModalOpen( (xCardRaisedBy.length > 0) )
@@ -294,7 +291,10 @@ const Main = ({setIsModalOpen}) => {
             />
 
             <XCard
-              handleXCardRaise={() => setXCardRaisedBy(partyName)}
+              setXCardRaisedBy={setXCardRaisedBy}
+              partyConnected={partyConnected}
+              partyRoom={partyRoom}
+              partyName={partyName}
             />
 
             { xCardRaisedBy &&

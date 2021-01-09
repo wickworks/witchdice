@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { deepCopy,  } from '../../utils.js';
+import { deepCopy } from '../../utils.js';
 import InitiativeList from './InitiativeList.jsx';
 import './InitiativeTracker.scss';
 
