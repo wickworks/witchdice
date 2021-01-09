@@ -293,7 +293,16 @@ const Main = ({setIsModalOpen}) => {
               rollMode={rollmode}
             />
 
-            <XCard handleXCardRaise={() => setXCardRaisedBy(partyName)} />
+            <XCard
+              handleXCardRaise={() => setXCardRaisedBy(partyName)}
+            />
+
+            { xCardRaisedBy &&
+              <XCardModal
+                raisedBy={xCardRaisedBy}
+                handleClose={() => setXCardRaisedBy('')}
+              />
+            }
           </div>
         </div>
       </div>
@@ -351,13 +360,6 @@ const Main = ({setIsModalOpen}) => {
           </Suspense>
         </Route>
       </Switch>
-
-      { xCardRaisedBy &&
-        <XCardModal
-          raisedBy={xCardRaisedBy}
-          handleClose={() => setXCardRaisedBy('')}
-        />
-      }
     </div>
   )
 }

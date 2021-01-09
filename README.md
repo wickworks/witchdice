@@ -10,6 +10,11 @@
 
 - bug: mode summary at the top expands the whole window
 
+- add HIT? to the list of rolls
+- do abilities show up in the active attack list?
+
+
+
 ##### FEATURES ######
 - dX dice?
 - X-card raised :::: anonymous or not
@@ -24,6 +29,9 @@
 
 - themes e.g. dark mode
 
+- YES effect; opposite of the xcard, confetti or something
+
+- allow apostrophes in names
 
 ###### TECHNICAL ######
 - fonts aren't working on older firefox

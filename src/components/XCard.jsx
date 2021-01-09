@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import './XCard.scss';
+
+let restoreFocusOnElement = null;
+
 
 const XCard = ({
   handleXCardRaise,
@@ -8,6 +11,15 @@ const XCard = ({
 
 	return (
     <div className='XCard'>
+      <button
+        className='touch'
+        onClick={() => {
+          restoreFocusOnElement = document.activeElement
+          handleXCardRaise()
+        }}
+      >
+        Raise
+      </button>
 
       <a
         href='http://tinyurl.com/x-card-rpg'
@@ -17,14 +29,8 @@ const XCard = ({
         ?
       </a>
 
-      <div className='button-container'>
-        <button className='touch' onClick={handleXCardRaise}>
-          Raise
-        </button>
-
-        <div className='x-card'>
-          x-card
-        </div>
+      <div className='x-card'>
+        x-card
       </div>
     </div>
 	);
@@ -34,6 +40,17 @@ const XCardModal = ({
   raisedBy,
   handleClose,
 }) => {
+
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'
+    console.log('active element:', document.activeElement);
+
+    return () => {
+      document.body.style.overflow = 'unset'
+      if (restoreFocusOnElement) restoreFocusOnElement.focus()
+    }
+  }, []);
 
 	return ReactDOM.createPortal(
     <aside
@@ -48,7 +65,7 @@ const XCardModal = ({
       <div className='popup' onClick={e => e.stopPropagation()}>
         <div className='whodunnit' id='whodunnit'>X card raised by {raisedBy}</div>
 
-        <button aria-label="Close" onClick={handleClose}>
+        <button aria-label="Close" onClick={handleClose} autoFocus>
           OK
         </button>
       </div>
