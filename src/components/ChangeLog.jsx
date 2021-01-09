@@ -8,9 +8,9 @@ const ChangeLog = () => {
 
   return (
     <div className="ChangeLog">
-      <div className='beta-label' onClick={() => setIsOpen(!isOpen)}>
+      <button className='beta-label' onClick={() => setIsOpen(!isOpen)}>
         Changelog — Beta v{CURRENT_VERSION}
-      </div>
+      </button>
 
       {isOpen &&
         <div className="change-container">

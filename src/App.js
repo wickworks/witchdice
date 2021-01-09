@@ -14,7 +14,7 @@ function App() {
   return (
     <Router>
       <Route path="/:rollmode?">
-        <div className="App" aria-hidden={isModalOpen}>
+        <div className="App" aria-disabled={isModalOpen}>
           <div className='banner-and-chooser'>
             <Route path="/craft">
               <div className='witch-craft banner-container-container'>

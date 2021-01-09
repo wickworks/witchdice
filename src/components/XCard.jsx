@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import ReactDOM from 'react-dom';
+import FocusTrap from 'focus-trap-react'
 import './XCard.scss';
 
 let restoreFocusOnElement = null;
@@ -44,32 +45,36 @@ const XCardModal = ({
 
   useEffect(() => {
     document.body.style.overflow = 'hidden'
-    console.log('active element:', document.activeElement);
 
     return () => {
       document.body.style.overflow = 'unset'
-      if (restoreFocusOnElement) restoreFocusOnElement.focus()
+      if (restoreFocusOnElement) {
+        restoreFocusOnElement.focus()
+        restoreFocusOnElement = null
+      }
     }
   }, []);
 
 	return ReactDOM.createPortal(
-    <aside
-      className='XCardModal'
-      aria-modal='true'
-      aria-labelledby='whodunnit'
-      role='alertdialogue'
-      tabIndex='-1'
-      onClick={handleClose}
-      onKeyDown={e => { if (e.keyCode === 27) handleClose() }}
-    >
-      <div className='popup' onClick={e => e.stopPropagation()}>
-        <div className='whodunnit' id='whodunnit'>X card raised by {raisedBy}</div>
+    <FocusTrap>
+      <aside
+        className='XCardModal'
+        aria-modal='true'
+        aria-labelledby='whodunnit'
+        role='alertdialogue'
+        tabIndex='-1'
+        onClick={handleClose}
+        onKeyDown={e => { if (e.keyCode === 27) handleClose() }}
+      >
+        <div className='popup' onClick={e => e.stopPropagation()}>
+          <div className='whodunnit' id='whodunnit'>X card raised by {raisedBy}</div>
 
-        <button aria-label="Close" onClick={handleClose} autoFocus>
-          OK
-        </button>
-      </div>
-    </aside>,
+          <button aria-label="Close" onClick={handleClose} autoFocus>
+            OK
+          </button>
+        </div>
+      </aside>
+    </FocusTrap>,
     document.body
   );
 }

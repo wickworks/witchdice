@@ -23,9 +23,9 @@ const Footer = () => {
 
         <div className="feedback">
           {!showFeedbackLinks ?
-            <span className='open-button' onClick={() => setShowFeedbackLinks(!showFeedbackLinks)}>
+            <button className='open-button' onClick={() => setShowFeedbackLinks(!showFeedbackLinks)}>
               feedback/bugs
-            </span>
+            </button>
           :
             <>
               olive@wick.works or
@@ -52,7 +52,7 @@ const Footer = () => {
       <ChangeLog />
 
       <div className="license">
-        <div className='open-button' onClick={() => setCreditsOpen(!creditsOpen)}>License Information</div>
+        <button className='open-button' onClick={() => setCreditsOpen(!creditsOpen)}>License Information</button>
 
         {creditsOpen &&
           <div className="credits">
