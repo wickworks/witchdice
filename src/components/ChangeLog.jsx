@@ -15,6 +15,12 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
+          <div className='version-label'>v0.7 — January 2021</div>
+          <ul>
+            <li>Can raise an x-card, alerting everyone in the room. </li>
+            <li>Collapsible descriptions for attacks.</li>
+          </ul>
+
           <div className='version-label'>v0.6 — January 2021</div>
           <ul>
             <li>Initiative tracker; syncs for everyone in the room.</li>
