@@ -82,12 +82,15 @@
 
 
   .popup {
-    @include shadow;
     @include text_default;
-
-    background-color: $parchment;
+    @include shadow;
+    @include nouveau_border;
+    border-image-source: url('/assets/borders/nouveau_roller.svg');
     background-image: url('/assets/bg_parchment.png');
-    padding: 16px 22px 18px;
+    background-color: $parchment;
+
+    font-size: 20px;
+    padding: 70px 64px 60px;
 
     display: flex;
     flex-direction: column;
@@ -99,11 +102,13 @@
     button {
       @include text_default;
       background-color: $rust;
+      font-size: 26px;
       color: white;
-      margin: 20px 0 10px;
-      padding: 15px;
+      margin: 36px 0 10px;
+      padding: 15px 70px;
       border: none;
-
+      border-radius: 4px;
+      cursor: pointer;
 
       &:hover { background-color: $pink; }
     }
