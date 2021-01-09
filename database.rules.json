@@ -17,7 +17,7 @@
       }
     },
 
-    "xcard": {
+    "emotes": {
       "$room": {
         ".read": true,
         ".write": true,
