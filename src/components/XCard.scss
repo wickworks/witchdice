@@ -33,10 +33,10 @@
     border-radius: 8px;
     font-size: 28px;
     color: white;
-    background-color: $rust_light;
+    background-color: $pink_logo_dark;
     border: 2px solid $rust_dark;
 
-    &:hover { background-color: $pink; }
+    &:hover { background-color: $rust_light; }
   }
 
 
@@ -55,12 +55,12 @@
     color: white;
     text-align: center;
     border: 1px solid $rust_dark;
-    background-color: $rust_light;
+    background-color: $pink_logo_dark;
     border-radius: 50%;
     text-decoration: none;
 
     &:hover {
-      background-color: $pink;
+      background-color: $rust_light;
       color: white;
     }
   }
