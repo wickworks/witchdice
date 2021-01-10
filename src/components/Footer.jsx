@@ -96,6 +96,16 @@ const Footer = () => {
             </ul>
 
             <p>
+              <a href="http://tinyurl.com/x-card-rpg"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                X-Card
+              </a>
+              by John Stavropoulos
+            </p>
+
+            <p>
               Monster manual jsonified by
               <a href="https://www.reddit.com/r/dndnext/comments/43a09o/srd_monsters_in_json_format/"
                 target="_blank"
@@ -106,7 +116,7 @@ const Footer = () => {
             </p>
 
             <p>
-              Background images generated at
+              Background textures generated at
               <a href="http://bg.siteorigin.com/"
                 target="_blank"
                 rel="noopener noreferrer"

@@ -1,6 +1,10 @@
 @import '../fonts';
 
 .XCard {
+  @include nouveau_border;
+  border-image-source: url('/assets/borders/xcard_controls.svg');
+  background-color: $rust;
+
   position: relative;
   display: flex;
   flex-direction: column;
@@ -8,45 +12,46 @@
   align-items: center;
 
   border-radius: 14px;
-  background-color: $rust;
   color: white;
-  padding: 10px 50px 4px;
+  padding: 20px 50px 6px;
 
-  margin-top: -104px;
+  margin-top: -118px;
   -webkit-transition: margin-top .2s;
   -moz-transition: margin-top .2s;
   -ms-transition: margin-top .2s;
   -o-transition: margin-top .2s;
   transition: margin-top .2s;
 
-  &:hover { margin-top: 0; }
+  &:hover { margin-top: -14px; }
 
   button {
     padding: 24px 40px;
     margin-bottom: 16px;
-    border-radius: 24px;
+    border-radius: 8px;
     font-size: 28px;
     color: white;
     background-color: $rust_light;
+    border: 2px solid $rust_dark;
 
     &:hover { background-color: $pink; }
   }
 
 
   a {
+    position: absolute;
+    right: 18px;
+    top: 48px;
+
     display: block;
     width: 24px;
     height: 24px;
     line-height: 24px;
 
-    position: absolute;
-    right: 12px;
-    top: 12px;
-
     font-size: 18px;
     font-weight: bold;
     color: white;
     text-align: center;
+    border: 1px solid $rust_dark;
     background-color: $rust_light;
     border-radius: 50%;
     text-decoration: none;
@@ -59,6 +64,7 @@
 
   .x-card {
     font-size: 18px;
+    color: white;
     text-align: center;
   }
 }
