@@ -14,6 +14,7 @@
     <meta name="theme-color" content="#000000" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
+    <script async defer data-domain="witchdice.com" src="https://plausible.io/js/plausible.js"></script>
     <!-- <link rel="preload" href="%PUBLIC_URL%/fonts/Bitter-VariableFont_wght.ttf" as="font"> -->
   </head>
   <body>
@@ -25,7 +26,6 @@
 
     <!-- Add SDKs for Firebase products that you want to use -->
     <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-analytics.js"></script>
     <script>
       var firebaseConfig = {
         apiKey: "AIzaSyBQJ2LG4nrCBhoIxg94rYi7AzzNf-GqgTM",
@@ -35,11 +35,9 @@
         storageBucket: "roll-to-hit.appspot.com",
         messagingSenderId: "55772958032",
         appId: "1:55772958032:web:42c2dc78d955a887293055",
-        measurementId: "G-H0ZM02EBS4",
       };
 
       firebase.initializeApp(firebaseConfig);
-      firebase.analytics();
 
       // Development: point to the local firebase emulator instead of production
       if (window.location.hostname === "localhost") {
