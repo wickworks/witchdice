@@ -83,18 +83,19 @@ const DiceBookmarks = ({
           className='Bookmark new'
           onClick={addNewBookmark}
           disabled={!hasSomethingQueued}
+          key={`bookmark-${allBookmarkData.length}`}
         >
           <span className='hover-string'>
             { hasSomethingQueued ?
               <>
-                <div>Save</div>
+                <div>Bookmark</div>
                 <div>{getToRollStringWithPrefix(currentDice, summaryMode, percentileMode)}</div>
               </>
             :
-              'Save dice'
+              'Bookmark dice here'
             }
           </span>
-          <span className='tucked-string'>
+          <span className='tucked-string two-lines'>
             +
           </span>
         </button>

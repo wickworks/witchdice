@@ -24,7 +24,7 @@
     &:hover { background-color: $rust_light; }
 
     &:disabled {
-      background-color: $grey_dark;
+      background-color: $crushed_velvet;
       color: $grey_mid_light;
       cursor: auto;
     }
@@ -43,12 +43,18 @@
       .hover-string { display: none; }
       .tucked-string { display: inline; }
 
-      &:hover {
+      &:hover, &:focus {
         text-align: center;
         transform: translateX(0);
 
         .hover-string { display: inline; }
         .tucked-string { display: none; }
+      }
+
+      .two-lines {
+        display: inline-block;
+        margin-top: 12px;
+        margin-bottom: 10px;
       }
     }
   }
