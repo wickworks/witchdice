@@ -57,7 +57,7 @@ const XCard = ({
   }, [partyConnected]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleRaiseButton = () => {
-    setXCardRaisedBy(partyName)
+    setXCardRaisedBy(partyName || "me")
     restoreFocusOnElement = document.activeElement
 
     if (partyConnected) {
