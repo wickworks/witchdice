@@ -21,8 +21,12 @@
   -ms-transition: margin-top .2s;
   -o-transition: margin-top .2s;
   transition: margin-top .2s;
+  transition-delay: 2s;
 
-  &:hover { margin-top: -14px; }
+  &:hover {
+    margin-top: -14px;
+    transition-delay: 0s;
+  }
 
   button {
     padding: 24px 40px;
