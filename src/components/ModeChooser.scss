@@ -21,15 +21,18 @@
       margin: 20px auto 100px;
 
       a {
+        @include nouveau_border;
+        border-image-source: url('/assets/borders/nouveau_roller.svg');
+        background-color: #ffdfd7; // light pink
+
         display: block;
         width: 340px;
-        border-radius: 40px;
+        border-radius: 30px;
         padding: 40px 10px 30px;
         margin: 30px;
         color: $soft_black;
         text-decoration: none;
 
-        background-color: #ffdfd7; // light pink
         &:hover { background-color: $rust_light; }
 
         .mode-title h2 {
