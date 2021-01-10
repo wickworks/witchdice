@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Select from 'react-select'
 import TextInput from '../shared/TextInput.jsx';
 import NumberInput from '../shared/NumberInput.jsx';
-import { DeleteButton, DeleteConfirmation } from '../shared/DeleteButton.jsx';
 import { deepCopy, getOptionFromValue } from '../../utils.js';
 import {
   allMediaTypes,

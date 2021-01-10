@@ -124,7 +124,7 @@ const XCardModal = ({
         restoreFocusOnElement = null
       }
     }
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const closeModal = () => {
     clearTimeout(currentFlashTimeout)

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { deepCopy } from '../utils.js';
 import {
-  blankDice,
   getToRollString,
 } from './DiceBagData.js';
 import './DiceBookmarks.scss';
@@ -50,8 +49,6 @@ const DiceBookmarks = ({
   }
 
   const deleteBookmark = (index) => {
-    const bookmarkData = allBookmarkData[index]
-
     let newData = deepCopy(allBookmarkData)
     newData.splice(index, 1)
     setAllBookmarkData(newData)
