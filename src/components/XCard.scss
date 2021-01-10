@@ -20,9 +20,9 @@
   -ms-transition: margin-top .2s;
   -o-transition: margin-top .2s;
   transition: margin-top .2s;
-  transition-delay: 2s;
+  transition-delay: 1.5s;
 
-  &:hover {
+  &:hover, &:focus {
     margin-top: -14px;
     transition-delay: 0s;
   }

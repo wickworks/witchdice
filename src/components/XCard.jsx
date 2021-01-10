@@ -72,7 +72,7 @@ const XCard = ({
   }
 
 	return (
-    <div className='XCard'>
+    <div className='XCard' tabIndex="0">
       <button className='touch' onClick={handleRaiseButton}>
         Raise
       </button>
