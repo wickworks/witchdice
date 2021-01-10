@@ -2,8 +2,7 @@
 
 .RoomConnect {
   @include shadow;
-  background-color: $parchment;
-  background-image: url('/assets/bg_parchment.png');
+  @include parchment_background;
   padding: 16px 22px 18px;
   margin-top: 22px;
   box-sizing: border-box;
@@ -11,12 +10,10 @@
   z-index: 2; // in front of XCard
 
   &.disconnected {
-    @include nouveau_border;
-    border-image-source: url('/assets/borders/nouveau_room_disconnected.svg');
+    @include nouveau_border('nouveau_room_disconnected.svg');
   }
   &.connected {
-    @include nouveau_border;
-    border-image-source: url('/assets/borders/nouveau_room_connected.svg');
+    @include nouveau_border('nouveau_room_connected.svg');
     padding-bottom: 26px;
   }
 

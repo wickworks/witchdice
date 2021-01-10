@@ -1,3 +1,4 @@
+@import "./colors";
 
 .asset {
   width: 64px;
@@ -6,55 +7,72 @@
   background-position: center;
   flex-shrink: 0;
 
-  &.d4 { background-image: url('/assets/dice/d4.svg'); }
-  &.d6 { background-image: url('/assets/dice/d6.svg'); }
-  &.d8 { background-image: url('/assets/dice/d8.svg'); }
-  &.d10 { background-image: url('/assets/dice/d10.svg'); }
-  &.d12 { background-image: url('/assets/dice/d12.svg'); }
-  &.d20 { background-image: url('/assets/dice/d20.svg'); }
-  &.d0 { background-image: url('/assets/dice/d0.svg'); }
-  &.d100 { background-image: url('/assets/dice/d100.svg'); }
+  &.d4 { background-image: url('./assets/dice/d4.svg'); }
+  &.d6 { background-image: url('./assets/dice/d6.svg'); }
+  &.d8 { background-image: url('./assets/dice/d8.svg'); }
+  &.d10 { background-image: url('./assets/dice/d10.svg'); }
+  &.d12 { background-image: url('./assets/dice/d12.svg'); }
+  &.d20 { background-image: url('./assets/dice/d20.svg'); }
+  &.d0 { background-image: url('./assets/dice/d0.svg'); }
+  &.d100 { background-image: url('./assets/dice/d100.svg'); }
 
-  &.acid { background-image: url('/assets/types/acid.svg'); }
-  &.bludgeoning { background-image: url('/assets/types/bludgeoning.svg'); }
-  &.cold { background-image: url('/assets/types/cold.svg'); }
-  &.fire { background-image: url('/assets/types/fire.svg'); }
-  &.force { background-image: url('/assets/types/force.svg'); }
-  &.lightning { background-image: url('/assets/types/lightning.svg'); }
-  &.necrotic { background-image: url('/assets/types/necrotic.svg'); }
-  &.piercing { background-image: url('/assets/types/piercing.svg'); }
-  &.psychic { background-image: url('/assets/types/psychic.svg'); }
-  &.poison { background-image: url('/assets/types/poison.svg'); }
-  &.radiant { background-image: url('/assets/types/radiant.svg'); }
-  &.slashing { background-image: url('/assets/types/slashing.svg'); }
-  &.thunder { background-image: url('/assets/types/thunder.svg'); }
+  &.acid { background-image: url('./assets/types/acid.svg'); }
+  &.bludgeoning { background-image: url('./assets/types/bludgeoning.svg'); }
+  &.cold { background-image: url('./assets/types/cold.svg'); }
+  &.fire { background-image: url('./assets/types/fire.svg'); }
+  &.force { background-image: url('./assets/types/force.svg'); }
+  &.lightning { background-image: url('./assets/types/lightning.svg'); }
+  &.necrotic { background-image: url('./assets/types/necrotic.svg'); }
+  &.piercing { background-image: url('./assets/types/piercing.svg'); }
+  &.psychic { background-image: url('./assets/types/psychic.svg'); }
+  &.poison { background-image: url('./assets/types/poison.svg'); }
+  &.radiant { background-image: url('./assets/types/radiant.svg'); }
+  &.slashing { background-image: url('./assets/types/slashing.svg'); }
+  &.thunder { background-image: url('./assets/types/thunder.svg'); }
 
-  &.flower { background-image: url('/assets/types/flower.svg'); }
+  &.flower { background-image: url('./assets/types/flower.svg'); }
 
-  &.crystals { background-image: url('/assets/crafting/crystals.svg'); }
-  &.drafting { background-image: url('/assets/crafting/drafting.svg'); }
-  &.livingarts { background-image: url('/assets/crafting/livingarts.svg'); }
-  &.metals { background-image: url('/assets/crafting/metals.svg'); }
-  &.textiles { background-image: url('/assets/crafting/textiles.svg'); }
-  &.wood { background-image: url('/assets/crafting/wood.svg'); }
+  &.crystals { background-image: url('./assets/crafting/crystals.svg'); }
+  &.drafting { background-image: url('./assets/crafting/drafting.svg'); }
+  &.livingarts { background-image: url('./assets/crafting/livingarts.svg'); }
+  &.metals { background-image: url('./assets/crafting/metals.svg'); }
+  &.textiles { background-image: url('./assets/crafting/textiles.svg'); }
+  &.wood { background-image: url('./assets/crafting/wood.svg'); }
 
-  &.plus { background-image: url('/assets/plus.svg'); }
-  &.checkmark { background-image: url('/assets/checkmark.svg'); }
-  &.x { background-image: url('/assets/x.svg'); }
-  &.arrow { background-image: url('/assets/arrow.svg'); }
-  &.trash { background-image: url('/assets/trash.svg'); }
-  &.d20_frame { background-image: url('/assets/d20_frame.svg'); }
+  &.plus { background-image: url('./assets/plus.svg'); }
+  &.checkmark { background-image: url('./assets/checkmark.svg'); }
+  &.x { background-image: url('./assets/x.svg'); }
+  &.arrow { background-image: url('./assets/arrow.svg'); }
+  &.trash { background-image: url('./assets/trash.svg'); }
+  &.d20_frame { background-image: url('./assets/d20_frame.svg'); }
 
-  &.list_dot { background-image: url('/assets/list_dot.svg'); }
-  &.list_check { background-image: url('/assets/list_check.svg'); }
-  &.list_x { background-image: url('/assets/list_x.svg'); }
+  &.list_dot { background-image: url('./assets/list_dot.svg'); }
+  &.list_check { background-image: url('./assets/list_check.svg'); }
+  &.list_x { background-image: url('./assets/list_x.svg'); }
 
-  &.trans_pride { background-image: url('/assets/trans_pride.svg'); }
-  &.olive_portrait { background-image: url('/assets/olive.png'); }
+  &.trans_pride { background-image: url('./assets/trans_pride.svg'); }
+  &.olive_portrait { background-image: url('./assets/olive.png'); }
 
-  &.nouveau_divider { background-image: url('/assets/nouveau_divider.svg'); }
+  &.nouveau_divider { background-image: url('./assets/nouveau_divider.svg'); }
 
-  &.logo { background-image: url('/assets/logo.svg'); }
-  &.site_banner { background-image: url('/assets/banner_dark.svg'); }
-  &.witchcraft_banner { background-image: url('/assets/witchcraft_banner.jpg'); }
+  &.logo { background-image: url('./assets/logo.svg'); }
+  &.site_banner { background-image: url('./assets/banner_dark.svg'); }
+  &.witchcraft_banner { background-image: url('./assets/witchcraft_banner.jpg'); }
+}
+
+@mixin nouveau_border($border_filename) {
+  border-image-source: url("./assets/borders/#{$border_filename}");
+  border-style: solid;
+  border-color: $rust;
+  border-radius: 14px;
+
+  border-image-slice: 33%;
+  border-image-width: 166px;
+  border-image-outset: 0;//16px;
+  border-image-repeat: repeat;
+}
+
+@mixin parchment_background {
+  background-image: url('./assets/bg_parchment.png');
+  background-color: $parchment;
 }

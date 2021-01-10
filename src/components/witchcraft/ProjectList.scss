@@ -2,10 +2,8 @@
 
 .ProjectList {
   @include shadow;
-  @include nouveau_border;
-  border-image-source: url('/assets/borders/nouveau_crafting_character.svg');
-  background-image: url('/assets/bg_parchment.png');
-  background-color: $parchment;
+  @include parchment_background;
+  @include nouveau_border('nouveau_crafting_character.svg');
 
   max-width: 500px;
   width: 100%;

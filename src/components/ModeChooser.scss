@@ -1,4 +1,5 @@
 @import '../colors';
+@import '../assets';
 
 .ModeChooser {
   width: 100%;
@@ -21,8 +22,7 @@
       margin: 20px auto 100px;
 
       a {
-        @include nouveau_border;
-        border-image-source: url('/assets/borders/nouveau_roller.svg');
+        @include nouveau_border('nouveau_roller.svg');
         background-color: #ffdfd7; // light pink
 
         display: block;

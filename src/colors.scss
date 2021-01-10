@@ -1,5 +1,3 @@
-
-
 $rust_dark: #4b2021;
 $rust: #872f1b;
 $rust_light: #ce7a67;
@@ -40,15 +38,4 @@ $faded_green: #b9d9cb;
 
 @mixin shadow {
   box-shadow: 0 1px 3px 1px rgba(60, 64, 67, 0.15), 0 1px 2px 0 rgba(60, 64, 67, 0.3);
-}
-
-@mixin nouveau_border {
-  border-style: solid;
-  border-color: $rust;
-  border-radius: 14px;
-
-  border-image-slice: 33%;
-  border-image-width: 166px;
-  border-image-outset: 0;//16px;
-  border-image-repeat: repeat;
 }

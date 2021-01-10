@@ -3,12 +3,10 @@
 
 .InitiativeList {
   @include shadow;
-  @include nouveau_border;
+  @include parchment_background;
+  @include nouveau_border('nouveau_initiative_list.svg');
   border-image-width: 92px;
-  border-image-outset: 0;
-  border-image-source: url('/assets/borders/nouveau_initiative_list.svg');
-  background-color: $parchment;
-  background-image: url('/assets/bg_parchment.png');
+
   padding: 12px 12px 11px;
   margin: 30px auto;
   box-sizing: border-box;

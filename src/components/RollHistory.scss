@@ -2,16 +2,14 @@
 
 .RollHistory {
 	@include shadow;
-	background-color: $parchment;
-	background-image: url('/assets/bg_parchment.png');
+	@include parchment_background;
   border-radius: 14px;
 
 	max-height: 650px;
 	overflow-y: auto;
 
   .nouveau-border {
-    @include nouveau_border;
-    border-image-source: url('/assets/borders/nouveau_party.svg');
+    @include nouveau_border('nouveau_party.svg');
     padding: 12px 12px 18px;
     min-height: 256px;
   }

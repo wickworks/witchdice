@@ -1,8 +1,7 @@
 @import '../fonts';
 
 .XCard {
-  @include nouveau_border;
-  border-image-source: url('/assets/borders/xcard_controls.svg');
+  @include nouveau_border('xcard_controls.svg');
   background-color: $rust;
 
   position: relative;
@@ -94,10 +93,8 @@
   .popup {
     @include text_default;
     @include shadow;
-    @include nouveau_border;
-    border-image-source: url('/assets/borders/nouveau_roller.svg');
-    background-image: url('/assets/bg_parchment.png');
-    background-color: $parchment;
+    @include parchment_background;
+    @include nouveau_border('nouveau_roller.svg');
 
     font-size: 20px;
     padding: 70px 64px 60px;

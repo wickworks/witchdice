@@ -8,10 +8,8 @@
 
   .character-sheet {
     @include shadow;
-    @include nouveau_border;
-    border-image-source: url('/assets/borders/nouveau_character.svg');
-    background-color: $parchment;
-    background-image: url('/assets/bg_parchment.png');
+    @include parchment_background;
+    @include nouveau_border("nouveau_character.svg");
 
     position: relative;
     box-sizing: border-box;

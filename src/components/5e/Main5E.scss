@@ -4,10 +4,8 @@
 
   .roller-i-hardly-even-knower-container {
     @include shadow;
-    @include nouveau_border;
-    border-image-source: url('/assets/borders/nouveau_roller.svg');
-    background-image: url('/assets/bg_parchment.png');
-    background-color: $parchment;
+    @include parchment_background;
+    @include nouveau_border('nouveau_roller.svg');
 
     box-sizing: border-box;
     padding: 20px 12px 10px;
