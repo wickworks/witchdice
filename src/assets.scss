@@ -63,7 +63,7 @@
 @mixin nouveau_border($border_filename) {
   border-image-source: url("./assets/borders/#{$border_filename}");
   border-style: solid;
-  border-color: $rust;
+  border-color: $faded_gold;
   border-radius: 14px;
 
   border-image-slice: 33%;

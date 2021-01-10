@@ -24,7 +24,18 @@
         "key": "Cache-Control",
         "value": "max-age=31536000"
       } ]
+    }, {
+      "source": "**/*.@(jpg|jpeg|gif|png|svg)",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "max-age=31536000"
+      } ]
+    }, {
+      "source": "**/*.@(js|css)",
+      "headers": [ {
+        "key": "Cache-Control",
+        "value": "max-age=31536000"
+      } ]
     } ]
-
   }
 }

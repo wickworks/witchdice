@@ -1,17 +1,6 @@
 @import './fonts5E';
 
 .ActiveAttackList {
-  // @include shadow;
-  // @include nouveau_border;
-  // border-image-source: url('/assets/borders/nouveau_room_connected.svg');
-  // background-image: url('/assets/bg_parchment.png');
-  // background-color: $parchment;
-
-  // margin: 20px auto 20px;
-  // padding: 16px 16px;
-  // box-sizing: border-box;
-  // max-width: 800px;
-
   h2.roll-attacks {
     @include text_title_action;
     text-align: center;
