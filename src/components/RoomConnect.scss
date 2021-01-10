@@ -14,7 +14,8 @@
   }
   &.connected {
     @include nouveau_border('nouveau_room_connected.svg');
-    padding-bottom: 26px;
+    padding-top: 20px;
+    padding-bottom: 30px;
   }
 
   .party-room-container, .party-name-container, .x-card-container {
@@ -33,6 +34,10 @@
       input {
         @include text_default;
         width: 74%;
+        background-color: $parchment;
+        border: 1px solid $faded_grey;
+        border-radius: 4px;
+        padding: 4px 4px;
       }
     }
 
@@ -47,7 +52,7 @@
     .generate-new-room {
       position: absolute;
       right: 4px;
-      top: 10px;
+      top: 12px;
       background: none;
       border: none;
       font-size: 20px;
@@ -96,8 +101,8 @@
     }
     &.disabled {
       cursor: auto;
-      background-color: #bbb;
-      color: $grey_dark;
+      background-color: $parchment_dark;
+      color: $grey_mid;
     }
   }
 
