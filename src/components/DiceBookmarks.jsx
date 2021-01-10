@@ -94,7 +94,7 @@ const DiceBookmarks = ({
                 <div>{getToRollStringWithPrefix(currentDice, summaryMode, percentileMode)}</div>
               </>
             :
-              'Save roll'
+              'Save dice'
             }
           </span>
           <span className='tucked-string'>

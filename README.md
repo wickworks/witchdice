@@ -17,11 +17,7 @@
 
 ##### FEATURES ######
 - dX dice?
-- X-card raised :::: anonymous or not
-- do an ACCESSIBILITY PASS; be able to tab through it all easily
-
 - "success dice" -- dice matching, or "x above this"
-
 - sound fx for dice rolls
 
 - be able to click initiative names to bring up that character's sheet

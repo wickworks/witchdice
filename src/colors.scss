@@ -44,6 +44,7 @@ $faded_green: #b9d9cb;
 
 @mixin nouveau_border {
   border-style: solid;
+  border-color: $rust;
   border-radius: 14px;
 
   border-image-slice: 33%;
