@@ -23,20 +23,35 @@
 
     &.miss {
       background-color: $parchment_dark;
-      &:hover { background-color: $parchment; }
+      &:hover {
+        background-color: $parchment;
+        border-color: $grey_mid;
+      }
     }
 
     &.hit {
       background-color: $pink_logo_dark;
-      &:hover { background-color: $pink_logo_light; }
+      &:hover {
+        background-color: $rust_light;
+        border-color: $grey_mid;
+      }
     }
 
     &.disabled {
       cursor: auto;
-      opacity: 0.75;
+      opacity: 0.8;
       border-color: $grey_mid;
-      background-color: $parchment_mid;
-      &:hover { background-color: $parchment_mid; }
+
+      &.miss {
+        background-color: $parchment_mid;
+        &:hover { background-color: $parchment_mid; }
+      }
+
+      &.hit {
+        background-color: $pink_logo_dark;
+        &:hover { background-color: $pink_logo_dark; }
+      }
+
     }
 
     .asset {

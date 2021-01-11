@@ -3,7 +3,15 @@
 <svg width="100%" height="100%" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <g transform="matrix(1,0,0,1,0.96,19.664)">
         <g>
-            <text x="0px" y="0px" style="font-family:'AvenirNext-Regular', 'Avenir Next', sans-serif;font-size:16px;fill:white;">HIT</text>
+            <g transform="matrix(16,0,0,16,0,0)">
+                <path d="M0.094,-0.708L0.166,-0.708L0.166,-0.401L0.552,-0.401L0.552,-0.708L0.624,-0.708L0.624,0L0.552,0L0.552,-0.335L0.166,-0.335L0.166,0L0.094,0L0.094,-0.708Z" style="fill:white;fill-rule:nonzero;"/>
+            </g>
+            <g transform="matrix(16,0,0,16,11.488,0)">
+                <rect x="0.094" y="-0.708" width="0.072" height="0.708" style="fill:white;fill-rule:nonzero;"/>
+            </g>
+            <g transform="matrix(16,0,0,16,15.648,0)">
+                <path d="M0.321,0L0.249,0L0.249,-0.644L0.012,-0.644L0.012,-0.708L0.558,-0.708L0.558,-0.644L0.321,-0.644L0.321,0Z" style="fill:white;fill-rule:nonzero;"/>
+            </g>
         </g>
     </g>
 </svg>

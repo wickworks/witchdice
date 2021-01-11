@@ -2,9 +2,17 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg width="100%" height="100%" viewBox="0 0 28 28" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
     <g transform="matrix(1,0,0,1,2.08,19.664)">
-        <text x="0px" y="0px" style="font-family:'AvenirNextCondensed-Regular', 'Avenir Next Condensed', sans-serif;font-stretch:condensed;font-size:16px;fill:white;">F</text>
-        <g transform="matrix(1,0,0,1,5.76,0)">
-            <text x="0px" y="0px" style="font-family:'AvenirNextCondensed-Regular', 'Avenir Next Condensed', sans-serif;font-stretch:condensed;font-size:16px;fill:white;">AIL</text>
+        <g transform="matrix(16,0,0,16,0,0)">
+            <path d="M0.15,-0.645L0.15,-0.392L0.349,-0.392L0.349,-0.331L0.15,-0.331L0.15,0L0.081,0L0.081,-0.708L0.364,-0.708L0.364,-0.645L0.15,-0.645Z" style="fill:white;fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(16,0,0,16,5.76,0)">
+            <path d="M0.384,0L0.341,-0.177L0.123,-0.177L0.078,0L0.007,0L0.187,-0.708L0.282,-0.708L0.457,0L0.384,0ZM0.235,-0.645L0.231,-0.645L0.133,-0.233L0.331,-0.233L0.235,-0.645Z" style="fill:white;fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(16,0,0,16,13.184,0)">
+            <rect x="0.081" y="-0.708" width="0.07" height="0.708" style="fill:white;fill-rule:nonzero;"/>
+        </g>
+        <g transform="matrix(16,0,0,16,16.896,0)">
+            <path d="M0.081,0L0.081,-0.708L0.151,-0.708L0.151,-0.065L0.353,-0.065L0.353,0L0.081,0Z" style="fill:white;fill-rule:nonzero;"/>
         </g>
     </g>
 </svg>
