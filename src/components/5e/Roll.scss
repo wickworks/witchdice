@@ -10,11 +10,51 @@
     flex-wrap: wrap;
   }
 
-  input[type=checkbox] {
-    width: 28px;
-    height: 28px;
-    margin-right: 12px;
+
+
+  label.HitCheckbox {
+    position: relative;
+    border-radius: 4px;
+    border: 1px solid $soft_black;
     flex-shrink: 0;
+    margin: 0 12px 0 4px;
+    padding: 2px;
+    cursor: pointer;
+
+    &.miss {
+      background-color: $parchment_dark;
+      &:hover { background-color: $parchment; }
+    }
+
+    &.hit {
+      background-color: $pink_logo_dark;
+      &:hover { background-color: $pink_logo_light; }
+    }
+
+    &.disabled {
+      cursor: auto;
+      opacity: 0.75;
+      border-color: $grey_mid;
+      background-color: $parchment_mid;
+      &:hover { background-color: $parchment_mid; }
+    }
+
+    .asset {
+      width: 28px;
+      height: 28px;
+    }
+
+    input[type=checkbox] {
+      position: absolute;
+      left: -100000px;
+      width: 28px;
+      height: 28px;
+    }
+
+    .hidden-text {
+      position: absolute;
+      left: -10000px;
+    }
   }
 
   .asset.d20 {
@@ -222,6 +262,7 @@
     .subtotal-container {
       display: flex;
       align-items: center;
+      justify-content: flex-end;
       flex-wrap: wrap;
 
       &.crit {
@@ -248,6 +289,7 @@
       .applied-condition {
         order: -100;
         font-weight: bold;
+        font-size: 22px;
         margin-right: 6px;
 
         a {

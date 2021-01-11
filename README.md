@@ -11,6 +11,8 @@
 - bug: mode summary at the top expands the whole window
 
 - add HIT? to the list of rolls
+  - ACTUALLY, change the checkmarks to literal words that say HIT/MISS/SAVE that toggle on click
+
 - do abilities show up in the active attack list?
 
 

@@ -16,8 +16,8 @@ const Roll = ({
   const {hit, attackBonus, damageRollData, critRollData} = attackRollData;
   const {setHit, setRollOne, setDamageRollData, setCritRollData} = rollFunctions;
 
-  // saving throws are reversed, it's confusing, I know
-  const isHit = (type === 'save' ? !hit : hit);
+  // saving throws are reversed, it's confusing, I know >> NO LONGER
+  const isHit = hit; // (type === 'save' ? !hit : hit);
 
   const useLowerRollClass = (rollUse < rollDiscard) ? 'reverse' : '';
 
@@ -34,8 +34,6 @@ const Roll = ({
       setDamageRollData(newData, damageSourceID);
     }
   }
-
-  const handleHitClick = () => { setHit(!hit, rollID) }
 
   // should only be used for abilities // where rollUse == rollOne
   const handleCritClick = () => {
@@ -137,12 +135,12 @@ const Roll = ({
         </div>
       }
 
-      <input
-        name="hit"
-        type="checkbox"
-        checked={isHit}
-        onChange={handleHitClick}
-        disabled={isCrit || isFumble}
+      <HitCheckbox
+        isHit={isHit}
+        handleHitClick={() => setHit(!hit, rollID)}
+        isCrit={isCrit}
+        isFumble={isFumble}
+        isSave={type === 'save'}
       />
 
       { type === 'attack' ?
@@ -236,5 +234,39 @@ const Roll = ({
     </div>
   );
 }
+
+
+const HitCheckbox = ({
+  isHit,
+  handleHitClick,
+  isCrit,
+  isFumble,
+  isSave,
+}) => {
+
+  const icon =
+    isSave ?
+      isHit ? 'fail' : 'save'
+    :
+      isHit ? 'hit' : 'miss'
+
+  const disabled = isCrit || isFumble
+
+  return (
+    <label className={`HitCheckbox ${isHit ? 'hit' : 'miss'} ${disabled ? 'disabled' : ''}`}>
+      <input
+        name="hit"
+        type="checkbox"
+        checked={isHit}
+        onChange={handleHitClick}
+        disabled={disabled}
+      />
+      <div className={`asset ${icon}`} />
+      <div className='hidden-text'>{icon}</div>
+    </label>
+  );
+}
+
+
 
 export default Roll;

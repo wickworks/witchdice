@@ -46,6 +46,11 @@
   &.trash { background-image: url('./assets/trash.svg'); }
   &.d20_frame { background-image: url('./assets/d20_frame.svg'); }
 
+  &.miss { background-image: url('./assets/roll_miss.svg'); }
+  &.hit { background-image: url('./assets/roll_hit.svg'); }
+  &.save { background-image: url('./assets/roll_save.svg'); }
+  &.fail { background-image: url('./assets/roll_fail.svg'); }
+
   &.list_dot { background-image: url('./assets/list_dot.svg'); }
   &.list_check { background-image: url('./assets/list_check.svg'); }
   &.list_x { background-image: url('./assets/list_x.svg'); }
