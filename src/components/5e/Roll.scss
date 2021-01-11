@@ -226,7 +226,10 @@
         }
         &.halved { color: #235e90; font-style: italic;}
         &.rerolled { background-color: $faded_grey; }
-        &:hover { background-color: $pink; }
+        &:hover {
+          background-color: $pink_logo_light;
+          &.rerolled { background-color: $pink; }
+        }
 
         &.no-reroll {
           background-color: transparent;
