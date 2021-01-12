@@ -26,7 +26,10 @@
     align-items: center;
     padding: 10px 0 0;
 
-    label { width: 66px; }
+    label {
+      width: 66px;
+      flex-shrink: 0;
+    }
 
     .TextInput { padding: 0; }
 
@@ -68,6 +71,11 @@
       border-radius: 4px;
       margin-top: 1px;
       padding: 0;
+      text-align: left;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      flex-grow: 0;
       cursor: pointer;
 
       &:hover { background-color: $pink; }
