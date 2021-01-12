@@ -5,7 +5,7 @@
       "$room": {
         ".read": true,
         ".write": true,
-        ".validate": "$room.length > 6 && $room.length < 40 && $room.matches(/^[0-9a-zA-Z-]+$/i)"
+        ".validate": "$room.length > 6 && $room.length < 128 && $room.matches(/^[0-9a-zA-Z-]+$/i)"
       }
     },
 
@@ -13,7 +13,7 @@
       "$room": {
         ".read": true,
         ".write": true,
-        ".validate": "$room.length > 6 && $room.length < 40 && $room.matches(/^[0-9a-zA-Z-]+$/i)"
+        ".validate": "$room.length > 6 && $room.length < 128 && $room.matches(/^[0-9a-zA-Z-]+$/i)"
       }
     },
 
@@ -21,7 +21,7 @@
       "$room": {
         ".read": true,
         ".write": true,
-        ".validate": "$room.length > 6 && $room.length < 40 && $room.matches(/^[0-9a-zA-Z-]+$/i)"
+        ".validate": "$room.length > 6 && $room.length < 128 && $room.matches(/^[0-9a-zA-Z-]+$/i)"
       }
     },
 
