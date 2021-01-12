@@ -132,6 +132,7 @@ const DamageEdit = ({
         <div className='tag-select'>
           <Select
             isMulti
+            isSearchable={false}
             placeholder='Damage properties'
             name="tags"
             options={tagOptions}
