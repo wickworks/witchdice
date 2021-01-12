@@ -20,6 +20,7 @@ const ChangeLog = () => {
             <li>Can raise an x-card, alerting everyone in the room. </li>
             <li>Collapsible descriptions for attacks.</li>
             <li>5e hit/miss checkboxes say what they mean.</li>
+            <li>Fixed bug where long/strange room names didn't work.</li>
           </ul>
 
           <div className='version-label'>v0.6 — January 2021</div>
