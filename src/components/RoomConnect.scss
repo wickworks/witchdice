@@ -41,6 +41,7 @@
         border: 1px solid $faded_grey;
         border-radius: 4px;
         padding: 4px 4px;
+        box-sizing: border-box;
       }
     }
 
@@ -53,12 +54,12 @@
 
   .party-room-container {
     &.disconnected input {
-      padding-right: 30px;
+      padding-right: 32px;
     }
 
     .generate-new-room {
       position: absolute;
-      right: 4px;
+      right: 12px;
       top: 12px;
       background: none;
       border: none;
