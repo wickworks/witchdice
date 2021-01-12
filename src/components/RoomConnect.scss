@@ -52,6 +52,10 @@
   }
 
   .party-room-container {
+    &.disconnected input {
+      padding-right: 30px;
+    }
+
     .generate-new-room {
       position: absolute;
       right: 4px;
@@ -68,24 +72,31 @@
 
     .copy-on-click {
       @include text_label;
+      display: flex;
       border-radius: 4px;
       margin-top: 1px;
       padding: 0;
       text-align: left;
-      white-space: nowrap;
-      text-overflow: ellipsis;
       overflow: hidden;
-      flex-grow: 0;
       cursor: pointer;
 
       &:hover { background-color: $pink; }
+
+      .name {
+        max-width: 88%;
+        box-sizing: border-box;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
 
       .copy-symbol { margin-left: 4px; }
     }
 
     .copied-message {
-      color: olive;
-      font-size: 16px;
+      color: $olive_dark;
+      font-size: 18px;
+      padding-top: 2px;
     }
   }
 

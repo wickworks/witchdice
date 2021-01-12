@@ -102,7 +102,7 @@ const RoomConnect = ({
               <div className='copied-message'>Copied url!</div>
             :
               <button className='copy-on-click' onClick={copyRoom}>
-                {partyRoom}
+                <span className='name'>{partyRoom}</span>
                 <span className='copy-symbol'>⧉</span>
               </button>
             }

@@ -82,6 +82,7 @@
         &.selected {
           background-color: $rust_dark;
           color: white;
+          cursor: auto;
 
           .mode-title h2 { font-weight: bold; }
 
