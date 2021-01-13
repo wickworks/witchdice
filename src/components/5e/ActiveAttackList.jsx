@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ActiveAttackList.scss';
 
 const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
@@ -7,21 +7,6 @@ const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
   // to make the three-items-per-row come out nicely
   // const attackCount = attackSourceData.length;
   // const fillerAttackCount = (Math.ceil(attackCount / 3) * 3) - attackCount;
-
-  function handleAttackCountClick(e, leftMouse, currentCount, attackID) {
-    let newDieCount = currentCount;
-
-    if (leftMouse && !e.shiftKey) {
-      newDieCount += 1;
-    } else {
-      newDieCount -= 1;
-      e.preventDefault()
-    }
-
-    newDieCount = Math.min(newDieCount, 99);
-    newDieCount = Math.max(newDieCount, 1);
-    setDieCount(newDieCount, attackID);
-  }
 
   return (
     <div className="ActiveAttackList">
@@ -49,18 +34,61 @@ const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
                   <div className='name'>{attackSource.name}</div>
                 </label>
 
-                <button
-                  className='attack-count'
-                  onClick={(e) => handleAttackCountClick(e, true, attackSource.dieCount, attackID)}
-                  onContextMenu={(e) => handleAttackCountClick(e, false, attackSource.dieCount, attackID)}
-                >
-                  x {attackSource.dieCount}
-                </button>
+                <AttackCount
+                  dieCount={attackSource.dieCount}
+                  setDieCount={attackFunctions.setDieCount}
+                  attackID={attackID}
+                />
               </div>
             )
           } else { return null }
         })}
       </div>
+    </div>
+  );
+}
+
+
+const AttackCount = ({dieCount, setDieCount, attackID}) => {
+  const [inputCount, setInputCount] = useState(dieCount);
+
+
+  function handleAttackCountClick(e, leftMouse, currentCount, attackID) {
+    let newDieCount = currentCount;
+
+    if (leftMouse && !e.shiftKey) {
+      newDieCount += 1;
+    } else {
+      newDieCount -= 1;
+      e.preventDefault()
+    }
+
+    newDieCount = Math.min(newDieCount, 99);
+    newDieCount = Math.max(newDieCount, 1);
+    setDieCount(newDieCount, attackID);
+    setInputCount(newDieCount)
+  }
+
+
+  return (
+    <div className="AttackCount">
+      { dieCount < 10 ?
+        <button
+          className='attack-count'
+          onClick={(e) => handleAttackCountClick(e, true, dieCount, attackID)}
+          onContextMenu={(e) => handleAttackCountClick(e, false, dieCount, attackID)}
+        >
+          x {dieCount}
+        </button>
+      :
+        <input
+          className='attack-count'
+          type="number"
+          value={inputCount}
+          onChange={e => setInputCount(Math.max(Math.min(e.target.value, 999), 1))}
+          onBlur={() => setDieCount( inputCount, attackID )}
+        />
+      }
     </div>
   );
 }
