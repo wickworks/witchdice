@@ -19,6 +19,7 @@ const Roller = ({
   const [advantage, setAdvantage] = useState(false);
   const [disadvantage, setDisadvantage] = useState(false);
   const [evasion, setEvasion] = useState(false);
+  const [toHitAC, setToHitAC] = useState(0); // only used for massive attacks
 
   // outcomes of calculateDamage
   const [damageTotal, setDamageTotal] = useState(false);
@@ -26,12 +27,12 @@ const Roller = ({
 
   // when the roll data changes, figure out what's a hit & send up the summary
   useEffect(() => {
-    // only calculate damge if we didn't just change the hits
+    // only calculate damge if we changed what hit
     if (!autoCalculateHits()) {
       calculateDamage();
     }
 
-  }, [rollData, advantage, disadvantage, evasion]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [rollData, advantage, disadvantage, evasion, toHitAC]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   // figure out what's a hit
@@ -57,6 +58,14 @@ const Roller = ({
         if (critFumble.isFumble && roll.hit) {
           newRollData[rollID].hit = false
           madeChange = true;
+        }
+
+        // do we have a to-hit AC?
+        if (toHitAC > 0) {
+          const rollUse = getRollUseDiscard(roll).rollUse
+          const newHit = rollUse >= toHitAC
+          madeChange = madeChange || (newRollData[rollID].hit !== newHit)
+          newRollData[rollID].hit = newHit
         }
       }
     }
@@ -252,13 +261,17 @@ const Roller = ({
     setRollSummaryData(rollSummaryData);
   }
 
-  // figure out what whether to show evasion checkbox or not
+  // figure out what whether to show evasion checkbox & to hit AC or not
   let showEvasionOption = false;
+  let showToHitAC = false || (toHitAC > 0); // once you start showing it, don't stop
   attackSourceData.forEach((attackSource) => {
     if (attackSource.type === 'save' && attackSource.savingThrowType === 0 && attackSource.dieCount > 0) {
       showEvasionOption = true;
     }
+
+    if (attackSource.dieCount >= 10) showToHitAC = true
   });
+
 
   let currentAttackName = '';//used in the render attack title loop, dunno why I can't declare there
   return (
@@ -296,6 +309,17 @@ const Roller = ({
                 onChange={() => setEvasion(!evasion)}
               />
               Evasion
+            </label>
+          }
+
+          {showToHitAC &&
+            <label className="to-hit-ac">
+              <input
+                type="number"
+                value={toHitAC}
+                onChange={e => setToHitAC(parseInt(e.target.value))}
+              />
+              AC
             </label>
           }
         </div>

@@ -85,7 +85,7 @@ const AttackCount = ({dieCount, setDieCount, attackID}) => {
           className='attack-count'
           type="number"
           value={inputCount}
-          onChange={e => setInputCount(Math.max(Math.min(e.target.value, 999), 1))}
+          onChange={e => setInputCount(Math.max(Math.min(parseInt(e.target.value), 999), 1))}
           onBlur={() => setDieCount( inputCount, attackID )}
         />
       }
