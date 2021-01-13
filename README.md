@@ -16,7 +16,6 @@
 - do abilities show up in the active attack list?
 
 
-
 ##### FEATURES ######
 - dX dice?
 - "success dice" -- dice matching, or "x above this"
