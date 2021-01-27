@@ -5,29 +5,26 @@
 
 ###### LAYOUT #######
 - make bookmarks system work for mobile
-
-- add a nice nouveau border to the xcard
-
-- bug: mode summary at the top expands the whole window
-
-- add HIT? to the list of rolls
-  - ACTUALLY, change the checkmarks to literal words that say HIT/MISS/SAVE that toggle on click
-
 - do abilities show up in the active attack list?
+- be able to clear things you just rolled; keep the x button on dicebag results
 
+- people keep not realizing that they need to toggle HIT->MISS for 5e.
+  - make the design more explicit -- OR -- add some tutorial
 
 ##### FEATURES ######
+- recent-monsters list behaves oddly when the recent queue is filled all up.
+- it also apparently acts differently between hitting backspace and pressing the X
+
 - dX dice?
 - "success dice" -- dice matching, or "x above this"
 - sound fx for dice rolls
+- be able to clear dicebag/roll history (with a confirm dialogue)
 
 - be able to click initiative names to bring up that character's sheet
 - be able to rearrange 5e attacks
 
 - themes e.g. dark mode
-
 - YES effect; opposite of the xcard, confetti or something
-
 - allow apostrophes in names
 
 ###### TECHNICAL ######
@@ -47,11 +44,9 @@
 
 
 #### DND MECHANICS ####
-
 - have active attacks get cleared on a roll. just have them be local state, default false, instead of stored as part of the attack data.
 
 - paralyzation//assassin; all attacks are crits. be able to set any attack to be a crit (or toggle a crit off)
-- +1 damage die roll on critical hits
 
 - spell triggered effects aren't being automatically generated
 

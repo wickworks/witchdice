@@ -459,11 +459,18 @@ const Main5E = ({
             if (!source.tags.includes('triggeredsave')) {
 
               // get both CRIT and REGULAR dice
-              const dicePools = [damageRollData,critRollData]
+              const dicePools = [damageRollData, critRollData]
               dicePools.forEach((dicePool) => {
+                let damageDieCount = source.dieCount
+
+                // handle crits that get extra dice
+                if (dicePool === critRollData) {
+                  if (source.tags.includes('extracritdie1')) damageDieCount += 1
+                  if (source.tags.includes('extracritdie2')) damageDieCount += 2
+                }
 
                 // EACH DIE IN THAT SOURCE
-                for (let damageDieID = 0; damageDieID < source.dieCount; damageDieID++) {
+                for (let damageDieID = 0; damageDieID < damageDieCount; damageDieID++) {
                   const damage = getDamageRoll(source, damageSourceID);
                   const amount = damage.rerolled ? damage.rerolledAmount : damage.amount;
                   if (amount > 0 || source.condition.length > 0) { dicePool.push(damage) }

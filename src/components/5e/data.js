@@ -11,7 +11,8 @@ const allTags = {
   'min2': 'Treat 1s as 2s.',
   'expandedcrit1': 'Crits 19-20',
   'expandedcrit2': 'Crits 18-20',
-  // 'extracritdie': 'Crits get +1d' // TODO
+  'extracritdie1': 'Crits get +1 die',
+  'extracritdie2': 'Crits get +2 dice',
 }
 
 const allDamageTypes = [
