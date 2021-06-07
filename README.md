@@ -121,6 +121,7 @@ firebase emulators:start --only database
 http://localhost:4000
 
 # prep for deploy
+update ChangeLog.jsx and version.js
 npm run build
 
 # preview the deploy

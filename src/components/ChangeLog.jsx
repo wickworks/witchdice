@@ -9,11 +9,16 @@ const ChangeLog = () => {
   return (
     <div className="ChangeLog">
       <button className='beta-label' onClick={() => setIsOpen(!isOpen)}>
-        Changelog — Beta v{CURRENT_VERSION}
+        Changelog — v{CURRENT_VERSION}
       </button>
 
       {isOpen &&
         <div className="change-container">
+
+          <div className='version-label'>v0.7.1 — June 2021</div>
+          <ul>
+            <li>Bugfix: triggered save-for-half damage halves appropriately.</li>
+          </ul>
 
           <div className='version-label'>v0.7 — January 2021</div>
           <ul>
