@@ -28,7 +28,7 @@
 - allow apostrophes in names
 
 ###### TECHNICAL ######
-- fonts aren't working on older firefox
+- bug: can't click on damage tags to remove them
 
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
@@ -41,6 +41,7 @@
   Be able to go straight to the room by visiting the room url
 
 - rename the party roll/action stuff to make it more consistant
+- fonts aren't working on older firefox
 
 
 #### DND MECHANICS ####

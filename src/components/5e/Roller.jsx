@@ -181,7 +181,7 @@ const Roller = ({
             let applyDamage = false;
             if (roll.hit || critFumble.isCrit) { applyDamage = true; }
 
-            if (attackSource.type === 'save' && damageSource.tags.includes("savehalf")) {
+            if (damageSource.tags.includes("savehalf")) {
               // has evasion
               if (evasion && attackSource.savingThrowType === 0) {
                 if (roll.hit) {
@@ -190,7 +190,8 @@ const Roller = ({
                 } else {
                   applyDamage = false;
                 }
-              } else {            // no evasion
+              // no evasion
+              } else {
                 if (!roll.hit) {
                   applyDamage = true;
                   amount = amount * .5;

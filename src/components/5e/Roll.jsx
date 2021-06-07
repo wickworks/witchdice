@@ -66,7 +66,7 @@ const Roll = ({
         let halvedClass = ''
 
         if (!damageSource.enabled) { showDamageRoll = false; }
-        if ((type === 'save') && damageSource.tags.includes("savehalf")) {
+        if (damageSource.tags.includes("savehalf")) {
           if (evasion) {     // has evasion
             if (hit) {
               showDamageRoll = true;
