@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
 import DiceBookmarks from './DiceBookmarks';
+import DieButton from './DieButton';
 import { deepCopy, getRandomInt } from '../utils.js';
 import {
   blankDice,
@@ -23,10 +24,21 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
   const percentileAvailable = (diceData['10'] === 2);
 
-  const updateDiceData = (dieType, dieCount) => {
+  const updateDiceDataCount = (dieType, newCount) => {
     let newData = {...diceData}
-    newData[dieType] = dieCount
-    setDiceData(newData);
+    newData[dieType] = newCount
+    setDiceData(newData)
+  }
+
+  const updateDiceDataType = (dieType, newType) => {
+    if (dieType !== newType) {
+      let newData = {...diceData}
+      newData[newType] = diceData[dieType] // preserve the old type's count
+      console.log('updating DIE TYPE', dieType, ' to ', newType);
+
+      delete newData[dieType] // remove the old type
+      setDiceData(newData)
+    }
   }
 
   const handleRoll = () => {
@@ -42,7 +54,12 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
     sortedDice(rollDice).forEach((dieType, i) => {
       for (let rollID = 0; rollID < rollDice[dieType]; rollID++) {
-        if (dieType !== 'plus') {
+
+        // turn variable dice e.g. 'x3' into just '3'
+        if (dieType.startsWith('x')) dieType = dieType.substring(1)
+
+        // roll em!
+        if (dieType !== 'plus' && dieType.length > 0) {
           const result = getRandomInt(parseInt(dieType));
           const dieIcon = `d${dieType}`;
           results.push( {dieType: dieIcon, result: result} )
@@ -177,7 +194,8 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                 <DieButton
                   dieType={dieType}
                   dieCount={diceData[dieType]}
-                  setDieCount={(newCount) => updateDiceData(dieType, newCount)}
+                  setDieCount={(newCount) => updateDiceDataCount(dieType, newCount)}
+                  setDieType={(newType) => updateDiceDataType(dieType, newType)}
                   key={`diebutton-${i}`}
                 />
               )
@@ -209,71 +227,6 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
       </div>
     </div>
   );
-}
-
-
-const DieButton = ({
-  dieType,
-  dieCount,
-  setDieCount
-}) => {
-
-  function handleClick(e, leftMouse) {
-    let newDieCount = dieCount;
-
-    if (leftMouse && !e.shiftKey) {
-      newDieCount += 1;
-    } else {
-      newDieCount -= 1;
-      e.preventDefault()
-    }
-
-    const min = (dieType === 'plus') ? -99 : 0;
-
-    newDieCount = Math.min(newDieCount, 99);
-    newDieCount = Math.max(newDieCount, min);
-    setDieCount(newDieCount)
-  }
-
-  let dieClass = dieCount !== 0 ? 'will-roll' : '';
-  let dieIcon = `d${dieType}`;
-  if (dieType === 'plus') {
-    dieIcon = 'plus';
-    dieClass += ' last'
-  }
-
-  return (
-    <button className={`DieButton ${dieClass}`}
-      onClick={(e) => handleClick(e, true)}
-      onContextMenu={(e) => handleClick(e, false)}
-      onKeyDown={e => {
-        if (dieType !== 'plus') {
-          if (parseInt(e.key)) setDieCount(parseInt(e.key))
-          if (e.key === 'Backspace' || e.key === 'Delete') setDieCount(0)
-        }
-      }}
-    >
-      {(dieType === 'plus') ?
-        <input
-          type="number"
-          value={dieCount}
-          onChange={e => setDieCount( Math.max(Math.min(e.target.value, 99), -99) )}
-          onClick={e => e.stopPropagation()}
-          onFocus={e => e.target.select()}
-          onKeyDown={e => { if (e.key === 'Enter') e.target.blur() }}
-        />
-      : (dieCount > 0) &&
-        <div className='roll-count'>{dieCount}</div>
-      }
-      <div className={`asset ${dieIcon}`} />
-      {(dieType !== 'plus' && dieCount === 0) &&
-        <div className='die-type-label'>
-          <span className='dee'>d</span>
-          <span className='type'>{dieType}</span>
-        </div>
-      }
-    </button>
-  )
 }
 
 export default DiceBag;

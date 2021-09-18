@@ -5,7 +5,6 @@
 
 ###### LAYOUT #######
 - make bookmarks system work for mobile
-- do abilities show up in the active attack list?
 - be able to clear things you just rolled; keep the x button on dicebag results
 
 - people keep not realizing that they need to toggle HIT->MISS for 5e.
@@ -17,6 +16,7 @@
 - recent-monsters list behaves oddly when the recent queue is filled all up.
 - it also apparently acts differently between hitting backspace and pressing the X
 
+- option to do d20 + max(other things)
 - dX dice?
 - "success dice" -- dice matching, or "x above this"
 - sound fx for dice rolls
@@ -29,17 +29,18 @@
 - YES effect; opposite of the xcard, confetti or something
 - allow apostrophes in names
 
-###### TECHNICAL ######
-
-- validation for damage number inputs
-- Firbase-side validate room/person name; must be length X & are only letters
-
 - Auth system: conference-room rules.
   If you're the first to show up to a room, it's yours.
   If there is anyone in it already, they need to give you the thumbs-up.
     (waiting & cancel button on newcomer, confirm & requester name on all occupants)
   All rooms are cleared out twelve hours after the last message is sent on them.
   Be able to go straight to the room by visiting the room url
+
+
+###### TECHNICAL ######
+
+- validation for damage number inputs
+- Firbase-side validate room/person name; must be length X & are only letters
 
 - rename the party roll/action stuff to make it more consistant
 - fonts aren't working on older firefox

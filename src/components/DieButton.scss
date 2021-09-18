@@ -1,0 +1,81 @@
+@import '../fonts';
+
+.DieButton {
+  @include shadow;
+  @include text_dicebag_count;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  width: 128px;
+  height: 80px;
+  margin: 6px 6px;
+  padding: 4px 16px;
+
+  border: none;
+  border-radius: 40px;
+
+  &:enabled {
+    background-color: #fff6e6; // almost-white tan
+    cursor: pointer;
+
+    &:hover { background-color: $parchment_mid; }
+  }
+
+  &.will-roll {
+    justify-content: center;
+    background-color: $rust;
+    color: $pink;
+    input { color: $pink; }
+
+    // black to pink
+    .asset { filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%); }
+
+    &:hover {
+      background-color: #9d371f; // rust, but highlighted a little (not as much as rust_light)
+    }
+  }
+
+  &.variable { justify-content: flex-end; }
+
+  &.last { justify-content: flex-start; }
+
+  .roll-count {
+    @include text_dicebag_count;
+    min-width: 30px;
+  }
+
+  .asset {
+    width: 46px; height: 46px;
+    margin-right: 2px;
+
+    &.plus {
+      margin-left: 2px;
+      order: -1;
+    }
+  }
+
+  .die-type-label {
+    display: flex;
+    align-items: center;
+    font-size: 28px;
+
+    .dee { margin-right: 1px; }
+  }
+
+  // for entering a modifier // dX
+  input {
+    @include text_dicebag_count;
+    background-color: transparent;
+    border: none;
+
+    &.plus {
+      width: 80px;
+    }
+
+    &.variable {
+      font-size: 28px;
+      width: 52px;
+    }
+  }
+}

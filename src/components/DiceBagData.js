@@ -7,6 +7,7 @@ const blankDice = {
   '12': 0,
   '20': 0,
   'plus': 0,
+  'x': 0,   // becomes e.g. 'x3' for variable dice
 }
 
 function getToRollString(diceData, summaryMode, percentileMode) {
