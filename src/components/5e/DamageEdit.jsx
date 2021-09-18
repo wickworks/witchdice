@@ -43,7 +43,7 @@ const DamageEdit = ({
 
   const handleTagUpdate = (selectedTags) => {
     let newTags = []
-    selectedTags.forEach((tag) => { newTags.push(tag.value) })
+    if (selectedTags) selectedTags.forEach((tag) => { newTags.push(tag.value) })
     setTags(newTags, attackID, damageID)
   }
 

@@ -22,7 +22,7 @@ function App() {
                   className='banner-container'
                   href='http://astrolago.com/'
                   target="_blank"
-                  rel="noopener noreferrer nofollow"
+                  rel="noopener noreferrer"
                 >
                   <div className='asset witchcraft_banner' role="img" alt="Witch+Craft banner" />
                 </a>

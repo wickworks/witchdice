@@ -12,6 +12,8 @@
   - make the design more explicit -- OR -- add some tutorial
 
 ##### FEATURES ######
+- "calculate average damage" for a roll instead of having to click through it
+
 - recent-monsters list behaves oddly when the recent queue is filled all up.
 - it also apparently acts differently between hitting backspace and pressing the X
 
@@ -28,7 +30,6 @@
 - allow apostrophes in names
 
 ###### TECHNICAL ######
-- bug: can't click on damage tags to remove them
 
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters

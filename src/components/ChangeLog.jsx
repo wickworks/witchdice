@@ -15,6 +15,11 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
+          <div className='version-label'>v0.8 — Sept 2021</div>
+          <ul>
+            <li>Bugfix: now able to remove damage tags by clicking their X.</li>
+          </ul>
+
           <div className='version-label'>v0.7.1 — June 2021</div>
           <ul>
             <li>Bugfix: triggered save-for-half damage halves appropriately.</li>
