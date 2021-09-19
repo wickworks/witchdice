@@ -17,7 +17,10 @@ const ChangeLog = () => {
 
           <div className='version-label'>v0.8 — Sept 2021</div>
           <ul>
-            <li>Bugfix: now able to remove damage tags by clicking their X.</li>
+            <li>Changed max/min roll logic; it's now per-die-group.</li>
+            <li>Added "negative" dice; right click a die to subtract that die group.</li>
+            <li>Added new dX die; you can set a custom number between 1-99.</li>
+            <li>Bugfix: now able to remove 5e damage tags by clicking their X.</li>
           </ul>
 
           <div className='version-label'>v0.7.1 — June 2021</div>

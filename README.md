@@ -11,13 +11,14 @@
   - make the design more explicit -- OR -- add some tutorial
 
 ##### FEATURES ######
+- Add a "tips & tricks" section for negative dice.
+  - or some kind of pop-up tooltip system e.g. "press and hold to send later"
+
 - "calculate average damage" for a roll instead of having to click through it
 
 - recent-monsters list behaves oddly when the recent queue is filled all up.
 - it also apparently acts differently between hitting backspace and pressing the X
 
-- option to do d20 + max(other things)
-- dX dice?
 - "success dice" -- dice matching, or "x above this"
 - sound fx for dice rolls
 - be able to clear dicebag/roll history (with a confirm dialogue)
