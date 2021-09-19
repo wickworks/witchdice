@@ -14,7 +14,7 @@ import {
 import './DiceBag.scss';
 
 const DiceBag = ({addNewDicebagPartyRoll}) => {
-  const [lastDieRolled, setLastDieRolled] = useState('');   // for the rolled icon up top
+  const [firstDieRolled, setFirstDieRolled] = useState('');   // for the rolled icon up top
   const [previousDiceData, setPreviousDiceData] = useState({}); // for re-rolling the last set
 
   const [diceData, setDiceData] = useState({...blankDice}); // dice-to-roll
@@ -60,11 +60,12 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
       rollDice['100'] = 1;
     }
 
-    console.log('ROLLING : ', rollDice);
+    let rolledAtLeastOneDie = false;
 
     sortedDice(rollDice).forEach(dieType => {
       const rollCount = Math.abs(rollDice[dieType])
       const rollSign = Math.sign(rollDice[dieType])
+
       for (let rollID = 0; rollID < rollCount; rollID++) {
         const dieTypeNumber = parseDieType(dieType);
 
@@ -74,7 +75,11 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
           const dieIcon = dieType.startsWith('x') ? 'dx' : `d${dieTypeNumber}`;
 
           results.push({dieType: dieIcon, result: result, sign: rollSign})
-          setLastDieRolled(dieIcon);
+
+          if (!rolledAtLeastOneDie) {
+            rolledAtLeastOneDie = true;
+            setFirstDieRolled(dieIcon);
+          }
         }
       }
     });
@@ -106,8 +111,8 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
   // what is the highest type of die we're queueing up to roll?
   let rollDieType = '';
-  Object.keys(diceData).forEach((dieType) => {
-    if (diceData[dieType] > 0) {
+  sortedDice(diceData).forEach(dieType => {
+    if (rollDieType === '' && diceData[dieType] > 0) {
       if (dieType.startsWith('x')) {
         rollDieType = 'x'
       } else if (dieType !== 'plus') {
@@ -180,13 +185,13 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                   }
                 </div>
               </div>
-            : lastDieRolled ?
+            : firstDieRolled ?
               <div className='post-roll'>
                 <button className='result-total' onClick={() => setDiceData(previousDiceData)} key='reroll'>
-                  <div className={`asset ${lastDieRolled}`} />
+                  <div className={`asset ${firstDieRolled}`} />
                   {resultTotal}
                 </button>
-                { resultSummary &&
+                { (resultSummary.length > 3) &&
                   <div className='result-summary'> {resultSummary} </div>
                 }
               </div>
