@@ -6,7 +6,7 @@ import { deepCopy, getRandomInt } from '../utils.js';
 import {
   blankDice,
   diceDataIntoToRollData,
-  getResultsSummary,
+  getRollDescription,
   sortedDice,
   parseDieType,
   processRollData,
@@ -117,14 +117,11 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   });
 
   // summarize what we're going to roll
-  // const toRollString = getToRollString(diceData, summaryMode, percentileMode)
-  const toRollString = getResultsSummary(diceDataIntoToRollData(diceData), summaryMode)
+  const toRollString = getRollDescription(diceDataIntoToRollData(diceData), summaryMode)
 
   // summarize the results
-  // const result = getResultsSummary(rollData, summaryMode)
   const resultTotal = processRollData(rollData, summaryMode)
-  const resultSummary = getResultsSummary(rollData, summaryMode)
-  console.log('result summary:', resultSummary);
+  const resultSummary = getRollDescription(rollData, summaryMode)
 
   // have we queued up something complicated?
   const isComplexRoll = toRollString.length > 14
@@ -176,15 +173,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                   :
                     <div className={`to-roll-summary ${isComplexRoll ? 'complex' : ''}`}>
                       {!isComplexRoll &&
-                        <span className='verb'>
-                          {summaryMode === 'high' ?
-                            'Max of '
-                          : summaryMode === 'low' ?
-                            'Min of '
-                          :
-                            'Roll '
-                          }
-                        </span>
+                        <span className='verb'>{'Roll '}</span>
                       }
                       {toRollString}
                     </div>

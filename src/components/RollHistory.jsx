@@ -20,14 +20,14 @@ const RollHistory = ({
       previousChar = actionData.char
 
       return (
-        actionData === 'dicebag' ?
+        actionData.type === 'dicebag' ?
           <PartyActionDicebag
             actionData={actionData}
             showName={showName}
             key={actionData.updatedAt}
           />
 
-        : actionData === 'attack' &&
+        : actionData.type === 'attack' &&
           <PartyActionAttack
             actionData={actionData}
             showName={showName}
@@ -39,7 +39,6 @@ const RollHistory = ({
 
     return actionRolls
   }
-
 
   const isEmpty = allPartyActionData.length === 0;
 

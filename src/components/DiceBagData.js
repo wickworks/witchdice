@@ -20,7 +20,7 @@ const blankDice = {
 // ]
 // into the FINAL RESULT given a summaryMode
 function processRollData(rollData, summaryMode) {
-  console.log('processing roll data', rollData);
+  // console.log('SUMMING mode', summaryMode, '  roll data:', rollData);
 
   if (!rollData || Object.keys(rollData).length === 0) return 0
 
@@ -34,8 +34,6 @@ function processRollData(rollData, summaryMode) {
       return true;
     }
   });
-
-  console.log('      modifier : ', modifier);
 
   let resultTotal = 0;
 
@@ -52,6 +50,7 @@ function processRollData(rollData, summaryMode) {
       const prevLow = (Math.abs(lowest[roll.dieType]) || roll.result)
       lowest[roll.dieType] = Math.min(prevLow, roll.result) * roll.sign
     })
+
     // add or subtract those lowests all together (the sign is built-in)
     Object.keys(lowest).forEach(dieType =>
       resultTotal += (lowest[dieType])
@@ -65,6 +64,7 @@ function processRollData(rollData, summaryMode) {
       const prevHigh = (Math.abs(highest[roll.dieType]) || roll.result)
       highest[roll.dieType] = Math.max(prevHigh, roll.result) * roll.sign
     })
+
     // add or subtract those highests all together (the sign is built-in)
     Object.keys(highest).forEach(dieType =>
       resultTotal += (highest[dieType])
@@ -74,10 +74,9 @@ function processRollData(rollData, summaryMode) {
   // add the modifier to the end of all this
   resultTotal += modifier;
 
-  console.log('====> total', resultTotal);
+  // console.log('=======> total', resultTotal);
   return resultTotal
 }
-
 
 // turns rollDice data:
 //  { '20': 1, '6': -2 ... }
@@ -86,11 +85,31 @@ function processRollData(rollData, summaryMode) {
 //    {'dieType': '20', 'result': '1d20', sign: 1},
 //    {'dieType': '6',  'result': '2d6',  sign: -1}, ...
 //  ]
-function diceDataIntoToRollData(diceData) {
-  return [
-    {'dieType': '20', 'result': '1d20', sign: 1},
-    {'dieType': '6',  'result': '2d6',  sign: -1},
-  ]
+function diceDataIntoToRollData(diceData, percentileMode = false) {
+
+  // hijack d10s in percentile mode
+  if (percentileMode) {
+    diceData = {...diceData}
+    diceData['10'] = 0;
+    diceData['100'] = 1;
+  }
+
+  let toRollData = [];
+
+  Object.keys(diceData).forEach(dieType => {
+    const rollCount = Math.abs(diceData[dieType])
+    const rollSign = Math.sign(diceData[dieType])
+
+    if ((parseDieType(dieType) || dieType === 'plus') && rollCount > 0) {
+      toRollData.push({
+        dieType: dieType,
+        result: (dieType === 'plus' ? diceData[dieType] : `${rollCount}d${parseDieType(dieType)}`),
+        sign: rollSign
+      })
+    }
+  })
+
+  return toRollData;
 }
 
 // turns to-roll or roll data:
@@ -102,10 +121,8 @@ function diceDataIntoToRollData(diceData) {
 // Min (3d6)          | Min (3, 1, 5)
 // Max (1d20) - (3d6) | Max (18) - (3, 1, 6)
 
-function getResultsSummary(rollData, summaryMode) {
+function getRollDescription(rollData, summaryMode) {
   if (!rollData || rollData.length === 0) return ''
-
-  console.log('ROLL DATA', rollData);
 
   // Group the roll data by die type.
   // resultsByType = { '20': ['18', '4'], '6': ['2d6'], ... }
@@ -125,17 +142,13 @@ function getResultsSummary(rollData, summaryMode) {
     }
   })
 
-  console.log('results by type:', resultsByType);
-  console.log('signs   by type:', signsByType);
-
   // get the die types in order, descenting
   const sortedDieTypes = [...new Set(
     rollData
     .map(roll => roll.dieType)
     .sort((a, b) => (parseInt(a) > parseInt(b)) ? -1 : 1)
+    .filter(dieType => dieType !== 'plus')
   )]
-
-  console.log('sorted types', sortedDieTypes);
 
   // collapse the resultsByType into a joined string
   // resultsByType = { '20': '18 + 4', '6': '(2d6)', ... }
@@ -153,11 +166,10 @@ function getResultsSummary(rollData, summaryMode) {
   // Wrap each group in parens, as necessary
   sortedDieTypes.forEach(dieType => {
     if (summaryMode === 'low' || summaryMode === 'high' || signsByType[dieType] < 0) {
-      resultsByType[dieType] = `(${resultsByType[dieType]})`
+      const nonBreakingSpace = "\u00a0"
+      resultsByType[dieType] = `(${nonBreakingSpace}${resultsByType[dieType]}${nonBreakingSpace})`
     }
   });
-
-  console.log('collapsed by type : ', resultsByType);
 
   // Combine the groups by the sign of each group.
   // summary = '18 + 4 - (2d6)'
@@ -177,43 +189,6 @@ function getResultsSummary(rollData, summaryMode) {
 
   return summaryString
 }
-
-//
-// function getToRollString(diceData, summaryMode, percentileMode) {
-//   diceData = {...diceData} // don't modify the original
-//
-//   // hijack d10s in percentile mode
-//   const percentileAvailable = (diceData['10'] === 2);
-//   if (percentileAvailable && percentileMode) {
-//     diceData['10'] = 0;
-//     diceData['100'] = 1;
-//   }
-//
-//   const toRollArray =
-//     sortedDice(diceData).map(dieType => {
-//       const dieCount = diceData[dieType]
-//       const dieTypeNumber = parseDieType(dieType);
-//
-//       if (dieCount !== 0 && dieTypeNumber) {
-//         return `${dieCount}d${dieTypeNumber}`
-//       } else {
-//         return ''
-//       }
-//     })
-//     .filter(e => {return e} ) // filter out empty values
-//
-//   let toRollSummary = ''
-//   if (summaryMode === 'total') {
-//     toRollSummary = toRollArray.join(' + ')
-//   } else if (summaryMode === 'low' || summaryMode === 'high') {
-//     toRollSummary = toRollArray.join(', ')
-//   }
-//
-//   const modifier = diceData['plus']
-//   if (modifier !== 0) toRollSummary = `( ${toRollSummary} ) ${modifier > 0 ? '+' : ''} ${modifier}`
-//
-//   return toRollSummary
-// }
 
 
 // Returns an array of dice types e.g. ['20', 'x16', '12', '10', '8', '6', '4', 'plus']
@@ -240,7 +215,7 @@ function parseDieType(dieType) {
 export {
   blankDice,
   diceDataIntoToRollData,
-  getResultsSummary,
+  getRollDescription,
   sortedDice,
   parseDieType,
   processRollData,

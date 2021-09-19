@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { deepCopy } from '../utils.js';
 import {
   diceDataIntoToRollData,
-  getResultsSummary,
+  getRollDescription,
 } from './DiceBagData.js';
 import './DiceBookmarks.scss';
 
@@ -78,7 +78,7 @@ const DiceBookmarks = ({
             { hasSomethingQueued ?
               <>
                 <div>Bookmark</div>
-                <div>{getResultsSummary(diceDataIntoToRollData(currentDice), summaryMode)}</div>
+                <div>{getRollDescription(diceDataIntoToRollData(currentDice, percentileMode), summaryMode)}</div>
               </>
             :
               'Bookmark dice here'
@@ -128,7 +128,10 @@ const Bookmark = ({
       onClick={(e) => handleClick(e, true)}
       onContextMenu={(e) => handleClick(e, false)}
     >
-      {getResultsSummary(diceDataIntoToRollData(bookmarkData), bookmarkData.summaryMode)} // bookmarkData.percentileMode
+      {getRollDescription(
+        diceDataIntoToRollData(bookmarkData, bookmarkData.percentileMode),
+        bookmarkData.summaryMode
+      )}
     </button>
   );
 }

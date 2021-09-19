@@ -48,16 +48,15 @@ const PartyActionDicebag = ({actionData, showName}) => {
         { oneLineClass ?
           <div className='dicebag-single'>
             <div className={`asset ${rollData[0].dieType}`} />
-            {rollData[0].result}
+            {rollData[0].result * rollData[0].sign}
           </div>
-        :
-        <>
+        : <>
           <div className="dicebag-rolls">
             { rollData.map((roll, i) => {
               return (
                 <PartyRollDicebag
                   dieType={roll.dieType}
-                  result={roll.result}
+                  result={roll.result * roll.sign}
                   key={`${updatedAt}-${i}`}
                 />
               )
@@ -66,8 +65,7 @@ const PartyActionDicebag = ({actionData, showName}) => {
           <div className="dicebag-sum">
             {resultTotal}
           </div>
-        </>
-        }
+        </> }
       </div>
 
     </div>

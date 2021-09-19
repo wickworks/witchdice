@@ -119,11 +119,12 @@ const Main = ({setIsModalOpen}) => {
       actionData.type = 'dicebag';
       actionData.conditions = rolls.length > 1 ? summaryMode : '';
 
-      // rolls = [ {die: 'd6', result: 4}, ... ]
+      // rolls = [ {dieType: 'd6', result: 4}, ... ]
       rolls.forEach((roll, i) => {
         actionData[`roll-${i}`] = {
-          die: roll.dieType,
-          result: roll.result
+          dieType: roll.dieType,
+          result: roll.result,
+          sign: roll.sign,
         }
       });
 
