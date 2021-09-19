@@ -60,7 +60,8 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     }
 
     sortedDice(rollDice).forEach((dieType, i) => {
-      for (let rollID = 0; rollID < rollDice[dieType]; rollID++) {
+      const rollCount = Math.abs(rollDice[dieType])
+      for (let rollID = 0; rollID < rollCount; rollID++) {
         const dieTypeNumber = parseDieType(dieType);
 
         // roll em!

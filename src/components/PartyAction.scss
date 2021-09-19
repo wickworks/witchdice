@@ -1,0 +1,175 @@
+@import '../fonts';
+
+
+.PartyAction {
+  width: 100%;
+  animation: .75s ease-out 0s 1 flashIn;
+  padding: 18px 0;
+  border-bottom: 2px solid $faded_gold;
+
+  &.one-liner {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .title {
+    display: flex;
+    align-items: flex-end;
+    padding: 0 8px 5px 12px;
+    margin-bottom: 2px;
+
+    .name {
+      @include text_party_roll_name;
+    }
+    .party-name {
+      @include text_party_roll_attackname;
+      margin: 0 12px 1px 6px;
+    }
+    .conditions {
+      @include text_party_roll_condition;
+      margin: 0 4px 1px auto;
+    }
+  }
+
+  .dicebag-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 12px 0 12px;
+
+    .dicebag-single {
+      @include text_party_roll_sum;
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+      margin-top: -6px;
+
+      .asset {
+        width: 28px;
+        height: 28px;
+        margin-right: 3px;
+      }
+    }
+
+    .dicebag-rolls {
+      display: flex;
+      flex-wrap: wrap;
+
+      .PartyRollDicebag {
+        @include text_party_roll_number;
+        display: flex;
+        align-items: center;
+        margin-right: 8px;
+
+        .asset {
+          width: 24px;
+          height: 24px;
+          margin-right: 3px;
+        }
+
+        .result { width: 18px; }
+      }
+    }
+
+    .dicebag-sum {
+      @include text_party_roll_sum;
+      margin-left: 12px;
+    }
+  }
+
+  .attack-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0 8px 0 12px;
+
+    .PartyRollAttack {
+      display: flex;
+      align-items: center;
+      min-height: 30px;
+      margin: 4px 0;
+
+      .asset.d20 {
+        width: 24px;
+        height: 24px;
+        margin-right: 4px;
+        margin-bottom: 1px;
+        flex-shrink: 0;
+      }
+
+      .attack-roll {
+        @include text_party_roll_number;
+        width: 26px;
+        flex-shrink: 0;
+      }
+
+      .save {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        margin-right: 10px;
+
+        .asset {
+          width: 16px;
+          height: 16px;
+          margin: 0 6px 1px 4px;
+
+          // turns black to $rust
+          &.x { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
+
+          // turns black to an olive
+          &.checkmark { filter: invert(29%) sepia(15%) saturate(3839%) hue-rotate(39deg) brightness(98%) contrast(101%); }
+        }
+      }
+
+      .attack-name {
+        @include text_party_roll_attackname;
+        max-width: 45%;
+        margin-right: 10px;
+      }
+
+      .ability-name {
+        @include text_party_roll_attackname;
+        margin-right: 10px;
+      }
+
+      .damage-container {
+        display: flex;
+        margin-left: auto;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+
+        .damage {
+          @include text_party_roll_number;
+          display: flex;
+          align-items: center;
+          margin-left: 14px;
+
+          .asset {
+            width: 28px;
+            height: 28px;
+            margin-left: 2px;
+            margin-bottom: 2px;
+          }
+        }
+      }
+    }
+
+    .total-damage {
+      @include text_party_roll_sum;
+      text-align: right;
+      margin: 6px 4px 2px;
+    }
+  }
+}
+
+
+@keyframes flashIn {
+  0% {
+    background-color: $pink;
+		outline: 8px solid $pink;
+  }
+  100% {
+    background-color: transparent;
+		outline: 8px solid transparent;
+  }
+}

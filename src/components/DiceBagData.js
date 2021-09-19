@@ -25,7 +25,7 @@ function getToRollString(diceData, summaryMode, percentileMode) {
       const dieCount = diceData[dieType]
       const dieTypeNumber = parseDieType(dieType);
 
-      if (dieCount > 0 && dieTypeNumber) {
+      if (dieCount !== 0 && dieTypeNumber) {
         return `${dieCount}d${dieTypeNumber}`
       } else {
         return ''
@@ -46,35 +46,52 @@ function getToRollString(diceData, summaryMode, percentileMode) {
   return toRollSummary
 }
 
+
+// turns roll data:
+//    [ {'dieType': '20', 'result': '1'}, {'dieType': '20', 'result': '12'}, ... ]
+// into a summary:
+// ??????
+function processRollData(rollData, summaryMode) {
+
+}
+
 function getResultsSummary(rollData, summaryMode) {
+  console.log('ROLL DATA', rollData);
+
   let runningTotal = 0
-  let highest = 0
-  let lowest = 999999
+  let highest = {}     // highest for each die type
+  let lowest = {}      // lowest for each die type
   let modifier = 0
   let resultArray = []
   rollData.forEach((roll) => {
     if (roll.dieType !== 'plus') {
       resultArray.push(roll.result)
       runningTotal += roll.result
-      highest = Math.max(highest, roll.result)
-      lowest = Math.min(lowest, roll.result)
+      highest[roll.dieType] = Math.max((highest[roll.dieType] || roll.result), roll.result)
+      lowest[roll.dieType] = Math.min((lowest[roll.dieType] || roll.result), roll.result)
     } else {
       modifier = roll.result // modifier is handled different in different roll modes
     }
   });
+
 
   let resultTotal = 0
   let resultSummary = ''
   if (summaryMode === 'total') {
     resultTotal = runningTotal + modifier
     resultSummary = resultArray.join(' + ')
+
   } else if (summaryMode === 'low') {
-    resultTotal = lowest + modifier;
+    const lowTotal = Object.values(lowest).reduce((a,b) => a+b, 0)
+    resultTotal = lowTotal + modifier;
     resultSummary = resultArray.join(', ')
+
   } else if (summaryMode === 'high') {
-    resultTotal = highest + modifier;
+    const highTotal = Object.values(highest).reduce((a,b) => a+b, 0)
+    resultTotal = highTotal + modifier;
     resultSummary = resultArray.join(', ')
   }
+
   if (modifier !== 0) resultSummary = `( ${resultSummary} ) ${modifier > 0 ? '+' : ''} ${modifier}`
 
   if (summaryMode === 'low') resultSummary = 'Min: ' + resultSummary
@@ -110,4 +127,5 @@ export {
   getResultsSummary,
   sortedDice,
   parseDieType,
+  processRollData,
 };

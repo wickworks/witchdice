@@ -20,10 +20,8 @@ const DieButton = ({
       e.preventDefault()
     }
 
-    const min = (dieType === 'plus') ? -99 : 0;
-
     newDieCount = Math.min(newDieCount, 99);
-    newDieCount = Math.max(newDieCount, min);
+    newDieCount = Math.max(newDieCount, -99);
     setDieCount(newDieCount)
   }
 
@@ -66,7 +64,7 @@ const DieButton = ({
           onKeyDown={e => { if (e.key === 'Enter') e.target.blur() }}
         />
 
-      : (dieCount > 0) ?
+      : (dieCount !== 0) ?
         <div className='roll-count'>{dieCount}</div>
 
       : (isVariableDie) &&
