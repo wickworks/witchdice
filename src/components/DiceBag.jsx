@@ -12,7 +12,6 @@ import {
 } from './DiceBagData.js';
 import './DiceBag.scss';
 
-
 const DiceBag = ({addNewDicebagPartyRoll}) => {
   const [lastDieRolled, setLastDieRolled] = useState('');   // for the rolled icon up top
   const [previousDiceData, setPreviousDiceData] = useState({}); // for re-rolling the last set
@@ -22,8 +21,16 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
   const [summaryMode, setSummaryMode] = useState('total');  // 'total' / 'low' / 'high'
   const [percentileMode, setPercentileMode] = useState(false);
+  const [defaultVariableDieType, setDefaultVariableDieType] = useState('x')
 
   const percentileAvailable = (diceData['10'] === 2);
+
+  const clearCurrentDiceData = () => {
+    let clearedData = {...blankDice};
+    delete clearedData['x'] // remove the default x
+    clearedData[defaultVariableDieType] = 0; // 'x' : 0, for use by the variable die types
+    setDiceData(clearedData);
+  }
 
   const updateDiceDataCount = (dieType, newCount) => {
     let newData = {...diceData}
@@ -34,9 +41,10 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   const updateDiceDataType = (dieType, newType) => {
     if (dieType !== newType) {
       let newData = {...diceData}
-      newData[newType] = diceData[dieType] // preserve the old type's count
-      delete newData[dieType] // remove the old type
-      setDiceData(newData)
+      newData[newType] = diceData[dieType]  // preserve the old type's count
+      delete newData[dieType]               // remove the old type
+      setDiceData(newData)                  // update the dice data with the new type
+      setDefaultVariableDieType(newType)    // cache our dX so they don't have to re-enter it each roll
     }
   }
 
@@ -74,7 +82,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     // store the dice that **were** rolled, in case we want to reroll
     setPreviousDiceData({...diceData})
     // reset current to-roll dice
-    setDiceData({...blankDice});
+    clearCurrentDiceData()
   }
 
   // add it to the party roll panel
@@ -133,7 +141,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                 <button
                   className='reset'
                   aria-label='Clear queued dice.'
-                  onClick={() => setDiceData({...blankDice})}
+                  onClick={clearCurrentDiceData}
                   key='reset'
                 >
                   <div className='asset x' />
