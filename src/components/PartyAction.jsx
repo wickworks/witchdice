@@ -1,5 +1,6 @@
 import React from 'react';
 import { processRollData } from './DiceBagData.js';
+import { allDamageTypes } from './5e/data.js';
 import './PartyAction.scss';
 
 
@@ -31,9 +32,9 @@ const PartyActionDicebag = ({actionData, showName}) => {
     if (key.startsWith('roll-')) rollData.push(actionData[key])
   });
 
-  const results = processRollData(rollData, conditions)
+  const resultTotal = processRollData(rollData, conditions)
 
-  const oneLineClass = (actionRolls.length === 1) ? 'one-liner' : '';
+  const oneLineClass = (rollData.length === 1) ? 'one-liner' : '';
 
   return (
     <div className={`PartyAction ${oneLineClass}`}>
@@ -44,34 +45,28 @@ const PartyActionDicebag = ({actionData, showName}) => {
       />
 
       <div className="dicebag-container">
-        { (actionRolls.length > 1) ?
-          <>
-            <div className="dicebag-rolls">
-              { actionRolls.map((roll, i) => {
-                return (
-                  <PartyRollDicebag
-                    dieType={roll.die}
-                    result={roll.result}
-                    key={`${updatedAt}-${i}`}
-                  />
-                )
-              })}
-            </div>
-            <div className="dicebag-sum">
-              { conditions === 'low' ?
-                diceBagLow + diceBagModifier
-              : conditions === 'high' ?
-                diceBagHigh + diceBagModifier
-              :
-                diceBagSum + diceBagModifier
-              }
-            </div>
-          </>
-        :
+        { oneLineClass ?
           <div className='dicebag-single'>
-            <div className={`asset ${actionRolls[0].die}`} />
-            {actionRolls[0].result}
+            <div className={`asset ${rollData[0].dieType}`} />
+            {rollData[0].result}
           </div>
+        :
+        <>
+          <div className="dicebag-rolls">
+            { rollData.map((roll, i) => {
+              return (
+                <PartyRollDicebag
+                  dieType={roll.dieType}
+                  result={roll.result}
+                  key={`${updatedAt}-${i}`}
+                />
+              )
+            })}
+          </div>
+          <div className="dicebag-sum">
+            {resultTotal}
+          </div>
+        </>
         }
       </div>
 
@@ -118,11 +113,15 @@ const PartyActionAttack = ({actionData, showName}) => {
 
   // total up all the damage
   let damageSum = 0;
+  let actionRolls = [];
   Object.keys(actionData).forEach(key => {
     if (key.startsWith('roll-')) {
+      const actionRollData = actionData[key];
+      actionRolls.push(actionRollData);
+
       allDamageTypes.forEach(damageType => {
-        if (Object.keys(actionData[key]).indexOf(damageType) >= 0) {
-          damageSum = damageSum + Math.floor(actionData[key][damageType])
+        if (Object.keys(actionRollData).indexOf(damageType) >= 0) {
+          damageSum = damageSum + Math.floor(actionRollData[damageType])
         }
       })
     }

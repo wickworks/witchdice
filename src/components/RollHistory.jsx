@@ -1,6 +1,5 @@
 import React from 'react';
 import { PartyActionDicebag, PartyActionAttack } from './PartyAction.jsx';
-import { allDamageTypes } from './5e/data.js';
 import './RollHistory.scss';
 
 const RollHistory = ({

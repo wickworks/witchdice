@@ -16,6 +16,7 @@ button.DieButton {
   border-radius: 40px;
 
   background-color: $grey_light;
+  cursor: auto;
 
   &:enabled {
     background-color: #fff6e6; // almost-white tan

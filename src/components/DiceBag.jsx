@@ -9,6 +9,7 @@ import {
   getResultsSummary,
   sortedDice,
   parseDieType,
+  processRollData,
 } from './DiceBagData.js';
 import './DiceBag.scss';
 
@@ -59,8 +60,11 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
       rollDice['100'] = 1;
     }
 
-    sortedDice(rollDice).forEach((dieType, i) => {
+    console.log('ROLLING : ', rollDice);
+
+    sortedDice(rollDice).forEach(dieType => {
       const rollCount = Math.abs(rollDice[dieType])
+      const rollSign = Math.sign(rollDice[dieType])
       for (let rollID = 0; rollID < rollCount; rollID++) {
         const dieTypeNumber = parseDieType(dieType);
 
@@ -68,7 +72,8 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
         if (dieType !== 'plus' && dieType.length > 0) {
           const result = getRandomInt(dieTypeNumber);
           const dieIcon = dieType.startsWith('x') ? 'dx' : `d${dieTypeNumber}`;
-          results.push( {dieType: dieIcon, result: result} )
+
+          results.push({dieType: dieIcon, result: result, sign: rollSign})
           setLastDieRolled(dieIcon);
         }
       }
@@ -115,7 +120,9 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   const toRollString = getToRollString(diceData, summaryMode, percentileMode)
 
   // summarize the results
-  const result = getResultsSummary(rollData, summaryMode)
+  // const result = getResultsSummary(rollData, summaryMode)
+  const resultTotal = processRollData(rollData, summaryMode)
+  const result = { summary: 'some dice '}
 
   // have we queued up something complicated?
   const isComplexRoll = toRollString.length > 14
@@ -186,7 +193,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
               <div className='post-roll'>
                 <button className='result-total' onClick={() => setDiceData(previousDiceData)} key='reroll'>
                   <div className={`asset ${lastDieRolled}`} />
-                  {result.total}
+                  {resultTotal}
                 </button>
                 { result.summary.length > 3 &&
                   <div className='result-summary'> {result.summary} </div>

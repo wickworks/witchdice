@@ -48,56 +48,99 @@ function getToRollString(diceData, summaryMode, percentileMode) {
 
 
 // turns roll data:
-//    [ {'dieType': '20', 'result': '1'}, {'dieType': '20', 'result': '12'}, ... ]
-// into a summary:
-// ??????
+// [
+//   {'dieType': '20', 'result': 1, sign: 1},
+//   {'dieType': '6', 'result': 12, sign: -1},
+//   {'dieType': 'plus', 'result': -4}
+// ]
+// into the FINAL RESULT given a summaryMode
 function processRollData(rollData, summaryMode) {
+  console.log('processing roll data', rollData);
 
-}
+  if (!rollData || Object.keys(rollData).length === 0) return 0
 
-function getResultsSummary(rollData, summaryMode) {
-  console.log('ROLL DATA', rollData);
-
-  let runningTotal = 0
-  let highest = {}     // highest for each die type
-  let lowest = {}      // lowest for each die type
+  // extract the modifier out of the roll data
   let modifier = 0
-  let resultArray = []
-  rollData.forEach((roll) => {
-    if (roll.dieType !== 'plus') {
-      resultArray.push(roll.result)
-      runningTotal += roll.result
-      highest[roll.dieType] = Math.max((highest[roll.dieType] || roll.result), roll.result)
-      lowest[roll.dieType] = Math.min((lowest[roll.dieType] || roll.result), roll.result)
+  rollData = rollData.filter(roll => {
+    if (roll.dieType === 'plus') {
+      modifier = roll.result;
+      return false;
     } else {
-      modifier = roll.result // modifier is handled different in different roll modes
+      return true;
     }
   });
 
+  console.log('      modifier : ', modifier);
 
-  let resultTotal = 0
-  let resultSummary = ''
+  let resultTotal = 0;
+
   if (summaryMode === 'total') {
-    resultTotal = runningTotal + modifier
-    resultSummary = resultArray.join(' + ')
+    rollData.forEach(roll =>
+      resultTotal += (roll.result * roll.sign) // subtract rolls from negative dieType
+    )
 
   } else if (summaryMode === 'low') {
-    const lowTotal = Object.values(lowest).reduce((a,b) => a+b, 0)
-    resultTotal = lowTotal + modifier;
-    resultSummary = resultArray.join(', ')
+    // get lowest for each die type
+    let lowest = {}
+    let rollSign = 1
+    rollData.forEach(roll => {
+      const prevLow = (Math.abs(lowest[roll.dieType]) || roll.result)
+      lowest[roll.dieType] = Math.min(prevLow, roll.result) * roll.sign
+    })
+    // add or subtract those lowests all together (the sign is built-in)
+    Object.keys(lowest).forEach(dieType =>
+      resultTotal += (lowest[dieType])
+    )
 
   } else if (summaryMode === 'high') {
-    const highTotal = Object.values(highest).reduce((a,b) => a+b, 0)
-    resultTotal = highTotal + modifier;
-    resultSummary = resultArray.join(', ')
+    // get highest for each die type
+    let highest = {}
+    let rollSign = 1
+    rollData.forEach(roll => {
+      const prevHigh = (Math.abs(highest[roll.dieType]) || roll.result)
+      highest[roll.dieType] = Math.max(prevHigh, roll.result) * roll.sign
+    })
+    // add or subtract those highests all together (the sign is built-in)
+    Object.keys(highest).forEach(dieType =>
+      resultTotal += (highest[dieType])
+    )
   }
 
-  if (modifier !== 0) resultSummary = `( ${resultSummary} ) ${modifier > 0 ? '+' : ''} ${modifier}`
+  // add the modifier to the end of all this
+  resultTotal += modifier;
 
-  if (summaryMode === 'low') resultSummary = 'Min: ' + resultSummary
-  if (summaryMode === 'high') resultSummary = 'Max: ' + resultSummary
+  console.log('====> total', resultTotal);
+  return resultTotal
+}
 
-  return {total: resultTotal, summary: resultSummary}
+
+
+function getResultsSummary(rollData, summaryMode) {
+  console.log('ROLL DATA', rollData);
+  //
+  // let resultTotal = 0
+  // let resultSummary = ''
+  // if (summaryMode === 'total') {
+  //   resultTotal = runningTotal + modifier
+  //   resultSummary = resultArray.join(' + ')
+  //
+  // } else if (summaryMode === 'low') {
+  //   const lowTotal = Object.values(lowest).reduce((a,b) => a+b, 0)
+  //   resultTotal = lowTotal + modifier;
+  //   resultSummary = resultArray.join(', ')
+  //
+  // } else if (summaryMode === 'high') {
+  //   const highTotal = Object.values(highest).reduce((a,b) => a+b, 0)
+  //   resultTotal = highTotal + modifier;
+  //   resultSummary = resultArray.join(', ')
+  // }
+  //
+  // if (modifier !== 0) resultSummary = `( ${resultSummary} ) ${modifier > 0 ? '+' : ''} ${modifier}`
+  //
+  // if (summaryMode === 'low') resultSummary = 'Min: ' + resultSummary
+  // if (summaryMode === 'high') resultSummary = 'Max: ' + resultSummary
+  //
+  // return {total: resultTotal, summary: resultSummary}
 }
 
 // Returns an array of dice types e.g. ['20', 'x16', '12', '10', '8', '6', '4', 'plus']
