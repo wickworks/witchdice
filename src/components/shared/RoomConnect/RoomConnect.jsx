@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import TextInput from './shared/TextInput.jsx';
+import TextInput from '../TextInput.jsx';
 import './RoomConnect.scss';
 
 const RoomConnect = ({

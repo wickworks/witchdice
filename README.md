@@ -39,8 +39,6 @@
 
 
 ###### TECHNICAL ######
-- move all the dicebag stuff into its own folder and roll history stuff into its own folder
-
 - validation for damage number inputs
 - Firbase-side validate room/person name; must be length X & are only letters
 

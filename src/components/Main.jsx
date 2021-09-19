@@ -6,10 +6,10 @@ import { deepCopy, capitalize } from '../utils.js';
 import { randomWords } from '../random_words.js';
 
 import LoadinDots from './shared/LoadinDots.jsx';
-import DiceBag from './DiceBag.jsx';
-import RollHistory from './RollHistory.jsx';
-import RoomConnect from './RoomConnect.jsx';
-import {XCard, XCardModal} from './XCard.jsx';
+import DiceBag from './shared/DiceBag/DiceBag.jsx';
+import RollHistory from './shared/RollHistory/RollHistory.jsx';
+import RoomConnect from './shared/RoomConnect/RoomConnect.jsx';
+import {XCard, XCardModal} from './shared/RoomConnect/XCard.jsx';
 
 import './Main.scss';
 

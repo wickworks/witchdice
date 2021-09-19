@@ -1,6 +1,6 @@
 import React from 'react';
-import { processRollData } from './DiceBagData.js';
-import { allDamageTypes } from './5e/data.js';
+import { processRollData } from '../DiceBag/DiceBagData.js';
+import { allDamageTypes } from '../../5e/data.js';
 import './PartyAction.scss';
 
 

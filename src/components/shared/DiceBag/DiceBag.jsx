@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
 import DiceBookmarks from './DiceBookmarks';
 import DieButton from './DieButton';
-import { deepCopy, getRandomInt } from '../utils.js';
+import { deepCopy, getRandomInt } from '../../../utils.js';
 import {
   blankDice,
   diceDataIntoToRollData,
