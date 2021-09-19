@@ -15,16 +15,12 @@
   padding: 20px 50px 6px;
 
   margin-top: -118px;
-  -webkit-transition: margin-top .2s;
-  -moz-transition: margin-top .2s;
-  -ms-transition: margin-top .2s;
-  -o-transition: margin-top .2s;
   transition: margin-top .2s;
-  transition-delay: 1.5s;
+  transition-delay: 1s;
 
-  &:hover, &:focus {
+  &:hover, &:focus, &:focus-within {
     margin-top: -14px;
-    transition-delay: 0s;
+    transition-delay: 0.15s;
   }
 
   button {
