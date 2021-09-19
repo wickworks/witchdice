@@ -20,11 +20,13 @@ function getToRollString(diceData, summaryMode, percentileMode) {
     diceData['100'] = 1;
   }
 
-  const toRollArray = sortedDice(diceData)
-    .map(dieType => {
+  const toRollArray =
+    sortedDice(diceData).map(dieType => {
       const dieCount = diceData[dieType]
-      if (dieCount > 0 && parseInt(dieType)) {
-        return `${dieCount}d${dieType}`
+      const dieTypeNumber = parseDieType(dieType);
+
+      if (dieCount > 0 && dieTypeNumber) {
+        return `${dieCount}d${dieTypeNumber}`
       } else {
         return ''
       }
@@ -81,20 +83,25 @@ function getResultsSummary(rollData, summaryMode) {
   return {total: resultTotal, summary: resultSummary}
 }
 
-// d20 -> d4, then plus
+// Returns an array of dice types e.g. ['20', 'x16', '12', '10', '8', '6', '4', 'plus']
 function sortedDice(diceData) {
   let sorted = Object.keys(diceData).sort((a, b) => {
     return (parseInt(a) > parseInt(b)) ? -1 : 1
   });
 
-  // this returns different results on different browsers (???) so we need to then cherry-pick
+  // This returns different results on different browsers (???),
+  // so we need to then cherry-pick the x and plus to the end.
   sorted.splice( sorted.indexOf('plus'), 1);
   sorted.push('plus');
 
   return sorted;
 }
 
-
+// turn '20' or 'x20' into 20
+function parseDieType(dieType) {
+  if (dieType.startsWith('x')) dieType = dieType.substring(1);
+  return parseInt(dieType);
+}
 
 
 export {
@@ -102,4 +109,5 @@ export {
   getToRollString,
   getResultsSummary,
   sortedDice,
+  parseDieType,
 };

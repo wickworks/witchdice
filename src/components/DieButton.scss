@@ -1,6 +1,6 @@
 @import '../fonts';
 
-.DieButton {
+button.DieButton {
   @include shadow;
   @include text_dicebag_count;
   display: flex;
@@ -14,6 +14,8 @@
 
   border: none;
   border-radius: 40px;
+
+  background-color: $grey_light;
 
   &:enabled {
     background-color: #fff6e6; // almost-white tan
@@ -36,9 +38,13 @@
     }
   }
 
-  &.variable { justify-content: flex-end; }
-
   &.last { justify-content: flex-start; }
+
+  &.variable {
+    justify-content: flex-start;
+
+    .roll-count { min-width: 46px; }
+  }
 
   .roll-count {
     @include text_dicebag_count;

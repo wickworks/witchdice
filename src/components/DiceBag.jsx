@@ -8,6 +8,7 @@ import {
   getToRollString,
   getResultsSummary,
   sortedDice,
+  parseDieType,
 } from './DiceBagData.js';
 import './DiceBag.scss';
 
@@ -34,8 +35,6 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     if (dieType !== newType) {
       let newData = {...diceData}
       newData[newType] = diceData[dieType] // preserve the old type's count
-      console.log('updating DIE TYPE', dieType, ' to ', newType);
-
       delete newData[dieType] // remove the old type
       setDiceData(newData)
     }
@@ -54,14 +53,12 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
     sortedDice(rollDice).forEach((dieType, i) => {
       for (let rollID = 0; rollID < rollDice[dieType]; rollID++) {
-
-        // turn variable dice e.g. 'x3' into just '3'
-        if (dieType.startsWith('x')) dieType = dieType.substring(1)
+        const dieTypeNumber = parseDieType(dieType);
 
         // roll em!
         if (dieType !== 'plus' && dieType.length > 0) {
-          const result = getRandomInt(parseInt(dieType));
-          const dieIcon = `d${dieType}`;
+          const result = getRandomInt(dieTypeNumber);
+          const dieIcon = dieType.startsWith('x') ? 'dx' : `d${dieTypeNumber}`;
           results.push( {dieType: dieIcon, result: result} )
           setLastDieRolled(dieIcon);
         }
@@ -96,7 +93,13 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   // what is the highest type of die we're queueing up to roll?
   let rollDieType = '';
   Object.keys(diceData).forEach((dieType) => {
-    if (diceData[dieType] > 0 && dieType !== 'plus') { rollDieType = dieType;}
+    if (diceData[dieType] > 0) {
+      if (dieType.startsWith('x')) {
+        rollDieType = 'x'
+      } else if (dieType !== 'plus') {
+        rollDieType = dieType
+      }
+    }
   });
 
   // summarize what we're going to roll
