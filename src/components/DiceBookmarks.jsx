@@ -1,21 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { deepCopy } from '../utils.js';
 import {
-  getToRollString,
+  diceDataIntoToRollData,
+  getResultsSummary,
 } from './DiceBagData.js';
 import './DiceBookmarks.scss';
-
-function getToRollStringWithPrefix (bookmarkData, summaryMode, percentileMode) {
-  let string =
-    summaryMode === 'high' ?
-      'Max '
-    : summaryMode === 'low' ?
-      'Min '
-    :
-      ''
-  string += getToRollString(bookmarkData, summaryMode, percentileMode)
-  return string
-}
 
 const DiceBookmarks = ({
   currentDice,
@@ -89,7 +78,7 @@ const DiceBookmarks = ({
             { hasSomethingQueued ?
               <>
                 <div>Bookmark</div>
-                <div>{getToRollStringWithPrefix(currentDice, summaryMode, percentileMode)}</div>
+                <div>{getResultsSummary(diceDataIntoToRollData(currentDice), summaryMode)}</div>
               </>
             :
               'Bookmark dice here'
@@ -139,11 +128,7 @@ const Bookmark = ({
       onClick={(e) => handleClick(e, true)}
       onContextMenu={(e) => handleClick(e, false)}
     >
-      {getToRollStringWithPrefix(
-        bookmarkData,
-        bookmarkData.summaryMode,
-        bookmarkData.percentileMode
-      )}
+      {getResultsSummary(diceDataIntoToRollData(bookmarkData), bookmarkData.summaryMode)} // bookmarkData.percentileMode
     </button>
   );
 }

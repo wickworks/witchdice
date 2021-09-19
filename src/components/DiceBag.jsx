@@ -5,7 +5,7 @@ import DieButton from './DieButton';
 import { deepCopy, getRandomInt } from '../utils.js';
 import {
   blankDice,
-  getToRollString,
+  diceDataIntoToRollData,
   getResultsSummary,
   sortedDice,
   parseDieType,
@@ -80,7 +80,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     });
 
     if (rollDice['plus'] !== 0) {
-      results.push( {dieType: 'plus', result: parseInt(rollDice['plus'])} )
+      results.push( {dieType: 'plus', result: parseInt(rollDice['plus']), sign: 1} )
     }
 
     // store the results that we rolled
@@ -117,12 +117,14 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   });
 
   // summarize what we're going to roll
-  const toRollString = getToRollString(diceData, summaryMode, percentileMode)
+  // const toRollString = getToRollString(diceData, summaryMode, percentileMode)
+  const toRollString = getResultsSummary(diceDataIntoToRollData(diceData), summaryMode)
 
   // summarize the results
   // const result = getResultsSummary(rollData, summaryMode)
   const resultTotal = processRollData(rollData, summaryMode)
-  const result = { summary: 'some dice '}
+  const resultSummary = getResultsSummary(rollData, summaryMode)
+  console.log('result summary:', resultSummary);
 
   // have we queued up something complicated?
   const isComplexRoll = toRollString.length > 14
@@ -195,8 +197,8 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                   <div className={`asset ${lastDieRolled}`} />
                   {resultTotal}
                 </button>
-                { result.summary.length > 3 &&
-                  <div className='result-summary'> {result.summary} </div>
+                { resultSummary &&
+                  <div className='result-summary'> {resultSummary} </div>
                 }
               </div>
             :
