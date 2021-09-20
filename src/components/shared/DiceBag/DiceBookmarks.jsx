@@ -47,6 +47,7 @@ const DiceBookmarks = ({
 
   // Can add a bookmark IF we have something queued up...
   let addBookmarkEnabled = false;
+  let matchingBookmarkIndex = -1; // the index of the bookmark we match
   let bookmarkTexts = [];
   Object.keys(currentDice).forEach((dieType) => {
     if (currentDice[dieType] > 0 && dieType !== 'plus') addBookmarkEnabled = true;
@@ -61,7 +62,10 @@ const DiceBookmarks = ({
       diceDataIntoToRollData(currentDice, percentileMode),
       summaryMode
     )
-    if (bookmarkText === diceText) addBookmarkEnabled = false;
+    if (bookmarkText === diceText) {
+      matchingBookmarkIndex = i;
+      addBookmarkEnabled = false;
+    }
   })
 
   return (
@@ -75,6 +79,7 @@ const DiceBookmarks = ({
             setSummaryMode={setSummaryMode}
             setPercentileMode={setPercentileMode}
             handleDelete={() => deleteBookmark(i)}
+            isSelected={matchingBookmarkIndex === i}
             key={`bookmark-${i}-${allBookmarkData.length}`}
           />
         )
@@ -123,6 +128,7 @@ const Bookmark = ({
   setSummaryMode,
   setPercentileMode,
   handleDelete,
+  isSelected,
 }) => {
 
   const handleClick = (e, leftMouse) => {
@@ -148,9 +154,10 @@ const Bookmark = ({
 
   return (
     <button
-      className="Bookmark"
+      className={`Bookmark ${isSelected ? 'selected' : ''}`}
       onClick={(e) => handleClick(e, true)}
       onContextMenu={(e) => handleClick(e, false)}
+      disabled={isSelected}
     >
       <div className='asset bookmark' />
 
