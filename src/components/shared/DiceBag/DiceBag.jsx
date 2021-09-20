@@ -135,7 +135,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     <div className="bookmarks-and-bag">
 
       <DiceBookmarks
-        currentDice={diceData}
+        currentDice={(rollDieType.length > 0) ? diceData : previousDiceData}
         summaryMode={summaryMode}
         percentileMode={percentileMode}
         setCurrentDice={setDiceData}
