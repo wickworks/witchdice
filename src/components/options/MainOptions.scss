@@ -10,7 +10,7 @@
   max-width: 480px;
   box-sizing: border-box;
 
-  padding: 30px 25px 40px 25px;
+  padding: 30px 35px 40px;
   margin: 30px auto;
 
   h2 {
@@ -18,13 +18,21 @@
   }
 
   .tips-container {
-    padding-left: 15px;
+    .NouveauDivider {
+      margin: 24px 0;
+
+      // $crushed_velvet to a darker $faded_gold
+      filter: brightness(0) saturate(65%) invert(85%) sepia(29%) saturate(503%) hue-rotate(336deg) brightness(89%) contrast(103%);
+    }
 
     .tip {
+
       img {
-        margin: auto;
         display: block;
-        width: 50%;
+        border: 4px double #eebf88; // darker faded gold
+        border-radius: 16px;
+        padding: 8px 12px;
+        margin: auto;
       }
 
       p {

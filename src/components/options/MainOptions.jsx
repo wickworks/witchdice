@@ -14,16 +14,18 @@ const MainOptions = () => {
       <h2>Dicebag Tips & Tricks</h2>
       <div className='tips-container'>
         <div className='tip'>
-          <img src={imageNegativeDice} />
+          <img srcset={`${imageNegativeDice} 2x`} />
 
-          <p>Right-click (or long-tap) to get negative dice.
-          These will be subtracted from the total.</p>
+          <p>Right-click (or long-tap) to get negative dice. These will be
+          subtracted from the total, e.g. <span className='dice'>1d20 - 1d6</span></p>
+
+          <p>After clicking a die, you can press 1-9 on your keyboard as a shortcut. Backspace clears it.</p>
         </div>
 
         <NouveauDivider />
 
         <div className='tip'>
-          <img src={imageTotalHighLow} />
+          <img srcset={`${imageTotalHighLow} 2x`} />
           <p>
             When in <span className='mode'>High</span> or <span className='mode'>Low</span> mode,
             only the highest or lowest die of each type will be added to the total.
@@ -41,13 +43,7 @@ const MainOptions = () => {
         <NouveauDivider />
 
         <div className='tip'>
-          <p>After clicking a die, you can press 1-9 on your keyboard as a shortcut. Backspace clears it.</p>
-        </div>
-
-        <NouveauDivider />
-
-        <div className='tip'>
-          <img src={imageRoll100} />
+          <img srcset={`${imageRoll100} 2x`} />
           <p>You can roll 1d100 by queuing up 2d10 & checking the box.</p>
         </div>
       </div>
