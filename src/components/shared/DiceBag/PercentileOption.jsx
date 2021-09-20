@@ -8,12 +8,14 @@ const PercentileOption = ({
 
   return (
     <div className='PercentileOption'>
-      Roll d100?
-      <input
-        type="checkbox"
-        checked={percentileMode}
-        onChange={() => setPercentileMode(!percentileMode)}
-      />
+      <label>
+        Roll d100?
+        <input
+          type='checkbox'
+          checked={percentileMode}
+          onChange={() => setPercentileMode(!percentileMode)}
+        />
+      </label>
     </div>
   )
 }

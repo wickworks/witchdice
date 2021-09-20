@@ -13,8 +13,6 @@
   margin: 30px auto;
 
   h2 {
-    @include text_title_heavy;
-
     text-align: center;
   }
 
@@ -27,15 +25,6 @@
     }
 
     .tip {
-
-      // img, .interactable-widget {
-      //   display: block;
-      //   border: 4px double #eebf88; // darker faded gold
-      //   border-radius: 16px;
-      //   padding: 8px 12px;
-      //   margin: auto;
-      // }
-
       .interactable-widget {
         display: block;
         width: fit-content;
