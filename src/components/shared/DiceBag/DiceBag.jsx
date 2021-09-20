@@ -14,13 +14,13 @@ import {
 import './DiceBag.scss';
 
 const DiceBag = ({addNewDicebagPartyRoll}) => {
-  const [firstDieRolled, setFirstDieRolled] = useState('');   // for the rolled icon up top
+  const [firstDieRolled, setFirstDieRolled] = useState('');     // for the rolled icon up top
   const [previousDiceData, setPreviousDiceData] = useState({}); // for re-rolling the last set
 
-  const [diceData, setDiceData] = useState({...blankDice}); // dice-to-roll
-  const [rollData, setRollData] = useState([]);             // roll results
+  const [diceData, setDiceData] = useState({...blankDice});     // dice-to-roll
+  const [rollData, setRollData] = useState([]);                 // roll results
 
-  const [summaryMode, setSummaryMode] = useState('total');  // 'total' / 'low' / 'high'
+  const [summaryMode, setSummaryMode] = useState('total');      // 'total' / 'low' / 'high'
   const [percentileMode, setPercentileMode] = useState(false);
   const [defaultVariableDieType, setDefaultVariableDieType] = useState('x')
 
@@ -31,6 +31,12 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     delete clearedData['x'] // remove the default x
     clearedData[defaultVariableDieType] = 0; // 'x' : 0, for use by the variable die types
     setDiceData(clearedData);
+  }
+
+  const clearCurrentRoll = () => {
+    setFirstDieRolled('')
+    setRollData([])
+    setPreviousDiceData({})
   }
 
   const updateDiceDataCount = (dieType, newCount) => {
@@ -158,6 +164,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                 >
                   <div className='asset x' />
                 </button>
+
                 <button
                   className='roll'
                   onClick={handleRoll}
@@ -165,6 +172,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                 >
                   <div className={`asset d${rollDieType}`} />
                 </button>
+
                 <div className='action' id='roll-action'>
                   {percentileAvailable ?
                     <div className='percentile-option'>
@@ -185,12 +193,23 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                   }
                 </div>
               </div>
+
             : firstDieRolled ?
               <div className='post-roll'>
+                <button
+                  className='reset'
+                  aria-label='Clear current roll.'
+                  onClick={clearCurrentRoll}
+                  key='reset'
+                >
+                  <div className='asset x' />
+                </button>
+
                 <button className='result-total' onClick={() => setDiceData(previousDiceData)} key='reroll'>
                   <div className={`asset ${firstDieRolled}`} />
                   {resultTotal}
                 </button>
+
                 { (resultSummary.length > 3) &&
                   <div className='result-summary'> {resultSummary} </div>
                 }

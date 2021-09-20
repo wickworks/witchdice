@@ -9,8 +9,6 @@
 
 
 ###### LAYOUT #######
-- be able to clear things you just rolled; keep the x button on dicebag results
-
 - people keep not realizing that they need to toggle HIT->MISS for 5e.
   - make the design more explicit -- OR -- add some tutorial
 
