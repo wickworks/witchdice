@@ -78,6 +78,8 @@ button.DieButton {
 
     &.plus {
       width: 80px;
+
+      &.zero { color: $grey_mid; }
     }
 
     &.variable {

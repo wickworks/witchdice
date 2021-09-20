@@ -55,7 +55,7 @@ const DieButton = ({
       disabled={buttonDisabled}
     >
       { (dieType === 'plus') ?
-        <input className='plus'
+        <input className={`plus ${dieCount === 0 ? 'zero' : ''}`}
           type="number"
           value={dieCount}
           onChange={e => setDieCount( Math.max(Math.min(e.target.value, 99), -99) )}
