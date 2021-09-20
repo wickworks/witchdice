@@ -20,6 +20,9 @@ const ChangeLog = () => {
             <li>Changed max/min roll logic; it's now per-die-group.</li>
             <li>Added "negative" dice; right click a die to subtract that die group.</li>
             <li>Added new dX die; you can set a custom number between 1-99.</li>
+            <li>Can clear dicebag rolls.</li>
+            <li>Can bookmark last roll without having to re-queue it up.</li>
+            <li>Dicebag bookmarks show up on mobile.</li>
             <li>Bugfix: now able to remove 5e damage tags by clicking their X.</li>
           </ul>
 
