@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {RadioGroup, Radio} from 'react-radio-group';
 import DiceBookmarks from './DiceBookmarks';
 import DieButton from './DieButton';
+import SummaryModeSwitcher from './SummaryModeSwitcher';
+import PercentileOption from './PercentileOption';
 import { deepCopy, getRandomInt } from '../../../utils.js';
 import {
   blankDice,
@@ -175,14 +176,10 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
 
                 <div className='action' id='roll-action'>
                   {percentileAvailable ?
-                    <div className='percentile-option'>
-                      Roll d100?
-                      <input
-                        type="checkbox"
-                        checked={percentileMode}
-                        onChange={() => setPercentileMode(!percentileMode)}
-                      />
-                    </div>
+                    <PercentileOption
+                      percentileMode={percentileMode}
+                      setPercentileMode={setPercentileMode}
+                    />
                   :
                     <div className={`to-roll-summary ${isComplexRoll ? 'complex' : ''}`}>
                       {!isComplexRoll &&
@@ -236,27 +233,10 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
             })}
           </div>
 
-          <RadioGroup
-            name='summary-mode'
-            className='summary-mode'
-            selectedValue={summaryMode}
-            onChange={(value) => { setSummaryMode(value) }}
-          >
-            <label className={`mode-container ${summaryMode === 'total' ? 'selected' : ''}`} key='mode-total'>
-              <Radio value='total' id='mode-total' />
-              Total
-            </label>
-
-            <label className={`mode-container ${summaryMode === 'high' ? 'selected' : ''}`} key='mode-high'>
-              <Radio value='high' id='mode-high' />
-              High
-            </label>
-
-            <label className={`mode-container ${summaryMode === 'low' ? 'selected' : ''}`} key='mode-low'>
-              <Radio value='low' id='mode-low' />
-              Low
-            </label>
-          </RadioGroup>
+          <SummaryModeSwitcher
+            summaryMode={summaryMode}
+            setSummaryMode={setSummaryMode}
+          />
         </div>
       </div>
     </div>

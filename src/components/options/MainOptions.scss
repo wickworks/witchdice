@@ -2,57 +2,5 @@
 
 .MainOptions {
 
-  @include shadow;
-  @include parchment_background;
-  @include nouveau_border('nouveau_roller.svg');
-
-  width: 100%;
-  max-width: 480px;
-  box-sizing: border-box;
-
-  padding: 30px 35px 40px;
-  margin: 30px auto;
-
-  h2 {
-    text-align: center;
-  }
-
-  .tips-container {
-    .NouveauDivider {
-      margin: 24px 0;
-
-      // $crushed_velvet to a darker $faded_gold
-      filter: brightness(0) saturate(65%) invert(85%) sepia(29%) saturate(503%) hue-rotate(336deg) brightness(89%) contrast(103%);
-    }
-
-    .tip {
-
-      img {
-        display: block;
-        border: 4px double #eebf88; // darker faded gold
-        border-radius: 16px;
-        padding: 8px 12px;
-        margin: auto;
-      }
-
-      p {
-        line-height: 1.4;
-
-        span.mode {
-          background-color: $parchment_dark;
-          // color: white;
-          border-radius: 4px;
-          padding: 2px 6px;
-        }
-
-        span.hashtag { color: $rust_light; }
-
-        span.dice {
-          color: $rust;
-          font-weight: bold;
-        }
-      }
-    }
-  }
 
 }

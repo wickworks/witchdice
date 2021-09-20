@@ -24,7 +24,7 @@ $bookmark_breakpoint: 575px;
 
     display: flex;
     flex-direction: column;
-    padding: 12px 0 ;
+    padding: 12px 0 18px;
 
     .die-button-container {
       display: flex;
@@ -68,17 +68,6 @@ $bookmark_breakpoint: 575px;
           font-style: normal;
           text-align: center;
           margin-top: 10px;
-
-          .percentile-option {
-            display: flex;
-            align-items: center;
-
-            input {
-              margin: 0 10px;
-              width: 24px;
-              height: 24px;
-            }
-          }
 
           .to-roll-summary {
             &.complex {
@@ -167,37 +156,6 @@ $bookmark_breakpoint: 575px;
           &:hover {
             filter: none;
           }
-        }
-      }
-    }
-
-    .summary-mode {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      margin: 6px auto 12px;
-
-      .mode-container {
-        position: relative;
-        border-radius: 4px;
-        padding: 2px 6px;
-
-        cursor: pointer;
-        // background-color: $parchment_mid;
-
-        &:hover {
-          background-color: $parchment_dark;
-          color: $soft_black;
-        }
-        &.selected {
-          background-color: $rust;
-          color: white;
-        }
-
-        input {
-          position: absolute;
-          left: -99999999px;
-          top: 0;
         }
       }
     }

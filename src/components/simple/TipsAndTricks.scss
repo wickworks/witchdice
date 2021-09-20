@@ -1,9 +1,0 @@
-@import '../../../fonts';
-
-.TipsAndTricks {
-  @include shadow;
-	@include parchment_background;
-  @include nouveau_border('nouveau_dicebag.svg');
-  border-radius: 14px;
-  
-}

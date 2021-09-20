@@ -1,0 +1,14 @@
+@import '../../../fonts';
+
+.PercentileOption {
+  @include text_title_action;
+  font-style: normal;
+  display: flex;
+  align-items: center;
+
+  input {
+    margin: 0 10px;
+    width: 24px;
+    height: 24px;
+  }
+}
