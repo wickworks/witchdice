@@ -93,6 +93,7 @@ const Footer = () => {
               <li>Anvil by Robert Almeida</li>
               <li>textile by Olena Panasovska</li>
               <li>hibiscus by iconfield</li>
+              <li>bookmark by Icon Depot</li>
             </ul>
 
             <p>

@@ -1,18 +1,27 @@
 @import '../../../fonts';
 
+@mixin mobile_only {
+  @media (max-width: 575px) {
+    @content;
+  }
+}
+
 .DiceBookmarks {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  width: 0;
 
-  width: 0; // does not alter position of the dicebag
-
-  // todo: make work on mobile
-  @media screen and (max-width: 575px) { display: none; }
+  @include mobile_only {
+    width: 100%;
+    max-width: 340px;
+    flex-direction: column;
+    // flex-direction: row-reverse;
+    // flex-wrap: wrap;
+  }
 
   .Bookmark {
     @include shadow;
-
     width: 120px;
     font-size: 18px;
     color: $grey_light;
@@ -21,7 +30,31 @@
     padding: 4px 4px 4px 6px;
     margin: 10px 0;
 
-    &:hover { background-color: $rust_light; }
+    @include mobile_only {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 6px;
+      margin-bottom: 0;
+      padding: 4px 8px;
+    }
+
+    .asset.bookmark {
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+
+      // black to pink
+      filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+
+      display: none;
+      @include mobile_only { display: block; }
+    }
+
+    &:hover {
+      background-color: #9d371f; // rust, but highlighted a little (not as much as rust_light)
+    }
 
     &:disabled {
       background-color: $crushed_velvet;
@@ -33,15 +66,27 @@
       z-index: 1;
       text-align: left;
       transform: translateX(100px);
-
-      -webkit-transition: transform .2s;
-      -moz-transition: transform .2s;
-      -ms-transition: transform .2s;
-      -o-transition: transform .2s;
       transition: transform .2s;
 
-      .hover-string { display: none; }
-      .tucked-string { display: inline; }
+      // background-color: $rust;
+
+      @include mobile_only {
+        transform: none;
+        transition: none;
+      }
+
+      .desktop-only {
+        @include mobile_only { display: none; }
+
+        .hover-string { display: none; }
+        .tucked-string { display: inline; }
+
+        .two-lines {
+          display: inline-block;
+          margin-top: 12px;
+          margin-bottom: 10px;
+        }
+      }
 
       &:hover, &:focus {
         text-align: center;
@@ -51,10 +96,11 @@
         .tucked-string { display: none; }
       }
 
-      .two-lines {
-        display: inline-block;
-        margin-top: 12px;
-        margin-bottom: 10px;
+      .mobile-only {
+        text-align: center;
+        display: none;
+        @include mobile_only { display: block; }
+
       }
     }
   }

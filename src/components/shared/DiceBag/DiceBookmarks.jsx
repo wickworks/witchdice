@@ -45,11 +45,24 @@ const DiceBookmarks = ({
     localStorage.setItem('dice-bookmarks', JSON.stringify(newData))
   }
 
-  // what is the highest type of die we're queueing up to roll?
-  let hasSomethingQueued = false;
+  // Can add a bookmark IF we have something queued up...
+  let addBookmarkEnabled = false;
+  let bookmarkTexts = [];
   Object.keys(currentDice).forEach((dieType) => {
-    if (currentDice[dieType] > 0 && dieType !== 'plus') hasSomethingQueued = true
+    if (currentDice[dieType] > 0 && dieType !== 'plus') addBookmarkEnabled = true;
   });
+  // ...AND it doesn't match an existing bookmark.
+  allBookmarkData.forEach((bookmarkData, i) => {
+    const bookmarkText = getRollDescription(
+      diceDataIntoToRollData(bookmarkData, bookmarkData.percentileMode),
+      bookmarkData.summaryMode
+    )
+    const diceText = getRollDescription(
+      diceDataIntoToRollData(currentDice, percentileMode),
+      summaryMode
+    )
+    if (bookmarkText === diceText) addBookmarkEnabled = false;
+  })
 
   return (
     <div className="DiceBookmarks">
@@ -71,22 +84,33 @@ const DiceBookmarks = ({
         <button
           className='Bookmark new'
           onClick={addNewBookmark}
-          disabled={!hasSomethingQueued}
+          disabled={!addBookmarkEnabled}
           key={`bookmark-${allBookmarkData.length}`}
         >
-          <span className='hover-string'>
-            { hasSomethingQueued ?
-              <>
-                <div>Bookmark</div>
-                <div>{getRollDescription(diceDataIntoToRollData(currentDice, percentileMode), summaryMode)}</div>
-              </>
+          <div className='asset bookmark' />
+
+          <div className='desktop-only'>
+            <span className='hover-string'>
+              { addBookmarkEnabled ?
+                <>
+                  <div>Bookmark</div>
+                  <div>{getRollDescription(diceDataIntoToRollData(currentDice, percentileMode), summaryMode)}</div>
+                </>
+              :
+                'Bookmark roll here'
+              }
+            </span>
+            <span className='tucked-string two-lines'> + </span>
+          </div>
+
+          <div className='mobile-only'>
+            { addBookmarkEnabled ?
+              'Add bookmark: ' +
+              getRollDescription(diceDataIntoToRollData(currentDice, percentileMode), summaryMode)
             :
-              'Bookmark dice here'
+              'Add bookmark'
             }
-          </span>
-          <span className='tucked-string two-lines'>
-            +
-          </span>
+          </div>
         </button>
       }
     </div>
@@ -128,6 +152,8 @@ const Bookmark = ({
       onClick={(e) => handleClick(e, true)}
       onContextMenu={(e) => handleClick(e, false)}
     >
+      <div className='asset bookmark' />
+
       {getRollDescription(
         diceDataIntoToRollData(bookmarkData, bookmarkData.percentileMode),
         bookmarkData.summaryMode

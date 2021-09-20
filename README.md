@@ -3,8 +3,12 @@
 #### EXIST-IN-THE-WORLD ####
 - PWA worker??
 
+##### BUGS ######
+- recent-monsters list behaves oddly when the recent queue is filled all up.
+- it also apparently acts differently between hitting backspace and pressing the X
+
+
 ###### LAYOUT #######
-- make bookmarks system work for mobile
 - be able to clear things you just rolled; keep the x button on dicebag results
 
 - people keep not realizing that they need to toggle HIT->MISS for 5e.
@@ -15,9 +19,6 @@
   - or some kind of pop-up tooltip system e.g. "press and hold to send later"
 
 - "calculate average damage" for a roll instead of having to click through it
-
-- recent-monsters list behaves oddly when the recent queue is filled all up.
-- it also apparently acts differently between hitting backspace and pressing the X
 
 - "success dice" -- dice matching, or "x above this"
 - sound fx for dice rolls
