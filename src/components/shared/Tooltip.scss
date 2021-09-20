@@ -1,0 +1,51 @@
+@import '../../fonts';
+
+$tooltip_width: 220px;
+$nub_width: 12px;
+
+.Tooltip.anchor {
+  position: relative;
+  width: 0;
+  height: 0;
+  margin: auto;
+
+  button.tooltip-panel {
+    @include text_default;
+    position: absolute;
+    bottom: 8px;
+    animation: slight-hover 3.0s infinite ease-in-out;
+
+    height: fit-content;
+    width: $tooltip_width;
+    padding: 12px;
+
+    background-color: $rust;
+    border-radius: 8px;
+    color: white;
+
+    &:before {
+      content:'';
+      display:block;
+      width:0;
+      height:0;
+      position: absolute;
+      border-left: $nub_width solid transparent;
+      border-right: $nub_width solid transparent;
+      border-top: $nub_width solid $rust;
+      left: 100px;
+      bottom: (($nub_width * -1) + 1px);
+    }
+
+    p {
+      text-align: center;
+    }
+  }
+}
+
+@keyframes slight-hover {
+  0% { transform: translate(-50%, 6px); }
+
+  50% { transform: translate(-50%, -2px); }
+
+  100% { transform: translate(-50%, 6px); }
+}

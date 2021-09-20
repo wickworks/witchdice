@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
-import DiceBookmarks from './DiceBookmarks';
-import DieButton from './DieButton';
+import DiceBookmarks from './DiceBookmarks.jsx';
+import DieButton from './DieButton.jsx';
+import Tooltip from '../Tooltip.jsx';
 import { deepCopy, getRandomInt } from '../../../utils.js';
 import {
   blankDice,
@@ -23,6 +24,8 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   const [summaryMode, setSummaryMode] = useState('total');  // 'total' / 'low' / 'high'
   const [percentileMode, setPercentileMode] = useState(false);
   const [defaultVariableDieType, setDefaultVariableDieType] = useState('x')
+
+  const [tipNegativeActive, setTipNegativeActive] = useState(true)
 
   const percentileAvailable = (diceData['10'] === 2);
 
@@ -96,12 +99,12 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     clearCurrentDiceData()
   }
 
-  // add it to the party roll panel
+  // Add it to the party roll panel
   useEffect(() => {
     addNewDicebagPartyRoll(rollData, summaryMode, true);
   }, [rollData]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // update it on the party roll panel — IF we're not busy queueing up a new roll
+  // Update summary mode on the party roll panel — IF we're not busy queueing up a new roll
   useEffect(() => {
     if (rollDieType.length === 0) {
       addNewDicebagPartyRoll(rollData, summaryMode, false);
@@ -109,7 +112,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   }, [summaryMode]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
-  // what is the highest type of die we're queueing up to roll?
+  // What is the highest type of die we're queueing up to roll?
   let rollDieType = '';
   sortedDice(diceData).forEach(dieType => {
     if (rollDieType === '' && diceData[dieType] > 0) {
@@ -121,14 +124,14 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     }
   });
 
-  // summarize what we're going to roll
+  // Summarize what we're going to roll
   const toRollString = getRollDescription(diceDataIntoToRollData(diceData), summaryMode)
 
-  // summarize the results
+  // Summarize the results
   const resultTotal = processRollData(rollData, summaryMode)
   const resultSummary = getRollDescription(rollData, summaryMode)
 
-  // have we queued up something complicated?
+  // Have we queued up something complicated?
   const isComplexRoll = toRollString.length > 14
 
   return (
@@ -203,9 +206,10 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
           </div>
 
           <div className='die-button-container'>
-            { sortedDice(diceData).map((dieType, i) => {
+            { sortedDice(diceData).map((dieType, i) => (
+              <div className='tooltip-and-button'>
+                { dieType === '6' && tipNegativeActive && <Tooltip text='Right click — negative dice will be subtracted.' /> }
 
-              return (
                 <DieButton
                   dieType={dieType}
                   dieCount={diceData[dieType]}
@@ -213,8 +217,8 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                   setDieType={(newType) => updateDiceDataType(dieType, newType)}
                   key={`diebutton-${i}`}
                 />
-              )
-            })}
+              </div>
+            ))}
           </div>
 
           <RadioGroup

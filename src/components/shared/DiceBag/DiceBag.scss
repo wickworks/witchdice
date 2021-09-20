@@ -27,7 +27,13 @@
       justify-content: center;
       padding: 6px;
 
-      // (DieButton elements go in here)
+      .tooltip-and-button {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+
+        // (DieButton elements go in here)
+      }
     }
 
     .rolling-surface {

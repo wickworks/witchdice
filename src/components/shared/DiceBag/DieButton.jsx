@@ -54,6 +54,7 @@ const DieButton = ({
       }}
       disabled={buttonDisabled}
     >
+
       { (dieType === 'plus') ?
         <input className='plus'
           type="number"
