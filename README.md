@@ -3,6 +3,8 @@
 #### EXIST-IN-THE-WORLD ####
 - PWA worker??
 
+- do an SEO analysis pass
+
 ##### BUGS ######
 - recent-monsters list behaves oddly when the recent queue is filled all up.
 - it also apparently acts differently between hitting backspace and pressing the X
@@ -15,6 +17,13 @@
 ##### FEATURES ######
 - Add a "tips & tricks" section for negative dice.
   - or some kind of pop-up tooltip system e.g. "press and hold to send later"
+    - tooltips for:
+      - hover on ? in x-card, saying what it will do,
+      - 5e hit/miss box
+      - 5e damage
+      - "advantage" and "blessed" in the tips and tricks
+
+- Accesibility: make a standard button component that can take either backspace or right-click as the same input. Some kind of visual indicator that it can be right-clicked?
 
 - "calculate average damage" for a roll instead of having to click through it
 

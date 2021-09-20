@@ -1,0 +1,50 @@
+@import '../../fonts';
+
+.MainOptions {
+
+  @include shadow;
+  @include parchment_background;
+  @include nouveau_border('nouveau_roller.svg');
+
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+
+  padding: 30px 25px 40px 25px;
+  margin: 30px auto;
+
+  h2 {
+    text-align: center;
+  }
+
+  .tips-container {
+    padding-left: 15px;
+
+    .tip {
+      img {
+        margin: auto;
+        display: block;
+        width: 50%;
+      }
+
+      p {
+        line-height: 1.4;
+
+        span.mode {
+          background-color: $parchment_dark;
+          // color: white;
+          border-radius: 4px;
+          padding: 2px 6px;
+        }
+
+        span.hashtag { color: $rust_light; }
+
+        span.dice {
+          color: $rust;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+}

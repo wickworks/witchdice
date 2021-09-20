@@ -13,7 +13,7 @@ const ModeChooser = () => {
   const urlRoom = queryParams.get('r');
   const roomLink = urlRoom ? `?r=${urlRoom}` : ''
 
-  const rollModeClass = ['simple','5e','craft'].includes(rollmode) ? 'minimized' : 'full'
+  const rollModeClass = ['simple','5e','craft','options'].includes(rollmode) ? 'minimized' : 'full'
 
   return (
     <div className={`ModeChooser ${rollModeClass}`}>
@@ -33,7 +33,7 @@ const ModeChooser = () => {
             <h2>D&D 5e</h2>
           </div>
           <p className='mode-desc'>
-            Damage roller and initiative tracker for D&D 5e. 
+            Damage roller and initiative tracker for D&D 5e.
           </p>
         </Link>
 
@@ -43,6 +43,15 @@ const ModeChooser = () => {
           </div>
           <p className='mode-desc'>
             Crafting and domestic magic system for 5e.
+          </p>
+        </Link>
+
+        <Link to={`/options${roomLink}`} className={rollmode === 'options' ? 'selected' : ''}>
+          <div className='mode-title'>
+            <h2>Help</h2>
+          </div>
+          <p className='mode-desc'>
+            Settings, tips, and tricks.
           </p>
         </Link>
 
