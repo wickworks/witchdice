@@ -1,6 +1,12 @@
-@import '../../fonts';
+// @import '../../fonts';
 
 .MainSettings {
 
+  .settings-and-about {
+    margin: auto;
 
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }

@@ -36,7 +36,7 @@ const SiteSettings = ({
   return (
     <div className='SiteSettings'>
 
-      <h3>Active tools:</h3>
+      <h3>Active pages</h3>
       <div className='navbar-settings-container'>
 
         {allPages.map(page =>
