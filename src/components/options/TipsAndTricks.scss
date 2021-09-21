@@ -43,6 +43,14 @@
       p {
         line-height: 1.4;
 
+        span.desktop-only { display: inline; }
+        span.mobile-only { display: none; }
+
+        @media (max-width: 575px) {
+          span.desktop-only { display: none; }
+          span.mobile-only { display: inline; }
+        }
+
         span.mode {
           background-color: $parchment_dark;
           border-radius: 4px;

@@ -28,8 +28,10 @@ const TipsAndTricks = () => {
             />
           </div>
 
-          <p>Right-click (or long-tap) to get negative dice. These will be
-          subtracted from the total, e.g. <span className='dice'>1d20 - 2d6</span></p>
+          <p>
+            <RightClickLongTap /> to get negative dice. These will be subtracted
+            from the total, e.g. <span className='dice'>1d20 - 2d6</span>
+          </p>
 
           <p>After clicking a die, you can press 1-9 on your keyboard as a shortcut. Backspace clears it.</p>
         </div>
@@ -72,8 +74,31 @@ const TipsAndTricks = () => {
             <div className={`asset ${dummyPercentileMode ? 'd100' : 'd10'}`} />
           </div>
         </div>
+
+        <NouveauDivider />
+
+        <div className='tip'>
+          <div className='interactable-widget'>
+            <PercentileOption
+              percentileMode={dummyPercentileMode}
+              setPercentileMode={setDummyPercentileMode}
+            />
+          </div>
+          <p>Click "Add bookmark" while dice are queued to save that roll.</p>
+          <p><RightClickLongTap /> an existing bookmark to delete it.</p>
+        </div>
       </div>
     </div>
+  )
+}
+
+// Inline control indicator: right-click for desktop, long-tap for mobile.
+const RightClickLongTap = () => {
+  return (
+    <>
+      <span className='desktop-only'>Right-click</span>
+      <span className='mobile-only'>Long-tap</span>
+    </>
   )
 }
 
