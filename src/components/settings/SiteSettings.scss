@@ -1,0 +1,52 @@
+@import '../../fonts';
+
+.SiteSettings {
+  @include shadow;
+  @include parchment_background;
+  @include nouveau_border('nouveau_roller.svg');
+
+  width: 100%;
+  max-width: 480px;
+  box-sizing: border-box;
+
+  padding: 30px 35px 80px;
+  margin: 30px auto 0;
+
+  h2 {
+    text-align: center;
+  }
+
+  h3 {
+    @include text_title_heavy;
+  }
+
+  .navbar-settings-container {
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-between;
+    // flex-wrap: wrap;
+
+    border: 4px double #eebf88; // darker faded gold
+    border-radius: 16px;
+    padding: 8px 12px;
+    margin: auto;
+
+    label {
+      @include text_label;
+      margin: 6px 0;
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+
+      cursor: pointer;
+      &.disabled { cursor: auto; }
+
+      input {
+        margin: 0 10px;
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+}
