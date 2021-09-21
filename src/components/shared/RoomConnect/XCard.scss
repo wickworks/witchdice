@@ -24,13 +24,13 @@
   }
 
   button {
-    padding: 24px 40px;
+    padding: 24px 36px;
     margin-bottom: 16px;
     border-radius: 8px;
     font-size: 28px;
     color: white;
     background-color: $pink_logo_dark;
-    border: 2px solid $rust_dark;
+    border: 5px double $rust_dark;
 
     &:hover { background-color: $rust_light; }
   }
