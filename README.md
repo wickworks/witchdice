@@ -1,84 +1,29 @@
 
+### TO-DO ###
 
-#### EXIST-IN-THE-WORLD ####
-- PWA worker??
-
-- do an SEO analysis pass
-
-##### BUGS ######
-- recent-monsters list behaves oddly when the recent queue is filled all up.
-- it also apparently acts differently between hitting backspace and pressing the X
+List is at https://trello.com/b/e24TNiu1/witchdice
 
 
-###### LAYOUT #######
-- people keep not realizing that they need to toggle HIT->MISS for 5e.
-  - make the design more explicit -- OR -- add some tutorial
-
-##### FEATURES ######
-- Add a "tips & tricks" section for negative dice.
-  - or some kind of pop-up tooltip system e.g. "press and hold to send later"
-    - tooltips for:
-      - hover on ? in x-card, saying what it will do,
-      - 5e hit/miss box
-      - 5e damage
-      - "advantage" and "blessed" in the tips and tricks
-
-- Accesibility: make a standard button component that can take either backspace or right-click as the same input. Some kind of visual indicator that it can be right-clicked?
-
-- "calculate average damage" for a roll instead of having to click through it
-
-- "success dice" -- dice matching, or "x above this"
-- sound fx for dice rolls
-- be able to clear dicebag/roll history (with a confirm dialogue)
-
-- be able to click initiative names to bring up that character's sheet
-- be able to rearrange 5e attacks
-
-- themes e.g. dark mode
-- YES effect; opposite of the xcard, confetti or something
-- allow apostrophes in names
-
-- Auth system: conference-room rules.
-  If you're the first to show up to a room, it's yours.
-  If there is anyone in it already, they need to give you the thumbs-up.
-    (waiting & cancel button on newcomer, confirm & requester name on all occupants)
-  All rooms are cleared out twelve hours after the last message is sent on them.
-  Be able to go straight to the room by visiting the room url
 
 
-###### TECHNICAL ######
-- validation for damage number inputs
-- Firbase-side validate room/person name; must be length X & are only letters
+### COMMANDS ###
 
-- rename the party roll/action stuff to make it more consistant
-- fonts aren't working on older firefox
+# start local server
+npm start
 
+# start and view the local firebase emulator
+firebase emulators:start --only database
+http://localhost:4000
 
-#### DND MECHANICS ####
-- have active attacks get cleared on a roll. just have them be local state, default false, instead of stored as part of the attack data.
+# prep for deploy
+update ChangeLog.jsx and version.js
+npm run build
 
-- paralyzation//assassin; all attacks are crits. be able to set any attack to be a crit (or toggle a crit off)
+# preview the deploy
+firebase hosting:channel:deploy eye-of-newt
 
-- spell triggered effects aren't being automatically generated
-
-- import the monster manual
-  (add legendary actions)
-  (add special_abilities e.g. sneak attack 1/turn)
-  (die-less damage rolls don't work; see crab)
-  (add other statistics)
-  ("if fails by 5 or more" saving throws, see drow)
-
-
-- vulnerability, resistance, immunity
-
-#### WITCH+CRAFT MECHANICS ####
-- push to roll history
-
-
-#### other games ####
-- Lancer?
-- Royal game of UR
-- swordsfall?
+# actually deploy
+firebase deploy
 
 
 
@@ -119,23 +64,3 @@ My understanding of the primary problems in DnD:
 2. Violence. Dnd glorifies violence. It reiterates the permissability of violence against the Other. It practices us in dehumanizing others so we may kill them and take their things.
   - hotpatch: flesh out non-combat mechanics. WITCH + CRAFT. Complex skill checks.
   - WITCH DICE: show them other games to play. tools for those games && links to podcasts of such.
-
-
-### COMMANDS
-
-# start local server
-npm start
-
-# start and view the local firebase emulator
-firebase emulators:start --only database
-http://localhost:4000
-
-# prep for deploy
-update ChangeLog.jsx and version.js
-npm run build
-
-# preview the deploy
-firebase hosting:channel:deploy eye-of-newt
-
-# actually deploy
-firebase deploy
