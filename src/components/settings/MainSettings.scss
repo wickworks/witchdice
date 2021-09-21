@@ -2,12 +2,22 @@
 
 .MainSettings {
 
-  .settings-and-about {
-    margin: auto;
+  margin: auto;
 
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+
+  .settings-and-about {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  // used by several panels.
+  .settings-section {
+    padding: 0 35px;
   }
 
   h2 {

@@ -5,17 +5,12 @@
   @include parchment_background;
   @include nouveau_border('nouveau_roller.svg');
 
-  width: 100%;
+  // width: 100%;
   max-width: 480px;
   box-sizing: border-box;
 
-  padding: 30px 35px 80px;
+  padding: 30px 0 80px;
   margin: 30px 10px 0;
-
-  h3 {
-    @include text_title_heavy;
-    text-align: center;
-  }
 
   p {
     margin-top: 0;

@@ -47,25 +47,29 @@ const SiteSettings = ({
   return (
     <div className='SiteSettings'>
 
-      <h3 className='no-top-border'>Active Pages</h3>
-      <div className='navbar-settings-container'>
-        {allPages.map(page =>
-          <label
-            className={pageClass(page.id)}
-            key={page.id}
-          >
-            <input
-              type='checkbox'
-              checked={enabledPages[page.id]}
-              onChange={() => togglePage(page.id)}
-              disabled={isPageLocked(page.id)}
-            />
-            <div className={'title-and-desc'}>
-              <div className='title'>{page.title}</div>
-              <div className='desc'>{page.desc}</div>
-            </div>
-          </label>
-        )}
+      <h2>Settings</h2>
+
+      <h3>Active Pages</h3>
+      <div className='settings-section'>
+        <div className='navbar-settings-container'>
+          {allPages.map(page =>
+            <label
+              className={pageClass(page.id)}
+              key={page.id}
+            >
+              <input
+                type='checkbox'
+                checked={enabledPages[page.id]}
+                onChange={() => togglePage(page.id)}
+                disabled={isPageLocked(page.id)}
+              />
+              <div className={'title-and-desc'}>
+                <div className='title'>{page.title}</div>
+                <div className='desc'>{page.desc}</div>
+              </div>
+            </label>
+          )}
+        </div>
       </div>
 
       <button className='clear-all' onClick={onDeleteAllLocalData}>

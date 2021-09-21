@@ -57,15 +57,8 @@ const TipsAndTricks = () => {
               <div className={`asset ${dummyPercentileMode ? 'd100' : 'd10'}`} />
             </div>
           </div>
-        </div>
-      </div>
 
-
-      <div className='tips-panel'>
-
-        <div className='tips-container'>
-
-          <h3 className='no-top-border'>Min and max</h3>
+          <h3>Min and max</h3>
           <div className='tip'>
             <div className='interactable-widget'>
               <SummaryModeSwitcher
