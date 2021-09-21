@@ -20,7 +20,7 @@ import './Main.scss';
 const MainSimple = lazy(() => import('./simple/MainSimple.jsx'));
 const Main5E = lazy(() => import('./5e/Main5E.jsx'));
 const MainWitchCraft = lazy(() => import('./witchcraft/MainWitchCraft.jsx'));
-const MainOptions = lazy(() => import('./options/MainOptions.jsx'));
+const MainSettings = lazy(() => import('./settings/MainSettings.jsx'));
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -362,7 +362,7 @@ const Main = ({setIsModalOpen}) => {
           </Suspense>
         </Route>
 
-        <Route path="/options">
+        <Route path="/settings">
           <Helmet>
               <title>Witch Dice ~ cute dice roller</title>
               <meta
@@ -371,7 +371,7 @@ const Main = ({setIsModalOpen}) => {
               />
           </Helmet>
           <Suspense fallback={<LoadinDots />}>
-            <MainOptions />
+            <MainSettings />
             {renderDicebag()}
           </Suspense>
         </Route>

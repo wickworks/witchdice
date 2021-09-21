@@ -1,0 +1,117 @@
+@import '../../fonts';
+
+.TipsAndTricks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+
+  margin-top: 20px;
+
+  .tips-panel {
+    @include shadow;
+    @include parchment_background;
+    @include nouveau_border('nouveau_roller.svg');
+
+    width: 100%;
+    max-width: 480px;
+    box-sizing: border-box;
+    min-height: 740px; // get them to line up
+
+    padding: 30px 0 80px;
+    margin: 10px 10px;
+
+    h2 {
+      text-align: center;
+    }
+
+    h3 {
+      @include text_title_heavy;
+      text-align: center;
+      margin: 24px 15px 0;
+      padding: 20px 0;
+      border-top: 2px solid $faded_gold;
+    }
+
+    .tips-container {
+      .NouveauDivider {
+        margin: 24px 0;
+
+        // $crushed_velvet to a darker $faded_gold
+        filter: brightness(0) saturate(65%) invert(85%) sepia(29%) saturate(503%) hue-rotate(336deg) brightness(89%) contrast(103%);
+      }
+
+      .tip {
+        padding: 0 35px;
+
+        .interactable-widget {
+          position: relative;
+          display: block;
+          width: fit-content;
+          border: 4px double #eebf88; // darker faded gold
+          border-radius: 16px;
+          padding: 8px 12px;
+          margin: auto;
+
+          &.bookmarks {
+            min-height: 52px;
+
+            @media (max-width: 575px) {
+              width: 100%;
+              box-sizing: border-box;
+            }
+
+            button.Bookmark { margin: 0; }
+
+            .desktop-fake-panel {
+              position: absolute;
+              left: 92%;
+              top: 0;
+              width: 120px;
+              height: 64px;
+              background-color: #f6e8bc;
+
+              @media (max-width: 575px) { display: none; }
+            }
+          }
+        }
+
+        .text-and-image {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        p {
+          line-height: 1.4;
+
+          span.desktop-only { display: inline; }
+          span.mobile-only { display: none; }
+
+          @media (max-width: 575px) {
+            span.desktop-only { display: none; }
+            span.mobile-only { display: inline; }
+          }
+
+          span.mode {
+            background-color: $parchment_dark;
+            border-radius: 4px;
+            padding: 2px 6px;
+
+            &.selected {
+              background-color: $rust;
+              color: white;
+            }
+          }
+
+          span.hashtag { color: $rust_light; }
+
+          span.dice {
+            color: $rust;
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}

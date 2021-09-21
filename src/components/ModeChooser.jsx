@@ -13,7 +13,7 @@ const ModeChooser = () => {
   const urlRoom = queryParams.get('r');
   const roomLink = urlRoom ? `?r=${urlRoom}` : ''
 
-  const rollModeClass = ['simple','5e','craft','options'].includes(rollmode) ? 'minimized' : 'full'
+  const rollModeClass = ['simple','5e','craft','settings'].includes(rollmode) ? 'minimized' : 'full'
 
   return (
     <div className={`ModeChooser ${rollModeClass}`}>
@@ -46,9 +46,9 @@ const ModeChooser = () => {
           </p>
         </Link>
 
-        <Link to={`/options${roomLink}`} className={rollmode === 'options' ? 'selected' : ''}>
+        <Link to={`/settings${roomLink}`} className={rollmode === 'settings' ? 'selected' : ''}>
           <div className='mode-title'>
-            <h2>Help</h2>
+            <h2>Settings</h2>
           </div>
           <p className='mode-desc'>
             Settings, tips, and tricks.

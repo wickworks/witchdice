@@ -1,15 +1,15 @@
 import React from 'react';
 import TipsAndTricks from './TipsAndTricks.jsx';
 
-import './MainOptions.scss';
+import './MainSettings.scss';
 
-const MainOptions = () => {
+const MainSettings = () => {
 
   return (
-    <div className='MainOptions'>
+    <div className='MainSettings'>
       <TipsAndTricks />
     </div>
   )
 }
 
-export default MainOptions ;
+export default MainSettings ;
