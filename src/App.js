@@ -37,7 +37,7 @@ function App() {
               </div>
             </div>
 
-            <ModeChooser />
+            <ModeChooser enabledPages={enabledPages} />
           </div>
 
           <Suspense fallback={<LoadinDots />}>

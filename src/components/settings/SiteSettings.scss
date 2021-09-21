@@ -12,12 +12,13 @@
   padding: 30px 35px 80px;
   margin: 30px auto 0;
 
-  h2 {
-    text-align: center;
-  }
+  // h2 {
+  //   text-align: center;
+  // }
 
   h3 {
     @include text_title_heavy;
+    text-align: center;
   }
 
   .navbar-settings-container {
@@ -32,19 +33,36 @@
     margin: auto;
 
     label {
-      @include text_label;
       margin: 6px 0;
+      padding: 6px;
+      border-radius: 6px;
       display: flex;
       align-items: center;
-      white-space: nowrap;
-
       cursor: pointer;
-      &.disabled { cursor: auto; }
+
+      &:hover { background-color: $parchment_dark; }
+
+      &.unavailable {
+        background: none;
+        cursor: auto;
+      }
 
       input {
-        margin: 0 10px;
+        margin-right: 16px;
         width: 24px;
         height: 24px;
+      }
+
+      .title-and-desc {
+        display: flex;
+        flex-direction: column;
+        .title {
+          @include text_label;
+        }
+
+        .desc {
+
+        }
       }
     }
   }

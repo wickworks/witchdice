@@ -18,32 +18,38 @@ const SiteSettings = ({
       newEnabledPages[pageID] = true;
     }
 
-    console.log('toggling', pageID, 'current:',currentlyEnabled, 'new data:', newEnabledPages);
-
-    setEnabledPages(newEnabledPages)
-
-    // save the setting to localstorage
-    saveEnabledPages(newEnabledPages)
-
+    setEnabledPages(newEnabledPages)  // save the local state
+    saveEnabledPages(newEnabledPages) // save the setting to localstorage
   }
 
-  console.log('site settings enabled pages', enabledPages);
+  const pageClass = (pageID) => {
+    return [
+      pageID === 'settings' ? 'unavailable' : '',
+      enabledPages[pageID] ? 'active' : ''
+    ].join(' ')
+  }
 
   return (
     <div className='SiteSettings'>
-      <h2>Settings</h2>
 
       <h3>Active tools:</h3>
       <div className='navbar-settings-container'>
 
         {allPages.map(page =>
-          <label key={page.id}>
+          <label
+            className={pageClass(page.id)}
+            key={page.id}
+          >
             <input
               type='checkbox'
               checked={enabledPages[page.id]}
               onChange={() => togglePage(page.id)}
+              disabled={page.id === 'settings'}
             />
-            {page.title}
+            <div className={'title-and-desc'}>
+              <div className='title'>{page.title}</div>
+              <div className='desc'>{page.desc}</div>
+            </div>
           </label>
         )}
 
