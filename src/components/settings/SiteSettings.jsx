@@ -22,9 +22,13 @@ const SiteSettings = ({
     saveEnabledPages(newEnabledPages) // save the setting to localstorage
   }
 
+  const isPageLocked = (pageID) => {
+    return ['settings','simple'].includes(pageID)
+  }
+
   const pageClass = (pageID) => {
     return [
-      pageID === 'settings' ? 'unavailable' : '',
+      isPageLocked(pageID) ? 'unavailable' : '',
       enabledPages[pageID] ? 'active' : ''
     ].join(' ')
   }
@@ -44,7 +48,7 @@ const SiteSettings = ({
               type='checkbox'
               checked={enabledPages[page.id]}
               onChange={() => togglePage(page.id)}
-              disabled={page.id === 'settings'}
+              disabled={isPageLocked(page.id)}
             />
             <div className={'title-and-desc'}>
               <div className='title'>{page.title}</div>

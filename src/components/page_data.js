@@ -21,7 +21,7 @@ const allPages = [
   },{
     id: 'craft',
     title: 'Witch+Craft',
-    desc: 'Crafting and domestic magic system for 5e.',
+    desc: 'Crafting and domestic magic system for D&D 5e.',
     defaultEnabled: false,
     metaTitle: 'Witch Dice ~ Witch+Craft character sheet',
     metaDesc: 'Character sheet and crafting roller for the Witch+Dice 5e crafting and domestic magic module',
