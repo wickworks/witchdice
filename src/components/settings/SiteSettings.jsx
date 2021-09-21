@@ -1,34 +1,33 @@
 import React, {useState} from 'react';
+import { allPages, loadEnabledPages, saveEnabledPages } from "../page_data.js";
 
 import './SiteSettings.scss';
 
-const ACTIVE_TOOLS_STORAGE_NAME = 'settings-active-tools';
-const ACTIVE_TOOLS_DEFAULT = ['simple', '5e']
+const SiteSettings = ({
+  enabledPages, setEnabledPages
+}) => {
 
-const SiteSettings = () => {
+  const togglePage = (pageID) => {
+    const currentlyEnabled = enabledPages[pageID];
 
-  // const [activeSimple, setActiveSimple] = useState(true);
-  // const [active5E, setActive5E] = useState(true);
-  // const [activeWitchCraft, setActiveWitchCraft] = useState(true);
-
-  const [activeTools, setActiveTools] = useState(
-    localStorage.getItem(ACTIVE_TOOLS_STORAGE_NAME) || ACTIVE_TOOLS_DEFAULT
-  )
-
-  const toggleTool = (tool) => {
-    console.log('toggling tool', tool);
-    const newActiveTools = [...activeTools]
-
-    if (activeTools.includes(tool)) {
-      newActiveTools.splice(activeTools.indexOf(tool), 1);
+    // modify the local state
+    const newEnabledPages = {...enabledPages}
+    if (currentlyEnabled) {
+      newEnabledPages[pageID] = false;
     } else {
-      newActiveTools.push(tool)
+      newEnabledPages[pageID] = true;
     }
 
+    console.log('toggling', pageID, 'current:',currentlyEnabled, 'new data:', newEnabledPages);
 
-    setActiveTools(newActiveTools)
-    localStorage.setItem(ACTIVE_TOOLS_STORAGE_NAME, JSON.stringify(newActiveTools))
+    setEnabledPages(newEnabledPages)
+
+    // save the setting to localstorage
+    saveEnabledPages(newEnabledPages)
+
   }
+
+  console.log('site settings enabled pages', enabledPages);
 
   return (
     <div className='SiteSettings'>
@@ -37,42 +36,17 @@ const SiteSettings = () => {
       <h3>Active tools:</h3>
       <div className='navbar-settings-container'>
 
-        <label>
-          <input
-            type='checkbox'
-            checked={activeTools.includes('simple')}
-            onChange={() => toggleTool('simple')}
-          />
-          Simple
-        </label>
+        {allPages.map(page =>
+          <label key={page.id}>
+            <input
+              type='checkbox'
+              checked={enabledPages[page.id]}
+              onChange={() => togglePage(page.id)}
+            />
+            {page.title}
+          </label>
+        )}
 
-        <label>
-          <input
-            type='checkbox'
-            checked={activeTools.includes('5e')}
-            onChange={() => toggleTool('5e')}
-          />
-          D&D 5e
-        </label>
-
-        <label>
-          <input
-            type='checkbox'
-            checked={activeTools.includes('craft')}
-            onChange={() => toggleTool('craft')}
-          />
-          Witch+Craft
-        </label>
-
-        <label className='disabled'>
-          <input
-            type='checkbox'
-            checked={true}
-            onChange={() => {}}
-            disabled={true}
-          />
-          Settings
-        </label>
       </div>
     </div>
   )

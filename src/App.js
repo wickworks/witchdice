@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import ModeChooser from './components/ModeChooser.jsx';
 import Footer from './components/Footer.jsx';
 import LoadinDots from './components/shared/LoadinDots.jsx';
+import { loadEnabledPages } from "./components/page_data.js";
 import './App.scss';
 
 // import Main from './components/Main.jsx';
@@ -10,6 +11,7 @@ const Main = lazy(() => import('./components/Main.jsx'));
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [enabledPages, setEnabledPages] = useState( loadEnabledPages() )
 
   return (
     <Router>
@@ -41,6 +43,8 @@ function App() {
           <Suspense fallback={<LoadinDots />}>
             <Main
               setIsModalOpen={setIsModalOpen}
+              enabledPages={enabledPages}
+              setEnabledPages={setEnabledPages}
             />
           </Suspense>
 

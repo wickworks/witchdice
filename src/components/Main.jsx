@@ -4,6 +4,8 @@ import { Helmet } from "react-helmet";
 
 import { deepCopy, capitalize } from '../utils.js';
 import { randomWords } from '../random_words.js';
+import { getPage } from "./page_data.js";
+
 
 import LoadinDots from './shared/LoadinDots.jsx';
 import DiceBag from './shared/DiceBag/DiceBag.jsx';
@@ -30,7 +32,10 @@ function getFirebaseDB() {
   return window.firebase.database().ref()
 }
 
-const Main = ({setIsModalOpen}) => {
+const Main = ({
+  setIsModalOpen,
+  enabledPages, setEnabledPages
+}) => {
   const [xCardRaisedBy, setXCardRaisedBy] = useState('');
 
   // 5e summary of the current roll. On change, we push it to firebase.
@@ -314,14 +319,17 @@ const Main = ({setIsModalOpen}) => {
   return (
     <div className='Main'>
       <Switch>
+
+        <Route path="/simple">
+          <HelmetForPage pageID='simple' />
+          <Suspense fallback={<LoadinDots />}>
+            <MainSimple />
+            {renderDicebag()}
+          </Suspense>
+        </Route>
+
         <Route path="/5e">
-          <Helmet>
-              <title>Witch Dice ~ D&D 5e damage roller</title>
-              <meta
-                name="description"
-                content="Dice roller for D&D 5e that takes the math out of combat. Press a button and get instant results."
-              />
-          </Helmet>
+          <HelmetForPage pageID='5e' />
           <Suspense fallback={<LoadinDots />}>
             <Main5E
              setPartyLastAttackKey={setPartyLastAttackKey}
@@ -335,48 +343,38 @@ const Main = ({setIsModalOpen}) => {
         </Route>
 
         <Route path="/craft">
-          <Helmet>
-              <title>Witch Dice ~ Witch+Craft character sheet</title>
-              <meta
-                name="description"
-                content="Character sheet and crafting roller for the Witch+Dice 5e crafting and domestic magic supplemental."
-              />
-          </Helmet>
+          <HelmetForPage pageID='craft' />
           <Suspense fallback={<LoadinDots />}>
             <MainWitchCraft />
             {renderDicebag()}
           </Suspense>
         </Route>
 
-        <Route path="/simple">
-          <Helmet>
-              <title>Witch Dice ~ cute dice roller</title>
-              <meta
-                name="description"
-                content="A cute & elegant online dice roller for playing tabletop games online with friends."
-              />
-          </Helmet>
-          <Suspense fallback={<LoadinDots />}>
-            <MainSimple />
-            {renderDicebag()}
-          </Suspense>
-        </Route>
 
         <Route path="/settings">
-          <Helmet>
-              <title>Witch Dice ~ cute dice roller</title>
-              <meta
-                name="description"
-                content="A cute & elegant online dice roller for playing tabletop games online with friends."
-              />
-          </Helmet>
+          <HelmetForPage pageID='settings' />
           <Suspense fallback={<LoadinDots />}>
-            <MainSettings />
+            <MainSettings
+              enabledPages={enabledPages}
+              setEnabledPages={setEnabledPages}
+            />
             {renderDicebag()}
           </Suspense>
         </Route>
       </Switch>
     </div>
+  )
+}
+
+const HelmetForPage = ({pageID}) => {
+  return (
+    <Helmet>
+        <title>{getPage(pageID).metaTitle}</title>
+        <meta
+          name="description"
+          content={getPage(pageID).metaDesc}
+        />
+    </Helmet>
   )
 }
 

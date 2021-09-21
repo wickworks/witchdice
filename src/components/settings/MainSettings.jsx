@@ -4,11 +4,16 @@ import SiteSettings from './SiteSettings.jsx';
 
 import './MainSettings.scss';
 
-const MainSettings = () => {
+const MainSettings = ({
+  enabledPages, setEnabledPages
+}) => {
 
   return (
     <div className='MainSettings'>
-      <SiteSettings />
+      <SiteSettings
+        enabledPages={enabledPages}
+        setEnabledPages={setEnabledPages}
+      />
       <TipsAndTricks />
     </div>
   )
