@@ -38,7 +38,7 @@ const SiteAbout = () => {
             <li>on <a href="https://twitter.com/wickglyph" target="_blank" rel="noopener noreferrer">Twitter</a></li>
             <li>at contact@wick.works</li>
           </ul>
-          <em>(also, compliments are welcome. If you like this, please be loud about it! I have social anxiety and no SEO savvy)</em>
+          <em>(also, compliments are welcome. If you like this, please be loud! I have social anxiety and little SEO savvy)</em>
         </p>
       </div>
     </div>

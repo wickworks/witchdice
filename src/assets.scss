@@ -81,5 +81,5 @@
 
 @mixin parchment_background {
   background-image: url('./assets/bg_parchment.webp');
-  background-color: $parchment;
+  background-color: #f6ebbf; // matches the image
 }
