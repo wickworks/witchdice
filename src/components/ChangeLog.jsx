@@ -19,6 +19,7 @@ const ChangeLog = () => {
           <ul>
             <li>Added Settings tab, with Witch+Dice defaulted to hidden.</li>
             <li>Advanced functions are explained in Settings > Tips & Tricks.</li>
+            <li>Added "delete all local data" button in Settings.</li>
             <li>Changed high/low logic: it now takes max/min of each die group.</li>
             <li>Added "negative" dice: right-click a die group to subtract it.</li>
             <li>Added new dX die; you can set a custom number between 1-99.</li>

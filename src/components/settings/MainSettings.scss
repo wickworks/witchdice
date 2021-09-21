@@ -1,4 +1,4 @@
-// @import '../../fonts';
+@import '../../fonts' ;
 
 .MainSettings {
 
@@ -8,5 +8,26 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  h3 {
+    @include text_title_heavy;
+    text-align: center;
+    margin: 24px 15px 0;
+    padding: 20px 0;
+    border-top: 2px solid $faded_gold;
+
+    &.no-top-border {
+      border: none;
+      margin-top: 0;
+    }
+  }
+
+  p {
+    line-height: 1.4;
   }
 }

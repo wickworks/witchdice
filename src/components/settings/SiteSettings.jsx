@@ -22,6 +22,17 @@ const SiteSettings = ({
     saveEnabledPages(newEnabledPages) // save the setting to localstorage
   }
 
+  const onDeleteAllLocalData = () => {
+
+    if (window.confirm(
+      'This will delete ALL saved data from this browser, including characters and monsters saved across all pages. Are you sure you wish to continue?'
+    )) {
+      localStorage.clear();
+      window.location.reload(false);
+      window.location.replace("/");
+    }
+  }
+
   const isPageLocked = (pageID) => {
     return ['settings','simple'].includes(pageID)
   }
@@ -36,9 +47,8 @@ const SiteSettings = ({
   return (
     <div className='SiteSettings'>
 
-      <h3>Active pages</h3>
+      <h3 className='no-top-border'>Active Pages</h3>
       <div className='navbar-settings-container'>
-
         {allPages.map(page =>
           <label
             className={pageClass(page.id)}
@@ -56,8 +66,11 @@ const SiteSettings = ({
             </div>
           </label>
         )}
-
       </div>
+
+      <button className='clear-all' onClick={onDeleteAllLocalData}>
+        Delete all local data
+      </button>
     </div>
   )
 }

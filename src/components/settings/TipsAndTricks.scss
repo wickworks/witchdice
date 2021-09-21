@@ -16,22 +16,10 @@
     width: 100%;
     max-width: 480px;
     box-sizing: border-box;
-    min-height: 740px; // get them to line up
+    min-height: 714px; // get them to line up
 
-    padding: 30px 0 80px;
+    padding: 30px 0;
     margin: 10px 10px;
-
-    h2 {
-      text-align: center;
-    }
-
-    h3 {
-      @include text_title_heavy;
-      text-align: center;
-      margin: 24px 15px 0;
-      padding: 20px 0;
-      border-top: 2px solid $faded_gold;
-    }
 
     .tips-container {
       .NouveauDivider {
@@ -83,7 +71,6 @@
         }
 
         p {
-          line-height: 1.4;
 
           span.desktop-only { display: inline; }
           span.mobile-only { display: none; }

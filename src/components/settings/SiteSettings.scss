@@ -9,7 +9,7 @@
   max-width: 480px;
   box-sizing: border-box;
 
-  padding: 30px 35px 80px;
+  padding: 30px 35px 40px;
   margin: 30px 10px 0;
 
   // h2 {
@@ -67,4 +67,18 @@
     }
   }
 
+
+  button.clear-all {
+    display: block;
+    padding: 6px 40px;
+    margin: 40px auto 0;
+    background-color: $rust;
+    border-radius: 6px;
+    color: white;
+
+    &:hover {
+      background-color: $rust_light;
+      // color: black;
+    }
+  }
 }

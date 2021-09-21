@@ -24,8 +24,8 @@ const TipsAndTricks = () => {
     <div className='TipsAndTricks'>
 
       <div className='tips-panel'>
-
         <h2>Dicebag Tips & Tricks</h2>
+
         <div className='tips-container'>
 
           <h3>Negative dice</h3>
@@ -62,9 +62,10 @@ const TipsAndTricks = () => {
 
 
       <div className='tips-panel'>
+
         <div className='tips-container'>
 
-          <h3>Min and max</h3>
+          <h3 className='no-top-border'>Min and max</h3>
           <div className='tip'>
             <div className='interactable-widget'>
               <SummaryModeSwitcher
