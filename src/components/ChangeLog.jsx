@@ -17,6 +17,8 @@ const ChangeLog = () => {
 
           <div className='version-label'>v0.8 — Sept 2021</div>
           <ul>
+            <li>Added Settings tab, with Witch+Dice defaulted to hidden.</li>
+            <li>Advanced functions are explained in Settings > Tips & Tricks.</li>
             <li>Changed high/low logic: it now takes max/min of each die group.</li>
             <li>Added "negative" dice: right-click a die group to subtract it.</li>
             <li>Added new dX die; you can set a custom number between 1-99.</li>
