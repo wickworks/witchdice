@@ -15,6 +15,7 @@ button.Bookmark {
   border-radius: 6px 0 0 6px;
   padding: 4px 4px 4px 6px;
   margin: 10px 0;
+  user-select: none;
 
   @include mobile_only {
     width: 100%;
@@ -58,7 +59,6 @@ button.Bookmark {
     text-align: left;
     transform: translateX(100px);
     transition: transform .2s;
-    transition-delay: 0.15s;
 
     // background-color: $rust;
 

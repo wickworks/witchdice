@@ -53,4 +53,45 @@ const Bookmark = ({
   );
 }
 
-export default Bookmark;
+const BookmarkNew = ({
+  addNewBookmark,
+  addBookmarkEnabled,
+  allBookmarkDataLength,
+  rollDescription
+}) => {
+
+  return (
+    <button
+      className='Bookmark new'
+      onClick={addNewBookmark}
+      disabled={!addBookmarkEnabled}
+      key={`bookmark-${allBookmarkDataLength}`}
+    >
+      <div className='asset bookmark' />
+
+      <div className='desktop-only'>
+        <span className='hover-string'>
+          { addBookmarkEnabled ?
+            <>
+              <div>Bookmark</div>
+              <div>{rollDescription}</div>
+            </>
+          :
+            'Bookmark roll here'
+          }
+        </span>
+        <span className='tucked-string two-lines'> + </span>
+      </div>
+
+      <div className='mobile-only'>
+        { addBookmarkEnabled ?
+          `Add bookmark: ${rollDescription}`
+        :
+          'Add bookmark'
+        }
+      </div>
+    </button>
+  )
+}
+
+export { Bookmark, BookmarkNew };

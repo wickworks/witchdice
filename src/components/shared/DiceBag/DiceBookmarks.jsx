@@ -4,7 +4,7 @@ import {
   diceDataIntoToRollData,
   getRollDescription,
 } from './DiceBagData.js';
-import Bookmark from './Bookmark';
+import {Bookmark, BookmarkNew} from './Bookmark';
 import './DiceBookmarks.scss';
 
 const DiceBookmarks = ({
@@ -87,37 +87,12 @@ const DiceBookmarks = ({
       })}
 
       { allBookmarkData.length < 8 &&
-        <button
-          className='Bookmark new'
-          onClick={addNewBookmark}
-          disabled={!addBookmarkEnabled}
-          key={`bookmark-${allBookmarkData.length}`}
-        >
-          <div className='asset bookmark' />
-
-          <div className='desktop-only'>
-            <span className='hover-string'>
-              { addBookmarkEnabled ?
-                <>
-                  <div>Bookmark</div>
-                  <div>{getRollDescription(diceDataIntoToRollData(currentDice, percentileMode), summaryMode)}</div>
-                </>
-              :
-                'Bookmark roll here'
-              }
-            </span>
-            <span className='tucked-string two-lines'> + </span>
-          </div>
-
-          <div className='mobile-only'>
-            { addBookmarkEnabled ?
-              'Add bookmark: ' +
-              getRollDescription(diceDataIntoToRollData(currentDice, percentileMode), summaryMode)
-            :
-              'Add bookmark'
-            }
-          </div>
-        </button>
+        <BookmarkNew
+          addNewBookmark={addNewBookmark}
+          addBookmarkEnabled={addBookmarkEnabled}
+          allBookmarkDataLength={allBookmarkData.length}
+          rollDescription={getRollDescription(diceDataIntoToRollData(currentDice, percentileMode), summaryMode)}
+        />
       }
     </div>
   );
