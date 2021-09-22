@@ -40,7 +40,7 @@ const SiteAbout = () => {
         <p className='tipjar'>
           Tip jar:
           <a href="https://ko-fi.com/wickworks" target="_blank" rel="noopener noreferrer">
-            <div className='asset kofi' />
+            <span className='asset kofi' />
           </a>
         </p>
       </div>

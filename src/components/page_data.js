@@ -65,7 +65,7 @@ function loadEnabledPages() {
     Object.keys(savedPages).forEach(pageID => enabledPages[pageID] = savedPages[pageID])
   }
 
-  console.log('loaded enabled pages:', enabledPages);
+  // console.log('loaded enabled pages:', enabledPages);
 
   return enabledPages;
 }
