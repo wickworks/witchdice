@@ -37,6 +37,12 @@ const SiteAbout = () => {
           <li>at contact@wick.works</li>
         </ul>
         <p><em>(also, compliments are welcome. If you like this, please be loud! I have social anxiety and little SEO savvy)</em></p>
+        <p className='tipjar'>
+          Tip jar:
+          <a href="https://ko-fi.com/wickworks" target="_blank" rel="noopener noreferrer">
+            <div className='asset kofi' />
+          </a>
+        </p>
       </div>
     </div>
   )

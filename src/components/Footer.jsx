@@ -5,7 +5,6 @@ import './Footer.scss';
 
 const Footer = () => {
   const [creditsOpen, setCreditsOpen] = useState(false);
-  const [showFeedbackLinks, setShowFeedbackLinks] = useState(false);
 
 
   return (
@@ -21,7 +20,7 @@ const Footer = () => {
         </a>
         ~
 
-        <div className="feedback">
+        {/*<div className="feedback">
           {!showFeedbackLinks ?
             <button className='open-button' onClick={() => setShowFeedbackLinks(!showFeedbackLinks)}>
               feedback/bugs
@@ -37,11 +36,11 @@ const Footer = () => {
               </a>
             </>
           }
-        </div>
+        </div>*/}
 
-        {/*}<a href="https://ko-fi.com/wickworks" target="_blank" rel="noopener noreferrer">
+        <a href="https://ko-fi.com/wickworks" target="_blank" rel="noopener noreferrer">
           tip jar
-        </a>*/}
+        </a>
       </div>
 
       {/*

@@ -9,7 +9,7 @@
   max-width: 480px;
   box-sizing: border-box;
 
-  padding: 30px 0 80px;
+  padding: 30px 0 30px;
   margin: 30px 10px 0;
 
   p {
@@ -20,4 +20,21 @@
     text-decoration: none;
   }
 
+  p.tipjar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+
+    a {
+      display: inherit; // ???
+
+      .asset.kofi {
+        display: inline-block;
+        width: 26px;
+        height: 26px;
+        margin-left: 6px;
+      }
+    }
+  }
 }
