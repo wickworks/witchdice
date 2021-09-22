@@ -49,10 +49,15 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   const updateDiceDataType = (dieType, newType) => {
     if (dieType !== newType) {
       let newData = {...diceData}
-      newData[newType] = diceData[dieType]  // preserve the old type's count
-      delete newData[dieType]               // remove the old type
-      setDiceData(newData)                  // update the dice data with the new type
-      setDefaultVariableDieType(newType)    // cache our dX so they don't have to re-enter it each roll
+
+      let oldCount = diceData[dieType]   // preserve the old type's count
+      if (newType === 'x') oldCount = 0
+      newData[newType] = oldCount
+
+      delete newData[dieType]             // remove the old type
+      setDiceData(newData)                // update the dice data with the new type
+      setDefaultVariableDieType(newType)  // cache our dX so they don't have to re-enter it each roll
+
     }
   }
 
