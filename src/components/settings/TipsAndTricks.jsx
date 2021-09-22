@@ -40,7 +40,7 @@ const TipsAndTricks = () => {
               <RightClickLongTap /> to get negative dice. These will be subtracted
               from the total, e.g. <span className='dice'>1d20 - 2d6</span>
             </p>
-            <p>After clicking a die, you can press 1-9 on your keyboard as a shortcut. Backspace clears it.</p>
+            <p className='desktop-only'>After clicking a die, you can press 1-9 on your keyboard as a shortcut. Backspace clears it.</p>
           </div>
 
           <h3>Percentile dice</h3>
