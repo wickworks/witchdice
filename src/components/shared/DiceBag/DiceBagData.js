@@ -140,11 +140,19 @@ function getRollDescription(rollData, summaryMode) {
     }
   })
 
-  // get the die types in order, descenting
+  // get the die types in order, descending.
+  // Has to handle getting either e.g. [ '20', 'x', 'plus' ] or [ 'd20', 'dx', 'plus' ]
   const sortedDieTypes = [...new Set(
     rollData
     .map(roll => roll.dieType)
-    .sort((a, b) => (parseInt(a) > parseInt(b)) ? -1 : 1)
+    .sort((a, b) => {
+      if (a.startsWith('d')) { a = a.substring(1) } // strip off the 'd' for rolled dice
+      if (b.startsWith('d')) { b = b.substring(1) }
+
+      if      (a.startsWith('x')) { return 1 }
+      else if (b.startsWith('x')) { return -1 }
+      else                        { return (parseInt(a) > parseInt(b)) ? -1 : 1 }
+    })
     .filter(dieType => dieType !== 'plus')
   )]
 
@@ -197,8 +205,23 @@ function sortedDice(diceData) {
 
   // This returns different results on different browsers (???),
   // so we need to then cherry-pick the x and plus to the end.
-  sorted.splice( sorted.indexOf('plus'), 1);
-  sorted.push('plus');
+  let dxString = '';
+  let dxIndex = -1;
+  sorted.forEach((die, i) => {
+    if (die.startsWith('x')) {
+      dxString = die;
+      dxIndex = i;
+    }
+  })
+  if (dxString) {
+    sorted.splice(dxIndex, 1);
+    sorted.push(dxString);
+  }
+
+  if (sorted.indexOf('plus') >= 0) {
+    sorted.splice( sorted.indexOf('plus'), 1);
+    sorted.push('plus');
+  }
 
   return sorted;
 }

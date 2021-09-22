@@ -58,7 +58,9 @@ const DieButton = ({
         <input className={`plus ${dieCount === 0 ? 'zero' : ''}`}
           type="number"
           value={dieCount}
-          onChange={e => setDieCount( Math.max(Math.min(e.target.value, 99), -99) )}
+          onChange={e => setDieCount(parseInt(e.target.value))}
+          min='-99'
+          max='99'
           onClick={e => e.stopPropagation()}
           onFocus={e => e.target.select()}
           onKeyDown={e => { if (e.key === 'Enter') e.target.blur() }}
@@ -79,7 +81,9 @@ const DieButton = ({
           <input className='variable'
             type="number"
             value={dieType}
-            onChange={e => setDieType( `x${Math.max(Math.min(e.target.value, 99), 1)}` )}
+            onChange={e => setDieType(`x${e.target.value === '0' ? '' : e.target.value}` )}
+            min='0'
+            max='99'
             onClick={e => e.stopPropagation()}
             onFocus={e => e.target.select()}
             onKeyDown={e => { if (e.key === 'Enter') e.target.blur() }}
