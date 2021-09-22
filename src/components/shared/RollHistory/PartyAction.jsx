@@ -107,7 +107,7 @@ const PartyRollDicebag = ({dieType, result}) => {
 // }
 
 const PartyActionAttack = ({actionData, showName}) => {
-  const {conditions, updatedAt} = actionData;
+  const {updatedAt} = actionData;
 
   // total up all the damage
   let damageSum = 0;

@@ -36,7 +36,7 @@ const ActiveAttackList = ({attackSourceData, attackFunctions}) => {
 
                 <AttackCount
                   dieCount={attackSource.dieCount}
-                  setDieCount={attackFunctions.setDieCount}
+                  setDieCount={setDieCount}
                   attackID={attackID}
                 />
               </div>

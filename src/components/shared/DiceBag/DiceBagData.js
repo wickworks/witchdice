@@ -45,7 +45,6 @@ function processRollData(rollData, summaryMode) {
   } else if (summaryMode === 'low') {
     // get lowest for each die type
     let lowest = {}
-    let rollSign = 1
     rollData.forEach(roll => {
       const prevLow = (Math.abs(lowest[roll.dieType]) || roll.result)
       lowest[roll.dieType] = Math.min(prevLow, roll.result) * roll.sign
@@ -59,7 +58,6 @@ function processRollData(rollData, summaryMode) {
   } else if (summaryMode === 'high') {
     // get highest for each die type
     let highest = {}
-    let rollSign = 1
     rollData.forEach(roll => {
       const prevHigh = (Math.abs(highest[roll.dieType]) || roll.result)
       highest[roll.dieType] = Math.max(prevHigh, roll.result) * roll.sign

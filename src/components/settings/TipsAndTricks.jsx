@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import NouveauDivider from '../shared/NouveauDivider.jsx';
 import DieButton from '../shared/DiceBag/DieButton';
 import SummaryModeSwitcher from '../shared/DiceBag/SummaryModeSwitcher';
 import PercentileOption from '../shared/DiceBag/PercentileOption';

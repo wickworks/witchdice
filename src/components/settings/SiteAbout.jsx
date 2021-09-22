@@ -1,5 +1,4 @@
 import React from 'react';
-import NouveauDivider from '../shared/NouveauDivider.jsx';
 
 import './SiteAbout.scss';
 
@@ -26,20 +25,18 @@ const SiteAbout = () => {
           Account-holders can vote on items.
         </p>
 
-        <p>
-          If you find a bug or have an idea for a cool feature, please let me know in one of these places!
-          <ul>
-            <li>
-              this <a
-                href="https://docs.google.com/forms/d/e/1FAIpQLScs5LFyqCURtVjQDzrscMZhWXC45xZl4sUdLLMig0QQ3fO5GA/viewform?usp=sf_link"
-                target="_blank" rel="noopener noreferrer">
-              google form</a>
-            </li>
-            <li>on <a href="https://twitter.com/wickglyph" target="_blank" rel="noopener noreferrer">Twitter</a></li>
-            <li>at contact@wick.works</li>
-          </ul>
-          <em>(also, compliments are welcome. If you like this, please be loud! I have social anxiety and little SEO savvy)</em>
-        </p>
+        <p>If you find a bug or have an idea for a cool feature, please let me know in one of these places!</p>
+        <ul>
+          <li>
+            this <a
+              href="https://docs.google.com/forms/d/e/1FAIpQLScs5LFyqCURtVjQDzrscMZhWXC45xZl4sUdLLMig0QQ3fO5GA/viewform?usp=sf_link"
+              target="_blank" rel="noopener noreferrer">
+            google form</a>
+          </li>
+          <li>on <a href="https://twitter.com/wickglyph" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+          <li>at contact@wick.works</li>
+        </ul>
+        <p><em>(also, compliments are welcome. If you like this, please be loud! I have social anxiety and little SEO savvy)</em></p>
       </div>
     </div>
   )

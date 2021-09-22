@@ -49,7 +49,6 @@ const DiceBookmarks = ({
   // Can add a bookmark IF we have something queued up...
   let addBookmarkEnabled = false;
   let matchingBookmarkIndex = -1; // the index of the bookmark we match
-  let bookmarkTexts = [];
   Object.keys(currentDice).forEach((dieType) => {
     if (currentDice[dieType] > 0 && dieType !== 'plus') addBookmarkEnabled = true;
   });

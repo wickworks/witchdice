@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { allPages, loadEnabledPages, saveEnabledPages } from "../page_data.js";
+import React from 'react';
+import { allPages, saveEnabledPages } from "../page_data.js";
 
 import './SiteSettings.scss';
 
