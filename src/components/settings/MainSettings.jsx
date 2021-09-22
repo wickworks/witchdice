@@ -11,21 +11,24 @@ const MainSettings = ({
 }) => {
 
   return (
-    <div className='MainSettings'>
+    <>
+      <div className='MainSettings'>
 
-      <div className='settings-and-about' >
-        <SiteSettings
-          enabledPages={enabledPages}
-          setEnabledPages={setEnabledPages}
-        />
+        <div className='settings-and-about' >
+          <SiteSettings
+            enabledPages={enabledPages}
+            setEnabledPages={setEnabledPages}
+          />
 
-        <SiteAbout />
+          <SiteAbout />
+        </div>
+
+        <TipsAndTricks />
+
       </div>
 
-      <TipsAndTricks />
-
       <NouveauDivider />
-    </div>
+    </>
   )
 }
 
