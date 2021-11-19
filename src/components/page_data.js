@@ -26,6 +26,13 @@ const allPages = [
     metaTitle: 'Witch Dice ~ Witch+Craft character sheet',
     metaDesc: 'Character sheet and crafting roller for the Witch+Dice 5e crafting and domestic magic module',
   },{
+    id: 'lancer',
+    title: 'Lancer',
+    desc: 'A mud-and-lasers RPG of modular mechs and the pilots that crew them.',
+    defaultEnabled: true,
+    metaTitle: 'Witch Dice ~ Lancer',
+    metaDesc: 'Attack and damage roller for the Lancer RPG.',
+  },{
     id: 'settings',
     title: 'Settings',
     desc: 'Settings, tips, and tricks.',

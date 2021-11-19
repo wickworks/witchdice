@@ -22,6 +22,7 @@ import './Main.scss';
 const MainSimple = lazy(() => import('./simple/MainSimple.jsx'));
 const Main5E = lazy(() => import('./5e/Main5E.jsx'));
 const MainWitchCraft = lazy(() => import('./witchcraft/MainWitchCraft.jsx'));
+const MainLancer = lazy(() => import('./lancer/MainLancer.jsx'));
 const MainSettings = lazy(() => import('./settings/MainSettings.jsx'));
 
 function useQuery() {
@@ -350,6 +351,13 @@ const Main = ({
           </Suspense>
         </Route>
 
+        <Route path="/lancer">
+          <HelmetForPage pageID='lancer' />
+          <Suspense fallback={<LoadinDots />}>
+            <MainLancer />
+            {renderDicebag()}
+          </Suspense>
+        </Route>
 
         <Route path="/settings">
           <HelmetForPage pageID='settings' />
