@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { DeleteButton, DeleteConfirmation } from './DeleteButton.jsx';
 
+import './EntryList.scss';
+
 
 const EntryList = ({
   entries,
