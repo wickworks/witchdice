@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DeleteButton, DeleteConfirmation } from './DeleteButton.jsx';
+import EntryList from './EntryList.jsx';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import './CharacterAndMonsterList.scss';
 
@@ -40,13 +40,14 @@ const CharacterList = ({
   activeCharacterID,
   deleteActiveCharacter,
   createNewCharacter,
+  title = 'Character'
 }) => {
   characterEntries.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
 
   return (
     <div className="CharacterList">
       <div className="title-bar">
-        <h2>Characters</h2>
+        <h2>{title}s</h2>
         {characterEntries.length > 0 &&
           <button className="new-character" onClick={createNewCharacter}>
             New
@@ -64,7 +65,7 @@ const CharacterList = ({
 
       { characterEntries.length === 0 &&
         <button className="new-character first" onClick={createNewCharacter}>
-          New Character
+          New {title}
           <div className="asset plus"/>
         </button>
       }
@@ -181,54 +182,6 @@ const MonsterList = ({
         highlightIDs={recentMonsters}
       />
     </div>
-  )
-}
-
-const EntryList = ({
-  entries,
-  handleEntryClick,
-  activeCharacterID,
-  deleteActiveCharacter,
-  highlightIDs = []
-}) => {
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  const activeCharacter = entries.find(entry => {
-    return entry.id === activeCharacterID
-  })
-
-  return (
-    <ul className="EntryList">
-      { isDeleting ?
-        <DeleteConfirmation
-          name={activeCharacter.name}
-          handleCancel={() => setIsDeleting(false)}
-          handleDelete={() => {setIsDeleting(false); deleteActiveCharacter()}}
-        />
-      :
-        entries.map((entry, i) => {
-          const id = entry.id;
-          const name = entry.name;
-          const selectedClass = (id === activeCharacterID) ? 'selected' : ''
-          const highlightClass = (highlightIDs.indexOf(id) >= 0) ? 'highlighted' : ''
-          return (
-            <li
-              className={`${selectedClass} ${highlightClass}`}
-              onClick={() => handleEntryClick(id)}
-              key={id}
-            >
-              <span className='name'>
-                {name}
-              </span>
-
-              {(id === activeCharacterID) &&
-                <DeleteButton handleClick={() => setIsDeleting(true)} />
-              }
-            </li>
-          )
-        })
-      }
-    </ul>
   )
 }
 

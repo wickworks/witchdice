@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { deepCopy, getRandomInt } from '../../utils.js';
+import PilotAndMechList from './PilotAndMechList.jsx';
+
 
 import './MainLancer.scss';
 
@@ -9,7 +10,17 @@ const MainLancer = ({
 
   return (
     <div className='MainLancer'>
-      wow cool robot
+      <PilotAndMechList
+        allPilotEntries={[]}
+        setActivePilotID={() => {}}
+        activePilotID={null}
+        deleteActivePilot={() => {}}
+        createNewPilot={() => {}}
+
+        allMechEntries={[]}
+        setActiveMechID={() => {}}
+        activeMechID={null}
+      />
     </div>
   )
 }
