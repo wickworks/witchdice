@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { allPilotSkills } from './data.js';
 
 import './PilotDossier.scss';
 
@@ -33,9 +34,10 @@ const PilotDossier = ({
         <div className="section-label">Skill Triggers</div>
         <div className="skill-container">
           { activePilot.skills.map((skill, i) => {
+            const skillData = allPilotSkills.find(pilotskill => pilotskill.id === skill.id);
             return (
               <div className="skill" key={skill.id}>
-                <span className="name">{skill.id}</span>
+                <span className="name">{skillData.name}</span>
                 <span className="bonus">+{skill.rank * 2}</span>
               </div>
             )

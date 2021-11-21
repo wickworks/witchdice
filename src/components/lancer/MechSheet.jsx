@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import WeaponRoller from './WeaponRoller.jsx';
+import { allWeapons } from './data.js';
 
 import './MechSheet.scss';
 
@@ -7,7 +8,7 @@ import './MechSheet.scss';
 const MechSheet = ({
   activeMech
 }) => {
-  const [activeWeapon, setActiveWeapon] = useState(null);
+  const [activeWeaponData, setActiveWeaponData] = useState(null);
 
   const loadout = activeMech.loadouts[0];
   const mounts = loadout.mounts;
@@ -20,9 +21,9 @@ const MechSheet = ({
         <div className="mounts-list">
           { mounts.map((mount, i) => {
             return (
-              <Mount
+              <MechMount
                 mount={mount}
-                setActiveWeapon={setActiveWeapon}
+                setActiveWeaponData={setActiveWeaponData}
                 key={`mount-${i}`}
               />
             )
@@ -30,48 +31,51 @@ const MechSheet = ({
         </div>
       </div>
 
-      {activeWeapon && <WeaponRoller weaponData={activeWeapon} /> }
+      {activeWeaponData &&
+        <WeaponRoller weaponData={activeWeaponData} />
+      }
     </div>
   )
 }
 
-const Mount = ({
+const MechMount = ({
   mount,
-  setActiveWeapon,
+  setActiveWeaponData,
 }) => {
   const primaryWeapon = mount.slots[0];
   const secondaryWeapon = mount.extra[0];
 
   return (
 
-    <div className="Mount">
+    <div className="MechMount">
       <h3>{mount.mount_type} Mount</h3>
 
       { primaryWeapon &&
-        <Weapon
+        <MechWeapon
           mountSlot={primaryWeapon}
-          setActiveWeapon={setActiveWeapon}
+          setActiveWeaponData={setActiveWeaponData}
         />
       }
       { secondaryWeapon &&
-        <Weapon
+        <MechWeapon
           mountSlot={secondaryWeapon}
-          setActiveWeapon={setActiveWeapon}
+          setActiveWeaponData={setActiveWeaponData}
         />
       }
     </div>
   )
 }
 
-const Weapon = ({
+const MechWeapon = ({
   mountSlot,
-  setActiveWeapon
+  setActiveWeaponData
 }) => {
-  const weapon = mountSlot.weapon;
+  const activeWeaponData = mountSlot.weapon;
+  const weaponData = allWeapons.find(weapon => weapon.id === activeWeaponData.id);
 
   return (
-    <div className="Weapon" onClick={() => setActiveWeapon(weapon)}>
-      <div className="name">{weapon.id}</div>
+    <div className="MechWeapon" onClick={() => setActiveWeaponData(weaponData)}>
+      <div className="name">{weaponData.name}</div>
     </div>
   )
 }
