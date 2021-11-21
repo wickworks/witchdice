@@ -1,0 +1,46 @@
+@import '../../fonts';
+
+.MechSheet {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin: 20px 20px 0;
+
+  h2 {
+    @include text_title_action;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .mech-container {
+    @include shadow;
+    @include parchment_background;
+    @include nouveau_border("nouveau_character.svg");
+
+    position: relative;
+    box-sizing: border-box;
+    padding: 8px 4% 8px;
+    width: 100%;
+    max-width: 800px;
+
+
+    .mounts-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      .Mount {
+        width: 30%;
+        min-width: 200px;
+
+        .Weapon {
+          &:hover {
+            background-color: $rust_light;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

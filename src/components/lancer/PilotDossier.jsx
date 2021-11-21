@@ -11,17 +11,12 @@ const PilotDossier = ({
   return (
     <div className="PilotDossier">
       <div className="dossier-container">
-        <h2>Dossier</h2>
+        <h2>{activePilot.name}</h2>
 
         <div className="name-etc">
           <div className="text-info">
             <div className="label">Callsign</div>
             <div className="info">{activePilot.callsign}</div>
-          </div>
-
-          <div className="text-info">
-            <div className="label">Name</div>
-            <div className="info">{activePilot.name}</div>
           </div>
 
           <div className="text-info">

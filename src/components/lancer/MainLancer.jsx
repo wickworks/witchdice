@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PilotAndMechList from './PilotAndMechList.jsx';
 import PilotDossier from './PilotDossier.jsx';
+import MechSheet from './MechSheet.jsx';
 import { processPilotJson } from './process_pilot_json.js';
 import { deepCopy } from '../../utils.js';
 import {
@@ -31,6 +32,7 @@ const MainLancer = ({
 
   const activePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
   const allMechEntries = activePilot ? activePilot.mechs : [];
+  const activeMech = allMechEntries.find(mech => mech.id === activeMechID);
 
   const createNewPilot = (pilot) => {
     let newData = deepCopy(allPilotEntries);
@@ -103,6 +105,12 @@ const MainLancer = ({
       { activePilot &&
         <PilotDossier
           activePilot={activePilot}
+        />
+      }
+
+      { activeMech &&
+        <MechSheet
+          activeMech={activeMech}
         />
       }
     </div>

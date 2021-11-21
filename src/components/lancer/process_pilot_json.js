@@ -25,6 +25,7 @@ function processMechsArray(mechsArray) {
     return {
       id: mechObject.id,
       name: mechObject.name,
+      loadouts: mechObject.loadouts,
     }
   })
 }
