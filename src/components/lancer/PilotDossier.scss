@@ -1,0 +1,44 @@
+@import '../../fonts';
+
+.PilotDossier {
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 20px 20px 0;
+
+  h2 {
+    @include text_title_action;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  .dossier-container {
+    @include shadow;
+    @include parchment_background;
+    @include nouveau_border("nouveau_character.svg");
+
+    position: relative;
+    box-sizing: border-box;
+    padding: 8px 4% 8px;
+    width: 100%;
+    max-width: 800px;
+
+    .name-etc {
+      display: flex;
+      justify-content: space-between;
+
+      .text-info {
+        .label {}
+        .info {}
+      }
+    }
+
+    .section-label {
+
+    }
+
+    .skill-container {
+      
+    }
+  }
+}

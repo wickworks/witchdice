@@ -1,9 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PilotAndMechList from './PilotAndMechList.jsx';
+import PilotDossier from './PilotDossier.jsx';
 import { processPilotJson } from './process_pilot_json.js';
 import { deepCopy } from '../../utils.js';
+import {
+  loadLocalData,
+  saveLocalData,
+  getIDFromStorageName,
+} from '../../localstorage.js';
 
 import './MainLancer.scss';
+
+const PILOT_PREFIX = 'pilot';
+
+
+function savePilotData(pilot) {
+  saveLocalData(PILOT_PREFIX, pilot.id, pilot.name, pilot);
+}
+
+function loadPilotData(pilotID) {
+  return loadLocalData(PILOT_PREFIX, pilotID);
+}
 
 const MainLancer = ({
 
@@ -19,8 +36,8 @@ const MainLancer = ({
     let newData = deepCopy(allPilotEntries);
     newData.push(pilot);
     setAllPilotEntries(newData);
-    setActivePilotID(pilot.id);
-    setActiveMechID(0);
+    setActivePilot(pilot.id)
+    savePilotData(pilot)
   }
 
   const uploadPilotFile = e => {
@@ -31,6 +48,41 @@ const MainLancer = ({
     };
   }
 
+  const setActivePilot = (pilotID) => {
+    setActivePilotID(pilotID);
+
+    const newActivePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
+    if (newActivePilot.mechs.length > 0) setActiveMechID(newActivePilot.mechs[0]);
+
+    localStorage.setItem("lancer-selected-character", pilotID);
+  }
+
+  // =============== INITIALIZE ==================
+  useEffect(() => {
+    let pilotEntries = [];
+
+    for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+      const key = localStorage.key(i);
+      console.log('localStorage key : ', key);
+      console.log('                item : ', localStorage.getItem(key));
+
+      if (key.startsWith(`${PILOT_PREFIX}-`)) {
+        const pilotID = getIDFromStorageName(PILOT_PREFIX, key);
+        pilotEntries.push( loadPilotData(pilotID) )
+      }
+    }
+
+    setAllPilotEntries(pilotEntries);
+
+    // if we were looking at a pilot, restore tham and their first mech
+    const oldSelectedID = localStorage.getItem("lancer-selected-character");
+    if (oldSelectedID) {
+      setActivePilotID( oldSelectedID )
+      const newActivePilot = pilotEntries.find(pilot => pilot.id === oldSelectedID);
+      if (newActivePilot.mechs.length > 0) setActiveMechID(newActivePilot.mechs[0].id);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <div className='MainLancer'>
 
@@ -38,7 +90,7 @@ const MainLancer = ({
 
       <PilotAndMechList
         allPilotEntries={allPilotEntries}
-        setActivePilotID={setActivePilotID}
+        setActivePilotID={setActivePilot}
         activePilotID={activePilotID}
         deleteActivePilot={() => {}}
         createNewPilot={() => {}}
@@ -47,6 +99,12 @@ const MainLancer = ({
         setActiveMechID={setActiveMechID}
         activeMechID={activeMechID}
       />
+
+      { activePilot &&
+        <PilotDossier
+          activePilot={activePilot}
+        />
+      }
     </div>
   )
 }
