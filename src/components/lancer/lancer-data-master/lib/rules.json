@@ -1,0 +1,51 @@
+{
+  "base_structure": 4,
+  "base_stress": 4,
+  "base_grapple": 0,
+  "base_ram": 0,
+  "base_pilot_hp": 6,
+  "base_pilot_evasion": 10,
+  "base_pilot_edef": 10,
+  "base_pilot_speed": 4,
+  "minimum_pilot_skills": 4,
+  "minimum_mech_skills": 2,
+  "minimum_pilot_talents": 3,
+  "trigger_bonus_per_rank": 2,
+  "max_trigger_rank": 3,
+  "max_pilot_level": 12,
+  "max_pilot_weapons": 2,
+  "max_pilot_armor": 1,
+  "max_pilot_gear": 3,
+  "max_frame_size": 3,
+  "max_mech_armor": 4,
+  "max_hase": 6,
+  "mount_fittings": {
+    "Auxiliary": ["Auxiliary"],
+    "Main": ["Main", "Auxiliary"],
+    "Flex": ["Main", "Auxiliary"],
+    "Heavy": ["Superheavy", "Heavy", "Main", "Auxiliary"]
+  },
+  "overcharge": ["1", "1d3", "1d6", "1d6+4"],
+  "skill_headers": [
+      {
+        "attr": "str",
+        "description": "use, resist, and apply direct force, physical or otherwise"
+      },
+      {
+        "attr": "dex",
+        "description": "perform skillfully and accurately under pressure"
+      },
+      {
+        "attr": "int",
+        "description": "notice details, think creatively, and prepare"
+      },
+      {
+        "attr": "cha",
+        "description": "talk, lead, change minds, make connections, and requisition resources"
+      },
+      {
+        "attr": "Custom",
+        "description": "Custom Skill Triggers"
+      }
+    ]
+}
