@@ -12,20 +12,45 @@
   width: 100%;
   max-width: 800px;
 
+  .top-bar {
+    .name-and-tags {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
 
-  .mounts-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+      h3 {
+        @include text_title_action;
+        flex-shrink: 0;
+        margin-bottom: 0;
+        margin-right: 20px;
+      }
+    }
 
-    .Mount {
-      width: 30%;
-      min-width: 200px;
+    .damage-row {
+      display: flex;
+      padding: 12px 0;
 
-      .Weapon {
-        &:hover {
-          background-color: $rust_light;
-          cursor: pointer;
+      .base-damage-container {
+        padding: 0 30px;
+      }
+
+      .bonus-damage-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+
+        > * {
+          display: flex;
+          align-items: center;
+        }
+
+        .bonus-damage-other {
+          button {
+            width: 30px;
+            height: 18px;
+            margin-right: 8px;
+            background-color: $parchment_dark;
+          }
         }
       }
     }

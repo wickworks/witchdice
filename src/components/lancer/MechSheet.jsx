@@ -19,15 +19,13 @@ const MechSheet = ({
         <h2>{activeMech.name}</h2>
 
         <div className="mounts-list">
-          { mounts.map((mount, i) => {
-            return (
-              <MechMount
-                mount={mount}
-                setActiveWeaponData={setActiveWeaponData}
-                key={`mount-${i}`}
-              />
-            )
-          })}
+          { mounts.map((mount, i) =>
+            <MechMount
+              mount={mount}
+              setActiveWeaponData={setActiveWeaponData}
+              key={`mount-${i}`}
+            />
+          )}
         </div>
       </div>
 
