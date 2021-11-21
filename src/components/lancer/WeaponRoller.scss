@@ -59,4 +59,25 @@
       }
     }
   }
+
+  button.add-target {
+    display: flex;
+    align-items: center;
+    color: $rust;
+    margin: 16px 0;
+
+    opacity: 0.5;
+    transition: opacity .075s ease-out;
+
+    &:hover { opacity: 1.0; }
+
+    .asset.plus {
+      width: 36px;
+      height: 36px;
+      margin-right: 8px;
+
+      // turns black to $rust
+      filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+    }
+  }
 }

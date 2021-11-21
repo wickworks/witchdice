@@ -56,8 +56,15 @@ const WeaponRoller = ({
 
       <WeaponAttack />
 
-      {showAttackSetup &&
+
+
+      {showAttackSetup ?
         <WeaponAttackSetup />
+      :
+        <button className='add-target'>
+          <div className='asset plus' />
+          Add target
+        </button>
       }
 
 

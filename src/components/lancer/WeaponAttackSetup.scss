@@ -21,7 +21,7 @@
         align-items: flex-end;
         margin: 0 14px;
 
-        .sources button {
+        .Sources button {
           text-align: right;
         }
       }
@@ -30,11 +30,11 @@
         align-items: flex-start;
         margin: 0 14px;
 
-        .numberline button {
+        .NumberLine span {
           color: black;
         }
 
-        .sources button {
+        .Sources button {
           text-align: left;
         }
       }
@@ -43,29 +43,25 @@
         @include text_title_light;
       }
 
-      .numberline {
+      .NumberLine {
         display: flex;
 
-        button {
+        span {
           @include text_title_light;
           font-size: 60px;
           padding: 0 12px;
 
-          &:hover {
-            background-color: $parchment_dark;
+          &.current {
+            background-color: $rust;
+            color: white;
           }
         }
       }
 
-      .sources {
+      .Sources {
         display: flex;
         flex-wrap: wrap;
         width: 100%;
-
-        > button {
-          width: 50%;
-          margin: 4px 0;
-        }
 
         button {
           white-space: nowrap;
@@ -73,6 +69,16 @@
           &:hover {
             background-color: $parchment_dark;
           }
+
+          &.current {
+            background-color: $rust;
+            color: white;
+          }
+        }
+
+        > button {
+          width: 50%;
+          margin: 4px 0;
         }
 
         .cover {
