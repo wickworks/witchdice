@@ -1,4 +1,5 @@
 import React from 'react';
+import HitCheckbox from '../shared/HitCheckbox.jsx';
 import { deepCopy } from '../../utils.js';
 import './Roll.scss';
 
@@ -127,14 +128,6 @@ const Roll = ({
 
   return (
     <div className="Roll">
-      { isCrit && true === false &&
-        <div className="crit-container">
-          <div className="asset necrotic" />
-          CRITICAL HIT
-          <div className="asset necrotic" />
-        </div>
-      }
-
       <HitCheckbox
         isHit={isHit}
         handleHitClick={() => setHit(!hit, rollID)}
@@ -234,39 +227,5 @@ const Roll = ({
     </div>
   );
 }
-
-
-const HitCheckbox = ({
-  isHit,
-  handleHitClick,
-  isCrit,
-  isFumble,
-  isSave,
-}) => {
-
-  const icon =
-    isSave ?
-      isHit ? 'fail' : 'save'
-    :
-      isHit ? 'hit' : 'miss'
-
-  const disabled = isCrit || isFumble
-
-  return (
-    <label className={`HitCheckbox ${isHit ? 'hit' : 'miss'} ${disabled ? 'disabled' : ''}`}>
-      <input
-        name="hit"
-        type="checkbox"
-        checked={isHit}
-        onChange={handleHitClick}
-        disabled={disabled}
-      />
-      <div className={`asset ${icon}`} />
-      <div className='hidden-text'>{icon}</div>
-    </label>
-  );
-}
-
-
 
 export default Roll;
