@@ -38,7 +38,12 @@
     }
 
     .skill-container {
-      
+      display: flex;
+      flex-wrap: wrap;
+
+      .skill {
+        width: 50%;
+      }
     }
   }
 }

@@ -37,7 +37,14 @@ const PilotDossier = ({
 
         <div className="section-label">Skill Triggers</div>
         <div className="skill-container">
-
+          { activePilot.skills.map((skill, i) => {
+            return (
+              <div className="skill" key={skill.id}>
+                <span className="name">{skill.id}</span>
+                <span className="bonus">+{skill.rank * 2}</span>
+              </div>
+            )
+          })}
         </div>
       </div>
     </div>

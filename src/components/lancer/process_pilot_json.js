@@ -11,10 +11,11 @@ function processPilotJson(pilotString) {
     'callsign': pilotJson.callsign,
     'background': pilotJson.background,
     'level': pilotJson.level,
+    'skills': pilotJson.skills,
     'mechs': processMechsArray(pilotJson.mechs)
   }
 
-  console.log('PILOT:', pilot);
+  console.log('PROCESSED PILOT JSON:', pilot);
 
   return pilot;
 }

@@ -52,7 +52,7 @@ const MainLancer = ({
     setActivePilotID(pilotID);
 
     const newActivePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
-    if (newActivePilot.mechs.length > 0) setActiveMechID(newActivePilot.mechs[0]);
+    if (newActivePilot && newActivePilot.mechs.length > 0) setActiveMechID(newActivePilot.mechs[0]);
 
     localStorage.setItem("lancer-selected-character", pilotID);
   }
@@ -63,8 +63,8 @@ const MainLancer = ({
 
     for ( var i = 0, len = localStorage.length; i < len; ++i ) {
       const key = localStorage.key(i);
-      console.log('localStorage key : ', key);
-      console.log('                item : ', localStorage.getItem(key));
+      // console.log('localStorage key : ', key);
+      // console.log('                item : ', localStorage.getItem(key));
 
       if (key.startsWith(`${PILOT_PREFIX}-`)) {
         const pilotID = getIDFromStorageName(PILOT_PREFIX, key);
@@ -79,7 +79,7 @@ const MainLancer = ({
     if (oldSelectedID) {
       setActivePilotID( oldSelectedID )
       const newActivePilot = pilotEntries.find(pilot => pilot.id === oldSelectedID);
-      if (newActivePilot.mechs.length > 0) setActiveMechID(newActivePilot.mechs[0].id);
+      if (newActivePilot && newActivePilot.mechs.length > 0) setActiveMechID(newActivePilot.mechs[0].id);
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
