@@ -1,0 +1,71 @@
+@import '../../fonts';
+
+.WeaponAttack {
+  margin-bottom: 16px;
+
+  .damage-container {
+    display: flex;
+    align-items: center;
+    min-height: 54px;
+
+    .asset.d20 {
+      width: 36px;
+      height: 36px;
+      margin: 6px 0;
+      flex-shrink: 0;
+    }
+
+    .result-roll {
+      width: 30px;
+      padding: 0 24px 0 4px;
+      margin-right: 16px;
+      font-size: 30px;
+      position: relative;
+    }
+
+    .damage-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+
+      .damage-roll {
+        display: flex;
+        align-items: center;
+        border-radius: 4px;
+        margin-right: 4px;
+
+        .asset {
+          width: 26px;
+          height: 26px;
+          margin-right: 6px;
+        }
+
+        .amount { width: 28px; }
+      }
+    }
+
+    .subtotal-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+
+      .subtotal {
+        font-size: 30px;
+        display: flex;
+        margin-left: 8px;
+
+        .asset {
+          width: 36px;
+          height: 36px;
+          margin: 0 2px;
+        }
+      }
+    }
+  }
+
+  .effects-container {
+    text-align: right;
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import WeaponAttack from './WeaponAttack.jsx';
 import WeaponAttackSetup from './WeaponAttackSetup.jsx';
 
 import { allTags } from './data.js';
@@ -52,6 +53,8 @@ const WeaponRoller = ({
         </div>
 
       </div>
+
+      <WeaponAttack />
 
       {showAttackSetup &&
         <WeaponAttackSetup />
