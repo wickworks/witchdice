@@ -1,0 +1,90 @@
+@import '../../fonts';
+
+.WeaponAttackSetup {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // flex-wrap: wrap;
+
+  padding: 30px 0;
+  border-top: 3px solid $parchment_dark;
+
+  .column-container {
+    display: flex;
+
+    .column {
+      display: flex;
+      flex-direction: column;
+      width: 50%;
+
+      &.difficulty {
+        align-items: flex-end;
+        margin: 0 14px;
+
+        .sources button {
+          text-align: right;
+        }
+      }
+
+      &.accuracy {
+        align-items: flex-start;
+        margin: 0 14px;
+
+        .numberline button {
+          color: black;
+        }
+
+        .sources button {
+          text-align: left;
+        }
+      }
+
+      .column-label {
+        @include text_title_light;
+      }
+
+      .numberline {
+        display: flex;
+
+        button {
+          @include text_title_light;
+          font-size: 60px;
+          padding: 0 12px;
+
+          &:hover {
+            background-color: $parchment_dark;
+          }
+        }
+      }
+
+      .sources {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+
+        > button {
+          width: 50%;
+          margin: 4px 0;
+        }
+
+        button {
+          white-space: nowrap;
+
+          &:hover {
+            background-color: $parchment_dark;
+          }
+        }
+
+        .cover {
+          display: flex;
+          justify-content: flex-end;
+          margin: 4px 0 4px auto;
+
+          button {
+            margin-left: 8px;
+          }
+        }
+      }
+    }
+  }
+}

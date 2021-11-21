@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import WeaponAttackSetup from './WeaponAttackSetup.jsx';
+
 import { allTags } from './data.js';
 
 import './WeaponRoller.scss';
@@ -7,6 +9,7 @@ import './WeaponRoller.scss';
 const WeaponRoller = ({
   weaponData
 }) => {
+  const [showAttackSetup, setShowAttackSetup] = useState(true);
 
   let weaponTags = []
   weaponData.tags.map(tag => {
@@ -49,6 +52,10 @@ const WeaponRoller = ({
         </div>
 
       </div>
+
+      {showAttackSetup &&
+        <WeaponAttackSetup />
+      }
 
 
     </div>
