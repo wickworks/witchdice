@@ -19,7 +19,9 @@
 
       &.difficulty {
         align-items: flex-end;
-        margin: 0 14px;
+        margin-right: 14px;
+
+        * { color: $rust; }
 
         .Sources button {
           text-align: right;
@@ -28,11 +30,9 @@
 
       &.accuracy {
         align-items: flex-start;
-        margin: 0 14px;
+        margin-left: 14px;
 
-        .NumberLine span {
-          color: black;
-        }
+        * { color: $soft_black; }
 
         .Sources button {
           text-align: left;
@@ -40,20 +40,41 @@
       }
 
       .column-label {
-        @include text_title_light;
+        font-size: 24px;
       }
 
       .NumberLine {
         display: flex;
 
-        span {
-          @include text_title_light;
+        .number {
+          position: relative;
           font-size: 60px;
-          padding: 0 12px;
+          text-align: center;
+          margin: 0 10px;
+          // min-width: 60px;
+          opacity: 0.20;
+
+          transition: margin .25s;
+
+
+          .sign {
+            display: inline-block;
+            visibility: hidden;
+            width: 0px;
+            transition: width .25s;
+            text-align: center;
+          }
 
           &.current {
-            background-color: $rust;
-            color: white;
+            // background-color: $rust;
+            // color: white;
+            opacity: 1.0;
+            margin: 0 10px 0 0;
+
+            .sign {
+              visibility: visible;
+              width: 32px;
+            }
           }
         }
       }
@@ -65,6 +86,10 @@
 
         button {
           white-space: nowrap;
+          font-weight: bold;
+          letter-spacing: 1px;
+          width: 50%;
+          margin: 4px 0;
 
           &:hover {
             background-color: $parchment_dark;
@@ -73,21 +98,6 @@
           &.current {
             background-color: $rust;
             color: white;
-          }
-        }
-
-        > button {
-          width: 50%;
-          margin: 4px 0;
-        }
-
-        .cover {
-          display: flex;
-          justify-content: flex-end;
-          margin: 4px 0 4px auto;
-
-          button {
-            margin-left: 8px;
           }
         }
       }

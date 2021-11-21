@@ -12,7 +12,7 @@ const WeaponAttackSetup = ({
   const [miscDifficulty, setMiscDifficulty] = useState(0);
   const [miscAccuracy, setMiscAccuracy] = useState(0);
 
-  const difficultySources = ['Impaired', 'Inaccurate']
+  const difficultySources = ['Impaired', 'Inaccurate', COVER_HARD, COVER_SOFT]
   const accuracySources = ['Accurate', 'Consume Lock']
 
   const toggleSource = (source) => {
@@ -66,8 +66,7 @@ const WeaponAttackSetup = ({
   currentSources.forEach(source => {
     if (accuracySources.includes(source))   currentMod +=  1
     if (difficultySources.includes(source)) currentMod += -1
-    if (source === COVER_SOFT)              currentMod += -1
-    if (source === COVER_HARD)              currentMod += -2
+    if (source === COVER_HARD)              currentMod += -1 // hard cover grants 2 diff total
   })
   currentMod += miscDifficulty;
   currentMod += miscAccuracy;
@@ -81,13 +80,9 @@ const WeaponAttackSetup = ({
 
       <div className="column-container">
         <div className="column difficulty">
-          <button
-            className='column-label'
-            onClick={() => clickMiscDifficulty()}
-            onContextMenu={(e) => clickMiscDifficulty(e)}
-          >
-            {miscDifficulty < 0 ? miscDifficulty : '-'} Difficulty
-          </button>
+          <div className='column-label'>
+            Difficulty
+          </div>
 
           <NumberLine
             modArray={[-4,-3,-2,-1]}
@@ -98,18 +93,13 @@ const WeaponAttackSetup = ({
             possibleSources={difficultySources}
             currentSources={currentSources}
             clickSource={toggleSource}
-            includeCover={true}
           />
         </div>
 
         <div className="column accuracy">
-          <button
-            className='column-label'
-            onClick={() => clickMiscAccuracy()}
-            onContextMenu={(e) => clickMiscAccuracy(e)}
-          >
-            Accuracy +{miscAccuracy > 0 ? miscAccuracy : ''}
-          </button>
+          <div className='column-label'>
+            Accuracy
+          </div>
 
           <NumberLine
             modArray={[1,2,3,4]}
@@ -134,12 +124,13 @@ const NumberLine = ({
 }) => (
   <div className="NumberLine">
     { modArray.map(mod =>
-      <span
-        className={currentMod === mod ? 'current' : ''}
+      <div
+        className={currentMod === mod ? 'number current' : 'number'}
         key={mod}
       >
+        <span className='sign'>{mod > 0 ? '+' : '-'}</span>
         {Math.abs(mod)}
-      </span>
+      </div>
     )}
   </div>
 )
@@ -148,7 +139,6 @@ const Sources = ({
   possibleSources,
   currentSources,
   clickSource,
-  includeCover = false,
 }) => (
   <div className="Sources">
     { possibleSources.map(source =>
@@ -160,25 +150,6 @@ const Sources = ({
         {source}
       </button>
     )}
-
-    { includeCover &&
-      <div className="cover">
-        <span className='label'>Cover:</span>
-        <button
-          onClick={() => clickSource(COVER_SOFT)}
-          className={currentSources.includes(COVER_SOFT) ? 'current' : ''}
-        >
-          Soft
-        </button>
-
-        <button
-          onClick={() => clickSource(COVER_HARD)}
-          className={currentSources.includes(COVER_HARD) ? 'current' : ''}
-        >
-          Hard
-        </button>
-      </div>
-    }
   </div>
 )
 
