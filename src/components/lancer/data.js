@@ -11,22 +11,34 @@ const getGrit = (pilot) => { return Math.ceil(pilot.level * .5) }
 const processDiceString = (diceString) => {
   var dice = String(diceString)
 
-  if (dice && dice.indexOf('d') > 0) {
-    // slice off the bonus
-    var bonus = 0;
+  var count = 0;
+  var dietype = 'd0';
+  var bonus = 0;
+
+  if (dice) {
     const bonusIndex = dice.indexOf('+');
-    if (bonusIndex >= 0) {
-      bonus = parseInt(dice.slice(bonusIndex+1))
-      dice = dice.slice(0, bonusIndex)
+    const dieIndex = dice.indexOf('d');
+
+    // if it has neither d or +, just try to parse it as an int
+    if (bonusIndex < 0 && dieIndex < 0) {
+      bonus = parseInt(dice);
+      
+    } else {
+      // slice off the bonus
+      if (bonusIndex >= 0) {
+        bonus = parseInt(dice.slice(bonusIndex+1))
+        dice = dice.slice(0, bonusIndex)
+      }
+
+      // parse the die count and type
+      if (dieIndex >= 0) {
+        count = parseInt(dice.slice(0, dieIndex));
+        dietype = parseInt(dice.slice(dieIndex+1));
+      }
     }
-
-    const count = parseInt(dice.slice(0, dice.indexOf('d')));
-    const dietype = parseInt(dice.slice(dice.indexOf('d')+1));
-
-    return {count: count, dietype: dietype, bonus: bonus}
   }
 
-  return {count: 0, dietype: 'd0', bonus: diceString}
+  return {count: count, dietype: dietype, bonus: bonus}
 }
 
 const findTagData = (tagID) => {

@@ -14,6 +14,12 @@ const MechSheet = ({
   const loadout = activeMech.loadouts[0];
   const mounts = loadout.mounts;
 
+  const bonusDamages = [{
+    name: 'Tokugawa',
+    diceString: '3',
+    tags: [],
+  }]
+
   return (
     <div className="MechSheet">
       <div className="mech-container">
@@ -34,6 +40,7 @@ const MechSheet = ({
         <WeaponRoller
           weaponData={activeWeaponData}
           gritBonus={getGrit(activePilot)}
+          availableBonusDamages={bonusDamages}
         />
       }
     </div>

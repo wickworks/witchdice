@@ -12,6 +12,7 @@ import {
 
 import './WeaponRoller.scss';
 
+const GENERIC_BONUS_DAMAGE = 'Bonus damage'
 
 // Fills out the to-hit roll for the attack data.
 function rollToHit(flatBonus, accuracyMod) {
@@ -101,9 +102,37 @@ function makeDamageRoll(dieType, rollPool, isOverkill) {
 const WeaponRoller = ({
   weaponData,
   gritBonus,
+  availableBonusDamages = [],
 }) => {
   const [allAttackRolls, setAllAttackRolls] = useState([]);
   const [showAttackSetup, setShowAttackSetup] = useState(true);
+
+  const [activeBonusDamages, setActiveBonusDamages] = useState([]);
+
+  const [genericBonusDieCount, setGenericBonusDieCount] = useState(0);
+  const [genericBonusPlus, setGenericBonusPlus] = useState(0);
+
+  let genericBonusString = `${genericBonusDieCount}d6`;
+  if (genericBonusPlus) genericBonusString += `+${genericBonusPlus}`
+  const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
+  const genericBonusDamage = {
+    name: GENERIC_BONUS_DAMAGE,
+    diceString: genericBonusString,
+    tags: [],
+  }
+
+  const toggleBonusDamage = (sourceName) => {
+    let newBonusDamages = [...activeBonusDamages];
+
+    const bonusIndex = newBonusDamages.indexOf(sourceName);
+    if (bonusIndex >= 0) {
+      newBonusDamages.splice(bonusIndex, 1) // REMOVE source
+    } else {
+      newBonusDamages.push(sourceName);          // ADD source
+    }
+
+    setActiveBonusDamages(newBonusDamages);
+  }
 
   // =============== CHANGE WEAPON ==================
   useEffect(() => {
@@ -161,12 +190,40 @@ const WeaponRoller = ({
 
           <div className="bonus-damage-container">
 
-            <div className='bonus-damage-other'>
-              <button className='asset plus'>
+            { availableBonusDamages.map((bonusDamageData, i) =>
+              <button
+                className={`bonus-source ${activeBonusDamages.indexOf(bonusDamageData.name) >= 0 ? 'active' : 'inactive'}`}
+                onClick={() => toggleBonusDamage(bonusDamageData.name)}
+                key={`${bonusDamageData.name}-${i}`}
+              >
+                <div className='amount'>{bonusDamageData.diceString}</div>
+                <div className='label'>{bonusDamageData.name}</div>
               </button>
-              <button className='asset d6'>
+            )}
+
+
+            <div className={`generic ${genericBonusIsActive ? 'active' : 'inactive'}`}>
+              <button className='amount' onClick={() => setGenericBonusDieCount(genericBonusDieCount + 1)}>
+                {genericBonusDieCount ?
+                  `${genericBonusDieCount}d6`
+                :
+                  <div className='asset d6' />
+                }
               </button>
-              Bonus damage
+              <button className='amount' onClick={() => setGenericBonusPlus(genericBonusPlus + 1)}>
+                {genericBonusPlus ?
+                  `+${genericBonusPlus}`
+                :
+                  <div className='asset plus' />
+                }
+              </button>
+              <button
+                className='reset'
+                onClick={() => { setGenericBonusPlus(0); setGenericBonusDieCount(0); }}
+                disabled={!genericBonusIsActive}
+              >
+                <div className='label'>Bonus damage</div>
+              </button>
             </div>
           </div>
         </div>

@@ -59,17 +59,56 @@
         flex-wrap: wrap;
         justify-content: space-between;
 
+        button { padding: 0; }
+
         > * {
           display: flex;
           align-items: center;
+          justify-content: flex-start;
+          min-width: 220px;
+          margin-right: 8px;
+
+          &:hover { background-color: $pink; }
+
+          &.active {
+            background-color: $rust;
+            .label { color: white; }
+
+            &:hover { background-color: $rust_light; }
+          }
+
+          .amount {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 26px;
+            background-color: $olive_light;
+
+            .asset {
+              width: 24px;
+              height: 24px;
+            }
+          }
+
+          .label {
+            margin-left: 8px;
+          }
         }
 
-        .bonus-damage-other {
-          button {
-            width: 30px;
-            height: 18px;
-            margin-right: 8px;
-            background-color: $parchment_dark;
+        .generic {
+          &.inactive {
+            background-color: transparent;
+          }
+
+          .amount {
+            &:hover { background-color: $faded_green; }
+          }
+
+          button.reset {
+            &:disabled {
+              cursor: auto;
+            }
           }
         }
       }
