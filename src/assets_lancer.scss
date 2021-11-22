@@ -5,6 +5,9 @@
   background-position: center;
   flex-shrink: 0;
 
+  // WHEN ADDING NEW ICONS:
+  // ALL lancer icons have a weird -64 in their viewport. Change to 0 to fix them.
+
   &.burn { background-image: url('./assets/lancer/damage_burn.svg'); }
   &.energy { background-image: url('./assets/lancer/damage_energy.svg'); }
   &.explosive { background-image: url('./assets/lancer/damage_explosive.svg'); }

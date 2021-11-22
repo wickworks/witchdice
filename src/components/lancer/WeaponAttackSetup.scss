@@ -95,7 +95,20 @@ $number_speed: 0.25s;
       }
 
       .column-label {
+        display: flex;
+        align-items: center;
         font-size: 24px;
+
+        .asset-lancer {
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+
+          &.difficulty {
+            // turns black to $rust
+            filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+          }
+        }
       }
 
       .NumberLine {

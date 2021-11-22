@@ -104,6 +104,7 @@ const WeaponAttackSetup = ({
       <div className="column-container">
         <div className="column difficulty">
           <div className='column-label'>
+            <span className='asset-lancer difficulty' />
             Difficulty
           </div>
 
@@ -123,6 +124,7 @@ const WeaponAttackSetup = ({
         <div className="column accuracy">
           <div className='column-label'>
             Accuracy
+            <span className='asset-lancer accuracy' />
           </div>
 
           <NumberLine
