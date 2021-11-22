@@ -16,7 +16,8 @@
     }
 
     .result-roll {
-      width: 30px;
+      display: inline-block;
+      width: 50px;
       padding: 0 24px 0 4px;
       margin-right: 16px;
       font-size: 30px;
@@ -26,7 +27,6 @@
     .damage-line {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       width: 100%;
 
       .damage-roll {

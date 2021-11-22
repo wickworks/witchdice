@@ -3,7 +3,10 @@ import WeaponAttack from './WeaponAttack.jsx';
 import WeaponAttackSetup from './WeaponAttackSetup.jsx';
 import { getRandomInt, deepCopy } from '../../utils.js';
 
-import { allTags } from './data.js';
+import {
+  allTags,
+  processDiceString,
+} from './data.js';
 
 import './WeaponRoller.scss';
 
@@ -21,26 +24,74 @@ const WeaponRoller = ({
     weaponTags.push(tagData.name)
   })
 
+  // Create a new attack roll, including to-hit and damage.
   const createNewAttackRoll = (flatBonus, accuracyMod) => {
     let newAttack = {};
 
-    newAttack.baseRoll = getRandomInt(20)
+    newAttack.toHit = rollToHit(flatBonus, accuracyMod);
+    newAttack.damage = rollDamage();
 
-    newAttack.accuracyRolls = [...Array(Math.abs(accuracyMod))];
-    newAttack.accuracyRolls.map((accuracy, i) => {
-      newAttack.accuracyRolls[i] = getRandomInt(6)
-    });
-    newAttack.accuracyBonus = Math.max(...newAttack.accuracyRolls) * Math.sign(accuracyMod)
-
-    newAttack.flatBonus = flatBonus
-
-    newAttack.finalResult = newAttack.baseRoll + newAttack.flatBonus + newAttack.accuracyBonus
+    console.log('New Attack:', newAttack);
 
     let newData = deepCopy(allAttackRolls);
     newData.push(newAttack);
     setAllAttackRolls(newData);
   }
 
+  // Fills out the to-hit roll for the attack data.
+  const rollToHit = (flatBonus, accuracyMod) => {
+    var toHit = {};
+
+    toHit.baseRoll = getRandomInt(20);
+
+    toHit.accuracyRolls = [...Array(Math.abs(accuracyMod))];
+    toHit.accuracyRolls.map((accuracy, i) => {
+      toHit.accuracyRolls[i] = getRandomInt(6)
+    });
+    toHit.accuracyBonus = Math.max(0, ...toHit.accuracyRolls) * Math.sign(accuracyMod)
+
+    toHit.flatBonus = flatBonus
+
+    toHit.finalResult = toHit.baseRoll + toHit.flatBonus + toHit.accuracyBonus
+
+    return toHit;
+  }
+
+  // A sub-function of rollDamage(); records a specific roll individually and totalled by type
+  const recordDamageRoll = (damageData, roll, type) => {
+    // record just this roll
+    damageData.rolls.push({
+      roll: roll,
+      type: type
+    });
+
+    // tally up the total, sorted by type
+    const prevTypeTotal = (damageData.totalsByType[type] || 0);
+    damageData.totalsByType[type] = prevTypeTotal + roll;
+  }
+
+  // Fills out the damage rolls for the attack data.
+  const rollDamage = (newAttack) => {
+    var damage = {};
+
+    damage.totalsByType = {}
+    damage.rolls = [];
+    weaponData.damage.forEach(damageValAndType => {
+      const damageDice = processDiceString(damageValAndType.val);
+
+      // ROLLS
+      [...Array(damageDice.count)].forEach(rollIndex => {
+        recordDamageRoll(damage, getRandomInt(damageDice.dietype), damageValAndType.type)
+      })
+
+      // PLUSES TO ROLLS
+      if (damageDice.bonus !== 0) {
+        recordDamageRoll(damage, damageDice.bonus, damageValAndType.type)
+      }
+    });
+
+    return damage;
+  }
 
   return (
     <div className="WeaponRoller">

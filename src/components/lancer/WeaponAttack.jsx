@@ -10,17 +10,8 @@ const WeaponAttack = ({
 
   const isHit = true;
 
-  var diceElements = [];
-  diceElements.push(
-    <div
-      className='damage-roll'
-      key='404'
-      onClick={() => {}}
-    >
-      <div className={`asset ${'fire'}`} />
-      <div className='amount'>{5}</div>
-    </div>
-  );
+  var damageElements = [];
+
 
   return (
     <div className="WeaponAttack">
@@ -34,18 +25,29 @@ const WeaponAttack = ({
         <div className='asset d20' />
 
         <div className='result-roll'>
-          {attackData.finalResult}
+          {attackData.toHit.finalResult}
         </div>
 
         <div className="damage-line">
-          {diceElements}
+          { attackData.damage.rolls.map((damageRoll, i) =>
+            <div
+              className='damage-roll'
+              onClick={() => {}}
+              key={i}
+            >
+              <div className={`asset ${'fire'}`} />
+              <div className='amount'>{damageRoll.roll}</div>
+            </div>
+          )}
         </div>
 
         <div className="subtotal-container">
-          <div className='subtotal'>
-            <div className='amount'>{5}</div>
-            <div className={`asset ${'fire'}`} />
-          </div>
+          { Object.keys(attackData.damage.totalsByType).map((type, i) =>
+            <div className='subtotal' key={type}>
+              <div className='amount'>{attackData.damage.totalsByType[type]}</div>
+              <div className={`asset ${'fire'}`} />
+            </div>
+          )}
         </div>
       </div>
 
