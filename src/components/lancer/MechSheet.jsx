@@ -17,6 +17,7 @@ const MechSheet = ({
   const bonusDamageSources = [{
     name: 'Tokugawa',
     diceString: '3',
+    type: 'Energy',
     tags: [],
   }]
 

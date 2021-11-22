@@ -259,29 +259,40 @@ const WeaponRoller = ({
                 onClick={() => toggleBonusDamage(bonusSource.name)}
                 key={`${bonusSource.name}-${i}`}
               >
-                <div className='amount'>{bonusSource.diceString}</div>
+                <div className='amount'>
+                  {bonusSource.diceString}
+                  { bonusSource.type && <div className={`asset-lancer ${bonusSource.type.toLowerCase()}`} /> }
+                </div>
                 <div className='label'>{bonusSource.name}</div>
               </button>
             )}
 
 
-            <div className={`generic ${genericBonusIsActive ? 'active' : 'inactive'}`}>
-              <button className='amount' onClick={() => setGenericBonusDieCount(genericBonusDieCount + 1)}>
+            <div className='generic'>
+              <button
+                className={`amount ${genericBonusDieCount ? 'active' : 'inactive'}`}
+                onClick={() => setGenericBonusDieCount(genericBonusDieCount + 1)}
+              >
                 {genericBonusDieCount ?
                   `${genericBonusDieCount}d6`
                 :
                   <div className='asset d6' />
                 }
               </button>
-              <button className='amount' onClick={() => setGenericBonusPlus(genericBonusPlus + 1)}>
+
+              <button
+                className={`amount ${genericBonusPlus ? 'active' : 'inactive'}`}
+                onClick={() => setGenericBonusPlus(genericBonusPlus + 1)}
+              >
                 {genericBonusPlus ?
                   `+${genericBonusPlus}`
                 :
                   <div className='asset plus' />
                 }
               </button>
+
               <button
-                className='reset'
+                className={`reset ${genericBonusIsActive ? 'active' : 'inactive'}`}
                 onClick={() => { setGenericBonusPlus(0); setGenericBonusDieCount(0); }}
                 disabled={!genericBonusIsActive}
               >

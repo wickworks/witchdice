@@ -116,7 +116,7 @@ const WeaponAttack = ({
               )}
 
               { bonusDamageData.rolls.map((rollData, i) =>
-                <DamageRollPool rollData={rollData} isCrit={isCrit} key={i} />
+                <DamageRollPool rollData={rollData} isCrit={isCrit} isBonusDamage={true} key={i} />
               )}
             </div>
 
@@ -158,6 +158,7 @@ const WeaponAttack = ({
 const DamageRollPool = ({
   rollData,
   isCrit,
+  isBonusDamage = false,
 }) => {
 
   var totalPool = getSortedTotalPool(rollData, isCrit)
@@ -170,7 +171,7 @@ const DamageRollPool = ({
   const usedString = highest.join(', ')
 
   return (
-    <div className='damage-roll'>
+    <div className={`damage-roll ${isBonusDamage ? 'bonus' : ''}`}>
       <span className={`asset-lancer ${rollData.type.toLowerCase()}`} />
 
 
