@@ -9,67 +9,64 @@ const COVER_HARD = 'Hard Cover'
 const WeaponAttackSetup = ({
 }) => {
   const [currentSources, setCurrentSources] = useState([]);
-  const [miscDifficulty, setMiscDifficulty] = useState(0);
-  const [miscAccuracy, setMiscAccuracy] = useState(0);
+  const [manualMod, setManualMod] = useState(0);
 
-  const difficultySources = ['Impaired', 'Inaccurate', COVER_HARD, COVER_SOFT]
-  const accuracySources = ['Accurate', 'Consume Lock']
+  var difficultySources = ['Impaired', 'Inaccurate', COVER_HARD, COVER_SOFT]
+  var accuracySources = ['Accurate', 'Consume Lock']
+
+  const MANUAL_MOD = `Other (${manualMod > 0 ? '+' : ''}${manualMod})`
+  var currentSourcesPlusManual = [...currentSources]
+  if (manualMod !== 0)  currentSourcesPlusManual.push(MANUAL_MOD)
+  if (manualMod < 0)    difficultySources.push(MANUAL_MOD)
+  if (manualMod > 0)    accuracySources.push(MANUAL_MOD)
 
   const toggleSource = (source) => {
     let newSources = [...currentSources];
     let newMod = currentMod;
 
-    const sourceIndex = newSources.indexOf(source);
-    if (sourceIndex >= 0) {
-      newSources.splice(sourceIndex, 1) // REMOVE source
+    if (source === MANUAL_MOD) {
+      setManualMod(0)
+
     } else {
-      newSources.push(source);          // ADD source
+      const sourceIndex = newSources.indexOf(source);
+      if (sourceIndex >= 0) {
+        newSources.splice(sourceIndex, 1) // REMOVE source
+      } else {
+        newSources.push(source);          // ADD source
 
-      // soft and hard cover are mutually exclusive
-      if (source === COVER_SOFT && newSources.includes(COVER_HARD)) {
-        newSources.splice(newSources.indexOf(COVER_HARD), 1)
-      } else if (source === COVER_HARD && newSources.includes(COVER_SOFT)) {
-        newSources.splice(newSources.indexOf(COVER_SOFT), 1)
+        // soft and hard cover are mutually exclusive
+        if (source === COVER_SOFT && newSources.includes(COVER_HARD)) {
+          newSources.splice(newSources.indexOf(COVER_HARD), 1)
+        } else if (source === COVER_HARD && newSources.includes(COVER_SOFT)) {
+          newSources.splice(newSources.indexOf(COVER_SOFT), 1)
+        }
       }
+      setCurrentSources(newSources);
     }
-
-    setCurrentSources(newSources);
-  }
-
-  const clickMiscAccuracy = (e) => {
-    var newAccuracy = miscAccuracy;
-    if (e) { // right click
-      newAccuracy -= 1;
-      e.preventDefault();
-    } else { // left click
-      newAccuracy += 1;
-    }
-
-    newAccuracy = Math.min(Math.max(newAccuracy, 0), 9);
-    setMiscAccuracy(newAccuracy);
-  }
-
-  const clickMiscDifficulty = (e) => {
-    var newDifficulty = miscDifficulty;
-    if (e) { // right click
-      newDifficulty += 1;
-      e.preventDefault();
-    } else { // left click
-      newDifficulty -= 1;
-    }
-
-    newDifficulty = Math.min(Math.max(newDifficulty, -9), 0);
-    setMiscDifficulty(newDifficulty);
   }
 
   var currentMod = 0;
-  currentSources.forEach(source => {
-    if (accuracySources.includes(source))   currentMod +=  1
-    if (difficultySources.includes(source)) currentMod += -1
-    if (source === COVER_HARD)              currentMod += -1 // hard cover grants 2 diff total
+  currentSourcesPlusManual.forEach(source => {
+    if (source === MANUAL_MOD)                   currentMod += manualMod
+    else if (source === COVER_HARD)              currentMod += -2
+    else if (difficultySources.includes(source)) currentMod += -1
+    else if (accuracySources.includes(source))   currentMod +=  1
   })
-  currentMod += miscDifficulty;
-  currentMod += miscAccuracy;
+  currentMod = Math.max(Math.min(currentMod, 9), -9)
+
+  const clickNumberLine = (mod) => {
+    var shiftInManualMod = mod - currentMod;
+    // click the current number to reset manualMod
+    if (shiftInManualMod === 0) { shiftInManualMod = -manualMod; }
+    // adjust the current mod to the clicked number
+    setManualMod( manualMod + shiftInManualMod )
+  }
+
+  // Generates an array like [-4,-3,-2,-1], starting one below the current difficulty
+  // const lowestDifficulty = Math.max(Math.min(-4, currentMod-1), -9)
+  // const difficultyArray = Array.from({length: 4}, (x, i) => i + lowestDifficulty);
+  const difficultyArray = Array.from({length: 9}, (x, i) => i - 9);
+  const accuracyArray = Array.from({length: 9}, (x, i) => i + 1);
 
   return (
     <div className="WeaponAttackSetup">
@@ -85,13 +82,14 @@ const WeaponAttackSetup = ({
           </div>
 
           <NumberLine
-            modArray={[-4,-3,-2,-1]}
+            modArray={difficultyArray}
             currentMod={currentMod}
+            handleClick={clickNumberLine}
           />
 
           <Sources
             possibleSources={difficultySources}
-            currentSources={currentSources}
+            currentSources={currentSourcesPlusManual}
             clickSource={toggleSource}
           />
         </div>
@@ -102,13 +100,14 @@ const WeaponAttackSetup = ({
           </div>
 
           <NumberLine
-            modArray={[1,2,3,4]}
+            modArray={accuracyArray}
             currentMod={currentMod}
+            handleClick={clickNumberLine}
           />
 
           <Sources
             possibleSources={accuracySources}
-            currentSources={currentSources}
+            currentSources={currentSourcesPlusManual}
             clickSource={toggleSource}
           />
         </div>
@@ -121,17 +120,35 @@ const WeaponAttackSetup = ({
 const NumberLine = ({
   modArray,
   currentMod,
+  handleClick,
 }) => (
   <div className="NumberLine">
-    { modArray.map(mod =>
-      <div
-        className={currentMod === mod ? 'number current' : 'number'}
-        key={mod}
-      >
-        <span className='sign'>{mod > 0 ? '+' : '-'}</span>
-        {Math.abs(mod)}
-      </div>
-    )}
+    { modArray.map(mod => {
+      var numberClass = 'number';
+      if (currentMod === mod) numberClass += ' current'
+
+      var numberHidden = false;
+      if (Math.sign(currentMod) === Math.sign(mod)) {
+        if (Math.abs(currentMod) - Math.abs(mod) > 2) numberHidden = true;
+        if (Math.abs(mod) > 4 && Math.abs(mod) > (Math.abs(currentMod) + 1)) numberHidden = true;
+      } else {
+        if (Math.abs(mod) > 4) numberHidden = true
+      }
+
+      if (numberHidden) numberClass += ' hidden';
+
+      const transform = '-200px';
+      return (
+        <button
+          onClick={() => handleClick(mod)}
+          className={numberClass}
+          key={mod}
+        >
+          <span className='sign'>{mod > 0 ? '+' : '-'}</span>
+          <span className='count'>{Math.abs(mod)}</span>
+        </button>
+      )
+    })}
   </div>
 )
 
@@ -139,6 +156,7 @@ const Sources = ({
   possibleSources,
   currentSources,
   clickSource,
+  manualMod,
 }) => (
   <div className="Sources">
     { possibleSources.map(source =>
