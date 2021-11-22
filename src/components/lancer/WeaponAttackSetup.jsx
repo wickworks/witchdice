@@ -7,9 +7,15 @@ const COVER_SOFT = 'Soft Cover'
 const COVER_HARD = 'Hard Cover'
 
 const WeaponAttackSetup = ({
+  gritBonus = 2,
 }) => {
   const [currentSources, setCurrentSources] = useState([]);
   const [manualMod, setManualMod] = useState(0);
+
+  const resetModifiers = () => {
+    setCurrentSources([]);
+    setManualMod(0);
+  }
 
   var difficultySources = ['Impaired', 'Inaccurate', COVER_HARD, COVER_SOFT]
   var accuracySources = ['Accurate', 'Consume Lock']
@@ -71,9 +77,28 @@ const WeaponAttackSetup = ({
   return (
     <div className="WeaponAttackSetup">
 
-      <BigRollButton
-        handleNewRoll={() => {}}
-      />
+      <div className="roll-container">
+        <BigRollButton
+          handleNewRoll={() => {}}
+        />
+        <div className='grit'>
+          +{gritBonus}
+          <span className='label'>Grit</span>
+        </div>
+        { currentMod !== 0 &&
+          <button
+            className={`accuracy ${currentMod < 0 ? 'actually-difficulty' : ''}`}
+            onClick={resetModifiers}
+          >
+            {currentMod > 0 ? '+' : ''}
+            {currentMod}
+            <span className='asset d6' />
+            <span className='label'>
+              {currentMod < 0 ? 'Difficulty' : 'Accuracy'}
+            </span>
+          </button>
+        }
+      </div>
 
       <div className="column-container">
         <div className="column difficulty">
