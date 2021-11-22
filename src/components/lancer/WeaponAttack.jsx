@@ -65,13 +65,10 @@ const WeaponAttack = ({
       const overkillCount = countOverkillTriggers(attackData.damage, isCrit)
       if (overkillCount > 0) effectsList.push(`Heat ${overkillCount} (Self) — Overkill`)
     }
-    
+
   } else {
     if (isReliable)                   effectsList.push('Reliable')
   }
-
-
-
 
   const totalsByType = summateAllDamageByType(attackData.damage, isCrit)
 

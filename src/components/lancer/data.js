@@ -22,7 +22,7 @@ const processDiceString = (diceString) => {
     // if it has neither d or +, just try to parse it as an int
     if (bonusIndex < 0 && dieIndex < 0) {
       bonus = parseInt(dice);
-      
+
     } else {
       // slice off the bonus
       if (bonusIndex >= 0) {

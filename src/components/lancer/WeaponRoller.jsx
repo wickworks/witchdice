@@ -37,7 +37,7 @@ function rollToHit(flatBonus, accuracyMod) {
 function rollDamage(weaponData) {
   var damageData = {};
 
-  const isOverkill = findTagOnWeapon(weaponData, 'tg_overkill') && true;
+  const isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');
 
   damageData.rolls = [];
   weaponData.damage.forEach(damageValAndType => {
