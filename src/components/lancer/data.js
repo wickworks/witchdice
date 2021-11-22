@@ -11,8 +11,6 @@ const getGrit = (pilot) => { return Math.ceil(pilot.level * .5) }
 const processDiceString = (diceString) => {
   var dice = String(diceString)
 
-  console.log('processing ', diceString);
-
   if (dice && dice.indexOf('d') > 0) {
     // slice off the bonus
     var bonus = 0;

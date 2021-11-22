@@ -41,15 +41,22 @@
         display: flex;
         align-items: center;
         border-radius: 4px;
-        margin-right: 4px;
+        margin-right: 16px;
+        min-width: 34px;
 
         .asset-lancer {
-          width: 26px;
-          height: 26px;
-          margin-right: 6px;
+          width: 30px;
+          height: 30px;
+          margin-right: 2px;
         }
 
-        .amount { width: 28px; }
+        .amount {
+          font-size: 18px;
+          &.discarded {
+            color: $grey_mid;
+            margin-right: 3px;
+          }
+        }
       }
     }
 

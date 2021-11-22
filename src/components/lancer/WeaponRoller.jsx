@@ -13,6 +13,91 @@ import {
 import './WeaponRoller.scss';
 
 
+// Fills out the to-hit roll for the attack data.
+function rollToHit(flatBonus, accuracyMod) {
+  var toHit = {};
+
+  toHit.baseRoll = getRandomInt(20);
+
+  toHit.accuracyRolls = [...Array(Math.abs(accuracyMod))];
+  toHit.accuracyRolls.map((accuracy, i) => {
+    toHit.accuracyRolls[i] = getRandomInt(6)
+  });
+  toHit.accuracyBonus = Math.max(0, ...toHit.accuracyRolls) * Math.sign(accuracyMod)
+
+  toHit.flatBonus = flatBonus
+
+  toHit.finalResult = toHit.baseRoll + toHit.flatBonus + toHit.accuracyBonus
+
+  return toHit;
+}
+
+// Fills out the damage rolls for the attack data.
+function rollDamage(weaponData) {
+  var damageData = {};
+
+  const isOverkill = findTagOnWeapon(weaponData, 'tg_overkill') && true;
+
+  damageData.rolls = [];
+  weaponData.damage.forEach(damageValAndType => {
+    const damageDice = processDiceString(damageValAndType.val);
+
+    // ROLLS
+    let rollPool = [];
+    let critPool = [];
+    [...Array(damageDice.count)].forEach(rollIndex => {
+      makeDamageRoll(damageDice.dietype, rollPool, isOverkill);
+      makeDamageRoll(damageDice.dietype, critPool, isOverkill);
+    })
+    damageData.rolls.push({
+      rollPool: rollPool,
+      critPool: critPool,
+      keep: damageDice.count,
+      type: damageValAndType.type
+    });
+
+    // PLUSES TO ROLLS -- they get their own micro-pool
+    if (damageDice.bonus !== 0) {
+      damageData.rolls.push({
+        rollPool: [damageDice.bonus],
+        critPool: [],
+        keep: 1,
+        type: damageValAndType.type
+      });
+    }
+  });
+
+  // Reliable damage?
+  damageData.reliable = { val: 0, type: 'Variable' };
+  const reliableTag = findTagOnWeapon(weaponData, 'tg_reliable')
+  if (reliableTag) {
+    damageData.reliable.val = reliableTag.val;
+
+    // we use the first damage type if there's only one available; otherwise we leave it variable
+    // if (Object.keys(damageData..totalsByType).length === 1) {
+      damageData.reliable.type = damageData.rolls[0].type;
+    // }
+  }
+
+  // Overkill damage?
+  damageData.overkill = isOverkill;
+
+  return damageData;
+}
+
+// Adds to the given roll/critPool with a random damage roll, including overkill triggers
+function makeDamageRoll(dieType, rollPool, isOverkill) {
+  let roll = getRandomInt(dieType) ;
+  rollPool.push(roll)
+
+  if (isOverkill) {
+    while (roll === 1) {
+      roll = getRandomInt(Math.max(dieType, 3));
+      rollPool.push(roll)
+    }
+  }
+}
+
 const WeaponRoller = ({
   weaponData,
   gritBonus,
@@ -39,7 +124,7 @@ const WeaponRoller = ({
     let newAttack = {};
 
     newAttack.toHit = rollToHit(flatBonus, accuracyMod);
-    newAttack.damage = rollDamage();
+    newAttack.damage = rollDamage(weaponData);
 
     newAttack.onAttack = weaponData.on_attack || '';
     newAttack.onHit = weaponData.on_hit || '';
@@ -51,73 +136,6 @@ const WeaponRoller = ({
     newData.push(newAttack);
     setAllAttackRolls(newData);
     setShowAttackSetup(false);
-  }
-
-  // Fills out the to-hit roll for the attack data.
-  const rollToHit = (flatBonus, accuracyMod) => {
-    var toHit = {};
-
-    toHit.baseRoll = getRandomInt(20);
-
-    toHit.accuracyRolls = [...Array(Math.abs(accuracyMod))];
-    toHit.accuracyRolls.map((accuracy, i) => {
-      toHit.accuracyRolls[i] = getRandomInt(6)
-    });
-    toHit.accuracyBonus = Math.max(0, ...toHit.accuracyRolls) * Math.sign(accuracyMod)
-
-    toHit.flatBonus = flatBonus
-
-    toHit.finalResult = toHit.baseRoll + toHit.flatBonus + toHit.accuracyBonus
-
-    return toHit;
-  }
-
-  // A sub-function of rollDamage(); records a specific roll individually and totalled by type
-  const recordDamageRoll = (damageData, roll, type) => {
-    // record just this roll
-    damageData.rolls.push({
-      roll: roll,
-      type: type
-    });
-
-    // tally up the total, sorted by type
-    const prevTypeTotal = (damageData.totalsByType[type] || 0);
-    damageData.totalsByType[type] = prevTypeTotal + roll;
-  }
-
-  // Fills out the damage rolls for the attack data.
-  const rollDamage = (newAttack) => {
-    var damage = {};
-
-    damage.totalsByType = {}
-    damage.rolls = [];
-    weaponData.damage.forEach(damageValAndType => {
-      const damageDice = processDiceString(damageValAndType.val);
-
-      // ROLLS
-      [...Array(damageDice.count)].forEach(rollIndex => {
-        recordDamageRoll(damage, getRandomInt(damageDice.dietype), damageValAndType.type)
-      })
-
-      // PLUSES TO ROLLS
-      if (damageDice.bonus !== 0) {
-        recordDamageRoll(damage, damageDice.bonus, damageValAndType.type)
-      }
-    });
-
-    // Reliable damage?
-    damage.reliable = { val: 0, type: 'Variable' };
-    const reliableTag = findTagOnWeapon(weaponData, 'tg_reliable')
-    if (reliableTag) {
-      damage.reliable.val = reliableTag.val;
-
-      // we use the first damage type if there's only one available; otherwise we leave it variable
-      if (Object.keys(damage.totalsByType).length === 1) {
-        damage.reliable.type = Object.keys(damage.totalsByType)[0];
-      }
-    }
-
-    return damage;
   }
 
   return (
