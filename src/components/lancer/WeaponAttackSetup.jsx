@@ -8,6 +8,7 @@ const COVER_HARD = 'Hard Cover'
 
 const WeaponAttackSetup = ({
   gritBonus,
+  createNewAttackRoll,
 }) => {
   const [currentSources, setCurrentSources] = useState([]);
   const [manualMod, setManualMod] = useState(0);
@@ -79,7 +80,7 @@ const WeaponAttackSetup = ({
 
       <div className="roll-container">
         <BigRollButton
-          handleNewRoll={() => {}}
+          handleNewRoll={() => createNewAttackRoll(gritBonus, currentMod)}
         />
         <div className='grit'>
           +{gritBonus}

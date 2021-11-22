@@ -5,10 +5,10 @@ import './WeaponAttack.scss';
 
 
 const WeaponAttack = ({
+  attackData,
 }) => {
 
   const isHit = true;
-  const rollResult = 15;
 
   var diceElements = [];
   diceElements.push(
@@ -34,7 +34,7 @@ const WeaponAttack = ({
         <div className='asset d20' />
 
         <div className='result-roll'>
-          {rollResult}
+          {attackData.finalResult}
         </div>
 
         <div className="damage-line">
