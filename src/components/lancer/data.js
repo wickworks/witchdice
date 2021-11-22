@@ -67,6 +67,21 @@ const getTagName = (tag) => {
   }
 }
 
+// Gets the type of damage dealt by the weapon, or Variable if multiple or none.
+const defaultWeaponDamageType = (weaponData) => {
+  var damageType = '';
+  if (weaponData.damage) {
+    weaponData.damage.forEach(damageValAndType => {
+      if (damageType === '') {
+        damageType = damageValAndType.type
+      } else if (damageType !== damageValAndType.type) {
+        damageType = 'Variable'
+      }
+    });
+  }
+  return damageType || 'Variable';
+}
+
 export {
   allWeapons,
   allPilotSkills,
@@ -75,4 +90,5 @@ export {
   findTagData,
   findTagOnWeapon,
   getTagName,
+  defaultWeaponDamageType,
 }

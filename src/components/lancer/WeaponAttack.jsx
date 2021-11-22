@@ -17,10 +17,22 @@ function getHighestRolls(sortedTotalPool, highestCount) {
   return highest;
 }
 
-function summateAllDamageByType(damageData, isCrit) {
+function summateAllDamageByType(damageData, bonusDamageData, isCrit) {
   var totalsByType = {};
 
+  // BASE damage rolls
   damageData.rolls.forEach(rollData => {
+    const totalPool = getSortedTotalPool(rollData, isCrit)
+    const highest = getHighestRolls(totalPool, rollData.keep)
+
+    const rollTotal = highest.reduce((partial_sum, a) => partial_sum + a, 0);
+
+    const prevTypeTotal = totalsByType[rollData.type] || 0;
+    totalsByType[rollData.type] = prevTypeTotal + rollTotal;
+  });
+
+  // BONUS damage rolls
+  bonusDamageData.rolls.forEach(rollData => {
     const totalPool = getSortedTotalPool(rollData, isCrit)
     const highest = getHighestRolls(totalPool, rollData.keep)
 
@@ -49,11 +61,14 @@ function countOverkillTriggers(damageData, isCrit) {
 
 const WeaponAttack = ({
   attackData,
+  bonusDamageData,
 }) => {
   const [isHit, setIsHit] = useState(true);
   const isCrit = isHit && attackData.toHit.finalResult >= 20;
   const isReliable = attackData.damage.reliable.val > 0
   const isOverkill = attackData.damage.isOverkill;
+
+  console.log('activeBonusDamageData', bonusDamageData);
 
   var effectsList = [];
   if (isHit) {
@@ -70,7 +85,7 @@ const WeaponAttack = ({
     if (isReliable)                   effectsList.push('Reliable')
   }
 
-  const totalsByType = summateAllDamageByType(attackData.damage, isCrit)
+  const totalsByType = summateAllDamageByType(attackData.damage, bonusDamageData, isCrit)
 
   return (
     <div className="WeaponAttack">
@@ -97,6 +112,10 @@ const WeaponAttack = ({
           <>
             <div className="damage-line">
               { attackData.damage.rolls.map((rollData, i) =>
+                <DamageRollPool rollData={rollData} isCrit={isCrit} key={i} />
+              )}
+
+              { bonusDamageData.rolls.map((rollData, i) =>
                 <DamageRollPool rollData={rollData} isCrit={isCrit} key={i} />
               )}
             </div>

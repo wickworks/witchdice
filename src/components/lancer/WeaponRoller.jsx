@@ -7,6 +7,7 @@ import {
   getTagName,
   findTagOnWeapon,
   findTagData,
+  defaultWeaponDamageType,
   processDiceString,
 } from './data.js';
 
@@ -34,38 +35,15 @@ function rollToHit(flatBonus, accuracyMod) {
 }
 
 // Fills out the damage rolls for the attack data.
-function rollDamage(weaponData) {
+function rollDamage(weaponData, isOverkill = false) {
   var damageData = {};
-
-  const isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');
+  damageData.isOverkill = isOverkill;
 
   damageData.rolls = [];
   weaponData.damage.forEach(damageValAndType => {
     const damageDice = processDiceString(damageValAndType.val);
 
-    // ROLLS
-    let rollPool = [];
-    let critPool = [];
-    [...Array(damageDice.count)].forEach(rollIndex => {
-      makeDamageRoll(damageDice.dietype, rollPool, isOverkill);
-      makeDamageRoll(damageDice.dietype, critPool, isOverkill);
-    })
-    damageData.rolls.push({
-      rollPool: rollPool,
-      critPool: critPool,
-      keep: damageDice.count,
-      type: damageValAndType.type
-    });
-
-    // PLUSES TO ROLLS -- they get their own micro-pool
-    if (damageDice.bonus !== 0) {
-      damageData.rolls.push({
-        rollPool: [damageDice.bonus],
-        critPool: [],
-        keep: 1,
-        type: damageValAndType.type
-      });
-    }
+    damageData.rolls.push(...produceRollPools(damageDice, damageValAndType.type, isOverkill))
   });
 
   // Reliable damage?
@@ -73,17 +51,62 @@ function rollDamage(weaponData) {
   const reliableTag = findTagOnWeapon(weaponData, 'tg_reliable')
   if (reliableTag) {
     damageData.reliable.val = reliableTag.val;
-
-    // we use the first damage type if there's only one available; otherwise we leave it variable
-    // if (Object.keys(damageData..totalsByType).length === 1) {
-      damageData.reliable.type = damageData.rolls[0].type;
-    // }
+    damageData.reliable.type = defaultWeaponDamageType(weaponData)
   }
 
-  // Overkill damage?
+  return damageData;
+}
+
+// Fills out the damage rolls for the attack data.
+function rollBonusDamage(bonusSourceData, defaultType, isOverkill = false) {
+  var damageData = {};
   damageData.isOverkill = isOverkill;
 
+  damageData.rolls = [];
+  bonusSourceData.forEach(source => {
+    const damageDice = processDiceString(source.diceString);
+    const type = source.type || defaultType;
+
+    damageData.rolls.push(...produceRollPools(damageDice, type, isOverkill, source.name))
+  });
+
   return damageData;
+}
+
+
+function produceRollPools(damageDice, damageType, isOverkill = false, sourceName = '') {
+  let rolls = []; // for damageData.rolls
+
+  // ROLLS
+  let rollPool = [];
+  let critPool = [];
+
+  if (damageDice.count > 0) {
+    [...Array(damageDice.count)].forEach(rollIndex => {
+      makeDamageRoll(damageDice.dietype, rollPool, isOverkill);
+      makeDamageRoll(damageDice.dietype, critPool, isOverkill);
+    })
+    rolls.push({
+      rollPool: rollPool,
+      critPool: critPool,
+      keep: damageDice.count,
+      type: damageType,
+      source: sourceName
+    });
+  }
+
+  // PLUSES TO ROLLS -- they get their own micro-pool
+  if (damageDice.bonus !== 0) {
+    rolls.push({
+      rollPool: [damageDice.bonus],
+      critPool: [],
+      keep: 1,
+      type: damageType,
+      source: sourceName
+    });
+  }
+
+  return rolls;
 }
 
 // Adds to the given roll/critPool with a random damage roll, including overkill triggers
@@ -99,15 +122,18 @@ function makeDamageRoll(dieType, rollPool, isOverkill) {
   }
 }
 
+
+
 const WeaponRoller = ({
   weaponData,
   gritBonus,
-  availableBonusDamages = [],
+  availableBonusSources = [],
 }) => {
   const [allAttackRolls, setAllAttackRolls] = useState([]);
   const [showAttackSetup, setShowAttackSetup] = useState(true);
 
-  const [activeBonusDamages, setActiveBonusDamages] = useState([]);
+  const [bonusDamageData, setBonusDamageData] = useState(null);
+  const [activeBonusSources, setActiveBonusSources] = useState([]);
 
   const [genericBonusDieCount, setGenericBonusDieCount] = useState(0);
   const [genericBonusPlus, setGenericBonusPlus] = useState(0);
@@ -115,14 +141,27 @@ const WeaponRoller = ({
   let genericBonusString = `${genericBonusDieCount}d6`;
   if (genericBonusPlus) genericBonusString += `+${genericBonusPlus}`
   const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
-  const genericBonusDamage = {
+  const genericBonusSource = {
     name: GENERIC_BONUS_DAMAGE,
     diceString: genericBonusString,
+    type: '',
     tags: [],
   }
 
+  // the actual data for all the currently active bonus damages
+  var activeBonusDamageData = {};
+  if (bonusDamageData) {
+    activeBonusDamageData = deepCopy(bonusDamageData);
+
+    activeBonusDamageData.rolls = bonusDamageData.rolls.filter(bonusRoll =>
+      activeBonusSources.indexOf(bonusRoll.source) >= 0 || (genericBonusIsActive && bonusRoll.source === GENERIC_BONUS_DAMAGE)
+    );
+    // if (genericBonusIsActive) activeBonusDamageData.push(genericBonusSource);
+  }
+
+  // Add or remove the name of a bonus damage to the active list
   const toggleBonusDamage = (sourceName) => {
-    let newBonusDamages = [...activeBonusDamages];
+    let newBonusDamages = [...activeBonusSources];
 
     const bonusIndex = newBonusDamages.indexOf(sourceName);
     if (bonusIndex >= 0) {
@@ -131,13 +170,14 @@ const WeaponRoller = ({
       newBonusDamages.push(sourceName);          // ADD source
     }
 
-    setActiveBonusDamages(newBonusDamages);
+    setActiveBonusSources(newBonusDamages);
   }
 
   // =============== CHANGE WEAPON ==================
   useEffect(() => {
     setAllAttackRolls([]);
     setShowAttackSetup(true);
+    setBonusDamageData(null);
   }, [weaponData]);
 
 
@@ -152,8 +192,10 @@ const WeaponRoller = ({
   const createNewAttackRoll = (flatBonus, accuracyMod) => {
     let newAttack = {};
 
+    const isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');
+
     newAttack.toHit = rollToHit(flatBonus, accuracyMod);
-    newAttack.damage = rollDamage(weaponData);
+    newAttack.damage = rollDamage(weaponData, isOverkill);
 
     newAttack.onAttack = weaponData.on_attack || '';
     newAttack.onHit = weaponData.on_hit || '';
@@ -165,6 +207,27 @@ const WeaponRoller = ({
     newData.push(newAttack);
     setAllAttackRolls(newData);
     setShowAttackSetup(false);
+
+
+    // do we need to roll bonus damage?
+    if (bonusDamageData === null) {
+
+      // get all the active bonus sources
+      var activeBonusDamageSources = availableBonusSources.filter(bonusSource =>
+        activeBonusSources.indexOf(bonusSource.name) >= 0
+      );
+      if (genericBonusIsActive) activeBonusDamageSources.push(genericBonusSource);
+
+      const bonusDamage = rollBonusDamage(
+        [...availableBonusSources, genericBonusSource],
+        defaultWeaponDamageType(weaponData),
+        isOverkill
+      );
+
+      console.log('New Bonus Damage:', bonusDamage);
+
+      setBonusDamageData(bonusDamage);
+    }
   }
 
   return (
@@ -190,14 +253,14 @@ const WeaponRoller = ({
 
           <div className="bonus-damage-container">
 
-            { availableBonusDamages.map((bonusDamageData, i) =>
+            { availableBonusSources.map((bonusSource, i) =>
               <button
-                className={`bonus-source ${activeBonusDamages.indexOf(bonusDamageData.name) >= 0 ? 'active' : 'inactive'}`}
-                onClick={() => toggleBonusDamage(bonusDamageData.name)}
-                key={`${bonusDamageData.name}-${i}`}
+                className={`bonus-source ${activeBonusSources.indexOf(bonusSource.name) >= 0 ? 'active' : 'inactive'}`}
+                onClick={() => toggleBonusDamage(bonusSource.name)}
+                key={`${bonusSource.name}-${i}`}
               >
-                <div className='amount'>{bonusDamageData.diceString}</div>
-                <div className='label'>{bonusDamageData.name}</div>
+                <div className='amount'>{bonusSource.diceString}</div>
+                <div className='label'>{bonusSource.name}</div>
               </button>
             )}
 
@@ -233,6 +296,7 @@ const WeaponRoller = ({
       { allAttackRolls.map((attackData, i) =>
         <WeaponAttack
           attackData={attackData}
+          bonusDamageData={activeBonusDamageData}
           key={i}
         />
       )}
