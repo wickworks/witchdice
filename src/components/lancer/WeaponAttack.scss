@@ -9,11 +9,21 @@
     align-items: center;
     min-height: 54px;
 
-    .asset.d20 {
+    .die-icon.asset {
       width: 36px;
       height: 36px;
       margin: 6px 0;
       flex-shrink: 0;
+
+      // for crits
+      .necrotic {
+        width: 20px;
+        height: 20px;
+        margin: 9px auto;
+
+        // turn black to white
+        filter: invert(100%) sepia(100%) saturate(19%) hue-rotate(347deg) brightness(106%) contrast(104%);
+      }
     }
 
     .result-roll {

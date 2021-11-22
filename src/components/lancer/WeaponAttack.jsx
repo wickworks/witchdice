@@ -33,6 +33,19 @@ function summateAllDamageByType(damageData, isCrit) {
   return totalsByType;
 }
 
+function countOverkillTriggers(damageData, isCrit) {
+  var overkillCount = 0;
+  damageData.rolls.forEach(rollData => {
+    const totalPool = getSortedTotalPool(rollData, isCrit)
+
+    // Don't count e.g. "+1" part of  
+    if (totalPool.length > 1) {
+      overkillCount +=  totalPool.reduce((a, v) => (v === 1 ? a + 1 : a), 0);
+    }
+  });
+  return overkillCount;
+}
+
 
 const WeaponAttack = ({
   attackData,
@@ -40,13 +53,22 @@ const WeaponAttack = ({
   const [isHit, setIsHit] = useState(true);
   const isCrit = isHit && attackData.toHit.finalResult >= 20;
   const isReliable = !isHit && attackData.damage.reliable.val > 0
-  const isOverkill = attackData.overkill;
+  const isOverkill = attackData.damage.isOverkill;
 
   var effectsList = [];
   if (isHit && attackData.onHit)    effectsList.push(attackData.onHit)
   if (isCrit)                       effectsList.push('Critical hit')
   if (isCrit && attackData.onCrit)  effectsList.push(attackData.onCrit)
   if (isReliable)                   effectsList.push('Reliable')
+
+
+  if (isOverkill) {
+    console.log('is overkill');
+    const overkillCount = countOverkillTriggers(attackData.damage, isCrit)
+    console.log('overkillCount', overkillCount);
+
+    if (overkillCount > 0) effectsList.push(`Overkill — Heat ${overkillCount} (Self)`)
+  }
 
   const totalsByType = summateAllDamageByType(attackData.damage, isCrit)
 
@@ -59,9 +81,15 @@ const WeaponAttack = ({
           handleHitClick={() => setIsHit(!isHit)}
         />
 
-        <div className='asset d20' />
+        { isCrit ?
+          <div className='die-icon asset d20_frame'>
+            <div className='asset necrotic' />
+          </div>
+        :
+          <div className='die-icon asset d20' />
+        }
 
-        <div className='result-roll'>
+        <div className='die-icon result-roll'>
           {attackData.toHit.finalResult}
         </div>
 

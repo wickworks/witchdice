@@ -80,7 +80,7 @@ function rollDamage(weaponData) {
   }
 
   // Overkill damage?
-  damageData.overkill = isOverkill;
+  damageData.isOverkill = isOverkill;
 
   return damageData;
 }
