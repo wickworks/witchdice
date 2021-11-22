@@ -56,6 +56,7 @@ const MechMount = ({
           <MechWeapon
             mountSlot={slot}
             setActiveWeaponData={setActiveWeaponData}
+            key={i}
           />
       )}
     </div>

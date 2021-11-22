@@ -25,22 +25,38 @@ const processDiceString = (diceString) => {
   return {count: count, dietype: dietype, bonus: bonus}
 }
 
+const findTagData = (tagID) => {
+  const tagData = allTags.find(tag => tag.id === tagID);
+  return tagData;
+}
+
+const findTagOnWeapon = (weaponData, tagID) => {
+  if (weaponData.tags) {
+    const weaponTag = weaponData.tags.find(weapontag => weapontag.id === tagID);
+    return weaponTag;
+  }
+  return null;
+}
+
 const getTagName = (tag) => {
-  const tagData = allTags.find(weapontag => weapontag.id === tag.id);
+  const tagData = findTagData(tag.id)
 
-  const tagVal = tag.val || 0;
-  const tagString = tagData.name.replace('{VAL}', tagVal)
+  if (tagData) {
+    const tagVal = tag.val || 0;
+    const tagString = tagData.name.replace('{VAL}', tagVal)
+    return tagString;
 
-  console.log('TaG VAL', tagVal);
-
-  return tagString;
+  } else {
+    return tag.id
+  }
 }
 
 export {
   allWeapons,
   allPilotSkills,
-  allTags,
   getGrit,
   processDiceString,
+  findTagData,
+  findTagOnWeapon,
   getTagName,
 }

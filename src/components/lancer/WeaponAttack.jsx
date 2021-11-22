@@ -11,7 +11,6 @@ const WeaponAttack = ({
 
   const isCrit = isHit && attackData.toHit.finalResult >= 20;
 
-  var damageElements = [];
 
   return (
     <div className="WeaponAttack">
@@ -28,27 +27,40 @@ const WeaponAttack = ({
           {attackData.toHit.finalResult}
         </div>
 
-        <div className="damage-line">
-          { attackData.damage.rolls.map((damageRoll, i) =>
-            <div
-              className='damage-roll'
-              onClick={() => {}}
-              key={i}
-            >
-              <div className={`asset-lancer ${damageRoll.type.toLowerCase()}`} />
-              <div className='amount'>{damageRoll.roll}</div>
+        { isHit ?
+          <>
+            <div className="damage-line">
+              { attackData.damage.rolls.map((damageRoll, i) =>
+                <div
+                  className='damage-roll'
+                  onClick={() => {}}
+                  key={i}
+                >
+                  <div className={`asset-lancer ${damageRoll.type.toLowerCase()}`} />
+                  <div className='amount'>{damageRoll.roll}</div>
+                </div>
+              )}
             </div>
-          )}
-        </div>
 
-        <div className="subtotal-container">
-          { Object.keys(attackData.damage.totalsByType).map((type, i) =>
-            <div className='subtotal' key={type}>
-              <div className='amount'>{attackData.damage.totalsByType[type]}</div>
-              <div className={`asset-lancer ${type.toLowerCase()}`} />
+            <div className="subtotal-container">
+              { Object.keys(attackData.damage.totalsByType).map((type, i) =>
+                <div className='subtotal' key={type}>
+                  <div className='amount'>{attackData.damage.totalsByType[type]}</div>
+                  <div className={`asset-lancer ${type.toLowerCase()}`} />
+                </div>
+              )}
             </div>
-          )}
-        </div>
+          </>
+        : attackData.damage.reliable.val > 0 ?
+          <div className="subtotal-container">
+            <div className='subtotal'>
+              <div className='amount'>{attackData.damage.reliable.val}</div>
+              <div className={`asset-lancer ${attackData.damage.reliable.type.toLowerCase()}`} />
+            </div>
+          </div>
+        :
+          <div className="miss-line" />
+        }
       </div>
 
       <div className="effects-container">

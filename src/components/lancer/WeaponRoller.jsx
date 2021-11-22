@@ -5,6 +5,8 @@ import { getRandomInt, deepCopy } from '../../utils.js';
 
 import {
   getTagName,
+  findTagOnWeapon,
+  findTagData,
   processDiceString,
 } from './data.js';
 
@@ -102,6 +104,18 @@ const WeaponRoller = ({
         recordDamageRoll(damage, damageDice.bonus, damageValAndType.type)
       }
     });
+
+    // Reliable damage?
+    damage.reliable = { val: 0, type: 'Variable' };
+    const reliableTag = findTagOnWeapon(weaponData, 'tg_reliable')
+    if (reliableTag) {
+      damage.reliable.val = reliableTag.val;
+
+      // we use the first damage type if there's only one available; otherwise we leave it variable
+      if (Object.keys(damage.totalsByType).length === 1) {
+        damage.reliable.type = Object.keys(damage.totalsByType)[0];
+      }
+    }
 
     return damage;
   }
