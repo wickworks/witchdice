@@ -11,6 +11,12 @@ const WeaponAttack = ({
 
   const isCrit = isHit && attackData.toHit.finalResult >= 20;
 
+  const isReliable = !isHit && attackData.damage.reliable.val > 0
+
+  var effectsList = [];
+  if (isHit && attackData.onHit) effectsList.push(attackData.onHit)
+  if (isCrit && attackData.onCrit) effectsList.push(attackData.onHit)
+  if (isReliable) effectsList.push('Reliable')
 
   return (
     <div className="WeaponAttack">
@@ -51,25 +57,27 @@ const WeaponAttack = ({
               )}
             </div>
           </>
-        : attackData.damage.reliable.val > 0 ?
-          <div className="subtotal-container">
-            <div className='subtotal'>
-              <div className='amount'>{attackData.damage.reliable.val}</div>
-              <div className={`asset-lancer ${attackData.damage.reliable.type.toLowerCase()}`} />
+        : isReliable ?
+          <>
+            <div className="miss-line" />
+            <div className="subtotal-container">
+              <div className='subtotal'>
+                <div className='amount'>{attackData.damage.reliable.val}</div>
+                <div className={`asset-lancer ${attackData.damage.reliable.type.toLowerCase()}`} />
+              </div>
             </div>
-          </div>
+          </>
         :
           <div className="miss-line" />
         }
       </div>
 
       <div className="effects-container">
-        {isHit &&
-          <div>{attackData.onHit}</div>
-        }
-        {isCrit &&
-          <div>{attackData.onCrit}</div>
-        }
+        { effectsList.map((effect, i) =>
+          <div key={i}>
+            {effect}
+          </div>
+        )}
       </div>
     </div>
   )
