@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import WeaponRoller from './WeaponRoller.jsx';
-import { allWeapons } from './data.js';
+import { allWeapons, getGrit } from './data.js';
 
 import './MechSheet.scss';
 
 
 const MechSheet = ({
-  activeMech
+  activeMech,
+  activePilot,
 }) => {
   const [activeWeaponData, setActiveWeaponData] = useState(null);
 
@@ -30,7 +31,10 @@ const MechSheet = ({
       </div>
 
       {activeWeaponData &&
-        <WeaponRoller weaponData={activeWeaponData} />
+        <WeaponRoller
+          weaponData={activeWeaponData}
+          gritBonus={getGrit(activePilot)}
+        />
       }
     </div>
   )

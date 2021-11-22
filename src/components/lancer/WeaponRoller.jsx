@@ -8,7 +8,8 @@ import './WeaponRoller.scss';
 
 
 const WeaponRoller = ({
-  weaponData
+  weaponData,
+  gritBonus,
 }) => {
   const [showAttackSetup, setShowAttackSetup] = useState(true);
 
@@ -59,7 +60,9 @@ const WeaponRoller = ({
 
 
       {showAttackSetup ?
-        <WeaponAttackSetup />
+        <WeaponAttackSetup
+          gritBonus={gritBonus}
+        />
       :
         <button className='add-target'>
           <div className='asset plus' />

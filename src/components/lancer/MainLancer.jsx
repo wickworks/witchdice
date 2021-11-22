@@ -111,6 +111,7 @@ const MainLancer = ({
       { activeMech &&
         <MechSheet
           activeMech={activeMech}
+          activePilot={activePilot}
         />
       }
     </div>

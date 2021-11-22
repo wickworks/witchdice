@@ -7,7 +7,7 @@ const COVER_SOFT = 'Soft Cover'
 const COVER_HARD = 'Hard Cover'
 
 const WeaponAttackSetup = ({
-  gritBonus = 2,
+  gritBonus,
 }) => {
   const [currentSources, setCurrentSources] = useState([]);
   const [manualMod, setManualMod] = useState(0);
