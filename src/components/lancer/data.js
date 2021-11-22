@@ -25,10 +25,22 @@ const processDiceString = (diceString) => {
   return {count: count, dietype: dietype, bonus: bonus}
 }
 
+const getTagName = (tag) => {
+  const tagData = allTags.find(weapontag => weapontag.id === tag.id);
+
+  const tagVal = tag.val || 0;
+  const tagString = tagData.name.replace('{VAL}', tagVal)
+
+  console.log('TaG VAL', tagVal);
+
+  return tagString;
+}
+
 export {
   allWeapons,
   allPilotSkills,
   allTags,
   getGrit,
   processDiceString,
+  getTagName,
 }

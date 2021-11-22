@@ -4,7 +4,7 @@ import WeaponAttackSetup from './WeaponAttackSetup.jsx';
 import { getRandomInt, deepCopy } from '../../utils.js';
 
 import {
-  allTags,
+  getTagName,
   processDiceString,
 } from './data.js';
 
@@ -19,10 +19,11 @@ const WeaponRoller = ({
   const [showAttackSetup, setShowAttackSetup] = useState(true);
 
   let weaponTags = []
-  weaponData.tags.map(tag => {
-    const tagData = allTags.find(weapontag => weapontag.id === tag.id);
-    weaponTags.push(tagData.name)
-  })
+  if (weaponData.tags) {
+    weaponData.tags.map(tag => {
+      weaponTags.push( getTagName(tag) )
+    })
+  }
 
   // Create a new attack roll, including to-hit and damage.
   const createNewAttackRoll = (flatBonus, accuracyMod) => {

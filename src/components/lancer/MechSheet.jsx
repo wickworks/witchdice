@@ -44,26 +44,20 @@ const MechMount = ({
   mount,
   setActiveWeaponData,
 }) => {
-  const primaryWeapon = mount.slots[0];
-  const secondaryWeapon = mount.extra[0];
+  const slotList = [...mount.slots, ...mount.extra]
 
   return (
 
     <div className="MechMount">
       <h3>{mount.mount_type} Mount</h3>
 
-      { primaryWeapon &&
-        <MechWeapon
-          mountSlot={primaryWeapon}
-          setActiveWeaponData={setActiveWeaponData}
-        />
-      }
-      { secondaryWeapon &&
-        <MechWeapon
-          mountSlot={secondaryWeapon}
-          setActiveWeaponData={setActiveWeaponData}
-        />
-      }
+      { slotList.map((slot, i) =>
+        slot.weapon &&
+          <MechWeapon
+            mountSlot={slot}
+            setActiveWeaponData={setActiveWeaponData}
+          />
+      )}
     </div>
   )
 }
