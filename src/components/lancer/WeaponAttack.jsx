@@ -7,11 +7,11 @@ import './WeaponAttack.scss';
 const WeaponAttack = ({
   attackData,
 }) => {
+  const [isHit, setIsHit] = useState(true);
 
-  const isHit = true;
+  const isCrit = isHit && attackData.toHit.finalResult >= 20;
 
   var damageElements = [];
-
 
   return (
     <div className="WeaponAttack">
@@ -19,7 +19,7 @@ const WeaponAttack = ({
 
         <HitCheckbox
           isHit={isHit}
-          handleHitClick={() => {}}
+          handleHitClick={() => setIsHit(!isHit)}
         />
 
         <div className='asset d20' />
@@ -52,8 +52,12 @@ const WeaponAttack = ({
       </div>
 
       <div className="effects-container">
-        <div>Immobilized</div>
-        <div>Impaired</div>
+        {isHit &&
+          <div>{attackData.onHit}</div>
+        }
+        {isCrit &&
+          <div>{attackData.onCrit}</div>
+        }
       </div>
     </div>
   )

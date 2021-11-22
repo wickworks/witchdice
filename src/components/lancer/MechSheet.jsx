@@ -73,7 +73,8 @@ const MechWeapon = ({
   setActiveWeaponData
 }) => {
   const activeWeaponData = mountSlot.weapon;
-  const weaponData = allWeapons.find(weapon => weapon.id === activeWeaponData.id);
+  const activeWeaponID = activeWeaponData ? activeWeaponData.id : 'missing_mechweapon'
+  const weaponData = allWeapons.find(weapon => weapon.id === activeWeaponID);
 
   return (
     <div className="MechWeapon" onClick={() => setActiveWeaponData(weaponData)}>

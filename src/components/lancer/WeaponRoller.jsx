@@ -31,6 +31,10 @@ const WeaponRoller = ({
     newAttack.toHit = rollToHit(flatBonus, accuracyMod);
     newAttack.damage = rollDamage();
 
+    newAttack.onAttack = weaponData.on_attack || '';
+    newAttack.onHit = weaponData.on_hit || '';
+    newAttack.onCrit = weaponData.on_crit || '';
+
     console.log('New Attack:', newAttack);
 
     let newData = deepCopy(allAttackRolls);

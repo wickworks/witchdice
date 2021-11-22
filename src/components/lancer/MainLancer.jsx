@@ -13,14 +13,14 @@ import {
 import './MainLancer.scss';
 
 const PILOT_PREFIX = 'pilot';
-
+const STORAGE_ID_LENGTH = 6;
 
 function savePilotData(pilot) {
-  saveLocalData(PILOT_PREFIX, pilot.id, pilot.name, pilot);
+  saveLocalData(PILOT_PREFIX, pilot.id.slice(0,STORAGE_ID_LENGTH), pilot.name, pilot);
 }
 
 function loadPilotData(pilotID) {
-  return loadLocalData(PILOT_PREFIX, pilotID);
+  return loadLocalData(PILOT_PREFIX, pilotID.slice(0,STORAGE_ID_LENGTH));
 }
 
 const MainLancer = ({
@@ -56,7 +56,7 @@ const MainLancer = ({
     const newActivePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
     if (newActivePilot && newActivePilot.mechs.length > 0) setActiveMechID(newActivePilot.mechs[0]);
 
-    localStorage.setItem("lancer-selected-character", pilotID);
+    localStorage.setItem("lancer-selected-character", pilotID.slice(0,STORAGE_ID_LENGTH));
   }
 
   // =============== INITIALIZE ==================
@@ -70,7 +70,8 @@ const MainLancer = ({
 
       if (key.startsWith(`${PILOT_PREFIX}-`)) {
         const pilotID = getIDFromStorageName(PILOT_PREFIX, key);
-        pilotEntries.push( loadPilotData(pilotID) )
+        const pilotData = loadPilotData(pilotID);
+        if (pilotData) pilotEntries.push(pilotData);
       }
     }
 
@@ -79,9 +80,11 @@ const MainLancer = ({
     // if we were looking at a pilot, restore tham and their first mech
     const oldSelectedID = localStorage.getItem("lancer-selected-character");
     if (oldSelectedID) {
-      setActivePilotID( oldSelectedID )
-      const newActivePilot = pilotEntries.find(pilot => pilot.id === oldSelectedID);
-      if (newActivePilot && newActivePilot.mechs.length > 0) setActiveMechID(newActivePilot.mechs[0].id);
+      const newActivePilot = pilotEntries.find(pilot => pilot.id.startsWith(oldSelectedID));
+      if (newActivePilot) {
+        setActivePilotID(newActivePilot.id)
+        if (newActivePilot.mechs.length > 0) setActiveMechID(newActivePilot.mechs[0].id);
+      }
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 

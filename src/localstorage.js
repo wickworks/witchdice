@@ -15,7 +15,7 @@ function getNameFromStorageName(prefix, storageName) {
 // cuts out the "character-" and "-NAME"
 function getIDFromStorageName(prefix, storageName) {
   const precedingLength = prefix.length + 1;
-  return parseInt(storageName.slice(precedingLength, precedingLength+6));
+  return storageName.slice(precedingLength, precedingLength+6);
 }
 
 function saveLocalData(prefix, id, newName, localData) {
