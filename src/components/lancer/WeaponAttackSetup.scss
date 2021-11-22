@@ -19,7 +19,7 @@ $number_speed: 0.25s;
 
     .label {
       font-weight: bold;
-      margin: 0 4px;
+      margin-left: 4px;
     }
 
     .BigRollButton {
@@ -111,7 +111,7 @@ $number_speed: 0.25s;
 
           padding: 0;
           margin: 0 6px;
-          width: 50px;
+          width: 48px;
           transition: margin $number_speed, width $number_speed;
           overflow: hidden;
 
