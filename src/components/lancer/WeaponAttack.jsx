@@ -38,7 +38,7 @@ function countOverkillTriggers(damageData, isCrit) {
   damageData.rolls.forEach(rollData => {
     const totalPool = getSortedTotalPool(rollData, isCrit)
 
-    // Don't count e.g. "+1" part of  
+    // Don't count e.g. "+1" part of
     if (totalPool.length > 1) {
       overkillCount +=  totalPool.reduce((a, v) => (v === 1 ? a + 1 : a), 0);
     }
@@ -52,23 +52,26 @@ const WeaponAttack = ({
 }) => {
   const [isHit, setIsHit] = useState(true);
   const isCrit = isHit && attackData.toHit.finalResult >= 20;
-  const isReliable = !isHit && attackData.damage.reliable.val > 0
+  const isReliable = attackData.damage.reliable.val > 0
   const isOverkill = attackData.damage.isOverkill;
 
   var effectsList = [];
-  if (isHit && attackData.onHit)    effectsList.push(attackData.onHit)
-  if (isCrit)                       effectsList.push('Critical hit')
-  if (isCrit && attackData.onCrit)  effectsList.push(attackData.onCrit)
-  if (isReliable)                   effectsList.push('Reliable')
+  if (isHit) {
+    if (attackData.onHit)             effectsList.push(attackData.onHit)
+    if (isCrit)                       effectsList.push('Critical hit')
+    if (isCrit && attackData.onCrit)  effectsList.push(attackData.onCrit)
 
-
-  if (isOverkill) {
-    console.log('is overkill');
-    const overkillCount = countOverkillTriggers(attackData.damage, isCrit)
-    console.log('overkillCount', overkillCount);
-
-    if (overkillCount > 0) effectsList.push(`Overkill — Heat ${overkillCount} (Self)`)
+    if (isOverkill) {
+      const overkillCount = countOverkillTriggers(attackData.damage, isCrit)
+      if (overkillCount > 0) effectsList.push(`Heat ${overkillCount} (Self) — Overkill`)
+    }
+    
+  } else {
+    if (isReliable)                   effectsList.push('Reliable')
   }
+
+
+
 
   const totalsByType = summateAllDamageByType(attackData.damage, isCrit)
 

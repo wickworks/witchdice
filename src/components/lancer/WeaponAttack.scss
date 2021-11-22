@@ -77,8 +77,9 @@
       margin-left: auto;
 
       .subtotal {
-        font-size: 30px;
+        font-size: 50px;
         display: flex;
+        align-items: center;
         margin-left: 8px;
 
         .asset-lancer {
@@ -92,6 +93,9 @@
   }
 
   .effects-container {
+    margin-right: 10px;
     text-align: right;
+    font-size: 18px;
+    color: $rust;
   }
 }
