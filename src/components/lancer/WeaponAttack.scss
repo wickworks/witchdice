@@ -1,4 +1,5 @@
 @import '../../fonts';
+@import '../../assets_lancer';
 
 .WeaponAttack {
   margin-bottom: 16px;
@@ -35,7 +36,7 @@
         border-radius: 4px;
         margin-right: 4px;
 
-        .asset {
+        .asset-lancer {
           width: 26px;
           height: 26px;
           margin-right: 6px;
@@ -55,7 +56,7 @@
         display: flex;
         margin-left: 8px;
 
-        .asset {
+        .asset-lancer {
           width: 36px;
           height: 36px;
           margin: 0 2px;

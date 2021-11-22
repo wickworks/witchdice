@@ -1,0 +1,18 @@
+.asset-lancer {
+  width: 64px;
+  height: 64px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+
+  &.burn { background-image: url('./assets/lancer/damage_burn.svg'); }
+  &.energy { background-image: url('./assets/lancer/damage_energy.svg'); }
+  &.explosive { background-image: url('./assets/lancer/damage_explosive.svg'); }
+  &.heat { background-image: url('./assets/lancer/damage_heat.svg'); }
+  &.kinetic { background-image: url('./assets/lancer/damage_kinetic.svg'); }
+  &.variable { background-image: url('./assets/lancer/damage_variable.svg'); }
+
+  &.accuracy { background-image: url('./assets/lancer/accuracy.svg'); }
+  &.difficulty { background-image: url('./assets/lancer/difficulty.svg'); }
+
+}

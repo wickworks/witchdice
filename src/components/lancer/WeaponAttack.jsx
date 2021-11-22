@@ -35,7 +35,7 @@ const WeaponAttack = ({
               onClick={() => {}}
               key={i}
             >
-              <div className={`asset ${'fire'}`} />
+              <div className={`asset-lancer ${damageRoll.type.toLowerCase()}`} />
               <div className='amount'>{damageRoll.roll}</div>
             </div>
           )}
@@ -45,7 +45,7 @@ const WeaponAttack = ({
           { Object.keys(attackData.damage.totalsByType).map((type, i) =>
             <div className='subtotal' key={type}>
               <div className='amount'>{attackData.damage.totalsByType[type]}</div>
-              <div className={`asset ${'fire'}`} />
+              <div className={`asset-lancer ${type.toLowerCase()}`} />
             </div>
           )}
         </div>

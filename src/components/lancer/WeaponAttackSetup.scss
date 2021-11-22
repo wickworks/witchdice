@@ -15,7 +15,6 @@ $number_speed: 0.25s;
   .roll-container {
     display: flex;
     flex-direction: column;
-    margin-right: 16px;
 
     .label {
       font-weight: bold;
@@ -63,6 +62,7 @@ $number_speed: 0.25s;
 
   .column-container {
     display: flex;
+    margin: 0 8px;
 
     .column {
       display: flex;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import WeaponAttack from './WeaponAttack.jsx';
 import WeaponAttackSetup from './WeaponAttackSetup.jsx';
 import { getRandomInt, deepCopy } from '../../utils.js';
@@ -17,6 +17,13 @@ const WeaponRoller = ({
 }) => {
   const [allAttackRolls, setAllAttackRolls] = useState([]);
   const [showAttackSetup, setShowAttackSetup] = useState(true);
+
+  // =============== CHANGE WEAPON ==================
+  useEffect(() => {
+    setAllAttackRolls([]);
+    setShowAttackSetup(true);
+  }, [weaponData]);
+
 
   let weaponTags = []
   if (weaponData.tags) {
@@ -41,6 +48,7 @@ const WeaponRoller = ({
     let newData = deepCopy(allAttackRolls);
     newData.push(newAttack);
     setAllAttackRolls(newData);
+    setShowAttackSetup(false);
   }
 
   // Fills out the to-hit roll for the attack data.
@@ -111,10 +119,10 @@ const WeaponRoller = ({
           <div className="base-damage-container">
             {'[ '}
             { weaponData.damage.map((damage, i) =>
-              <span key={`damage-${i}`}>
+              <div className='damage-dice' key={`damage-${i}`}>
                 {damage.val}
-                {damage.type}
-              </span>
+                <div className={`asset-lancer ${damage.type.toLowerCase()}`} />
+              </div>
             )}
             {' ]'}
           </div>
@@ -147,7 +155,7 @@ const WeaponRoller = ({
           createNewAttackRoll={createNewAttackRoll}
         />
       :
-        <button className='add-target'>
+        <button className='add-target' onClick={() => setShowAttackSetup(true)}>
           <div className='asset plus' />
           Add target
         </button>

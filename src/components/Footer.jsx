@@ -106,12 +106,22 @@ const Footer = () => {
             </p>
 
             <p>
-              Monster manual jsonified by
+              5E monster manual jsonified by
               <a href="https://www.reddit.com/r/dndnext/comments/43a09o/srd_monsters_in_json_format/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 droiddruid
+              </a>
+            </p>
+
+            <p>
+              Lancer icons from the
+              <a href="https://github.com/Eranziel/foundryvtt-lancer"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                FoundryVTT repo
               </a>
             </p>
 
@@ -125,7 +135,7 @@ const Footer = () => {
               </a>
             </p>
 
-            <p>This tool is not affiliated with Wizards of the Coast (D&D) or Astrolago Press (Witch+Craft).</p>
+            <p>This tool is not affiliated with Wizards of the Coast (D&D), Astrolago Press (Witch+Craft), or Massif Press (Lancer).</p>
             <p>Spells & Monster Manual stat blocks included as per the Open Game License:</p>
 
             <div className="legalese">
