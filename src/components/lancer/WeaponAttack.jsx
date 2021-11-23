@@ -153,12 +153,8 @@ const WeaponAttack = ({
         : isReliable ?
           <>
             <div className="miss-line" />
-            <div className="subtotal-container">
-              <div className='subtotal'>
-                <div className='amount'>{attackData.damage.reliable.val}</div>
-                <div className={`asset-lancer ${attackData.damage.reliable.type.toLowerCase()}`} />
-              </div>
-            </div>
+
+            <DamageSubtotal totalsByType={ {[attackData.damage.reliable.type]: attackData.damage.reliable.val} } />
           </>
         :
           <div className="miss-line" />
@@ -183,15 +179,17 @@ const DamageSubtotal = ({
 
   const actualTotal = Object.values(totalsByType).reduce((partial_sum, a) => partial_sum + a, 0);
 
+  const singleType = (Object.keys(totalsByType).length === 1);
+
   return (
     <div className="DamageSubtotal">
       {condenseTypes ?
-        <button className='actual-total-container' onClick={() => setCondenseTypes(!condenseTypes)}>
+        <button className='actual-total-container' onClick={() => setCondenseTypes(!condenseTypes)} disabled={singleType}>
           <div className='amount'>{actualTotal}</div>
           <div className='type-column'>
             { Object.keys(totalsByType).map(type =>
               <div
-                className={`asset-lancer ${type.toLowerCase()} ${Object.keys(totalsByType).length === 1 ? 'single-type' : ''}`}
+                className={`asset-lancer ${type.toLowerCase()} ${singleType ? 'single-type' : ''}`}
                 key={type}
               />
             )}
