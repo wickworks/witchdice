@@ -3,53 +3,106 @@
 .AttackRollOutput {
   margin-right: 20px;
 
-
-
-  button.die-and-result {
+  .final-result-container {
     display: flex;
     align-items: center;
 
-    padding: 0 6px;
+    button.die-and-result {
+      position: relative;
+      padding: 0;
 
-    &:hover { background-color: $parchment_dark; }
+      > * { transition: opacity .1s .5s; }
 
-    &.expanded {
-      background-color: $parchment_dark;
-      &:hover { background-color: $rust_light; }
-    }
+      &:disabled {
+        pointer-events: none;
+      }
 
-    .die-icon.asset {
-      width: 36px;
-      height: 36px;
-      margin: 6px 6px 6px 0;
+      &:hover { background-color: $parchment_dark; }
 
-      // for crits
-      .necrotic {
-        width: 20px;
-        height: 20px;
-        margin: 9px auto;
+      &.expanded {
+        > * { transition: opacity 0s 0s; }
 
-        // turn black to white
-        filter: invert(100%);
+        background-color: $parchment_dark;
+        &:hover { background-color: $rust_light; }
+      }
+
+      // SWAP TO SOURCE ROLLS ON HOVER
+      &.condensed:not(.manual) {
+
+        &:hover {
+          .current-result-container { opacity: 0.0; }
+          .to-hit-container { opacity: 1.0; }
+        }
+      }
+
+      .current-result-container {
+        display: flex;
+        align-items: center;
+
+        .die-icon.asset {
+          width: 36px;
+          height: 36px;
+          margin: 6px;
+
+          // for crits
+          .necrotic {
+            width: 20px;
+            height: 20px;
+            margin: 9px auto;
+
+            // turn black to white
+            filter: invert(100%);
+          }
+        }
+
+        .result {
+          width: 60px;
+          padding: 0 4px;
+          position: relative;
+          display: inline-block;
+          font-size: 30px;
+          text-align: left;
+        }
+      }
+
+      .to-hit-container {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-size: 18px;
+
+        span {
+          display: inline-block;
+
+          &.asset {
+            width: 16px;
+            height: 16px;
+          }
+
+          &.plus {
+            padding: 0 2px;
+          }
+
+        }
       }
     }
 
-    .result {
-      width: 60px;
-      position: relative;
-      display: inline-block;
-      font-size: 30px;
-    }
-
-    input {
+    input.manual-result {
       font-family: 'Bitter';
+      padding: 2px 0;
       width: 60px;
-      border: 0;
-      background-color: $parchment;
+      border: 4px solid $parchment_dark;
+      background-color: $parchment_mid;
       text-align: center;
       font-size: 30px;
 
-      box-sizing: border-box;
     }
   }
 
@@ -59,7 +112,7 @@
 
     > * {
       margin: 4px 0 0 0;
-      padding: 3px 0;
+      padding: 4px 0;
     }
 
     button {

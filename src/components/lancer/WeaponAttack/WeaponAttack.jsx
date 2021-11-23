@@ -53,6 +53,7 @@ const WeaponAttack = ({
 
   return (
     <div className="WeaponAttack">
+
       <div className="damage-container">
 
         <HitCheckbox
@@ -61,7 +62,7 @@ const WeaponAttack = ({
         />
 
         <AttackRollOutput
-          rollResult={attackData.toHit.finalResult}
+          toHitData={attackData.toHit}
           manualRoll={manualRoll}
           setManualRoll={setManualRoll}
           isCrit={isCrit}

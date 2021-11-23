@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 
 import './AttackRollOutput.scss';
 
+import {
+  getSortedTotalPool,
+  getHighestRolls,
+} from './damageUtils.js';
 
 const AttackRollOutput = ({
-  rollResult,
+  toHitData,
   manualRoll,
   setManualRoll,
   isCrit,
@@ -14,50 +18,83 @@ const AttackRollOutput = ({
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditingRoll, setIsEditingRoll] = useState(false);
 
-  const finalResult = manualRoll > 0 ? manualRoll : rollResult;
+  const finalResult = manualRoll > 0 ? manualRoll : toHitData.finalResult;
 
   const toggleManualRoll = () => {
     if (manualRoll > 0) {
       setManualRoll(0);
       setIsEditingRoll(false);
     } else {
-      setManualRoll(rollResult);
+      setManualRoll(toHitData.finalResult);
       setIsEditingRoll(true);
     }
   }
 
   const manualRollActive = (isEditingRoll || manualRoll !== 0);
 
+  const accuracyPool = [...toHitData.accuracyRolls]
+  accuracyPool.sort((a, b) => { return b - a }); // highest first
 
   return (
     <div className="AttackRollOutput">
-      <button
-        className={`die-and-result ${isExpanded ? 'expanded' : ''}`}
-        onClick={() => setIsExpanded(!isExpanded)}
-        disabled={isEditingRoll}
-      >
-        { isCrit ?
-          <div className='die-icon asset d20_frame'>
-            <div className='asset necrotic' />
-          </div>
-        :
-          <div className='die-icon asset d20' />
-        }
 
-        {manualRollActive ?
+      <div className="final-result-container">
+        <button
+          className={`die-and-result ${isExpanded ? 'expanded' : 'condensed'} ${manualRollActive ? 'manual' : ''}`}
+          onClick={() => setIsExpanded(!isExpanded)}
+          disabled={isEditingRoll}
+        >
+          <div className="current-result-container">
+            { isCrit ?
+              <div className='die-icon asset d20_frame'>
+                <div className='asset necrotic' />
+              </div>
+            :
+              <div className='die-icon asset d20' />
+            }
+
+            { !manualRollActive &&
+              <div className='result'>{finalResult}</div>
+            }
+          </div>
+
+          <div className="to-hit-container">
+            <span className='asset d20' />
+            <span className='amount'>{toHitData.baseRoll}</span>
+            {accuracyPool.length &&
+              <>
+                <span className='plus'>+</span>
+                <span className='asset d6' />
+                <span className='amount'>
+                  {accuracyPool[0]}
+                </span>
+              </>
+            }
+            {toHitData.flatBonus &&
+              <>
+                <span className='plus'>+</span>
+                <span className='amount'>
+                  {toHitData.flatBonus}
+                </span>
+              </>
+            }
+          </div>
+
+        </button>
+
+        { manualRollActive &&
           <input
+            className='manual-result'
             type="number"
             value={manualRoll}
             onChange={e => setManualRoll(Math.max(Math.min(e.target.value || 0, 20), 0))}
             onKeyDown={e => {if (e.key === 'Enter') setIsEditingRoll(false)} }
             onBlur={() => setIsEditingRoll(false)}
-            onFocus={() => setIsEditingRoll(true)}
+            onFocus={e => setIsEditingRoll(true)}
             autoFocus
           />
-        :
-          <div className='result'>{finalResult}</div>
         }
-      </button>
+      </div>
 
       { isExpanded &&
         <div className='expanded-container'>
