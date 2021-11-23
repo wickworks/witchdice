@@ -13,7 +13,8 @@ import {
 
 import './WeaponRoller.scss';
 
-const GENERIC_BONUS_DAMAGE = 'Bonus damage'
+const GENERIC_NAME = 'Bonus damage';
+const MAX_BONUS = 9; // either added or dice rolled
 
 // Fills out the to-hit roll for the attack data.
 function rollToHit(flatBonus, accuracyMod) {
@@ -138,12 +139,10 @@ const WeaponRoller = ({
   const [genericBonusDieCount, setGenericBonusDieCount] = useState(0);
   const [genericBonusPlus, setGenericBonusPlus] = useState(0);
 
-  let genericBonusString = `${genericBonusDieCount}d6`;
-  if (genericBonusPlus) genericBonusString += `+${genericBonusPlus}`
   const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
   const genericBonusSource = {
-    name: GENERIC_BONUS_DAMAGE,
-    diceString: genericBonusString,
+    name: GENERIC_NAME,
+    diceString: `${MAX_BONUS}d6+${MAX_BONUS}`, // we roll the max because user might increase it post-roll
     type: '',
     tags: [],
   }
@@ -153,10 +152,33 @@ const WeaponRoller = ({
   if (bonusDamageData) {
     activeBonusDamageData = deepCopy(bonusDamageData);
 
+    // Add all toggled non-generic sources
     activeBonusDamageData.rolls = bonusDamageData.rolls.filter(bonusRoll =>
-      activeBonusSources.indexOf(bonusRoll.source) >= 0 || (genericBonusIsActive && bonusRoll.source === GENERIC_BONUS_DAMAGE)
+      activeBonusSources.indexOf(bonusRoll.source) >= 0
     );
-    // if (genericBonusIsActive) activeBonusDamageData.push(genericBonusSource);
+
+    // Take only the first X rolls from the generic bonus damage
+    if (genericBonusDieCount) {
+      const genericData = deepCopy(
+        bonusDamageData.rolls.find(bonusRoll =>
+          (bonusRoll.source === GENERIC_NAME) && bonusRoll.critPool.length > 0
+        )
+      );
+      genericData.rollPool.splice(genericBonusDieCount);
+      genericData.critPool.splice(genericBonusDieCount);
+      activeBonusDamageData.rolls.push(genericData);
+    }
+
+    // Adjust the flat bonus similarly
+    if (genericBonusPlus) {
+      const genericData = deepCopy(
+        bonusDamageData.rolls.find(bonusRoll =>
+          (bonusRoll.source === GENERIC_NAME) && bonusRoll.critPool.length === 0
+        )
+      );
+      genericData.rollPool[0] = genericBonusPlus;
+      activeBonusDamageData.rolls.push(genericData);
+    }
   }
 
   // Add or remove the name of a bonus damage to the active list
@@ -245,25 +267,10 @@ const WeaponRoller = ({
 
           <div className="bonus-damage-container">
 
-            { availableBonusSources.map((bonusSource, i) =>
-              <button
-                className={`bonus-source ${activeBonusSources.indexOf(bonusSource.name) >= 0 ? 'active' : 'inactive'}`}
-                onClick={() => toggleBonusDamage(bonusSource.name)}
-                key={`${bonusSource.name}-${i}`}
-              >
-                <div className='amount'>
-                  {bonusSource.diceString}
-                  { bonusSource.type && <div className={`asset-lancer ${bonusSource.type.toLowerCase()}`} /> }
-                </div>
-                <div className='label'>{bonusSource.name}</div>
-              </button>
-            )}
-
-
             <div className='generic'>
               <button
                 className={`amount ${genericBonusDieCount ? 'active' : 'inactive'}`}
-                onClick={() => setGenericBonusDieCount(Math.min(genericBonusDieCount + 1, 9))}
+                onClick={() => setGenericBonusDieCount(Math.min(genericBonusDieCount + 1, MAX_BONUS))}
               >
                 {genericBonusDieCount ?
                   `${genericBonusDieCount}d6`
@@ -274,7 +281,7 @@ const WeaponRoller = ({
 
               <button
                 className={`amount ${genericBonusPlus ? 'active' : 'inactive'}`}
-                onClick={() => setGenericBonusPlus(Math.min(genericBonusPlus + 1, 9))}
+                onClick={() => setGenericBonusPlus(Math.min(genericBonusPlus + 1, MAX_BONUS))}
               >
                 {genericBonusPlus ?
                   `+${genericBonusPlus}`
@@ -291,6 +298,20 @@ const WeaponRoller = ({
                 <div className='label'>Bonus damage</div>
               </button>
             </div>
+
+            { availableBonusSources.map((bonusSource, i) =>
+              <button
+                className={`bonus-source ${activeBonusSources.indexOf(bonusSource.name) >= 0 ? 'active' : 'inactive'}`}
+                onClick={() => toggleBonusDamage(bonusSource.name)}
+                key={`${bonusSource.name}-${i}`}
+              >
+                <div className='amount'>
+                  {bonusSource.diceString}
+                  { bonusSource.type && <div className={`asset-lancer ${bonusSource.type.toLowerCase()}`} /> }
+                </div>
+                <div className='label'>{bonusSource.name}</div>
+              </button>
+            )}
           </div>
         </div>
 

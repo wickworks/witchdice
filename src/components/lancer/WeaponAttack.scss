@@ -7,7 +7,7 @@
   .damage-container {
     display: flex;
     align-items: center;
-    min-height: 54px;
+    min-height: 60px;
 
     > * { flex-shrink: 0; }
 
@@ -81,24 +81,66 @@
       }
     }
 
-    .subtotal-container {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      flex-wrap: wrap;
+    .DamageSubtotal {
       margin-left: auto;
       max-width: 190px;
 
-      .subtotal {
-        font-size: 50px;
+      button {
+        padding: 0;
+
+        &:hover {
+          background-color: $parchment_dark;
+        }
+      }
+
+      .actual-total-container {
         display: flex;
         align-items: center;
-        margin-left: 8px;
+        padding-left: 8px;
 
-        .asset-lancer {
-          width: 36px;
-          height: 36px;
-          margin: 0 2px;
+        .amount {
+          font-size: 50px;
+        }
+
+        .type-column {
+          display: flex;
+          flex-direction: column;
+          flex-wrap: wrap;
+          align-items: center;
+          justify-content: center;
+          max-height: 60px;
+
+          .asset-lancer {
+            width: 24px;
+            height: 24px;
+
+            &.single-type {
+              width: 42px;
+              height: 42px;
+            }
+          }
+        }
+      }
+
+      .by-type-container {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+
+        .subtotal {
+          display: flex;
+          align-items: center;
+
+          .amount {
+            font-size: 36px;
+            margin-left: 10px;
+          }
+
+          .asset-lancer {
+            width: 30px;
+            height: 30px;
+          }
         }
       }
     }
