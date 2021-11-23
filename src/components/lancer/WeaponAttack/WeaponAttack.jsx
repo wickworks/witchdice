@@ -18,8 +18,14 @@ const WeaponAttack = ({
   halveBonusDamage,
 }) => {
   const [isHit, setIsHit] = useState(true);
-  const [isCritForced, setIsCritForced] = useState(true);
-  const isCrit = isHit && attackData.toHit.finalResult >= 20;
+
+  const [invertCrit, setInvertCrit] = useState(false);
+  const [manualRoll, setManualRoll] = useState(0);
+
+  const finalFinalResult = manualRoll > 0 ? manualRoll : attackData.toHit.finalResult
+  var isCrit = isHit && finalFinalResult >= 20;
+  if (invertCrit) isCrit = !isCrit
+
   const isReliable = attackData.reliable.val > 0;
 
   // console.log('activeBonusDamageData', bonusDamageData);
@@ -55,8 +61,12 @@ const WeaponAttack = ({
         />
 
         <AttackRollOutput
+          rollResult={attackData.toHit.finalResult}
+          manualRoll={manualRoll}
+          setManualRoll={setManualRoll}
           isCrit={isCrit}
-          finalResult={attackData.toHit.finalResult}
+          invertCrit={invertCrit}
+          setInvertCrit={setInvertCrit}
         />
 
         { isHit ?

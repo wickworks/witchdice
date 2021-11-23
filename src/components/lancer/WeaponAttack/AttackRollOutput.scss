@@ -1,30 +1,100 @@
 @import '../../../fonts';
 
 .AttackRollOutput {
-  display: flex;
-  align-items: center;
+  margin-right: 20px;
 
-  .die-icon.asset {
-    width: 36px;
-    height: 36px;
-    margin: 6px 0;
 
-    // for crits
-    .necrotic {
-      width: 20px;
-      height: 20px;
-      margin: 9px auto;
 
-      // turn black to white
-      filter: invert(100%) sepia(100%) saturate(19%) hue-rotate(347deg) brightness(106%) contrast(104%);
+  button.die-and-result {
+    display: flex;
+    align-items: center;
+
+    padding: 0 6px;
+
+    &:hover { background-color: $parchment_dark; }
+
+    &.expanded {
+      background-color: $parchment_dark;
+      &:hover { background-color: $rust_light; }
+    }
+
+    .die-icon.asset {
+      width: 36px;
+      height: 36px;
+      margin: 6px 6px 6px 0;
+
+      // for crits
+      .necrotic {
+        width: 20px;
+        height: 20px;
+        margin: 9px auto;
+
+        // turn black to white
+        filter: invert(100%);
+      }
+    }
+
+    .result {
+      width: 60px;
+      position: relative;
+      display: inline-block;
+      font-size: 30px;
+    }
+
+    input {
+      font-family: 'Bitter';
+      width: 60px;
+      border: 0;
+      background-color: $parchment;
+      text-align: center;
+      font-size: 30px;
+
+      box-sizing: border-box;
     }
   }
 
-  .result-roll {
-    display: inline-block;
-    width: 50px;
-    padding: 0 24px 0 4px;
-    font-size: 30px;
-    position: relative;
+  .expanded-container {
+    display: flex;
+    justify-content: space-between;
+
+    > * {
+      margin: 4px 0 0 0;
+      padding: 3px 0;
+    }
+
+    button {
+      width: 48%;
+      background-color: $parchment_dark;
+      // &:first-child { margin-right: 6px; }
+
+      &.active {
+        background-color: $rust;
+
+        .asset {
+          // turn black to white
+          filter: invert(100%);
+        }
+      }
+
+      &:hover {
+        background-color: $rust_light;
+      }
+
+      .asset {
+        width: 18px;
+        height: 18px;
+        margin: auto;
+      }
+    }
+
+    // input {
+    //   width: 106px;
+    //   border: 0;
+    //   padding-top: 7px;
+    //   text-align: center;
+    //   font-size: 16px;
+    //   box-sizing: border-box;
+    // }
   }
+
 }
