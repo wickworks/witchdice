@@ -38,7 +38,6 @@ function rollToHit(flatBonus, accuracyMod) {
 // Fills out the damage rolls for the attack data.
 function rollDamage(weaponData, isOverkill = false) {
   var damageData = {};
-  damageData.isOverkill = isOverkill;
 
   damageData.rolls = [];
   weaponData.damage.forEach(damageValAndType => {
@@ -47,21 +46,12 @@ function rollDamage(weaponData, isOverkill = false) {
     damageData.rolls.push(...produceRollPools(damageDice, damageValAndType.type, isOverkill))
   });
 
-  // Reliable damage?
-  damageData.reliable = { val: 0, type: 'Variable' };
-  const reliableTag = findTagOnWeapon(weaponData, 'tg_reliable')
-  if (reliableTag) {
-    damageData.reliable.val = reliableTag.val;
-    damageData.reliable.type = defaultWeaponDamageType(weaponData)
-  }
-
   return damageData;
 }
 
 // Fills out the damage rolls for the attack data.
 function rollBonusDamage(bonusSourceData, defaultType, isOverkill = false) {
   var damageData = {};
-  damageData.isOverkill = isOverkill;
 
   damageData.rolls = [];
   bonusSourceData.forEach(source => {
@@ -235,14 +225,29 @@ const WeaponRoller = ({
   const createNewAttackRoll = (flatBonus, accuracyMod) => {
     let newAttack = {};
 
-    const isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');
+    newAttack.isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');;
 
     newAttack.toHit = rollToHit(flatBonus, accuracyMod);
-    newAttack.damage = rollDamage(weaponData, isOverkill);
+    newAttack.damage = rollDamage(weaponData, newAttack.isOverkill);
 
+    newAttack.effect = weaponData.effect || '';
     newAttack.onAttack = weaponData.on_attack || '';
     newAttack.onHit = weaponData.on_hit || '';
     newAttack.onCrit = weaponData.on_crit || '';
+
+    // Reliable?
+    newAttack.reliable = { val: 0, type: 'Variable' };
+    const reliableTag = findTagOnWeapon(weaponData, 'tg_reliable')
+    if (reliableTag) {
+      newAttack.reliable.val = reliableTag.val;
+      newAttack.reliable.type = defaultWeaponDamageType(weaponData)
+    }
+
+    // Knockback?
+    newAttack.knockback = 0;
+    const knockbackTag = findTagOnWeapon(weaponData, 'tg_knockback')
+    if (knockbackTag) newAttack.knockback = knockbackTag.val;
+
 
     console.log('New Attack:', newAttack);
 
@@ -256,7 +261,7 @@ const WeaponRoller = ({
       const bonusDamage = rollBonusDamage(
         [...availableBonusSources, genericBonusSource],
         defaultWeaponDamageType(weaponData),
-        isOverkill
+        newAttack.isOverkill
       );
 
       console.log('New Bonus Damage:', bonusDamage);

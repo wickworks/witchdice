@@ -83,18 +83,21 @@ const WeaponAttack = ({
 }) => {
   const [isHit, setIsHit] = useState(true);
   const isCrit = isHit && attackData.toHit.finalResult >= 20;
-  const isReliable = attackData.damage.reliable.val > 0
-  const isOverkill = attackData.damage.isOverkill;
+  const isReliable = attackData.reliable.val > 0;
 
   // console.log('activeBonusDamageData', bonusDamageData);
 
   var effectsList = [];
+  if (attackData.effect)              effectsList.push(attackData.effect)
+
   if (isHit) {
     if (attackData.onHit)             effectsList.push(attackData.onHit)
     if (isCrit)                       effectsList.push('Critical hit')
     if (isCrit && attackData.onCrit)  effectsList.push(attackData.onCrit)
 
-    if (isOverkill) {
+    if (attackData.knockback > 0)     effectsList.push(`Knockback ${attackData.knockback}`)
+
+    if (attackData.isOverkill) {
       const overkillCount = countOverkillTriggers(attackData.damage, bonusDamageData, isCrit)
       if (overkillCount > 0) effectsList.push(`Heat ${overkillCount} (Self) — Overkill`)
     }
@@ -154,7 +157,7 @@ const WeaponAttack = ({
           <>
             <div className="miss-line" />
 
-            <DamageSubtotal totalsByType={ {[attackData.damage.reliable.type]: attackData.damage.reliable.val} } />
+            <DamageSubtotal totalsByType={ {[attackData.reliable.type]: attackData.reliable.val} } />
           </>
         :
           <div className="miss-line" />
