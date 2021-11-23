@@ -17,7 +17,7 @@ function getHighestRolls(sortedTotalPool, highestCount) {
   return highest;
 }
 
-function summateAllDamageByType(damageData, bonusDamageData, isCrit) {
+function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusDamage) {
   var totalsByType = {};
 
   // BASE damage rolls
@@ -32,14 +32,26 @@ function summateAllDamageByType(damageData, bonusDamageData, isCrit) {
   });
 
   // BONUS damage rolls
+  var bonusTotalsByType = {}; // have to tally these separately so we can optionally halve just bonus damage
   bonusDamageData.rolls.forEach(rollData => {
     const totalPool = getSortedTotalPool(rollData, isCrit)
     const highest = getHighestRolls(totalPool, rollData.keep)
 
     const rollTotal = highest.reduce((partial_sum, a) => partial_sum + a, 0);
 
-    const prevTypeTotal = totalsByType[rollData.type] || 0;
-    totalsByType[rollData.type] = prevTypeTotal + rollTotal;
+    const prevTypeTotal = bonusTotalsByType[rollData.type] || 0;
+    bonusTotalsByType[rollData.type] = prevTypeTotal + rollTotal;
+  });
+
+  // Bonus damage gets halved once it targets multiple characters
+  if (halveBonusDamage) {
+    Object.keys(bonusTotalsByType).forEach(type => bonusTotalsByType[type] = Math.ceil(bonusTotalsByType[type] * .5));
+  }
+
+  // Add the bonus damage totals to the base totals
+  Object.keys(bonusTotalsByType).forEach(type => {
+    const prevTypeTotal = totalsByType[type] || 0;
+    totalsByType[type] = prevTypeTotal + bonusTotalsByType[type];
   });
 
   return totalsByType;
@@ -62,6 +74,7 @@ function countOverkillTriggers(damageData, isCrit) {
 const WeaponAttack = ({
   attackData,
   bonusDamageData,
+  halveBonusDamage,
 }) => {
   const [isHit, setIsHit] = useState(true);
   const isCrit = isHit && attackData.toHit.finalResult >= 20;
@@ -85,7 +98,7 @@ const WeaponAttack = ({
     if (isReliable)                   effectsList.push('Reliable')
   }
 
-  const totalsByType = summateAllDamageByType(attackData.damage, bonusDamageData, isCrit)
+  const totalsByType = summateAllDamageByType(attackData.damage, bonusDamageData, isCrit, halveBonusDamage)
 
   return (
     <div className="WeaponAttack">
@@ -112,11 +125,21 @@ const WeaponAttack = ({
           <>
             <div className="damage-line">
               { attackData.damage.rolls.map((rollData, i) =>
-                <DamageRollPool rollData={rollData} isCrit={isCrit} key={i} />
+                <DamageRollPool
+                  rollData={rollData}
+                  isCrit={isCrit}
+                  key={i}
+                />
               )}
 
               { bonusDamageData.rolls.map((rollData, i) =>
-                <DamageRollPool rollData={rollData} isCrit={isCrit} isBonusDamage={true} key={i} />
+                <DamageRollPool
+                  rollData={rollData}
+                  isCrit={isCrit}
+                  isBonusDamage={true}
+                  halveBonusDamage={halveBonusDamage}
+                  key={i}
+                />
               )}
             </div>
 
@@ -159,13 +182,20 @@ const DamageRollPool = ({
   rollData,
   isCrit,
   isBonusDamage = false,
+  halveBonusDamage = false,
 }) => {
 
   var totalPool = getSortedTotalPool(rollData, isCrit)
-  const highest = getHighestRolls(totalPool, rollData.keep)
+  var highest = getHighestRolls(totalPool, rollData.keep)
 
   // remove the highest rolls from the total pool; everything in there will be grey
   highest.forEach(highroll => totalPool.splice(totalPool.indexOf(highroll), 1))
+
+  // Bonus damage gets halved once it targets multiple characters
+  if (isBonusDamage && halveBonusDamage) {
+    totalPool.forEach((roll, i) => totalPool[i] = (totalPool[i] * .5));
+    highest.forEach((roll, i) => highest[i] = (highest[i] * .5));
+  }
 
   const discardedString = totalPool.join(', ')
   const usedString = highest.join(', ')
@@ -173,7 +203,6 @@ const DamageRollPool = ({
   return (
     <div className={`damage-roll ${isBonusDamage ? 'bonus' : ''}`}>
       <span className={`asset-lancer ${rollData.type.toLowerCase()}`} />
-
 
       { discardedString &&
         <span className='amount discarded'>

@@ -6,13 +6,17 @@
   @include parchment_background;
   @include nouveau_border("nouveau_character.svg");
 
+  display: flex;
+  flex-direction: column;
+
   position: relative;
   box-sizing: border-box;
-  margin-top: 20px;
-  padding: 8px 4% 8px;
   width: 100%;
   max-width: 800px;
   min-height: 500px;
+
+  margin-top: 20px;
+  padding: 8px 4% 8px;
 
   .top-bar {
     .name-and-tags {
@@ -142,24 +146,33 @@
     }
   }
 
-  button.add-target {
-    display: flex;
-    align-items: center;
-    color: $rust;
-    margin: 16px 0;
+  .attacks-bar {
+    button.add-target {
+      display: flex;
+      align-items: center;
+      color: $rust;
+      margin: 16px 0 36px;
 
-    opacity: 0.5;
-    transition: opacity .075s ease-out;
+      opacity: 0.5;
+      transition: opacity .075s ease-out;
 
-    &:hover { opacity: 1.0; }
+      &:hover { opacity: 1.0; }
 
-    .asset.plus {
-      width: 36px;
-      height: 36px;
-      margin-right: 8px;
+      .asset.plus {
+        width: 36px;
+        height: 36px;
+        margin-right: 8px;
 
-      // turns black to $rust
-      filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+        // turns black to $rust
+        filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+      }
     }
+  }
+
+  .status-bar {
+    margin-top: auto;
+    margin-bottom: 20px;
+    font-style: italic;
+    text-align: center;
   }
 }

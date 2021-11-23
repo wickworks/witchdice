@@ -208,16 +208,8 @@ const WeaponRoller = ({
     setAllAttackRolls(newData);
     setShowAttackSetup(false);
 
-
     // do we need to roll bonus damage?
     if (bonusDamageData === null) {
-
-      // get all the active bonus sources
-      var activeBonusDamageSources = availableBonusSources.filter(bonusSource =>
-        activeBonusSources.indexOf(bonusSource.name) >= 0
-      );
-      if (genericBonusIsActive) activeBonusDamageSources.push(genericBonusSource);
-
       const bonusDamage = rollBonusDamage(
         [...availableBonusSources, genericBonusSource],
         defaultWeaponDamageType(weaponData),
@@ -304,28 +296,37 @@ const WeaponRoller = ({
 
       </div>
 
-      { allAttackRolls.map((attackData, i) =>
-        <WeaponAttack
-          attackData={attackData}
-          bonusDamageData={activeBonusDamageData}
-          key={i}
-        />
-      )}
+      <div className="attacks-bar">
 
 
-      {showAttackSetup ?
-        <WeaponAttackSetup
-          gritBonus={gritBonus}
-          createNewAttackRoll={createNewAttackRoll}
-        />
-      :
-        <button className='add-target' onClick={() => setShowAttackSetup(true)}>
-          <div className='asset plus' />
-          Add target
-        </button>
+        { allAttackRolls.map((attackData, i) =>
+          <WeaponAttack
+            attackData={attackData}
+            bonusDamageData={activeBonusDamageData}
+            halveBonusDamage={allAttackRolls.length >= 2}
+            key={i}
+          />
+        )}
+
+
+        {showAttackSetup ?
+          <WeaponAttackSetup
+            gritBonus={gritBonus}
+            createNewAttackRoll={createNewAttackRoll}
+          />
+        :
+          <button className='add-target' onClick={() => setShowAttackSetup(true)}>
+            <div className='asset plus' />
+            Add target
+          </button>
+        }
+      </div>
+
+      { ((allAttackRolls.length >= 2) && activeBonusDamageData.rolls.length > 0) && !showAttackSetup &&
+        <div className='status-bar'>
+          If an attack that targets more than one character deals bonus damage, the bonus damage is halved.
+        </div>
       }
-
-
     </div>
   )
 }
