@@ -1,0 +1,71 @@
+@import '../../../fonts';
+
+
+.DamageSubtotal {
+  margin-left: auto;
+  max-width: 190px;
+
+  button {
+    padding: 0;
+
+    &:hover {
+      background-color: $parchment_dark;
+    }
+
+    &:disabled {
+      background-color: transparent;
+      cursor: auto;
+    }
+  }
+
+  .actual-total-container {
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+
+    .amount {
+      font-size: 50px;
+    }
+
+    .type-column {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-height: 60px;
+      min-width: 48px;
+
+      .asset-lancer {
+        width: 24px;
+        height: 24px;
+
+        &.single-type {
+          width: 42px;
+          height: 42px;
+        }
+      }
+    }
+  }
+
+  .by-type-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+
+    .subtotal {
+      display: flex;
+      align-items: center;
+
+      .amount {
+        font-size: 36px;
+        margin-left: 10px;
+      }
+
+      .asset-lancer {
+        width: 30px;
+        height: 30px;
+      }
+    }
+  }
+}

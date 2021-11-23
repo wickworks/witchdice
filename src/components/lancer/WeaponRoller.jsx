@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import WeaponAttack from './WeaponAttack.jsx';
+import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
 import WeaponAttackSetup from './WeaponAttackSetup.jsx';
 import { getRandomInt, deepCopy } from '../../utils.js';
 
