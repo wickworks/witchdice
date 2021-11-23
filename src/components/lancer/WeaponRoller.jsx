@@ -164,8 +164,29 @@ const WeaponRoller = ({
           (bonusRoll.source === GENERIC_NAME) && bonusRoll.critPool.length > 0
         )
       );
-      genericData.rollPool.splice(genericBonusDieCount);
-      genericData.critPool.splice(genericBonusDieCount);
+
+      genericData.keep = genericBonusDieCount
+
+      // This hack is made considerably more ugly by the existence of Overkill
+      var useDieCount = genericBonusDieCount;
+      var overkillCount = 0;
+      var i = 0;
+      while (i < useDieCount) {
+        if (genericData.rollPool[i] === 1) useDieCount += 1
+        i += 1
+      }
+      genericData.rollPool.splice(useDieCount);
+
+      useDieCount = genericBonusDieCount;
+      overkillCount = 0;
+      i = 0;
+      while (i < useDieCount) {
+        if (genericData.critPool[i] === 1) useDieCount += 1
+        i += 1
+      }
+      genericData.critPool.splice(useDieCount);
+
+      // use this modified generic damage
       activeBonusDamageData.rolls.push(genericData);
     }
 
