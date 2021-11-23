@@ -46,6 +46,7 @@
     .damage-line {
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       flex-shrink: 1;
 
       .damage-roll {

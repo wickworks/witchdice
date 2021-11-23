@@ -263,7 +263,7 @@ const WeaponRoller = ({
             <div className='generic'>
               <button
                 className={`amount ${genericBonusDieCount ? 'active' : 'inactive'}`}
-                onClick={() => setGenericBonusDieCount(genericBonusDieCount + 1)}
+                onClick={() => setGenericBonusDieCount(Math.min(genericBonusDieCount + 1, 9))}
               >
                 {genericBonusDieCount ?
                   `${genericBonusDieCount}d6`
@@ -274,7 +274,7 @@ const WeaponRoller = ({
 
               <button
                 className={`amount ${genericBonusPlus ? 'active' : 'inactive'}`}
-                onClick={() => setGenericBonusPlus(genericBonusPlus + 1)}
+                onClick={() => setGenericBonusPlus(Math.min(genericBonusPlus + 1, 9))}
               >
                 {genericBonusPlus ?
                   `+${genericBonusPlus}`

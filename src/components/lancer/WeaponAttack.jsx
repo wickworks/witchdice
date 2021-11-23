@@ -57,16 +57,21 @@ function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusD
   return totalsByType;
 }
 
-function countOverkillTriggers(damageData, isCrit) {
+function countOverkillTriggers(damageData, bonusDamageData, isCrit) {
   var overkillCount = 0;
-  damageData.rolls.forEach(rollData => {
-    const totalPool = getSortedTotalPool(rollData, isCrit)
 
-    // Don't count e.g. "+1" part of
-    if (totalPool.length > 1) {
-      overkillCount +=  totalPool.reduce((a, v) => (v === 1 ? a + 1 : a), 0);
-    }
+  [damageData, bonusDamageData].forEach(deedeeData => {
+    deedeeData.rolls.forEach(rollData => {
+
+      const totalPool = getSortedTotalPool(rollData, isCrit)
+
+      if (totalPool.length > 1) { // Skip "+1" die rolls
+        overkillCount += totalPool.reduce((a, v) => (v === 1 ? a + 1 : a), 0);
+      }
+
+    });
   });
+
   return overkillCount;
 }
 
@@ -90,7 +95,7 @@ const WeaponAttack = ({
     if (isCrit && attackData.onCrit)  effectsList.push(attackData.onCrit)
 
     if (isOverkill) {
-      const overkillCount = countOverkillTriggers(attackData.damage, isCrit)
+      const overkillCount = countOverkillTriggers(attackData.damage, bonusDamageData, isCrit)
       if (overkillCount > 0) effectsList.push(`Heat ${overkillCount} (Self) — Overkill`)
     }
 
