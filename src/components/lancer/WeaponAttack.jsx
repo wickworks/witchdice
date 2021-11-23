@@ -86,7 +86,7 @@ const WeaponAttack = ({
   const isReliable = attackData.damage.reliable.val > 0
   const isOverkill = attackData.damage.isOverkill;
 
-  console.log('activeBonusDamageData', bonusDamageData);
+  // console.log('activeBonusDamageData', bonusDamageData);
 
   var effectsList = [];
   if (isHit) {

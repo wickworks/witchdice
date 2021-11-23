@@ -353,6 +353,7 @@ const WeaponRoller = ({
 
         {showAttackSetup ?
           <WeaponAttackSetup
+            weaponData={weaponData}
             gritBonus={gritBonus}
             createNewAttackRoll={createNewAttackRoll}
           />

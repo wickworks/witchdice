@@ -1,16 +1,30 @@
 import React, { useState } from 'react';
 import BigRollButton from '../shared/BigRollButton.jsx';
 
+import {
+  findTagOnWeapon,
+} from './data.js';
+
 import './WeaponAttackSetup.scss';
 
 const COVER_SOFT = 'Soft Cover'
 const COVER_HARD = 'Hard Cover'
 
+function getInitialSources(weaponData) {
+  var initialSources = [];
+
+  if (findTagOnWeapon(weaponData, 'tg_accurate'))   initialSources.push('Accurate')
+  if (findTagOnWeapon(weaponData, 'tg_inaccurate')) initialSources.push('Inaccurate')
+
+  return initialSources;
+}
+
 const WeaponAttackSetup = ({
+  weaponData,
   gritBonus,
   createNewAttackRoll,
 }) => {
-  const [currentSources, setCurrentSources] = useState([]);
+  const [currentSources, setCurrentSources] = useState(getInitialSources(weaponData));
   const [manualMod, setManualMod] = useState(0);
 
   const resetModifiers = () => {
