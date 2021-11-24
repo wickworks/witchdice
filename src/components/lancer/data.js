@@ -80,16 +80,25 @@ const getTagName = (tag) => {
 
 // Gets the type of damage dealt by the weapon, or Variable if multiple or none.
 const defaultWeaponDamageType = (weaponData) => {
+  const VARIABLE_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy']
+
   var damageType = '';
   if (weaponData.damage) {
     weaponData.damage.forEach(damageValAndType => {
-      if (damageType === '') {
-        damageType = damageValAndType.type
-      } else if (damageType !== damageValAndType.type) {
-        damageType = 'Variable'
+      // is this one of the types that bonus damage can normally become?
+      if (VARIABLE_DAMAGE_TYPES.includes(damageValAndType.type)) {
+        // assign it to the first one we see
+        if (damageType === '') {
+          damageType = damageValAndType.type
+
+        // if we see another type, switch it back to variable
+        } else if (damageType !== damageValAndType.type) {
+          damageType = 'Variable'
+        }
       }
     });
   }
+
   return damageType || 'Variable';
 }
 
