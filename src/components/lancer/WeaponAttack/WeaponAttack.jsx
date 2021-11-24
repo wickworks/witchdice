@@ -7,7 +7,7 @@ import DamageSubtotal from './DamageSubtotal.jsx';
 import {
   summateAllDamageByType,
   countOverkillTriggers,
-} from './damageUtils.js';
+} from './damageTotalUtils.js';
 
 import './WeaponAttack.scss';
 

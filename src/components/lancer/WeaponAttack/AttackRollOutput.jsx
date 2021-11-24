@@ -5,7 +5,7 @@ import './AttackRollOutput.scss';
 import {
   getSortedTotalPool,
   getHighestRolls,
-} from './damageUtils.js';
+} from './damageTotalUtils.js';
 
 const AttackRollOutput = ({
   toHitData,

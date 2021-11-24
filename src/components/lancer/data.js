@@ -1,8 +1,15 @@
-
-
 const allWeapons = require('./lancer-data-master/lib/weapons.json');
 const allPilotSkills = require('./lancer-data-master/lib/skills.json');
 const allTags = require('./lancer-data-master/lib/tags.json');
+
+
+const GENERIC_BONUS_SOURCE = 'Bonus damage';
+const MAX_BONUS = 9; // either added or dice rolled
+
+const DAMAGE_MODIFIERS = {
+  double: false,
+  half: false,
+}
 
 
 const getGrit = (pilot) => { return Math.ceil(pilot.level * .5) }
@@ -82,6 +89,10 @@ const defaultWeaponDamageType = (weaponData) => {
   return damageType || 'Variable';
 }
 
+
+
+
+
 export {
   allWeapons,
   allPilotSkills,
@@ -91,4 +102,7 @@ export {
   findTagOnWeapon,
   getTagName,
   defaultWeaponDamageType,
+  GENERIC_BONUS_SOURCE,
+  MAX_BONUS,
+  DAMAGE_MODIFIERS,
 }

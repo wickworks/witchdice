@@ -1,5 +1,4 @@
 
-
 function getSortedTotalPool(rollData, isCrit, isAverage) {
   var totalPool = [...rollData.rollPool];
   if (isCrit && !isAverage) totalPool.push(...rollData.critPool);

@@ -5,7 +5,7 @@ import './DamageRollPool.scss';
 import {
   getSortedTotalPool,
   getHighestRolls,
-} from './damageUtils.js';
+} from './damageTotalUtils.js';
 
 const DamageRollPool = ({
   rollData,
