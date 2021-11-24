@@ -30,8 +30,6 @@ function getBonusDamageSourcesFromMech(mech) {
   const frame = findFrameData(mech.frame);
   if (!frame) return sources;
 
-  console.log('frame',frame);
-
   switch (frame.id) {
     case 'mf_nelson':
       sources.push( newBonusDamageSourceFromFrame(frame, '1d6', '', 'Momentum') )
@@ -92,7 +90,7 @@ const MechSheet = ({
 
   const bonusDamageSources = getBonusDamageSourcesFromMech(activeMech);
 
-  console.log('bonusDamageSources', bonusDamageSources);
+  // console.log('bonusDamageSources', bonusDamageSources);
 
   return (
     <div className="MechSheet">

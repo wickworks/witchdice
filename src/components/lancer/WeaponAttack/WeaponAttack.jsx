@@ -32,6 +32,7 @@ const WeaponAttack = ({
   if (invertCrit) isCrit = !isCrit
 
   const isReliable = attackData.reliable.val > 0;
+  var selfHeat = attackData.selfHeat;
 
   // console.log('activeBonusDamageData', bonusDamageData);
 
@@ -41,15 +42,18 @@ const WeaponAttack = ({
     if (attackData.onHit)             effectsList.push(attackData.onHit)
     if (isCrit)                       effectsList.push('Critical hit.')
     if (isCrit && attackData.onCrit)  effectsList.push(attackData.onCrit)
+    if (attackData.isArmorPiercing)     effectsList.push('Armor piercing.')
     if (attackData.knockback > 0)     effectsList.push(`Knockback ${attackData.knockback}.`)
     if (attackData.isOverkill) {
       const overkillCount = countOverkillTriggers(attackData.damage, bonusDamageData, isCrit, damageModifiers.average)
-      if (overkillCount > 0) effectsList.push(`Heat ${overkillCount} (Self) — Overkill.`)
+      if (overkillCount > 0)          effectsList.push(`Overkill x${overkillCount}.`)
+      selfHeat += overkillCount;
     }
   } else {
-    if (isReliable)                   effectsList.push('Reliable.')
+    if (isReliable) effectsList.push('Reliable.')
   }
-  if (isRerolled)              effectsList.push('Rerolled.')
+  if (selfHeat)     effectsList.push(`Heat ${selfHeat} (Self).`)
+  if (isRerolled)   effectsList.push('Rerolled.')
 
 
   const totalsByType = summateAllDamageByType(

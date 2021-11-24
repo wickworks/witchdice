@@ -111,16 +111,11 @@ const WeaponRoller = ({
   const createNewAttackRoll = (flatBonus, accuracyMod) => {
     let newAttack = {};
 
+    // Overkill?
     newAttack.isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');;
 
-    newAttack.toHit = rollToHit(flatBonus, accuracyMod);
-    newAttack.toHitReroll = rollToHit(flatBonus, accuracyMod);
-    newAttack.damage = rollDamage(weaponData, newAttack.isOverkill);
-
-    newAttack.effect = weaponData.effect || '';
-    newAttack.onAttack = weaponData.on_attack || '';
-    newAttack.onHit = weaponData.on_hit || '';
-    newAttack.onCrit = weaponData.on_crit || '';
+    // Armor piercing?
+    newAttack.isArmorPiercing = !!findTagOnWeapon(weaponData, 'tg_ap')
 
     // Reliable?
     newAttack.reliable = { val: 0, type: 'Variable' };
@@ -134,6 +129,22 @@ const WeaponRoller = ({
     newAttack.knockback = 0;
     const knockbackTag = findTagOnWeapon(weaponData, 'tg_knockback')
     if (knockbackTag) newAttack.knockback = knockbackTag.val;
+
+    // Self heat?
+    newAttack.selfHeat = 0;
+    const selfHeatTag = findTagOnWeapon(weaponData, 'tg_heat_self')
+    if (selfHeatTag) newAttack.selfHeat = selfHeatTag.val;
+
+    newAttack.toHit = rollToHit(flatBonus, accuracyMod);
+    newAttack.toHitReroll = rollToHit(flatBonus, accuracyMod);
+    newAttack.damage = rollDamage(weaponData, newAttack.isOverkill);
+
+    newAttack.effect = weaponData.effect || '';
+    newAttack.onAttack = weaponData.on_attack || '';
+    newAttack.onHit = weaponData.on_hit || '';
+    newAttack.onCrit = weaponData.on_crit || '';
+
+
 
     console.log('New Attack:', newAttack);
 
