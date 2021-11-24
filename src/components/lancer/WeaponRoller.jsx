@@ -303,8 +303,8 @@ const BonusDamageBar = ({
           key={`${bonusSource.id}-${i}`}
         >
           <div className='amount'>
-            {bonusSource.diceString}
             { bonusSource.type && <div className={`asset-lancer ${bonusSource.type.toLowerCase()}`} /> }
+            {bonusSource.diceString}
           </div>
           <div className='label'>{bonusSource.name}</div>
         </button>
