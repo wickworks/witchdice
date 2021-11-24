@@ -39,6 +39,15 @@ function pullOutFirstRollBonusDamage(bonusDamageData) {
   return [trimmedBonusDamageRolls, firstBonusDamageRolls]
 }
 
+// modifies given baseTotalsByType by adding the bonus totals to it
+function addBonusDamageToBaseDamage(baseTotalsByType, bonusTotalsByType, convertToBurn = false) {
+  Object.keys(bonusTotalsByType).forEach(type => {
+    const prevTypeTotal = baseTotalsByType[type] || 0;
+    const convertedType = convertToBurn ? 'Burn' : type
+    baseTotalsByType[convertedType] = prevTypeTotal + bonusTotalsByType[type];
+  });
+}
+
 function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusDamage, damageModifiers, isFirstRoll) {
 
   // BASE damage rolls
@@ -56,16 +65,8 @@ function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusD
   }
 
   // Add the bonus damage totals to the base totals
-  Object.keys(bonusTotalsByType).forEach(type => {
-    const prevTypeTotal = totalsByType[type] || 0;
-    totalsByType[type] = prevTypeTotal + bonusTotalsByType[type];
-  });
-  if (isFirstRoll) {
-    Object.keys(firstBonusTotalsByType).forEach(type => {
-      const prevTypeTotal = totalsByType[type] || 0;
-      totalsByType[type] = prevTypeTotal + firstBonusTotalsByType[type];
-    });
-  }
+  addBonusDamageToBaseDamage(totalsByType, bonusTotalsByType, damageModifiers.bonusToBurn);
+  if (isFirstRoll) addBonusDamageToBaseDamage(totalsByType, firstBonusTotalsByType, damageModifiers.bonusToBurn);
 
   // Halve/double damage from multiplier
   var multiplier = 1.0;

@@ -3,9 +3,13 @@ const allPilotSkills = require('./lancer-data-master/lib/skills.json');
 const allTags = require('./lancer-data-master/lib/tags.json');
 const allFrames = require('./lancer-data-master/lib/frames.json');
 
+const BONUS_TO_BURN_TAG = 'mf_tokugawa_dz'
+
 const DAMAGE_MODIFIERS = {
   double: false,
   half: false,
+  average: false,
+  bonusToBurn: false,
 }
 
 const MAX_BONUS = 9; // either added or dice rolled
@@ -126,4 +130,5 @@ export {
   GENERIC_BONUS_SOURCE,
   MAX_BONUS,
   DAMAGE_MODIFIERS,
+  BONUS_TO_BURN_TAG,
 }

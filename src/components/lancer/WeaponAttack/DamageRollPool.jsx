@@ -32,12 +32,14 @@ const DamageRollPool = ({
     highest.forEach((roll, i) =>    highest[i] = (highest[i] * multiplier));
   }
 
+  const damageType = (isBonusDamage && damageModifiers.bonusToBurn) ? 'Burn' : rollData.type
+
   const discardedString = totalPool.join(', ')
   const usedString = highest.join(', ')
 
   return (
     <div className={`DamageRollPool ${isBonusDamage ? 'bonus' : ''}`}>
-      <span className={`asset-lancer ${rollData.type.toLowerCase()}`} />
+      <span className={`asset-lancer ${damageType.toLowerCase()}`} />
 
       { discardedString &&
         <span className='amount discarded'>

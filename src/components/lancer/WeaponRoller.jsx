@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
 import WeaponAttackSetup from './WeaponAttackSetup.jsx';
 import { deepCopy } from '../../utils.js';
+import { BONUS_TO_BURN_TAG } from './data.js';
 
 import {
   getTagName,
@@ -56,20 +57,23 @@ const WeaponRoller = ({
   );
 
   // Add or remove the name of a bonus damage to the active list
-  const toggleBonusDamage = (sourceName) => {
+  const toggleBonusDamage = (sourceID) => {
     let newBonusDamages = [...activeBonusSources];
 
-    const bonusIndex = newBonusDamages.indexOf(sourceName);
+    const bonusIndex = newBonusDamages.indexOf(sourceID);
     if (bonusIndex >= 0) {
       newBonusDamages.splice(bonusIndex, 1) // REMOVE source
     } else {
-      newBonusDamages.push(sourceName);          // ADD source
+      newBonusDamages.push(sourceID);          // ADD source
     }
+
+    // Special case: tokugawa bonus-to-burn
+    if (sourceID === BONUS_TO_BURN_TAG) toggleDamageModifier('bonusToBurn')
 
     setActiveBonusSources(newBonusDamages);
   }
 
-  const toggleDamageModifiers = (modifier) => {
+  const toggleDamageModifier = (modifier) => {
     let newModifiers = {...damageModifiers};
 
     // toggle the given key
@@ -192,7 +196,7 @@ const WeaponRoller = ({
             <div className="multipliers">
               <button
                 className={damageModifiers.double ? 'active' : ''}
-                onClick={() => toggleDamageModifiers('double')}
+                onClick={() => toggleDamageModifier('double')}
               >
                 <div className='asset x' />
                 <div>2</div>
@@ -200,14 +204,14 @@ const WeaponRoller = ({
 
               <button
                 className={damageModifiers.average ? 'active' : ''}
-                onClick={() => toggleDamageModifiers('average')}
+                onClick={() => toggleDamageModifier('average')}
               >
                 <div>Avg</div>
               </button>
 
               <button
                 className={damageModifiers.half ? 'active' : ''}
-                onClick={() => toggleDamageModifiers('half')}
+                onClick={() => toggleDamageModifier('half')}
               >
                 <div className='asset x' />
                 <div>.5</div>

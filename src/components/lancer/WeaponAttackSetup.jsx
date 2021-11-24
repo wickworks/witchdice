@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import BigRollButton from '../shared/BigRollButton.jsx';
 
 import {
@@ -27,8 +27,13 @@ const WeaponAttackSetup = ({
   const [currentSources, setCurrentSources] = useState(getInitialSources(weaponData));
   const [manualMod, setManualMod] = useState(0);
 
+  // =============== CHANGE WEAPON ==================
+  useEffect(() => {
+    resetModifiers();
+  }, [weaponData]);
+
   const resetModifiers = () => {
-    setCurrentSources([]);
+    setCurrentSources(getInitialSources(weaponData));
     setManualMod(0);
   }
 
