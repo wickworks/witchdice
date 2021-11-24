@@ -21,7 +21,7 @@ import {
   produceRollPools,
   makeDamageRoll,
   getActiveBonusDamageData,
-} from './damageRollUtils.js';
+} from './weaponRollerUtils.js';
 
 import './WeaponRoller.scss';
 
