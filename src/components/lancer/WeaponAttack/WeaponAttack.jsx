@@ -16,6 +16,7 @@ const WeaponAttack = ({
   attackData,
   bonusDamageData,
   halveBonusDamage,
+  damageModifiers,
 }) => {
   const [isHit, setIsHit] = useState(true);
 
@@ -32,24 +33,20 @@ const WeaponAttack = ({
 
   var effectsList = [];
   if (attackData.effect)              effectsList.push(attackData.effect)
-
   if (isHit) {
     if (attackData.onHit)             effectsList.push(attackData.onHit)
     if (isCrit)                       effectsList.push('Critical hit')
     if (isCrit && attackData.onCrit)  effectsList.push(attackData.onCrit)
-
     if (attackData.knockback > 0)     effectsList.push(`Knockback ${attackData.knockback}`)
-
     if (attackData.isOverkill) {
-      const overkillCount = countOverkillTriggers(attackData.damage, bonusDamageData, isCrit)
+      const overkillCount = countOverkillTriggers(attackData.damage, bonusDamageData, isCrit, damageModifiers.average)
       if (overkillCount > 0) effectsList.push(`Heat ${overkillCount} (Self) — Overkill`)
     }
-
   } else {
     if (isReliable)                   effectsList.push('Reliable')
   }
 
-  const totalsByType = summateAllDamageByType(attackData.damage, bonusDamageData, isCrit, halveBonusDamage)
+  const totalsByType = summateAllDamageByType(attackData.damage, bonusDamageData, isCrit, halveBonusDamage, damageModifiers)
 
   return (
     <div className="WeaponAttack">
@@ -77,6 +74,7 @@ const WeaponAttack = ({
                 <DamageRollPool
                   rollData={rollData}
                   isCrit={isCrit}
+                  damageModifiers={damageModifiers}
                   key={i}
                 />
               )}
@@ -87,6 +85,7 @@ const WeaponAttack = ({
                   isCrit={isCrit}
                   isBonusDamage={true}
                   halveBonusDamage={halveBonusDamage}
+                  damageModifiers={damageModifiers}
                   key={i}
                 />
               )}

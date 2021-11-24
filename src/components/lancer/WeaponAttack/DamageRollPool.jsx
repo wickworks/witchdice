@@ -12,18 +12,24 @@ const DamageRollPool = ({
   isCrit,
   isBonusDamage = false,
   halveBonusDamage = false,
+  damageModifiers,
 }) => {
 
-  var totalPool = getSortedTotalPool(rollData, isCrit)
+  var totalPool = getSortedTotalPool(rollData, isCrit, damageModifiers.average)
   var highest = getHighestRolls(totalPool, rollData.keep)
 
   // remove the highest rolls from the total pool; everything in there will be grey
   highest.forEach(highroll => totalPool.splice(totalPool.indexOf(highroll), 1))
 
   // Bonus damage gets halved once it targets multiple characters
-  if (isBonusDamage && halveBonusDamage) {
-    totalPool.forEach((roll, i) => totalPool[i] = (totalPool[i] * .5));
-    highest.forEach((roll, i) => highest[i] = (highest[i] * .5));
+  var multiplier = 1.0;
+  if (damageModifiers.double) multiplier *= 2;
+  if (damageModifiers.half) multiplier *= .5;
+  if (isBonusDamage && halveBonusDamage) multiplier *= .5;
+
+  if (multiplier !== 1.0) {
+    totalPool.forEach((roll, i) =>  totalPool[i] = (totalPool[i] * multiplier));
+    highest.forEach((roll, i) =>    highest[i] = (highest[i] * multiplier));
   }
 
   const discardedString = totalPool.join(', ')

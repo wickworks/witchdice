@@ -16,6 +16,11 @@ import './WeaponRoller.scss';
 const GENERIC_NAME = 'Bonus damage';
 const MAX_BONUS = 9; // either added or dice rolled
 
+const DAMAGE_MODIFIERS = {
+  double: false,
+  half: false,
+}
+
 // Fills out the to-hit roll for the attack data.
 function rollToHit(flatBonus, accuracyMod) {
   var toHit = {};
@@ -81,6 +86,7 @@ function produceRollPools(damageDice, damageType, isOverkill = false, sourceName
       rollPool: rollPool,
       critPool: critPool,
       keep: damageDice.count,
+      dieType: damageDice.dietype,
       type: damageType,
       source: sourceName
     });
@@ -92,6 +98,7 @@ function produceRollPools(damageDice, damageType, isOverkill = false, sourceName
       rollPool: [damageDice.bonus],
       critPool: [],
       keep: 1,
+      dieType: 0,
       type: damageType,
       source: sourceName
     });
@@ -113,7 +120,7 @@ function makeDamageRoll(dieType, rollPool, isOverkill) {
   }
 }
 
-function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBonusDieCount, genericBonusPlus) {
+function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBonusDieCount, genericBonusPlus, isOverkill) {
   var activeBonusDamageData = {};
 
   if (bonusDamageData) {
@@ -136,20 +143,24 @@ function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBo
 
       // This hack is made considerably more ugly by the existence of Overkill
       var useDieCount = genericBonusDieCount;
-      var overkillCount = 0;
-      var i = 0;
-      while (i < useDieCount) {
-        if (genericData.rollPool[i] === 1) useDieCount += 1
-        i += 1
+      if (isOverkill) {
+        var overkillCount = 0;
+        var i = 0;
+        while (i < useDieCount) {
+          if (genericData.rollPool[i] === 1) useDieCount += 1
+          i += 1
+        }
       }
       genericData.rollPool.splice(useDieCount);
 
       useDieCount = genericBonusDieCount;
-      overkillCount = 0;
-      i = 0;
-      while (i < useDieCount) {
-        if (genericData.critPool[i] === 1) useDieCount += 1
-        i += 1
+      if (isOverkill) {
+        overkillCount = 0;
+        i = 0;
+        while (i < useDieCount) {
+          if (genericData.critPool[i] === 1) useDieCount += 1
+          i += 1
+        }
       }
       genericData.critPool.splice(useDieCount);
 
@@ -184,6 +195,8 @@ const WeaponRoller = ({
   const [bonusDamageData, setBonusDamageData] = useState(null);
   const [activeBonusSources, setActiveBonusSources] = useState([]);
 
+  const [damageModifiers, setDamageModifiers] = useState({...DAMAGE_MODIFIERS});
+
   const [genericBonusDieCount, setGenericBonusDieCount] = useState(0);
   const [genericBonusPlus, setGenericBonusPlus] = useState(0);
 
@@ -196,7 +209,14 @@ const WeaponRoller = ({
   }
 
   // the actual data for all the currently active bonus damages
-  var activeBonusDamageData = getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBonusDieCount, genericBonusPlus);
+  const isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');
+  var activeBonusDamageData = getActiveBonusDamageData(
+    bonusDamageData,
+    activeBonusSources,
+    genericBonusDieCount,
+    genericBonusPlus,
+    isOverkill
+  );
 
   // Add or remove the name of a bonus damage to the active list
   const toggleBonusDamage = (sourceName) => {
@@ -210,6 +230,22 @@ const WeaponRoller = ({
     }
 
     setActiveBonusSources(newBonusDamages);
+  }
+
+  const toggleDamageModifiers = (modifier) => {
+    let newModifiers = {...damageModifiers};
+
+    // toggle the given key
+    newModifiers[modifier] = !damageModifiers[modifier]
+
+    // half & double are mutually exclusive
+    if (modifier === 'half' && newModifiers.half) {
+      newModifiers.double = false;
+    } else if (modifier === 'double' && newModifiers.double) {
+      newModifiers.half = false;
+    }
+
+    setDamageModifiers(newModifiers);
   }
 
   // =============== CHANGE WEAPON ==================
@@ -254,7 +290,6 @@ const WeaponRoller = ({
     const knockbackTag = findTagOnWeapon(weaponData, 'tg_knockback')
     if (knockbackTag) newAttack.knockback = knockbackTag.val;
 
-
     console.log('New Attack:', newAttack);
 
     let newData = deepCopy(allAttackRolls);
@@ -287,14 +322,41 @@ const WeaponRoller = ({
 
         <div className="damage-row">
           <div className="base-damage-container">
-            {'[ '}
-            { weaponData.damage.map((damage, i) =>
-              <div className='damage-dice' key={`damage-${i}`}>
-                {damage.val}
-                <div className={`asset-lancer ${damage.type.toLowerCase()}`} />
-              </div>
-            )}
-            {' ]'}
+            <div className="base-damage">
+              <div>{'[ '}</div>
+              { weaponData.damage.map((damage, i) =>
+                <div className='damage-dice' key={`damage-${i}`}>
+                  {damage.val}
+                  <div className={`asset-lancer ${damage.type.toLowerCase()}`} />
+                </div>
+              )}
+              <div>{' ]'}</div>
+            </div>
+
+            <div className="multipliers">
+              <button
+                className={damageModifiers.double ? 'active' : ''}
+                onClick={() => toggleDamageModifiers('double')}
+              >
+                <div className='asset x' />
+                <div>2</div>
+              </button>
+
+              <button
+                className={damageModifiers.average ? 'active' : ''}
+                onClick={() => toggleDamageModifiers('average')}
+              >
+                <div>Avg</div>
+              </button>
+
+              <button
+                className={damageModifiers.half ? 'active' : ''}
+                onClick={() => toggleDamageModifiers('half')}
+              >
+                <div className='asset x' />
+                <div>.5</div>
+              </button>
+            </div>
           </div>
 
           <BonusDamageBar
@@ -320,6 +382,7 @@ const WeaponRoller = ({
             attackData={attackData}
             bonusDamageData={activeBonusDamageData}
             halveBonusDamage={allAttackRolls.length >= 2}
+            damageModifiers={damageModifiers}
             key={i}
           />
         )}
