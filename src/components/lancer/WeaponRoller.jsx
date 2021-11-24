@@ -270,6 +270,7 @@ const WeaponRoller = ({
     newAttack.isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');;
 
     newAttack.toHit = rollToHit(flatBonus, accuracyMod);
+    newAttack.toHitReroll = rollToHit(flatBonus, accuracyMod);
     newAttack.damage = rollDamage(weaponData, newAttack.isOverkill);
 
     newAttack.effect = weaponData.effect || '';

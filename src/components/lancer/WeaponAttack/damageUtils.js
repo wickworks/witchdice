@@ -9,9 +9,10 @@ function getSortedTotalPool(rollData, isCrit, isAverage) {
   if (isAverage && rollData.dieType) {
     var averageRoll = Math.ceil(rollData.dieType * .5);
     if (rollData.dieType === 6) averageRoll += .5
-    
+
     totalPool = totalPool.map(roll => averageRoll);
   }
+  // BY THE WAY, I KNOW EVERYING e.g. it makes no architectural sense to put this here, but boy is it convenient
 
   return totalPool;
 }

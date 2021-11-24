@@ -14,6 +14,8 @@ const AttackRollOutput = ({
   isCrit,
   invertCrit,
   setInvertCrit,
+  isRerolled,
+  setIsRerolled,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isEditingRoll, setIsEditingRoll] = useState(false);
@@ -104,6 +106,14 @@ const AttackRollOutput = ({
             title='Toggle critical hit'
           >
             <div className='asset necrotic' />
+          </button>
+
+          <button
+            className={isRerolled ? 'active' : ''}
+            onClick={() => setIsRerolled(!isRerolled)}
+            title='Reroll'
+          >
+            <div className='asset refresh' />
           </button>
 
           <button

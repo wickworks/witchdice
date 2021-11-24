@@ -111,12 +111,11 @@
     justify-content: space-between;
 
     > * {
-      margin: 4px 0 0 0;
       padding: 4px 0;
     }
 
     button {
-      width: 48%;
+      width: 100%;
       background-color: $parchment_dark;
       // &:first-child { margin-right: 6px; }
 

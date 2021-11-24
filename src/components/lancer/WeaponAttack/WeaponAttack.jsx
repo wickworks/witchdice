@@ -21,9 +21,11 @@ const WeaponAttack = ({
   const [isHit, setIsHit] = useState(true);
 
   const [invertCrit, setInvertCrit] = useState(false);
+  const [isRerolled, setIsRerolled] = useState(false);
   const [manualRoll, setManualRoll] = useState(0);
 
-  const finalFinalResult = manualRoll > 0 ? manualRoll : attackData.toHit.finalResult
+  const rollResult = isRerolled ? attackData.toHitReroll.finalResult : attackData.toHit.finalResult
+  const finalFinalResult = manualRoll > 0 ? manualRoll : rollResult
   var isCrit = isHit && finalFinalResult >= 20;
   if (invertCrit) isCrit = !isCrit
 
@@ -35,16 +37,18 @@ const WeaponAttack = ({
   if (attackData.effect)              effectsList.push(attackData.effect)
   if (isHit) {
     if (attackData.onHit)             effectsList.push(attackData.onHit)
-    if (isCrit)                       effectsList.push('Critical hit')
+    if (isCrit)                       effectsList.push('Critical hit.')
     if (isCrit && attackData.onCrit)  effectsList.push(attackData.onCrit)
-    if (attackData.knockback > 0)     effectsList.push(`Knockback ${attackData.knockback}`)
+    if (attackData.knockback > 0)     effectsList.push(`Knockback ${attackData.knockback}.`)
     if (attackData.isOverkill) {
       const overkillCount = countOverkillTriggers(attackData.damage, bonusDamageData, isCrit, damageModifiers.average)
-      if (overkillCount > 0) effectsList.push(`Heat ${overkillCount} (Self) — Overkill`)
+      if (overkillCount > 0) effectsList.push(`Heat ${overkillCount} (Self) — Overkill.`)
     }
   } else {
-    if (isReliable)                   effectsList.push('Reliable')
+    if (isReliable)                   effectsList.push('Reliable.')
   }
+  if (isRerolled)              effectsList.push('Rerolled.')
+
 
   const totalsByType = summateAllDamageByType(attackData.damage, bonusDamageData, isCrit, halveBonusDamage, damageModifiers)
 
@@ -59,12 +63,14 @@ const WeaponAttack = ({
         />
 
         <AttackRollOutput
-          toHitData={attackData.toHit}
+          toHitData={isRerolled ? attackData.toHitReroll : attackData.toHit}
           manualRoll={manualRoll}
           setManualRoll={setManualRoll}
           isCrit={isCrit}
           invertCrit={invertCrit}
           setInvertCrit={setInvertCrit}
+          isRerolled={isRerolled}
+          setIsRerolled={setIsRerolled}
         />
 
         { isHit ?
