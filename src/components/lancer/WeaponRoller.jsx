@@ -87,11 +87,14 @@ const WeaponRoller = ({
 
   // =============== CHANGE WEAPON ==================
   useEffect(() => {
+    clearAttacks()
+  }, [weaponData]);
+
+  const clearAttacks = () => {
     setAllAttackRolls([]);
     setShowAttackSetup(true);
     setBonusDamageData(null);
-  }, [weaponData]);
-
+  }
 
   let weaponTags = []
   if (weaponData.tags) {
@@ -241,9 +244,17 @@ const WeaponRoller = ({
         }
       </div>
 
-      { ((allAttackRolls.length >= 2) && activeBonusDamageData.rolls.length > 0) && !showAttackSetup &&
+      { !showAttackSetup &&
         <div className='status-bar'>
-          If an attack that targets more than one character deals bonus damage, the bonus damage is halved.
+          { ((allAttackRolls.length >= 2) && activeBonusDamageData.rolls.length > 0) &&
+            <div>If an attack that targets more than one character deals bonus damage, the bonus damage is halved.</div>
+          }
+
+          { (allAttackRolls.length >= 1) &&
+            <button className='clear-attacks' onClick={clearAttacks} >
+              Clear
+            </button>
+          }
         </div>
       }
     </div>
