@@ -22,16 +22,35 @@ function getHighestRolls(sortedTotalPool, highestCount) {
   return highest;
 }
 
+function pullOutFirstRollBonusDamage(bonusDamageData) {
+  const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier']
 
-function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusDamage, damageModifiers) {
+  var trimmedBonusDamageRolls = [];
+  var firstBonusDamageRolls = [];
+
+  bonusDamageData.rolls.forEach(bonusRoll => {
+    if (FIRST_ROLL_ONLY_TAGS.includes(bonusRoll.id)) {
+      firstBonusDamageRolls.push(bonusRoll)
+    } else {
+      trimmedBonusDamageRolls.push(bonusRoll)
+    }
+  });
+
+  return [trimmedBonusDamageRolls, firstBonusDamageRolls]
+}
+
+function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusDamage, damageModifiers, isFirstRoll) {
 
   // BASE damage rolls
-  var totalsByType = summateRollsByType(damageData, isCrit, damageModifiers.average);
+  var totalsByType = summateRollsByType(damageData.rolls, isCrit, damageModifiers.average);
+
+  // separate normal bonus damage and sources that only apply to the first roll (aka NucCav)
+  const [trimmedBonusDamageRolls, firstBonusDamageRolls] = pullOutFirstRollBonusDamage(bonusDamageData);
 
   // BONUS damage rolls (have to tally these separately so we can optionally halve just bonus damage)
-  var bonusTotalsByType = summateRollsByType(bonusDamageData, isCrit, damageModifiers.average);
+  var bonusTotalsByType = summateRollsByType(trimmedBonusDamageRolls, isCrit, damageModifiers.average);
+  var firstBonusTotalsByType = summateRollsByType(firstBonusDamageRolls, isCrit, damageModifiers.average);
 
-  // Bonus damage gets halved once it targets multiple characters
   if (halveBonusDamage) {
     Object.keys(bonusTotalsByType).forEach(type => bonusTotalsByType[type] = Math.ceil(bonusTotalsByType[type] * .5));
   }
@@ -41,6 +60,12 @@ function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusD
     const prevTypeTotal = totalsByType[type] || 0;
     totalsByType[type] = prevTypeTotal + bonusTotalsByType[type];
   });
+  if (isFirstRoll) {
+    Object.keys(firstBonusTotalsByType).forEach(type => {
+      const prevTypeTotal = totalsByType[type] || 0;
+      totalsByType[type] = prevTypeTotal + firstBonusTotalsByType[type];
+    });
+  }
 
   // Halve/double damage from multiplier
   var multiplier = 1.0;
@@ -60,9 +85,9 @@ function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusD
   return totalsByType;
 }
 
-function summateRollsByType(damageData, isCrit, isAverage) {
+function summateRollsByType(damageDataRolls, isCrit, isAverage) {
   var totalsByType = {};
-  damageData.rolls.forEach(rollData => {
+  damageDataRolls.forEach(rollData => {
     const totalPool = getSortedTotalPool(rollData, isCrit, isAverage)
     const highest = getHighestRolls(totalPool, rollData.keep)
 
@@ -99,4 +124,5 @@ export {
   getHighestRolls,
   summateAllDamageByType,
   countOverkillTriggers,
+  pullOutFirstRollBonusDamage,
 }

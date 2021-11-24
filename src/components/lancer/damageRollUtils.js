@@ -34,8 +34,7 @@ function rollDamage(weaponData, isOverkill = false) {
   damageData.rolls = [];
   weaponData.damage.forEach(damageValAndType => {
     const damageDice = processDiceString(damageValAndType.val);
-
-    damageData.rolls.push(...produceRollPools(damageDice, damageValAndType.type, isOverkill))
+    damageData.rolls.push(...produceRollPools(damageDice, damageValAndType.type, isOverkill, weaponData.id))
   });
 
   return damageData;
@@ -49,15 +48,14 @@ function rollBonusDamage(bonusSourceData, defaultType, isOverkill = false) {
   bonusSourceData.forEach(source => {
     const damageDice = processDiceString(source.diceString);
     const type = source.type || defaultType;
-
-    damageData.rolls.push(...produceRollPools(damageDice, type, isOverkill, source.name))
+    damageData.rolls.push(...produceRollPools(damageDice, type, isOverkill, source.id))
   });
 
   return damageData;
 }
 
 
-function produceRollPools(damageDice, damageType, isOverkill = false, sourceName = '') {
+function produceRollPools(damageDice, damageType, isOverkill = false, sourceID = '') {
   let rolls = []; // for damageData.rolls
 
   // ROLLS
@@ -75,7 +73,7 @@ function produceRollPools(damageDice, damageType, isOverkill = false, sourceName
       keep: damageDice.count,
       dieType: damageDice.dietype,
       type: damageType,
-      source: sourceName
+      id: sourceID
     });
   }
 
@@ -87,7 +85,7 @@ function produceRollPools(damageDice, damageType, isOverkill = false, sourceName
       keep: 1,
       dieType: 0,
       type: damageType,
-      source: sourceName
+      id: sourceID
     });
   }
 
@@ -115,17 +113,14 @@ function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBo
 
     // Add all toggled non-generic sources
     activeBonusDamageData.rolls = bonusDamageData.rolls.filter(bonusRoll =>
-      activeBonusSources.indexOf(bonusRoll.source) >= 0
+      activeBonusSources.indexOf(bonusRoll.id) >= 0
     );
 
-    // Take only the first X rolls from the generic bonus damage
+    // Take only the first X rolls from the generic bonus damage (we can tell it's the roll from the presence of a critpool)
     if (genericBonusDieCount) {
       const genericData = deepCopy(
-        bonusDamageData.rolls.find(bonusRoll =>
-          (bonusRoll.source === GENERIC_BONUS_SOURCE) && bonusRoll.critPool.length > 0
-        )
+        bonusDamageData.rolls.find(bonusRoll => (bonusRoll.id === GENERIC_BONUS_SOURCE.id) && bonusRoll.critPool.length > 0)
       );
-
       genericData.keep = genericBonusDieCount
 
       // This hack is made considerably more ugly by the existence of Overkill
@@ -155,12 +150,10 @@ function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBo
       activeBonusDamageData.rolls.push(genericData);
     }
 
-    // Adjust the flat bonus similarly
+    // Adjust the flat bonus similarly (we can tell it's the plus from the lack of a critpool)
     if (genericBonusPlus) {
       const genericData = deepCopy(
-        bonusDamageData.rolls.find(bonusRoll =>
-          (bonusRoll.source === GENERIC_BONUS_SOURCE) && bonusRoll.critPool.length === 0
-        )
+        bonusDamageData.rolls.find(bonusRoll => (bonusRoll.id === GENERIC_BONUS_SOURCE.id) && bonusRoll.critPool.length === 0)
       );
       genericData.rollPool[0] = genericBonusPlus;
       activeBonusDamageData.rolls.push(genericData);

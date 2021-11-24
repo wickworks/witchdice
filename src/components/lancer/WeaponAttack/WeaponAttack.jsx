@@ -7,6 +7,7 @@ import DamageSubtotal from './DamageSubtotal.jsx';
 import {
   summateAllDamageByType,
   countOverkillTriggers,
+  pullOutFirstRollBonusDamage,
 } from './damageTotalUtils.js';
 
 import './WeaponAttack.scss';
@@ -17,6 +18,7 @@ const WeaponAttack = ({
   bonusDamageData,
   halveBonusDamage,
   damageModifiers,
+  isFirstRoll,
 }) => {
   const [isHit, setIsHit] = useState(true);
 
@@ -50,7 +52,17 @@ const WeaponAttack = ({
   if (isRerolled)              effectsList.push('Rerolled.')
 
 
-  const totalsByType = summateAllDamageByType(attackData.damage, bonusDamageData, isCrit, halveBonusDamage, damageModifiers)
+  const totalsByType = summateAllDamageByType(
+    attackData.damage,
+    bonusDamageData,
+    isCrit,
+    halveBonusDamage,
+    damageModifiers,
+    isFirstRoll,
+  )
+
+  // separate normal bonus damage and sources that only apply to the first roll (aka NucCav)
+  const [trimmedBonusDamageRolls, firstBonusDamageRolls] = pullOutFirstRollBonusDamage(bonusDamageData);
 
   return (
     <div className="WeaponAttack">
@@ -85,12 +97,23 @@ const WeaponAttack = ({
                 />
               )}
 
-              { bonusDamageData.rolls.map((rollData, i) =>
+              { trimmedBonusDamageRolls.map((rollData, i) =>
                 <DamageRollPool
                   rollData={rollData}
                   isCrit={isCrit}
                   isBonusDamage={true}
                   halveBonusDamage={halveBonusDamage}
+                  damageModifiers={damageModifiers}
+                  key={i}
+                />
+              )}
+
+              { isFirstRoll && firstBonusDamageRolls.map((rollData, i) =>
+                <DamageRollPool
+                  rollData={rollData}
+                  isCrit={isCrit}
+                  isBonusDamage={true}
+                  halveBonusDamage={false}
                   damageModifiers={damageModifiers}
                   key={i}
                 />

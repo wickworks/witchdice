@@ -14,12 +14,26 @@ const MechSheet = ({
   const loadout = activeMech.loadouts[0];
   const mounts = loadout.mounts;
 
-  const bonusDamageSources = [{
-    name: 'Tokugawa',
-    diceString: '3',
-    type: 'Energy',
-    tags: [],
-  }]
+  const bonusDamageSources = [
+    {
+      name: 'Tokugawa',
+      diceString: '3',
+      type: 'Energy',
+      id: 'mf_tokugawa',
+    },{
+      name: 'Nuclear Cavalier',
+      diceString: '1d6',
+      type: 'Energy',
+      id: 't_nuclear_cavalier',
+    },{
+      name: 'Nuclear Cavalier',
+      diceString: '2',
+      type: 'Heat',
+      id: 't_nuclear_cavalier',
+    }
+  ]
+
+
 
   return (
     <div className="MechSheet">

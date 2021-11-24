@@ -11,9 +11,14 @@ const DamageSubtotal = ({
 
   const singleType = (Object.keys(totalsByType).length === 1);
 
+  // Heat and burn never get condensed
+  const UNCONDENSED_TYPES = ['Heat', 'Burn']
+  var areTypesCondensed = condenseTypes;
+  Object.keys(totalsByType).forEach(type => { if (UNCONDENSED_TYPES.includes(type)) { areTypesCondensed = false } });
+
   return (
     <div className="DamageSubtotal">
-      {condenseTypes ?
+      {areTypesCondensed ?
         <button className='actual-total-container' onClick={() => setCondenseTypes(!condenseTypes)} disabled={singleType}>
           <div className='amount'>{actualTotal}</div>
           <div className='type-column'>
@@ -26,7 +31,7 @@ const DamageSubtotal = ({
           </div>
         </button>
       :
-        <button className='by-type-container' onClick={() => setCondenseTypes(!condenseTypes)}>
+        <button className='by-type-container' onClick={() => setCondenseTypes(!condenseTypes)} disabled={areTypesCondensed !== condenseTypes}>
           { Object.keys(totalsByType).map((type, i) =>
             <div className='subtotal' key={type}>
               <div className='amount'>{totalsByType[type]}</div>

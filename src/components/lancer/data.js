@@ -2,15 +2,18 @@ const allWeapons = require('./lancer-data-master/lib/weapons.json');
 const allPilotSkills = require('./lancer-data-master/lib/skills.json');
 const allTags = require('./lancer-data-master/lib/tags.json');
 
-
-const GENERIC_BONUS_SOURCE = 'Bonus damage';
-const MAX_BONUS = 9; // either added or dice rolled
-
 const DAMAGE_MODIFIERS = {
   double: false,
   half: false,
 }
 
+const MAX_BONUS = 9; // either added or dice rolled
+const GENERIC_BONUS_SOURCE = {
+  name: 'Bonus damage',
+  diceString: `${MAX_BONUS}d6+${MAX_BONUS}`, // we roll the max because user might increase it post-roll
+  type: '',
+  id: 'generic',
+}
 
 const getGrit = (pilot) => { return Math.ceil(pilot.level * .5) }
 

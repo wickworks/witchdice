@@ -43,12 +43,7 @@ const WeaponRoller = ({
   const [genericBonusPlus, setGenericBonusPlus] = useState(0);
 
   const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
-  const genericBonusSource = {
-    name: GENERIC_BONUS_SOURCE,
-    diceString: `${MAX_BONUS}d6+${MAX_BONUS}`, // we roll the max because user might increase it post-roll
-    type: '',
-    tags: [],
-  }
+
 
   // the actual data for all the currently active bonus damages
   const isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');
@@ -143,7 +138,7 @@ const WeaponRoller = ({
     // do we need to roll bonus damage?
     if (bonusDamageData === null) {
       const bonusDamage = rollBonusDamage(
-        [...availableBonusSources, genericBonusSource],
+        [...availableBonusSources, GENERIC_BONUS_SOURCE],
         defaultWeaponDamageType(weaponData),
         newAttack.isOverkill
       );
@@ -226,6 +221,7 @@ const WeaponRoller = ({
             bonusDamageData={activeBonusDamageData}
             halveBonusDamage={allAttackRolls.length >= 2}
             damageModifiers={damageModifiers}
+            isFirstRoll={i === 0}
             key={i}
           />
         )}
@@ -302,9 +298,9 @@ const BonusDamageBar = ({
 
       { availableBonusSources.map((bonusSource, i) =>
         <button
-          className={`bonus-source ${activeBonusSources.indexOf(bonusSource.name) >= 0 ? 'active' : 'inactive'}`}
-          onClick={() => toggleBonusDamage(bonusSource.name)}
-          key={`${bonusSource.name}-${i}`}
+          className={`bonus-source ${activeBonusSources.indexOf(bonusSource.id) >= 0 ? 'active' : 'inactive'}`}
+          onClick={() => toggleBonusDamage(bonusSource.id)}
+          key={`${bonusSource.id}-${i}`}
         >
           <div className='amount'>
             {bonusSource.diceString}
