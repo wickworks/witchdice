@@ -43,6 +43,7 @@
       .base-damage-container {
         min-width: 100px;
         margin-right: 20px;
+        flex-shrink: 0;
 
         .base-damage {
           display: flex;

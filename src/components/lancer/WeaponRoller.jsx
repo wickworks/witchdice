@@ -94,6 +94,10 @@ const WeaponRoller = ({
     setAllAttackRolls([]);
     setShowAttackSetup(true);
     setBonusDamageData(null);
+    setActiveBonusSources([]);
+    setDamageModifiers({...DAMAGE_MODIFIERS})
+    setGenericBonusDieCount(0);
+    setGenericBonusPlus(0);
   }
 
   let weaponTags = []

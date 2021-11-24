@@ -1,6 +1,7 @@
 const allWeapons = require('./lancer-data-master/lib/weapons.json');
 const allPilotSkills = require('./lancer-data-master/lib/skills.json');
 const allTags = require('./lancer-data-master/lib/tags.json');
+const allFrames = require('./lancer-data-master/lib/frames.json');
 
 const DAMAGE_MODIFIERS = {
   double: false,
@@ -93,11 +94,17 @@ const defaultWeaponDamageType = (weaponData) => {
 }
 
 
+const findFrameData = (frameID) => {
+  const frameData = allFrames.find(frame => frame.id === frameID);
+  return frameData;
+}
 
-
+const findWeaponData = (weaponID) => {
+  const weaponData = allWeapons.find(weapon => weapon.id === weaponID);
+  return weaponData;
+}
 
 export {
-  allWeapons,
   allPilotSkills,
   getGrit,
   processDiceString,
@@ -105,6 +112,8 @@ export {
   findTagOnWeapon,
   getTagName,
   defaultWeaponDamageType,
+  findFrameData,
+  findWeaponData,
   GENERIC_BONUS_SOURCE,
   MAX_BONUS,
   DAMAGE_MODIFIERS,

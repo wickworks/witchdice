@@ -1,8 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import WeaponRoller from './WeaponRoller.jsx';
-import { allWeapons, getGrit } from './data.js';
+import { findWeaponData, findFrameData, getGrit } from './data.js';
 
 import './MechSheet.scss';
+
+
+function newBonusDamageSource(name, id, diceString, type = '', traitData = null) {
+  return {
+    name: name,
+    id: id,
+    diceString: diceString,
+    type: type,
+    trait: traitData,
+  }
+}
+
+function findTraitFromFrame(frame, traitName) {
+  const traitData = frame.traits.find(trait => trait.name === traitName);
+  return traitData || null;
+}
+
+function newBonusDamageSourceFromFrame(frame, diceString, type = '', traitName = '') {
+  return newBonusDamageSource(frame.name, frame.id, diceString, type, findTraitFromFrame(frame, traitName))
+}
+
+function getBonusDamageSourcesFromMech(mech) {
+  var sources = [];
+
+  const frame = findFrameData(mech.frame);
+  if (!frame) return sources;
+
+  console.log('frame',frame);
+
+  switch (frame.id) {
+    case 'mf_nelson':
+      sources.push( newBonusDamageSourceFromFrame(frame, '1d6', '', 'Momentum') )
+      break;
+
+    case 'mf_deaths_head':
+      sources.push( newBonusDamageSource('Mark for Death - Aux', 'mf_deaths_head_aux', '1d6', '') )
+      sources.push( newBonusDamageSource('Mark for Death - Main', 'mf_deaths_head_main', '2d6', '') )
+      sources.push( newBonusDamageSource('Mark for Death - Heavy', 'mf_deaths_head_heavy', '3d6', '') )
+      break;
+
+    case 'mf_mourning_cloak':
+      sources.push( newBonusDamageSourceFromFrame(frame, '1d6', '', 'Hunter') )
+      break;
+
+    case 'mf_tokugawa':
+      sources.push( newBonusDamageSourceFromFrame(frame, '3', 'Energy', 'Limit Break') )
+      sources.push( newBonusDamageSource('Plasma Sheath', 'mf_tokugawa_dz', '', 'Burn', findTraitFromFrame(frame, 'Plasma Sheath')) )
+      break;
+  }
+
+  return sources;
+}
 
 
 const MechSheet = ({
@@ -14,26 +66,33 @@ const MechSheet = ({
   const loadout = activeMech.loadouts[0];
   const mounts = loadout.mounts;
 
-  const bonusDamageSources = [
-    {
-      name: 'Tokugawa',
-      diceString: '3',
-      type: 'Energy',
-      id: 'mf_tokugawa',
-    },{
-      name: 'Nuclear Cavalier',
-      diceString: '1d6',
-      type: 'Energy',
-      id: 't_nuclear_cavalier',
-    },{
-      name: 'Nuclear Cavalier',
-      diceString: '2',
-      type: 'Heat',
-      id: 't_nuclear_cavalier',
-    }
-  ]
+  // =============== CHANGE MECH ==================
+  useEffect(() => {
+    setActiveWeaponData(null);
+  }, [activeMech, activePilot]);
 
+  // const bonusDamageSources = [
+  //   {
+  //     name: 'Tokugawa',
+  //     diceString: '3',
+  //     type: 'Energy',
+  //     id: 'mf_tokugawa',
+  //   },{
+  //     name: 'Nuclear Cavalier',
+  //     diceString: '1d6',
+  //     type: 'Energy',
+  //     id: 't_nuclear_cavalier',
+  //   },{
+  //     name: 'Nuclear Cavalier',
+  //     diceString: '2',
+  //     type: 'Heat',
+  //     id: 't_nuclear_cavalier',
+  //   }
+  // ]
 
+  const bonusDamageSources = getBonusDamageSourcesFromMech(activeMech);
+
+  console.log('bonusDamageSources', bonusDamageSources);
 
   return (
     <div className="MechSheet">
@@ -91,7 +150,7 @@ const MechWeapon = ({
 }) => {
   const activeWeaponData = mountSlot.weapon;
   const activeWeaponID = activeWeaponData ? activeWeaponData.id : 'missing_mechweapon'
-  const weaponData = allWeapons.find(weapon => weapon.id === activeWeaponID);
+  const weaponData = findWeaponData(activeWeaponID)
 
   return (
     <div className="MechWeapon" onClick={() => setActiveWeaponData(weaponData)}>
