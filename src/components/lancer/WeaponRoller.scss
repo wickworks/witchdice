@@ -23,6 +23,7 @@
     h3 {
       @include text_title_action;
       flex-shrink: 0;
+      font-style: normal;
       text-align: center;
       margin: 26px 0 16px;
     }
