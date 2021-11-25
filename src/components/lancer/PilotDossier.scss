@@ -147,7 +147,8 @@
         justify-content: space-between;
         width: 100%;
         box-sizing: border-box;
-        padding: 8px 0 10px 12px;
+        padding: 6px 0px 16px 12px;
+        border-top: 3px solid $faded_gold;
       }
 
       .label {
@@ -173,10 +174,13 @@
         }
       }
 
-      .talents-container {
+      .core-bonus-container {
         float: right;
-        margin-left: 8px;
         width: 370px;
+        margin-left: 8px;
+        margin-bottom: 4px;
+
+        .label { margin-top: 0; }
       }
 
       .skills-container {

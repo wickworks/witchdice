@@ -72,16 +72,15 @@ const PilotDossier = ({
 
           <div className="lists-of-things">
 
-            <div className="talents-container">
-              <div className="label">Talents</div>
+            <div className="core-bonus-container">
+              <div className="label">Core Bonuses</div>
               <div className="list">
-                { activePilot.talents.map((talentRankAndID, i) => {
-                  const talentData = findTalentData(talentRankAndID.id)
+                { activePilot.core_bonuses.map((coreBonusID, i) => {
+                  const coreBonusData = findCoreBonusData(coreBonusID)
                   return (
-                    <span className="entry" key={talentRankAndID.id}>
+                    <span className="entry" key={coreBonusID}>
                       <span className="bracket">[</span>
-                      <span className="name">{talentData.name.toLowerCase()}</span>
-                      <span className="number">{talentRankAndID.rank}</span>
+                      <span className="name">{coreBonusData.name.toLowerCase()}</span>
                       <span className="bracket">]</span>
                     </span>
                   )
@@ -110,21 +109,22 @@ const PilotDossier = ({
 
           <div className="lists-of-things secondary">
 
-            <div className="core-bonus-container">
-              <div className="label">Core Bonuses</div>
-              <div className="list">
-                { activePilot.core_bonuses.map((coreBonusID, i) => {
-                  const coreBonusData = findCoreBonusData(coreBonusID)
-                  return (
-                    <span className="entry" key={coreBonusID}>
-                      <span className="bracket">[</span>
-                      <span className="name">{coreBonusData.name.toLowerCase()}</span>
-                      <span className="bracket">]</span>
-                    </span>
-                  )
-                })}
-              </div>
+          <div className="talents-container">
+            <div className="label">Talents</div>
+            <div className="list">
+              { activePilot.talents.map((talentRankAndID, i) => {
+                const talentData = findTalentData(talentRankAndID.id)
+                return (
+                  <span className="entry" key={talentRankAndID.id}>
+                    <span className="bracket">[</span>
+                    <span className="name">{talentData.name.toLowerCase()}</span>
+                    <span className="number">{talentRankAndID.rank}</span>
+                    <span className="bracket">]</span>
+                  </span>
+                )
+              })}
             </div>
+          </div>
 
             <div className="skills-container">
               <div className="label">Skills</div>
