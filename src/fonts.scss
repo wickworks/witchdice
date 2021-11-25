@@ -38,6 +38,14 @@
   color: $soft_black;
 }
 
+@mixin text_monospace {
+  font-family: 'PT Mono', monospace;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: normal;
+  color: $soft_black;
+}
+
 @mixin text_input {
   font-family: 'Bitter', serif;
   font-size: 16px;

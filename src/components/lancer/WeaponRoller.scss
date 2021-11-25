@@ -19,7 +19,6 @@
   padding: 8px 4% 8px;
 
   .top-bar {
-
     h3 {
       @include text_title_action;
       flex-shrink: 0;
@@ -45,6 +44,7 @@
     }
 
     .base-damage-and-tags {
+      @include text_monospace;
       display: flex;
       justify-content: space-between;
       align-items: center;

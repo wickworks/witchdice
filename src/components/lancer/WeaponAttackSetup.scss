@@ -10,56 +10,86 @@ $number_speed: 0.25s;
   margin: 20px 10px;
 
   .roll-container {
+    position: relative;
     display: flex;
     justify-content: center;
     flex-direction: column;
+    width: fit-content;
+    margin: auto;
 
     .BigRollButton {
       justify-content: flex-start;
-      margin-bottom: -20px;
+      margin-bottom: -36px;
+
+      button.new-roll {
+        border-radius: 0;
+        clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+        width: 140px;
+        height: 140px;
+
+
+        .asset {
+          width: 60%;
+          height: 60%;
+
+          transform: rotate(0deg);
+          transition: transform .2s;
+        }
+
+        &:active .asset {
+          transform: rotate(180deg);
+        }
+      }
     }
 
-    .total-modifiers {
+
+    // display: flex;
+    // justify-content: center;
+    // flex-direction: column;
+    // margin-bottom: 6px;
+    // min-height: 44px;
+
+    .label {
+      font-weight: bold;
+      margin-left: 4px;
+    }
+
+    .grit {
+      position: absolute;
+      top: 38px;
+      left: 4px;
+      transform: rotate(-45deg);
+      font-size: 18px;
+    }
+
+    .accuracy {
+      position: absolute;
+      width: 90px;
+      top: 14px;
+      right: 10px;
+      transform: rotate(45deg);
       display: flex;
-      justify-content: center;
-      flex-direction: column;
-      margin-bottom: 6px;
-      min-height: 44px;
+      align-items: center;
+      justify-content: flex-end;
+      font-size: 18px;
+      padding: 0;
 
-      .label {
-        font-weight: bold;
-        margin-left: 4px;
-      }
-
-      .grit {
-        text-align: center;
-        margin: 0 8px;
-        font-size: 18px;
-      }
-
-      .accuracy {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 18px;
-        padding: 0;
-        margin: 0 8px;
-
-        &.actually-difficulty {
-          color: $rust;
-
-          .asset.d6 {
-            // turns black to $rust
-            filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
-          }
-        }
+      &.actually-difficulty {
+        color: $rust;
 
         .asset.d6 {
-          width: 20px;
-          height: 20px;
-          display: inline-block;
-          margin: 0 2px;
+          // turns black to $rust
+          filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
         }
+      }
+
+      .label { width: 38px; }
+
+      .asset.d6 {
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+        margin: 0 2px;
       }
     }
   }
@@ -105,15 +135,17 @@ $number_speed: 0.25s;
       }
 
       .column-label {
+        @include text_monospace;
+        font-size: 24px;
         display: flex;
         align-items: center;
-        font-size: 24px;
-        margin: 0 60px;
+        margin: 0 40px 6px;
 
         .asset-lancer {
           display: inline-block;
-          width: 24px;
-          height: 24px;
+          width: 28px;
+          height: 28px;
+          margin: 0 6px;
 
           &.difficulty {
             // turns black to $rust
