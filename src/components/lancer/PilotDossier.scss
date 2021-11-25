@@ -24,6 +24,25 @@
     width: 100%;
     max-width: 800px;
 
+    .watermark-container {
+      width: 100%;
+      height: 100%;
+      background-size: contain;
+      background-repeat: no-repeat;
+      // position: absolute;
+      // left: 50%;
+      // top: 50%;
+      // transform: translate(-50%,-50%);
+      // width: 256px;
+      // height: 256px;
+
+      // opacity: 0.5;
+
+      // turns black to $faded_gold
+      // filter: invert(84%) sepia(8%) saturate(2485%) hue-rotate(323deg) brightness(109%) contrast(95%);
+    }
+
+
     .diamond {
       position: relative;
 
