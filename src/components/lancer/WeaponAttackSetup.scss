@@ -5,37 +5,36 @@ $number_speed: 0.25s;
 
 .WeaponAttackSetup {
   display: flex;
-  justify-content: space-between;
-  // align-items: center;
-  // flex-wrap: wrap;
+  flex-direction: column;
 
   padding: 30px 0;
   border-top: 2px solid $parchment_dark;
 
-  .roll-container {
+  .total-modifiers {
+    // width: 120px;
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-bottom: 6px;
 
     .label {
       font-weight: bold;
       margin-left: 4px;
     }
 
-    .BigRollButton {
-      justify-content: flex-start;
-    }
-
     .grit {
       text-align: center;
-      margin-bottom: 6px;
+      margin: 0 8px;
       font-size: 18px;
     }
 
-    .accuracy {
+    button.accuracy {
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 18px;
+      padding: 0;
+      margin: 0 8px;
 
       &.actually-difficulty {
         color: $rust;
@@ -60,14 +59,51 @@ $number_speed: 0.25s;
   }
 
 
+  .roll-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+
+    .BigRollButton {
+      justify-content: flex-start;
+    }
+
+    .column-label {
+      display: flex;
+      align-items: center;
+      font-size: 24px;
+
+      &.accuracy {
+        margin-left: 10px;
+      }
+
+      &.difficulty {
+        margin-right: 10px;
+        color: $rust;
+      }
+
+      .asset-lancer {
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+
+        &.difficulty {
+          // turns black to $rust
+          filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+        }
+      }
+    }
+  }
+
   .column-container {
     display: flex;
-    margin: 0 8px;
+    justify-content: center;
 
     .column {
       display: flex;
       flex-direction: column;
       width: 50%;
+      box-sizing: border-box;
       flex-grow: 0;
       flex-shrink: 0;
       // min-height: 210px;
@@ -91,23 +127,6 @@ $number_speed: 0.25s;
 
         .Sources button {
           text-align: left;
-        }
-      }
-
-      .column-label {
-        display: flex;
-        align-items: center;
-        font-size: 24px;
-
-        .asset-lancer {
-          display: inline-block;
-          width: 24px;
-          height: 24px;
-
-          &.difficulty {
-            // turns black to $rust
-            filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
-          }
         }
       }
 
@@ -174,10 +193,12 @@ $number_speed: 0.25s;
         width: 100%;
 
         button {
+          display: block;
           white-space: nowrap;
           font-weight: bold;
           letter-spacing: 1px;
           width: 50%;
+          height: fit-content;
           margin: 4px 0;
 
           &:hover {

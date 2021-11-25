@@ -88,19 +88,13 @@ const WeaponAttackSetup = ({
     setManualMod( manualMod + shiftInManualMod )
   }
 
-  // Generates an array like [-4,-3,-2,-1], starting one below the current difficulty
-  // const lowestDifficulty = Math.max(Math.min(-4, currentMod-1), -9)
-  // const difficultyArray = Array.from({length: 4}, (x, i) => i + lowestDifficulty);
   const difficultyArray = Array.from({length: 9}, (x, i) => i - 9);
   const accuracyArray = Array.from({length: 9}, (x, i) => i + 1);
 
   return (
     <div className="WeaponAttackSetup">
 
-      <div className="roll-container">
-        <BigRollButton
-          handleNewRoll={() => createNewAttackRoll(gritBonus, currentMod)}
-        />
+      <div className="total-modifiers">
         <div className='grit'>
           +{gritBonus}
           <span className='label'>Grit</span>
@@ -120,12 +114,25 @@ const WeaponAttackSetup = ({
         }
       </div>
 
+      <div className="roll-container">
+        <div className='column-label difficulty'>
+          <span className='asset-lancer difficulty' />
+          Difficulty
+        </div>
+
+        <BigRollButton
+          handleNewRoll={() => createNewAttackRoll(gritBonus, currentMod)}
+        />
+
+        <div className='column-label accuracy'>
+          Accuracy
+          <span className='asset-lancer accuracy' />
+        </div>
+      </div>
+
       <div className="column-container">
         <div className="column difficulty">
-          <div className='column-label'>
-            <span className='asset-lancer difficulty' />
-            Difficulty
-          </div>
+
 
           <NumberLine
             modArray={difficultyArray}
@@ -141,10 +148,7 @@ const WeaponAttackSetup = ({
         </div>
 
         <div className="column accuracy">
-          <div className='column-label'>
-            Accuracy
-            <span className='asset-lancer accuracy' />
-          </div>
+
 
           <NumberLine
             modArray={accuracyArray}
@@ -190,6 +194,7 @@ const NumberLine = ({
           onClick={() => handleClick(mod)}
           className={numberClass}
           key={mod}
+          disabled={numberHidden}
         >
           <span className='sign'>{mod > 0 ? '+' : '-'}</span>
           <span className='count'>{Math.abs(mod)}</span>
