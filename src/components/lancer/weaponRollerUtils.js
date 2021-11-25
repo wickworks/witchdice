@@ -34,7 +34,9 @@ function rollDamage(weaponData, isOverkill = false) {
   damageData.rolls = [];
   weaponData.damage.forEach(damageValAndType => {
     const damageDice = processDiceString(damageValAndType.val);
-    damageData.rolls.push(...produceRollPools(damageDice, damageValAndType.type, isOverkill, weaponData.id))
+    if (damageDice.count > 0 || damageDice.bonus > 0) {
+      damageData.rolls.push(...produceRollPools(damageDice, damageValAndType.type, isOverkill, weaponData.id))
+    }
   });
 
   return damageData;
@@ -48,7 +50,9 @@ function rollBonusDamage(bonusSourceData, defaultType, isOverkill = false) {
   bonusSourceData.forEach(source => {
     const damageDice = processDiceString(source.diceString);
     const type = source.type || defaultType;
-    damageData.rolls.push(...produceRollPools(damageDice, type, isOverkill, source.id))
+    if (damageDice.count > 0 || damageDice.bonus > 0) {
+      damageData.rolls.push(...produceRollPools(damageDice, type, isOverkill, source.id))
+    }
   });
 
   return damageData;

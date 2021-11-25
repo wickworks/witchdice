@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
 import WeaponAttackSetup from './WeaponAttackSetup.jsx';
 import { deepCopy } from '../../utils.js';
-import { BONUS_TO_BURN_TAG } from './data.js';
+import { BONUS_TO_BURN_TAGS } from './data.js';
 
 import {
   getTagName,
@@ -68,7 +68,7 @@ const WeaponRoller = ({
     }
 
     // Special case: tokugawa bonus-to-burn
-    if (sourceID === BONUS_TO_BURN_TAG) toggleDamageModifier('bonusToBurn')
+    if (BONUS_TO_BURN_TAGS.includes(sourceID)) toggleDamageModifier('bonusToBurn')
 
     setActiveBonusSources(newBonusDamages);
   }
@@ -294,31 +294,35 @@ const BonusDamageBar = ({
 
   return (
     <div className="BonusDamageBar">
-      <div className='generic'>
+      <div className='generic-source-container'>
         <button
-          className={`amount ${genericBonusDieCount ? 'active' : 'inactive'}`}
+          className={`generic-source ${genericBonusDieCount ? 'active' : 'inactive'}`}
           onClick={() => setGenericBonusDieCount(Math.min(genericBonusDieCount + 1, MAX_BONUS))}
         >
-          {genericBonusDieCount ?
-            `${genericBonusDieCount}d6`
-          :
-            <div className='asset d6' />
-          }
+          <div className='amount-container'>
+            {genericBonusDieCount ?
+              <div className='amount'>{genericBonusDieCount}d6</div>
+            :
+              <div className='asset d6' />
+            }
+          </div>
         </button>
 
         <button
-          className={`amount ${genericBonusPlus ? 'active' : 'inactive'}`}
+          className={`generic-source ${genericBonusPlus ? 'active' : 'inactive'}`}
           onClick={() => setGenericBonusPlus(Math.min(genericBonusPlus + 1, MAX_BONUS))}
         >
-          {genericBonusPlus ?
-            `+${genericBonusPlus}`
-          :
-            <div className='asset plus' />
-          }
+          <div className='amount-container'>
+            {genericBonusPlus ?
+              <div className='amount'>+{genericBonusPlus}</div>
+            :
+              <div className='asset plus' />
+            }
+          </div>
         </button>
 
         <button
-          className={`reset ${genericBonusIsActive ? 'active' : 'inactive'}`}
+          className={`generic-reset ${genericBonusIsActive ? 'active' : 'inactive'}`}
           onClick={() => { setGenericBonusPlus(0); setGenericBonusDieCount(0); }}
           disabled={!genericBonusIsActive}
         >
@@ -332,9 +336,13 @@ const BonusDamageBar = ({
           onClick={() => toggleBonusDamage(bonusSource.id)}
           key={`${bonusSource.id}-${i}`}
         >
-          <div className='amount'>
-            { bonusSource.type && <div className={`asset-lancer ${bonusSource.type.toLowerCase()}`} /> }
-            {bonusSource.diceString}
+          <div className='amount-container'>
+            { bonusSource.type ?
+              <div className={`asset-lancer ${bonusSource.type.toLowerCase()}`} />
+            :
+              <div className='asset dot' />
+            }
+            <div className='amount'>{bonusSource.diceString}</div>
           </div>
           <div className='label'>{bonusSource.name}</div>
         </button>

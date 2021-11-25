@@ -1,3 +1,6 @@
+import {
+  FIRST_ROLL_ONLY_TAGS
+} from '../data.js';
 
 function getSortedTotalPool(rollData, isCrit, isAverage) {
   var totalPool = [...rollData.rollPool];
@@ -23,7 +26,6 @@ function getHighestRolls(sortedTotalPool, highestCount) {
 }
 
 function pullOutFirstRollBonusDamage(bonusDamageData) {
-  const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier']
 
   var trimmedBonusDamageRolls = [];
   var firstBonusDamageRolls = [];

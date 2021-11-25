@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import WeaponRoller from './WeaponRoller.jsx';
-import { findWeaponData, getGrit, BONUS_TO_BURN_TAG } from './data.js';
-import { getBonusDamageSourcesFromMech } from './bonusDamageSourceUtils.js';
+import { findWeaponData, getGrit } from './data.js';
+import { getBonusDamageSourcesFromMech, getBonusDamageSourcesFromTalents } from './bonusDamageSourceUtils.js';
 
 import './MechSheet.scss';
 
@@ -40,7 +40,11 @@ const MechSheet = ({
   //   }
   // ]
 
-  const bonusDamageSources = getBonusDamageSourcesFromMech(activeMech);
+  const bonusDamageSources = [
+    ...getBonusDamageSourcesFromMech(activeMech),
+    ...getBonusDamageSourcesFromTalents(activePilot),
+  ];
+
 
   // console.log('bonusDamageSources', bonusDamageSources);
 

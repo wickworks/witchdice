@@ -2,8 +2,11 @@ const allWeapons = require('./lancer-data-master/lib/weapons.json');
 const allPilotSkills = require('./lancer-data-master/lib/skills.json');
 const allTags = require('./lancer-data-master/lib/tags.json');
 const allFrames = require('./lancer-data-master/lib/frames.json');
+const allTalents = require('./lancer-data-master/lib/talents.json');
 
-const BONUS_TO_BURN_TAG = 'mf_tokugawa_dz'
+const BONUS_TO_BURN_TAGS = ['mf_tokugawa_dz', 't_walking_armory_2_hellfire']
+
+const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier_1', 't_nuclear_cavalier_2']
 
 const DAMAGE_MODIFIERS = {
   double: false,
@@ -27,7 +30,7 @@ const processDiceString = (diceString) => {
   var dice = String(diceString)
 
   var count = 0;
-  var dietype = 'd0';
+  var dietype = '';
   var bonus = 0;
 
   if (dice) {
@@ -117,6 +120,11 @@ const findWeaponData = (weaponID) => {
   return weaponData;
 }
 
+const findTalentData = (talentID) => {
+  const talentData = allTalents.find(talent => talent.id === talentID);
+  return talentData;
+}
+
 export {
   allPilotSkills,
   getGrit,
@@ -127,8 +135,10 @@ export {
   defaultWeaponDamageType,
   findFrameData,
   findWeaponData,
+  findTalentData,
   GENERIC_BONUS_SOURCE,
   MAX_BONUS,
   DAMAGE_MODIFIERS,
-  BONUS_TO_BURN_TAG,
+  BONUS_TO_BURN_TAGS,
+  FIRST_ROLL_ONLY_TAGS,
 }
