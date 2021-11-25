@@ -2,7 +2,7 @@
 
 .WeaponAttack {
 
-  &:first-child { border-top: 2px solid $parchment_dark; }
+  // &:first-child { border-top: 2px solid $parchment_dark; }
   &:not(:last-child) { margin-bottom: 16px; }
 
   .damage-container {

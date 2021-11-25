@@ -4,7 +4,7 @@
 .WeaponRoller {
   @include shadow;
   @include parchment_background;
-  @include nouveau_border("nouveau_character.svg");
+  @include nouveau_border("nouveau_lancer_weapon.svg");
 
   display: flex;
   flex-direction: column;
@@ -13,19 +13,20 @@
   box-sizing: border-box;
   width: 100%;
   max-width: 800px;
-  // min-height: 500px;
+  min-height: 360px;
 
   margin-top: 20px;
   padding: 8px 4% 8px;
 
-  &.finished {
-    min-height: unset;
-  }
+  // &.finished {
+  //   min-height: unset;
+  // }
 
   .top-bar {
     .name-and-tags {
       display: flex;
-      justify-content: space-between;
+      // justify-content: space-between;
+      justify-content: center;
       align-items: flex-end;
       margin-bottom: 12px;
 
@@ -43,12 +44,17 @@
 
     .damage-row {
       display: flex;
+      align-items: center;
+
+      padding-bottom: 16px;
+      border-bottom: 2px solid $parchment_dark;
       margin-bottom: 12px;
+
     }
 
     .effect-row {
-      padding: 16px 0;
-      border-top: 2px solid $parchment_dark;
+      padding-bottom: 16px;
+      // border-top: 2px solid $parchment_dark;
     }
   }
 
@@ -80,28 +86,31 @@
     margin-bottom: 20px;
     font-style: italic;
     text-align: center;
+    margin-top: 12px;
 
     .action-buttons-container {
       display: flex;
       justify-content: space-between;
-      margin-top: 30px;
+      margin-top: 4px;
+      padding: 0 40px;
 
       button {
         display: flex;
         align-items: center;
         justify-content: center;
 
-        width: 30%;
-        font-weight: bold;
+        min-width: 150px;
+        width: 20%;
         padding: 8px;
         // background-color: $parchment_dark;
 
         &:hover { background-color: $parchment_dark; }
 
         &.active {
-          background-color: $parchment_dark;
+          // background-color: $parchment_dark;
+          font-weight: bold;
 
-          &:hover { background-color: $pink; }
+          // &:hover { background-color: $pink; }
         }
 
         .asset {
@@ -125,6 +134,7 @@
 
         &.add-target {
           color: $crushed_velvet;
+          font-weight: bold;
         }
 
         &.clear-attacks {

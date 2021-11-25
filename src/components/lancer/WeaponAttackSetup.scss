@@ -7,8 +7,8 @@ $number_speed: 0.25s;
   display: flex;
   flex-direction: column;
 
-  padding: 30px 0;
-  border-top: 2px solid $parchment_dark;
+  padding: 10px 0;
+  // border-top: 2px solid $parchment_dark;
 
 
   .roll-container {
@@ -18,11 +18,12 @@ $number_speed: 0.25s;
 
     .BigRollButton {
       justify-content: flex-start;
+      margin-bottom: -20px;
     }
 
     .total-modifiers {
-      // width: 120px;
       display: flex;
+      display: none;
       align-items: flex-start;
       justify-content: center;
       margin-bottom: 6px;
@@ -76,15 +77,19 @@ $number_speed: 0.25s;
     .column {
       display: flex;
       flex-direction: column;
-      width: 50%;
+      width: 40%;
       box-sizing: border-box;
       flex-grow: 0;
       flex-shrink: 0;
-      // min-height: 210px;
+      min-height: 200px;
+
+      // border-top: 2px solid $parchment_dark;
+
 
       &.difficulty {
         align-items: flex-end;
         margin-right: 14px;
+        // border-left: 2px solid $rust;
 
         * { color: $rust; }
 
@@ -96,6 +101,7 @@ $number_speed: 0.25s;
       &.accuracy {
         align-items: flex-start;
         margin-left: 14px;
+        // border-right: 2px solid $rust;
 
         * { color: $soft_black; }
 
@@ -108,6 +114,7 @@ $number_speed: 0.25s;
         display: flex;
         align-items: center;
         font-size: 24px;
+        margin: 0 60px;
 
         .asset-lancer {
           display: inline-block;
