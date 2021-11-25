@@ -141,7 +141,15 @@
     }
 
 
-    .licenses-and-skills {
+    .lists-of-things {
+      &.secondary {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 8px 0 10px 12px;
+      }
+
       .label {
         margin-top: 4px;
         margin-left: 4px;
@@ -165,10 +173,16 @@
         }
       }
 
-      .skill-container {
+      .talents-container {
         float: right;
         margin-left: 8px;
-        width: 300px;
+        width: 370px;
+      }
+
+      .skills-container {
+        width: 370px;
+        flex-shrink: 0;
+        margin-left: 8px;
       }
     }
   }

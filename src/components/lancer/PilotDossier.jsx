@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { findSkillData, findFrameData } from './data.js';
+import { findSkillData, findFrameData, findTalentData, findCoreBonusData } from './data.js';
 import './PilotDossier.scss';
 
 
@@ -70,11 +70,64 @@ const PilotDossier = ({
 
           </div>
 
-          <div className="licenses-and-skills">
+          <div className="lists-of-things">
 
-            <div className="skill-container">
+            <div className="talents-container">
+              <div className="label">Talents</div>
+              <div className="list">
+                { activePilot.talents.map((talentRankAndID, i) => {
+                  const talentData = findTalentData(talentRankAndID.id)
+                  return (
+                    <span className="entry" key={talentRankAndID.id}>
+                      <span className="bracket">[</span>
+                      <span className="name">{talentData.name.toLowerCase()}</span>
+                      <span className="number">{talentRankAndID.rank}</span>
+                      <span className="bracket">]</span>
+                    </span>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="licenses-container">
+              <div className="label">Licenses</div>
+              <div className="list">
+                { activePilot.licenses.map((licenseData, i) => {
+                  const frameData = findFrameData(licenseData.id)
+                  return (
+                    <span className="entry" key={licenseData.id}>
+                      <span className="bracket">[</span>
+                      <span className="name">{frameData.name.toLowerCase()}</span>
+                      <span className="number">{licenseData.rank}</span>
+                      <span className="bracket">]</span>
+                    </span>
+                  )
+                })}
+              </div>
+            </div>
+
+          </div>
+
+          <div className="lists-of-things secondary">
+
+            <div className="core-bonus-container">
+              <div className="label">Core Bonuses</div>
+              <div className="list">
+                { activePilot.core_bonuses.map((coreBonusID, i) => {
+                  const coreBonusData = findCoreBonusData(coreBonusID)
+                  return (
+                    <span className="entry" key={coreBonusID}>
+                      <span className="bracket">[</span>
+                      <span className="name">{coreBonusData.name.toLowerCase()}</span>
+                      <span className="bracket">]</span>
+                    </span>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="skills-container">
               <div className="label">Skills</div>
-
               <div className="list">
                 { activePilot.skills.map((skill, i) => {
                   const skillData = findSkillData(skill.id);
@@ -90,23 +143,6 @@ const PilotDossier = ({
               </div>
             </div>
 
-            <div className="licenses-container">
-              <div className="label">Licenses</div>
-
-              <div className="list">
-                { activePilot.licenses.map((licenseData, i) => {
-                  const frameData = findFrameData(licenseData.id)
-                  return (
-                    <span className="entry" key={licenseData.id}>
-                      <span className="bracket">[</span>
-                      <span className="name">{frameData.name.toLowerCase()}</span>
-                      <span className="number">{licenseData.rank}</span>
-                      <span className="bracket">]</span>
-                    </span>
-                  )
-                })}
-              </div>
-            </div>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ const allSkills = require('./lancer-data-master/lib/skills.json');
 const allTags = require('./lancer-data-master/lib/tags.json');
 const allFrames = require('./lancer-data-master/lib/frames.json');
 const allTalents = require('./lancer-data-master/lib/talents.json');
+const allCoreBonuses = require('./lancer-data-master/lib/core_bonuses.json');
 
 const BONUS_TO_BURN_TAGS = ['mf_tokugawa_dz', 't_walking_armory_2_hellfire']
 
@@ -131,6 +132,12 @@ const findSkillData = (skillID) => {
   return skillData;
 }
 
+const findCoreBonusData = (coreBonusID) => {
+  const coreBonusData = allCoreBonuses.find(coreBonus => coreBonus.id === coreBonusID);
+  return coreBonusData;
+}
+
+
 export {
   findSkillData,
   getGrit,
@@ -142,6 +149,7 @@ export {
   findFrameData,
   findWeaponData,
   findTalentData,
+  findCoreBonusData,
   GENERIC_BONUS_SOURCE,
   MAX_BONUS,
   DAMAGE_MODIFIERS,
