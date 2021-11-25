@@ -11,6 +11,21 @@ function truncateString(str, num) {
   }
 }
 
+function hashCode(s){
+  return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
+}
+
+function pilotIDToGeneStatus(pilotID) {
+  const idHash = hashCode(pilotID)
+  const modded = Math.abs(idHash) % 101;    //  0 - 100
+  const squared = modded * modded;          // 0 — 10,000 parabolic
+  const reduced = squared * .0006;          // 0 - 6
+  const listIndex = Math.floor(reduced+.1); // reduced max is actually only 5.99999 for some reason
+
+  const redList = ['LC','NT','VU','EN','CR','EW','EX']
+  return redList[listIndex];
+}
+
 const PilotDossier = ({
   activePilot
 }) => {
@@ -19,6 +34,8 @@ const PilotDossier = ({
   const MAX_CALLSIGN = 22;
 
   const slicedCallsign = activePilot.callsign.slice(0, MAX_CALLSIGN)
+
+  const geneStatus = pilotIDToGeneStatus(activePilot.id);
 
   return (
     <div className="PilotDossier">
@@ -37,7 +54,7 @@ const PilotDossier = ({
 
             <div className="gene-tab">
               <div className="label">Geneline</div>
-              <div className="gene">LC</div>
+              <div className={`gene ${geneStatus}`}>{geneStatus}</div>
             </div>
           </div>
 

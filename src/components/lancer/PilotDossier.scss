@@ -99,7 +99,11 @@
 
         .gene {
           font-size: 40px;
-          color: $rust_light;
+
+          &.LC, &.NT { color: $pink; }
+          &.VU, &.EN { color: $rust_light; }
+          &.CR, &.EW { color: $crushed_velvet; }
+          &.EX       { color: $green_witch; }
         }
       }
     }
