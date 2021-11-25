@@ -12,12 +12,12 @@
 
     > * { flex-shrink: 0; }
 
-    .miss-line {
-      border-top: 3px solid $parchment_dark;
-      width: 100%;
-      box-sizing: border-box;
-      flex-shrink: 100000;
-      margin-right: 30px;
+    .finished-miss {
+      margin-left: auto;
+      margin-right: 6px;
+      font-size: 18px;
+      font-weight: bold;
+      color: $rust;
     }
 
     .damage-line {
@@ -31,7 +31,7 @@
   .effects-container {
     display: flex;
     flex-direction: column;
-    margin-right: 10px;
+    margin-right: 6px;
     font-size: 18px;
     color: $rust;
 

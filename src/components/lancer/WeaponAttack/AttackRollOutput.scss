@@ -56,34 +56,34 @@
         }
 
         .result {
-          width: 60px;
+          width: 76px;
           padding: 0 4px;
           position: relative;
           display: inline-block;
-          font-size: 30px;
+          font-size: 40px;
           text-align: left;
         }
       }
 
       .to-hit-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         opacity: 0.0;
 
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        font-size: 18px;
-
         span {
           display: inline-block;
 
           &.asset {
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 20px;
+            margin-right: 1px;
           }
 
           &.plus {
@@ -97,7 +97,7 @@
     input.manual-result {
       font-family: 'Bitter';
       padding: 2px 0;
-      width: 60px;
+      width: 76px;
       border: 4px solid $parchment_dark;
       background-color: $parchment_mid;
       text-align: center;

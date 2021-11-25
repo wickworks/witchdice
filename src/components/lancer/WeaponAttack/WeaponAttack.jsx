@@ -21,7 +21,7 @@ const WeaponAttack = ({
   isFirstRoll,
   isFinished,
 }) => {
-  const [isHit, setIsHit] = useState(true);
+  const [isHit, setIsHit] = useState(false);
 
   const [invertCrit, setInvertCrit] = useState(false);
   const [isRerolled, setIsRerolled] = useState(false);
@@ -154,12 +154,10 @@ const WeaponAttack = ({
           </>
         : isReliable ?
           <>
-            <div className="miss-line" />
-
             <DamageSubtotal totalsByType={ {[attackData.reliable.type]: attackData.reliable.val} } />
           </>
         :
-          <div className="miss-line" />
+          <div className="finished-miss">Missed.</div>
         }
       </div>
 

@@ -65,7 +65,7 @@ const AttackRollOutput = ({
             <span className='amount'>{toHitData.baseRoll}</span>
             {accuracyPool.length > 0 &&
               <>
-                <span className='plus'>+</span>
+                <span className='plus'>{toHitData.accuracyBonus > 0 ? '+' : '-'}</span>
                 <span className='asset d6' />
                 <span className='amount'>
                   {accuracyPool[0]}
