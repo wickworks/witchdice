@@ -175,37 +175,37 @@ const WeaponRoller = ({
     <div className={`WeaponRoller ${isFinished ? 'finished' : ''}`}>
       <div className="top-bar">
 
-        <div className="name-and-tags">
-          <h3 className='name'>{weaponData.name}</h3>
-          <div className="tags">{weaponTags.join(', ')}</div>
-        </div>
+        <h3 className='name'>{weaponData.name}</h3>
 
-        {!isFinished &&
-          <div className="damage-row">
+        {!isFinished && <>
+
+          {weaponData.effect &&
+            <div className='effect-row'>
+              {weaponData.effect}
+            </div>
+          }
+
+          <div className="base-damage-and-tags">
             <WeaponRollerBaseDamage
               weaponData={weaponData}
               damageModifiers={damageModifiers}
               toggleDamageModifier={toggleDamageModifier}
             />
 
-            <WeaponRollerBonusDamage
-              genericBonusDieCount={genericBonusDieCount}
-              setGenericBonusDieCount={setGenericBonusDieCount}
-              genericBonusPlus={genericBonusPlus}
-              setGenericBonusPlus={setGenericBonusPlus}
-              genericBonusIsActive={genericBonusIsActive}
-              availableBonusSources={availableBonusSources}
-              activeBonusSources={activeBonusSources}
-              toggleBonusDamage={toggleBonusDamage}
-            />
+            <div className="tags">{weaponTags.join(', ').toLowerCase()}</div>
           </div>
-        }
 
-        {weaponData.effect && !isFinished &&
-          <div className='effect-row'>
-            {weaponData.effect}
-          </div>
-        }
+          <WeaponRollerBonusDamage
+            genericBonusDieCount={genericBonusDieCount}
+            setGenericBonusDieCount={setGenericBonusDieCount}
+            genericBonusPlus={genericBonusPlus}
+            setGenericBonusPlus={setGenericBonusPlus}
+            genericBonusIsActive={genericBonusIsActive}
+            availableBonusSources={availableBonusSources}
+            activeBonusSources={activeBonusSources}
+            toggleBonusDamage={toggleBonusDamage}
+          />
+        </> }
       </div>
 
       <div className="attacks-bar">
@@ -235,14 +235,19 @@ const WeaponRoller = ({
 
 
       <div className='status-bar'>
+
         { !isPrimaryWeaponOnMount && allAttackRolls.length === 0 && showAttackSetup &&
-          <div>In addition to your primary attack, you may also attack with a different Auxiliary weapon on the same mount. That weapon doesn’t deal bonus damage.</div>
+          <div className='tip'>
+            In addition to your primary attack, you may also attack with a different Auxiliary weapon on the same mount. That weapon doesn’t deal bonus damage.
+          </div>
         }
 
         { (allAttackRolls.length >= 1) &&
           <>
             {(allAttackRolls.length >= 2 && activeBonusDamageData.rolls.length > 0) && !showAttackSetup &&
-              <div>If an attack that targets more than one character deals bonus damage, the bonus damage is halved.</div>
+              <div className='tip'>
+                If an attack that targets more than one character deals bonus damage, the bonus damage is halved.
+              </div>
             }
 
             <div className='action-buttons-container'>

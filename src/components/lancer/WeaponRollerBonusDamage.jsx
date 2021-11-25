@@ -19,7 +19,7 @@ const WeaponRollerBonusDamage = ({
     <div className="WeaponRollerBonusDamage">
       <div className='generic-source-container'>
         <button
-          className={`generic-source ${genericBonusDieCount ? 'active' : 'inactive'}`}
+          className={`generic-source ${genericBonusIsActive ? 'active' : 'inactive'}`}
           onClick={() => setGenericBonusDieCount(Math.min(genericBonusDieCount + 1, MAX_BONUS))}
         >
           <div className='amount-container'>
@@ -32,7 +32,7 @@ const WeaponRollerBonusDamage = ({
         </button>
 
         <button
-          className={`generic-source ${genericBonusPlus ? 'active' : 'inactive'}`}
+          className={`generic-source ${genericBonusIsActive ? 'active' : 'inactive'}`}
           onClick={() => setGenericBonusPlus(Math.min(genericBonusPlus + 1, MAX_BONUS))}
         >
           <div className='amount-container'>

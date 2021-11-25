@@ -2,10 +2,13 @@
 
 
 .WeaponRollerBonusDamage {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
   width: 100%;
+  box-sizing: border-box;
+  border: 2px solid $parchment_dark;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
 
   button {
     padding: 0;
@@ -31,9 +34,9 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    width: 45%;
+    // width: 33%;
     // margin: 2px 8px 2px 0;
-    height: 32px;
+    height: 36px;
 
     .amount-container {
       display: flex;
@@ -58,18 +61,19 @@
     }
 
     .generic-source {
-      min-width: 60px;
-      background-color: $parchment_dark;
+      min-width: 50px;
+      // background-color: $parchment_dark;
       height: 100%;
 
       .amount-container .amount { text-align: center; }
 
+      &:hover { background-color: $pink; }
+
       &.active {
         background-color: $rust;
         color: white;
+        &:hover { background-color: $rust_light; }
       }
-
-      &:hover { background-color: $rust_light; }
     }
 
     .generic-reset {

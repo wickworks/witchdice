@@ -2,9 +2,10 @@
 
 
 .WeaponRollerBaseDamage {
-  min-width: 100px;
-  margin-right: 20px;
-  flex-shrink: 0;
+  display: flex;
+  // min-width: 100px;
+  // margin-right: 20px;
+  // flex-shrink: 0;
 
   .base-damage {
     display: flex;
@@ -13,7 +14,7 @@
     width: 100%;
     box-sizing: border-box;
     font-size: 24px;
-    margin-bottom: 2px;
+    // margin-bottom: 2px;
 
     .damage-dice {
       display: flex;
@@ -30,6 +31,7 @@
 
   .multipliers {
     display: flex;
+    display: none;
     justify-content: space-between;
 
     button {

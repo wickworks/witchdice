@@ -18,43 +18,42 @@
   margin-top: 20px;
   padding: 8px 4% 8px;
 
-  // &.finished {
-  //   min-height: unset;
-  // }
+  &.finished {
+    min-height: unset;
+  }
 
   .top-bar {
-    .name-and-tags {
-      display: flex;
-      // justify-content: space-between;
-      justify-content: center;
-      align-items: flex-end;
-      margin-bottom: 12px;
 
-      h3 {
-        @include text_title_action;
-        flex-shrink: 0;
-        margin-bottom: 0;
-        margin-right: 20px;
-      }
-
-      .tags {
-        text-align: right;
-      }
-    }
-
-    .damage-row {
-      display: flex;
-      align-items: center;
-
-      padding-bottom: 16px;
-      border-bottom: 2px solid $parchment_dark;
-      margin-bottom: 12px;
-
+    h3 {
+      @include text_title_action;
+      flex-shrink: 0;
+      text-align: center;
+      margin: 26px 0 16px;
     }
 
     .effect-row {
-      padding-bottom: 16px;
-      // border-top: 2px solid $parchment_dark;
+      // margin: 4px 0 50px;
+      margin-bottom: 12px;
+      padding: 10px 18px;
+      border: 2px solid $parchment_dark;
+      border-radius: 12px;
+    }
+
+    .base-damage-and-tags {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      // margin-bottom: 12px;
+      padding: 10px 18px;
+      border: 2px solid $parchment_dark;
+      border-bottom: none;
+      border-radius: 12px 12px 0 0;
+
+      .tags {
+        text-align: right;
+        font-size: 16px;
+        text-transform: capitalize;
+      }
     }
   }
 
@@ -84,9 +83,12 @@
   .status-bar {
     margin-top: auto;
     margin-bottom: 20px;
-    font-style: italic;
-    text-align: center;
-    margin-top: 12px;
+
+    .tip {
+      text-align: center;
+      font-style: italic;
+      margin-top: 12px;
+    }
 
     .action-buttons-container {
       display: flex;
