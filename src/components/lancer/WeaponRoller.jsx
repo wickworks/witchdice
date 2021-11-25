@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
 import WeaponAttackSetup from './WeaponAttackSetup.jsx';
+import WeaponRollerBonusDamage from './WeaponRollerBonusDamage.jsx';
 import { deepCopy } from '../../utils.js';
 import { BONUS_TO_BURN_TAGS } from './data.js';
 
@@ -11,7 +12,6 @@ import {
   defaultWeaponDamageType,
   processDiceString,
   GENERIC_BONUS_SOURCE,
-  MAX_BONUS,
   DAMAGE_MODIFIERS,
 } from './data.js';
 
@@ -43,18 +43,20 @@ const WeaponRoller = ({
   const [genericBonusDieCount, setGenericBonusDieCount] = useState(0);
   const [genericBonusPlus, setGenericBonusPlus] = useState(0);
 
-  const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
+  // =============== CHANGE WEAPON ==================
+  useEffect(() => {
+    clearAttacks()
+  }, [weaponData]);
 
-
-  // the actual data for all the currently active bonus damages
-  const isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');
-  var activeBonusDamageData = getActiveBonusDamageData(
-    bonusDamageData,
-    activeBonusSources,
-    genericBonusDieCount,
-    genericBonusPlus,
-    isOverkill
-  );
+  const clearAttacks = () => {
+    setAllAttackRolls([]);
+    setShowAttackSetup(true);
+    setBonusDamageData(null);
+    setActiveBonusSources([]);
+    setDamageModifiers({...DAMAGE_MODIFIERS})
+    setGenericBonusDieCount(0);
+    setGenericBonusPlus(0);
+  }
 
   // Add or remove the name of a bonus damage to the active list
   const toggleBonusDamage = (sourceID) => {
@@ -87,21 +89,6 @@ const WeaponRoller = ({
     }
 
     setDamageModifiers(newModifiers);
-  }
-
-  // =============== CHANGE WEAPON ==================
-  useEffect(() => {
-    clearAttacks()
-  }, [weaponData]);
-
-  const clearAttacks = () => {
-    setAllAttackRolls([]);
-    setShowAttackSetup(true);
-    setBonusDamageData(null);
-    setActiveBonusSources([]);
-    setDamageModifiers({...DAMAGE_MODIFIERS})
-    setGenericBonusDieCount(0);
-    setGenericBonusPlus(0);
   }
 
   let weaponTags = []
@@ -171,6 +158,18 @@ const WeaponRoller = ({
     }
   }
 
+  // the actual data for all the currently active bonus damages
+  const isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');
+  var activeBonusDamageData = getActiveBonusDamageData(
+    bonusDamageData,
+    activeBonusSources,
+    genericBonusDieCount,
+    genericBonusPlus,
+    isOverkill
+  );
+
+  const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
+
   return (
     <div className="WeaponRoller">
       <div className="top-bar">
@@ -219,7 +218,7 @@ const WeaponRoller = ({
             </div>
           </div>
 
-          <BonusDamageBar
+          <WeaponRollerBonusDamage
             genericBonusDieCount={genericBonusDieCount}
             setGenericBonusDieCount={setGenericBonusDieCount}
             genericBonusPlus={genericBonusPlus}
@@ -276,77 +275,6 @@ const WeaponRoller = ({
           }
         </div>
       }
-    </div>
-  )
-}
-
-
-const BonusDamageBar = ({
-  genericBonusDieCount,
-  setGenericBonusDieCount,
-  genericBonusPlus,
-  setGenericBonusPlus,
-  genericBonusIsActive,
-  availableBonusSources,
-  activeBonusSources,
-  toggleBonusDamage,
-}) => {
-
-  return (
-    <div className="BonusDamageBar">
-      <div className='generic-source-container'>
-        <button
-          className={`generic-source ${genericBonusDieCount ? 'active' : 'inactive'}`}
-          onClick={() => setGenericBonusDieCount(Math.min(genericBonusDieCount + 1, MAX_BONUS))}
-        >
-          <div className='amount-container'>
-            {genericBonusDieCount ?
-              <div className='amount'>{genericBonusDieCount}d6</div>
-            :
-              <div className='asset d6' />
-            }
-          </div>
-        </button>
-
-        <button
-          className={`generic-source ${genericBonusPlus ? 'active' : 'inactive'}`}
-          onClick={() => setGenericBonusPlus(Math.min(genericBonusPlus + 1, MAX_BONUS))}
-        >
-          <div className='amount-container'>
-            {genericBonusPlus ?
-              <div className='amount'>+{genericBonusPlus}</div>
-            :
-              <div className='asset plus' />
-            }
-          </div>
-        </button>
-
-        <button
-          className={`generic-reset ${genericBonusIsActive ? 'active' : 'inactive'}`}
-          onClick={() => { setGenericBonusPlus(0); setGenericBonusDieCount(0); }}
-          disabled={!genericBonusIsActive}
-        >
-          <div className='label'>Bonus damage</div>
-        </button>
-      </div>
-
-      { availableBonusSources.map((bonusSource, i) =>
-        <button
-          className={`bonus-source ${activeBonusSources.indexOf(bonusSource.id) >= 0 ? 'active' : 'inactive'}`}
-          onClick={() => toggleBonusDamage(bonusSource.id)}
-          key={`${bonusSource.id}-${i}`}
-        >
-          <div className='amount-container'>
-            { bonusSource.type ?
-              <div className={`asset-lancer ${bonusSource.type.toLowerCase()}`} />
-            :
-              <div className='asset dot' />
-            }
-            <div className='amount'>{bonusSource.diceString}</div>
-          </div>
-          <div className='label'>{bonusSource.name}</div>
-        </button>
-      )}
     </div>
   )
 }
