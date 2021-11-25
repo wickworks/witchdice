@@ -1,5 +1,5 @@
 const allWeapons = require('./lancer-data-master/lib/weapons.json');
-const allPilotSkills = require('./lancer-data-master/lib/skills.json');
+const allSkills = require('./lancer-data-master/lib/skills.json');
 const allTags = require('./lancer-data-master/lib/tags.json');
 const allFrames = require('./lancer-data-master/lib/frames.json');
 const allTalents = require('./lancer-data-master/lib/talents.json');
@@ -126,8 +126,13 @@ const findTalentData = (talentID) => {
   return talentData;
 }
 
+const findSkillData = (skillID) => {
+  const skillData = allSkills.find(skill => skill.id === skillID);
+  return skillData;
+}
+
 export {
-  allPilotSkills,
+  findSkillData,
   getGrit,
   processDiceString,
   findTagData,

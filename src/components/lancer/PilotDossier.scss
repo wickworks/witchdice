@@ -6,11 +6,11 @@
   box-sizing: border-box;
   margin: 20px 20px 0;
 
-  h2 {
-    @include text_title_action;
-    // text-align: center;
-    margin: 16px 0;
-  }
+  // h2 {
+  //   @include text_title_action;
+  //   // text-align: center;
+  //   margin: 16px 0;
+  // }
 
   .dossier-container {
     @include shadow;
@@ -19,30 +19,139 @@
 
     position: relative;
     box-sizing: border-box;
-    padding: 8px 4% 8px;
+    // padding: 8px 4% 8px;
+    padding: 12px;
     width: 100%;
     max-width: 800px;
 
-    .name-etc {
-      display: flex;
-      justify-content: space-between;
+    .diamond {
+      position: relative;
 
-      .text-info {
-        .label {}
-        .info {}
+      img.portrait {
+        width: 200px;
+        height: 200px;
+        margin: 6px;
+
+        float: left;
+        shape-outside: polygon(50% 0,100% 50%,50% 100%,0 50%);
+        clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+
+        background-color: $parchment_dark;
+      }
+
+      .ll-tab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+
+        transform: rotate(-45deg);
+
+        .label {
+          white-space: nowrap;
+          font-size: 14px;
+          color: $grey_mid;
+        }
+
+        .license-level {
+          font-size: 50px;
+          line-height: 1;
+          color: $rust;
+        }
+      }
+
+      .gene-tab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        position: absolute;
+        top: 148px;
+        left: 4px;
+        width: 60px;
+        height: 60px;
+        text-align: center;
+        transform: rotate(45deg);
+
+        opacity: 0.5;
+
+        .label {
+          font-size: 14px;
+          color: $grey_mid;
+        }
+
+        .gene {
+          font-size: 40px;
+          color: $rust_light;
+        }
       }
     }
 
-    .section-label {
 
+
+    .name-and-callsign {
+      height: 100px;
+      padding-top: 6px;
+
+      .callsign {
+        font-size: 44px;
+        color: $rust;
+      }
+
+      .name {
+        font-size: 20px;
+        margin-top: 4px;
+        text-transform: capitalize;
+      }
     }
 
-    .skill-container {
-      display: flex;
-      flex-wrap: wrap;
+    .licenses-and-skills {
+      // display: flex;
 
-      .skill {
-        width: 50%;
+      .label {
+        margin-top: 4px;
+        font-size: 14px;
+        color: $grey_mid;
+      }
+
+      .skill-container {
+        float: right;
+        margin-left: 8px;
+        width: 300px;
+
+        .skill-list {
+          display: flex;
+          flex-wrap: wrap;
+
+          .skill {
+            width: 50%;
+            text-transform: capitalize;
+          }
+        }
+      }
+
+      .licenses-container {
+        font-size: 16px;
+
+        .license {
+          white-space: nowrap;
+          text-transform: capitalize;
+
+          .bracket {
+            margin: 0 4px;
+            color: $grey_mid;
+          }
+
+          .rank { margin-left: 4px; }
+        }
       }
     }
   }
