@@ -31,9 +31,9 @@ const PilotDossier = ({
         <div className="name-and-callsign">
 
           <div className="callsign">{activePilot.callsign}</div>
-          <div className="name">
-            {activePilot.name}
-            {activePilot.background && ` — ${activePilot.background.toLowerCase()}`}
+          <div className="name">{activePilot.name}</div>
+          <div className="background">
+            {activePilot.background ? activePilot.background.toLowerCase() : 'Unknown Origin'}
           </div>
 
         </div>
@@ -43,15 +43,16 @@ const PilotDossier = ({
           <div className="skill-container">
             <div className="label">Skills</div>
 
-            <div className="skill-list">
-
+            <div className="list">
               { activePilot.skills.map((skill, i) => {
                 const skillData = findSkillData(skill.id);
                 return (
-                  <div className="skill" key={skill.id}>
+                  <span className="entry" key={skill.id}>
+                    <span className="bracket">[</span>
                     <span className="name">{skillData.name.toLowerCase()}</span>
-                    <span className="bonus">+{skill.rank * 2}</span>
-                  </div>
+                    <span className="number">+{skill.rank * 2}</span>
+                    <span className="bracket">]</span>
+                  </span>
                 )
               })}
             </div>
@@ -60,20 +61,19 @@ const PilotDossier = ({
           <div className="licenses-container">
             <div className="label">Licenses</div>
 
-            { activePilot.licenses.map((licenseData, i) => {
-              const frameData = findFrameData(licenseData.id)
-              return (
-                <>
-                  <span className="license" key={licenseData.id}>
+            <div className="list">
+              { activePilot.licenses.map((licenseData, i) => {
+                const frameData = findFrameData(licenseData.id)
+                return (
+                  <span className="entry" key={licenseData.id}>
                     <span className="bracket">[</span>
                     <span className="name">{frameData.name.toLowerCase()}</span>
-                    <span className="rank">{licenseData.rank}</span>
+                    <span className="number">{licenseData.rank}</span>
                     <span className="bracket">]</span>
                   </span>
-                  <span>{' '}</span>
-                </>
-              )
-            })}
+                )
+              })}
+            </div>
           </div>
 
 
@@ -82,6 +82,8 @@ const PilotDossier = ({
 
 
           {/*
+
+
             <div className="text-info">
               <div className="label">Callsign</div>
             </div>

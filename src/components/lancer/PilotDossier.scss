@@ -95,63 +95,56 @@
       }
     }
 
-
-
     .name-and-callsign {
       height: 100px;
       padding-top: 6px;
 
       .callsign {
-        font-size: 44px;
+        font-size: 42px;
         color: $rust;
       }
 
       .name {
         font-size: 20px;
-        margin-top: 4px;
-        text-transform: capitalize;
       }
-    }
 
-    .licenses-and-skills {
-      // display: flex;
-
-      .label {
+      .background {
+        text-transform: capitalize;
         margin-top: 4px;
         font-size: 14px;
         color: $grey_mid;
+      }
+    }
+
+
+    .licenses-and-skills {
+      .label {
+        margin-top: 4px;
+        margin-left: 4px;
+        font-size: 14px;
+        color: $grey_mid;
+      }
+
+      .list {
+        .entry {
+          .bracket {
+            margin: 0 4px;
+            color: $grey_mid;
+          }
+
+          .name {
+            white-space: nowrap;
+            text-transform: capitalize;
+          }
+
+          .number { margin-left: 4px; }
+        }
       }
 
       .skill-container {
         float: right;
         margin-left: 8px;
         width: 300px;
-
-        .skill-list {
-          display: flex;
-          flex-wrap: wrap;
-
-          .skill {
-            width: 50%;
-            text-transform: capitalize;
-          }
-        }
-      }
-
-      .licenses-container {
-        font-size: 16px;
-
-        .license {
-          white-space: nowrap;
-          text-transform: capitalize;
-
-          .bracket {
-            margin: 0 4px;
-            color: $grey_mid;
-          }
-
-          .rank { margin-left: 4px; }
-        }
       }
     }
   }
