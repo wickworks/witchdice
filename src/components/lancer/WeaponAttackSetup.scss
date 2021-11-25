@@ -10,86 +10,60 @@ $number_speed: 0.25s;
   padding: 30px 0;
   border-top: 2px solid $parchment_dark;
 
-  .total-modifiers {
-    // width: 120px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    margin-bottom: 6px;
-
-    .label {
-      font-weight: bold;
-      margin-left: 4px;
-    }
-
-    .grit {
-      text-align: center;
-      margin: 0 8px;
-      font-size: 18px;
-    }
-
-    button.accuracy {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 18px;
-      padding: 0;
-      margin: 0 8px;
-
-      &.actually-difficulty {
-        color: $rust;
-
-        .asset.d6 {
-          // turns black to $rust
-          filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
-        }
-      }
-
-      &:hover {
-        background-color: $parchment_dark;
-      }
-
-      .asset.d6 {
-        width: 20px;
-        height: 20px;
-        display: inline-block;
-        margin: 0 2px;
-      }
-    }
-  }
-
 
   .roll-container {
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    flex-direction: column;
 
     .BigRollButton {
       justify-content: flex-start;
     }
 
-    .column-label {
+    .total-modifiers {
+      // width: 120px;
       display: flex;
-      align-items: center;
-      font-size: 24px;
+      align-items: flex-start;
+      justify-content: center;
+      margin-bottom: 6px;
 
-      &.accuracy {
-        margin-left: 10px;
+      .label {
+        font-weight: bold;
+        margin-left: 4px;
       }
 
-      &.difficulty {
-        margin-right: 10px;
-        color: $rust;
+      .grit {
+        text-align: center;
+        margin: 0 8px;
+        font-size: 18px;
       }
 
-      .asset-lancer {
-        display: inline-block;
-        width: 24px;
-        height: 24px;
+      button.accuracy {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        padding: 0;
+        margin: 0 8px;
 
-        &.difficulty {
-          // turns black to $rust
-          filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+        &.actually-difficulty {
+          color: $rust;
+
+          .asset.d6 {
+            // turns black to $rust
+            filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+          }
+        }
+
+        &:hover {
+          background-color: $parchment_dark;
+        }
+
+        .asset.d6 {
+          width: 20px;
+          height: 20px;
+          display: inline-block;
+          margin: 0 2px;
         }
       }
     }
@@ -127,6 +101,23 @@ $number_speed: 0.25s;
 
         .Sources button {
           text-align: left;
+        }
+      }
+
+      .column-label {
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+
+        .asset-lancer {
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+
+          &.difficulty {
+            // turns black to $rust
+            filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+          }
         }
       }
 

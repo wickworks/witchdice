@@ -94,45 +94,40 @@ const WeaponAttackSetup = ({
   return (
     <div className="WeaponAttackSetup">
 
-      <div className="total-modifiers">
-        <div className='grit'>
-          +{gritBonus}
-          <span className='label'>Grit</span>
-        </div>
-        { currentMod !== 0 &&
-          <button
-            className={`accuracy ${currentMod < 0 ? 'actually-difficulty' : ''}`}
-            onClick={resetModifiers}
-          >
-            {currentMod > 0 ? '+' : ''}
-            {currentMod}
-            <span className='asset d6' />
-            <span className='label'>
-              {currentMod < 0 ? 'Difficulty' : 'Accuracy'}
-            </span>
-          </button>
-        }
-      </div>
+
 
       <div className="roll-container">
-        <div className='column-label difficulty'>
-          <span className='asset-lancer difficulty' />
-          Difficulty
+        <div className="total-modifiers">
+          <div className='grit'>
+            +{gritBonus}
+            <span className='label'>Grit</span>
+          </div>
+          { currentMod !== 0 &&
+            <button
+              className={`accuracy ${currentMod < 0 ? 'actually-difficulty' : ''}`}
+              onClick={resetModifiers}
+            >
+              {currentMod > 0 ? '+' : ''}
+              {currentMod}
+              <span className='asset d6' />
+              <span className='label'>
+                {currentMod < 0 ? 'Difficulty' : 'Accuracy'}
+              </span>
+            </button>
+          }
         </div>
 
         <BigRollButton
           handleNewRoll={() => createNewAttackRoll(gritBonus, currentMod)}
         />
-
-        <div className='column-label accuracy'>
-          Accuracy
-          <span className='asset-lancer accuracy' />
-        </div>
       </div>
 
       <div className="column-container">
         <div className="column difficulty">
-
+          <div className='column-label difficulty'>
+            <span className='asset-lancer difficulty' />
+            Difficulty
+          </div>
 
           <NumberLine
             modArray={difficultyArray}
@@ -148,7 +143,10 @@ const WeaponAttackSetup = ({
         </div>
 
         <div className="column accuracy">
-
+          <div className='column-label accuracy'>
+            Accuracy
+            <span className='asset-lancer accuracy' />
+          </div>
 
           <NumberLine
             modArray={accuracyArray}
