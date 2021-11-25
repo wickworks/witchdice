@@ -24,6 +24,11 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'PT Mono';
+  src: local('PT Mono'), url('./fonts/PTMono-Regular.ttf') format('truetype');
+  font-display: swap;
+}
 
 @mixin text_default {
   font-family: 'Bitter', serif;
