@@ -1,5 +1,6 @@
 import {
-  FIRST_ROLL_ONLY_TAGS
+  FIRST_ROLL_ONLY_TAGS,
+  BASIC_DAMAGE_TYPES,
 } from '../data.js';
 
 function getSortedTotalPool(rollData, isCrit, isAverage) {
@@ -44,8 +45,8 @@ function pullOutFirstRollBonusDamage(bonusDamageData) {
 // modifies given baseTotalsByType by adding the bonus totals to it
 function addBonusDamageToBaseDamage(baseTotalsByType, bonusTotalsByType, convertToBurn = false) {
   Object.keys(bonusTotalsByType).forEach(type => {
-    const prevTypeTotal = baseTotalsByType[type] || 0;
-    const convertedType = convertToBurn ? 'Burn' : type
+    const convertedType = convertToBurn && BASIC_DAMAGE_TYPES.includes(type) ? 'Burn' : type
+    const prevTypeTotal = baseTotalsByType[convertedType] || 0;
     baseTotalsByType[convertedType] = prevTypeTotal + bonusTotalsByType[type];
   });
 }

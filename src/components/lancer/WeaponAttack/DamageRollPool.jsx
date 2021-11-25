@@ -7,6 +7,10 @@ import {
   getHighestRolls,
 } from './damageTotalUtils.js';
 
+import {
+  BASIC_DAMAGE_TYPES,
+} from '../data.js';
+
 const DamageRollPool = ({
   rollData,
   isCrit,
@@ -32,7 +36,8 @@ const DamageRollPool = ({
     highest.forEach((roll, i) =>    highest[i] = (highest[i] * multiplier));
   }
 
-  const damageType = (isBonusDamage && damageModifiers.bonusToBurn) ? 'Burn' : rollData.type
+  const convertToBurn = isBonusDamage && damageModifiers.bonusToBurn && BASIC_DAMAGE_TYPES.includes(rollData.type)
+  const damageType = convertToBurn ? 'Burn' : rollData.type
 
   const discardedString = totalPool.join(', ')
   const usedString = highest.join(', ')

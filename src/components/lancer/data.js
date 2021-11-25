@@ -6,7 +6,9 @@ const allTalents = require('./lancer-data-master/lib/talents.json');
 
 const BONUS_TO_BURN_TAGS = ['mf_tokugawa_dz', 't_walking_armory_2_hellfire']
 
-const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier_1', 't_nuclear_cavalier_2']
+const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier', 't_nuclear_cavalier']
+
+const BASIC_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy']
 
 const DAMAGE_MODIFIERS = {
   double: false,
@@ -87,13 +89,12 @@ const getTagName = (tag) => {
 
 // Gets the type of damage dealt by the weapon, or Variable if multiple or none.
 const defaultWeaponDamageType = (weaponData) => {
-  const VARIABLE_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy']
 
   var damageType = '';
   if (weaponData.damage) {
     weaponData.damage.forEach(damageValAndType => {
       // is this one of the types that bonus damage can normally become?
-      if (VARIABLE_DAMAGE_TYPES.includes(damageValAndType.type)) {
+      if (BASIC_DAMAGE_TYPES.includes(damageValAndType.type)) {
         // assign it to the first one we see
         if (damageType === '') {
           damageType = damageValAndType.type
@@ -141,4 +142,5 @@ export {
   DAMAGE_MODIFIERS,
   BONUS_TO_BURN_TAGS,
   FIRST_ROLL_ONLY_TAGS,
+  BASIC_DAMAGE_TYPES,
 }
