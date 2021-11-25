@@ -174,12 +174,6 @@ const WeaponRoller = ({
       <div className="top-bar">
         <h3 className='name'>{weaponData.name}</h3>
 
-        {weaponData.effect &&
-          <div className='effect-row'>
-            {weaponData.effect}
-          </div>
-        }
-
         <div className="base-damage-and-tags">
           <WeaponRollerBaseDamage
             weaponData={weaponData}
@@ -189,6 +183,12 @@ const WeaponRoller = ({
 
           <div className="tags">{weaponTags.join(', ').toLowerCase()}</div>
         </div>
+
+        {weaponData.effect &&
+          <div className='effect-row'>
+            {weaponData.effect}
+          </div>
+        }
 
         <WeaponRollerBonusDamage
           genericBonusDieCount={genericBonusDieCount}

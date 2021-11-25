@@ -21,10 +21,10 @@ $number_speed: 0.25s;
 
     .total-modifiers {
       display: flex;
-      display: none;
-      align-items: flex-start;
       justify-content: center;
+      flex-direction: column;
       margin-bottom: 6px;
+      min-height: 44px;
 
       .label {
         font-weight: bold;
@@ -37,7 +37,7 @@ $number_speed: 0.25s;
         font-size: 18px;
       }
 
-      button.accuracy {
+      .accuracy {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -52,10 +52,6 @@ $number_speed: 0.25s;
             // turns black to $rust
             filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
           }
-        }
-
-        &:hover {
-          background-color: $parchment_dark;
         }
 
         .asset.d6 {
@@ -195,6 +191,7 @@ $number_speed: 0.25s;
           letter-spacing: 1px;
           width: 50%;
           height: fit-content;
+          padding: 4px 8px;
           margin: 4px 0;
 
           &:hover {
@@ -206,7 +203,7 @@ $number_speed: 0.25s;
             color: white;
 
             &:hover {
-              background-color: $rust_dark;
+              background-color: $rust_light;
             }
           }
         }

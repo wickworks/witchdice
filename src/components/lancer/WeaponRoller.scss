@@ -27,12 +27,20 @@
       margin: 26px 0 16px;
     }
 
-    .effect-row {
-      // margin: 4px 0 50px;
-      margin-bottom: 12px;
-      padding: 10px 18px;
+    > div {
       border: 2px solid $parchment_dark;
-      border-radius: 12px;
+      border-bottom-width: 0;
+    }
+
+    > div:first-of-type { border-radius: 12px 12px 0 0; }
+
+    > div:last-of-type {
+      border-radius: 0 0 12px 12px;
+      border-bottom-width: 2px;
+    }
+
+    .effect-row {
+      padding: 10px 18px;
     }
 
     .base-damage-and-tags {
@@ -41,9 +49,6 @@
       align-items: center;
       // margin-bottom: 12px;
       padding: 10px 18px;
-      border: 2px solid $parchment_dark;
-      border-bottom: none;
-      border-radius: 12px 12px 0 0;
 
       .tags {
         text-align: right;

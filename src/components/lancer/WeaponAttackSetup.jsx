@@ -102,18 +102,16 @@ const WeaponAttackSetup = ({
             +{gritBonus}
             <span className='label'>Grit</span>
           </div>
+
           { currentMod !== 0 &&
-            <button
-              className={`accuracy ${currentMod < 0 ? 'actually-difficulty' : ''}`}
-              onClick={resetModifiers}
-            >
+            <div className={`accuracy ${currentMod < 0 ? 'actually-difficulty' : ''}`}>
               {currentMod > 0 ? '+' : ''}
               {currentMod}
               <span className='asset d6' />
               <span className='label'>
                 {currentMod < 0 ? 'Difficulty' : 'Accuracy'}
               </span>
-            </button>
+            </div>
           }
         </div>
 
