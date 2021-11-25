@@ -1,7 +1,11 @@
 @import '../../../fonts';
 
 .WeaponAttack {
-  margin: 8px 0; 
+  margin: 8px 0;
+
+  &:only-child {
+    margin: 60px 0;
+  }
 
   // &:first-child { border-top: 2px solid $parchment_dark; }
   // &:not(:last-child) { margin-bottom: 16px; }
