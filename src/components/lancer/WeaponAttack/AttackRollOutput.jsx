@@ -63,7 +63,7 @@ const AttackRollOutput = ({
           <div className="to-hit-container">
             <span className='asset d20' />
             <span className='amount'>{toHitData.baseRoll}</span>
-            {accuracyPool.length &&
+            {accuracyPool.length > 0 &&
               <>
                 <span className='plus'>+</span>
                 <span className='asset d6' />

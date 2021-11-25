@@ -19,6 +19,7 @@ const WeaponAttack = ({
   halveBonusDamage,
   damageModifiers,
   isFirstRoll,
+  isFinished,
 }) => {
   const [isHit, setIsHit] = useState(true);
 
@@ -59,8 +60,6 @@ const WeaponAttack = ({
   }
   if (selfHeat)     effectsList.push(`Heat ${selfHeat} (Self).`)
   if (isRerolled)   effectsList.push('Rerolled.')
-  if (attackData.effect)              effectsList.push(attackData.effect)
-
 
   const totalsByType = summateAllDamageByType(
     attackData.damage,
@@ -74,26 +73,47 @@ const WeaponAttack = ({
   // separate normal bonus damage and sources that only apply to the first roll (aka NucCav)
   const [trimmedBonusDamageRolls, firstBonusDamageRolls] = pullOutFirstRollBonusDamage(bonusDamageData);
 
+  const toHitData = isRerolled ? attackData.toHitReroll : attackData.toHit;
+
   return (
     <div className="WeaponAttack">
 
       <div className="damage-container">
 
-        <HitCheckbox
-          isHit={isHit}
-          handleHitClick={() => setIsHit(!isHit)}
-        />
+        {!isFinished &&
+          <HitCheckbox
+            isHit={isHit}
+            handleHitClick={() => setIsHit(!isHit)}
+          />
+        }
 
-        <AttackRollOutput
-          toHitData={isRerolled ? attackData.toHitReroll : attackData.toHit}
-          manualRoll={manualRoll}
-          setManualRoll={setManualRoll}
-          isCrit={isCrit}
-          invertCrit={invertCrit}
-          setInvertCrit={setInvertCrit}
-          isRerolled={isRerolled}
-          setIsRerolled={setIsRerolled}
-        />
+        {!isFinished ?
+          <AttackRollOutput
+            toHitData={toHitData}
+            manualRoll={manualRoll}
+            setManualRoll={setManualRoll}
+            isCrit={isCrit}
+            invertCrit={invertCrit}
+            setInvertCrit={setInvertCrit}
+            isRerolled={isRerolled}
+            setIsRerolled={setIsRerolled}
+          />
+        :
+          <div className="AttackRollOutput">
+            <div className="final-result-container">
+              <button className='die-and-result condensed' disabled>
+                <div className="current-result-container">
+                  { isCrit ?
+                    <div className='die-icon asset d20_frame'> <div className='asset necrotic' /> </div>
+                  :
+                    <div className='die-icon asset d20' />
+                  }
+                  <div className='result'>{manualRoll > 0 ? manualRoll : toHitData.finalResult}</div>
+                </div>
+              </button>
+            </div>
+          </div>
+        }
 
         { isHit ?
           <>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
 import WeaponAttackSetup from './WeaponAttackSetup.jsx';
 import WeaponRollerBonusDamage from './WeaponRollerBonusDamage.jsx';
+import WeaponRollerBaseDamage from './WeaponRollerBaseDamage.jsx';
 import { deepCopy } from '../../utils.js';
 import { BONUS_TO_BURN_TAGS } from './data.js';
 
@@ -31,9 +32,11 @@ const WeaponRoller = ({
   weaponData,
   gritBonus,
   availableBonusSources = [],
+  isPrimaryWeaponOnMount,
 }) => {
   const [allAttackRolls, setAllAttackRolls] = useState([]);
   const [showAttackSetup, setShowAttackSetup] = useState(true);
+  const [isFinished, setIsFinished] = useState(false);
 
   const [bonusDamageData, setBonusDamageData] = useState(null);
   const [activeBonusSources, setActiveBonusSources] = useState([]);
@@ -51,6 +54,7 @@ const WeaponRoller = ({
   const clearAttacks = () => {
     setAllAttackRolls([]);
     setShowAttackSetup(true);
+    setIsFinished(false);
     setBonusDamageData(null);
     setActiveBonusSources([]);
     setDamageModifiers({...DAMAGE_MODIFIERS})
@@ -130,12 +134,9 @@ const WeaponRoller = ({
     newAttack.toHitReroll = rollToHit(flatBonus, accuracyMod);
     newAttack.damage = rollDamage(weaponData, newAttack.isOverkill);
 
-    newAttack.effect = weaponData.effect || '';
     newAttack.onAttack = weaponData.on_attack || '';
     newAttack.onHit = weaponData.on_hit || '';
     newAttack.onCrit = weaponData.on_crit || '';
-
-
 
     console.log('New Attack:', newAttack);
 
@@ -171,7 +172,7 @@ const WeaponRoller = ({
   const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
 
   return (
-    <div className="WeaponRoller">
+    <div className={`WeaponRoller ${isFinished ? 'finished' : ''}`}>
       <div className="top-bar">
 
         <div className="name-and-tags">
@@ -179,58 +180,32 @@ const WeaponRoller = ({
           <div className="tags">{weaponTags.join(', ')}</div>
         </div>
 
-        <div className="damage-row">
-          <div className="base-damage-container">
-            <div className="base-damage">
-              <div>{'[ '}</div>
-              { weaponData.damage.map((damage, i) =>
-                <div className='damage-dice' key={`damage-${i}`}>
-                  {damage.val}
-                  <div className={`asset-lancer ${damage.type.toLowerCase()}`} />
-                </div>
-              )}
-              <div>{' ]'}</div>
-            </div>
+        {!isFinished &&
+          <div className="damage-row">
+            <WeaponRollerBaseDamage
+              weaponData={weaponData}
+              damageModifiers={damageModifiers}
+              toggleDamageModifier={toggleDamageModifier}
+            />
 
-            <div className="multipliers">
-              <button
-                className={damageModifiers.double ? 'active' : ''}
-                onClick={() => toggleDamageModifier('double')}
-              >
-                <div className='asset x' />
-                <div>2</div>
-              </button>
-
-              <button
-                className={damageModifiers.average ? 'active' : ''}
-                onClick={() => toggleDamageModifier('average')}
-              >
-                <div>Avg</div>
-              </button>
-
-              <button
-                className={damageModifiers.half ? 'active' : ''}
-                onClick={() => toggleDamageModifier('half')}
-              >
-                <div className='asset x' />
-                <div>.5</div>
-              </button>
-            </div>
+            <WeaponRollerBonusDamage
+              genericBonusDieCount={genericBonusDieCount}
+              setGenericBonusDieCount={setGenericBonusDieCount}
+              genericBonusPlus={genericBonusPlus}
+              setGenericBonusPlus={setGenericBonusPlus}
+              genericBonusIsActive={genericBonusIsActive}
+              availableBonusSources={availableBonusSources}
+              activeBonusSources={activeBonusSources}
+              toggleBonusDamage={toggleBonusDamage}
+            />
           </div>
+        }
 
-          <WeaponRollerBonusDamage
-            genericBonusDieCount={genericBonusDieCount}
-            setGenericBonusDieCount={setGenericBonusDieCount}
-            genericBonusPlus={genericBonusPlus}
-            setGenericBonusPlus={setGenericBonusPlus}
-            genericBonusIsActive={genericBonusIsActive}
-            availableBonusSources={availableBonusSources}
-            activeBonusSources={activeBonusSources}
-            toggleBonusDamage={toggleBonusDamage}
-          />
-
-        </div>
-
+        {weaponData.effect && !isFinished &&
+          <div className='effect-row'>
+            {weaponData.effect}
+          </div>
+        }
       </div>
 
       <div className="attacks-bar">
@@ -243,38 +218,57 @@ const WeaponRoller = ({
             halveBonusDamage={allAttackRolls.length >= 2}
             damageModifiers={damageModifiers}
             isFirstRoll={i === 0}
+            isFinished={isFinished}
             key={i}
           />
         )}
 
 
-        {showAttackSetup ?
+        {showAttackSetup &&
           <WeaponAttackSetup
             weaponData={weaponData}
             gritBonus={gritBonus}
             createNewAttackRoll={createNewAttackRoll}
           />
-        :
-          <button className='add-target' onClick={() => setShowAttackSetup(true)}>
-            <div className='asset plus' />
-            Add target
-          </button>
         }
       </div>
 
-      { !showAttackSetup &&
-        <div className='status-bar'>
-          { ((allAttackRolls.length >= 2) && activeBonusDamageData.rolls.length > 0) &&
-            <div>If an attack that targets more than one character deals bonus damage, the bonus damage is halved.</div>
-          }
 
-          { (allAttackRolls.length >= 1) &&
-            <button className='clear-attacks' onClick={clearAttacks} >
-              Clear
-            </button>
-          }
-        </div>
-      }
+      <div className='status-bar'>
+        { !isPrimaryWeaponOnMount && allAttackRolls.length === 0 && showAttackSetup &&
+          <div>In addition to your primary attack, you may also attack with a different Auxiliary weapon on the same mount. That weapon doesn’t deal bonus damage.</div>
+        }
+
+        { (allAttackRolls.length >= 1) &&
+          <>
+            {(allAttackRolls.length >= 2 && activeBonusDamageData.rolls.length > 0) && !showAttackSetup &&
+              <div>If an attack that targets more than one character deals bonus damage, the bonus damage is halved.</div>
+            }
+
+            <div className='action-buttons-container'>
+              <button
+                className={`finished ${isFinished ? 'active' : ''}`}
+                onClick={() => { setIsFinished(!isFinished); setShowAttackSetup(false)}}
+              >
+                <div className='asset checkmark' />
+                Finished
+              </button>
+
+              { !showAttackSetup && !isFinished &&
+                <button className='add-target' onClick={() => setShowAttackSetup(true)}>
+                  <div className='asset plus' />
+                  Add target
+                </button>
+              }
+
+              <button className='clear-attacks' onClick={clearAttacks} >
+                <div className='asset x' />
+                Reset
+              </button>
+            </div>
+          </>
+        }
+      </div>
     </div>
   )
 }

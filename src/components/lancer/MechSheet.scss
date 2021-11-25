@@ -47,11 +47,7 @@ button.MechMount {
 
   border: 2px solid $parchment_dark;
 
-  .mount-type {
-    font-weight: bold;
-    font-size: 20px;
-    margin-bottom: 4px;
-  }
+
 
   &:hover {
     background-color: $rust_light;
@@ -63,6 +59,20 @@ button.MechMount {
   }
 
   &:disabled { background-color: transparent; }
+
+  &.empty {
+    border-color: $faded_grey;
+
+    .mount-type {
+      color: $grey_mid_light;
+    }
+  }
+
+  .mount-type {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
 
   .weapons-container {
     display: flex;
@@ -77,11 +87,11 @@ button.MechMount {
       text-transform: capitalize;
     }
 
-    .empty {
+    .i-have-no-weapon {
       font-size: 24px;
       font-style: italic;
-      color: $grey_mid;
-      margin: auto;
+      color: $grey_mid_light;
+      margin: 12px auto 0;
     }
   }
 }

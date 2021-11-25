@@ -64,6 +64,7 @@ const MechSheet = ({
             weaponData={weaponData}
             gritBonus={gritBonus}
             availableBonusSources={bonusDamageSources}
+            isPrimaryWeaponOnMount={i === 0}
             key={`${weaponData.id}-${i}`}
           />
         )
@@ -80,25 +81,25 @@ const MechMount = ({
 
   const mountedWeapons = getWeaponsOnMount(mount);
 
+  const isEmpty = mountedWeapons.length === 0;
+
   return (
     <button
-      className={`MechMount ${isActive ? 'active' : ''}`}
+      className={`MechMount ${isActive ? 'active' : ''} ${isEmpty ? 'empty' : ''}`}
       onClick={activateMount}
       disabled={mountedWeapons.length === 0}
     >
       <div className='mount-type'>{mount.mount_type}</div>
 
-      <div className="weapons-container">
+      <div className='weapons-container'>
         { mountedWeapons.map((weaponData, i) =>
           <div className="mech-weapon" key={i}>
             <div className="name">{weaponData.name.toLowerCase()}</div>
           </div>
         )}
 
-        {mountedWeapons.length === 0 &&
-          <div className="empty">
-            (empty mount)
-          </div>
+        {isEmpty &&
+          <div className={'i-have-no-weapon'}>(empty mount)</div>
         }
       </div>
     </button>

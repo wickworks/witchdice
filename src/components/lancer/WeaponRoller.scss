@@ -18,11 +18,16 @@
   margin-top: 20px;
   padding: 8px 4% 8px;
 
+  &.finished {
+    min-height: unset;
+  }
+
   .top-bar {
     .name-and-tags {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
+      margin-bottom: 12px;
 
       h3 {
         @include text_title_action;
@@ -38,63 +43,12 @@
 
     .damage-row {
       display: flex;
-      padding: 12px 0;
+      margin-bottom: 12px;
+    }
 
-      .base-damage-container {
-        min-width: 100px;
-        margin-right: 20px;
-        flex-shrink: 0;
-
-        .base-damage {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          width: 100%;
-          box-sizing: border-box;
-          font-size: 24px;
-          margin-bottom: 2px;
-
-          .damage-dice {
-            display: flex;
-            align-items: center;
-            margin-left: 4px;
-
-            .asset-lancer {
-              display: inline-block;
-              width: 28px;
-              height: 28px;
-            }
-          }
-        }
-
-        .multipliers {
-          display: flex;
-          justify-content: space-between;
-
-          button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 30%;
-
-            > div { opacity: 0.5; }
-            &:hover { background-color: $parchment_dark; }
-            .asset {
-              width: 12px;
-              height: 12px;
-            }
-
-            &.active {
-              background-color: $rust;
-              color: white;
-
-              > div { opacity: 1.0; }
-              &:hover { background-color: $rust_light; }
-              .asset { filter: invert(100%); }
-            }
-          }
-        }
-      }
+    .effect-row {
+      padding: 16px 0;
+      border-top: 2px solid $parchment_dark;
     }
   }
 
@@ -123,18 +77,60 @@
 
   .status-bar {
     margin-top: auto;
-    margin-bottom: 5px;
+    margin-bottom: 20px;
     font-style: italic;
     text-align: center;
 
-    button.clear-attacks {
-      font-weight: bold;
-      padding: 4px 100px;
-      background-color: $parchment_dark;
-      color: $rust;
-      margin-top: 10px;
+    .action-buttons-container {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
 
-      &:hover { background-color: $rust_light; }
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        width: 30%;
+        font-weight: bold;
+        padding: 8px;
+        // background-color: $parchment_dark;
+
+        &:hover { background-color: $parchment_dark; }
+
+        &.active {
+          background-color: $parchment_dark;
+
+          &:hover { background-color: $pink; }
+        }
+
+        .asset {
+          width: 24px;
+          height: 24px;
+          margin-right: 6px;
+
+          // turns black to an olive
+          &.checkmark { filter: invert(29%) sepia(15%) saturate(3839%) hue-rotate(39deg) brightness(98%) contrast(101%); }
+
+          // turns black to $crushed_velvet
+          &.plus { filter: invert(20%) sepia(24%) saturate(879%) hue-rotate(287deg) brightness(97%) contrast(92%); }
+
+          // turns black to $rust
+          &.x { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
+        }
+
+        &.finished {
+          color: $olive_dark;
+        }
+
+        &.add-target {
+          color: $crushed_velvet;
+        }
+
+        &.clear-attacks {
+          color: $rust;
+        }
+      }
     }
   }
 }
