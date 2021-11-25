@@ -19,7 +19,6 @@ const WeaponAttack = ({
   halveBonusDamage,
   damageModifiers,
   isFirstRoll,
-  isFinished,
 }) => {
   const [isHit, setIsHit] = useState(false);
 
@@ -80,40 +79,21 @@ const WeaponAttack = ({
 
       <div className="damage-container">
 
-        {!isFinished &&
-          <HitCheckbox
-            isHit={isHit}
-            handleHitClick={() => setIsHit(!isHit)}
-          />
-        }
+        <HitCheckbox
+          isHit={isHit}
+          handleHitClick={() => setIsHit(!isHit)}
+        />
 
-        {!isFinished ?
-          <AttackRollOutput
-            toHitData={toHitData}
-            manualRoll={manualRoll}
-            setManualRoll={setManualRoll}
-            isCrit={isCrit}
-            invertCrit={invertCrit}
-            setInvertCrit={setInvertCrit}
-            isRerolled={isRerolled}
-            setIsRerolled={setIsRerolled}
-          />
-        :
-          <div className="AttackRollOutput">
-            <div className="final-result-container">
-              <button className='die-and-result condensed' disabled>
-                <div className="current-result-container">
-                  { isCrit ?
-                    <div className='die-icon asset d20_frame'> <div className='asset necrotic' /> </div>
-                  :
-                    <div className='die-icon asset d20' />
-                  }
-                  <div className='result'>{manualRoll > 0 ? manualRoll : toHitData.finalResult}</div>
-                </div>
-              </button>
-            </div>
-          </div>
-        }
+        <AttackRollOutput
+          toHitData={toHitData}
+          manualRoll={manualRoll}
+          setManualRoll={setManualRoll}
+          isCrit={isCrit}
+          invertCrit={invertCrit}
+          setInvertCrit={setInvertCrit}
+          isRerolled={isRerolled}
+          setIsRerolled={setIsRerolled}
+        />
 
         { isHit ?
           <>
@@ -157,7 +137,7 @@ const WeaponAttack = ({
             <DamageSubtotal totalsByType={ {[attackData.reliable.type]: attackData.reliable.val} } />
           </>
         :
-          <div className="finished-miss">Missed.</div>
+          <div className="miss-message">Missed.</div>
         }
       </div>
 

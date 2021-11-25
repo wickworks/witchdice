@@ -24,7 +24,7 @@
     padding-left: 8px;
 
     .amount {
-      font-size: 50px;
+      font-size: 60px;
     }
 
     .type-column {
@@ -32,12 +32,12 @@
       flex-direction: column;
       flex-wrap: wrap;
       justify-content: center;
-      max-height: 60px;
+      max-height: 70px;
       // min-width: 48px;
 
       .asset-lancer {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
 
         &.single-type {
           width: 42px;

@@ -1,9 +1,10 @@
 @import '../../../fonts';
 
 .WeaponAttack {
+  margin: 8px 0; 
 
   // &:first-child { border-top: 2px solid $parchment_dark; }
-  &:not(:last-child) { margin-bottom: 16px; }
+  // &:not(:last-child) { margin-bottom: 16px; }
 
   .damage-container {
     display: flex;
@@ -12,7 +13,7 @@
 
     > * { flex-shrink: 0; }
 
-    .finished-miss {
+    .miss-message {
       margin-left: auto;
       margin-right: 6px;
       font-size: 18px;

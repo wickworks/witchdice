@@ -18,10 +18,6 @@
   margin-top: 20px;
   padding: 8px 4% 8px;
 
-  &.finished {
-    min-height: unset;
-  }
-
   .top-bar {
 
     h3 {
@@ -83,6 +79,7 @@
   .status-bar {
     margin-top: auto;
     margin-bottom: 20px;
+    padding: 0 40px;
 
     .tip {
       text-align: center;
@@ -92,9 +89,7 @@
 
     .action-buttons-container {
       display: flex;
-      justify-content: space-between;
       margin-top: 4px;
-      padding: 0 40px;
 
       button {
         display: flex;
@@ -104,24 +99,25 @@
         min-width: 150px;
         width: 20%;
         padding: 8px;
-        // background-color: $parchment_dark;
+        font-weight: bold;
+        border-radius: 6px;
 
         &:hover { background-color: $parchment_dark; }
 
-        &.active {
-          // background-color: $parchment_dark;
-          font-weight: bold;
 
-          // &:hover { background-color: $pink; }
+        &.add-target {
+          color: $crushed_velvet;
+        }
+
+        &.clear-attacks {
+          color: $rust;
+          margin-left: auto;
         }
 
         .asset {
           width: 24px;
           height: 24px;
           margin-right: 6px;
-
-          // turns black to an olive
-          &.checkmark { filter: invert(29%) sepia(15%) saturate(3839%) hue-rotate(39deg) brightness(98%) contrast(101%); }
 
           // turns black to $crushed_velvet
           &.plus { filter: invert(20%) sepia(24%) saturate(879%) hue-rotate(287deg) brightness(97%) contrast(92%); }
@@ -130,17 +126,10 @@
           &.x { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
         }
 
-        &.finished {
-          color: $olive_dark;
-        }
-
-        &.add-target {
-          color: $crushed_velvet;
-          font-weight: bold;
-        }
-
-        &.clear-attacks {
-          color: $rust;
+        &:disabled {
+          background-color: transparent;
+          font-weight: normal;
+          opacity: 0.5;
         }
       }
     }
