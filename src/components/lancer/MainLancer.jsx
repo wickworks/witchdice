@@ -10,6 +10,8 @@ import {
   getIDFromStorageName,
 } from '../../localstorage.js';
 
+
+
 import './MainLancer.scss';
 
 const PILOT_PREFIX = 'pilot';

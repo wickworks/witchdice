@@ -32,16 +32,21 @@ const WeaponAttack = ({
   if (invertCrit) isCrit = !isCrit
 
   const isReliable = attackData.reliable.val > 0;
+  const convertedBonusToBurn = damageModifiers.bonusToBurn && bonusDamageData.rolls.length > 0;
   var selfHeat = attackData.selfHeat;
 
   // console.log('activeBonusDamageData', bonusDamageData);
 
   var effectsList = [];
-  if (attackData.effect)              effectsList.push(attackData.effect)
   if (isHit) {
     if (attackData.onHit)             effectsList.push(attackData.onHit)
     if (isCrit)                       effectsList.push('Critical hit.')
     if (isCrit && attackData.onCrit)  effectsList.push(attackData.onCrit)
+    if (damageModifiers.half)         effectsList.push('Half damage.')
+    if (damageModifiers.double)       effectsList.push('Double damage.')
+    if (damageModifiers.average)      effectsList.push('Rolls averaged.')
+    if (convertedBonusToBurn)         effectsList.push('Bonus damage converted to burn.')
+
     if (attackData.isArmorPiercing)     effectsList.push('Armor piercing.')
     if (attackData.knockback > 0)     effectsList.push(`Knockback ${attackData.knockback}.`)
     if (attackData.isOverkill) {
@@ -54,6 +59,7 @@ const WeaponAttack = ({
   }
   if (selfHeat)     effectsList.push(`Heat ${selfHeat} (Self).`)
   if (isRerolled)   effectsList.push('Rerolled.')
+  if (attackData.effect)              effectsList.push(attackData.effect)
 
 
   const totalsByType = summateAllDamageByType(

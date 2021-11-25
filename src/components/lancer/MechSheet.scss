@@ -31,18 +31,57 @@
       flex-wrap: wrap;
       justify-content: space-between;
       margin-bottom: 20px;
+    }
+  }
+}
 
-      .MechMount {
-        width: 30%;
-        min-width: 200px;
+button.MechMount {
+  display: flex;
+  flex-direction: column;
 
-        .MechWeapon {
-          &:hover {
-            background-color: $rust_light;
-            cursor: pointer;
-          }
-        }
-      }
+  width: 45%;
+  min-width: 200px;
+  padding: 8px 14px 10px;
+  margin-bottom: 20px;
+  text-align: left;
+
+  border: 2px solid $parchment_dark;
+
+  .mount-type {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  &:hover {
+    background-color: $rust_light;
+  }
+
+  &.active {
+    background-color: $rust;
+    color: white;
+  }
+
+  &:disabled { background-color: transparent; }
+
+  .weapons-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+
+    .mech-weapon {
+      margin-top: 12px;
+      text-align: left;
+      font-size: 30px;
+      text-transform: capitalize;
+    }
+
+    .empty {
+      font-size: 24px;
+      font-style: italic;
+      color: $grey_mid;
+      margin: auto;
     }
   }
 }

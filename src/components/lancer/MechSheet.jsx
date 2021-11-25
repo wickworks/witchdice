@@ -1,50 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import WeaponRoller from './WeaponRoller.jsx';
 import { findWeaponData, getGrit } from './data.js';
+
 import { getBonusDamageSourcesFromMech, getBonusDamageSourcesFromTalents } from './bonusDamageSourceUtils.js';
 
 import './MechSheet.scss';
 
+function getWeaponsOnMount(mountData) {
+  const weapons =
+    [...mountData.slots, ...mountData.extra]
+    .map(slot => slot.weapon)
+    .filter(weapon => weapon)
+    .map(weapon => findWeaponData(weapon.id))
+    .filter(weaponData => weaponData);
 
+  return weapons;
+}
 
 const MechSheet = ({
   activeMech,
   activePilot,
 }) => {
-  const [activeWeaponData, setActiveWeaponData] = useState(null);
+  // const [activeWeaponData, setActiveWeaponData] = useState(null);
+  const [activeMount, setActiveMount] = useState(null);
 
   const loadout = activeMech.loadouts[0];
   const mounts = loadout.mounts;
 
-  // =============== CHANGE MECH ==================
-  useEffect(() => {
-    setActiveWeaponData(null);
-  }, [activeMech, activePilot]);
-
-  // const bonusDamageSources = [
-  //   {
-  //     name: 'Tokugawa',
-  //     diceString: '3',
-  //     type: 'Energy',
-  //     id: 'mf_tokugawa',
-  //   },{
-  //     name: 'Nuclear Cavalier',
-  //     diceString: '1d6',
-  //     type: 'Energy',
-  //     id: 't_nuclear_cavalier',
-  //   },{
-  //     name: 'Nuclear Cavalier',
-  //     diceString: '2',
-  //     type: 'Heat',
-  //     id: 't_nuclear_cavalier',
-  //   }
-  // ]
+  const gritBonus = getGrit(activePilot);
 
   const bonusDamageSources = [
     ...getBonusDamageSourcesFromMech(activeMech),
     ...getBonusDamageSourcesFromTalents(activePilot),
   ];
 
+  // =============== CHANGE MECH ==================
+  useEffect(() => {
+    setActiveMount(null);
+  }, [activeMech, activePilot]);
 
   // console.log('bonusDamageSources', bonusDamageSources);
 
@@ -57,19 +50,23 @@ const MechSheet = ({
           { mounts.map((mount, i) =>
             <MechMount
               mount={mount}
-              setActiveWeaponData={setActiveWeaponData}
+              activateMount={() => setActiveMount(i)}
+              isActive={activeMount === i}
               key={`mount-${i}`}
             />
           )}
         </div>
       </div>
 
-      {activeWeaponData &&
-        <WeaponRoller
-          weaponData={activeWeaponData}
-          gritBonus={getGrit(activePilot)}
-          availableBonusSources={bonusDamageSources}
-        />
+      {activeMount !== null &&
+        getWeaponsOnMount(mounts[activeMount]).map((weaponData, i) =>
+          <WeaponRoller
+            weaponData={weaponData}
+            gritBonus={gritBonus}
+            availableBonusSources={bonusDamageSources}
+            key={`${weaponData.id}-${i}`}
+          />
+        )
       }
     </div>
   )
@@ -77,39 +74,34 @@ const MechSheet = ({
 
 const MechMount = ({
   mount,
-  setActiveWeaponData,
+  activateMount,
+  isActive,
 }) => {
-  const slotList = [...mount.slots, ...mount.extra]
+
+  const mountedWeapons = getWeaponsOnMount(mount);
 
   return (
+    <button
+      className={`MechMount ${isActive ? 'active' : ''}`}
+      onClick={activateMount}
+      disabled={mountedWeapons.length === 0}
+    >
+      <div className='mount-type'>{mount.mount_type}</div>
 
-    <div className="MechMount">
-      <h3>{mount.mount_type} Mount</h3>
+      <div className="weapons-container">
+        { mountedWeapons.map((weaponData, i) =>
+          <div className="mech-weapon" key={i}>
+            <div className="name">{weaponData.name.toLowerCase()}</div>
+          </div>
+        )}
 
-      { slotList.map((slot, i) =>
-        slot.weapon &&
-          <MechWeapon
-            mountSlot={slot}
-            setActiveWeaponData={setActiveWeaponData}
-            key={i}
-          />
-      )}
-    </div>
-  )
-}
-
-const MechWeapon = ({
-  mountSlot,
-  setActiveWeaponData
-}) => {
-  const activeWeaponData = mountSlot.weapon;
-  const activeWeaponID = activeWeaponData ? activeWeaponData.id : 'missing_mechweapon'
-  const weaponData = findWeaponData(activeWeaponID)
-
-  return (
-    <div className="MechWeapon" onClick={() => setActiveWeaponData(weaponData)}>
-      <div className="name">{weaponData.name}</div>
-    </div>
+        {mountedWeapons.length === 0 &&
+          <div className="empty">
+            (empty mount)
+          </div>
+        }
+      </div>
+    </button>
   )
 }
 
