@@ -551,13 +551,6 @@ const Main5E = ({
         <Helmet> <title>{characterName} ~ Witch Dice</title> </Helmet>
       }
 
-      <InitiativeTracker
-        partyConnected={partyConnected}
-        partyRoom={partyRoom}
-      />
-
-      <NouveauDivider />
-
       <CharacterAndMonsterList
         setActiveCharacterID={setActiveCharacter}
         activeCharacterID={characterID}
@@ -609,6 +602,13 @@ const Main5E = ({
           />
         </div>
       }
+
+      <NouveauDivider />
+
+      <InitiativeTracker
+        partyConnected={partyConnected}
+        partyRoom={partyRoom}
+      />
 
       <NouveauDivider />
 
