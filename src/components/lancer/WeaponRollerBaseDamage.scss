@@ -28,33 +28,4 @@
       }
     }
   }
-
-  .multipliers {
-    display: flex;
-    display: none;
-    justify-content: space-between;
-
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 30%;
-
-      > div { opacity: 0.5; }
-      &:hover { background-color: $parchment_dark; }
-      .asset {
-        width: 12px;
-        height: 12px;
-      }
-
-      &.active {
-        background-color: $rust;
-        color: white;
-
-        > div { opacity: 1.0; }
-        &:hover { background-color: $rust_light; }
-        .asset { filter: invert(100%); }
-      }
-    }
-  }
 }

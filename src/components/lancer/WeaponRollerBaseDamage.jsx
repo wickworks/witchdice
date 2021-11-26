@@ -6,8 +6,6 @@ import './WeaponRollerBaseDamage.scss';
 
 const WeaponRollerBaseDamage = ({
   weaponData,
-  damageModifiers,
-  toggleDamageModifier,
 }) => {
 
   return (
@@ -21,31 +19,6 @@ const WeaponRollerBaseDamage = ({
           </div>
         )}
         <div>{' ]'}</div>
-      </div>
-
-      <div className="multipliers">
-        <button
-          className={damageModifiers.double ? 'active' : ''}
-          onClick={() => toggleDamageModifier('double')}
-        >
-          <div className='asset x' />
-          <div>2</div>
-        </button>
-
-        <button
-          className={damageModifiers.average ? 'active' : ''}
-          onClick={() => toggleDamageModifier('average')}
-        >
-          <div>Avg</div>
-        </button>
-
-        <button
-          className={damageModifiers.half ? 'active' : ''}
-          onClick={() => toggleDamageModifier('half')}
-        >
-          <div className='asset x' />
-          <div>.5</div>
-        </button>
       </div>
     </div>
   )

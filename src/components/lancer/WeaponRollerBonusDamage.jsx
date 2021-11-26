@@ -10,13 +10,44 @@ const WeaponRollerBonusDamage = ({
   genericBonusPlus,
   setGenericBonusPlus,
   genericBonusIsActive,
+
   availableBonusSources,
   activeBonusSources,
   toggleBonusDamage,
+
+  damageModifiers,
+  toggleDamageModifier,
 }) => {
 
   return (
     <div className="WeaponRollerBonusDamage">
+
+      <div className="multipliers-container">
+        <button
+          className={damageModifiers.half ? 'active' : ''}
+          onClick={() => toggleDamageModifier('half')}
+        >
+          <div className='asset x' />
+          <div>1 / 2</div>
+        </button>
+
+        <button
+          className={damageModifiers.double ? 'active' : ''}
+          onClick={() => toggleDamageModifier('double')}
+        >
+          <div className='asset x' />
+          <div>2</div>
+        </button>
+
+        <button
+          className={damageModifiers.average ? 'active' : ''}
+          onClick={() => toggleDamageModifier('average')}
+        >
+          <div>Avg</div>
+        </button>
+      </div>
+
+
       <div className='generic-source-container'>
         <button
           className={`generic-source ${genericBonusIsActive ? 'active' : 'inactive'}`}
@@ -52,6 +83,8 @@ const WeaponRollerBonusDamage = ({
           <div className='label'>Bonus damage</div>
         </button>
       </div>
+
+
 
       { availableBonusSources.map((bonusSource, i) =>
         <button

@@ -183,8 +183,6 @@ const WeaponRoller = ({
         <div className="base-damage-and-tags">
           <WeaponRollerBaseDamage
             weaponData={weaponData}
-            damageModifiers={damageModifiers}
-            toggleDamageModifier={toggleDamageModifier}
           />
 
           <div className="tags">
@@ -207,9 +205,13 @@ const WeaponRoller = ({
           genericBonusPlus={genericBonusPlus}
           setGenericBonusPlus={setGenericBonusPlus}
           genericBonusIsActive={genericBonusIsActive}
+
           availableBonusSources={availableBonusSources}
           activeBonusSources={activeBonusSources}
           toggleBonusDamage={toggleBonusDamage}
+
+          damageModifiers={damageModifiers}
+          toggleDamageModifier={toggleDamageModifier}
         />
       </div>
 

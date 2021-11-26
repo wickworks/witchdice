@@ -28,12 +28,10 @@
     }
   }
 
-  button.bonus-source, .generic-source-container {
+  button.bonus-source, .generic-source-container, .multipliers-container {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    // width: 33%;
-    // margin: 2px 8px 2px 0;
     height: 36px;
 
     .amount-container {
@@ -57,10 +55,11 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+  }
 
+  .generic-source-container {
     .generic-source {
-      min-width: 50px;
-      // background-color: $parchment_dark;
+      min-width: 54px;
       height: 100%;
 
       .amount-container .amount { text-align: center; }
@@ -90,6 +89,34 @@
       }
 
       &:disabled { cursor: auto; }
+    }
+  }
+
+  .multipliers-container {
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+
+      &:hover { background-color: $parchment_dark; }
+      .asset {
+        width: 14px;
+        height: 14px;
+        margin-right: 4px;
+      }
+
+      &.active {
+        background-color: $rust;
+        color: white;
+
+        &:hover { background-color: $rust_light; }
+        .asset { filter: invert(100%); }
+      }
     }
   }
 }
