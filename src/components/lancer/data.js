@@ -114,12 +114,12 @@ const defaultWeaponDamageType = (weaponData) => {
 
 const findFrameData = (frameID) => {
   const frameData = allFrames.find(frame => frame.id === frameID);
-  return frameData;
+  return frameData ? frameData : findFrameData('missing_frame');
 }
 
 const findWeaponData = (weaponID) => {
   const weaponData = allWeapons.find(weapon => weapon.id === weaponID);
-  return weaponData;
+  return weaponData ? weaponData : findWeaponData('missing_mechweapon');;
 }
 
 const findTalentData = (talentID) => {

@@ -168,42 +168,21 @@ $right_column_wid: 370px;
         border-top: 3px solid $faded_gold;
       }
 
-      .label {
-        margin-top: 4px;
-        margin-left: 4px;
-        font-size: 14px;
-        color: $grey_mid;
-      }
+      .MechanicsList {
+        &.core-bonuses {
+          float: right;
+          width: $right_column_wid;
+          margin-left: 8px;
+          margin-bottom: 4px;
 
-      .list {
-        .entry {
-          .bracket {
-            margin: 0 4px;
-            color: $grey_mid;
-          }
-
-          .name {
-            white-space: nowrap;
-            text-transform: capitalize;
-          }
-
-          .number { margin-left: 4px; }
+          .label { margin-top: 0; }
         }
-      }
 
-      .core-bonus-container {
-        float: right;
-        width: $right_column_wid;
-        margin-left: 8px;
-        margin-bottom: 4px;
-
-        .label { margin-top: 0; }
-      }
-
-      .skills-container {
-        width: $right_column_wid;
-        flex-shrink: 0;
-        margin-left: 8px;
+        &.skills {
+          width: $right_column_wid;
+          flex-shrink: 0;
+          margin-left: 8px;
+        }
       }
     }
   }

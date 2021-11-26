@@ -1,0 +1,24 @@
+@import '../../fonts';
+
+.MechanicsList {
+  .label {
+    margin-top: 4px;
+    margin-left: 4px;
+    font-size: 14px;
+    color: $grey_mid;
+  }
+
+  .entry {
+    .bracket {
+      margin: 0 4px;
+      color: $grey_mid;
+    }
+
+    .name {
+      white-space: nowrap;
+      text-transform: capitalize;
+    }
+
+    .number { margin-left: 4px; }
+  }
+}
