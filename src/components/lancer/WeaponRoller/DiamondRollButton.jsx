@@ -11,6 +11,8 @@ const DiamondRollButton = ({
   rollResult = null,
 }) => {
 
+  const isShowingResult = rollResult !== null;
+
   return (
     <div className="DiamondRollButton">
       <div className='grit'>
@@ -21,10 +23,19 @@ const DiamondRollButton = ({
       { currentMod !== 0 &&
         <div className={`accuracy ${currentMod < 0 ? 'actually-difficulty' : ''}`}>
           {currentMod > 0 ? '+' : ''}
-          {currentMod}
+
+          {!isShowingResult && currentMod}
+
           <span className='asset d6' />
+
+          {isShowingResult && <strong>{currentMod}</strong>}
+
           <span className='label'>
-            {currentMod < 0 ? 'Diff' : 'Acc'}
+            {!isShowingResult ?
+              currentMod < 0 ? 'Diff' : 'Acc'
+            :
+              ''
+            }
           </span>
         </div>
       }
@@ -32,7 +43,7 @@ const DiamondRollButton = ({
       <BigRollButton
         handleNewRoll={() => createNewAttackRoll(gritBonus, currentMod)}
         rollResult={rollResult}
-        isDisabled={rollResult !== null}
+        isDisabled={isShowingResult}
       />
 
     </div>

@@ -22,7 +22,7 @@ const ChooseHitMiss = ({
     <div className="ChooseHitMiss WeaponRollerSetup">
       <DiamondRollButton
         gritBonus={toHitData.flatBonus}
-        currentMod={toHitData.accuracyRolls.length}
+        currentMod={toHitData.accuracyBonus}
         createNewAttackRoll={() => setIsRerolled(!isRerolled)}
         rollResult={toHitData.finalResult}
       />
