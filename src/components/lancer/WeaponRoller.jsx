@@ -130,7 +130,13 @@ const WeaponRoller = ({
 
     newAttack.toHit = rollToHit(flatBonus, accuracyMod);
     newAttack.toHitReroll = rollToHit(flatBonus, accuracyMod);
-    newAttack.damage = rollDamage(weaponData, newAttack.isOverkill);
+
+    // ROLL DAMAGE (or inherit it from the first roll)
+    if (allAttackRolls.length === 0) {
+      newAttack.damage = rollDamage(weaponData, newAttack.isOverkill);
+    } else {
+      newAttack.damage = deepCopy(allAttackRolls[0].damage)
+    }
 
     newAttack.onAttack = weaponData.on_attack || '';
     newAttack.onHit = weaponData.on_hit || '';
