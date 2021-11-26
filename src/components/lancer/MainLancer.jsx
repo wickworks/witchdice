@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PilotAndMechList from './PilotAndMechList.jsx';
+import { PilotList, MechList } from './PilotAndMechList.jsx';
 import PilotDossier from './PilotDossier.jsx';
 import MechSheet from './MechSheet.jsx';
 import { processPilotJson } from './process_pilot_json.js';
@@ -128,23 +128,26 @@ const MainLancer = ({
   return (
     <div className='MainLancer'>
 
-      <PilotAndMechList
+      <PilotList
         allPilotEntries={allPilotEntries}
         setActivePilotID={setActivePilot}
         activePilotID={activePilotID}
         deleteActivePilot={deleteActivePilot}
-
         onPilotFileUpload={uploadPilotFile}
-
-        allMechEntries={allMechEntries}
-        setActiveMechID={setActiveMechID}
-        activeMechID={activeMechID}
       />
 
       { activePilot &&
-        <PilotDossier
-          activePilot={activePilot}
-        />
+        <>
+          <PilotDossier
+            activePilot={activePilot}
+          />
+
+          <MechList
+            allMechEntries={allMechEntries}
+            setActiveMechID={setActiveMechID}
+            activeMechID={activeMechID}
+          />
+        </>
       }
 
       { activeMech &&

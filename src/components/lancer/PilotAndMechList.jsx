@@ -1,22 +1,16 @@
 import React, { useState } from 'react';
-
 import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 import EntryList from '../shared/EntryList.jsx';
 
 import './PilotAndMechList.scss';
 
-
-const PilotAndMechList = ({
+const PilotList = ({
   allPilotEntries,
   setActivePilotID,
   activePilotID,
   deleteActivePilot,
 
   onPilotFileUpload,
-
-  allMechEntries,
-  setActiveMechID,
-  activeMechID,
 }) => {
   const [isMakingNewPilot, setIsMakingNewPilot] = useState(false);
 
@@ -26,7 +20,7 @@ const PilotAndMechList = ({
   }
 
   return (
-    <div className="PilotAndMechList">
+    <div className="PilotList">
 
       { isMakingNewPilot ?
         <div className="MechList new-pilot">
@@ -60,23 +54,32 @@ const PilotAndMechList = ({
           createNewCharacter={() => setIsMakingNewPilot(true)}
         />
       }
+    </div>
+  );
+}
 
-      <div className="MechList">
-        <div className="title-bar">
-          <h2>Mechs</h2>
-        </div>
-
-        <EntryList
-          entries={allMechEntries}
-          handleEntryClick={setActiveMechID}
-          activeCharacterID={activeMechID}
-          deleteEnabled={false}
-        />
+const MechList = ({
+  allMechEntries,
+  setActiveMechID,
+  activeMechID,
+}) => {
+  return (
+    <div className="MechList">
+      <div className="title-bar">
+        <h2>Mechs</h2>
       </div>
 
+      <EntryList
+        entries={allMechEntries}
+        handleEntryClick={setActiveMechID}
+        activeCharacterID={activeMechID}
+        deleteEnabled={false}
+      />
     </div>
   );
 }
 
 
-export default PilotAndMechList;
+
+
+export { PilotList, MechList };

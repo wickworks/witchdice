@@ -1,18 +1,26 @@
 @import '../../fonts';
 
-.PilotAndMechList {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  max-width: 800px;
-  width: 100%;
+.PilotList, .MechList {
   margin: auto;
+  width: 100%;
+  max-width: 800px;
+  min-width: 320px;
+  min-height: 178px;
+  box-sizing: border-box;
+
+  // ul.EntryList li {
+  //   width: 30%;
+  // }
 }
 
 // Overrides for CharacterAndMonsterList.scss
-.CharacterList {
-  width: 50%;
+.PilotList {
+  .CharacterList {
+    width: 100%;
+    box-sizing: border-box;
+  }
 }
+
 
 
 .MechList {
@@ -20,13 +28,12 @@
   @include parchment_background;
   @include nouveau_border('nouveau_list_characters.svg');
 
-  width: 50%;
-  min-width: 320px;
-  min-height: 178px;
-  margin: 20px 0;
   padding: 10px 11px;
-  box-sizing: border-box;
 
+  ul.EntryList li {
+    width: 100%;
+    font-size: 24px;
+  }
 
   .title-bar {
     position: relative;
