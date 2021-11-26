@@ -1,0 +1,30 @@
+@import '../../../../fonts';
+
+// This component also steals styling from WeaponRollerSetup
+.ChooseHitMiss {
+   // overwrites the margin that was taking up add/clear buttons
+  &.WeaponRollerSetup { margin-bottom: 6px; }
+
+  .BigRollButton {
+    button.new-roll {
+      background-color: $rust;
+
+      .result {
+        color: $pink;
+      }
+    }
+  }
+
+  button.choose-result {
+    width: 100%;
+    height: 100px;
+    font-size: 40px;
+
+    background-color: $parchment_dark;
+
+    &:hover {
+      background-color: $rust_light;
+    }
+  }
+
+}

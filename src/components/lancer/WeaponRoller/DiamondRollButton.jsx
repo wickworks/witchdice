@@ -8,6 +8,7 @@ const DiamondRollButton = ({
   gritBonus,
   currentMod,
   createNewAttackRoll,
+  rollResult = null,
 }) => {
 
   return (
@@ -30,7 +31,10 @@ const DiamondRollButton = ({
 
       <BigRollButton
         handleNewRoll={() => createNewAttackRoll(gritBonus, currentMod)}
+        rollResult={rollResult}
+        isDisabled={rollResult !== null}
       />
+
     </div>
   )
 }

@@ -35,7 +35,6 @@ const WeaponRoller = ({
 }) => {
   const [allAttackRolls, setAllAttackRolls] = useState([]);
   const [isSettingUpAttack, setIsSettingUpAttack] = useState(true);
-  const [isChoosingHitMiss, setIsChoosingHitMiss] = useState(false);
 
   const [bonusDamageData, setBonusDamageData] = useState(null);
   const [activeBonusSources, setActiveBonusSources] = useState([]);
@@ -53,7 +52,6 @@ const WeaponRoller = ({
   const clearAttacks = () => {
     setAllAttackRolls([]);
     setIsSettingUpAttack(true);
-    setIsChoosingHitMiss(false);
     setBonusDamageData(null);
     setActiveBonusSources([]);
     setDamageModifiers({...DAMAGE_MODIFIERS})
@@ -195,14 +193,12 @@ const WeaponRoller = ({
         )}
 
 
-        { isSettingUpAttack ?
+        { isSettingUpAttack &&
           <WeaponRollerSetup
             weaponData={weaponData}
             gritBonus={gritBonus}
             createNewAttackRoll={createNewAttackRoll}
           />
-        : isChoosingHitMiss &&
-          <>Hi</>
         }
       </div>
 

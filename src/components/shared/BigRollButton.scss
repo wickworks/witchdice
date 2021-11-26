@@ -26,19 +26,21 @@
 
       // black to pink
       filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
-
-      // black to white
-      // filter: invert(100%) sepia(0%) saturate(3221%) hue-rotate(231deg) brightness(125%) contrast(110%);
     }
 
     &.disabled {
       cursor: auto;
       background-color: $grey_mid_light;
 
-      .asset {
-        // black to grey_mid
-        filter: invert(49%) sepia(0%) saturate(0%) hue-rotate(72deg) brightness(95%) contrast(93%);
-      }
+      // black to grey_mid
+      .asset { filter: invert(49%) sepia(0%) saturate(0%) hue-rotate(72deg) brightness(95%) contrast(93%); }
+
+      .result { color: $grey_mid; }
+    }
+
+    .result {
+      color: pink;
+      font-size: 66px;
     }
   }
 }

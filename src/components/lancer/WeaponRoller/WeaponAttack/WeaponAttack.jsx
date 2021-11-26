@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ChooseHitMiss from './ChooseHitMiss.jsx';
 import HitCheckbox from '../../../shared/HitCheckbox.jsx';
 import AttackRollOutput from './AttackRollOutput.jsx';
 import DamageRollPool from './DamageRollPool.jsx';
@@ -20,6 +21,7 @@ const WeaponAttack = ({
   damageModifiers,
   isFirstRoll,
 }) => {
+  const [isChoosingHitMiss, setIsChoosingHitMiss] = useState(true);
   const [isHit, setIsHit] = useState(false);
 
   const [invertCrit, setInvertCrit] = useState(false);
@@ -74,9 +76,16 @@ const WeaponAttack = ({
 
   const toHitData = isRerolled ? attackData.toHitReroll : attackData.toHit;
 
-  return (
+  return ( isChoosingHitMiss ?
+    <ChooseHitMiss
+      attackData={attackData}
+      isRerolled={isRerolled}
+      setIsRerolled={setIsRerolled}
+      setIsHit={setIsHit}
+      setIsChoosingHitMiss={setIsChoosingHitMiss}
+    />
+  :
     <div className="WeaponAttack">
-
       <div className="damage-container">
 
         <HitCheckbox

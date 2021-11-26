@@ -1,8 +1,18 @@
 @import '../../../fonts';
 
+@keyframes rollin {
+  from {
+    transform: rotate(-360deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
 
 .DiamondRollButton {
   position: relative;
+  width: fit-content;
   margin: auto;
 
   .BigRollButton {
@@ -15,6 +25,10 @@
       width: 140px;
       height: 140px;
 
+      .result {
+        animation-duration: .2s;
+        animation-name: rollin;
+      }
 
       .asset {
         width: 60%;
