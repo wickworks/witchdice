@@ -1,10 +1,12 @@
-const allWeapons = require('./lancer-data-master/lib/weapons.json');
-const allSkills = require('./lancer-data-master/lib/skills.json');
-const allTags = require('./lancer-data-master/lib/tags.json');
-const allFrames = require('./lancer-data-master/lib/frames.json');
-const allTalents = require('./lancer-data-master/lib/talents.json');
-const allCoreBonuses = require('./lancer-data-master/lib/core_bonuses.json');
-const allSystems = require('./lancer-data-master/lib/systems.json');
+const data = require('lancer-data');
+const allWeapons = data.weapons;
+const allSkills = data.skills;
+const allTags = data.tags;
+const allFrames = data.frames;
+const allTalents = data.talents;
+const allCoreBonuses = data.core_bonuses;
+const allSystems = data.systems;
+
 
 const BONUS_TO_BURN_TAGS = ['mf_tokugawa_dz', 't_walking_armory_2_hellfire']
 
