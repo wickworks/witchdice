@@ -1,0 +1,80 @@
+@import '../../../fonts';
+
+
+.DiamondRollButton {
+  position: relative;
+  margin: auto;
+
+  .BigRollButton {
+    justify-content: flex-start;
+    margin-bottom: -36px;
+
+    button.new-roll {
+      border-radius: 0;
+      clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+      width: 140px;
+      height: 140px;
+
+
+      .asset {
+        width: 60%;
+        height: 60%;
+
+        transform: rotate(0deg);
+        transition: transform .2s;
+      }
+
+      &:hover .asset {
+        transform: rotate(180deg);
+      }
+
+      &:active .asset {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  .label {
+    font-weight: bold;
+    margin-left: 4px;
+  }
+
+  .grit {
+    position: absolute;
+    top: 38px;
+    left: 4px;
+    transform: rotate(-45deg);
+    font-size: 18px;
+  }
+
+  .accuracy {
+    position: absolute;
+    width: 90px;
+    top: 14px;
+    right: 10px;
+    transform: rotate(45deg);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 18px;
+    padding: 0;
+
+    &.actually-difficulty {
+      color: $rust;
+
+      .asset.d6 {
+        // turns black to $rust
+        filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+      }
+    }
+
+    .label { width: 38px; }
+
+    .asset.d6 {
+      width: 18px;
+      height: 18px;
+      display: inline-block;
+      margin: 0 2px;
+    }
+  }
+}
