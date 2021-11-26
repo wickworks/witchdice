@@ -8,12 +8,6 @@
   align-items: center;
   margin: 20px 20px 0;
 
-  h2 {
-    @include text_title_action;
-    // text-align: center;
-    margin: 16px 0;
-  }
-
   .mech-container {
     @include shadow;
     @include parchment_background;
@@ -26,6 +20,46 @@
     max-width: 800px;
     margin-bottom: 20px;
 
+    h2 {
+      @include text_monospace;
+      font-size: 44px;
+      margin: 16px 0 0;
+      color: $rust;
+    }
+
+    .frame-container {
+      @include text_monospace;
+      display: flex;
+      align-items: center;
+      font-size: 22px;
+      margin-top: 2px;
+
+      .asset-lancer {
+        display: inline-block;
+        width: 26px;
+        height: 26px;
+        margin-right: 4px;
+
+        // turns black to $grey_mid
+        filter: invert(46%) sepia(0%) saturate(10%) hue-rotate(179deg) brightness(100%) contrast(86%);
+      }
+
+      .manufacturer {
+        margin-right: 10px;
+        color: $grey_mid;
+      }
+
+      .frame {
+        text-transform: capitalize;
+      }
+    }
+
+    .mounts-label {
+      @include text_monospace;
+      font-size: 20px;
+      color: $grey_mid;
+      margin: 20px 0 8px;
+    }
 
     .mounts-list {
       display: flex;
@@ -46,16 +80,17 @@ button.MechMount {
   margin-bottom: 20px;
   text-align: left;
 
-  border: 2px solid $parchment_dark;
+  border: 2px solid $rust;
 
 
 
   &:hover {
-    background-color: $rust_light;
+    background-color: $parchment_dark;
   }
 
   &.active {
     background-color: $rust;
+    border-color: $parchment_dark;
     color: white;
   }
 
@@ -65,12 +100,12 @@ button.MechMount {
     border-color: $faded_grey;
 
     .mount-type {
-      color: $grey_mid_light;
+      color: $grey_mid;
     }
   }
 
   .mount-type {
-    font-weight: bold;
+    @include text_monospace;
     font-size: 20px;
     margin-bottom: 4px;
   }

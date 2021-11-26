@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import WeaponRoller from './WeaponRoller.jsx';
-import { findWeaponData, getGrit } from './data.js';
+import { findWeaponData, getGrit, findFrameData } from './data.js';
 
 import { getBonusDamageSourcesFromMech, getBonusDamageSourcesFromTalents } from './bonusDamageSourceUtils.js';
 
@@ -27,6 +27,8 @@ const MechSheet = ({
   const loadout = activeMech.loadouts[0];
   const mounts = loadout.mounts;
 
+  const frameData = findFrameData(activeMech.frame);
+
   const gritBonus = getGrit(activePilot);
 
   const bonusDamageSources = [
@@ -45,6 +47,18 @@ const MechSheet = ({
     <div className="MechSheet">
       <div className="mech-container">
         <h2>{activeMech.name}</h2>
+
+        <div className='frame-container'>
+          <div className={`asset-lancer ${frameData.source.toLowerCase()}`} />
+          <div className='manufacturer'>
+
+            {frameData.source}
+          </div>
+          <div className="frame">{frameData.name.toLowerCase()}</div>
+        </div>
+
+
+        <div className="mounts-label">Mounts</div>
 
         <div className="mounts-list">
           { mounts.map((mount, i) =>
