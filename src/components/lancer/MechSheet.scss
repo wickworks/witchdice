@@ -11,20 +11,32 @@
   .mech-container {
     @include shadow;
     @include parchment_background;
-    @include nouveau_border("nouveau_character.svg");
+    @include nouveau_border("nouveau_lancer_mech.svg");
 
     position: relative;
     box-sizing: border-box;
-    padding: 8px 4% 8px;
+    padding: 12px 12px 12px 38px;
     width: 100%;
     max-width: 800px;
-    margin-bottom: 20px;
 
     h2 {
       @include text_monospace;
       font-size: 44px;
       margin: 16px 0 0;
       color: $rust;
+    }
+
+    .portrait {
+      width: 200px;
+      height: 200px;
+      margin: 6px;
+
+      float: right;
+      shape-outside: polygon(50% 0,100% 50%,50% 100%,0 50%);
+      clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+
+      background-color: $parchment_dark;
+      background-size: 104px;
     }
 
     .frame-container {
@@ -55,6 +67,8 @@
     }
 
     .MechanicsList.systems {
+      min-height: 80px;
+
       .label {
         @include text_monospace;
         font-size: 20px;
@@ -74,7 +88,8 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      margin-bottom: 20px;
+      margin-bottom: 6px;
+      margin-right: 26px;
     }
   }
 }

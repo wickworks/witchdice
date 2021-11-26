@@ -128,6 +128,16 @@ const Footer = () => {
             </p>
 
             <p>
+              Lancer data from the
+              <a href="https://github.com/massif-press/lancer-data"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Lancer data repo
+              </a>
+            </p>
+
+            <p>
               Background textures generated at
               <a href="http://bg.siteorigin.com/"
                 target="_blank"

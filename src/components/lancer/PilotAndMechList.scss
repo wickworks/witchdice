@@ -22,7 +22,7 @@
 }
 
 
-
+// this is the pilotlist too.... just roll with it
 .MechList {
   @include shadow;
   @include parchment_background;
@@ -51,23 +51,24 @@
   }
 
   &.new-pilot {
+    margin: 20px 0;
 
     .title-and-input {
       display: flex;
       align-items: flex-end;
-      justify-content: space-between;
+      justify-content: center;
       margin: 12px 6px 0;
 
       .title {
         color: $rust;
         font-size: 24px;
-        width: 50%;
+        width: 200px;
         text-align: center;
       }
 
       input {
         margin: 0;
-        width: 50%;
+        width: 200px;
       }
     }
 
