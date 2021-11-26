@@ -9,13 +9,13 @@ function getStorageName(prefix, id, name) {
 // cuts out the "crafter-XXXXXX-"
 function getNameFromStorageName(prefix, storageName) {
   const precedingLength = prefix.length + 8;
-  return storageName.slice(precedingLength);
+  return String(storageName).slice(precedingLength);
 }
 
 // cuts out the "character-" and "-NAME"
 function getIDFromStorageName(prefix, storageName) {
   const precedingLength = prefix.length + 1;
-  return storageName.slice(precedingLength, precedingLength+6);
+  return String(storageName).slice(precedingLength, precedingLength+6);
 }
 
 function saveLocalData(prefix, id, newName, localData) {
@@ -48,7 +48,7 @@ function loadLocalData(prefix, id) {
   for ( var i = 0, len = localStorage.length; i < len; ++i ) {
     const key = localStorage.key(i);
     const localID = getIDFromStorageName(prefix, key)
-    if (localID === id) {
+    if (localID === String(id)) {
       storageName = key;
     }
   }
