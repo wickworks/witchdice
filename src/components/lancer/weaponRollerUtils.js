@@ -4,9 +4,56 @@ import {
 } from '../../utils.js';
 
 import {
+  findTagOnWeapon,
   processDiceString,
+  defaultWeaponDamageType,
   GENERIC_BONUS_SOURCE
 } from './data.js';
+
+function createNewAttack(weaponData, flatBonus, accuracyMod, inheritDamage = null) {
+  let newAttack = {};
+
+  // Overkill?
+  newAttack.isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');;
+
+  // Armor piercing?
+  newAttack.isArmorPiercing = !!findTagOnWeapon(weaponData, 'tg_ap')
+
+  // Reliable?
+  newAttack.reliable = { val: 0, type: 'Variable' };
+  const reliableTag = findTagOnWeapon(weaponData, 'tg_reliable')
+  if (reliableTag) {
+    newAttack.reliable.val = reliableTag.val;
+    newAttack.reliable.type = defaultWeaponDamageType(weaponData)
+  }
+
+  // Knockback?
+  newAttack.knockback = 0;
+  const knockbackTag = findTagOnWeapon(weaponData, 'tg_knockback')
+  if (knockbackTag) newAttack.knockback = knockbackTag.val;
+
+  // Self heat?
+  newAttack.selfHeat = 0;
+  const selfHeatTag = findTagOnWeapon(weaponData, 'tg_heat_self')
+  if (selfHeatTag) newAttack.selfHeat = selfHeatTag.val;
+
+  newAttack.toHit = rollToHit(flatBonus, accuracyMod);
+  newAttack.toHitReroll = rollToHit(flatBonus, accuracyMod);
+
+  // ROLL DAMAGE (or inherit it from the first roll)
+  if (inheritDamage) {
+    newAttack.damage = deepCopy(inheritDamage)
+  } else {
+    newAttack.damage = rollDamage(weaponData, newAttack.isOverkill);
+  }
+
+  newAttack.onAttack = weaponData.on_attack || '';
+  newAttack.onHit = weaponData.on_hit || '';
+  newAttack.onCrit = weaponData.on_crit || '';
+
+  return newAttack;
+}
+
 
 // Fills out the to-hit roll for the attack data.
 function rollToHit(flatBonus, accuracyMod) {
@@ -175,4 +222,5 @@ export {
   produceRollPools,
   makeDamageRoll,
   getActiveBonusDamageData,
+  createNewAttack,
 }

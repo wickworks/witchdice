@@ -9,9 +9,7 @@ import { BONUS_TO_BURN_TAGS } from './data.js';
 import {
   getTagName,
   findTagOnWeapon,
-  findTagData,
   defaultWeaponDamageType,
-  processDiceString,
   GENERIC_BONUS_SOURCE,
   DAMAGE_MODIFIERS,
 } from './data.js';
@@ -23,6 +21,7 @@ import {
   produceRollPools,
   makeDamageRoll,
   getActiveBonusDamageData,
+  createNewAttack,
 } from './weaponRollerUtils.js';
 
 import './WeaponRoller.scss';
@@ -102,45 +101,9 @@ const WeaponRoller = ({
 
   // Create a new attack roll, including to-hit and damage.
   const createNewAttackRoll = (flatBonus, accuracyMod) => {
-    let newAttack = {};
 
-    // Overkill?
-    newAttack.isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');;
-
-    // Armor piercing?
-    newAttack.isArmorPiercing = !!findTagOnWeapon(weaponData, 'tg_ap')
-
-    // Reliable?
-    newAttack.reliable = { val: 0, type: 'Variable' };
-    const reliableTag = findTagOnWeapon(weaponData, 'tg_reliable')
-    if (reliableTag) {
-      newAttack.reliable.val = reliableTag.val;
-      newAttack.reliable.type = defaultWeaponDamageType(weaponData)
-    }
-
-    // Knockback?
-    newAttack.knockback = 0;
-    const knockbackTag = findTagOnWeapon(weaponData, 'tg_knockback')
-    if (knockbackTag) newAttack.knockback = knockbackTag.val;
-
-    // Self heat?
-    newAttack.selfHeat = 0;
-    const selfHeatTag = findTagOnWeapon(weaponData, 'tg_heat_self')
-    if (selfHeatTag) newAttack.selfHeat = selfHeatTag.val;
-
-    newAttack.toHit = rollToHit(flatBonus, accuracyMod);
-    newAttack.toHitReroll = rollToHit(flatBonus, accuracyMod);
-
-    // ROLL DAMAGE (or inherit it from the first roll)
-    if (allAttackRolls.length === 0) {
-      newAttack.damage = rollDamage(weaponData, newAttack.isOverkill);
-    } else {
-      newAttack.damage = deepCopy(allAttackRolls[0].damage)
-    }
-
-    newAttack.onAttack = weaponData.on_attack || '';
-    newAttack.onHit = weaponData.on_hit || '';
-    newAttack.onCrit = weaponData.on_crit || '';
+    const previousAttackDamage = allAttackRolls.length > 0 ? allAttackRolls[0].damage : null;
+    const newAttack = createNewAttack(weaponData, flatBonus, accuracyMod, previousAttackDamage)
 
     console.log('New Attack:', newAttack);
 
