@@ -31,6 +31,19 @@ function App() {
               </div>
             </Route>
 
+            <Route path="/lancer">
+              <div className='lancer banner-container-container'>
+                <a
+                  className='banner-container'
+                  href='https://massif.netlify.app/lancer'
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <div className='asset lancer_banner' role="img" alt="Lancer banner" />
+                </a>
+              </div>
+            </Route>
+
             <div className='witch-dice banner-container-container'>
               <div className='banner-container'>
                 <div className='asset site_banner' role="img" alt="WITCH DICE"/>

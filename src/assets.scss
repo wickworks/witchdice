@@ -69,6 +69,7 @@
   &.logo { background-image: url('./assets/logo.svg'); }
   &.site_banner { background-image: url('./assets/banner_dark.svg'); }
   &.witchcraft_banner { background-image: url('./assets/witchcraft_banner.jpg'); }
+  &.lancer_banner { background-image: url('./assets/lancer_banner.jpg'); }
 }
 
 @mixin nouveau_border($border_filename) {
