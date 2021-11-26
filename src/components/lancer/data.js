@@ -4,6 +4,7 @@ const allTags = require('./lancer-data-master/lib/tags.json');
 const allFrames = require('./lancer-data-master/lib/frames.json');
 const allTalents = require('./lancer-data-master/lib/talents.json');
 const allCoreBonuses = require('./lancer-data-master/lib/core_bonuses.json');
+const allSystems = require('./lancer-data-master/lib/systems.json');
 
 const BONUS_TO_BURN_TAGS = ['mf_tokugawa_dz', 't_walking_armory_2_hellfire']
 
@@ -119,7 +120,7 @@ const findFrameData = (frameID) => {
 
 const findWeaponData = (weaponID) => {
   const weaponData = allWeapons.find(weapon => weapon.id === weaponID);
-  return weaponData ? weaponData : findWeaponData('missing_mechweapon');;
+  return weaponData ? weaponData : findWeaponData('missing_mechweapon');
 }
 
 const findTalentData = (talentID) => {
@@ -137,6 +138,10 @@ const findCoreBonusData = (coreBonusID) => {
   return coreBonusData;
 }
 
+const findSystemData = (systemID) => {
+  const systemData = allSystems.find(system => system.id === systemID);
+  return systemData ? systemData : findWeaponData('missing_mechsystem');
+}
 
 export {
   findSkillData,
@@ -150,6 +155,7 @@ export {
   findWeaponData,
   findTalentData,
   findCoreBonusData,
+  findSystemData,
   GENERIC_BONUS_SOURCE,
   MAX_BONUS,
   DAMAGE_MODIFIERS,

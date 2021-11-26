@@ -1,6 +1,8 @@
 @import '../../fonts';
 
 .MechanicsList {
+  @include text_monospace;
+
   .label {
     margin-top: 4px;
     margin-left: 4px;
@@ -19,6 +21,6 @@
       text-transform: capitalize;
     }
 
-    .number { margin-left: 4px; }
+    .number { margin-left: 6px; }
   }
 }

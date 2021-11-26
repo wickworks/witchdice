@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import WeaponRoller from './WeaponRoller.jsx';
-import { findWeaponData, getGrit, findFrameData } from './data.js';
+import MechanicsList from './MechanicsList.jsx';
+import { findWeaponData, getGrit, findFrameData, findSystemData } from './data.js';
 
 import { getBonusDamageSourcesFromMech, getBonusDamageSourcesFromTalents } from './bonusDamageSourceUtils.js';
 
@@ -57,6 +58,13 @@ const MechSheet = ({
           <div className="frame">{frameData.name.toLowerCase()}</div>
         </div>
 
+        <MechanicsList
+          label='Systems'
+          findData={findSystemData}
+          mechanicIDList={loadout.systems}
+          containerClass={'systems'}
+          namesToLowercase={false}
+        />
 
         <div className="mounts-label">Mounts</div>
 

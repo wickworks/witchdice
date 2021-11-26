@@ -8,6 +8,7 @@ const MechanicsList = ({
   mechanicIDList,
   containerClass,
   getRankDisplay = (number) => { return number; },
+  namesToLowercase = true,
 }) => {
   return (
     <div className={`MechanicsList ${containerClass}`}>
@@ -19,10 +20,11 @@ const MechanicsList = ({
           const data = findData(dataID)
           // and sometimes they come with ranks
           const rank = mechanic.rank
+          const name = namesToLowercase ? data.name.toLowerCase() : data.name
           return (
             <span className="entry" key={dataID}>
               <span className="bracket">[</span>
-              <span className="name">{data.name.toLowerCase()}</span>
+              <span className="name">{name}</span>
               { rank !== undefined && rank !== null &&
                 <span className="number">{getRankDisplay(rank)}</span>
               }
