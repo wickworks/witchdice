@@ -181,7 +181,12 @@ const WeaponRoller = ({
             toggleDamageModifier={toggleDamageModifier}
           />
 
-          <div className="tags">{weaponTags.join(', ').toLowerCase()}</div>
+          <div className="tags">
+            {weaponTags.join(', ').toLowerCase()}
+            <span className='size'>{weaponData.mount}</span>
+          </div>
+
+
         </div>
 
         {weaponData.effect &&
