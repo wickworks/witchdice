@@ -42,4 +42,43 @@
       padding: 6px 0 6px 12px;
     }
   }
+
+  &.new-pilot {
+
+    .title-and-input {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin: 12px 6px 0;
+
+      .title {
+        color: $rust;
+        font-size: 24px;
+        width: 50%;
+        text-align: center;
+      }
+
+      input {
+        margin: 0;
+        width: 50%;
+      }
+    }
+
+    .instructions {
+      margin-top: 12px;
+      text-align: center;
+
+      a { margin-left: 4px; }
+    }
+
+    button.cancel {
+      display: block;
+      margin: 18px auto 0;
+      padding: 4px 16px;
+
+      background-color: $parchment_dark;
+
+      &:hover { background-color: $rust_light; }
+    }
+  }
 }

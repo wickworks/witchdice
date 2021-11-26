@@ -128,14 +128,13 @@ const MainLancer = ({
   return (
     <div className='MainLancer'>
 
-      <input type="file" onChange={uploadPilotFile} />
-
       <PilotAndMechList
         allPilotEntries={allPilotEntries}
         setActivePilotID={setActivePilot}
         activePilotID={activePilotID}
         deleteActivePilot={deleteActivePilot}
-        createNewPilot={() => {}}
+
+        onPilotFileUpload={uploadPilotFile}
 
         allMechEntries={allMechEntries}
         setActiveMechID={setActiveMechID}
