@@ -36,8 +36,12 @@ $number_speed: 0.25s;
           transition: transform .2s;
         }
 
-        &:active .asset {
+        &:hover .asset {
           transform: rotate(180deg);
+        }
+
+        &:active .asset {
+          transform: rotate(360deg);
         }
       }
     }
