@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import BigRollButton from '../shared/BigRollButton.jsx';
+import BigRollButton from '../../shared/BigRollButton.jsx';
 
 import {
   findTagOnWeapon,
-} from './data.js';
+} from '../lancerData.js';
 
-import './WeaponAttackSetup.scss';
+import './WeaponRollerSetup.scss';
 
 const COVER_SOFT = 'Soft Cover'
 const COVER_HARD = 'Hard Cover'
@@ -19,7 +19,7 @@ function getInitialSources(weaponData) {
   return initialSources;
 }
 
-const WeaponAttackSetup = ({
+const WeaponRollerSetup = ({
   weaponData,
   gritBonus,
   createNewAttackRoll,
@@ -92,7 +92,7 @@ const WeaponAttackSetup = ({
   const accuracyArray = Array.from({length: 9}, (x, i) => i + 1);
 
   return (
-    <div className="WeaponAttackSetup">
+    <div className="WeaponRollerSetup">
 
 
 
@@ -217,4 +217,4 @@ const Sources = ({
   </div>
 )
 
-export default WeaponAttackSetup;
+export default WeaponRollerSetup;

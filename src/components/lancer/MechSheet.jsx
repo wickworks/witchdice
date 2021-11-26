@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import WeaponRoller from './WeaponRoller.jsx';
+import WeaponRoller from './WeaponRoller/WeaponRoller.jsx';
 import MechanicsList from './MechanicsList.jsx';
-import { findWeaponData, getGrit, findFrameData, findSystemData } from './data.js';
+import { findWeaponData, getGrit, findFrameData, findSystemData } from './lancerData.js';
 
 import { getBonusDamageSourcesFromMech, getBonusDamageSourcesFromTalents } from './bonusDamageSourceUtils.js';
 

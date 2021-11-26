@@ -1,10 +1,10 @@
 import React from 'react';
-import { MAX_BONUS } from './data.js';
+import { MAX_BONUS } from '../lancerData.js';
 
-import './WeaponRollerBonusDamage.scss';
+import './BonusDamageBar.scss';
 
 
-const WeaponRollerBonusDamage = ({
+const BonusDamageBar = ({
   genericBonusDieCount,
   setGenericBonusDieCount,
   genericBonusPlus,
@@ -20,7 +20,7 @@ const WeaponRollerBonusDamage = ({
 }) => {
 
   return (
-    <div className="WeaponRollerBonusDamage">
+    <div className="BonusDamageBar">
 
       <div className="multipliers-container">
         <button
@@ -107,4 +107,4 @@ const WeaponRollerBonusDamage = ({
   )
 }
 
-export default WeaponRollerBonusDamage;
+export default BonusDamageBar;

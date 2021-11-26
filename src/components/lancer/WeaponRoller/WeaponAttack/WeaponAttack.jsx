@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import HitCheckbox from '../../shared/HitCheckbox.jsx';
+import HitCheckbox from '../../../shared/HitCheckbox.jsx';
 import AttackRollOutput from './AttackRollOutput.jsx';
 import DamageRollPool from './DamageRollPool.jsx';
 import DamageSubtotal from './DamageSubtotal.jsx';

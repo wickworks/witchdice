@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
-import WeaponAttackSetup from './WeaponAttackSetup.jsx';
-import WeaponRollerBonusDamage from './WeaponRollerBonusDamage.jsx';
-import WeaponRollerBaseDamage from './WeaponRollerBaseDamage.jsx';
-import { deepCopy } from '../../utils.js';
-import { BONUS_TO_BURN_TAGS } from './data.js';
+import WeaponRollerSetup from './WeaponRollerSetup.jsx';
+import BonusDamageBar from './BonusDamageBar.jsx';
+import BaseDamageBar from './BaseDamageBar.jsx';
+import { deepCopy } from '../../../utils.js';
 
 import {
   getTagName,
@@ -12,7 +11,8 @@ import {
   defaultWeaponDamageType,
   GENERIC_BONUS_SOURCE,
   DAMAGE_MODIFIERS,
-} from './data.js';
+  BONUS_TO_BURN_TAGS,
+} from '../lancerData.js';
 
 import {
   rollToHit,
@@ -34,7 +34,8 @@ const WeaponRoller = ({
   isPrimaryWeaponOnMount,
 }) => {
   const [allAttackRolls, setAllAttackRolls] = useState([]);
-  const [showAttackSetup, setShowAttackSetup] = useState(true);
+  const [isSettingUpAttack, setIsSettingUpAttack] = useState(true);
+  const [isChoosingHitMiss, setIsChoosingHitMiss] = useState(false);
 
   const [bonusDamageData, setBonusDamageData] = useState(null);
   const [activeBonusSources, setActiveBonusSources] = useState([]);
@@ -51,7 +52,8 @@ const WeaponRoller = ({
 
   const clearAttacks = () => {
     setAllAttackRolls([]);
-    setShowAttackSetup(true);
+    setIsSettingUpAttack(true);
+    setIsChoosingHitMiss(false);
     setBonusDamageData(null);
     setActiveBonusSources([]);
     setDamageModifiers({...DAMAGE_MODIFIERS})
@@ -110,7 +112,7 @@ const WeaponRoller = ({
     let newData = deepCopy(allAttackRolls);
     newData.push(newAttack);
     setAllAttackRolls(newData);
-    setShowAttackSetup(false);
+    setIsSettingUpAttack(false);
 
     // do we need to roll bonus damage?
     if (bonusDamageData === null) {
@@ -144,7 +146,7 @@ const WeaponRoller = ({
         <h3 className='name'>{weaponData.name}</h3>
 
         <div className="base-damage-and-tags">
-          <WeaponRollerBaseDamage
+          <BaseDamageBar
             weaponData={weaponData}
           />
 
@@ -162,7 +164,7 @@ const WeaponRoller = ({
           </div>
         }
 
-        <WeaponRollerBonusDamage
+        <BonusDamageBar
           genericBonusDieCount={genericBonusDieCount}
           setGenericBonusDieCount={setGenericBonusDieCount}
           genericBonusPlus={genericBonusPlus}
@@ -193,19 +195,21 @@ const WeaponRoller = ({
         )}
 
 
-        {showAttackSetup &&
-          <WeaponAttackSetup
+        { isSettingUpAttack ?
+          <WeaponRollerSetup
             weaponData={weaponData}
             gritBonus={gritBonus}
             createNewAttackRoll={createNewAttackRoll}
           />
+        : isChoosingHitMiss &&
+          <>Hi</>
         }
       </div>
 
 
       <div className='status-bar'>
 
-        { !isPrimaryWeaponOnMount && allAttackRolls.length === 0 && showAttackSetup &&
+        { !isPrimaryWeaponOnMount && allAttackRolls.length === 0 && isSettingUpAttack &&
           <div className='tip'>
             In addition to your primary attack, you may also attack with a different Auxiliary weapon on the same mount. That weapon doesn’t deal bonus damage.
           </div>
@@ -213,14 +217,14 @@ const WeaponRoller = ({
 
         { (allAttackRolls.length >= 1) &&
           <>
-            {(allAttackRolls.length >= 2 && activeBonusDamageData.rolls.length > 0) && !showAttackSetup &&
+            {(allAttackRolls.length >= 2 && activeBonusDamageData.rolls.length > 0) && !isSettingUpAttack &&
               <div className='tip'>
                 If an attack that targets more than one character deals bonus damage, the bonus damage is halved.
               </div>
             }
 
             <div className='action-buttons-container'>
-              <button className='add-target' onClick={() => setShowAttackSetup(true)} disabled={showAttackSetup}>
+              <button className='add-target' onClick={() => setIsSettingUpAttack(true)} disabled={isSettingUpAttack}>
                 <div className='asset plus' />
                 Add target
               </button>

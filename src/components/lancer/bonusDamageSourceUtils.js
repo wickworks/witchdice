@@ -1,7 +1,7 @@
 import {
   findFrameData,
   findTalentData,
-} from './data.js';
+} from './lancerData.js';
 
 function newSource(name, id, diceString, damageType = '', traitData = null) {
   return {

@@ -1,15 +1,15 @@
 import React from 'react';
-import { MAX_BONUS } from './data.js';
+import { MAX_BONUS } from '../lancerData.js';
 
-import './WeaponRollerBaseDamage.scss';
+import './BaseDamageBar.scss';
 
 
-const WeaponRollerBaseDamage = ({
+const BaseDamageBar = ({
   weaponData,
 }) => {
 
   return (
-    <div className="WeaponRollerBaseDamage">
+    <div className="BaseDamageBar">
       <div className="base-damage">
         <div>{'[ '}</div>
         { weaponData.damage.map((damage, i) =>
@@ -24,4 +24,4 @@ const WeaponRollerBaseDamage = ({
   )
 }
 
-export default WeaponRollerBaseDamage;
+export default BaseDamageBar;

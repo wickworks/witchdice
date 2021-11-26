@@ -1,14 +1,14 @@
 import {
   getRandomInt,
   deepCopy
-} from '../../utils.js';
+} from '../../../utils.js';
 
 import {
   findTagOnWeapon,
   processDiceString,
   defaultWeaponDamageType,
   GENERIC_BONUS_SOURCE
-} from './data.js';
+} from '../lancerData.js';
 
 function createNewAttack(weaponData, flatBonus, accuracyMod, inheritDamage = null) {
   let newAttack = {};

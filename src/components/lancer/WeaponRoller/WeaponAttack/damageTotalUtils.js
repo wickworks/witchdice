@@ -1,7 +1,7 @@
 import {
   FIRST_ROLL_ONLY_TAGS,
   BASIC_DAMAGE_TYPES,
-} from '../data.js';
+} from '../../lancerData.js';
 
 function getSortedTotalPool(rollData, isCrit, isAverage) {
   var totalPool = [...rollData.rollPool];

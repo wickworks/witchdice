@@ -9,7 +9,7 @@ import {
 
 import {
   BASIC_DAMAGE_TYPES,
-} from '../data.js';
+} from '../../lancerData.js';
 
 const DamageRollPool = ({
   rollData,
