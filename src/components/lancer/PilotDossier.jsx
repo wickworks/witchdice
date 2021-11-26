@@ -37,6 +37,8 @@ const PilotDossier = ({
 
   const geneStatus = pilotIDToGeneStatus(activePilot.id);
 
+  const hase = activePilot.mechSkills;
+
   return (
     <div className="PilotDossier">
       <div className="dossier-container">
@@ -64,6 +66,14 @@ const PilotDossier = ({
                 {slicedCallsign}
             </div>
             <div className="name">{activePilot.name}</div>
+
+            <div className="hase">
+              <div><span className='attribute'>HULL</span> {hase[0]}</div>
+              <div><span className='attribute'>AGI</span> {hase[1]}</div>
+              <div><span className='attribute'>SYS</span> {hase[2]}</div>
+              <div><span className='attribute'>ENGI</span> {hase[3]}</div>
+            </div>
+
             <div className="background">
               {activePilot.background ? activePilot.background.toLowerCase() : 'Unknown Origin'}
             </div>

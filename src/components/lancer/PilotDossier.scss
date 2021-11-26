@@ -1,5 +1,7 @@
 @import '../../fonts';
 
+$right_column_wid: 370px;
+
 .PilotDossier {
   display: flex;
   justify-content: center;
@@ -132,6 +134,21 @@
         line-height: 24px;
       }
 
+      .hase {
+        display: flex;
+        float: right;
+        width: $right_column_wid - 4px;
+        font-size: 16px;
+        text-transform: capitalize;
+        margin-top: 6px;
+
+        > div {
+          margin-right: 36px;
+
+          .attribute { color: $grey_mid; }
+        }
+      }
+
       .background {
         text-transform: capitalize;
         margin-top: 6px;
@@ -176,7 +193,7 @@
 
       .core-bonus-container {
         float: right;
-        width: 370px;
+        width: $right_column_wid;
         margin-left: 8px;
         margin-bottom: 4px;
 
@@ -184,7 +201,7 @@
       }
 
       .skills-container {
-        width: 370px;
+        width: $right_column_wid;
         flex-shrink: 0;
         margin-left: 8px;
       }
