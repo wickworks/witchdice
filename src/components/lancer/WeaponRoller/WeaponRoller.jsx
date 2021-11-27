@@ -28,6 +28,8 @@ const WeaponRoller = ({
   availableBonusSources = [],
   isPrimaryWeaponOnMount,
 }) => {
+  const [activeProfileIndex, setActiveProfileIndex] = useState(0);
+
   const [allAttackRolls, setAllAttackRolls] = useState([]);
   const [isSettingUpAttack, setIsSettingUpAttack] = useState(true);
 
@@ -53,6 +55,17 @@ const WeaponRoller = ({
     setGenericBonusDieCount(0);
     setGenericBonusPlus(0);
   }
+
+  // =============== MAKE ATTACK ROLLS ==================
+
+  var allWeaponProfiles = [];
+  if ('profiles' in weaponData) {
+    allWeaponProfiles.push(...weaponData.profiles)
+  } else {
+    allWeaponProfiles.push(weaponData)
+  }
+
+  console.log('allWeaponProfiles',allWeaponProfiles);
 
   // Add or remove the name of a bonus damage to the active list
   const toggleBonusDamage = (sourceID) => {
@@ -126,26 +139,20 @@ const WeaponRoller = ({
 
   const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
 
-  var allWeaponProfiles = [];
-  if ('profiles' in weaponData) {
-    allWeaponProfiles.push(...weaponData.profiles)
-  } else {
-    allWeaponProfiles.push(weaponData)
-  }
 
-
-
-  console.log('allWeaponProfiles',allWeaponProfiles);
 
   return (
     <div className='WeaponRoller'>
-      <div className="top-bar">
-        <h3 className='name'>{weaponData.name}</h3>
+      <h3 className='name'>{weaponData.name}</h3>
 
+      <div className="top-bar">
         { allWeaponProfiles.map((weaponProfile, i) =>
           <BaseDamageBar
             weaponProfile={weaponProfile}
             mountType={weaponData.mount}
+            onClick={() => setActiveProfileIndex(i)}
+            isClickable={allWeaponProfiles.length > 1}
+            isActive={allWeaponProfiles.length > 1 && activeProfileIndex === i}
             key={`basedamage-${i}`}
           />
         )}

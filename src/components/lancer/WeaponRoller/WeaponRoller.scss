@@ -17,23 +17,23 @@
   padding: 8px 4% 8px;
   margin-top: -14px;
 
-  .top-bar {
-    h3 {
-      @include text_title_action;
-      flex-shrink: 0;
-      font-style: normal;
-      text-align: center;
-      margin: 26px 0 16px;
-    }
+  h3 {
+    @include text_title_action;
+    flex-shrink: 0;
+    font-style: normal;
+    text-align: center;
+    margin: 26px 0 16px;
+  }
 
-    > div {
+  .top-bar {
+    > * {
       border: 2px solid $parchment_dark;
       border-bottom-width: 0;
     }
 
-    > div:first-of-type { border-radius: 12px 12px 0 0; }
+    > *:first-child { border-radius: 12px 12px 0 0; }
 
-    > div:last-of-type {
+    > *:last-child {
       border-radius: 0 0 12px 12px;
       border-bottom-width: 2px;
     }

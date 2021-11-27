@@ -8,6 +8,9 @@ import {
 const BaseDamageBar = ({
   weaponProfile,
   mountType,
+  isActive,
+  isClickable,
+  onClick,
 }) => {
 
   let weaponTags = []
@@ -18,7 +21,11 @@ const BaseDamageBar = ({
   }
 
   return (
-    <div className="BaseDamageBar">
+    <button
+      className={`BaseDamageBar ${isActive ? 'active' : ''}`}
+      onClick={onClick}
+      disabled={!isClickable}
+    >
       <div className="base-damage">
         <div>{'[ '}</div>
         { weaponProfile.damage.map((damage, i) =>
@@ -37,7 +44,7 @@ const BaseDamageBar = ({
           <span className='size'>{mountType}</span>
         }
       </div>
-    </div>
+    </button>
   )
 }
 
