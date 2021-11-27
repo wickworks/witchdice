@@ -1,7 +1,3 @@
-// import allMonsterOriginalData from './srd_monsters.json';
-// import allMonsterOriginalData from './srd_monsters_test.json';
-// const data = require('5e-bits/5e-database');
-
 import allMonsterOriginalData from '../../../../node_modules/5e-database/src/5e-SRD-Monsters.json';
 
 import {
@@ -19,7 +15,6 @@ import {
 import { deepCopy } from '../../../utils.js';
 
 // console.log('allMonsterOriginalData',allMonsterOriginalData);
-
 
 function getMonsterData() {
   console.log('~~~ PROCESSING MONSTER SRD ~~~');
@@ -65,10 +60,6 @@ function getMonsterData() {
 
           // DAMAGE
           if ('damage' in attackOriginal) {
-            // const damageTypes = getDamageTypesFromDesc(desc);
-            // const damageDice = attackOriginal.damage_dice.split(" + ")
-
-            // damageDice.forEach((damageDie, di) => {
             attackOriginal.damage.forEach((damageOriginal, di) => {
               var actualDamageOriginal;
 
@@ -84,11 +75,8 @@ function getMonsterData() {
               damageData.dieCount = countAndType.count;
               damageData.dieType = countAndType.dietype;
               damageData.modifier = countAndType.bonus;
-
               damageData.damageType = actualDamageOriginal.damage_type.index; // e.g. 'bludgeoning'
 
-              // if (damageTypes[di]) { damageData.damageType = damageTypes[di] }
-              // if (('damage_bonus' in attackOriginal) && di === 0) { damageData.modifier = attackOriginal.damage_bonus }
               if (desc.indexOf('half as much') >= 0) { damageData.tags.push('savehalf') }
 
               attackData.damageData.push(damageData);
@@ -172,10 +160,6 @@ function getMonsterData() {
           } else if (dcIndex === -1 && hitIndex === -1) {
             attackData.type = 'ability';
           }
-
-
-
-
 
           monsterNew.allAttackData.push(attackData);
         }

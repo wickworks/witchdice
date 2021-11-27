@@ -3,8 +3,6 @@ import EntryList from './EntryList.jsx';
 import { deepCopy, getRandomInt } from '../../utils.js';
 import './CharacterAndMonsterList.scss';
 
-
-
 const CharacterAndMonsterList = ({
   setActiveCharacterID,
   activeCharacterID,

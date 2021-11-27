@@ -71,10 +71,6 @@ function getCountAndTypeFromDiceString(dice) {
 
   return {count: count, dietype: dietype, bonus: bonus}
 }
-//   const count = parseInt(dice.slice(0, dice.indexOf('d')));
-//   const dietype = parseInt(dice.slice(dice.indexOf('d')+1));
-//   return {count: count, dietype: dietype}
-// }
 
 
 export {

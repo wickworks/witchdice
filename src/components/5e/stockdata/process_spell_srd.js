@@ -1,8 +1,4 @@
-// import allSpellOriginalData from './srd_spells.json';
-// import allSpellOriginalData from './srd_spells_test.json';
-
 import allSpellOriginalData from '../../../../node_modules/5e-database/src/5e-SRD-Spells.json';
-
 
 import {
   abilityTypes,
@@ -18,15 +14,9 @@ import {
 
 import { deepCopy, capitalize } from '../../../utils.js';
 
-import TurndownService from 'turndown';
-
-// console.log('allSpellOriginalData',allSpellOriginalData);
-
-
 function getSpellData() {
   console.log('~~~ PROCESSING SPELL SRD ~~~');
 
-  // const turndownService = new TurndownService()
   let allSpellData = {};
 
   for ( var i = 0; i < allSpellOriginalData.length; ++i ) {
