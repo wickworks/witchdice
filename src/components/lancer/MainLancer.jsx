@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { PilotList, MechList } from './PilotAndMechList.jsx';
+import { FileList, PlainList } from './FileAndPlainList.jsx';
+import EntryList from '../shared/EntryList.jsx';
 import PilotDossier from './PilotDossier.jsx';
 import MechSheet from './MechSheet.jsx';
+import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 import { deepCopy } from '../../utils.js';
 import {
   loadLocalData,
@@ -9,8 +11,6 @@ import {
   getIDFromStorageName,
   getStorageName,
 } from '../../localstorage.js';
-
-
 
 import './MainLancer.scss';
 
@@ -30,7 +30,15 @@ function deletePilotData(pilot) {
   localStorage.removeItem(storageName);
 }
 
+const coreLcpEntry = {
+  name: 'Core Content',
+  id: 'core'
+}
+
 const MainLancer = () => {
+  const [allLcpEntries, setAllLcpEntries] = useState([coreLcpEntry]);
+  const [activeLcpID, setActiveLcpID] = useState(null);
+
   const [allPilotEntries, setAllPilotEntries] = useState([]);
   const [activePilotID, setActivePilotID] = useState(null);
   const [activeMechID, setActiveMechID] = useState(null);
@@ -122,15 +130,29 @@ const MainLancer = () => {
     setActiveMechID(null);
   }
 
+  // <FileList
+  //   title={'Lancer Content Pack'}
+  //   extraClass={'content-packs'}
+  //   characterEntries={allLcpEntries}
+  //   handleEntryClick={setActiveLcpID}
+  //   activeCharacterID={activeLcpID}
+  //   deleteActiveCharacter={() => {}}
+  //   createNewCharacter={() => {}}
+  // />
+
   return (
     <div className='MainLancer'>
 
-      <PilotList
-        allPilotEntries={allPilotEntries}
-        setActivePilotID={setActivePilot}
-        activePilotID={activePilotID}
-        deleteActivePilot={deleteActivePilot}
-        onPilotFileUpload={uploadPilotFile}
+
+
+      <FileList
+        title='Pilot'
+        extraClass='pilots'
+        allFileEntries={allPilotEntries}
+        setActiveFileID={setActivePilot}
+        activeFileID={activePilotID}
+        deleteActiveFile={deleteActivePilot}
+        onFileUpload={uploadPilotFile}
       />
 
       { activePilot &&
@@ -139,11 +161,14 @@ const MainLancer = () => {
             activePilot={activePilot}
           />
 
-          <MechList
-            allMechEntries={allMechEntries}
-            setActiveMechID={setActiveMechID}
-            activeMechID={activeMechID}
-          />
+          <PlainList title='Mech' extraClass='mechs'>
+            <EntryList
+              entries={allMechEntries}
+              handleEntryClick={setActiveMechID}
+              activeCharacterID={activeMechID}
+              deleteEnabled={false}
+            />
+          </PlainList>
         </>
       }
 
