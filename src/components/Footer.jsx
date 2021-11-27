@@ -109,12 +109,12 @@ const Footer = () => {
             </p>
 
             <p>
-              5E monster manual jsonified by
-              <a href="https://www.reddit.com/r/dndnext/comments/43a09o/srd_monsters_in_json_format/"
+              5E OGL json data from
+              <a href="https://github.com/5e-bits/5e-database/"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                droiddruid
+                5e-bits
               </a>
             </p>
 
@@ -129,7 +129,7 @@ const Footer = () => {
             </p>
 
             <p>
-              Lancer data from the
+              Lancer json data from the
               <a href="https://github.com/massif-press/lancer-data"
                 target="_blank"
                 rel="noopener noreferrer"

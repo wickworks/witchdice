@@ -1,5 +1,9 @@
-import allSpellOriginalData from './srd_spells.json';
+// import allSpellOriginalData from './srd_spells.json';
 // import allSpellOriginalData from './srd_spells_test.json';
+
+import allSpellOriginalData from '../../../../node_modules/5e-database/src/5e-SRD-Spells.json';
+
+
 import {
   abilityTypes,
   defaultAttackData,

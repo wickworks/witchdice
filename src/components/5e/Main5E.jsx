@@ -9,10 +9,10 @@ import Roller from './Roller.jsx';
 import InitiativeTracker from './InitiativeTracker.jsx';
 import { CURRENT_VERSION } from '../../version.js';
 import { deepCopy, getRandomInt } from '../../utils.js';
-// import { getMonsterData } from './stockdata/process_monster_srd.js';
-import parsedMonsterData from './stockdata/srd_monsters_parsed.json';
-// import { getSpellData } from './stockdata/process_spell_srd.js';
-import parsedSpellData from './stockdata/srd_spells_parsed.json';
+import { getMonsterData } from './stockdata/process_monster_srd.js';
+// import parsedMonsterData from './stockdata/srd_monsters_parsed.json';
+import { getSpellData } from './stockdata/process_spell_srd.js';
+// import parsedSpellData from './stockdata/srd_spells_parsed.json';
 import allCharacterPresetData from './stockdata/character_presets.json';
 import {
   loadLocalData,
@@ -103,10 +103,10 @@ const Main5E = ({
     setAllPresetEntries(presetEntries);
 
     // PARSE SPELL DATA
-    // setAllSpellData(getSpellData());
+    setAllSpellData(getSpellData());
 
     // USE PREPARSED SPELL DATA
-    setAllSpellData(parsedSpellData);
+    // setAllSpellData(parsedSpellData);
 
     // if we were looking at a character, restore that
     const oldSelectedID = localStorage.getItem("5e-selected-character");
@@ -155,17 +155,16 @@ const Main5E = ({
     //   }
 
       // PARSE MONSTER JSON
-      // getMonsterData().forEach((monsterData,i) => {
-      for ( var i = 0; i < parsedMonsterData.length; ++i ) {
-        const monsterData = parsedMonsterData[i];
-
+      // for ( var i = 0; i < parsedMonsterData.length; ++i ) {
+      //   const monsterData = parsedMonsterData[i];
+      getMonsterData().forEach((monsterData,i) => {
         const fingerprint = (100000 + i)
         saveCharacterData(
           fingerprint,
           monsterData.name,
           monsterData.allAttackData
         )
-      } // )
+      })
 
       // PARSE PRESET JSON
       for ( var j = 0; j < allCharacterPresetData.length; ++j ) {

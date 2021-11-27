@@ -1,5 +1,8 @@
-import allMonsterOriginalData from './srd_monsters.json';
+// import allMonsterOriginalData from './srd_monsters.json';
 // import allMonsterOriginalData from './srd_monsters_test.json';
+// const data = require('5e-bits/5e-database');
+
+import allMonsterOriginalData from '../../../../node_modules/5e-database/src/5e-SRD-Monsters.json';
 
 import {
   abilityTypes,
@@ -14,6 +17,9 @@ import {
 } from './process_utils.js';
 
 import { deepCopy } from '../../../utils.js';
+
+console.log('allMonsterOriginalData',allMonsterOriginalData);
+
 
 function getMonsterData() {
   console.log('~~~ PROCESSING MONSTER SRD ~~~');
