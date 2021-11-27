@@ -1,3 +1,7 @@
+import { getIDFromStorageName } from '../../localstorage.js';
+
+import { loadLcpData, LCP_PREFIX, STORAGE_ID_LENGTH } from './lancerLocalStorage.js';
+
 const data = require('lancer-data');
 const allWeapons = data.weapons;
 const allSkills = data.skills;
@@ -116,7 +120,21 @@ const defaultWeaponDamageType = (weaponData) => {
 
 
 const findFrameData = (frameID) => {
-  const frameData = allFrames.find(frame => frame.id === frameID);
+  var frameData = allFrames.find(frame => frame.id === frameID);
+
+  if (!frameData) {
+    for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+      const key = localStorage.key(i);
+
+      if (key.startsWith(`${LCP_PREFIX}-`)) {
+        const lcpID = getIDFromStorageName(LCP_PREFIX, key, STORAGE_ID_LENGTH);
+        const lcpData = loadLcpData(lcpID);
+        const lcpFrameData = lcpData.data.frames.find(frame => frame.id === frameID);
+        frameData = lcpFrameData || frameData;
+      }
+    }
+  }
+
   return frameData ? frameData : findFrameData('missing_frame');
 }
 

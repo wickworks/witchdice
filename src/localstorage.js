@@ -53,8 +53,8 @@ function loadLocalData(prefix, id, idLength = DEFAULT_ID_LENGTH) {
     const key = localStorage.key(i);
     const localID = getIDFromStorageName(prefix, key, idLength)
     if (localID === stringedID) {
-      console.log('found id for', storageName);
       storageName = key;
+      // console.log('found id for', storageName);
     }
   }
 

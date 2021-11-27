@@ -8,40 +8,24 @@ import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 import PromisifyFileReader from 'promisify-file-reader'
 import { parseContentPack } from './contentPackParser.js';
 
-import { deepCopy } from '../../utils.js';
 import {
-  loadLocalData,
-  saveLocalData,
-  getIDFromStorageName,
-  getStorageName,
-} from '../../localstorage.js';
+  saveLcpData,
+  loadLcpData,
+  savePilotData,
+  loadPilotData,
+  deletePilotData,
+  PILOT_PREFIX,
+  LCP_PREFIX,
+  STORAGE_ID_LENGTH,
+} from './lancerLocalStorage.js';
+
+import { deepCopy } from '../../utils.js';
+import { getIDFromStorageName } from '../../localstorage.js';
 
 import './MainLancer.scss';
 
-const PILOT_PREFIX = 'pilot';
-const LCP_PREFIX = 'lcp';
-const STORAGE_ID_LENGTH = 6;
 
-function saveLcpData(contentPack) {
-  saveLocalData(LCP_PREFIX, contentPack.id.slice(0,STORAGE_ID_LENGTH), contentPack.manifest.name, contentPack);
-}
 
-function loadLcpData(lcpID) {
-  return loadLocalData(LCP_PREFIX, lcpID.slice(0,STORAGE_ID_LENGTH));
-}
-
-function savePilotData(pilot) {
-  saveLocalData(PILOT_PREFIX, pilot.id.slice(0,STORAGE_ID_LENGTH), pilot.name, pilot);
-}
-
-function loadPilotData(pilotID) {
-  return loadLocalData(PILOT_PREFIX, pilotID.slice(0,STORAGE_ID_LENGTH));
-}
-
-function deletePilotData(pilot) {
-  const storageName = getStorageName(PILOT_PREFIX, pilot.id.slice(0,STORAGE_ID_LENGTH), pilot.name);
-  localStorage.removeItem(storageName);
-}
 
 const coreLcpEntry = {
   name: 'Core Content',
@@ -71,13 +55,13 @@ const MainLancer = () => {
       // console.log('                item : ', localStorage.getItem(key));
 
       if (key.startsWith(`${PILOT_PREFIX}-`)) {
-        const pilotID = getIDFromStorageName(PILOT_PREFIX, key);
+        const pilotID = getIDFromStorageName(PILOT_PREFIX, key, STORAGE_ID_LENGTH);
         const pilotData = loadPilotData(pilotID);
         if (pilotData) pilotEntries.push(pilotData);
       }
 
       if (key.startsWith(`${LCP_PREFIX}-`)) {
-        const lcpID = getIDFromStorageName(LCP_PREFIX, key);
+        const lcpID = getIDFromStorageName(LCP_PREFIX, key, STORAGE_ID_LENGTH);
         const lcpData = loadLcpData(lcpID);
 
         let newEntry = {...coreLcpEntry}
