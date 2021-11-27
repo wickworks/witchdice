@@ -217,7 +217,7 @@ const Main5E = ({
     let newData = deepCopy(allCharacterEntries)
     let characterIndex = -1;
     allCharacterEntries.forEach((entry, i) => {
-      if (entry.id === characterID) {characterIndex = i;}
+      if (String(entry.id) === String(characterID)) {characterIndex = i;}
     });
     if (characterIndex >= 0) {
       newData.splice(characterIndex, 1)
@@ -268,7 +268,7 @@ const Main5E = ({
     let newData = deepCopy(allCharacterEntries);
     let characterIndex = -1;
     allCharacterEntries.forEach((entry, i) => {
-      if (entry.id === characterID) {characterIndex = i;}
+      if (String(entry.id) === String(characterID)) {characterIndex = i;}
     });
     if (characterIndex >= 0) {
       newData[characterIndex].name = characterName;

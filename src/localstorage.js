@@ -34,7 +34,7 @@ function saveLocalData(prefix, id, newName, localData) {
       const localID = getIDFromStorageName(prefix, key)
       const localName = getNameFromStorageName(prefix, key)
 
-      if (localID === id && localName !== newName) {
+      if (String(localID) === String(id) && localName !== newName) {
         console.log('name changed from "',localName,'" to "',newName,'"; updating key names');
         localStorage.removeItem(key)
       }
@@ -43,12 +43,15 @@ function saveLocalData(prefix, id, newName, localData) {
 }
 
 function loadLocalData(prefix, id) {
+  let stringedID = String(id)
+
   // find the key with this ID
   let storageName = null;
   for ( var i = 0, len = localStorage.length; i < len; ++i ) {
     const key = localStorage.key(i);
     const localID = getIDFromStorageName(prefix, key)
-    if (localID === String(id)) {
+    if (localID === stringedID) {
+      console.log('found id for', storageName);
       storageName = key;
     }
   }
@@ -62,7 +65,7 @@ function loadLocalData(prefix, id) {
     }
   }
 
-  console.log('Tried to load',prefix,'   id [', id, '], but failed!');
+  console.log('Tried to load',prefix,'   id [', stringedID, '], but failed!');
   return null;
 }
 

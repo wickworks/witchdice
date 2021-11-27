@@ -20,10 +20,13 @@ import { deepCopy, capitalize } from '../../../utils.js';
 
 import TurndownService from 'turndown';
 
+// console.log('allSpellOriginalData',allSpellOriginalData);
+
+
 function getSpellData() {
   console.log('~~~ PROCESSING SPELL SRD ~~~');
 
-  const turndownService = new TurndownService()
+  // const turndownService = new TurndownService()
   let allSpellData = {};
 
   for ( var i = 0; i < allSpellOriginalData.length; ++i ) {
@@ -35,17 +38,19 @@ function getSpellData() {
 
       let attackData = deepCopy(defaultAttackData);
       attackData.name = spellOriginal.name;
-      const fullDesc = `${spellOriginal.desc}${spellOriginal.higher_level ? spellOriginal.higher_level : ''}`;
-      attackData.desc = turndownService.turndown(fullDesc);
+
+      const spellDesc = spellOriginal.desc.join(' ');
+      const spellHigherLevels = spellOriginal.higher_level ? spellOriginal.higher_level.join(' ') : '';
+      const fullDesc = spellDesc + spellHigherLevels
+
+      attackData.desc = spellDesc + spellHigherLevels// turndownService.turndown(fullDesc);
       attackData.modifier = 0;
 
-      const desc = spellOriginal.desc;
-
-      const attackIndex = desc.indexOf('spell attack');
+      const attackIndex = spellDesc.indexOf('spell attack');
       const saveIndex = Math.max(
-        desc.indexOf('cceed on a'),
-        desc.indexOf('ust make a'),
-        desc.indexOf(' to make a')
+        spellDesc.indexOf('cceed on a'),
+        spellDesc.indexOf('ust make a'),
+        spellDesc.indexOf(' to make a')
       );
 
       // ATTACK
@@ -55,7 +60,7 @@ function getSpellData() {
       // SAVING THROW
       } else if (saveIndex > 0) {
         const saveString =
-          desc.slice(saveIndex+11, desc.indexOf(' ', saveIndex+12))
+          spellDesc.slice(saveIndex+11, spellDesc.indexOf(' ', saveIndex+12))
           .trim()
           .slice(0,3);
 
@@ -72,16 +77,16 @@ function getSpellData() {
 
       // DAMAGE
       const takeIndex = Math.max(
-        desc.indexOf(' take'),
-        desc.indexOf(' deal'),
+        spellDesc.indexOf(' take'),
+        spellDesc.indexOf(' deal'),
       );
-      const damageIndex = desc.indexOf(' damage');
-      const bonusIndex = desc.indexOf(' + ');
+      const damageIndex = spellDesc.indexOf(' damage');
+      const bonusIndex = spellDesc.indexOf(' + ');
       if (takeIndex > 0 && damageIndex > 0) {
         let damageData = deepCopy(defaultDamageData);
 
         const dieString =
-          desc.slice(takeIndex+6, desc.indexOf(' ', takeIndex+7))
+          spellDesc.slice(takeIndex+6, spellDesc.indexOf(' ', takeIndex+7))
           .trim();
 
         const countAndType = getCountAndTypeFromDiceString(dieString);
@@ -90,14 +95,14 @@ function getSpellData() {
 
         if (bonusIndex > 0) {
           damageData.modifier = parseInt(
-            desc.slice(bonusIndex+3, bonusIndex+5).trim()
+            spellDesc.slice(bonusIndex+3, bonusIndex+5).trim()
           )
         }
 
-        const damageTypes = getDamageTypesFromDesc(desc);
+        const damageTypes = getDamageTypesFromDesc(spellDesc);
         if (damageTypes[0]) { damageData.damageType = damageTypes[0] }
 
-        if (desc.indexOf('half as much') >= 0) { damageData.tags.push('savehalf') }
+        if (spellDesc.indexOf('half as much') >= 0) { damageData.tags.push('savehalf') }
 
         if (damageData.dieCount && damageData.dieType) {
           attackData.damageData.push(damageData);
@@ -107,7 +112,7 @@ function getSpellData() {
       }
 
       // CONDITION
-      const appliedCondition = getConditionFromDesc(desc);
+      const appliedCondition = getConditionFromDesc(spellDesc);
       if (appliedCondition) {
         // make a 0-damage thing that applies a condition
         let savingThrowDamageData = deepCopy(defaultDamageData);

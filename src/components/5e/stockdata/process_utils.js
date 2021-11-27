@@ -42,10 +42,39 @@ function getConditionFromDesc(desc) {
 
 // turns '10d6' into {count: 10, dietype: 6}
 function getCountAndTypeFromDiceString(dice) {
-  const count = parseInt(dice.slice(0, dice.indexOf('d')));
-  const dietype = parseInt(dice.slice(dice.indexOf('d')+1));
-  return {count: count, dietype: dietype}
+  var count = 0;
+  var dietype = '';
+  var bonus = 0;
+
+  if (dice) {
+    const bonusIndex = dice.indexOf('+');
+    const dieIndex = dice.indexOf('d');
+
+    // if it has neither d or +, just try to parse it as an int
+    if (bonusIndex < 0 && dieIndex < 0) {
+      bonus = parseInt(dice);
+
+    } else {
+      // slice off the bonus
+      if (bonusIndex >= 0) {
+        bonus = parseInt(dice.slice(bonusIndex+1))
+        dice = dice.slice(0, bonusIndex)
+      }
+
+      // parse the die count and type
+      if (dieIndex >= 0) {
+        count = parseInt(dice.slice(0, dieIndex));
+        dietype = parseInt(dice.slice(dieIndex+1));
+      }
+    }
+  }
+
+  return {count: count, dietype: dietype, bonus: bonus}
 }
+//   const count = parseInt(dice.slice(0, dice.indexOf('d')));
+//   const dietype = parseInt(dice.slice(dice.indexOf('d')+1));
+//   return {count: count, dietype: dietype}
+// }
 
 
 export {

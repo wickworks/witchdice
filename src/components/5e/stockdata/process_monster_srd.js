@@ -18,7 +18,7 @@ import {
 
 import { deepCopy } from '../../../utils.js';
 
-console.log('allMonsterOriginalData',allMonsterOriginalData);
+// console.log('allMonsterOriginalData',allMonsterOriginalData);
 
 
 function getMonsterData() {
@@ -64,19 +64,31 @@ function getMonsterData() {
           const hitIndex = attackOriginal.desc.indexOf('Hit: ');
 
           // DAMAGE
-          if ('damage_dice' in attackOriginal) {
-            const damageTypes = getDamageTypesFromDesc(desc);
-            const damageDice = attackOriginal.damage_dice.split(" + ")
+          if ('damage' in attackOriginal) {
+            // const damageTypes = getDamageTypesFromDesc(desc);
+            // const damageDice = attackOriginal.damage_dice.split(" + ")
 
-            damageDice.forEach((damageDie, di) => {
-              let damageData = deepCopy(defaultDamageData);
+            // damageDice.forEach((damageDie, di) => {
+            attackOriginal.damage.forEach((damageOriginal, di) => {
+              var actualDamageOriginal;
 
-              const countAndType = getCountAndTypeFromDiceString(damageDie);
+              // some have a weird choice thing
+              if ('choose' in damageOriginal) {
+                actualDamageOriginal = damageOriginal.from[0]
+              } else {
+                actualDamageOriginal = damageOriginal;
+              }
+
+              var damageData  = deepCopy(defaultDamageData);
+              const countAndType = getCountAndTypeFromDiceString(actualDamageOriginal.damage_dice);
               damageData.dieCount = countAndType.count;
               damageData.dieType = countAndType.dietype;
+              damageData.modifier = countAndType.bonus;
 
-              if (damageTypes[di]) { damageData.damageType = damageTypes[di] }
-              if (('damage_bonus' in attackOriginal) && di === 0) { damageData.modifier = attackOriginal.damage_bonus }
+              damageData.damageType = actualDamageOriginal.damage_type.index; // e.g. 'bludgeoning'
+
+              // if (damageTypes[di]) { damageData.damageType = damageTypes[di] }
+              // if (('damage_bonus' in attackOriginal) && di === 0) { damageData.modifier = attackOriginal.damage_bonus }
               if (desc.indexOf('half as much') >= 0) { damageData.tags.push('savehalf') }
 
               attackData.damageData.push(damageData);
@@ -189,7 +201,7 @@ function getMonsterData() {
     }
   }
 
-  console.log(JSON.stringify(allMonsterData));
+  // console.log(JSON.stringify(allMonsterData));
 
   return allMonsterData;
 }
