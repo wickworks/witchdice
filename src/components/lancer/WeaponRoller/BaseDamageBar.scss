@@ -2,19 +2,17 @@
 
 
 .BaseDamageBar {
+  @include text_monospace;
   display: flex;
-  // min-width: 100px;
-  // margin-right: 20px;
-  // flex-shrink: 0;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 18px;
 
   .base-damage {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 100%;
-    box-sizing: border-box;
     font-size: 24px;
-    // margin-bottom: 2px;
 
     .damage-dice {
       display: flex;
@@ -26,6 +24,17 @@
         width: 28px;
         height: 28px;
       }
+    }
+  }
+
+  .tags {
+    text-align: right;
+    font-size: 16px;
+    text-transform: capitalize;
+
+    .size {
+      font-weight: bold;
+      margin-left: 12px;
     }
   }
 }

@@ -41,26 +41,6 @@
     .effect-row {
       padding: 10px 18px;
     }
-
-    .base-damage-and-tags {
-      @include text_monospace;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      // margin-bottom: 12px;
-      padding: 10px 18px;
-
-      .tags {
-        text-align: right;
-        font-size: 16px;
-        text-transform: capitalize;
-
-        .size {
-          font-weight: bold;
-          margin-left: 12px;
-        }
-      }
-    }
   }
 
   .attacks-bar {

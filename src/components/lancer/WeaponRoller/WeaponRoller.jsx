@@ -6,9 +6,8 @@ import BaseDamageBar from './BaseDamageBar.jsx';
 import { deepCopy } from '../../../utils.js';
 
 import {
-  getTagName,
-  findTagOnWeapon,
   defaultWeaponDamageType,
+  findTagOnWeapon,
   GENERIC_BONUS_SOURCE,
   DAMAGE_MODIFIERS,
   BONUS_TO_BURN_TAGS,
@@ -88,13 +87,6 @@ const WeaponRoller = ({
     setDamageModifiers(newModifiers);
   }
 
-  let weaponTags = []
-  if (weaponData.tags) {
-    weaponData.tags.forEach(tag => {
-      weaponTags.push( getTagName(tag) )
-    })
-  }
-
   // Create a new attack roll, including to-hit and damage.
   const createNewAttackRoll = (flatBonus, accuracyMod) => {
 
@@ -134,23 +126,29 @@ const WeaponRoller = ({
 
   const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
 
+  var allWeaponProfiles = [];
+  if ('profiles' in weaponData) {
+    allWeaponProfiles.push(...weaponData.profiles)
+  } else {
+    allWeaponProfiles.push(weaponData)
+  }
+
+
+
+  console.log('allWeaponProfiles',allWeaponProfiles);
+
   return (
     <div className='WeaponRoller'>
       <div className="top-bar">
         <h3 className='name'>{weaponData.name}</h3>
 
-        <div className="base-damage-and-tags">
+        { allWeaponProfiles.map((weaponProfile, i) =>
           <BaseDamageBar
-            weaponData={weaponData}
+            weaponProfile={weaponProfile}
+            mountType={weaponData.mount}
+            key={`basedamage-${i}`}
           />
-
-          <div className="tags">
-            {weaponTags.join(', ').toLowerCase()}
-            <span className='size'>{weaponData.mount}</span>
-          </div>
-
-
-        </div>
+        )}
 
         {weaponData.effect &&
           <div className='effect-row'>

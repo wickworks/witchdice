@@ -1,21 +1,41 @@
 import React from 'react';
 import './BaseDamageBar.scss';
 
+import {
+  getTagName,
+} from '../lancerData.js';
+
 const BaseDamageBar = ({
-  weaponData,
+  weaponProfile,
+  mountType,
 }) => {
+
+  let weaponTags = []
+  if (weaponProfile.tags) {
+    weaponProfile.tags.forEach(tag => {
+      weaponTags.push( getTagName(tag) )
+    })
+  }
 
   return (
     <div className="BaseDamageBar">
       <div className="base-damage">
         <div>{'[ '}</div>
-        { weaponData.damage.map((damage, i) =>
+        { weaponProfile.damage.map((damage, i) =>
           <div className='damage-dice' key={`damage-${i}`}>
             {damage.val}
             <div className={`asset-lancer ${damage.type.toLowerCase()}`} />
           </div>
         )}
         <div>{' ]'}</div>
+      </div>
+
+      <div className="tags">
+        {weaponTags.join(', ').toLowerCase()}
+
+        { mountType &&
+          <span className='size'>{mountType}</span>
+        }
       </div>
     </div>
   )
