@@ -19,34 +19,17 @@ const BonusDamageBar = ({
   toggleDamageModifier,
 }) => {
 
+  const toggleGenericBonusDamage = () => {
+    if (genericBonusIsActive) {
+      setGenericBonusPlus(0);
+      setGenericBonusDieCount(0);
+    } else {
+      setGenericBonusDieCount(1);
+    }
+  }
+
   return (
     <div className="BonusDamageBar">
-
-      <div className="multipliers-container">
-        <button
-          className={damageModifiers.half ? 'active' : ''}
-          onClick={() => toggleDamageModifier('half')}
-        >
-          <div className='asset x' />
-          <div>1 / 2</div>
-        </button>
-
-        <button
-          className={damageModifiers.double ? 'active' : ''}
-          onClick={() => toggleDamageModifier('double')}
-        >
-          <div className='asset x' />
-          <div>2</div>
-        </button>
-
-        <button
-          className={damageModifiers.average ? 'active' : ''}
-          onClick={() => toggleDamageModifier('average')}
-        >
-          <div>Avg</div>
-        </button>
-      </div>
-
 
       <div className='generic-source-container'>
         <button
@@ -77,8 +60,7 @@ const BonusDamageBar = ({
 
         <button
           className={`generic-reset ${genericBonusIsActive ? 'active' : 'inactive'}`}
-          onClick={() => { setGenericBonusPlus(0); setGenericBonusDieCount(0); }}
-          disabled={!genericBonusIsActive}
+          onClick={toggleGenericBonusDamage}
         >
           <div className='label'>Bonus damage</div>
         </button>
@@ -103,6 +85,32 @@ const BonusDamageBar = ({
           <div className='label'>{bonusSource.name.toLowerCase()}</div>
         </button>
       )}
+
+
+      <div className="multipliers-container">
+        <button
+          className={damageModifiers.half ? 'active' : ''}
+          onClick={() => toggleDamageModifier('half')}
+        >
+          <div className='asset x' />
+          <div>1 / 2</div>
+        </button>
+
+        <button
+          className={damageModifiers.double ? 'active' : ''}
+          onClick={() => toggleDamageModifier('double')}
+        >
+          <div className='asset x' />
+          <div>2</div>
+        </button>
+
+        <button
+          className={damageModifiers.average ? 'active' : ''}
+          onClick={() => toggleDamageModifier('average')}
+        >
+          <div>Avg</div>
+        </button>
+      </div>
     </div>
   )
 }

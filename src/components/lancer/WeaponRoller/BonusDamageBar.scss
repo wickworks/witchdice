@@ -11,7 +11,7 @@
   button {
     padding: 0;
 
-    &:hover { background-color: $pink; }
+    &:hover { background-color: $parchment_dark; }
 
     &.active {
       background-color: $rust;
@@ -63,32 +63,13 @@
       height: 100%;
 
       .amount-container .amount { text-align: center; }
-
-      &:hover { background-color: $pink; }
-
-      &.active {
-        background-color: $rust;
-        color: white;
-        &:hover { background-color: $rust_light; }
-      }
     }
 
     .generic-reset {
       width: 100%;
       height: 100%;
-      background-color: transparent;
 
       text-align: left;
-
-      &.active {
-        background-color: $rust;
-
-        &:hover { background-color: $rust_light; }
-
-        .label { color: white; }
-      }
-
-      &:disabled { cursor: auto; }
     }
   }
 
