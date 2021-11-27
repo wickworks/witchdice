@@ -188,7 +188,7 @@ const MainLancer = () => {
       <FileList
         title='Lancer Content Pack'
         extraClass='content-packs'
-        acceptFileType=''
+        acceptFileType='.lcp'
         allFileEntries={allLcpEntries}
         setActiveFileID={setActiveLcpID}
         activeFileID={activeLcpID}

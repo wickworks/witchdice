@@ -11,6 +11,7 @@ const allTalents = data.talents;
 const allCoreBonuses = data.core_bonuses;
 const allSystems = data.systems;
 
+var loadedLcpData = {};
 
 const BONUS_TO_BURN_TAGS = ['mf_tokugawa_dz', 't_walking_armory_2_hellfire']
 
@@ -118,48 +119,62 @@ const defaultWeaponDamageType = (weaponData) => {
   return damageType || 'Variable';
 }
 
+function findGameDataFromLcp(gameDataType, gameDataID) {
+  var lcpFrameData;
 
-const findFrameData = (frameID) => {
-  var frameData = allFrames.find(frame => frame.id === frameID);
-
-  if (!frameData) {
-    for ( var i = 0, len = localStorage.length; i < len; ++i ) {
-      const key = localStorage.key(i);
-
-      if (key.startsWith(`${LCP_PREFIX}-`)) {
-        const lcpID = getIDFromStorageName(LCP_PREFIX, key, STORAGE_ID_LENGTH);
+  // First, load up any LCPs from localstorage that we haven't gotten yet
+  for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+    const key = localStorage.key(i);
+    if (key.startsWith(`${LCP_PREFIX}-`)) {
+      const lcpID = getIDFromStorageName(LCP_PREFIX, key, STORAGE_ID_LENGTH);
+      if (!loadedLcpData[lcpID]) {
         const lcpData = loadLcpData(lcpID);
-        const lcpFrameData = lcpData.data.frames.find(frame => frame.id === frameID);
-        frameData = lcpFrameData || frameData;
+        loadedLcpData[lcpID] = lcpData;
       }
     }
   }
 
+  // Then look through the loaded lcp content
+  Object.keys(loadedLcpData).forEach(lcpID => {
+     lcpFrameData = loadedLcpData[lcpID].data[gameDataType].find(gamedata => gamedata.id === gameDataID) || lcpFrameData;
+  });
+
+  return lcpFrameData;
+}
+
+const findFrameData = (frameID) => {
+  var frameData = allFrames.find(frame => frame.id === frameID);
+  if (!frameData) frameData = findGameDataFromLcp('frames', frameID)
   return frameData ? frameData : findFrameData('missing_frame');
 }
 
 const findWeaponData = (weaponID) => {
-  const weaponData = allWeapons.find(weapon => weapon.id === weaponID);
+  var weaponData = allWeapons.find(weapon => weapon.id === weaponID);
+  if (!weaponData) weaponData = findGameDataFromLcp('weapons', weaponID)
   return weaponData ? weaponData : findWeaponData('missing_mechweapon');
 }
 
 const findTalentData = (talentID) => {
-  const talentData = allTalents.find(talent => talent.id === talentID);
+  var talentData = allTalents.find(talent => talent.id === talentID);
+  if (!talentData) talentData = findGameDataFromLcp('talents', talentID)
   return talentData;
 }
 
 const findSkillData = (skillID) => {
-  const skillData = allSkills.find(skill => skill.id === skillID);
+  var skillData = allSkills.find(skill => skill.id === skillID);
+  if (!skillData) skillData = findGameDataFromLcp('skills', skillID)
   return skillData;
 }
 
 const findCoreBonusData = (coreBonusID) => {
-  const coreBonusData = allCoreBonuses.find(coreBonus => coreBonus.id === coreBonusID);
+  var coreBonusData = allCoreBonuses.find(coreBonus => coreBonus.id === coreBonusID);
+  if (!coreBonusData) coreBonusData = findGameDataFromLcp('core_bonuses', coreBonusID)
   return coreBonusData;
 }
 
 const findSystemData = (systemID) => {
-  const systemData = allSystems.find(system => system.id === systemID);
+  var systemData = allSystems.find(system => system.id === systemID);
+  if (!systemData) systemData = findGameDataFromLcp('systems', systemID)
   return systemData ? systemData : findWeaponData('missing_mechsystem');
 }
 
