@@ -2,23 +2,25 @@
 
 // ======================== SAVE / LOAD TO LOCALSTORAGE =======================
 
+const DEFAULT_ID_LENGTH = 6;
+
 function getStorageName(prefix, id, name) {
   return `${prefix}-${id}-${name}`;
 }
 
 // cuts out the "crafter-XXXXXX-"
-function getNameFromStorageName(prefix, storageName) {
-  const precedingLength = prefix.length + 8;
+function getNameFromStorageName(prefix, storageName, idLength = DEFAULT_ID_LENGTH) {
+  const precedingLength = prefix.length + idLength + 2;
   return String(storageName).slice(precedingLength);
 }
 
 // cuts out the "character-" and "-NAME"
-function getIDFromStorageName(prefix, storageName) {
+function getIDFromStorageName(prefix, storageName, idLength = DEFAULT_ID_LENGTH) {
   const precedingLength = prefix.length + 1;
-  return String(storageName).slice(precedingLength, precedingLength+6);
+  return String(storageName).slice(precedingLength, precedingLength+idLength);
 }
 
-function saveLocalData(prefix, id, newName, localData) {
+function saveLocalData(prefix, id, newName, localData, idLength = DEFAULT_ID_LENGTH) {
   if (id <= 0 || newName.length <= 0) {
     return null;
   }
@@ -31,8 +33,8 @@ function saveLocalData(prefix, id, newName, localData) {
   for ( var i = 0, len = localStorage.length; i < len; ++i ) {
     const key = localStorage.key(i);
     if (key && key.startsWith(`${prefix}-`)) {
-      const localID = getIDFromStorageName(prefix, key)
-      const localName = getNameFromStorageName(prefix, key)
+      const localID = getIDFromStorageName(prefix, key, idLength)
+      const localName = getNameFromStorageName(prefix, key, idLength)
 
       if (String(localID) === String(id) && localName !== newName) {
         console.log('name changed from "',localName,'" to "',newName,'"; updating key names');
@@ -42,14 +44,14 @@ function saveLocalData(prefix, id, newName, localData) {
   }
 }
 
-function loadLocalData(prefix, id) {
+function loadLocalData(prefix, id, idLength = DEFAULT_ID_LENGTH) {
   let stringedID = String(id)
 
   // find the key with this ID
   let storageName = null;
   for ( var i = 0, len = localStorage.length; i < len; ++i ) {
     const key = localStorage.key(i);
-    const localID = getIDFromStorageName(prefix, key)
+    const localID = getIDFromStorageName(prefix, key, idLength)
     if (localID === stringedID) {
       console.log('found id for', storageName);
       storageName = key;

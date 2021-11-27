@@ -4,6 +4,10 @@ import EntryList from '../shared/EntryList.jsx';
 import PilotDossier from './PilotDossier.jsx';
 import MechSheet from './MechSheet.jsx';
 import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
+
+import PromisifyFileReader from 'promisify-file-reader'
+import { parseContentPack } from './contentPackParser.js';
+
 import { deepCopy } from '../../utils.js';
 import {
   loadLocalData,
@@ -15,7 +19,16 @@ import {
 import './MainLancer.scss';
 
 const PILOT_PREFIX = 'pilot';
+const LCP_PREFIX = 'lcp';
 const STORAGE_ID_LENGTH = 6;
+
+function saveLcpData(contentPack) {
+  saveLocalData(LCP_PREFIX, contentPack.id.slice(0,STORAGE_ID_LENGTH), contentPack.manifest.name, contentPack);
+}
+
+function loadLcpData(lcpID) {
+  return loadLocalData(LCP_PREFIX, lcpID.slice(0,STORAGE_ID_LENGTH));
+}
 
 function savePilotData(pilot) {
   saveLocalData(PILOT_PREFIX, pilot.id.slice(0,STORAGE_ID_LENGTH), pilot.name, pilot);
@@ -37,7 +50,7 @@ const coreLcpEntry = {
 
 const MainLancer = () => {
   const [allLcpEntries, setAllLcpEntries] = useState([coreLcpEntry]);
-  const [activeLcpID, setActiveLcpID] = useState(null);
+  const [activeLcpID, setActiveLcpID] = useState(coreLcpEntry.id);
 
   const [allPilotEntries, setAllPilotEntries] = useState([]);
   const [activePilotID, setActivePilotID] = useState(null);
@@ -50,6 +63,7 @@ const MainLancer = () => {
   // =============== INITIALIZE ==================
   useEffect(() => {
     let pilotEntries = [];
+    let lcpEntries = [coreLcpEntry];
 
     for ( var i = 0, len = localStorage.length; i < len; ++i ) {
       const key = localStorage.key(i);
@@ -61,9 +75,21 @@ const MainLancer = () => {
         const pilotData = loadPilotData(pilotID);
         if (pilotData) pilotEntries.push(pilotData);
       }
+
+      if (key.startsWith(`${LCP_PREFIX}-`)) {
+        const lcpID = getIDFromStorageName(LCP_PREFIX, key);
+        const lcpData = loadLcpData(lcpID);
+
+        let newEntry = {...coreLcpEntry}
+        newEntry.name = lcpData.manifest.name;
+        newEntry.id = lcpData.id;
+
+        lcpEntries.push(newEntry);
+      }
     }
 
     setAllPilotEntries(pilotEntries);
+    setAllLcpEntries(lcpEntries);
 
     // if we were looking at a pilot, restore tham and their first mech
     const oldSelectedID = localStorage.getItem("lancer-selected-character");
@@ -81,6 +107,14 @@ const MainLancer = () => {
   }, [activePilotID]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
+  const uploadPilotFile = e => {
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = e => {
+      createNewPilot( JSON.parse(e.target.result) )
+    };
+  }
+
   const createNewPilot = (pilot) => {
     let newData = deepCopy(allPilotEntries);
 
@@ -95,14 +129,6 @@ const MainLancer = () => {
 
     // save to localstorage
     savePilotData(pilot)
-  }
-
-  const uploadPilotFile = e => {
-    const fileReader = new FileReader();
-    fileReader.readAsText(e.target.files[0], "UTF-8");
-    fileReader.onload = e => {
-      createNewPilot( JSON.parse(e.target.result) )
-    };
   }
 
   const setActivePilot = (pilotID) => {
@@ -132,6 +158,46 @@ const MainLancer = () => {
 
 
 
+  async function parseLcpFile(e) {
+    console.log('parsing lcp file......');
+    const fileData = await PromisifyFileReader.readAsBinaryString(e.target.files[0])
+    var contentPack;
+    try {
+      return await parseContentPack(fileData)
+      console.log('Parsed content pack:', contentPack);
+    } catch (e) {
+      console.log('ERROR parsing content pack:', e.message);
+    }
+
+    return contentPack;
+  }
+
+  const uploadLcpFile = (e) => {
+    console.log('uploding lcp file......');
+    parseLcpFile(e).then(contentPack => createNewLcp(contentPack));
+  }
+
+  const createNewLcp = (contentPack) => {
+    let newData = deepCopy(allLcpEntries);
+
+    // remove any existing lcp entries of this ID
+    let lcpIndex = allLcpEntries.findIndex(entry => entry.id === contentPack.id);
+    if (lcpIndex >= 0) newData.splice(lcpIndex, 1)
+
+    console.log('making entry for content pack : ',contentPack);
+    let newEntry = {...coreLcpEntry}
+    newEntry.name = contentPack.manifest.name;
+    newEntry.id = contentPack.id;
+
+    // store the entry & set it to active
+    newData.push(newEntry);
+    setAllLcpEntries(newData);
+    setActiveLcpID(newEntry.id)
+
+    // save to localstorage
+    saveLcpData(contentPack)
+  }
+
   return (
     <div className='MainLancer'>
 
@@ -143,7 +209,7 @@ const MainLancer = () => {
         setActiveFileID={setActiveLcpID}
         activeFileID={activeLcpID}
         deleteActiveFile={() => {}}
-        onFileUpload={() => {}}
+        onFileUpload={uploadLcpFile}
       >
         Upload a Lancer content pack (.lcp)
       </FileList>
