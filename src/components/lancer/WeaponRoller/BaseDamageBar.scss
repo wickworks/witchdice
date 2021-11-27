@@ -19,7 +19,9 @@ button.BaseDamageBar {
     background-color: $rust;
     color: white;
 
-    &:hover { background-color: $rust_light; }
+    &:not(:disabled) {
+      &:hover { background-color: $rust_light; }
+    }
 
     .asset-lancer { filter: invert(100%); }
   }

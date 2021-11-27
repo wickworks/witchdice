@@ -64,6 +64,7 @@ const WeaponRoller = ({
   } else {
     allWeaponProfiles.push(weaponData)
   }
+  const currentWeaponProfile = allWeaponProfiles[activeProfileIndex];
 
   console.log('allWeaponProfiles',allWeaponProfiles);
 
@@ -104,7 +105,7 @@ const WeaponRoller = ({
   const createNewAttackRoll = (flatBonus, accuracyMod) => {
 
     const previousAttackDamage = allAttackRolls.length > 0 ? allAttackRolls[0].damage : null;
-    const newAttack = createNewAttack(weaponData, flatBonus, accuracyMod, previousAttackDamage)
+    const newAttack = createNewAttack(currentWeaponProfile, flatBonus, accuracyMod, previousAttackDamage)
 
     console.log('New Attack:', newAttack);
 
@@ -117,7 +118,7 @@ const WeaponRoller = ({
     if (bonusDamageData === null) {
       const bonusDamage = rollBonusDamage(
         [...availableBonusSources, GENERIC_BONUS_SOURCE],
-        defaultWeaponDamageType(weaponData),
+        defaultWeaponDamageType(currentWeaponProfile),
         newAttack.isOverkill
       );
 
@@ -128,7 +129,7 @@ const WeaponRoller = ({
   }
 
   // the actual data for all the currently active bonus damages
-  const isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');
+  const isOverkill = !!findTagOnWeapon(currentWeaponProfile, 'tg_overkill');
   var activeBonusDamageData = getActiveBonusDamageData(
     bonusDamageData,
     activeBonusSources,
@@ -151,7 +152,7 @@ const WeaponRoller = ({
             weaponProfile={weaponProfile}
             mountType={weaponData.mount}
             onClick={() => setActiveProfileIndex(i)}
-            isClickable={allWeaponProfiles.length > 1}
+            isClickable={allWeaponProfiles.length > 1 && allAttackRolls.length === 0}
             isActive={allWeaponProfiles.length > 1 && activeProfileIndex === i}
             key={`basedamage-${i}`}
           />
@@ -180,8 +181,6 @@ const WeaponRoller = ({
       </div>
 
       <div className="attacks-bar">
-
-
         { allAttackRolls.map((attackData, i) =>
           <WeaponAttack
             attackData={attackData}
@@ -193,10 +192,9 @@ const WeaponRoller = ({
           />
         )}
 
-
         { isSettingUpAttack &&
           <WeaponRollerSetup
-            weaponData={weaponData}
+            weaponData={currentWeaponProfile}
             gritBonus={gritBonus}
             createNewAttackRoll={createNewAttackRoll}
           />
