@@ -34,7 +34,7 @@ const EntryList = ({
           const highlightClass = (highlightIDs.indexOf(id) >= 0) ? 'highlighted' : ''
           return (
             <li
-              className={`${selectedClass} ${highlightClass}`}
+              className={`id-${entry.id} ${selectedClass} ${highlightClass}`}
               onClick={() => handleEntryClick(id)}
               key={id}
             >

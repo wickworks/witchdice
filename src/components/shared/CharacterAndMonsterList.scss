@@ -80,12 +80,12 @@
     align-items: center;
     padding: 6px 12px;
     border: none;
+    border-radius: 0 6px 0 0;
     background: none;
-    opacity: .4;
     transition: opacity .075s ease-out;
     cursor: pointer;
 
-    &:hover { opacity: 1.0; }
+    &:hover { background-color: $rust_light; }
 
     &.first {
       @include text_title_heavy;

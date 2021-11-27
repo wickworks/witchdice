@@ -12,6 +12,8 @@ const FileList = ({
   activeFileID,
   deleteActiveFile,
   onFileUpload,
+  acceptFileType = 'application/JSON',
+  children,
 }) => {
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
 
@@ -24,20 +26,20 @@ const FileList = ({
     <div className={`FileList ${extraClass}`}>
       { isUploadingNewFile ?
         <PlainList title={title} extraClass='new-file'>
-          <div className="title-and-input">
-            <div className="title">New File</div>
-            <input type="file" accept="application/JSON" onChange={onFileChange} />
-          </div>
-
-
           <div className="instructions">
-            Upload a pilot data file (.json) from
-            <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
+            {children}
           </div>
 
-          <button className='cancel' onClick={() => setIsUploadingNewFile(false)}>
-            Cancel
-          </button>
+          <div className="button-container">
+            <label>
+              Choose file
+              <input type="file" accept={acceptFileType} onChange={onFileChange} />
+            </label>
+
+            <button className='cancel' onClick={() => setIsUploadingNewFile(false)}>
+              Cancel
+            </button>
+          </div>
         </PlainList>
       :
         <CharacterList
@@ -66,8 +68,9 @@ const PlainList = ({
         <h2>{title}s</h2>
       </div>
 
-      {children}
-
+      <div className="list-container">
+        {children}
+      </div>
     </div>
   );
 }

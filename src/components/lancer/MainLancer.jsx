@@ -130,20 +130,23 @@ const MainLancer = () => {
     setActiveMechID(null);
   }
 
-  // <FileList
-  //   title={'Lancer Content Pack'}
-  //   extraClass={'content-packs'}
-  //   characterEntries={allLcpEntries}
-  //   handleEntryClick={setActiveLcpID}
-  //   activeCharacterID={activeLcpID}
-  //   deleteActiveCharacter={() => {}}
-  //   createNewCharacter={() => {}}
-  // />
+
 
   return (
     <div className='MainLancer'>
 
-
+      <FileList
+        title='Lancer Content Pack'
+        extraClass='content-packs'
+        acceptFileType=''
+        allFileEntries={allLcpEntries}
+        setActiveFileID={setActiveLcpID}
+        activeFileID={activeLcpID}
+        deleteActiveFile={() => {}}
+        onFileUpload={() => {}}
+      >
+        Upload a Lancer content pack (.lcp)
+      </FileList>
 
       <FileList
         title='Pilot'
@@ -153,7 +156,10 @@ const MainLancer = () => {
         activeFileID={activePilotID}
         deleteActiveFile={deleteActivePilot}
         onFileUpload={uploadPilotFile}
-      />
+      >
+        Upload a pilot data file (.json) from
+        <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
+      </FileList>
 
       { activePilot &&
         <>

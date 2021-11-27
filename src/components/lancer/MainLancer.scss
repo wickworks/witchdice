@@ -6,7 +6,8 @@
     display: block;
   }
 
-  .CharacterList.content-packs {
-    margin: auto;
+  .FileList.content-packs {
+
+    .id-core .DeleteButton { display: none; }
   }
 }

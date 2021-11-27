@@ -52,40 +52,52 @@
   }
 
   &.new-file {
-    .title-and-input {
+
+    .list-container {
+      margin: 16px 0;
       display: flex;
-      align-items: flex-end;
       justify-content: center;
-      margin: 12px 6px 0;
+      align-items: center;
+      flex-direction: column;
+      height: 100%;
 
-      .title {
-        color: $rust;
-        font-size: 24px;
-        width: 200px;
+      .instructions {
+        font-size: 18px;
         text-align: center;
+        margin-bottom: 18px;
+
+        a { margin-left: 4px; }
       }
 
-      input {
-        margin: 0;
-        width: 200px;
+      .button-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        position: relative;
+
+        button, label {
+          display: block;
+          width: 200px;
+          text-align: center;
+          padding: 4px 16px;
+          margin: 0 12px;
+          font-size: 26px;
+          cursor: pointer;
+
+          background-color: $parchment_dark;
+
+          &:hover { background-color: $rust_light; }
+        }
+
+        input {
+          position: absolute;
+          top: 0;
+          left: 0;
+          visibility: hidden;
+        }
+
       }
-    }
-
-    .instructions {
-      margin-top: 12px;
-      text-align: center;
-
-      a { margin-left: 4px; }
-    }
-
-    button.cancel {
-      display: block;
-      margin: 18px auto 0;
-      padding: 4px 16px;
-
-      background-color: $parchment_dark;
-
-      &:hover { background-color: $rust_light; }
     }
   }
 }
