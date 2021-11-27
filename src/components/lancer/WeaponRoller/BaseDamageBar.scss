@@ -23,7 +23,7 @@ button.BaseDamageBar {
       &:hover { background-color: $rust_light; }
     }
 
-    .asset-lancer { filter: invert(100%); }
+    .asset { filter: invert(100%); }
   }
 
   .base-damage {
@@ -37,7 +37,7 @@ button.BaseDamageBar {
       align-items: center;
       margin-left: 4px;
 
-      .asset-lancer {
+      .asset {
         display: inline-block;
         width: 28px;
         height: 28px;

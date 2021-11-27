@@ -10,13 +10,13 @@
   &.bonus {
     color: $rust;
 
-    .asset-lancer {
+    .asset {
       // turns black to $rust
       filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
     }
   }
 
-  .asset-lancer {
+  .asset {
     width: 30px;
     height: 30px;
     margin-right: 2px;

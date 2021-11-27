@@ -32,11 +32,11 @@ const PilotDossier = ({
     <div className="PilotDossier">
       <div className="dossier-container">
 
-        <div className="watermark-container asset-lancer ssc-watermark">
+        <div className="watermark-container asset ssc-watermark">
 
 
           <div className="diamond">
-            <img className='portrait asset-lancer ssc-watermark' src={activePilot.cloud_portrait} alt={'pilot portrait'} />
+            <img className='portrait asset ssc-watermark' src={activePilot.cloud_portrait} alt={'pilot portrait'} />
 
             <div className="ll-tab">
               <div className="license-level">{activePilot.level}</div>

@@ -44,7 +44,7 @@ const DamageRollPool = ({
 
   return (
     <div className={`DamageRollPool ${isBonusDamage ? 'bonus' : ''}`}>
-      <span className={`asset-lancer ${damageType.toLowerCase()}`} />
+      <span className={`asset ${damageType.toLowerCase()}`} />
 
       { discardedString &&
         <span className='amount discarded'>

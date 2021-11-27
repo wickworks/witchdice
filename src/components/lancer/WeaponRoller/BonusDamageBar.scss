@@ -18,7 +18,7 @@
 
       .amount-container {
         // turn black to white
-        .asset-lancer, .asset { filter: invert(100%); }
+        .asset { filter: invert(100%); }
         .amount { color: white; }
       }
 
@@ -44,7 +44,7 @@
       }
 
       .asset { width: 24px; height: 24px; }
-      .asset-lancer { width: 24px; height: 24px; }
+      .asset { width: 24px; height: 24px; }
     }
 
     .label {

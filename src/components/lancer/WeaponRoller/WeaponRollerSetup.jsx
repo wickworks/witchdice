@@ -102,7 +102,7 @@ const WeaponRollerSetup = ({
       <div className="column-container">
         <div className="column difficulty">
           <div className='column-label difficulty'>
-            <span className='asset-lancer difficulty' />
+            <span className='asset difficulty' />
             Difficulty
           </div>
 
@@ -122,7 +122,7 @@ const WeaponRollerSetup = ({
         <div className="column accuracy">
           <div className='column-label accuracy'>
             Accuracy
-            <span className='asset-lancer accuracy' />
+            <span className='asset accuracy' />
           </div>
 
           <NumberLine

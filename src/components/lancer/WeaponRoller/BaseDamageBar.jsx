@@ -31,7 +31,7 @@ const BaseDamageBar = ({
         { weaponProfile.damage.map((damage, i) =>
           <div className='damage-dice' key={`damage-${i}`}>
             {damage.val}
-            <div className={`asset-lancer ${damage.type.toLowerCase()}`} />
+            <div className={`asset ${damage.type.toLowerCase()}`} />
           </div>
         )}
         <div>{' ]'}</div>

@@ -1,5 +1,21 @@
 @import './colors';
-@import './assets';
+
+@mixin nouveau_border($border_filename) {
+  border-image-source: url("./assets/borders/#{$border_filename}");
+  border-style: solid;
+  border-color: $faded_gold;
+  border-radius: 14px;
+
+  border-image-slice: 33%;
+  border-image-width: 166px;
+  border-image-outset: 0;//16px;
+  border-image-repeat: repeat;
+}
+
+@mixin parchment_background {
+  background-image: url('./assets/bg_parchment.webp');
+  background-color: #f6ebbf; // matches the image
+}
 
 // @import url('https://fonts.googleapis.com/css?family=Bitter:regular,bold,italic&subset=latin,latin-ext');
 // @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');

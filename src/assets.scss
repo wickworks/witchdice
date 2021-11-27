@@ -1,5 +1,3 @@
-@import "./colors";
-
 .asset {
   width: 64px;
   height: 64px;
@@ -70,21 +68,4 @@
   &.site_banner { background-image: url('./assets/banner_dark.svg'); }
   &.witchcraft_banner { background-image: url('./assets/witchcraft_banner.jpg'); }
   &.lancer_banner { background-image: url('./assets/lancer_banner.jpg'); }
-}
-
-@mixin nouveau_border($border_filename) {
-  border-image-source: url("./assets/borders/#{$border_filename}");
-  border-style: solid;
-  border-color: $faded_gold;
-  border-radius: 14px;
-
-  border-image-slice: 33%;
-  border-image-width: 166px;
-  border-image-outset: 0;//16px;
-  border-image-repeat: repeat;
-}
-
-@mixin parchment_background {
-  background-image: url('./assets/bg_parchment.webp');
-  background-color: #f6ebbf; // matches the image
 }

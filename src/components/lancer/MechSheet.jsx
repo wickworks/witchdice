@@ -66,12 +66,12 @@ const MechSheet = ({
     <div className="MechSheet">
       <div className="mech-container">
 
-        <img className='portrait asset-lancer ssc-watermark' src={activeMech.cloud_portrait} alt={'mech portrait'} />
+        <img className='portrait asset ssc-watermark' src={activeMech.cloud_portrait} alt={'mech portrait'} />
 
         <h2>{activeMech.name}</h2>
 
         <div className='frame-container'>
-          <div className={`asset-lancer ${frameData.source.toLowerCase()}`} />
+          <div className={`asset ${frameData.source.toLowerCase()}`} />
           <div className='manufacturer'>
 
             {frameData.source}

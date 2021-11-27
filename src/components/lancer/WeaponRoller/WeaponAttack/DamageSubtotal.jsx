@@ -24,7 +24,7 @@ const DamageSubtotal = ({
           <div className='type-column'>
             { Object.keys(totalsByType).map(type =>
               <div
-                className={`asset-lancer ${type.toLowerCase()} ${singleType ? 'single-type' : ''}`}
+                className={`asset ${type.toLowerCase()} ${singleType ? 'single-type' : ''}`}
                 key={type}
               />
             )}
@@ -35,7 +35,7 @@ const DamageSubtotal = ({
           { Object.keys(totalsByType).map((type, i) =>
             <div className='subtotal' key={type}>
               <div className='amount'>{totalsByType[type]}</div>
-              <div className={`asset-lancer ${type.toLowerCase()}`} />
+              <div className={`asset ${type.toLowerCase()}`} />
             </div>
           )}
         </button>

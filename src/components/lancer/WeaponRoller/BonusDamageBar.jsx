@@ -76,7 +76,7 @@ const BonusDamageBar = ({
         >
           <div className='amount-container'>
             { bonusSource.type ?
-              <div className={`asset-lancer ${bonusSource.type.toLowerCase()}`} />
+              <div className={`asset ${bonusSource.type.toLowerCase()}`} />
             :
               <div className='asset dot' />
             }
