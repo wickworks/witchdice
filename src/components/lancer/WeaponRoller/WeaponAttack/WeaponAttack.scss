@@ -40,9 +40,9 @@
     font-size: 18px;
     color: $rust;
 
-    > div {
-      margin-bottom: 8px;
-      text-align: right;
+    > p {
+      margin: 0 0 8px auto;
+      // text-align: right;
     }
   }
 }

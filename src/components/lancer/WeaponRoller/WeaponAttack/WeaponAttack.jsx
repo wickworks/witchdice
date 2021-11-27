@@ -4,6 +4,7 @@ import HitCheckbox from '../../../shared/HitCheckbox.jsx';
 import AttackRollOutput from './AttackRollOutput.jsx';
 import DamageRollPool from './DamageRollPool.jsx';
 import DamageSubtotal from './DamageSubtotal.jsx';
+import BrToParagraphs from '../../../shared/BrToParagraphs.jsx';
 
 import {
   summateAllDamageByType,
@@ -151,11 +152,7 @@ const WeaponAttack = ({
       </div>
 
       <div className="effects-container">
-        { effectsList.map((effect, i) =>
-          <div key={i}>
-            {effect}
-          </div>
-        )}
+        <BrToParagraphs stringWithBrs={effectsList.join('<br>')}/>
       </div>
     </div>
   )

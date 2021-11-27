@@ -3,6 +3,7 @@ import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
 import WeaponRollerSetup from './WeaponRollerSetup.jsx';
 import BonusDamageBar from './BonusDamageBar.jsx';
 import BaseDamageBar from './BaseDamageBar.jsx';
+import BrToParagraphs from '../../shared/BrToParagraphs.jsx';
 import { deepCopy } from '../../../utils.js';
 
 import {
@@ -160,7 +161,7 @@ const WeaponRoller = ({
 
         {weaponData.effect &&
           <div className='effect-row'>
-            {weaponData.effect}
+            <BrToParagraphs stringWithBrs={weaponData.effect}/>
           </div>
         }
 

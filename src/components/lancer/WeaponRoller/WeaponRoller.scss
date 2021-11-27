@@ -40,6 +40,11 @@
 
     .effect-row {
       padding: 10px 18px;
+
+      p {
+        margin: 0 0 8px;
+        &:last-child { margin: 0; }
+      }
     }
   }
 
