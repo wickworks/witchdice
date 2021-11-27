@@ -30,7 +30,7 @@ const WeaponRollerSetup = ({
   // =============== CHANGE WEAPON ==================
   useEffect(() => {
     resetModifiers();
-  }, [weaponData]);
+  }, [weaponData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const resetModifiers = () => {
     setCurrentSources(getInitialSources(weaponData));
@@ -48,7 +48,6 @@ const WeaponRollerSetup = ({
 
   const toggleSource = (source) => {
     let newSources = [...currentSources];
-    let newMod = currentMod;
 
     if (source === MANUAL_MOD) {
       setManualMod(0)
@@ -164,7 +163,6 @@ const NumberLine = ({
 
       if (numberHidden) numberClass += ' hidden';
 
-      const transform = '-200px';
       return (
         <button
           onClick={() => handleClick(mod)}

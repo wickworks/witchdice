@@ -53,6 +53,8 @@ function getBonusDamageSourcesFromMech(mechData) {
       sources.push( newSourceFromFrame(frameData, '3', 'Energy', 'Limit Break') );
       sources.push( newSource('Plasma Sheath', 'mf_tokugawa_dz', '—', 'Burn', findTraitFromFrame(frameData, 'Plasma Sheath')) );
       break;
+
+    default: break;
   }
 
   return sources;
@@ -103,6 +105,8 @@ function getBonusDamageSourcesFromTalents(pilotData) {
             // sources.push( newSource('SABOT', 't_walking_armory_2_sabot', '', '', talentData.ranks[1]) );
           }
           break;
+
+        default: break;
       }
     }
   });

@@ -2,11 +2,6 @@ import React, { useState } from 'react';
 
 import './AttackRollOutput.scss';
 
-import {
-  getSortedTotalPool,
-  getHighestRolls,
-} from './damageTotalUtils.js';
-
 const AttackRollOutput = ({
   toHitData,
   manualRoll,

@@ -15,11 +15,7 @@ import {
 } from '../lancerData.js';
 
 import {
-  rollToHit,
-  rollDamage,
   rollBonusDamage,
-  produceRollPools,
-  makeDamageRoll,
   getActiveBonusDamageData,
   createNewAttack,
 } from './weaponRollerUtils.js';
@@ -94,7 +90,7 @@ const WeaponRoller = ({
 
   let weaponTags = []
   if (weaponData.tags) {
-    weaponData.tags.map(tag => {
+    weaponData.tags.forEach(tag => {
       weaponTags.push( getTagName(tag) )
     })
   }

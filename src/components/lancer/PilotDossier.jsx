@@ -1,16 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import MechanicsList from './MechanicsList.jsx';
 import { findSkillData, findFrameData, findTalentData, findCoreBonusData } from './lancerData.js';
 import './PilotDossier.scss';
-
-
-function truncateString(str, num) {
-  if (str.length > num) {
-    return str.slice(0, num) + "...";
-  } else {
-    return str;
-  }
-}
 
 function hashCode(s){
   return s.split("").reduce(function(a,b){a=((a<<5)-a)+b.charCodeAt(0);return a&a},0);
@@ -30,14 +21,11 @@ function pilotIDToGeneStatus(pilotID) {
 const PilotDossier = ({
   activePilot
 }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
 
   const MAX_CALLSIGN = 22;
-
   const slicedCallsign = activePilot.callsign.slice(0, MAX_CALLSIGN)
 
   const geneStatus = pilotIDToGeneStatus(activePilot.id);
-
   const hase = activePilot.mechSkills;
 
   return (
@@ -48,7 +36,7 @@ const PilotDossier = ({
 
 
           <div className="diamond">
-            <img className='portrait asset-lancer ssc-watermark' src={activePilot.cloud_portrait} />
+            <img className='portrait asset-lancer ssc-watermark' src={activePilot.cloud_portrait} alt={'pilot portrait'} />
 
             <div className="ll-tab">
               <div className="license-level">{activePilot.level}</div>

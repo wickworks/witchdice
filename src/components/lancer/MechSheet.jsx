@@ -48,7 +48,7 @@ const MechSheet = ({
     <div className="MechSheet">
       <div className="mech-container">
 
-        <img className='portrait asset-lancer ssc-watermark' src={activeMech.cloud_portrait} />
+        <img className='portrait asset-lancer ssc-watermark' src={activeMech.cloud_portrait} alt={'mech portrait'} />
 
         <h2>{activeMech.name}</h2>
 

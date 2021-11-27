@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { PilotList, MechList } from './PilotAndMechList.jsx';
 import PilotDossier from './PilotDossier.jsx';
 import MechSheet from './MechSheet.jsx';
-import { processPilotJson } from './process_pilot_json.js';
 import { deepCopy } from '../../utils.js';
 import {
   loadLocalData,
@@ -31,9 +30,7 @@ function deletePilotData(pilot) {
   localStorage.removeItem(storageName);
 }
 
-const MainLancer = ({
-
-}) => {
+const MainLancer = () => {
   const [allPilotEntries, setAllPilotEntries] = useState([]);
   const [activePilotID, setActivePilotID] = useState(null);
   const [activeMechID, setActiveMechID] = useState(null);
@@ -96,7 +93,7 @@ const MainLancer = ({
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], "UTF-8");
     fileReader.onload = e => {
-      createNewPilot( processPilotJson(e.target.result) )
+      createNewPilot( JSON.parse(e.target.result) )
     };
   }
 

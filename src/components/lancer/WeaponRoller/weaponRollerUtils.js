@@ -62,7 +62,7 @@ function rollToHit(flatBonus, accuracyMod) {
   toHit.baseRoll = getRandomInt(20);
 
   toHit.accuracyRolls = [...Array(Math.abs(accuracyMod))];
-  toHit.accuracyRolls.map((accuracy, i) => {
+  toHit.accuracyRolls.forEach((accuracy, i) => {
     toHit.accuracyRolls[i] = getRandomInt(6)
   });
   toHit.accuracyBonus = Math.max(0, ...toHit.accuracyRolls) * Math.sign(accuracyMod)

@@ -1,8 +1,5 @@
 import React from 'react';
-import { MAX_BONUS } from '../lancerData.js';
-
 import './BaseDamageBar.scss';
-
 
 const BaseDamageBar = ({
   weaponData,

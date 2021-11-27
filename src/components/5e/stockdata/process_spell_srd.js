@@ -31,9 +31,9 @@ function getSpellData() {
 
       const spellDesc = spellOriginal.desc.join(' ');
       const spellHigherLevels = spellOriginal.higher_level ? spellOriginal.higher_level.join(' ') : '';
-      const fullDesc = spellDesc + spellHigherLevels
+      // const fullDesc = spellDesc + spellHigherLevels
 
-      attackData.desc = spellDesc + spellHigherLevels// turndownService.turndown(fullDesc);
+      attackData.desc = spellDesc + spellHigherLevels
       attackData.modifier = 0;
 
       const attackIndex = spellDesc.indexOf('spell attack');
