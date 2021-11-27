@@ -26,7 +26,25 @@ const MechSheet = ({
   const [activeMount, setActiveMount] = useState(null);
 
   const loadout = activeMech.loadouts[0];
-  const mounts = loadout.mounts;
+  const mounts = [...loadout.mounts];
+  if (loadout.improved_armament.slots.weapon) mounts.push(loadout.improved_armament);
+  if (loadout.integratedWeapon.slots.weapon) mounts.push(loadout.integratedWeapon);
+
+  // gotta make a dummy mount for integrated weapons
+  if (loadout.integratedMounts.length > 0) {
+    const integratedMounts =
+      loadout.integratedMounts.map(integratedWeapon => {
+        return {
+          mount_type: "Integrated",
+          lock: false,
+          slots: [ integratedWeapon ],
+          extra: [],
+          bonus_effects: []
+        }
+      })
+    mounts.push(...integratedMounts)
+  }
+
 
   const frameData = findFrameData(activeMech.frame);
 
@@ -103,7 +121,6 @@ const MechMount = ({
   activateMount,
   isActive,
 }) => {
-
   const mountedWeapons = getWeaponsOnMount(mount);
 
   const isEmpty = mountedWeapons.length === 0;
