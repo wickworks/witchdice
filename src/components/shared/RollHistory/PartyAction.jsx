@@ -1,6 +1,7 @@
 import React from 'react';
 import { processRollData } from '../DiceBag/DiceBagData.js';
 import { allDamageTypes } from '../../5e/data.js';
+import { LANCER_DAMAGE_TYPES_TOTALABLE, LANCER_DAMAGE_TYPES } from '../../lancer/lancerData.js';
 import './PartyAction.scss';
 
 
@@ -117,7 +118,7 @@ const PartyActionAttack = ({actionData, showName}) => {
       const actionRollData = actionData[key];
       actionRolls.push(actionRollData);
 
-      allDamageTypes.forEach(damageType => {
+      [...allDamageTypes, ...LANCER_DAMAGE_TYPES_TOTALABLE].forEach(damageType => {
         if (Object.keys(actionRollData).indexOf(damageType) >= 0) {
           damageSum = damageSum + Math.floor(actionRollData[damageType])
         }
@@ -134,14 +135,12 @@ const PartyActionAttack = ({actionData, showName}) => {
       />
 
       <div className="attack-container">
-        { actionRolls.map((actionRollData, i) => {
-          return (
-            <PartyRollAttack
-              actionRollData={actionRollData}
-              key={`${updatedAt}-${i}`}
-            />
-          )
-        }) }
+        { actionRolls.map((actionRollData, i) =>
+          <PartyRollAttack
+            actionRollData={actionRollData}
+            key={`${updatedAt}-${i}`}
+          />
+        )}
 
         <div className="total-damage">
           {`${damageSum} damage`}
@@ -154,11 +153,25 @@ const PartyActionAttack = ({actionData, showName}) => {
 
 
 const PartyRollAttack = ({actionRollData}) => {
+  console.log('rendering actionRollData', actionRollData);
+
   const {name, attack, save, didsave, applies} = actionRollData;
 
   const isAttack = (('attack' in actionRollData) && (attack > 0));
   const isAbility = (('attack' in actionRollData) && !isAttack);
   const isSave = (('save' in actionRollData) && true);
+
+  var nameText = name;
+  var nameIcon = '';
+  if (nameText.includes('Accuracy')) {
+    nameText = nameText.replace('Accuracy', '')
+    nameIcon = 'accuracy'
+  } else if (nameText.includes('Difficulty')) {
+    nameText = nameText.replace('Difficulty', '')
+    nameIcon = 'difficulty'
+  }
+
+  console.log('nameText',nameText, nameIcon);
 
   // prepare to harvest damage information
   const dataKeys = Object.keys(actionRollData);
@@ -176,11 +189,11 @@ const PartyRollAttack = ({actionRollData}) => {
         </div>
       }
 
-      { (isAttack || isSave) ?
-        <div className="attack-name">{name}</div>
-      : isAbility &&
-        <div className="ability-name">{name}</div>
-      }
+
+      <div className={(isAttack || isSave) ? "attack-name" : "ability-name"}>
+        {nameIcon && <span className={`asset ${nameIcon}`}/>}
+        {nameText}
+      </div>
 
       <div className="damage-container">
         { applies &&
@@ -188,12 +201,12 @@ const PartyRollAttack = ({actionRollData}) => {
         }
 
 
-        { allDamageTypes.map((damageType, i) => {
+        { [...allDamageTypes, ...LANCER_DAMAGE_TYPES].map((damageType, i) => {
           if ((dataKeys.indexOf(damageType) >= 0) && (actionRollData[damageType] > 0)) {
             return (
               <div className="damage" key={i}>
                 {Math.floor(actionRollData[damageType])}
-                <div className={`asset ${damageType}`} />
+                <div className={`asset ${damageType.toLowerCase()}`} />
               </div>
             )
           } else { return null }
@@ -216,8 +229,13 @@ const ActionTitle = ({actionData, showName}) => {
       {showName &&
         <div className="name">{char ? char : name}</div>
       }
+
       { conditionsDisplay &&
-        <div className="conditions">{conditionsDisplay}</div>
+        <div className="conditions">
+          { conditionsDisplay.split(',').map((condition, i) =>
+            <span key={i}>{condition}</span>
+          )}
+        </div>
       }
     </div>
   )

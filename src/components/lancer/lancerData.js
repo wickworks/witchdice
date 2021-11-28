@@ -19,6 +19,19 @@ const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier', 't_nuclear_cavalier']
 
 const BASIC_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy']
 
+const LANCER_DAMAGE_TYPES_TOTALABLE = [
+  ...BASIC_DAMAGE_TYPES,
+  'Variable',
+  'Burn',
+]
+
+const LANCER_DAMAGE_TYPES = [
+  ...LANCER_DAMAGE_TYPES_TOTALABLE,
+  'Heat',
+]
+
+
+
 const DAMAGE_MODIFIERS = {
   double: false,
   half: false,
@@ -197,4 +210,6 @@ export {
   BONUS_TO_BURN_TAGS,
   FIRST_ROLL_ONLY_TAGS,
   BASIC_DAMAGE_TYPES,
+  LANCER_DAMAGE_TYPES_TOTALABLE,
+  LANCER_DAMAGE_TYPES,
 }

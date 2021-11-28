@@ -27,6 +27,8 @@
     .conditions {
       @include text_party_roll_condition;
       margin: 0 4px 1px auto;
+
+      span { white-space: nowrap; }
     }
   }
 
@@ -121,8 +123,12 @@
 
       .attack-name {
         @include text_party_roll_attackname;
+        display: flex;
+        align-items: center;
         max-width: 45%;
         margin-right: 10px;
+
+        span.asset { width: 20px; height: 20px; display: inline-block; }
       }
 
       .ability-name {

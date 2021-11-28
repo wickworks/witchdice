@@ -28,6 +28,7 @@ const WeaponRoller = ({
   gritBonus,
   availableBonusSources = [],
   isPrimaryWeaponOnMount,
+  setRollSummaryData,
 }) => {
   const [activeProfileIndex, setActiveProfileIndex] = useState(0);
 
@@ -67,7 +68,7 @@ const WeaponRoller = ({
   }
   const currentWeaponProfile = allWeaponProfiles[activeProfileIndex];
 
-  console.log('allWeaponProfiles',allWeaponProfiles);
+  // console.log('allWeaponProfiles',allWeaponProfiles);
 
   // Add or remove the name of a bonus damage to the active list
   const toggleBonusDamage = (sourceID) => {
@@ -138,10 +139,19 @@ const WeaponRoller = ({
     genericBonusPlus,
     isOverkill
   );
+  console.log('activeBonusDamageData',activeBonusDamageData);
 
   const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
 
 
+  // ====== ROLL SUMMARY PANEL ======
+  // inject the weapon name to summary data before sending it up
+  const setRollSummaryDataWithWeaponName = (attackSummaryData) => {
+    setRollSummaryData({
+      conditions: [weaponData.name],
+      rolls: [attackSummaryData]
+    })
+  }
 
   return (
     <div className='WeaponRoller'>
@@ -189,6 +199,7 @@ const WeaponRoller = ({
             halveBonusDamage={allAttackRolls.length >= 2}
             damageModifiers={damageModifiers}
             isFirstRoll={i === 0}
+            setAttackSummary={setRollSummaryDataWithWeaponName}
             key={i}
           />
         )}

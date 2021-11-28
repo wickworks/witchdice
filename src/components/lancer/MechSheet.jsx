@@ -8,6 +8,8 @@ import { getBonusDamageSourcesFromMech, getBonusDamageSourcesFromTalents } from 
 import './MechSheet.scss';
 
 function getWeaponsOnMount(mountData) {
+  if (!mountData) return
+
   const weapons =
     [...mountData.slots, ...mountData.extra]
     .map(slot => slot.weapon)
@@ -21,10 +23,17 @@ function getWeaponsOnMount(mountData) {
 const MechSheet = ({
   activeMech,
   activePilot,
+  setRollSummaryData,
 }) => {
   // const [activeWeaponData, setActiveWeaponData] = useState(null);
   const [activeMount, setActiveMount] = useState(null);
 
+  // =============== CHANGE MECH ==================
+  useEffect(() => {
+    setActiveMount(null);
+  }, [activeMech, activePilot]);
+
+  // =============== MECH AND MOUNT MAGANGEMENT ==================
   const loadout = activeMech.loadouts[0];
   const mounts = [...loadout.mounts];
   if (loadout.improved_armament.slots.weapon) mounts.push(loadout.improved_armament);
@@ -45,7 +54,6 @@ const MechSheet = ({
     mounts.push(...integratedMounts)
   }
 
-
   const frameData = findFrameData(activeMech.frame);
 
   const gritBonus = getGrit(activePilot);
@@ -55,12 +63,17 @@ const MechSheet = ({
     ...getBonusDamageSourcesFromTalents(activePilot),
   ];
 
-  // =============== CHANGE MECH ==================
-  useEffect(() => {
-    setActiveMount(null);
-  }, [activeMech, activePilot]);
+  // =============== SUMMARY DATA ==================
+
+  // inject the mech name to summary data before sending it up
+  const setRollSummaryDataWithName = (rollSummaryData) => {
+    rollSummaryData.characterName = activeMech.name
+    console.log('rollSummaryData', rollSummaryData);
+    setRollSummaryData(rollSummaryData)
+  }
 
   // console.log('bonusDamageSources', bonusDamageSources);
+  // console.log('mounts',mounts);
 
   return (
     <div className="MechSheet">
@@ -101,13 +114,14 @@ const MechSheet = ({
         </div>
       </div>
 
-      {activeMount !== null &&
+      {mounts[activeMount] &&
         getWeaponsOnMount(mounts[activeMount]).map((weaponData, i) =>
           <WeaponRoller
             weaponData={weaponData}
             gritBonus={gritBonus}
             availableBonusSources={bonusDamageSources}
             isPrimaryWeaponOnMount={i === 0}
+            setRollSummaryData={setRollSummaryDataWithName}
             key={`${weaponData.id}-${i}`}
           />
         )

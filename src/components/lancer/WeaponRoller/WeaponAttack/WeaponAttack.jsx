@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ChooseHitMiss from './ChooseHitMiss.jsx';
 import HitCheckbox from '../../../shared/HitCheckbox.jsx';
 import AttackRollOutput from './AttackRollOutput.jsx';
@@ -21,6 +21,7 @@ const WeaponAttack = ({
   halveBonusDamage,
   damageModifiers,
   isFirstRoll,
+  setAttackSummary,
 }) => {
   const [isChoosingHitMiss, setIsChoosingHitMiss] = useState(true);
   const [isHit, setIsHit] = useState(false);
@@ -76,6 +77,29 @@ const WeaponAttack = ({
   const [trimmedBonusDamageRolls, firstBonusDamageRolls] = pullOutFirstRollBonusDamage(bonusDamageData);
 
   const toHitData = isRerolled ? attackData.toHitReroll : attackData.toHit;
+
+  // ====== ROLL SUMMARY PANEL ======
+  useEffect(() => {
+    sendAttackToRollSummary(attackData);
+  }, [isHit, invertCrit, isRerolled, manualRoll, damageModifiers, bonusDamageData.rolls.length]);
+
+  function sendAttackToRollSummary(newAttack) {
+    let rollConditions = [];
+    if (toHitData.accuracyBonus > 0) {
+      rollConditions.push(`${toHitData.accuracyRolls.length} Accuracy`)
+    } else if (toHitData.accuracyBonus < 0) {
+      rollConditions.push(`${toHitData.accuracyRolls.length} Difficulty`)
+    }
+
+    let attackRollSummary = {
+      name: rollConditions.join(' '),
+      attack: newAttack.toHit.finalResult,
+      // applies: attackConditions,
+      ...totalsByType,
+    }
+
+    setAttackSummary(attackRollSummary)
+  }
 
   return ( isChoosingHitMiss ?
     <ChooseHitMiss

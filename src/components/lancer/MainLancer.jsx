@@ -32,7 +32,9 @@ const coreLcpEntry = {
   id: 'core'
 }
 
-const MainLancer = () => {
+const MainLancer = ({
+  setRollSummaryData,
+}) => {
   const [allLcpEntries, setAllLcpEntries] = useState([coreLcpEntry]);
   const [activeLcpID, setActiveLcpID] = useState(coreLcpEntry.id);
 
@@ -232,6 +234,7 @@ const MainLancer = () => {
         <MechSheet
           activeMech={activeMech}
           activePilot={activePilot}
+          setRollSummaryData={setRollSummaryData}
         />
       }
     </div>

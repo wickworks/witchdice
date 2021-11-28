@@ -354,7 +354,9 @@ const Main = ({
         <Route path="/lancer">
           <HelmetForPage pageID='lancer' />
           <Suspense fallback={<LoadinDots />}>
-            <MainLancer />
+            <MainLancer
+              setRollSummaryData={setRollSummaryData}
+            />
             {renderDicebag()}
           </Suspense>
         </Route>
