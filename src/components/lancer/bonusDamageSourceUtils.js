@@ -62,6 +62,11 @@ function getBonusDamageSourcesFromMech(mechData) {
   return sources;
 }
 
+function getToHitBonusFromMech(mechData) {
+  var toHitBonus = 0;
+  if (mechData.frame === 'mf_deaths_head') toHitBonus += 1;
+  return toHitBonus;
+}
 
 //  ============================================    TALENTS    =======================================================
 
@@ -146,4 +151,8 @@ function getBonusDamageSourcesFromTalents(pilotData) {
 // }
 
 
-export { getBonusDamageSourcesFromMech, getBonusDamageSourcesFromTalents };
+export {
+  getBonusDamageSourcesFromMech,
+  getBonusDamageSourcesFromTalents,
+  getToHitBonusFromMech,
+};

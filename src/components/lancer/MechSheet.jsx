@@ -6,6 +6,7 @@ import { findWeaponData, getGrit, findFrameData, findSystemData } from './lancer
 import {
   getBonusDamageSourcesFromMech,
   getBonusDamageSourcesFromTalents,
+  getToHitBonusFromMech,
 } from './bonusDamageSourceUtils.js';
 
 import './MechSheet.scss';
@@ -95,6 +96,8 @@ const MechSheet = ({
     ...getBonusDamageSourcesFromTalents(activePilot),
   ];
 
+  const miscBonusToHit = getToHitBonusFromMech(activeMech);
+
   return (
     <div className="MechSheet">
       <div className="mech-container">
@@ -137,7 +140,7 @@ const MechSheet = ({
       {activeWeaponData &&
         <WeaponRoller
           weaponData={activeWeaponData}
-          gritBonus={gritBonus}
+          gritBonus={gritBonus+miscBonusToHit}
           availableBonusSources={bonusDamageSources}
           isPrimaryWeaponOnMount={activeWeaponIndex === 0}
           setRollSummaryData={setRollSummaryDataWithName}
