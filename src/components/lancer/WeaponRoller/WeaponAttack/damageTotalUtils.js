@@ -89,6 +89,18 @@ function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusD
   return totalsByType;
 }
 
+function getReliableDamage(attackData, damageModifiers) {
+  var reliableDamage = attackData.reliable.val;
+  if ('reliable' in attackData) {
+    var reliableDamage = attackData.reliable.val;
+    if (damageModifiers.double) reliableDamage *= 2.0;
+    if (damageModifiers.half) reliableDamage *= .5;
+    return {[attackData.reliable.type]: Math.ceil(reliableDamage)}
+  } else {
+    return {}
+  }
+}
+
 function summateRollsByType(damageDataRolls, isCrit, isAverage) {
   var totalsByType = {};
   damageDataRolls.forEach(rollData => {
@@ -127,6 +139,7 @@ export {
   getSortedTotalPool,
   getHighestRolls,
   summateAllDamageByType,
+  getReliableDamage,
   countOverkillTriggers,
   pullOutFirstRollBonusDamage,
 }

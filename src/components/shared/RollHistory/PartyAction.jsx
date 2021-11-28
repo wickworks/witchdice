@@ -3,7 +3,7 @@ import BrToParagraphs from '../BrToParagraphs.jsx';
 
 import { processRollData } from '../DiceBag/DiceBagData.js';
 import { allDamageTypes } from '../../5e/data.js';
-import { LANCER_DAMAGE_TYPES_TOTALABLE, LANCER_DAMAGE_TYPES } from '../../lancer/lancerData.js';
+import { LANCER_DAMAGE_TYPES } from '../../lancer/lancerData.js';
 import './PartyAction.scss';
 
 
@@ -94,6 +94,7 @@ const PartyRollDicebag = ({dieType, result}) => {
 //   'type': 'attack',
 //   'createdAt': XXXXXX,
 //   'updatedAt': XXXXXX,
+//   'skipTotal': false,
 //   'roll-1': {
 //     'attack': 11,
 //     'name': 'Longsword',
@@ -110,23 +111,27 @@ const PartyRollDicebag = ({dieType, result}) => {
 // }
 
 const PartyActionAttack = ({actionData, showName}) => {
-  const {updatedAt} = actionData;
+  const { updatedAt } = actionData;
+  const skipTotal = !!actionData.skipTotal;
 
   // total up all the damage
   let damageSum = 0;
   let actionRolls = [];
+
   Object.keys(actionData).forEach(key => {
     if (key.startsWith('roll-')) {
       const actionRollData = actionData[key];
       actionRolls.push(actionRollData);
 
-      [...allDamageTypes, ...LANCER_DAMAGE_TYPES_TOTALABLE].forEach(damageType => {
+      [...allDamageTypes, ...LANCER_DAMAGE_TYPES].forEach(damageType => {
         if (Object.keys(actionRollData).indexOf(damageType) >= 0) {
           damageSum = damageSum + Math.floor(actionRollData[damageType])
         }
       })
     }
   });
+
+  console.log('rendering actionData', actionData);
 
   return (
     <div className='PartyAction'>
@@ -144,9 +149,11 @@ const PartyActionAttack = ({actionData, showName}) => {
           />
         )}
 
-        <div className="total-damage">
-          {`${damageSum} damage`}
-        </div>
+        {!skipTotal &&
+          <div className="total-damage">
+            {`${damageSum} damage`}
+          </div>
+        }
       </div>
 
     </div>
@@ -155,7 +162,6 @@ const PartyActionAttack = ({actionData, showName}) => {
 
 
 const PartyRollAttack = ({actionRollData}) => {
-  console.log('rendering actionRollData', actionRollData);
 
   const {name, attack, save, didsave, applies} = actionRollData;
 

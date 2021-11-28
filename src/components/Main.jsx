@@ -170,6 +170,7 @@ const Main = ({
     const conditions = rollSummaryData.conditions;
     const characterName = rollSummaryData.characterName;
     const rolls = rollSummaryData.rolls;
+    const skipTotal = rollSummaryData.skipTotal;
 
     if (rolls && rolls.length > 0) {
       // traverse rollData to pull it out in a format that we want.
@@ -178,6 +179,7 @@ const Main = ({
       actionData.char = characterName;
       actionData.type = 'attack';
       actionData.conditions = conditions.join(', ')
+      actionData.skipTotal = skipTotal
 
       // ~~ new attack roll ~~ //
       if (partyLastAttackTimestamp === 0) {

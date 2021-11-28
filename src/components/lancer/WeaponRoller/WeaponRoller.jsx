@@ -139,7 +139,7 @@ const WeaponRoller = ({
     genericBonusPlus,
     isOverkill
   );
-  console.log('activeBonusDamageData',activeBonusDamageData);
+  // console.log('activeBonusDamageData',activeBonusDamageData);
 
   const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
 
@@ -149,7 +149,8 @@ const WeaponRoller = ({
   const setRollSummaryDataWithWeaponName = (attackSummaryData) => {
     setRollSummaryData({
       conditions: [weaponData.name],
-      rolls: [attackSummaryData]
+      rolls: [attackSummaryData],
+      skipTotal: true,
     })
   }
 

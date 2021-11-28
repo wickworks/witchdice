@@ -8,6 +8,7 @@ import BrToParagraphs from '../../../shared/BrToParagraphs.jsx';
 
 import {
   summateAllDamageByType,
+  getReliableDamage,
   countOverkillTriggers,
   pullOutFirstRollBonusDamage,
 } from './damageTotalUtils.js';
@@ -73,6 +74,8 @@ const WeaponAttack = ({
     isFirstRoll,
   )
 
+  const reliableDamage = getReliableDamage(attackData, damageModifiers);
+
   // separate normal bonus damage and sources that only apply to the first roll (aka NucCav)
   const [trimmedBonusDamageRolls, firstBonusDamageRolls] = pullOutFirstRollBonusDamage(bonusDamageData);
 
@@ -95,7 +98,12 @@ const WeaponAttack = ({
       name: rollConditions.join(' '),
       attack: newAttack.toHit.finalResult,
       applies: effectsList,
-      ...totalsByType,
+    }
+
+    if (isHit) {
+      attackRollSummary = {...attackRollSummary, ...totalsByType}
+    } else if (isReliable) {
+      attackRollSummary = {...attackRollSummary, ...reliableDamage}
     }
 
     setAttackSummary(attackRollSummary)
@@ -168,7 +176,7 @@ const WeaponAttack = ({
           </>
         : isReliable ?
           <>
-            <DamageSubtotal totalsByType={ {[attackData.reliable.type]: attackData.reliable.val} } />
+            <DamageSubtotal totalsByType={ {...reliableDamage} } />
           </>
         :
           <div className="miss-message">Missed.</div>
