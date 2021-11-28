@@ -139,7 +139,7 @@ function getBonusDamageSourcesFromTalents(pilotData) {
           break;
 
         case 't_duelist':
-          const blademasterEffect = { onCrit: '1/round, when you hit with a MAIN MELEE weapon, you gain 1 BLADEMASTER DIE.' }
+          const blademasterEffect = { onHit: '1/round, when you hit with a MAIN MELEE weapon, you gain 1 BLADEMASTER DIE.' }
           addSourceFromTalent(sources,rank,talentData, 2, '', '', blademasterEffect);
           break;
 
