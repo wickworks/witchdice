@@ -42,11 +42,26 @@ const WeaponAttack = ({
 
   // console.log('activeBonusDamageData', bonusDamageData);
 
+  // ==================================== EFFECTS ====================================
+  const traits = bonusDamageData.traits
+
   var effectsList = [];
+  traits.forEach(trait => {
+    if (trait.onAttack)               effectsList.push(trait.onAttack)
+  });
   if (isHit) {
     if (attackData.onHit)             effectsList.push(attackData.onHit)
-    if (isCrit)                       effectsList.push('Critical hit.')
-    if (isCrit && attackData.onCrit)  effectsList.push(attackData.onCrit)
+    traits.forEach(trait => {
+      if (trait.onHit)                effectsList.push(trait.onHit)
+    });
+
+    if (isCrit) {
+                                      effectsList.push('Critical hit.')
+      if (attackData.onCrit)          effectsList.push(attackData.onCrit)
+      traits.forEach(trait => {
+        if (trait.onCrit)             effectsList.push(trait.onCrit)
+      });
+    }
     if (damageModifiers.half)         effectsList.push('Half damage.')
     if (damageModifiers.double)       effectsList.push('Double damage.')
     if (damageModifiers.average)      effectsList.push('Rolls averaged.')
@@ -59,6 +74,7 @@ const WeaponAttack = ({
       if (overkillCount > 0)          effectsList.push(`Overkill x${overkillCount}.`)
       selfHeat += overkillCount;
     }
+
   } else {
     if (isReliable) effectsList.push('Reliable.')
   }

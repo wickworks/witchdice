@@ -70,18 +70,31 @@ function getToHitBonusFromMech(mechData) {
 
 //  ============================================    TALENTS    =======================================================
 
-function addSourceFromTalent(sources, currentRank, talentData, rank, diceString, damageType = '', customID = '') {
+const basicAttackEffect = {
+  onAttack: '',
+  onHit: '',
+  onCrit: '',
+  requiresLockon: false,
+}
+
+function addSourceFromTalent(sources, currentRank, talentData, rank, diceString, damageType = '', attackEffects = {}, customName, customID = '') {
   if (currentRank >= rank) {
     const rankData = talentData.ranks[rank-1];
+
+    // console.log(rankData.name, ' :::: ', rankData);
 
     sources.push(newSource(
       rankData.name || talentData.name,
       customID || `${talentData.id}_${rank}`,
       diceString,
       damageType,
-      rankData
+      {...rankData, ...basicAttackEffect, ...attackEffects}
     ));
   }
+}
+
+function newTalentTrait(talentData, rank, attackEffects) {
+  return {...talentData.ranks[rank-1], ...basicAttackEffect, ...attackEffects}
 }
 
 function getBonusDamageSourcesFromTalents(pilotData) {
@@ -100,17 +113,23 @@ function getBonusDamageSourcesFromTalents(pilotData) {
           addSourceFromTalent(sources,rank, talentData, 3, '2d6', '');
           break;
         case 't_nuclear_cavalier':
-          addSourceFromTalent(sources,rank, talentData, 1, '2', 'Heat', 't_nuclear_cavalier');
-          addSourceFromTalent(sources,rank, talentData, 2, '1d6', 'Energy', 't_nuclear_cavalier');
+          addSourceFromTalent(sources,rank, talentData, 1, '2', 'Heat', {}, 't_nuclear_cavalier');
+          addSourceFromTalent(sources,rank, talentData, 2, '1d6', 'Energy', {}, 't_nuclear_cavalier');
           break;
         case 't_walking_armory':
           if (rank >= 1) {
-            // sources.push( newSourceFromTalent(talentData, 2, '', '', 'THUMPER') );
-            // sources.push( newSourceFromTalent(talentData, 2, '', '', 'SHOCK') );
-            // sources.push( newSourceFromTalent(talentData, 2, '', '', 'MAG') );
+            const thumperEffect = {onAttack: 'Thumper: Knockback 1'}
+            sources.push( newSource('THUMPER', 't_walking_armory_1_thumper', '—', 'Explosive', newTalentTrait(talentData,1,thumperEffect)) );
+
+            const shockEffect = {onAttack: 'Shock: Choose one character targeted by your attack; adjacent characters take 1 Energy AP, whether the attack is a hit or miss.'}
+            sources.push( newSource('SHOCK', 't_walking_armory_1_shock', '—', 'Energy', newTalentTrait(talentData,1,shockEffect)) );
+
+            const magEffect = {onAttack: 'Mag: Arcing.'}
+            sources.push( newSource('MAG', 't_walking_armory_1_mag', '—', 'Kinetic', newTalentTrait(talentData,1,magEffect)) );
           }
           if (rank >= 2) {
             sources.push( newSource('HELLFIRE', 't_walking_armory_2_hellfire', '—', 'Burn', talentData.ranks[1]) );
+            // const shockEffect = {onHit: 'One character hit by the attack – your choice – must succeed on a HULL save or be knocked PRONE.'}
             // sources.push( newSource('JAGER', 't_walking_armory_2_jager', '', '', talentData.ranks[1]) );
             // sources.push( newSource('SABOT', 't_walking_armory_2_sabot', '', '', talentData.ranks[1]) );
           }
@@ -119,6 +138,11 @@ function getBonusDamageSourcesFromTalents(pilotData) {
         default: break;
       }
     }
+  });
+
+  // all all ids to the sources' trait
+  sources.forEach(source => {
+    if (source.trait) source.trait.id = source.id
   });
 
   return sources;

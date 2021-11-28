@@ -16,6 +16,7 @@ import {
 
 import {
   rollBonusDamage,
+  getBonusTraits,
   getActiveBonusDamageData,
   createNewAttack,
 } from './weaponRollerUtils.js';
@@ -124,13 +125,15 @@ const WeaponRoller = ({
 
     // do we need to roll bonus damage?
     if (bonusDamageData === null) {
-      const bonusDamage = rollBonusDamage(
+      var bonusDamage = {};
+
+      bonusDamage.rolls = rollBonusDamage(
         [...availableBonusSources, GENERIC_BONUS_SOURCE],
         defaultWeaponDamageType(currentWeaponProfile),
         newAttack.isOverkill
       );
 
-      console.log('New Bonus Damage:', bonusDamage);
+      bonusDamage.traits = getBonusTraits(availableBonusSources)
 
       setBonusDamageData(bonusDamage);
     }

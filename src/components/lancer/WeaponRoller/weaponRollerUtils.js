@@ -91,20 +91,20 @@ function rollDamage(weaponData, isOverkill = false) {
 
 // Fills out the damage rolls for the attack data.
 function rollBonusDamage(bonusSourceData, defaultType, isOverkill = false) {
-  var damageData = {};
+  var rolls = [];
 
-  damageData.rolls = [];
   bonusSourceData.forEach(source => {
+    // console.log('rolling bonus source ', source);
+
     const damageDice = processDiceString(source.diceString);
     const type = source.type || defaultType;
     if (damageDice.count > 0 || damageDice.bonus > 0) {
-      damageData.rolls.push(...produceRollPools(damageDice, type, isOverkill, source.id))
+      rolls.push(...produceRollPools(damageDice, type, isOverkill, source.id))
     }
   });
 
-  return damageData;
+  return rolls;
 }
-
 
 function produceRollPools(damageDice, damageType, isOverkill = false, sourceID = '') {
   let rolls = []; // for damageData.rolls
@@ -155,6 +155,21 @@ function makeDamageRoll(dieType, rollPool, isOverkill) {
     }
   }
 }
+
+
+
+function getBonusTraits(bonusSourceData) {
+  var traits = [];
+
+  bonusSourceData.forEach(source => {
+    if (source.trait) traits.push(source.trait)
+  });
+
+  // console.log('getBonusEffects traits', traits);
+
+  return traits;
+}
+
 
 function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBonusDieCount, genericBonusPlus, isOverkill) {
   var activeBonusDamageData = {};
@@ -209,16 +224,33 @@ function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBo
       genericData.rollPool[0] = genericBonusPlus;
       activeBonusDamageData.rolls.push(genericData);
     }
+
+    //  -- EFFECTS ---
+
+    // Add all toggled non-generic sources
+    // console.log('bonusDamageData.traits', bonusDamageData.traits);
+
+
+    activeBonusDamageData.traits = bonusDamageData.traits.filter(bonusTrait =>
+      activeBonusSources.indexOf(bonusTrait.id) >= 0
+    );
+
+    // console.log('activeBonusDamageData.traits', activeBonusDamageData.traits);
+
+    // harvest the effects from the bonus damage
+    // activeBonusDamageData.effects = getBonusEffects(activeBonusSources)
   }
 
   return activeBonusDamageData
 }
 
 
+
 export {
   rollToHit,
   rollDamage,
   rollBonusDamage,
+  getBonusTraits,
   produceRollPools,
   makeDamageRoll,
   getActiveBonusDamageData,
