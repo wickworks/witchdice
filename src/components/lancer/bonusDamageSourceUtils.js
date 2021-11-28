@@ -76,6 +76,7 @@ const basicAttackEffect = {
   onCrit: '',
   onMiss: '',
   requiresLockon: false,
+  damageModifiers: {}
 }
 
 function addSourceFromTalent(sources, currentRank, talentData, rank, diceString, damageType = '', attackEffects = {}, customID = '') {
@@ -119,15 +120,12 @@ function getBonusDamageSourcesFromTalents(pilotData) {
             sources.push( newSource('Watch This', 't_crack_shot_3', '', '', newTalentTrait(talentData,3,watchEffect)) );
           }
           break;
+
         case 't_centimane':
-          const teethEffect = {
-            onCrit: '1/round, when you perform a critical hit with a NEXUS, your target must pass a SYSTEMS save or become IMPAIRED and SLOWED until the end of their next turn.'
-          }
+          const teethEffect = { onCrit: 'Your target must pass a SYSTEMS save or become IMPAIRED and SLOWED until the end of their next turn.' }
           addSourceFromTalent(sources,rank,talentData, 1, '', '', teethEffect);
 
-          const exposeEffect = {
-            onCrit: 'When you consume LOCK ON as part of an attack with a NEXUS or DRONE and perform a critical hit, your target becomes SHREDDED until the start of your next turn.'
-          }
+          const exposeEffect = { onCrit: 'When you consume LOCK ON as part of an attack with a NEXUS or DRONE and perform a critical hit, your target becomes SHREDDED until the start of your next turn.' }
           addSourceFromTalent(sources,rank,talentData, 2, '', '', exposeEffect);
 
           const tidalEffect = { onCrit:
@@ -139,10 +137,12 @@ function getBonusDamageSourcesFromTalents(pilotData) {
           }
           addSourceFromTalent(sources,rank,talentData, 3, '', '', tidalEffect);
           break;
+
         case 't_duelist':
           const blademasterEffect = { onCrit: '1/round, when you hit with a MAIN MELEE weapon, you gain 1 BLADEMASTER DIE.' }
           addSourceFromTalent(sources,rank,talentData, 2, '', '', blademasterEffect);
           break;
+
         case 't_executioner':
           const cleaveEffect = { onCrit: 'Deal 3 Kinetic damage to all characters and objects of your choice within THREAT�, other than the one you just attacked.' }
           addSourceFromTalent(sources,rank,talentData, 2, '', '', cleaveEffect);
@@ -150,14 +150,65 @@ function getBonusDamageSourcesFromTalents(pilotData) {
           const escapeEffect = { onMiss: '1/round, when you miss with a melee attack, you reroll it against a different target within THREAT and line of sight.' }
           addSourceFromTalent(sources,rank,talentData, 3, '', '', escapeEffect);
           break;
+
         case 't_gunslinger':
           const heartEffect = { onHit: 'I Kill With My Heart: Armor Piercing (AP).' }
           addSourceFromTalent(sources,rank,talentData, 3, '2d6', '', heartEffect);
           break;
+
+        case 't_heavy_gunner':
+          const coveringEffect = { damageModifiers: { half: true } }
+          addSourceFromTalent(sources,rank,talentData, 1, '', '', coveringEffect);
+          const hammerEffect = { onHit: 'Your target is IMMOBILIZED until the end of their next turn.' }
+          addSourceFromTalent(sources,rank,talentData, 2, '', '', hammerEffect);
+          break;
+
+        case 't_hunter':
+          const lungeEffect = { onAttack: 'You may fly up to 3 spaces directly toward a targeted character before the attack. This movement ignores engagement and doesn’t provoke reactions.' }
+          addSourceFromTalent(sources,rank,talentData, 1, '', '', lungeEffect);
+          break;
+
+        case 't_infiltrator':
+          const ambushEffect = { onHit: 'Your target must succeed on a HULL save or become SLOWED, IMPAIRED, and unable to take reactions until the end of their next turn.' }
+          addSourceFromTalent(sources,rank,talentData, 2, '', '', ambushEffect);
+          break;
+
         case 't_nuclear_cavalier':
-          addSourceFromTalent(sources,rank,talentData, 1, '2', 'Heat', {}, 't_nuclear_cavalier');
+          const aggroEffect = { damageModifiers: { bonusToBurn: true } }
+          addSourceFromTalent(sources,rank,talentData, 1, '2', 'Heat', aggroEffect, 't_nuclear_cavalier');
           addSourceFromTalent(sources,rank,talentData, 2, '1d6', 'Energy', {}, 't_nuclear_cavalier');
           break;
+
+        case 't_siege_specialist':
+          const impactEffect = { onAttack: '1/round, before rolling an attack with a CANNON, all characters adjacent to you must succeed on a HULL save or be knocked back by 1 space and knocked PRONE. You are then pushed 1 space in any direction.' }
+          addSourceFromTalent(sources,rank,talentData, 2, '', '', impactEffect);
+          const collateralEffect = { onCrit:
+            '1/round, when you perform a critical hit on a character or object with a CANNON, you may choose to cause an explosion of secondary munitions, causing a Burst 2 explosion around your target.' +
+            'Characters within the affected area must either drop PRONE as a reaction, or take 2 Explosive and be knocked back by 2 spaces from the center of the attack.'
+          }
+          addSourceFromTalent(sources,rank,talentData, 3, '', '', collateralEffect);
+          break;
+
+        case 't_skirmisher':
+          const lockEffect = { onAttack: '1Before or after you SKIRMISH, you may move 2 spaces. This movement ignores engagement and doesn’t provoke reactions.' }
+          addSourceFromTalent(sources,rank,talentData, 2, '', '', lockEffect);
+          break;
+
+        case 't_stormbringer':
+          const delugeEffect = {
+            onCrit: '1/round, when you successfully attack with a LAUNCHER and consume LOCK ON, you may also knock your target PRONE.',
+            requiresLockon: true
+          }
+          addSourceFromTalent(sources,rank,talentData, 1, '', '', delugeEffect);
+
+          const bendingEffect = { onHit:
+            '1/round, when you hit a character or object with a LAUNCHER, you can choose one of the following effects:<br>' +
+            '- LIGHTNING: You fire a concentrated blast of missiles at that character. They must succeed on a HULL save or be knocked away from you by 3 spaces; the force of firing then knocks you back by 3 spaces, away from the direction of fire.<br>' +
+            '- THUNDER: You fire a spray of missiles at a Burst 2 area around that target. Characters in the area must succeed on an AGILITY save or be knocked back by 1 space, away from the target. The primary target is unaffected.<br>'
+          }
+          addSourceFromTalent(sources,rank,talentData, 2, '', '', bendingEffect);
+          break;
+
         case 't_walking_armory':
           if (rank >= 1) {
             const thumperEffect = {onAttack: 'Thumper: Knockback 1'}
