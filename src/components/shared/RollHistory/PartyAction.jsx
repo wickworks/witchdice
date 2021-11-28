@@ -171,11 +171,14 @@ const PartyRollAttack = ({actionRollData}) => {
 
   var nameText = name;
   var nameIcon = '';
+  var nameIconCount = 0;
   if (nameText.includes('Accuracy')) {
     nameText = nameText.replace('Accuracy', '')
+    nameIconCount = parseInt(nameText);
     nameIcon = 'accuracy'
   } else if (nameText.includes('Difficulty')) {
     nameText = nameText.replace('Difficulty', '')
+    nameIconCount = parseInt(nameText);
     nameIcon = 'difficulty'
   }
 
@@ -199,8 +202,13 @@ const PartyRollAttack = ({actionRollData}) => {
 
 
         <div className={(isAttack || isSave) ? "attack-name" : "ability-name"}>
-          {nameIcon && <span className={`asset ${nameIcon}`}/>}
-          {nameText}
+          {nameIcon ?
+            [...Array(nameIconCount).keys()].map(i =>
+              <span className={`asset ${nameIcon}`} key={i}/>
+            )
+          :
+            <span>{nameText}</span>
+          }
         </div>
 
         <div className="damage-container">

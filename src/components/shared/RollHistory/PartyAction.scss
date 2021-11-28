@@ -11,8 +11,12 @@
     justify-content: space-between;
   }
 
+  // for LANCER rolls
   &.skipping-total .PartyRollAttack .damage-container .damage {
     font-weight: bold;
+    font-size: 18px;
+
+    .asset { margin-left: -2px; }
   }
 
   .title {
@@ -23,6 +27,13 @@
 
     .name {
       @include text_party_roll_name;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2; /* number of lines to show */
+              line-clamp: 2;
     }
     .party-name {
       @include text_party_roll_attackname;
@@ -138,10 +149,12 @@
       @include text_party_roll_attackname;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
+      flex-shrink: 100000;
       max-width: 45%;
       margin-right: 10px;
 
-      span.asset { width: 20px; height: 20px; display: inline-block; }
+      span.asset { width: 16px; height: 16px; display: inline-block; }
     }
 
     .ability-name {
