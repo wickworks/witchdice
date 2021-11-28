@@ -74,6 +74,7 @@ const basicAttackEffect = {
   onAttack: '',
   onHit: '',
   onCrit: '',
+  onMiss: '',
   requiresLockon: false,
 }
 
@@ -108,20 +109,50 @@ function getBonusDamageSourcesFromTalents(pilotData) {
       switch (talentData.id) {
         case 't_crack_shot':
           addSourceFromTalent(sources,rank,talentData, 2, '1d6', '');
-
           if (rank >= 3) {
-            const watchEffect = {
-              onCrit: 'Your target must pass a Hull save or you may choose and additional effect for your attack:<br>' +
-                      '- HEADSHOT: They only have line of sight to adjacent spaces until the end of their next turn.<br>' +
-                      '- LEG SHOT: They become IMMOBILIZED until the end of their next turn.<br>'+
-                      '- BODY SHOT: They are knocked PRONE.'
+            const watchEffect = { onCrit:
+              'Your target must pass a Hull save or you may choose and additional effect for your attack:<br>' +
+              '- HEADSHOT: They only have line of sight to adjacent spaces until the end of their next turn.<br>' +
+              '- LEG SHOT: They become IMMOBILIZED until the end of their next turn.<br>'+
+              '- BODY SHOT: They are knocked PRONE.'
             }
             sources.push( newSource('Watch This', 't_crack_shot_3', '', '', newTalentTrait(talentData,3,watchEffect)) );
           }
+          break;
+        case 't_centimane':
+          const teethEffect = {
+            onCrit: '1/round, when you perform a critical hit with a NEXUS, your target must pass a SYSTEMS save or become IMPAIRED and SLOWED until the end of their next turn.'
+          }
+          addSourceFromTalent(sources,rank,talentData, 1, '', '', teethEffect);
 
+          const exposeEffect = {
+            onCrit: 'When you consume LOCK ON as part of an attack with a NEXUS or DRONE and perform a critical hit, your target becomes SHREDDED until the start of your next turn.'
+          }
+          addSourceFromTalent(sources,rank,talentData, 2, '', '', exposeEffect);
+
+          const tidalEffect = { onCrit:
+            '1/round, when you perform a critical hit with a NEXUS, your target must succeed on a SYSTEMS save or you may choose an additional effect for your attack that lasts until the end of their next turn:<br>' +
+            '- HARRYING SWARM: They become IMPAIRED and SLOWED.<br>' +
+            '- BLINDING SWARM: They only have line of sight to adjacent squares.<br>'+
+            '- VIRULENT SWARM: They become SHREDDED. Any adjacent characters of your choice must also make a SYSTEMS save or become SHREDDED.' +
+            '- RESTRICTING SWARM: They take 1 burn each time they take an action or reaction.'
+          }
+          addSourceFromTalent(sources,rank,talentData, 3, '', '', tidalEffect);
+          break;
+        case 't_duelist':
+          const blademasterEffect = { onCrit: '1/round, when you hit with a MAIN MELEE weapon, you gain 1 BLADEMASTER DIE.' }
+          addSourceFromTalent(sources,rank,talentData, 2, '', '', blademasterEffect);
+          break;
+        case 't_executioner':
+          const cleaveEffect = { onCrit: 'Deal 3 Kinetic damage to all characters and objects of your choice within THREAT�, other than the one you just attacked.' }
+          addSourceFromTalent(sources,rank,talentData, 2, '', '', cleaveEffect);
+
+          const escapeEffect = { onMiss: '1/round, when you miss with a melee attack, you reroll it against a different target within THREAT and line of sight.' }
+          addSourceFromTalent(sources,rank,talentData, 3, '', '', escapeEffect);
           break;
         case 't_gunslinger':
-          addSourceFromTalent(sources,rank,talentData, 3, '2d6', '');
+          const heartEffect = { onHit: 'I Kill With My Heart: Armor Piercing (AP).' }
+          addSourceFromTalent(sources,rank,talentData, 3, '2d6', '', heartEffect);
           break;
         case 't_nuclear_cavalier':
           addSourceFromTalent(sources,rank,talentData, 1, '2', 'Heat', {}, 't_nuclear_cavalier');
@@ -141,7 +172,7 @@ function getBonusDamageSourcesFromTalents(pilotData) {
           if (rank >= 2) {
             sources.push( newSource('HELLFIRE', 't_walking_armory_2_hellfire', '—', 'Energy', talentData.ranks[1]) );
 
-            const jagerEffect = {onHit: 'Jager: Knockback 2, one character hit by the attack – your choice – must succeed on a Hull save or be knocked prone.'}
+            const jagerEffect = {onHit: 'Jager: Knockback 2, one character hit by the attack – your choice – must succeed on a HULL save or be knocked PRONE.'}
             sources.push( newSource('JAGER', 't_walking_armory_2_jager', '—', 'Explosive', newTalentTrait(talentData,2,jagerEffect)) );
 
             const sabotEffect = {onHit: 'Sabot: Armor Piercing.'}

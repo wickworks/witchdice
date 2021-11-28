@@ -67,7 +67,7 @@ const WeaponAttack = ({
     if (damageModifiers.average)      effectsList.push('Rolls averaged.')
     if (convertedBonusToBurn)         effectsList.push('Bonus damage converted to burn.')
 
-    if (attackData.isArmorPiercing)     effectsList.push('Armor piercing.')
+    if (attackData.isArmorPiercing)   effectsList.push('Armor piercing.')
     if (attackData.knockback > 0)     effectsList.push(`Knockback ${attackData.knockback}.`)
     if (attackData.isOverkill) {
       const overkillCount = countOverkillTriggers(attackData.damage, bonusDamageData, isCrit, damageModifiers.average)
@@ -76,7 +76,10 @@ const WeaponAttack = ({
     }
 
   } else {
-    if (isReliable) effectsList.push('Reliable.')
+    if (isReliable)                   effectsList.push('Reliable.')
+    traits.forEach(trait => {
+      if (trait.onMiss)               effectsList.push(trait.onMiss)
+    });
   }
   if (selfHeat)       effectsList.push(`Heat ${selfHeat} (Self).`)
   if (isRerolled)     effectsList.push('Rerolled.')
