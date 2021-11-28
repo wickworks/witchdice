@@ -1,6 +1,7 @@
 import {
   findFrameData,
   findTalentData,
+  findWeaponData,
 } from './lancerData.js';
 
 function newSource(name, id, diceString, damageType = '', traitData = null) {
@@ -13,6 +14,7 @@ function newSource(name, id, diceString, damageType = '', traitData = null) {
   }
 }
 
+//  ============================================    FRAMES    =======================================================
 function findTraitFromFrame(frameData, traitName) {
   const traitData = frameData.traits.find(trait => trait.name === traitName);
   return traitData || null;
@@ -59,6 +61,9 @@ function getBonusDamageSourcesFromMech(mechData) {
 
   return sources;
 }
+
+
+//  ============================================    TALENTS    =======================================================
 
 function addSourceFromTalent(sources, currentRank, talentData, rank, diceString, damageType = '', customID = '') {
   if (currentRank >= rank) {
@@ -111,10 +116,34 @@ function getBonusDamageSourcesFromTalents(pilotData) {
     }
   });
 
-
-
   return sources;
 }
+
+
+//  ============================================    WEAPONS    =======================================================
+
+// Honestly, people can just add stuff manually using the generic dice. The on hit // effects will prompt them to.
+// function getBonusDamageSourcesFromWeapons(mountedWeaponData) {
+//   var sources = [];
+//   if (!mountedWeaponData) return sources;
+//
+//   const weaponData = findWeaponData(mountedWeaponData.id);
+//
+//   // console.log('mountedWeaponData',mountedWeaponData);
+//   // console.log('weaponData',weaponData);
+//
+//   if (weaponData) {
+//     switch (weaponData.id) {
+//       // case 'mw_combat_drill':
+//       //   sources.push( newSource('Combat Drill Overkill', 'mw_combat_drill', '20d6', 'Variable') );
+//       //   break;
+//
+//       default: break;
+//     }
+//   }
+//
+//   return sources;
+// }
 
 
 export { getBonusDamageSourcesFromMech, getBonusDamageSourcesFromTalents };

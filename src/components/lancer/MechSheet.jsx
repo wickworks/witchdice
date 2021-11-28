@@ -3,7 +3,10 @@ import WeaponRoller from './WeaponRoller/WeaponRoller.jsx';
 import MechanicsList from './MechanicsList.jsx';
 import { findWeaponData, getGrit, findFrameData, findSystemData } from './lancerData.js';
 
-import { getBonusDamageSourcesFromMech, getBonusDamageSourcesFromTalents } from './bonusDamageSourceUtils.js';
+import {
+  getBonusDamageSourcesFromMech,
+  getBonusDamageSourcesFromTalents,
+} from './bonusDamageSourceUtils.js';
 
 import './MechSheet.scss';
 
@@ -81,16 +84,16 @@ const MechSheet = ({
     setPartyLastAttackTimestamp(0)
   }
 
-  const bonusDamageSources = [
-    ...getBonusDamageSourcesFromMech(activeMech),
-    ...getBonusDamageSourcesFromTalents(activePilot),
-  ];
-
   const frameData = findFrameData(activeMech.frame);
   const gritBonus = getGrit(activePilot);
 
   const activeMount = mounts[activeMountIndex];
   const activeWeaponData = activeMount && getWeaponsOnMount(activeMount)[activeWeaponIndex];
+
+  const bonusDamageSources = [
+    ...getBonusDamageSourcesFromMech(activeMech),
+    ...getBonusDamageSourcesFromTalents(activePilot),
+  ];
 
   return (
     <div className="MechSheet">
