@@ -1,4 +1,6 @@
 import React from 'react';
+import BrToParagraphs from '../BrToParagraphs.jsx';
+
 import { processRollData } from '../DiceBag/DiceBagData.js';
 import { allDamageTypes } from '../../5e/data.js';
 import { LANCER_DAMAGE_TYPES_TOTALABLE, LANCER_DAMAGE_TYPES } from '../../lancer/lancerData.js';
@@ -171,46 +173,46 @@ const PartyRollAttack = ({actionRollData}) => {
     nameIcon = 'difficulty'
   }
 
-  console.log('nameText',nameText, nameIcon);
-
   // prepare to harvest damage information
   const dataKeys = Object.keys(actionRollData);
   return (
     <div className="PartyRollAttack">
-      { isAttack && <>
-        <div className='asset d20' />
-        <div className="attack-roll">{attack}</div>
-      </> }
 
-      { isSave &&
-        <div className="save">
-          <div className={`asset ${didsave ? 'checkmark' : 'x'}`} />
-          {save}
-        </div>
-      }
+      <div className="main-row">
+        { isAttack && <>
+          <div className='asset d20' />
+          <div className="attack-roll">{attack}</div>
+        </> }
 
-
-      <div className={(isAttack || isSave) ? "attack-name" : "ability-name"}>
-        {nameIcon && <span className={`asset ${nameIcon}`}/>}
-        {nameText}
-      </div>
-
-      <div className="damage-container">
-        { applies &&
-          <div className='applied-condition'>{applies}</div>
+        { isSave &&
+          <div className="save">
+            <div className={`asset ${didsave ? 'checkmark' : 'x'}`} />
+            {save}
+          </div>
         }
 
 
-        { [...allDamageTypes, ...LANCER_DAMAGE_TYPES].map((damageType, i) => {
-          if ((dataKeys.indexOf(damageType) >= 0) && (actionRollData[damageType] > 0)) {
-            return (
-              <div className="damage" key={i}>
-                {Math.floor(actionRollData[damageType])}
-                <div className={`asset ${damageType.toLowerCase()}`} />
-              </div>
-            )
-          } else { return null }
-        }) }
+        <div className={(isAttack || isSave) ? "attack-name" : "ability-name"}>
+          {nameIcon && <span className={`asset ${nameIcon}`}/>}
+          {nameText}
+        </div>
+
+        <div className="damage-container">
+          { [...allDamageTypes, ...LANCER_DAMAGE_TYPES].map((damageType, i) => {
+            if ((dataKeys.indexOf(damageType) >= 0) && (actionRollData[damageType] > 0)) {
+              return (
+                <div className="damage" key={i}>
+                  {Math.floor(actionRollData[damageType])}
+                  <div className={`asset ${damageType.toLowerCase()}`} />
+                </div>
+              )
+            } else { return null }
+          }) }
+        </div>
+      </div>
+
+      <div className="applied-conditions">
+        <BrToParagraphs stringWithBrs={applies.join('<br>')}/>
       </div>
     </div>
   );

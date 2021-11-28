@@ -94,7 +94,7 @@ const WeaponAttack = ({
     let attackRollSummary = {
       name: rollConditions.join(' '),
       attack: newAttack.toHit.finalResult,
-      // applies: attackConditions,
+      applies: effectsList,
       ...totalsByType,
     }
 
