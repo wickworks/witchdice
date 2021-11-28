@@ -131,7 +131,7 @@ const PartyActionAttack = ({actionData, showName}) => {
     }
   });
 
-  console.log('rendering actionData', actionData);
+  // console.log('rendering actionData', actionData);
 
   return (
     <div className='PartyAction'>

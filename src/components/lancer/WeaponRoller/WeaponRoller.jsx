@@ -30,6 +30,8 @@ const WeaponRoller = ({
   isPrimaryWeaponOnMount,
   setRollSummaryData,
 }) => {
+  const [allAttackSummaries, setAllAttackSummaries] = useState([]); // for the summary panel
+
   const [activeProfileIndex, setActiveProfileIndex] = useState(0);
 
   const [allAttackRolls, setAllAttackRolls] = useState([]);
@@ -49,6 +51,7 @@ const WeaponRoller = ({
   }, [weaponData]);
 
   const clearAttacks = () => {
+    setAllAttackSummaries([]);
     setAllAttackRolls([]);
     setIsSettingUpAttack(true);
     setBonusDamageData(null);
@@ -146,10 +149,19 @@ const WeaponRoller = ({
 
   // ====== ROLL SUMMARY PANEL ======
   // inject the weapon name to summary data before sending it up
-  const setRollSummaryDataWithWeaponName = (attackSummaryData) => {
+  const setRollSummaryDataWithWeaponName = (attackSummaryData, attackIndex) => {
+    var attackSummaries = deepCopy(allAttackSummaries);
+
+    if ((allAttackSummaries.length-1) < attackIndex) {
+      attackSummaries.push(attackSummaryData)
+    } else {
+      attackSummaries[attackIndex] = attackSummaryData;
+    }
+
+    setAllAttackSummaries(attackSummaries);
     setRollSummaryData({
       conditions: [weaponData.name],
-      rolls: [attackSummaryData],
+      rolls: attackSummaries,
       skipTotal: true,
     })
   }
@@ -200,7 +212,7 @@ const WeaponRoller = ({
             halveBonusDamage={allAttackRolls.length >= 2}
             damageModifiers={damageModifiers}
             isFirstRoll={i === 0}
-            setAttackSummary={setRollSummaryDataWithWeaponName}
+            setAttackSummary={(attackSummaryData) => setRollSummaryDataWithWeaponName(attackSummaryData, i)}
             key={i}
           />
         )}
