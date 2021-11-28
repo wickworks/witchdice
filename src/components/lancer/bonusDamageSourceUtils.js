@@ -53,7 +53,7 @@ function getBonusDamageSourcesFromMech(mechData) {
 
     case 'mf_tokugawa':
       sources.push( newSourceFromFrame(frameData, '3', 'Energy', 'Limit Break') );
-      sources.push( newSource('Plasma Sheath', 'mf_tokugawa_dz', '—', 'Burn', findTraitFromFrame(frameData, 'Plasma Sheath')) );
+      sources.push( newSource('Plasma Sheath', 'mf_tokugawa_dz', '', 'Burn', findTraitFromFrame(frameData, 'Plasma Sheath')) );
       break;
 
     default: break;
