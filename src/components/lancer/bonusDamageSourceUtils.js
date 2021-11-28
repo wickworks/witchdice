@@ -107,14 +107,25 @@ function getBonusDamageSourcesFromTalents(pilotData) {
     if (talentData) {
       switch (talentData.id) {
         case 't_crack_shot':
-          addSourceFromTalent(sources,rank, talentData, 2, '1d6', '');
+          addSourceFromTalent(sources,rank,talentData, 2, '1d6', '');
+
+          if (rank >= 3) {
+            const watchEffect = {
+              onCrit: 'Your target must pass a Hull save or you may choose and additional effect for your attack:<br>' +
+                      '- HEADSHOT: They only have line of sight to adjacent spaces until the end of their next turn.<br>' +
+                      '- LEG SHOT: They become IMMOBILIZED until the end of their next turn.<br>'+
+                      '- BODY SHOT: They are knocked PRONE.'
+            }
+            sources.push( newSource('Watch This', 't_crack_shot_3', '', '', newTalentTrait(talentData,3,watchEffect)) );
+          }
+
           break;
         case 't_gunslinger':
-          addSourceFromTalent(sources,rank, talentData, 3, '2d6', '');
+          addSourceFromTalent(sources,rank,talentData, 3, '2d6', '');
           break;
         case 't_nuclear_cavalier':
-          addSourceFromTalent(sources,rank, talentData, 1, '2', 'Heat', {}, 't_nuclear_cavalier');
-          addSourceFromTalent(sources,rank, talentData, 2, '1d6', 'Energy', {}, 't_nuclear_cavalier');
+          addSourceFromTalent(sources,rank,talentData, 1, '2', 'Heat', {}, 't_nuclear_cavalier');
+          addSourceFromTalent(sources,rank,talentData, 2, '1d6', 'Energy', {}, 't_nuclear_cavalier');
           break;
         case 't_walking_armory':
           if (rank >= 1) {
@@ -136,6 +147,32 @@ function getBonusDamageSourcesFromTalents(pilotData) {
             const sabotEffect = {onHit: 'Sabot: Armor Piercing.'}
             sources.push( newSource('SABOT', 't_walking_armory_2_sabot', '—', 'Explosive', newTalentTrait(talentData,2,sabotEffect)) );
           }
+          break;
+
+        default: break;
+      }
+    }
+  });
+
+  // all all ids to the sources' trait
+  sources.forEach(source => {
+    if (source.trait) source.trait.id = source.id
+  });
+
+  return sources;
+}
+
+function getPassiveTraitsFromTalents(pilotData) {
+  var sources = [];
+
+  pilotData.talents.forEach(talentAndRank => {
+    const talentData = findTalentData(talentAndRank.id);
+    const rank = talentAndRank.rank;
+
+    if (talentData) {
+      switch (talentData.id) {
+        case 't_brutal':
+          addSourceFromTalent(sources,rank,talentData, 2, '', '', {onCrit: 'Cull The Herd: Knockback 1.'});
           break;
 
         default: break;

@@ -37,12 +37,15 @@
     display: flex;
     flex-direction: column;
     margin-right: 6px;
+    margin-left: auto;
     font-size: 18px;
     color: $rust;
 
     > p {
+      max-width: 400px;
       margin: 0 0 8px auto;
-      // text-align: right;
+      // margin: 0 0 8px;
+      text-align: justify;
     }
   }
 }
