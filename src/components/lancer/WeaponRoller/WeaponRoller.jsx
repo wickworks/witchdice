@@ -250,7 +250,11 @@ const WeaponRoller = ({
             }
 
             <div className='action-buttons-container'>
-              <button className='add-target' onClick={() => setIsSettingUpAttack(true)} disabled={isSettingUpAttack}>
+              <button
+                className='add-target'
+                onClick={() => setIsSettingUpAttack(true)}
+                disabled={isSettingUpAttack || allAttackRolls.length >= 9}
+              >
                 <div className='asset plus' />
                 Add target
               </button>
