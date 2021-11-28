@@ -77,7 +77,7 @@ const basicAttackEffect = {
   requiresLockon: false,
 }
 
-function addSourceFromTalent(sources, currentRank, talentData, rank, diceString, damageType = '', attackEffects = {}, customName, customID = '') {
+function addSourceFromTalent(sources, currentRank, talentData, rank, diceString, damageType = '', attackEffects = {}, customID = '') {
   if (currentRank >= rank) {
     const rankData = talentData.ranks[rank-1];
 
