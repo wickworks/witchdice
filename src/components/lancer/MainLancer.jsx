@@ -33,6 +33,8 @@ const coreLcpEntry = {
 }
 
 const MainLancer = ({
+  setPartyLastAttackKey,
+  setPartyLastAttackTimestamp,
   setRollSummaryData,
 }) => {
   const [allLcpEntries, setAllLcpEntries] = useState([coreLcpEntry]);
@@ -234,6 +236,9 @@ const MainLancer = ({
         <MechSheet
           activeMech={activeMech}
           activePilot={activePilot}
+
+          setPartyLastAttackKey={setPartyLastAttackKey}
+          setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
           setRollSummaryData={setRollSummaryData}
         />
       }

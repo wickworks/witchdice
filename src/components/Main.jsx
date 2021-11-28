@@ -165,7 +165,7 @@ const Main = ({
     }
   }
 
-  // We created or updated our 5e damage roll data — prepare it to push to firebase.
+  // We created or updated our 5e/lancer damage roll data — prepare it to push to firebase.
   useEffect(() => {
     const conditions = rollSummaryData.conditions;
     const characterName = rollSummaryData.characterName;
@@ -357,6 +357,8 @@ const Main = ({
           <HelmetForPage pageID='lancer' />
           <Suspense fallback={<LoadinDots />}>
             <MainLancer
+              setPartyLastAttackKey={setPartyLastAttackKey}
+              setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
               setRollSummaryData={setRollSummaryData}
             />
             {renderDicebag()}

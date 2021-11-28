@@ -217,9 +217,11 @@ const PartyRollAttack = ({actionRollData}) => {
         </div>
       </div>
 
-      <div className="applied-conditions">
-        <BrToParagraphs stringWithBrs={applies.join('<br>')}/>
-      </div>
+      {applies &&
+        <div className="applied-conditions">
+          <BrToParagraphs stringWithBrs={applies.join('<br>')}/>
+        </div>
+      }
     </div>
   );
 }

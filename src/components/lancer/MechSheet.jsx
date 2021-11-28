@@ -23,14 +23,17 @@ function getWeaponsOnMount(mountData) {
 const MechSheet = ({
   activeMech,
   activePilot,
+
+  setPartyLastAttackKey,
+  setPartyLastAttackTimestamp,
   setRollSummaryData,
 }) => {
   // const [activeWeaponData, setActiveWeaponData] = useState(null);
-  const [activeMount, setActiveMount] = useState(null);
+  const [activeMountIndex, setActiveMountIndex] = useState(null);
 
   // =============== CHANGE MECH ==================
   useEffect(() => {
-    setActiveMount(null);
+    setActiveMountIndex(null);
   }, [activeMech, activePilot]);
 
   // =============== MECH AND MOUNT MAGANGEMENT ==================
@@ -63,12 +66,20 @@ const MechSheet = ({
     ...getBonusDamageSourcesFromTalents(activePilot),
   ];
 
+  const changeMount = (newIndex) => {
+    setActiveMountIndex(newIndex)
+
+    // the next attack roll will be a new entry in the summary
+    setPartyLastAttackKey('')
+    setPartyLastAttackTimestamp(0)
+  }
+
   // =============== SUMMARY DATA ==================
 
   // inject the mech name to summary data before sending it up
   const setRollSummaryDataWithName = (rollSummaryData) => {
     rollSummaryData.characterName = activeMech.name
-    console.log('rollSummaryData', rollSummaryData);
+    console.log('rollSummaryData', rollSummaryData)
     setRollSummaryData(rollSummaryData)
   }
 
@@ -106,16 +117,16 @@ const MechSheet = ({
           { mounts.map((mount, i) =>
             <MechMount
               mount={mount}
-              activateMount={() => setActiveMount(i)}
-              isActive={activeMount === i}
+              activateMount={() => changeMount(i)}
+              isActive={activeMountIndex === i}
               key={`mount-${i}`}
             />
           )}
         </div>
       </div>
 
-      {mounts[activeMount] &&
-        getWeaponsOnMount(mounts[activeMount]).map((weaponData, i) =>
+      {mounts[activeMountIndex] &&
+        getWeaponsOnMount(mounts[activeMountIndex]).map((weaponData, i) =>
           <WeaponRoller
             weaponData={weaponData}
             gritBonus={gritBonus}

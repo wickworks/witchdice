@@ -62,8 +62,9 @@ const WeaponAttack = ({
   } else {
     if (isReliable) effectsList.push('Reliable.')
   }
-  if (selfHeat)     effectsList.push(`Heat ${selfHeat} (Self).`)
-  if (isRerolled)   effectsList.push('Rerolled.')
+  if (selfHeat)       effectsList.push(`Heat ${selfHeat} (Self).`)
+  if (isRerolled)     effectsList.push('Rerolled.')
+  if (manualRoll > 0) effectsList.push('Manual roll.')
 
   const totalsByType = summateAllDamageByType(
     attackData.damage,
@@ -96,7 +97,7 @@ const WeaponAttack = ({
 
     let attackRollSummary = {
       name: rollConditions.join(' '),
-      attack: newAttack.toHit.finalResult,
+      attack: finalFinalResult,
       applies: effectsList,
     }
 
