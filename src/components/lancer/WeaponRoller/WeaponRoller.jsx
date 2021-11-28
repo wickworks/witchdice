@@ -152,6 +152,20 @@ const WeaponRoller = ({
 
   const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
 
+  // fold in any active damage modifiers from the active bonus sources (things can only get flipped to TRUE)
+  // console.log('damageModifiers',damageModifiers);
+  var totalDamageModifiers = {...damageModifiers}
+  if (activeBonusDamageData.traits) {
+    activeBonusDamageData.traits.forEach(bonusTrait => {
+      if (bonusTrait.damageModifiers) {
+        Object.keys(bonusTrait.damageModifiers).forEach(modifierKey =>
+          totalDamageModifiers[modifierKey] = totalDamageModifiers[modifierKey] || bonusTrait.damageModifiers[modifierKey]
+        );
+      }
+    });
+  }
+  // console.log('totalDamageModifiers',totalDamageModifiers);
+
 
   // ====== ROLL SUMMARY PANEL ======
   // inject the weapon name to summary data before sending it up
@@ -222,7 +236,7 @@ const WeaponRoller = ({
             attackData={attackData}
             bonusDamageData={activeBonusDamageData}
             halveBonusDamage={allAttackRolls.length >= 2}
-            damageModifiers={damageModifiers}
+            damageModifiers={totalDamageModifiers}
             isFirstRoll={i === 0}
             setAttackSummary={(attackSummaryData) => setRollSummaryDataWithWeaponName(attackSummaryData, i)}
             key={i}

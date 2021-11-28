@@ -13,8 +13,10 @@ const allSystems = data.systems;
 
 var loadedLcpData = {};
 
-const BONUS_TO_BURN_TAGS = ['mf_tokugawa_dz', 't_walking_armory_2_hellfire']
+// this should definitely get rolled into damageModifiers system
+const BONUS_TO_BURN_TAGS = ['mf_tokugawa_dz']
 
+// these should probably get rolled into damageModifiers system
 const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier', 't_nuclear_cavalier']
 
 const BASIC_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy']

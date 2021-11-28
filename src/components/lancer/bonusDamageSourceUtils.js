@@ -174,8 +174,7 @@ function getBonusDamageSourcesFromTalents(pilotData) {
           break;
 
         case 't_nuclear_cavalier':
-          const aggroEffect = { damageModifiers: { bonusToBurn: true } }
-          addSourceFromTalent(sources,rank,talentData, 1, '2', 'Heat', aggroEffect, 't_nuclear_cavalier');
+          addSourceFromTalent(sources,rank,talentData, 1, '2', 'Heat', {}, 't_nuclear_cavalier');
           addSourceFromTalent(sources,rank,talentData, 2, '1d6', 'Energy', {}, 't_nuclear_cavalier');
           break;
 
@@ -221,7 +220,8 @@ function getBonusDamageSourcesFromTalents(pilotData) {
             sources.push( newSource('MAG', 't_walking_armory_1_mag', '—', 'Kinetic', newTalentTrait(talentData,1,magEffect)) );
           }
           if (rank >= 2) {
-            sources.push( newSource('HELLFIRE', 't_walking_armory_2_hellfire', '—', 'Energy', talentData.ranks[1]) );
+            const hellEffect = { damageModifiers: { bonusToBurn: true } }
+            sources.push( newSource('HELLFIRE', 't_walking_armory_2_hellfire', '—', 'Energy', newTalentTrait(talentData,2,hellEffect)) );
 
             const jagerEffect = {onHit: 'Jager: Knockback 2, one character hit by the attack – your choice – must succeed on a HULL save or be knocked PRONE.'}
             sources.push( newSource('JAGER', 't_walking_armory_2_jager', '—', 'Explosive', newTalentTrait(talentData,2,jagerEffect)) );
