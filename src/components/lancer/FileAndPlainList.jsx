@@ -13,6 +13,7 @@ const FileList = ({
   deleteActiveFile,
   onFileUpload,
   acceptFileType = 'application/JSON',
+  onTitleClick = null,
   children,
 }) => {
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
@@ -25,7 +26,7 @@ const FileList = ({
   return (
     <div className={`FileList ${extraClass}`}>
       { isUploadingNewFile ?
-        <PlainList title={title} extraClass='new-file'>
+        <PlainList title={title} extraClass='new-file' onTitleClick={onTitleClick}>
           <div className="instructions">
             {children}
           </div>
@@ -44,6 +45,7 @@ const FileList = ({
       :
         <CharacterList
           title={title}
+          onTitleClick={onTitleClick}
           characterEntries={allFileEntries}
           handleEntryClick={setActiveFileID}
           activeCharacterID={activeFileID}
@@ -55,17 +57,18 @@ const FileList = ({
   );
 }
 
-
-
 const PlainList = ({
   title,
   extraClass,
   children,
+  onTitleClick = null,
 }) => {
   return (
     <div className={`PlainList ${extraClass}`}>
       <div className="title-bar">
-        <h2>{title}s</h2>
+        <button className="title-button" onClick={onTitleClick} disabled={onTitleClick === null}>
+          <h2>{title}s</h2>
+        </button>
       </div>
 
       <div className="list-container">

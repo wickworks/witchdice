@@ -29,11 +29,22 @@
     background-color: $parchment_dark;
     border-radius: 6px 6px 0 0;
 
-    h2 {
-      @include text_card_label;
-      margin: 0 14px 0 0;
-      padding: 6px 0 6px 12px;
+    .title-button {
+      border-radius: 6px 0 0 0;
+
+      &:not(:disabled) {
+        h2 { color: $rust; }
+
+        &:hover { background-color: $pink; }
+      }
+
+      h2 {
+        @include text_card_label;
+        margin: 0 14px 0 0;
+        padding: 6px 0 6px 12px;
+      }
     }
+
 
     // the monster filter
     input {
@@ -66,11 +77,15 @@
     button.new-character {
       @include text_default;
       height: 100%;
+      color: $rust;
 
       .asset.plus {
         height: 22px;
         width: 22px;
         margin-left: 8px;
+
+        // turns black to $rust
+        filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
       }
     }
   }
@@ -82,10 +97,9 @@
     border: none;
     border-radius: 0 6px 0 0;
     background: none;
-    transition: opacity .075s ease-out;
     cursor: pointer;
 
-    &:hover { background-color: $rust_light; }
+    &:hover { background-color: $pink; }
 
     &.first {
       @include text_title_heavy;
@@ -93,10 +107,15 @@
       font-style: normal;
       margin: 10px auto 0;
 
+      &:hover { background-color: $parchment_dark; }
+
       .asset.plus {
         height: 40px;
         width: 40px;
         margin-left: 8px;
+
+        // turns black to $rust
+        filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
       }
     }
   }

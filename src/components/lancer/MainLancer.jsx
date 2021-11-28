@@ -29,7 +29,7 @@ import './MainLancer.scss';
 
 
 const coreLcpEntry = {
-  name: 'Core Content',
+  name: 'Core Data',
   id: 'core'
 }
 
@@ -40,12 +40,11 @@ const MainLancer = ({
 }) => {
   const [allLcpEntries, setAllLcpEntries] = useState([coreLcpEntry]);
   const [activeLcpID, setActiveLcpID] = useState(coreLcpEntry.id);
+  const [isShowingLcpList, setIsShowingLcpList] = useState(false);
 
   const [allPilotEntries, setAllPilotEntries] = useState([]);
   const [activePilotID, setActivePilotID] = useState(null);
   const [activeMechID, setActiveMechID] = useState(null);
-
-  const [isEditingLcpList, setIsEditingLcpList] = useState(false);
 
   const activePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
   const allMechEntries = activePilot ? activePilot.mechs : [];
@@ -98,6 +97,7 @@ const MainLancer = ({
   }, [activePilotID]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
+  // =============== PILOT FILES ==================
   const uploadPilotFile = e => {
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], "UTF-8");
@@ -148,26 +148,7 @@ const MainLancer = ({
   }
 
 
-  const deleteActiveLcp = () => {
-    // remove from the current list of crafter entries
-    let lcpName = '';
-    let lcpIndex = allLcpEntries.findIndex(entry => entry.id === activeLcpID);
-    if (lcpIndex >= 0) {
-      console.log('allLcpEntries[lcpIndex]', allLcpEntries[lcpIndex]);
-      lcpName = allLcpEntries[lcpIndex].name
-
-      let newData = deepCopy(allLcpEntries)
-      newData.splice(lcpIndex, 1)
-      setAllLcpEntries(newData);
-    }
-
-    deleteLcpData(activeLcpID, lcpName)
-
-    setActiveLcpID(coreLcpEntry.id);
-  }
-
-
-
+  // =============== LCP FILES ==================
   async function parseLcpFile(e) {
     console.log('parsing lcp file......');
     const fileData = await PromisifyFileReader.readAsBinaryString(e.target.files[0])
@@ -208,21 +189,54 @@ const MainLancer = ({
     saveLcpData(contentPack)
   }
 
+  const deleteActiveLcp = () => {
+    // remove from the current list of crafter entries
+    let lcpName = '';
+    let lcpIndex = allLcpEntries.findIndex(entry => entry.id === activeLcpID);
+    if (lcpIndex >= 0) {
+      console.log('allLcpEntries[lcpIndex]', allLcpEntries[lcpIndex]);
+      lcpName = allLcpEntries[lcpIndex].name
+
+      let newData = deepCopy(allLcpEntries)
+      newData.splice(lcpIndex, 1)
+      setAllLcpEntries(newData);
+    }
+
+    deleteLcpData(activeLcpID, lcpName)
+
+    setActiveLcpID(coreLcpEntry.id);
+  }
+
+
   return (
     <div className='MainLancer'>
 
-      <FileList
-        title='Lancer Content Pack'
-        extraClass='content-packs'
-        acceptFileType='.lcp'
-        allFileEntries={allLcpEntries}
-        setActiveFileID={setActiveLcpID}
-        activeFileID={activeLcpID}
-        deleteActiveFile={deleteActiveLcp}
-        onFileUpload={uploadLcpFile}
-      >
-        Upload a Lancer content pack (.lcp)
-      </FileList>
+
+      <div className='lcp-container'>
+        {isShowingLcpList ?
+          <FileList
+            title='Lancer Content Pack'
+            extraClass='content-packs'
+            acceptFileType='.lcp'
+            allFileEntries={allLcpEntries}
+            setActiveFileID={setActiveLcpID}
+            activeFileID={activeLcpID}
+            deleteActiveFile={deleteActiveLcp}
+            onFileUpload={uploadLcpFile}
+            onTitleClick={() => setIsShowingLcpList(false)}
+          >
+            Upload a Lancer content pack (.lcp)
+          </FileList>
+        :
+          <button className='lcp-list-collapsed' onClick={() => setIsShowingLcpList(true)}>
+            { allLcpEntries.map((lcpEntry, i) =>
+              <span key={lcpEntry.id}> — {lcpEntry.name}</span>
+            )}
+            <span>—</span>
+          </button>
+        }
+      </div>
+
 
       <FileList
         title='Pilot'

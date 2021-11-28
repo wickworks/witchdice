@@ -38,14 +38,17 @@ const CharacterList = ({
   activeCharacterID,
   deleteActiveCharacter,
   createNewCharacter,
-  title = 'Character'
+  title = 'Character',
+  onTitleClick = null,
 }) => {
   characterEntries.sort((a, b) => (a.name.toLowerCase() > b.name.toLowerCase()) ? 1 : -1)
 
   return (
     <div className="CharacterList">
       <div className="title-bar">
-        <h2>{title}s</h2>
+        <button className="title-button" onClick={onTitleClick} disabled={onTitleClick === null}>
+          <h2>{title}s</h2>
+        </button>
         {characterEntries.length > 0 &&
           <button className="new-character" onClick={createNewCharacter}>
             New
