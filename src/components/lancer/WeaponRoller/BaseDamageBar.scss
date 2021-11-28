@@ -26,22 +26,32 @@ button.BaseDamageBar {
     .asset { filter: invert(100%); }
   }
 
-  .base-damage {
+  .damage-and-range {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 24px;
-
-    .damage-dice {
+    
+    .base-damage, .base-range {
       display: flex;
       align-items: center;
-      margin-left: 4px;
+      justify-content: space-between;
+      font-size: 24px;
 
-      .asset {
-        display: inline-block;
-        width: 28px;
-        height: 28px;
+      .bracket {
+        margin-top: -4px;
       }
+
+      .damage-dice, .range {
+        display: flex;
+        align-items: center;
+        margin-left: 4px;
+
+        .asset {
+          display: inline-block;
+          width: 28px;
+          height: 28px;
+        }
+      }
+
+      .range .asset { margin-top: -4px; } // dunno why these assets are so low
     }
   }
 

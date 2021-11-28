@@ -20,21 +20,36 @@ const BaseDamageBar = ({
     })
   }
 
+  console.log('weaponProfile',weaponProfile);
+
   return (
     <button
       className={`BaseDamageBar ${isActive ? 'active' : ''}`}
       onClick={onClick}
       disabled={!isClickable}
     >
-      <div className="base-damage">
-        <div>{'[ '}</div>
-        { weaponProfile.damage.map((damage, i) =>
-          <div className='damage-dice' key={`damage-${i}`}>
-            {damage.val}
-            <div className={`asset ${damage.type.toLowerCase()}`} />
-          </div>
-        )}
-        <div>{' ]'}</div>
+      <div className="damage-and-range">
+        <div className="base-damage">
+          <div className='bracket'>{'[ '}</div>
+          { weaponProfile.damage.map((damage, i) =>
+            <div className='damage-dice' key={`damage-${i}`}>
+              {damage.val}
+              <div className={`asset ${damage.type.toLowerCase()}`} />
+            </div>
+          )}
+          <div className='bracket'>{' ]'}</div>
+        </div>
+
+        <div className="base-range">
+          <div className='bracket'>{'[ '}</div>
+          { weaponProfile.range.map((range, i) =>
+            <div className='range' key={`range-${i}`}>
+              {range.val}
+              <div className={`asset ${range.type.toLowerCase()}`} />
+            </div>
+          )}
+          <div className='bracket'>{' ]'}</div>
+        </div>
       </div>
 
       <div className="tags">
