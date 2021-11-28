@@ -11,6 +11,10 @@
     justify-content: space-between;
   }
 
+  &.skipping-total .PartyRollAttack .damage-container .damage {
+    font-weight: bold;
+  }
+
   .title {
     display: flex;
     align-items: flex-end;

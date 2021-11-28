@@ -233,6 +233,8 @@ const Roller = ({
         if (attackSource.type === 'save' || roll.gatedByRollID >= 0) {
           summary.save = `DC ${attackSource.savingThrowDC} ${abilityTypes[attackSource.savingThrowType]}`;
           summary.didsave = !roll.hit;
+        } else if (attackSource.type === 'ability') {
+          summary.attack = -100; // abilities marked by a big negative
         } else {
           summary.attack = getRollUseDiscard(roll).rollUse;
         }

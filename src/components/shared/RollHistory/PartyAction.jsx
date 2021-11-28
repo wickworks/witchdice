@@ -134,7 +134,7 @@ const PartyActionAttack = ({actionData, showName}) => {
   // console.log('rendering actionData', actionData);
 
   return (
-    <div className='PartyAction'>
+    <div className={`PartyAction ${skipTotal ? 'skipping-total' : ''}`}>
 
       <ActionTitle
         actionData={actionData}
@@ -165,9 +165,9 @@ const PartyRollAttack = ({actionRollData}) => {
 
   const {name, attack, save, didsave, applies} = actionRollData;
 
-  const isAttack = (('attack' in actionRollData) && (attack > 0));
-  const isAbility = (('attack' in actionRollData) && !isAttack);
-  const isSave = (('save' in actionRollData) && true);
+  const isAttack = ('attack' in actionRollData) && (attack > -10); // magic number; abilities set a big negative
+  const isAbility = ('attack' in actionRollData) && !isAttack;
+  const isSave = ('save' in actionRollData) && true;
 
   var nameText = name;
   var nameIcon = '';

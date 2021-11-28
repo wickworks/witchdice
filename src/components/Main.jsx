@@ -170,7 +170,7 @@ const Main = ({
     const conditions = rollSummaryData.conditions;
     const characterName = rollSummaryData.characterName;
     const rolls = rollSummaryData.rolls;
-    const skipTotal = rollSummaryData.skipTotal;
+    const skipTotal = !!rollSummaryData.skipTotal;
 
     if (rolls && rolls.length > 0) {
       // traverse rollData to pull it out in a format that we want.
