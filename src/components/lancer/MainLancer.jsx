@@ -211,6 +211,36 @@ const MainLancer = ({
   return (
     <div className='MainLancer'>
 
+      <div className='wip-container'>
+        <p>
+          Hi! Thanks for checking out the Witchdice Lancer tool.
+          It is a WIP, so expect bugs and missing features.
+          You can send me feedback & bugs via
+          <a
+            href='https://docs.google.com/forms/d/e/1FAIpQLScs5LFyqCURtVjQDzrscMZhWXC45xZl4sUdLLMig0QQ3fO5GA/viewform'
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            google form
+          </a>
+          or
+          <a
+            href='https://twitter.com/wickglyph'
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Twitter
+          </a>,
+          and see the current to-do list on
+          <a
+            href='https://trello.com/b/e24TNiu1/witchdice'
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Trello.
+          </a>
+        </p>
+      </div>
 
       <div className='lcp-container'>
         {isShowingLcpList ?
