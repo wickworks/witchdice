@@ -8,6 +8,9 @@ import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 import PromisifyFileReader from 'promisify-file-reader'
 import { parseContentPack } from './contentPackParser.js';
 
+import compendiaJonesJson from './pilot_data/YOURGRACE.json';
+
+
 import {
   saveLcpData,
   loadLcpData,
@@ -52,6 +55,10 @@ const MainLancer = ({
 
   // =============== INITIALIZE ==================
   useEffect(() => {
+
+    // Save some dummy data (it's my OC, okay? I can have this)
+    savePilotData(compendiaJonesJson)
+
     let pilotEntries = [];
     let lcpEntries = [coreLcpEntry];
 

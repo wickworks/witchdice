@@ -40,6 +40,14 @@
       background-size: 104px;
 
       color: transparent; // hide alt text
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        height: 100%;
+      }
     }
 
     .frame-container {

@@ -12,8 +12,8 @@ const Footer = () => {
     <div className="Footer">
 
       <div className="meeeeeeeeeeeee-luv-u">
-        <a href="https://wick.works/about/" target="_blank" rel="noopener noreferrer">
-          by olive
+        <a href="https://wick.works/about/" target="_blank">
+          Olive Perry
         </a>
         ~
         <a href="https://wick.itch.io/aesthetic" target="_blank" rel="noopener noreferrer">
@@ -52,12 +52,18 @@ const Footer = () => {
       <ChangeLog />
 
       <div className="license">
-        <button className='open-button' onClick={() => setCreditsOpen(!creditsOpen)}>License Information</button>
+        <button className='open-button' onClick={() => setCreditsOpen(!creditsOpen)}>Credits & License Info</button>
 
         {creditsOpen &&
           <div className="credits">
 
-            <p>By Olive Perry.</p>
+            <p>
+              By
+              <a href="https://wick.works/about" target="_blank">
+                Olive Perry
+              </a>
+            </p>
+
             <p>Coded in React. Designed in Inkscape. Written using Atom.</p>
 
             <p className="noun-project">
@@ -137,6 +143,24 @@ const Footer = () => {
                 Lancer data repo
               </a>
             </p>
+
+            <p>
+              Compendia Jones portrait by
+              <a href="https://ashen-victor.itch.io/sci-fi-character-portraits-poject"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Ashen Victor
+              </a>
+              and Tokugawa sprite by
+              <a href="https://blobertson.itch.io/lancer-mech-sprites"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Blobertson.
+              </a>
+            </p>
+
 
             <p>
               Background textures generated at

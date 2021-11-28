@@ -33,11 +33,10 @@ $right_column_wid: 370px;
       background-repeat: no-repeat;
     }
 
-
     .diamond {
       position: relative;
 
-      img.portrait {
+      .portrait {
         width: 200px;
         height: 200px;
         margin: 6px;
@@ -50,7 +49,16 @@ $right_column_wid: 370px;
         background-size: 104px;
 
         color: transparent; // hide alt text
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          height: 100%;
+        }
       }
+
 
       .ll-tab {
         display: flex;
