@@ -15,6 +15,18 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
+          <div className='version-label'>v0.9 — Nov 2021</div>
+          <ul>
+            <li>Added support for Lancer.</li>
+            <li>Can import pilots from COMP/CON.</li>
+            <li>Can import lancer content packs files (.lcp)</li>
+            <li>Slight restyling of the roll summary panel for attacks.</li>
+            <li>Cut 5E OGL data out of source code, importing it instead.</li>
+            <li><a href='https://github.com/wickworks/witchdice' target="_blank" rel="noopener noreferrer">
+              Released Witch Dice source code under GNU GPLv3.
+            </a></li>
+          </ul>
+
           <div className='version-label'>v0.8 — Sept 2021</div>
           <ul>
             <li>Added Settings tab, with Witch+Dice defaulted to hidden.</li>
