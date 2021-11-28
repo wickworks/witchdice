@@ -11,6 +11,7 @@ import { parseContentPack } from './contentPackParser.js';
 import {
   saveLcpData,
   loadLcpData,
+  deleteLcpData,
   savePilotData,
   loadPilotData,
   deletePilotData,
@@ -43,6 +44,8 @@ const MainLancer = ({
   const [allPilotEntries, setAllPilotEntries] = useState([]);
   const [activePilotID, setActivePilotID] = useState(null);
   const [activeMechID, setActiveMechID] = useState(null);
+
+  const [isEditingLcpList, setIsEditingLcpList] = useState(false);
 
   const activePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
   const allMechEntries = activePilot ? activePilot.mechs : [];
@@ -145,6 +148,25 @@ const MainLancer = ({
   }
 
 
+  const deleteActiveLcp = () => {
+    // remove from the current list of crafter entries
+    let lcpName = '';
+    let lcpIndex = allLcpEntries.findIndex(entry => entry.id === activeLcpID);
+    if (lcpIndex >= 0) {
+      console.log('allLcpEntries[lcpIndex]', allLcpEntries[lcpIndex]);
+      lcpName = allLcpEntries[lcpIndex].name
+
+      let newData = deepCopy(allLcpEntries)
+      newData.splice(lcpIndex, 1)
+      setAllLcpEntries(newData);
+    }
+
+    deleteLcpData(activeLcpID, lcpName)
+
+    setActiveLcpID(coreLcpEntry.id);
+  }
+
+
 
   async function parseLcpFile(e) {
     console.log('parsing lcp file......');
@@ -196,7 +218,7 @@ const MainLancer = ({
         allFileEntries={allLcpEntries}
         setActiveFileID={setActiveLcpID}
         activeFileID={activeLcpID}
-        deleteActiveFile={() => {}}
+        deleteActiveFile={deleteActiveLcp}
         onFileUpload={uploadLcpFile}
       >
         Upload a Lancer content pack (.lcp)

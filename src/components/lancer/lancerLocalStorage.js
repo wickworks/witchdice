@@ -18,6 +18,11 @@ function loadLcpData(lcpID) {
   return loadLocalData(LCP_PREFIX, lcpID.slice(0,STORAGE_ID_LENGTH));
 }
 
+function deleteLcpData(lcpID, lcpName) {
+  const storageName = getStorageName(LCP_PREFIX, lcpID.slice(0,STORAGE_ID_LENGTH), lcpName);
+  localStorage.removeItem(storageName);
+}
+
 function savePilotData(pilot) {
   saveLocalData(PILOT_PREFIX, pilot.id.slice(0,STORAGE_ID_LENGTH), pilot.name, pilot);
 }
@@ -35,6 +40,7 @@ function deletePilotData(pilot) {
 export {
   saveLcpData,
   loadLcpData,
+  deleteLcpData,
   savePilotData,
   loadPilotData,
   deletePilotData,

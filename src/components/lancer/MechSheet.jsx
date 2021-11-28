@@ -153,8 +153,6 @@ const MechMount = ({
   const mountedWeapons = getWeaponsOnMount(mount);
   const isEmpty = mountedWeapons.length === 0;
 
-  console.log('mount', mount);
-
   return (
     <div className={`MechMount ${isEmpty ? 'empty' : ''}`}>
       { mountedWeapons.map((weaponData, i) =>
