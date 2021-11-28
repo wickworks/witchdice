@@ -30,11 +30,21 @@ const MechSheet = ({
 }) => {
   // const [activeWeaponData, setActiveWeaponData] = useState(null);
   const [activeMountIndex, setActiveMountIndex] = useState(null);
+  const [activeWeaponIndex, setActiveWeaponIndex] = useState(0);
 
   // =============== CHANGE MECH ==================
   useEffect(() => {
     setActiveMountIndex(null);
+    setActiveWeaponIndex(0);
   }, [activeMech, activePilot]);
+
+  // =============== SUMMARY DATA ==================
+  // inject the mech name to summary data before sending it up
+  const setRollSummaryDataWithName = (rollSummaryData) => {
+    rollSummaryData.characterName = activeMech.name
+    // console.log('rollSummaryData', rollSummaryData)
+    setRollSummaryData(rollSummaryData)
+  }
 
   // =============== MECH AND MOUNT MAGANGEMENT ==================
   const loadout = activeMech.loadouts[0];
@@ -57,34 +67,30 @@ const MechSheet = ({
     mounts.push(...integratedMounts)
   }
 
-  const frameData = findFrameData(activeMech.frame);
+  const changeMountAndWeapon = (newMount, newWeapon) => {
+    setActiveMountIndex(newMount)
+    setActiveWeaponIndex(newWeapon)
 
-  const gritBonus = getGrit(activePilot);
+    // the next attack roll will be a new entry in the summary
+    newAttackSummary()
+  }
+
+  // the next attack roll will be a new entry in the summary
+  const newAttackSummary = () => {
+    setPartyLastAttackKey('')
+    setPartyLastAttackTimestamp(0)
+  }
 
   const bonusDamageSources = [
     ...getBonusDamageSourcesFromMech(activeMech),
     ...getBonusDamageSourcesFromTalents(activePilot),
   ];
 
-  const changeMount = (newIndex) => {
-    setActiveMountIndex(newIndex)
+  const frameData = findFrameData(activeMech.frame);
+  const gritBonus = getGrit(activePilot);
 
-    // the next attack roll will be a new entry in the summary
-    setPartyLastAttackKey('')
-    setPartyLastAttackTimestamp(0)
-  }
-
-  // =============== SUMMARY DATA ==================
-
-  // inject the mech name to summary data before sending it up
-  const setRollSummaryDataWithName = (rollSummaryData) => {
-    rollSummaryData.characterName = activeMech.name
-    console.log('rollSummaryData', rollSummaryData)
-    setRollSummaryData(rollSummaryData)
-  }
-
-  // console.log('bonusDamageSources', bonusDamageSources);
-  // console.log('mounts',mounts);
+  const activeMount = mounts[activeMountIndex];
+  const activeWeaponData = activeMount && getWeaponsOnMount(activeMount)[activeWeaponIndex];
 
   return (
     <div className="MechSheet">
@@ -117,25 +123,23 @@ const MechSheet = ({
           { mounts.map((mount, i) =>
             <MechMount
               mount={mount}
-              activateMount={() => changeMount(i)}
-              isActive={activeMountIndex === i}
+              setActiveWeaponIndex={(weaponIndex) => changeMountAndWeapon(i, weaponIndex)}
+              activeWeaponIndex={activeMountIndex === i ? activeWeaponIndex : -1}
               key={`mount-${i}`}
             />
           )}
         </div>
       </div>
 
-      {mounts[activeMountIndex] &&
-        getWeaponsOnMount(mounts[activeMountIndex]).map((weaponData, i) =>
-          <WeaponRoller
-            weaponData={weaponData}
-            gritBonus={gritBonus}
-            availableBonusSources={bonusDamageSources}
-            isPrimaryWeaponOnMount={i === 0}
-            setRollSummaryData={setRollSummaryDataWithName}
-            key={`${weaponData.id}-${i}`}
-          />
-        )
+      {activeWeaponData &&
+        <WeaponRoller
+          weaponData={activeWeaponData}
+          gritBonus={gritBonus}
+          availableBonusSources={bonusDamageSources}
+          isPrimaryWeaponOnMount={activeWeaponIndex === 0}
+          setRollSummaryData={setRollSummaryDataWithName}
+          onClear={newAttackSummary}
+        />
       }
     </div>
   )
@@ -143,34 +147,65 @@ const MechSheet = ({
 
 const MechMount = ({
   mount,
-  activateMount,
-  isActive,
+  setActiveWeaponIndex,
+  activeWeaponIndex,
 }) => {
   const mountedWeapons = getWeaponsOnMount(mount);
-
   const isEmpty = mountedWeapons.length === 0;
+
+  console.log('mount', mount);
+
+  return (
+    <div className={`MechMount ${isEmpty ? 'empty' : ''}`}>
+      { mountedWeapons.map((weaponData, i) =>
+        <MechWeapon
+          mountType={i === 0 ? mount.mount_type : ''}
+          weaponData={weaponData}
+          onClick={() => setActiveWeaponIndex(i)}
+          isActive={activeWeaponIndex === i}
+          key={i}
+        />
+      )}
+
+      {mountedWeapons.length === 0 &&
+        <MechWeapon
+          mountType={mount.mount_type}
+          weaponData={null}
+          onClick={() => {}}
+          isActive={false}
+        />
+      }
+    </div>
+  )
+}
+
+const MechWeapon = ({
+  mountType = '',
+  weaponData,
+  onClick,
+  isActive,
+}) => {
 
   return (
     <button
-      className={`MechMount ${isActive ? 'active' : ''} ${isEmpty ? 'empty' : ''}`}
-      onClick={activateMount}
-      disabled={mountedWeapons.length === 0}
+      className={`MechWeapon ${isActive ? 'active' : ''}`}
+      onClick={onClick}
+      disabled={weaponData === null}
     >
-      <div className='mount-type'>{mount.mount_type}</div>
+      { mountType && <div className='mount-type'>{mountType}</div>}
 
-      <div className='weapons-container'>
-        { mountedWeapons.map((weaponData, i) =>
-          <div className="mech-weapon" key={i}>
-            <div className="name">{weaponData.name.toLowerCase()}</div>
-          </div>
-        )}
-
-        {isEmpty &&
-          <div className={'i-have-no-weapon'}>(empty mount)</div>
-        }
-      </div>
+      { weaponData ?
+        <div className="mech-weapon">
+          <div className="name">{weaponData.name.toLowerCase()}</div>
+        </div>
+      :
+        <div className={'i-have-no-weapon'}>(empty mount)</div>
+      }
     </button>
   )
 }
+
+
+
 
 export default MechSheet;

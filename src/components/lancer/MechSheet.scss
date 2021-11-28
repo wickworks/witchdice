@@ -97,51 +97,52 @@
   }
 }
 
-button.MechMount {
+.MechMount {
   display: flex;
   flex-direction: column;
 
   width: 45%;
+  box-sizing: border-box;
   min-width: 200px;
-  padding: 8px 14px 10px;
   margin-bottom: 20px;
   text-align: left;
 
   border: 2px solid $rust;
 
+  &.empty { border-color: $faded_grey; }
 
-
-  &:hover {
-    background-color: $parchment_dark;
-  }
-
-  &.active {
-    background-color: $rust;
-    border-color: $parchment_dark;
-    color: white;
-  }
-
-  &:disabled { background-color: transparent; }
-
-  &.empty {
-    border-color: $faded_grey;
-
-    .mount-type {
-      color: $grey_mid;
-    }
-  }
-
-  .mount-type {
-    @include text_monospace;
-    font-size: 20px;
-    margin-bottom: 4px;
-  }
-
-  .weapons-container {
+  .MechWeapon {
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
+    height: 100%;
     width: 100%;
+    box-sizing: border-box;
+    padding: 8px 14px 10px;
+
+    &:hover {
+      background-color: $parchment_dark;
+    }
+
+    &.active {
+      background-color: $rust;
+      border-color: $parchment_dark;
+      color: white;
+    }
+
+    &:disabled {
+      background-color: transparent;
+
+      .mount-type {
+        color: $grey_mid;
+      }
+    }
+
+    .mount-type {
+      @include text_monospace;
+      font-size: 20px;
+      margin-bottom: 4px;
+    }
 
     .mech-weapon {
       margin-top: 12px;

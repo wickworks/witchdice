@@ -28,7 +28,9 @@ const WeaponRoller = ({
   gritBonus,
   availableBonusSources = [],
   isPrimaryWeaponOnMount,
+
   setRollSummaryData,
+  onClear,
 }) => {
   const [allAttackSummaries, setAllAttackSummaries] = useState([]); // for the summary panel
 
@@ -59,6 +61,7 @@ const WeaponRoller = ({
     setDamageModifiers({...DAMAGE_MODIFIERS})
     setGenericBonusDieCount(0);
     setGenericBonusPlus(0);
+    onClear();
   }
 
   // =============== MAKE ATTACK ROLLS ==================
