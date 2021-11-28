@@ -100,7 +100,7 @@ const PartyRollDicebag = ({dieType, result}) => {
 //     'name': 'Longsword',
 //     'slashing': 14,
 //     'necrotic': 3,
-//     'applies': 'Poisoned'
+//     'applies': 'Poisoned<br>Prone'
 //   },
 //   'roll-2': {
 //     'name': 'Fireball',
@@ -182,6 +182,9 @@ const PartyRollAttack = ({actionRollData}) => {
     nameIcon = 'difficulty'
   }
 
+  // console.log('rendering actionRollData', actionRollData);
+
+
   // prepare to harvest damage information
   const dataKeys = Object.keys(actionRollData);
   return (
@@ -227,7 +230,7 @@ const PartyRollAttack = ({actionRollData}) => {
 
       {applies &&
         <div className="applied-conditions">
-          <BrToParagraphs stringWithBrs={applies.join('<br>')}/>
+          <BrToParagraphs stringWithBrs={applies}/>
         </div>
       }
     </div>

@@ -98,7 +98,7 @@ const WeaponAttack = ({
     let attackRollSummary = {
       name: rollConditions.join(' '),
       attack: finalFinalResult,
-      applies: effectsList,
+      applies: effectsList.join('<br>'),
     }
 
     if (isHit) {
