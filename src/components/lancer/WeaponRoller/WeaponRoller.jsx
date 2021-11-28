@@ -188,6 +188,12 @@ const WeaponRoller = ({
           </div>
         }
 
+        {weaponData.on_attack &&
+          <div className='effect-row'>
+            <p><strong>On attack:</strong> {weaponData.on_attack}</p>
+          </div>
+        }
+
         <BonusDamageBar
           genericBonusDieCount={genericBonusDieCount}
           setGenericBonusDieCount={setGenericBonusDieCount}
