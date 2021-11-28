@@ -128,10 +128,13 @@ function getBonusDamageSourcesFromTalents(pilotData) {
             sources.push( newSource('MAG', 't_walking_armory_1_mag', '—', 'Kinetic', newTalentTrait(talentData,1,magEffect)) );
           }
           if (rank >= 2) {
-            sources.push( newSource('HELLFIRE', 't_walking_armory_2_hellfire', '—', 'Burn', talentData.ranks[1]) );
-            // const shockEffect = {onHit: 'One character hit by the attack – your choice – must succeed on a HULL save or be knocked PRONE.'}
-            // sources.push( newSource('JAGER', 't_walking_armory_2_jager', '', '', talentData.ranks[1]) );
-            // sources.push( newSource('SABOT', 't_walking_armory_2_sabot', '', '', talentData.ranks[1]) );
+            sources.push( newSource('HELLFIRE', 't_walking_armory_2_hellfire', '—', 'Energy', talentData.ranks[1]) );
+
+            const jagerEffect = {onHit: 'Jager: Knockback 2, one character hit by the attack – your choice – must succeed on a Hull save or be knocked prone.'}
+            sources.push( newSource('JAGER', 't_walking_armory_2_jager', '—', 'Explosive', newTalentTrait(talentData,2,jagerEffect)) );
+
+            const sabotEffect = {onHit: 'Sabot: Armor Piercing.'}
+            sources.push( newSource('SABOT', 't_walking_armory_2_sabot', '—', 'Explosive', newTalentTrait(talentData,2,sabotEffect)) );
           }
           break;
 
