@@ -11,13 +11,16 @@
   }
 
   .entry {
+    display: inline-block;
+    white-space: nowrap;
+
     .bracket {
       margin: 0 4px;
       color: $grey_mid;
     }
 
     .name {
-      white-space: nowrap;
+      display: inline-block;
       text-transform: capitalize;
     }
 
