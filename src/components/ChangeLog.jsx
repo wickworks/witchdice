@@ -15,6 +15,11 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
+          <div className='version-label'>v0.9.1 — Nov 2021</div>
+          <ul>
+            <li>Made Lancer tool responsive for mobile phones.</li>
+          </ul>
+
           <div className='version-label'>v0.9 — Nov 2021</div>
           <ul>
             <li>Added support for Lancer.</li>
