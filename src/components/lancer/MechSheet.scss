@@ -54,6 +54,7 @@
       @include text_monospace;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
       font-size: 22px;
       margin-top: 2px;
 
@@ -108,14 +109,15 @@
 .MechMount {
   display: flex;
   flex-direction: column;
-
-  width: 45%;
-  box-sizing: border-box;
-  min-width: 200px;
   margin-bottom: 20px;
   text-align: left;
 
   border: 2px solid $rust;
+
+  width: 45%;
+  box-sizing: border-box;
+  @include constricted { width: 100%; }
+
 
   &.empty { border-color: $faded_grey; }
 
