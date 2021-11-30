@@ -111,13 +111,11 @@
   flex-direction: column;
   margin-bottom: 20px;
   text-align: left;
-
   border: 2px solid $rust;
 
   width: 45%;
   box-sizing: border-box;
   @include constricted { width: 100%; }
-
 
   &.empty { border-color: $faded_grey; }
 

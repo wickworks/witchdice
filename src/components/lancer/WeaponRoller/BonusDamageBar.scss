@@ -8,8 +8,13 @@
   box-sizing: border-box;
   overflow: hidden;
 
+  @include below_max_width { grid-template-columns: 1fr 1fr; }
+
+  @include constricted { grid-template-columns: 1fr; }
+
   button {
     padding: 0;
+    @include constricted { padding: 0 10%; }
 
     &:hover { background-color: $parchment_dark; }
 

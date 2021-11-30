@@ -76,6 +76,9 @@
     margin-bottom: 20px;
     padding: 0 40px;
 
+    @include constricted { padding: 0 10%; }
+
+
     .tip {
       text-align: center;
       font-style: italic;
@@ -84,6 +87,8 @@
 
     .action-buttons-container {
       display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
       margin-top: 4px;
 
       button {
@@ -107,6 +112,8 @@
         &.clear-attacks {
           color: $rust;
           margin-left: auto;
+
+          @include constricted { margin: 0; }
         }
 
         .asset {

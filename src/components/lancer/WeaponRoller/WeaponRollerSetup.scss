@@ -2,6 +2,11 @@
 
 $number_speed: 0.25s;
 
+@mixin condensed_setup {
+  @media (max-width: 620px) {
+    @content;
+  }
+}
 
 .WeaponRollerSetup {
   display: flex;
@@ -13,39 +18,51 @@ $number_speed: 0.25s;
     display: flex;
     justify-content: center;
 
+    @include condensed_setup {
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+
+
     .column {
       display: flex;
       flex-direction: column;
-      width: 40%;
-      box-sizing: border-box;
       flex-grow: 0;
       flex-shrink: 0;
       min-height: 200px;
 
-      // border-top: 2px solid $parchment_dark;
+      width: 40%;
+      box-sizing: border-box;
+
+      @include condensed_setup {
+        width: 100%;
+        min-height: unset;
+      }
 
 
       &.difficulty {
         align-items: flex-end;
         margin-right: 14px;
-        // border-left: 2px solid $rust;
+        @include condensed_setup { align-items: flex-start; }
 
         * { color: $rust; }
 
         .Sources button {
           text-align: right;
+          @include condensed_setup { text-align: center; }
         }
       }
 
       &.accuracy {
         align-items: flex-start;
         margin-left: 14px;
-        // border-right: 2px solid $rust;
+        @include condensed_setup { margin-left: 0; }
 
         * { color: $soft_black; }
 
         .Sources button {
           text-align: left;
+          @include condensed_setup { text-align: center; }
         }
       }
 
@@ -56,6 +73,10 @@ $number_speed: 0.25s;
         align-items: center;
         margin: 0 40px 6px;
 
+        @include condensed_setup {
+          margin: 12px auto 6px;
+        }
+
         .asset {
           display: inline-block;
           width: 28px;
@@ -65,6 +86,9 @@ $number_speed: 0.25s;
           &.difficulty {
             // turns black to $rust
             filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+
+            @include condensed_setup { order: 2; }
+
           }
         }
       }
@@ -72,6 +96,11 @@ $number_speed: 0.25s;
       .NumberLine {
         position: relative;
         display: flex;
+
+        @include condensed_setup {
+          width: 100%;
+          justify-content: center;
+        }
 
         .number {
           display: flex;
@@ -121,8 +150,6 @@ $number_speed: 0.25s;
             min-width: 35px;
             margin: auto;
           }
-
-
         }
       }
 
@@ -130,6 +157,11 @@ $number_speed: 0.25s;
         display: flex;
         flex-wrap: wrap;
         width: 100%;
+
+        // @include condensed_setup {
+        //   grid-row: 1 / span 2;
+        //   grid-column: 2;
+        // }
 
         button {
           display: block;

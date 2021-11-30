@@ -28,7 +28,8 @@ button.BaseDamageBar {
 
   .damage-and-range {
     display: flex;
-    
+    flex-wrap: wrap-reverse;
+
     .base-damage, .base-range {
       display: flex;
       align-items: center;

@@ -11,8 +11,9 @@
     min-height: 178px;
 
     ul.EntryList li {
-      // width: 100%;
       font-size: 24px;
+
+      @include constricted { width: 100%; }
     }
   }
 }

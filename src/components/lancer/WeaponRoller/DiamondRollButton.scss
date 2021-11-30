@@ -10,6 +10,12 @@
   }
 }
 
+@mixin condensed_setup {
+  @media (max-width: 620px) {
+    @content;
+  }
+}
+
 .DiamondRollButton {
   position: relative;
   width: fit-content;
@@ -18,6 +24,9 @@
   .BigRollButton {
     justify-content: flex-start;
     margin-bottom: -36px;
+
+    @include condensed_setup { margin-bottom: 0; }
+
 
     button.new-roll {
       border-radius: 0;
