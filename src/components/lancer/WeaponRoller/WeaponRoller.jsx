@@ -263,10 +263,21 @@ const WeaponRoller = ({
 
         { (allAttackRolls.length >= 1) &&
           <>
-            {(allAttackRolls.length >= 2 && activeBonusDamageData.rolls.length > 0) && !isSettingUpAttack &&
-              <div className='tip'>
-                If an attack that targets more than one character deals bonus damage, the bonus damage is halved.
-              </div>
+            { !isSettingUpAttack &&
+              <>
+                { activeBonusDamageData.rolls.length > 0 && allAttackRolls.length >= 2 &&
+                  <div className='tip'>
+                    If an attack that targets more than one character deals bonus damage, the bonus damage is halved.
+                  </div>
+                }
+
+                { damageModifiers.double &&
+                  <div className='tip'>
+                    All kinetic<span className='asset kinetic' />, explosive<span className='asset explosive' /> or energy<span className='asset energy' />
+                    damage taken by EXPOSED characters is doubled, before applying any reductions.
+                  </div>
+                }
+              </>
             }
 
             <div className='action-buttons-container'>

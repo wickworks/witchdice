@@ -8,6 +8,7 @@ import {
 } from './damageTotalUtils.js';
 
 import {
+  applyDamageMultiplier,
   BASIC_DAMAGE_TYPES,
 } from '../../lancerData.js';
 
@@ -25,19 +26,18 @@ const DamageRollPool = ({
   // remove the highest rolls from the total pool; everything in there will be grey
   highest.forEach(highroll => totalPool.splice(totalPool.indexOf(highroll), 1))
 
+
+  const convertToBurn = isBonusDamage && damageModifiers.bonusToBurn && BASIC_DAMAGE_TYPES.includes(rollData.type)
+  const damageType = convertToBurn ? 'Burn' : rollData.type
+
   // Bonus damage gets halved once it targets multiple characters
-  var multiplier = 1.0;
-  if (damageModifiers.double) multiplier *= 2;
-  if (damageModifiers.half) multiplier *= .5;
+  var multiplier = applyDamageMultiplier(1.0, damageType, damageModifiers);
   if (isBonusDamage && halveBonusDamage) multiplier *= .5;
 
   if (multiplier !== 1.0) {
     totalPool.forEach((roll, i) =>  totalPool[i] = (totalPool[i] * multiplier));
     highest.forEach((roll, i) =>    highest[i] = (highest[i] * multiplier));
   }
-
-  const convertToBurn = isBonusDamage && damageModifiers.bonusToBurn && BASIC_DAMAGE_TYPES.includes(rollData.type)
-  const damageType = convertToBurn ? 'Burn' : rollData.type
 
   const discardedString = totalPool.join(', ')
   const usedString = highest.join(', ')

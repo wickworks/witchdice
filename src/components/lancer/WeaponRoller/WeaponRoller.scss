@@ -83,6 +83,12 @@
       text-align: center;
       font-style: italic;
       margin-top: 12px;
+
+      .asset {
+        display: inline-block; width: 20px; height: 20px;
+        margin-bottom: -5px;
+        margin-left: -2px;
+      }
     }
 
     .action-buttons-container {

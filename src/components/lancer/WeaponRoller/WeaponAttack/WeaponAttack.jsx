@@ -63,7 +63,7 @@ const WeaponAttack = ({
       });
     }
     if (damageModifiers.half)         effectsList.push('Half damage.')
-    if (damageModifiers.double)       effectsList.push('Double damage.')
+    if (damageModifiers.double)       effectsList.push('Double damage (Exposed).')
     if (damageModifiers.average)      effectsList.push('Rolls averaged.')
     if (convertedBonusToBurn)         effectsList.push('Bonus damage converted to burn.')
 
@@ -105,7 +105,7 @@ const WeaponAttack = ({
 
   useEffect(() => {
     sendAttackToRollSummary(attackData);
-  }, [isHit, invertCrit, isRerolled, manualRoll, bonusDamageData.rolls.length, JSON.stringify(damageModifiers)]); 
+  }, [isHit, invertCrit, isRerolled, manualRoll, bonusDamageData.rolls.length, JSON.stringify(damageModifiers)]);
 
   function sendAttackToRollSummary(newAttack) {
     let rollConditions = [];

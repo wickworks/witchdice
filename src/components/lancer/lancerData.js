@@ -19,15 +19,13 @@ const BONUS_TO_BURN_TAGS = ['mf_tokugawa_dz']
 // these should probably get rolled into damageModifiers system
 const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier', 't_nuclear_cavalier']
 
-const BASIC_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy']
+const BASIC_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy', 'Variable']
 
 const LANCER_DAMAGE_TYPES = [
   ...BASIC_DAMAGE_TYPES,
-  'Variable',
   'Burn',
   'Heat',
 ]
-
 
 
 const DAMAGE_MODIFIERS = {
@@ -35,6 +33,13 @@ const DAMAGE_MODIFIERS = {
   half: false,
   average: false,
   bonusToBurn: false,
+}
+
+function applyDamageMultiplier(damage, damageType, damageModifiers) {
+  var multiplier = 1.0;
+  if (damageModifiers.double && BASIC_DAMAGE_TYPES.includes(damageType)) multiplier *= 2.0;
+  if (damageModifiers.half) multiplier *= .5;
+  return damage * multiplier;
 }
 
 const MAX_BONUS = 9; // either added or dice rolled
@@ -45,7 +50,7 @@ const GENERIC_BONUS_SOURCE = {
   id: 'generic',
 }
 
-const getGrit = (pilot) => { return Math.ceil(pilot.level * .5) }
+function getGrit(pilot) { return Math.ceil(pilot.level * .5) }
 
 // turns '10d6+4' into {count: 10, dietype: 6, bonus: 4}
 const processDiceString = (diceString) => {
@@ -192,6 +197,7 @@ const findSystemData = (systemID) => {
 export {
   findSkillData,
   getGrit,
+  applyDamageMultiplier,
   processDiceString,
   findTagData,
   findTagOnWeapon,

@@ -1,4 +1,5 @@
 import {
+  applyDamageMultiplier,
   FIRST_ROLL_ONLY_TAGS,
   BASIC_DAMAGE_TYPES,
 } from '../../lancerData.js';
@@ -72,14 +73,9 @@ function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusD
   if (isFirstRoll) addBonusDamageToBaseDamage(totalsByType, firstBonusTotalsByType, damageModifiers.bonusToBurn);
 
   // Halve/double damage from multiplier
-  var multiplier = 1.0;
-  if (damageModifiers.double) multiplier *= 2.0;
-  if (damageModifiers.half) multiplier *= .5;
-  if (multiplier !== 1.0) {
-    Object.keys(totalsByType).forEach(type => {
-      totalsByType[type] = totalsByType[type] * multiplier;
-    });
-  }
+  Object.keys(totalsByType).forEach(type => {
+    totalsByType[type] = applyDamageMultiplier(totalsByType[type], type, damageModifiers);
+  });
 
   // Make sure we round up all final numbers
   Object.keys(totalsByType).forEach(type => {
@@ -93,8 +89,7 @@ function getReliableDamage(attackData, damageModifiers) {
   var reliableDamage = attackData.reliable.val;
   if ('reliable' in attackData) {
     var reliableDamage = attackData.reliable.val;
-    if (damageModifiers.double) reliableDamage *= 2.0;
-    if (damageModifiers.half) reliableDamage *= .5;
+    reliableDamage = applyDamageMultiplier(reliableDamage, attackData.reliable.type, damageModifiers)
     return {[attackData.reliable.type]: Math.ceil(reliableDamage)}
   } else {
     return {}
