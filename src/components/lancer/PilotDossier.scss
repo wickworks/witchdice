@@ -8,23 +8,20 @@ $right_column_wid: 370px;
   box-sizing: border-box;
   margin: 20px 20px 0;
 
-  // h2 {
-  //   @include text_title_action;
-  //   // text-align: center;
-  //   margin: 16px 0;
-  // }
-
   .dossier-container {
     @include shadow;
     @include parchment_background;
     @include nouveau_border("nouveau_character.svg");
-    font-family: 'PT Mono', monospace;
+    @include text_monospace;
 
     position: relative;
     box-sizing: border-box;
-    padding: 12px;
     width: 100%;
     max-width: 800px;
+
+    padding: 12px;
+    @include below_max_width { padding: 18px 12px 30px; }
+
 
     .watermark-container {
       width: 100%;
@@ -35,6 +32,12 @@ $right_column_wid: 370px;
 
     .diamond {
       position: relative;
+
+      @include below_max_width { margin: 20px 8px 0; }
+
+      @include constricted {
+        margin-left: calc(50% - 106px;)
+      }
 
       .portrait {
         width: 200px;
@@ -54,11 +57,12 @@ $right_column_wid: 370px;
         justify-content: center;
         align-items: center;
 
-        img {
-          height: 100%;
+        @include constricted {
+          float: none;
         }
-      }
 
+        img { height: 100%; }
+      }
 
       .ll-tab {
         display: flex;
@@ -120,18 +124,28 @@ $right_column_wid: 370px;
       }
     }
 
-    .name-and-callsign {
-      height: 100px;
+    .NameAndCallsign {
       padding-top: 6px;
 
+      &.desktop-only {
+        height: 100px;
+        @include below_max_width { display: none; }
+      }
+
+      &.mobile-only {
+        display: flex;
+        flex-direction: column;
+        margin: 0 16px;
+        @include max_width { display: none; }
+      }
+
       .callsign {
-        // font-family: 'B612 Mono', monospace;
-        // font-weight: bold;
         font-size: 42px;
         color: $rust;
-        height: 50px;
         line-height: 50px;
         position: relative;
+
+        @include max_width { height: 50px; }
 
         &.sliced::after {
           content: '⋮';
@@ -141,22 +155,39 @@ $right_column_wid: 370px;
       .name {
         font-size: 20px;
         line-height: 24px;
-        line-height: 24px;
       }
 
       .hase {
         display: flex;
         float: right;
-        width: $right_column_wid - 4px;
         font-size: 16px;
         text-transform: capitalize;
         margin-top: 6px;
+        order: 10; // bottom of mobile-only;
 
         > div {
           margin-right: 36px;
 
           .attribute { color: $grey_mid; }
         }
+
+
+        @include max_width {
+          width: $right_column_wid - 4px;
+        }
+
+        @include constricted {
+          justify-content: space-around;
+          flex-wrap: wrap;
+          margin-top: 12px;
+
+          > div {
+            text-align: center;
+            margin-right: 0;
+            width: 50%;
+          }
+        }
+
       }
 
       .background {
@@ -169,29 +200,43 @@ $right_column_wid: 370px;
 
 
     .lists-of-things {
+      &.primary {
+        @include constricted { margin-top: 20px; }
+      }
+
       &.secondary {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        box-sizing: border-box;
-        padding: 6px 0px 16px 12px;
-        border-top: 3px solid $faded_gold;
+        @include max_width {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          box-sizing: border-box;
+          padding: 6px 0px 16px 12px;
+          border-top: 3px solid $faded_gold;
+        }
       }
 
       .MechanicsList {
+        @include constricted { margin-left: 8px; }
+
         &.core-bonuses {
-          float: right;
-          width: $right_column_wid;
           margin-left: 8px;
           margin-bottom: 4px;
+
+          @include max_width {
+            float: right;
+            width: $right_column_wid;
+          }
 
           .label { margin-top: 0; }
         }
 
         &.skills {
-          width: $right_column_wid;
           flex-shrink: 0;
           margin-left: 8px;
+
+          @include max_width {
+            width: $right_column_wid;
+          }
         }
       }
     }

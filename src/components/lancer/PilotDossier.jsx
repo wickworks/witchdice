@@ -22,11 +22,7 @@ const PilotDossier = ({
   activePilot
 }) => {
 
-  const MAX_CALLSIGN = 22;
-  const slicedCallsign = activePilot.callsign.slice(0, MAX_CALLSIGN)
-
   const geneStatus = pilotIDToGeneStatus(activePilot.id);
-  const hase = activePilot.mechSkills;
 
   return (
     <div className="PilotDossier">
@@ -34,6 +30,7 @@ const PilotDossier = ({
 
         <div className="watermark-container asset ssc-watermark">
 
+          <NameAndCallsign activePilot={activePilot} extraClass='mobile-only' />
 
           <div className="diamond">
             <div className="portrait asset ssc-watermark">
@@ -51,27 +48,9 @@ const PilotDossier = ({
             </div>
           </div>
 
-          <div className="name-and-callsign">
+          <NameAndCallsign activePilot={activePilot} extraClass='desktop-only' />
 
-            <div className={`callsign ${activePilot.callsign.length > MAX_CALLSIGN ? 'sliced' : ''}`}>
-                {slicedCallsign}
-            </div>
-            <div className="name">{activePilot.name}</div>
-
-            <div className="hase">
-              <div><span className='attribute'>HULL</span> {hase[0]}</div>
-              <div><span className='attribute'>AGI</span> {hase[1]}</div>
-              <div><span className='attribute'>SYS</span> {hase[2]}</div>
-              <div><span className='attribute'>ENGI</span> {hase[3]}</div>
-            </div>
-
-            <div className="background">
-              {activePilot.background ? activePilot.background.toLowerCase() : 'Unknown Origin'}
-            </div>
-
-          </div>
-
-          <div className="lists-of-things">
+          <div className="lists-of-things primary">
 
             <MechanicsList
               label='Core Bonuses'
@@ -108,6 +87,38 @@ const PilotDossier = ({
 
           </div>
         </div>
+      </div>
+    </div>
+  )
+}
+
+
+const NameAndCallsign = ({
+  activePilot,
+  extraClass,
+}) => {
+
+  const MAX_CALLSIGN = 22;
+  const slicedCallsign = activePilot.callsign.slice(0, MAX_CALLSIGN)
+
+  const hase = activePilot.mechSkills;
+
+  return (
+    <div className={`NameAndCallsign ${extraClass}`}>
+      <div className={`callsign ${activePilot.callsign.length > MAX_CALLSIGN ? 'sliced' : ''}`}>
+          {slicedCallsign}
+      </div>
+      <div className="name">{activePilot.name}</div>
+
+      <div className="hase">
+        <div><span className='attribute'>HULL</span> {hase[0]}</div>
+        <div><span className='attribute'>AGI</span> {hase[1]}</div>
+        <div><span className='attribute'>SYS</span> {hase[2]}</div>
+        <div><span className='attribute'>ENGI</span> {hase[3]}</div>
+      </div>
+
+      <div className="background">
+        {activePilot.background ? activePilot.background.toLowerCase() : 'Unknown Origin'}
       </div>
     </div>
   )

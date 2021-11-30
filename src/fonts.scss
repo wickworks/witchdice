@@ -1,5 +1,25 @@
 @import './colors';
 
+@mixin constricted {
+  @media (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin below_max_width {
+  @media (max-width: 839px) {
+    @content;
+  }
+}
+
+@mixin max_width {
+  @media (min-width: 840px) {
+    @content;
+  }
+}
+
+
+
 @mixin nouveau_border($border_filename) {
   border-image-source: url("./assets/borders/#{$border_filename}");
   border-style: solid;
