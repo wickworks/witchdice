@@ -13,6 +13,40 @@ const allSystems = data.systems;
 
 var loadedLcpData = {};
 
+const blankTalent = {
+  "id": "missing_talent",
+  "name": "UNKNOWN TALENT",
+  "icon": "",
+  "terse": "",
+  "description": "",
+  "ranks": [
+    {
+      "name": "1",
+      "description": "",
+      "synergies": [],
+      "actions": []
+    },
+    {
+      "name": "2",
+      "description": "",
+      "synergies": []
+    },
+    {
+      "name": "3",
+      "description": "",
+      "actions": []
+    }
+  ]
+}
+
+const blankSkill = {
+  "id": "unknown_skill",
+  "name": "UNKNOWN SKILL",
+  "description": "",
+  "detail": "",
+  "family": ""
+}
+
 // this should definitely get rolled into damageModifiers system
 const BONUS_TO_BURN_TAGS = ['mf_tokugawa_dz']
 
@@ -173,19 +207,19 @@ const findWeaponData = (weaponID) => {
 const findTalentData = (talentID) => {
   var talentData = allTalents.find(talent => talent.id === talentID);
   if (!talentData) talentData = findGameDataFromLcp('talents', talentID)
-  return talentData;
+  return talentData ? talentData : blankTalent;
 }
 
 const findSkillData = (skillID) => {
   var skillData = allSkills.find(skill => skill.id === skillID);
   if (!skillData) skillData = findGameDataFromLcp('skills', skillID)
-  return skillData;
+  return skillData ? skillData : blankSkill;
 }
 
 const findCoreBonusData = (coreBonusID) => {
   var coreBonusData = allCoreBonuses.find(coreBonus => coreBonus.id === coreBonusID);
   if (!coreBonusData) coreBonusData = findGameDataFromLcp('core_bonuses', coreBonusID)
-  return coreBonusData;
+  return coreBonusData ? coreBonusData : findWeaponData('missing_corebonus');
 }
 
 const findSystemData = (systemID) => {
