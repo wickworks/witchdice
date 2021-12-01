@@ -10,6 +10,7 @@ const allFrames = data.frames;
 const allTalents = data.talents;
 const allCoreBonuses = data.core_bonuses;
 const allSystems = data.systems;
+const allMods = data.mods;
 
 var loadedLcpData = {};
 
@@ -228,6 +229,12 @@ const findSystemData = (systemID) => {
   return systemData ? systemData : findWeaponData('missing_mechsystem');
 }
 
+const findModData = (modID) => {
+  var modData = allMods.find(system => system.id === modID);
+  if (!modData) modData = findGameDataFromLcp('mods', modID)
+  return modData ? modData : findModData('missing_weaponmod');
+}
+
 export {
   findSkillData,
   getGrit,
@@ -242,6 +249,7 @@ export {
   findTalentData,
   findCoreBonusData,
   findSystemData,
+  findModData,
   GENERIC_BONUS_SOURCE,
   MAX_BONUS,
   DAMAGE_MODIFIERS,

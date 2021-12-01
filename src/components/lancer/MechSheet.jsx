@@ -7,6 +7,7 @@ import {
   findFrameData,
   findSystemData,
   findCoreBonusData,
+  findModData,
 } from './lancerData.js';
 
 import {
@@ -185,13 +186,16 @@ const MechMount = ({
   const mountedWeapons = getWeaponsOnMount(mount);
   const isEmpty = mountedWeapons.length === 0;
 
+  const bonusEffects = mount.bonus_effects.map(effectID => findCoreBonusData(effectID).name);
+
   return (
     <div className={`MechMount ${isEmpty ? 'empty' : ''}`}>
       { mountedWeapons.map((weaponData, i) =>
         <MechWeapon
           mountType={i === 0 ? mount.mount_type : ''}
-          bonusEffects={mount.bonus_effects}
+          bonusEffects={i === 0 ? bonusEffects : []}
           weaponData={weaponData}
+          mod={mount.slots[i].weapon.mod}
           onClick={() => setActiveWeaponIndex(i)}
           isActive={activeWeaponIndex === i}
           key={i}
@@ -212,13 +216,18 @@ const MechMount = ({
 
 const MechWeapon = ({
   mountType = '',
-  bonusEffects,
+  bonusEffects = [],
   weaponData,
+  mod,
   onClick,
   isActive,
 }) => {
 
-  console.log('bonusEffects',bonusEffects);
+  console.log('mod',mod);
+
+  var modData;
+  if (mod) modData = findModData(mod.id);
+
 
   return (
     <button
@@ -227,15 +236,16 @@ const MechWeapon = ({
       disabled={weaponData === null}
     >
       { mountType && <div className='mount-type'>{mountType}</div>}
-      { bonusEffects && bonusEffects.map((bonusEffectID, i) =>
+      { bonusEffects.map((bonusEffect, i) =>
          <div className='bonus-effect' key={`bonus-effect-${i}`}>
-          {findCoreBonusData(bonusEffectID).name}
+          {bonusEffect}
         </div>
       )}
 
       { weaponData ?
         <div className="mech-weapon">
           <div className="name">{weaponData.name.toLowerCase()}</div>
+          {modData && <div className='mod'>{modData.name}</div>}
         </div>
       :
         <div className={'i-have-no-weapon'}>(empty mount)</div>
