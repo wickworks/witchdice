@@ -1,7 +1,7 @@
 @import './colors';
 
 @mixin constricted {
-  @media (max-width: 480px) {
+  @media (max-width: 500px) {
     @content;
   }
 }
@@ -15,6 +15,21 @@
 @mixin max_width {
   @media (min-width: 840px) {
     @content;
+  }
+}
+
+@mixin standard_side_margin {
+  margin-left: 20px;
+  margin-right: 20px;
+
+  @include below_max_width {
+    margin-left: 2vw;
+    margin-right: 2vw;
+  }
+
+  @include constricted {
+    margin-left: 0;
+    margin-right: 0;
   }
 }
 

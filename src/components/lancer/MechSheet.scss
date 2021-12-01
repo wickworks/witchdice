@@ -1,12 +1,13 @@
 @import '../../fonts';
 
 .MechSheet {
+  @include standard_side_margin;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   box-sizing: border-box;
   align-items: center;
-  margin: 20px 20px 0;
 
   .mech-container {
     @include shadow;
@@ -122,6 +123,7 @@
   .MechWeapon {
     display: flex;
     justify-content: flex-start;
+    align-items: flex-start;
     flex-direction: column;
     height: 100%;
     width: 100%;

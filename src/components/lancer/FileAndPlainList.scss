@@ -2,6 +2,8 @@
 
 // Overrides for CharacterAndMonsterList.scss
 .FileList {
+  @include standard_side_margin;
+
   .CharacterList {
     margin: auto;
     width: 100%;
@@ -19,85 +21,91 @@
 }
 
 .PlainList {
-  @include shadow;
-  @include parchment_background;
-  @include nouveau_border('nouveau_list_characters.svg');
-
-  margin: auto;
+  display: flex;
+  justify-content: center;
   width: 100%;
-  box-sizing: border-box;
-  max-width: 800px;
-  min-width: 320px;
-  min-height: 178px;
 
-  padding: 10px 11px;
+  .panel {
+    @include shadow;
+    @include parchment_background;
+    @include nouveau_border('nouveau_list_characters.svg');
+    @include standard_side_margin;
 
-  ul.EntryList li {
     width: 100%;
-    font-size: 24px;
-  }
+    box-sizing: border-box;
+    max-width: 800px;
+    min-width: 320px;
+    min-height: 178px;
 
-  .title-bar {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    background-color: $parchment_dark;
-    border-radius: 6px 6px 0 0;
+    padding: 10px 11px;
 
-    h2 {
-      @include text_card_label;
-      margin: 0 14px 0 0;
-      padding: 6px 0 6px 12px;
+    ul.EntryList li {
+      width: 100%;
+      font-size: 24px;
     }
-  }
 
-  &.new-file {
-
-    .list-container {
-      margin: 16px 0;
+    .title-bar {
+      position: relative;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100%;
+      justify-content: space-between;
+      align-items: flex-end;
+      background-color: $parchment_dark;
+      border-radius: 6px 6px 0 0;
 
-      .instructions {
-        font-size: 18px;
-        text-align: center;
-        margin-bottom: 18px;
-
-        a { margin-left: 4px; }
+      h2 {
+        @include text_card_label;
+        margin: 0 14px 0 0;
+        padding: 6px 0 6px 12px;
       }
+    }
 
-      .button-container {
+    &.new-file {
+
+      .list-container {
+        margin: 16px 0;
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100%;
-        position: relative;
+        flex-direction: column;
+        height: 100%;
 
-        button, label {
-          display: block;
-          width: 200px;
+        .instructions {
+          font-size: 18px;
           text-align: center;
-          padding: 4px 16px;
-          margin: 0 12px;
-          font-size: 26px;
-          cursor: pointer;
+          margin-bottom: 18px;
 
-          background-color: $parchment_dark;
-
-          &:hover { background-color: $rust_light; }
+          a { margin-left: 4px; }
         }
 
-        input {
-          position: absolute;
-          top: 0;
-          left: 0;
-          visibility: hidden;
-        }
+        .button-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 100%;
+          position: relative;
 
+          button, label {
+            display: block;
+            width: 200px;
+            text-align: center;
+            padding: 4px 16px;
+            margin: 0 12px;
+            font-size: 26px;
+            cursor: pointer;
+
+            background-color: $parchment_dark;
+
+            &:hover { background-color: $rust_light; }
+          }
+
+          input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            visibility: hidden;
+          }
+
+        }
       }
     }
   }

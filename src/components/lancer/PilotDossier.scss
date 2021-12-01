@@ -3,10 +3,11 @@
 $right_column_wid: 370px;
 
 .PilotDossier {
+  @include standard_side_margin;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   box-sizing: border-box;
-  margin: 20px 20px 0;
 
   .dossier-container {
     @include shadow;

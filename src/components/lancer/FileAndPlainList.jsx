@@ -65,14 +65,16 @@ const PlainList = ({
 }) => {
   return (
     <div className={`PlainList ${extraClass}`}>
-      <div className="title-bar">
-        <button className="title-button" onClick={onTitleClick} disabled={onTitleClick === null}>
-          <h2>{title}s</h2>
-        </button>
-      </div>
+      <div className="panel">
+        <div className="title-bar">
+          <button className="title-button" onClick={onTitleClick} disabled={onTitleClick === null}>
+            <h2>{title}s</h2>
+          </button>
+        </div>
 
-      <div className="list-container">
-        {children}
+        <div className="list-container">
+          {children}
+        </div>
       </div>
     </div>
   );
