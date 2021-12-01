@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import WeaponRoller from './WeaponRoller/WeaponRoller.jsx';
 import MechanicsList from './MechanicsList.jsx';
-import { findWeaponData, getGrit, findFrameData, findSystemData } from './lancerData.js';
+import {
+  getGrit,
+  findWeaponData,
+  findFrameData,
+  findSystemData,
+  findCoreBonusData,
+} from './lancerData.js';
 
 import {
   getBonusDamageSourcesFromMech,
@@ -34,7 +40,7 @@ function getMountsFromLoadout(loadout) {
   if (loadout.integratedWeapon.slots.length > 0 && loadout.integratedWeapon.slots[0].weapon) {
     mounts.push({
       ...deepCopy(loadout.integratedWeapon),
-      mount_type: 'Aux (Integrated Weapon)'
+      bonus_effects: ['cb_integrated_weapon']
     });
   }
 
@@ -184,6 +190,7 @@ const MechMount = ({
       { mountedWeapons.map((weaponData, i) =>
         <MechWeapon
           mountType={i === 0 ? mount.mount_type : ''}
+          bonusEffects={mount.bonus_effects}
           weaponData={weaponData}
           onClick={() => setActiveWeaponIndex(i)}
           isActive={activeWeaponIndex === i}
@@ -205,10 +212,13 @@ const MechMount = ({
 
 const MechWeapon = ({
   mountType = '',
+  bonusEffects,
   weaponData,
   onClick,
   isActive,
 }) => {
+
+  console.log('bonusEffects',bonusEffects);
 
   return (
     <button
@@ -217,6 +227,11 @@ const MechWeapon = ({
       disabled={weaponData === null}
     >
       { mountType && <div className='mount-type'>{mountType}</div>}
+      { bonusEffects && bonusEffects.map((bonusEffectID, i) =>
+         <div className='bonus-effect' key={`bonus-effect-${i}`}>
+          {findCoreBonusData(bonusEffectID).name}
+        </div>
+      )}
 
       { weaponData ?
         <div className="mech-weapon">

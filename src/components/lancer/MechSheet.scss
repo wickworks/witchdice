@@ -149,7 +149,11 @@
     .mount-type {
       @include text_monospace;
       font-size: 20px;
-      margin-bottom: 4px;
+    }
+
+    .bonus-effect {
+      @include text_monospace;
+      font-size: 12px;
     }
 
     .mech-weapon {
