@@ -9,6 +9,8 @@ import {
   getToHitBonusFromMech,
 } from './bonusDamageSourceUtils.js';
 
+import { deepCopy } from '../../utils.js';
+
 import './MechSheet.scss';
 
 function getWeaponsOnMount(mountData) {
@@ -24,37 +26,17 @@ function getWeaponsOnMount(mountData) {
   return weapons;
 }
 
-const MechSheet = ({
-  activeMech,
-  activePilot,
-
-  setPartyLastAttackKey,
-  setPartyLastAttackTimestamp,
-  setRollSummaryData,
-}) => {
-  // const [activeWeaponData, setActiveWeaponData] = useState(null);
-  const [activeMountIndex, setActiveMountIndex] = useState(null);
-  const [activeWeaponIndex, setActiveWeaponIndex] = useState(0);
-
-  // =============== CHANGE MECH ==================
-  useEffect(() => {
-    setActiveMountIndex(null);
-    setActiveWeaponIndex(0);
-  }, [activeMech, activePilot]);
-
-  // =============== SUMMARY DATA ==================
-  // inject the mech name to summary data before sending it up
-  const setRollSummaryDataWithName = (rollSummaryData) => {
-    rollSummaryData.characterName = activeMech.name
-    // console.log('rollSummaryData', rollSummaryData)
-    setRollSummaryData(rollSummaryData)
-  }
-
-  // =============== MECH AND MOUNT MAGANGEMENT ==================
-  const loadout = activeMech.loadouts[0];
+function getMountsFromLoadout(loadout) {
   const mounts = [...loadout.mounts];
   if (loadout.improved_armament.slots.weapon) mounts.push(loadout.improved_armament);
-  if (loadout.integratedWeapon.slots.weapon) mounts.push(loadout.integratedWeapon);
+
+  // override the integrated weapon name to make it clear where it came from
+  if (loadout.integratedWeapon.slots.length > 0 && loadout.integratedWeapon.slots[0].weapon) {
+    mounts.push({
+      ...deepCopy(loadout.integratedWeapon),
+      mount_type: 'Aux (Integrated Weapon)'
+    });
+  }
 
   // gotta make a dummy mount for integrated weapons
   if (loadout.integratedMounts.length > 0) {
@@ -71,6 +53,27 @@ const MechSheet = ({
     mounts.push(...integratedMounts)
   }
 
+  return mounts;
+}
+
+const MechSheet = ({
+  activeMech,
+  activePilot,
+
+  setPartyLastAttackKey,
+  setPartyLastAttackTimestamp,
+  setRollSummaryData,
+}) => {
+  // const [activeWeaponData, setActiveWeaponData] = useState(null);
+  const [activeMountIndex, setActiveMountIndex] = useState(null);
+  const [activeWeaponIndex, setActiveWeaponIndex] = useState(0);
+
+  // =============== CHANGE MECH / WEAPON ==================
+  useEffect(() => {
+    setActiveMountIndex(null);
+    setActiveWeaponIndex(0);
+  }, [activeMech, activePilot]);
+
   const changeMountAndWeapon = (newMount, newWeapon) => {
     setActiveMountIndex(newMount)
     setActiveWeaponIndex(newWeapon)
@@ -79,11 +82,26 @@ const MechSheet = ({
     newAttackSummary()
   }
 
+
+  // =============== SUMMARY DATA ==================
+  // inject the mech name to summary data before sending it up
+  const setRollSummaryDataWithName = (rollSummaryData) => {
+    rollSummaryData.characterName = activeMech.name
+    // console.log('rollSummaryData', rollSummaryData)
+    setRollSummaryData(rollSummaryData)
+  }
+
   // the next attack roll will be a new entry in the summary
   const newAttackSummary = () => {
     setPartyLastAttackKey('')
     setPartyLastAttackTimestamp(0)
   }
+
+
+  // =============== GET THE DATA FOR THE SHEET ==================
+
+  const loadout = activeMech.loadouts[0];
+  const mounts = getMountsFromLoadout(loadout);
 
   const frameData = findFrameData(activeMech.frame);
   const gritBonus = getGrit(activePilot);
