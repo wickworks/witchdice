@@ -148,6 +148,8 @@ const WeaponRoller = ({
     genericBonusPlus,
     isOverkill
   );
+
+  // console.log('availableBonusSources',availableBonusSources);
   // console.log('activeBonusDamageData',activeBonusDamageData);
 
   const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
@@ -207,6 +209,15 @@ const WeaponRoller = ({
             <BrToParagraphs stringWithBrs={weaponData.effect}/>
           </div>
         }
+
+        { availableBonusSources.map((availableBonusSource, i) =>
+          ( availableBonusSource.trait.effect &&
+            <div className='effect-row' key={`bonus-source-effect-${i}`}>
+              <strong>{availableBonusSource.trait.name}</strong>
+              <BrToParagraphs stringWithBrs={availableBonusSource.trait.effect}/>
+            </div>
+          )
+        )}
 
         {weaponData.on_attack &&
           <div className='effect-row'>
