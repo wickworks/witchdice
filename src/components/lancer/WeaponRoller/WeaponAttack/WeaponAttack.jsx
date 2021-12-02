@@ -15,7 +15,6 @@ import {
 
 import './WeaponAttack.scss';
 
-
 const WeaponAttack = ({
   attackData,
   bonusDamageData,
@@ -31,8 +30,8 @@ const WeaponAttack = ({
   const [isRerolled, setIsRerolled] = useState(false);
   const [manualRoll, setManualRoll] = useState(0);
 
-  const rollResult = isRerolled ? attackData.toHitReroll.finalResult : attackData.toHit.finalResult
-  const finalFinalResult = manualRoll > 0 ? manualRoll : rollResult
+  const finalResult = isRerolled ? attackData.toHitReroll.finalResult : attackData.toHit.finalResult
+  const finalFinalResult = manualRoll > 0 ? manualRoll : finalResult
   var isCrit = isHit && finalFinalResult >= 20;
   if (invertCrit) isCrit = !isCrit
 
@@ -40,7 +39,12 @@ const WeaponAttack = ({
   const convertedBonusToBurn = damageModifiers.bonusToBurn && bonusDamageData.rolls.length > 0;
   var selfHeat = attackData.selfHeat;
 
-  // console.log('activeBonusDamageData', bonusDamageData);
+  // Flip MAXIMIZED to FALSE unless it was a nat 20.
+  if (damageModifiers.maximized) {
+    const rolledResult = isRerolled ? attackData.toHitReroll.baseRoll : attackData.toHit.baseRoll
+    const finalRolledResult = manualRoll > 0 ? manualRoll : rolledResult
+    damageModifiers = {...damageModifiers, maximized: (finalRolledResult === 20)}
+  }
 
   // ==================================== EFFECTS ====================================
   function addTraitSummary(summary, onWhat) {
@@ -59,6 +63,7 @@ const WeaponAttack = ({
                                         summary.push('Critical hit.')
       if (attackData.onCrit)            summary.push(attackData.onCrit)
       addTraitSummary(summary, 'onCrit');
+      if (damageModifiers.maximized)    summary.push('Natural 20. Maximum possible damage and bonus damage.')
     }
     if (damageModifiers.half)           summary.push('Half damage.')
     if (damageModifiers.double)         summary.push('Double damage (Exposed).')
@@ -68,7 +73,7 @@ const WeaponAttack = ({
     if (attackData.isArmorPiercing)     summary.push('Armor piercing.')
     if (attackData.knockback > 0)       summary.push(`Knockback ${attackData.knockback}.`)
     if (attackData.isOverkill) {
-      const overkillCount = countOverkillTriggers(attackData.damage, bonusDamageData, isCrit, damageModifiers.average)
+      const overkillCount = countOverkillTriggers(attackData.damage, bonusDamageData, isCrit, damageModifiers)
       if (overkillCount > 0)            summary.push(`Overkill x${overkillCount}.`)
       selfHeat += overkillCount;
     }

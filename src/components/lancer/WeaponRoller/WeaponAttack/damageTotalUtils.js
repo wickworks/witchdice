@@ -4,17 +4,26 @@ import {
   BASIC_DAMAGE_TYPES,
 } from '../../lancerData.js';
 
-function getSortedTotalPool(rollData, isCrit, isAverage) {
+function getSortedTotalPool(rollData, isCrit, damageModifiers) {
   var totalPool = [...rollData.rollPool];
-  if (isCrit && !isAverage) totalPool.push(...rollData.critPool);
+
+  // Crit dice don't matter if we're averaged or maximized
+  if (isCrit && !damageModifiers.average && !damageModifiers.maximized) {
+    totalPool.push(...rollData.critPool);
+  }
+
   totalPool.sort((a, b) => { return a - b });
 
-  // inject average data right into any kind of summation we're doing
-  if (isAverage && rollData.dieType) {
-    var averageRoll = Math.ceil(rollData.dieType * .5);
-    if (rollData.dieType === 6) averageRoll += .5
+  // inject average/maximized data right into any kind of summation we're doing
+  if (rollData.dieType) {
+    if (damageModifiers.average) {
+      var averageRoll = Math.ceil(rollData.dieType * .5);
+      if (rollData.dieType === 6) averageRoll += .5
+      totalPool = totalPool.map(roll => averageRoll);
 
-    totalPool = totalPool.map(roll => averageRoll);
+    } else if (damageModifiers.maximized && isCrit) {
+      totalPool = totalPool.map(roll => rollData.dieType);
+    }
   }
   // BY THE WAY, I KNOW EVERYING e.g. it makes no architectural sense to put this here, but boy is it convenient
 
@@ -55,14 +64,14 @@ function addBonusDamageToBaseDamage(baseTotalsByType, bonusTotalsByType, convert
 function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusDamage, damageModifiers, isFirstRoll) {
 
   // BASE damage rolls
-  var totalsByType = summateRollsByType(damageData.rolls, isCrit, damageModifiers.average);
+  var totalsByType = summateRollsByType(damageData.rolls, isCrit, damageModifiers);
 
   // separate normal bonus damage and sources that only apply to the first roll (aka NucCav)
   const [trimmedBonusDamageRolls, firstBonusDamageRolls] = pullOutFirstRollBonusDamage(bonusDamageData);
 
   // BONUS damage rolls (have to tally these separately so we can optionally halve just bonus damage)
-  var bonusTotalsByType = summateRollsByType(trimmedBonusDamageRolls, isCrit, damageModifiers.average);
-  var firstBonusTotalsByType = summateRollsByType(firstBonusDamageRolls, isCrit, damageModifiers.average);
+  var bonusTotalsByType = summateRollsByType(trimmedBonusDamageRolls, isCrit, damageModifiers);
+  var firstBonusTotalsByType = summateRollsByType(firstBonusDamageRolls, isCrit, damageModifiers);
 
   if (halveBonusDamage) {
     Object.keys(bonusTotalsByType).forEach(type => bonusTotalsByType[type] = Math.ceil(bonusTotalsByType[type] * .5));
@@ -96,10 +105,10 @@ function getReliableDamage(attackData, damageModifiers) {
   }
 }
 
-function summateRollsByType(damageDataRolls, isCrit, isAverage) {
+function summateRollsByType(damageDataRolls, isCrit, damageModifiers) {
   var totalsByType = {};
   damageDataRolls.forEach(rollData => {
-    const totalPool = getSortedTotalPool(rollData, isCrit, isAverage)
+    const totalPool = getSortedTotalPool(rollData, isCrit, damageModifiers)
     const highest = getHighestRolls(totalPool, rollData.keep)
 
     const rollTotal = highest.reduce((partial_sum, a) => partial_sum + a, 0);
@@ -111,13 +120,13 @@ function summateRollsByType(damageDataRolls, isCrit, isAverage) {
 }
 
 
-function countOverkillTriggers(damageData, bonusDamageData, isCrit, isAverage) {
+function countOverkillTriggers(damageData, bonusDamageData, isCrit, damageModifiers) {
   var overkillCount = 0;
 
   [damageData, bonusDamageData].forEach(deedeeData => {
     deedeeData.rolls.forEach(rollData => {
 
-      const totalPool = getSortedTotalPool(rollData, isCrit, isAverage)
+      const totalPool = getSortedTotalPool(rollData, isCrit, damageModifiers)
 
       if (totalPool.length > 1) { // Skip "+1" die rolls
         overkillCount += totalPool.reduce((a, v) => (v === 1 ? a + 1 : a), 0);

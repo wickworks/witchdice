@@ -13,7 +13,7 @@ const blankTrait = {
   onMiss: '',
   requiresLockon: false,
   damageModifiers: {},
-  noButton: false,
+  isPassive: false,
 }
 
 function newSource(name, id, diceString, damageType = '', traitData = null) {
@@ -111,6 +111,15 @@ function getBonusDamageSourcesFromTalents(pilotData) {
 
     if (talentData) {
       switch (talentData.id) {
+
+        case 't_brutal':
+          const predEffect = { damageModifiers: { maximized: true }, isPassive: true }
+          addSourceFromTalent(sources,rank,talentData, 1, '', '', predEffect);
+
+          const cullEffect = { onCrit: 'Cull the Herd: Knockback 1.', isPassive: true }
+          addSourceFromTalent(sources,rank,talentData, 2, '', '', cullEffect);
+          break;
+
         case 't_crack_shot':
           addSourceFromTalent(sources,rank,talentData, 2, '1d6', '');
           if (rank >= 3) {
@@ -247,33 +256,6 @@ function getBonusDamageSourcesFromTalents(pilotData) {
   return sources;
 }
 
-function getPassiveTraitsFromTalents(pilotData) {
-  var sources = [];
-
-  pilotData.talents.forEach(talentAndRank => {
-    const talentData = findTalentData(talentAndRank.id);
-    const rank = talentAndRank.rank;
-
-    if (talentData) {
-      switch (talentData.id) {
-        case 't_brutal':
-          addSourceFromTalent(sources,rank,talentData, 2, '', '', {onCrit: 'Cull The Herd: Knockback 1.'});
-          break;
-
-        default: break;
-      }
-    }
-  });
-
-  // all all ids to the sources' trait
-  sources.forEach(source => {
-    if (source.trait) source.trait.id = source.id
-  });
-
-  return sources;
-}
-
-
 //  ============================================    MODS ARE ASLEEP    =================================================
 function newModTrait(modData, modEffect = {}) {
   return {...blankTrait, ...modData, ...modEffect}
@@ -325,9 +307,15 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
       // case 'wm_nanocomposite_adaptation':
         // Smart and Seeking
 
+      case 'wm_phase_ready_mod':
+        // No line of sight needed, but counts as invisible
+        const phaseEffect = { isPassive: true }
+        sources.push( newSource(modData.name, modData.id, '', '', newModTrait(modData, phaseEffect)) );
+        break;
+
       case 'wm_paracausal_mod':
         // Overkill, and its damage can’t be reduced in any way. No toggleable effect.
-        const paraEffect = { noButton: true }
+        const paraEffect = { isPassive: true }
         sources.push( newSource(modData.name, modData.id, '', '', newModTrait(modData, paraEffect)) );
         break;
 

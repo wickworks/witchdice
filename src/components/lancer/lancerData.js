@@ -68,6 +68,7 @@ const DAMAGE_MODIFIERS = {
   half: false,
   average: false,
   bonusToBurn: false,
+  maximized: false, // Only used by the brutal talent & works on nat 20s
 }
 
 function applyDamageMultiplier(damage, damageType, damageModifiers) {

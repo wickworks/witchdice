@@ -66,10 +66,8 @@ const BonusDamageBar = ({
         </button>
       </div>
 
-
-
       { availableBonusSources.map((bonusSource, i) =>
-        !bonusSource.trait.noButton &&
+        !bonusSource.trait.isPassive &&
           <BonusSourceButton
             isActive={activeBonusSources.indexOf(bonusSource.id) >= 0}
             toggleBonusDamage={toggleBonusDamage}
@@ -77,7 +75,6 @@ const BonusDamageBar = ({
             key={`${bonusSource.id}-${i}`}
           />
       )}
-
 
       <div className="multipliers-container">
         <button

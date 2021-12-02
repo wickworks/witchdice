@@ -23,7 +23,6 @@ import {
 
 import './WeaponRoller.scss';
 
-
 const WeaponRoller = ({
   weaponData,
   gritBonus,

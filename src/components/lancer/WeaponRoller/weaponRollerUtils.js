@@ -157,7 +157,6 @@ function makeDamageRoll(dieType, rollPool, isOverkill) {
 }
 
 
-
 function getBonusTraits(bonusSourceData) {
   var traits = [];
 
@@ -226,18 +225,10 @@ function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBo
 
     //  -- EFFECTS ---
 
-    // Add all toggled non-generic sources
-    // console.log('bonusDamageData.traits', bonusDamageData.traits);
-
-
+    // Add all non-generic sources that are either TOGGLED or PASSIVE
     activeBonusDamageData.traits = bonusDamageData.traits.filter(bonusTrait =>
-      activeBonusSources.indexOf(bonusTrait.id) >= 0
+      activeBonusSources.indexOf(bonusTrait.id) >= 0 || bonusTrait.isPassive
     );
-
-    // console.log('activeBonusDamageData.traits', activeBonusDamageData.traits);
-
-    // harvest the effects from the bonus damage
-    // activeBonusDamageData.effects = getBonusEffects(activeBonusSources)
   }
 
   return activeBonusDamageData

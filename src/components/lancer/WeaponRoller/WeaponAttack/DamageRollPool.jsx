@@ -20,7 +20,7 @@ const DamageRollPool = ({
   damageModifiers,
 }) => {
 
-  var totalPool = getSortedTotalPool(rollData, isCrit, damageModifiers.average)
+  var totalPool = getSortedTotalPool(rollData, isCrit, damageModifiers)
   var highest = getHighestRolls(totalPool, rollData.keep)
 
   // remove the highest rolls from the total pool; everything in there will be grey
