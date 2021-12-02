@@ -58,54 +58,53 @@
         padding: 6px 0 6px 12px;
       }
     }
+  }
 
-    &.new-file {
+  &.new-file {
 
-      .list-container {
-        margin: 16px 0;
+    .list-container {
+      margin: 16px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+
+      .instructions {
+        font-size: 18px;
+        text-align: center;
+        margin-bottom: 18px;
+
+        a { margin-left: 4px; }
+      }
+
+      .button-container {
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
-        height: 100%;
+        width: 100%;
+        position: relative;
 
-        .instructions {
-          font-size: 18px;
+        button, label {
+          display: block;
+          width: 200px;
           text-align: center;
-          margin-bottom: 18px;
+          padding: 4px 16px;
+          margin: 0 12px;
+          font-size: 26px;
+          cursor: pointer;
 
-          a { margin-left: 4px; }
+          background-color: $parchment_dark;
+
+          &:hover { background-color: $rust_light; }
         }
 
-        .button-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-          position: relative;
-
-          button, label {
-            display: block;
-            width: 200px;
-            text-align: center;
-            padding: 4px 16px;
-            margin: 0 12px;
-            font-size: 26px;
-            cursor: pointer;
-
-            background-color: $parchment_dark;
-
-            &:hover { background-color: $rust_light; }
-          }
-
-          input {
-            position: absolute;
-            top: 0;
-            left: 0;
-            visibility: hidden;
-          }
-
+        input {
+          position: absolute;
+          top: 0;
+          left: 0;
+          visibility: hidden;
         }
+
       }
     }
   }
