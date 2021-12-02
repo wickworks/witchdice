@@ -43,47 +43,43 @@ const WeaponAttack = ({
   // console.log('activeBonusDamageData', bonusDamageData);
 
   // ==================================== EFFECTS ====================================
-  const traits = bonusDamageData.traits
-
-  var effectsList = [];
-  traits.forEach(trait => {
-    if (trait.onAttack)               effectsList.push(trait.onAttack)
-  });
-  if (isHit) {
-    if (attackData.onHit)             effectsList.push(attackData.onHit)
-    traits.forEach(trait => {
-      if (trait.onHit)                effectsList.push(trait.onHit)
+  function addTraitSummary(summary, onWhat) {
+    bonusDamageData.traits.forEach(trait => {
+      if (trait[onWhat])               summary.push(trait[onWhat])
     });
+  }
+
+  var summary = [];
+  addTraitSummary(summary, 'onAttack');
+  if (isHit) {
+    if (attackData.onHit)               summary.push(attackData.onHit)
+    addTraitSummary(summary, 'onHit');
 
     if (isCrit) {
-                                      effectsList.push('Critical hit.')
-      if (attackData.onCrit)          effectsList.push(attackData.onCrit)
-      traits.forEach(trait => {
-        if (trait.onCrit)             effectsList.push(trait.onCrit)
-      });
+                                        summary.push('Critical hit.')
+      if (attackData.onCrit)            summary.push(attackData.onCrit)
+      addTraitSummary(summary, 'onCrit');
     }
-    if (damageModifiers.half)         effectsList.push('Half damage.')
-    if (damageModifiers.double)       effectsList.push('Double damage (Exposed).')
-    if (damageModifiers.average)      effectsList.push('Rolls averaged.')
-    if (convertedBonusToBurn)         effectsList.push('Bonus damage converted to burn.')
+    if (damageModifiers.half)           summary.push('Half damage.')
+    if (damageModifiers.double)         summary.push('Double damage (Exposed).')
+    if (damageModifiers.average)        summary.push('Rolls averaged.')
+    if (convertedBonusToBurn)           summary.push('Bonus damage converted to burn.')
 
-    if (attackData.isArmorPiercing)   effectsList.push('Armor piercing.')
-    if (attackData.knockback > 0)     effectsList.push(`Knockback ${attackData.knockback}.`)
+    if (attackData.isArmorPiercing)     summary.push('Armor piercing.')
+    if (attackData.knockback > 0)       summary.push(`Knockback ${attackData.knockback}.`)
     if (attackData.isOverkill) {
       const overkillCount = countOverkillTriggers(attackData.damage, bonusDamageData, isCrit, damageModifiers.average)
-      if (overkillCount > 0)          effectsList.push(`Overkill x${overkillCount}.`)
+      if (overkillCount > 0)            summary.push(`Overkill x${overkillCount}.`)
       selfHeat += overkillCount;
     }
 
   } else {
-    if (isReliable)                   effectsList.push('Reliable.')
-    traits.forEach(trait => {
-      if (trait.onMiss)               effectsList.push(trait.onMiss)
-    });
+    if (isReliable)                     summary.push('Reliable.')
+    addTraitSummary(summary, 'onMiss');
   }
-  if (selfHeat)       effectsList.push(`Heat ${selfHeat} (Self).`)
-  if (isRerolled)     effectsList.push('Rerolled.')
-  if (manualRoll > 0) effectsList.push('Manual roll.')
+  if (selfHeat)                         summary.push(`Heat ${selfHeat} (Self).`)
+  if (isRerolled)                       summary.push('Rerolled.')
+  if (manualRoll > 0)                   summary.push('Manual roll.')
 
   const totalsByType = summateAllDamageByType(
     attackData.damage,
@@ -118,7 +114,7 @@ const WeaponAttack = ({
     let attackRollSummary = {
       name: rollConditions.join(' '),
       attack: finalFinalResult,
-      applies: effectsList.join('<br>'),
+      applies: summary.join('<br>'),
     }
 
     if (isHit) {
@@ -205,7 +201,7 @@ const WeaponAttack = ({
       </div>
 
       <div className="effects-container">
-        <BrToParagraphs stringWithBrs={effectsList.join('<br>')}/>
+        <BrToParagraphs stringWithBrs={summary.join('<br>')}/>
       </div>
     </div>
   )
