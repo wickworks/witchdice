@@ -5,6 +5,17 @@ import {
   findModData,
 } from './lancerData.js';
 
+
+const blankTrait = {
+  onAttack: '',
+  onHit: '',
+  onCrit: '',
+  onMiss: '',
+  requiresLockon: false,
+  damageModifiers: {},
+  noButton: false,
+}
+
 function newSource(name, id, diceString, damageType = '', traitData = null) {
   return {
     name: name,
@@ -71,15 +82,6 @@ function getToHitBonusFromMech(mechData) {
 
 //  ============================================    TALENTS    =======================================================
 
-const basicAttackEffect = {
-  onAttack: '',
-  onHit: '',
-  onCrit: '',
-  onMiss: '',
-  requiresLockon: false,
-  damageModifiers: {}
-}
-
 function addSourceFromTalent(sources, currentRank, talentData, rank, diceString, damageType = '', attackEffects = {}, customID = '') {
   if (currentRank >= rank) {
     const rankData = talentData.ranks[rank-1];
@@ -97,7 +99,7 @@ function addSourceFromTalent(sources, currentRank, talentData, rank, diceString,
 }
 
 function newTalentTrait(talentData, rank, attackEffects) {
-  return {...talentData.ranks[rank-1], ...basicAttackEffect, ...attackEffects}
+  return {...talentData.ranks[rank-1], ...blankTrait, ...attackEffects}
 }
 
 function getBonusDamageSourcesFromTalents(pilotData) {
@@ -273,8 +275,8 @@ function getPassiveTraitsFromTalents(pilotData) {
 
 
 //  ============================================    MODS ARE ASLEEP    =================================================
-function newModTrait(modData, modEffect) {
-  return {...basicAttackEffect, ...modData, ...modEffect}
+function newModTrait(modData, modEffect = {}) {
+  return {...blankTrait, ...modData, ...modEffect}
 }
 
 // function addSourceFromMod(sources, modData, modEffect = {}) {
@@ -304,7 +306,7 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
   if (modData) {
     switch (modData.id) {
       case 'wm_thermal_charge':
-        const thermalEffect = { onHit: 'Expend a charge as a free action to activate its detonator and deal +1d6 explosive bonus damage.' }
+        const thermalEffect = { onHit: 'Expended a thermal charge.' }
         // addSourceFromMod(sources, modData, thermalEffect)
         sources.push( newSource(modData.name, modData.id, modData.added_damage[0].val, modData.added_damage[0].type, newModTrait(modData, thermalEffect)) );
         break;
@@ -313,7 +315,7 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
         // TWO DIFFICULTY
 
       case 'wm_shock_wreath':
-        const shockEffect = { onHit: modData.effect }
+        const shockEffect = { onHit: 'If target already is suffering from burn, it can additionally only draw line of sight to adjacent spaces until the end of its next turn.' }
         sources.push( newSource(modData.name, modData.id, '1d6', 'Burn', newModTrait(modData, shockEffect)) );
         break;
 
@@ -323,16 +325,20 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
       // case 'wm_nanocomposite_adaptation':
         // Smart and Seeking
 
-      // case 'wm_paracausal_mod':
-        // Overkill, and its damage can’t be reduced in any way
+      case 'wm_paracausal_mod':
+        // Overkill, and its damage can’t be reduced in any way. No toggleable effect.
+        const paraEffect = { noButton: true }
+        sources.push( newSource(modData.name, modData.id, '', '', newModTrait(modData, paraEffect)) );
+        break;
 
       // wm_thermal_charge
       default:
-        const modEffect = { onAttack: modData.effect }
         if (modData.added_damage) {
           modData.added_damage.forEach(addedDamage =>
-            sources.push( newSource(modData.name, modData.id, addedDamage.val, addedDamage.type, newModTrait(modData, modEffect)) )
+            sources.push( newSource(modData.name, modData.id, addedDamage.val, addedDamage.type, newModTrait(modData)) )
           );
+        } else {
+          sources.push( newSource(modData.name, modData.id, '', '', newModTrait(modData)) )
         }
 
       break;

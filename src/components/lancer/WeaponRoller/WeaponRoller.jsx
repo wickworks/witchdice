@@ -51,7 +51,7 @@ const WeaponRoller = ({
   // =============== CHANGE WEAPON ==================
   useEffect(() => {
     clearAttacks()
-  }, [weaponData]);
+  }, [JSON.stringify(weaponData)]);
 
   const clearAttacks = () => {
     setAllAttackSummaries([]);

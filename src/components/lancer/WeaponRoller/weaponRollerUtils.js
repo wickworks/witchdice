@@ -170,7 +170,6 @@ function getBonusTraits(bonusSourceData) {
   return traits;
 }
 
-
 function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBonusDieCount, genericBonusPlus, isOverkill) {
   var activeBonusDamageData = {};
 
@@ -243,8 +242,6 @@ function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBo
 
   return activeBonusDamageData
 }
-
-
 
 export {
   rollToHit,

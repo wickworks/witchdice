@@ -21,6 +21,18 @@ import { deepCopy } from '../../utils.js';
 
 import './MechSheet.scss';
 
+function getModdedWeaponData(weapon) {
+  let weaponData = deepCopy( findWeaponData(weapon.id) );
+
+  // now we actually MODIFY the weaponData to add any tags from mods. Much easier than doing it dynamically later.
+  if (weapon.mod) {
+    const modData = findModData(weapon.mod.id)
+    if (modData.added_tags) weaponData.tags = [...weaponData.tags, ...modData.added_tags]
+  }
+
+  return weaponData;
+}
+
 function getWeaponsOnMount(mountData) {
   if (!mountData) return
 
@@ -70,7 +82,6 @@ const MechSheet = ({
   setPartyLastAttackTimestamp,
   setRollSummaryData,
 }) => {
-  // const [activeWeaponData, setActiveWeaponData] = useState(null);
   const [activeMountIndex, setActiveMountIndex] = useState(null);
   const [activeWeaponIndex, setActiveWeaponIndex] = useState(0);
 
@@ -116,7 +127,7 @@ const MechSheet = ({
 
   const activeMountWeapons = getWeaponsOnMount(activeMount);
   const activeWeapon = activeMountWeapons && activeMountWeapons[activeWeaponIndex];
-  const activeWeaponData = activeWeapon && findWeaponData(activeWeapon.id)
+  const activeWeaponData = activeWeapon && getModdedWeaponData(activeWeapon)
 
   const bonusDamageSources = [
     ...getBonusDamageSourcesFromMech(activeMech),
@@ -186,7 +197,7 @@ const MechMount = ({
   setActiveWeaponIndex,
   activeWeaponIndex,
 }) => {
-  const mountedWeaponData = getWeaponsOnMount(mount).map(weapon => findWeaponData(weapon.id));
+  const mountedWeaponData = getWeaponsOnMount(mount).map(weapon => getModdedWeaponData(weapon));
   const isEmpty = mountedWeaponData.length === 0;
 
   const bonusEffects = mount.bonus_effects.map(effectID => findCoreBonusData(effectID).name);

@@ -5,6 +5,8 @@ import {
   getTagName,
 } from '../lancerData.js';
 
+// A weapon profile is a subset of weaponData, and handles weapons
+// that have multiple modes of firing (e.g. DD)
 const BaseDamageBar = ({
   weaponProfile,
   mountType,
@@ -13,14 +15,7 @@ const BaseDamageBar = ({
   onClick,
 }) => {
 
-  let weaponTags = []
-  if (weaponProfile.tags) {
-    weaponProfile.tags.forEach(tag => {
-      weaponTags.push( getTagName(tag) )
-    })
-  }
-
-  // console.log('weaponProfile',weaponProfile);
+  let weaponTags = weaponProfile.tags ? weaponProfile.tags.map(tagID => getTagName(tagID)) : []
 
   return (
     <button

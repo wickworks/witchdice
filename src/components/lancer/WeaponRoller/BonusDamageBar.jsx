@@ -69,21 +69,13 @@ const BonusDamageBar = ({
 
 
       { availableBonusSources.map((bonusSource, i) =>
-        <button
-          className={`bonus-source ${activeBonusSources.indexOf(bonusSource.id) >= 0 ? 'active' : 'inactive'}`}
-          onClick={() => toggleBonusDamage(bonusSource.id)}
-          key={`${bonusSource.id}-${i}`}
-        >
-          <div className='amount-container'>
-            { bonusSource.type ?
-              <div className={`asset ${bonusSource.type.toLowerCase()}`} />
-            :
-              <div className='asset dot' />
-            }
-            <div className='amount'>{bonusSource.diceString}</div>
-          </div>
-          <div className='label'>{bonusSource.name.toLowerCase()}</div>
-        </button>
+        !bonusSource.trait.noButton &&
+          <BonusSourceButton
+            isActive={activeBonusSources.indexOf(bonusSource.id) >= 0}
+            toggleBonusDamage={toggleBonusDamage}
+            bonusSource={bonusSource}
+            key={`${bonusSource.id}-${i}`}
+          />
       )}
 
 
@@ -114,5 +106,32 @@ const BonusDamageBar = ({
     </div>
   )
 }
+
+
+const BonusSourceButton = ({
+  isActive,
+  toggleBonusDamage,
+  bonusSource,
+}) => {
+  return (
+    <button
+      className={`bonus-source ${isActive ? 'active' : 'inactive'}`}
+      onClick={() => toggleBonusDamage(bonusSource.id)}
+    >
+      <div className='amount-container'>
+        { bonusSource.type ?
+          <div className={`asset ${bonusSource.type.toLowerCase()}`} />
+        :
+          <div className='asset dot' />
+        }
+        <div className='amount'>{bonusSource.diceString}</div>
+      </div>
+      <div className='label'>{bonusSource.name.toLowerCase()}</div>
+    </button>
+  )
+}
+
+
+
 
 export default BonusDamageBar;
