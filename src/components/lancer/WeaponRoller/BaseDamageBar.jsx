@@ -20,7 +20,7 @@ const BaseDamageBar = ({
     })
   }
 
-  console.log('weaponProfile',weaponProfile);
+  // console.log('weaponProfile',weaponProfile);
 
   return (
     <button

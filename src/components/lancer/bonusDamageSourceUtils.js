@@ -2,6 +2,7 @@ import {
   findFrameData,
   findTalentData,
   findWeaponData,
+  findModData,
 } from './lancerData.js';
 
 function newSource(name, id, diceString, damageType = '', traitData = null) {
@@ -90,7 +91,7 @@ function addSourceFromTalent(sources, currentRank, talentData, rank, diceString,
       customID || `${talentData.id}_${rank}`,
       diceString,
       damageType,
-      {...rankData, ...basicAttackEffect, ...attackEffects}
+      newTalentTrait(talentData, rank, attackEffects)
     ));
   }
 }
@@ -210,7 +211,7 @@ function getBonusDamageSourcesFromTalents(pilotData) {
 
         case 't_walking_armory':
           if (rank >= 1) {
-            const thumperEffect = {onAttack: 'Thumper: Knockback 1'}
+            const thumperEffect = {onHit: 'Thumper: Knockback 1'}
             sources.push( newSource('THUMPER', 't_walking_armory_1_thumper', '—', 'Explosive', newTalentTrait(talentData,1,thumperEffect)) );
 
             const shockEffect = {onAttack: 'Shock: Choose one character targeted by your attack; adjacent characters take 1 Energy AP, whether the attack is a hit or miss.'}
@@ -271,6 +272,76 @@ function getPassiveTraitsFromTalents(pilotData) {
 }
 
 
+//  ============================================    MODS ARE ASLEEP    =================================================
+function newModTrait(modData, modEffect) {
+  return {...basicAttackEffect, ...modData, ...modEffect}
+}
+
+// function addSourceFromMod(sources, modData, modEffect = {}) {
+//
+//
+//   modData.added_damage.forEach(damage =>
+//     sources.push( newSource(modData.name, modData.id, damage.val, damage.type, newModTrait(modEffect)) )
+//   );
+//
+//   sources.push(newSource(
+//     modData.name,
+//     modData.id,
+//     diceString,
+//     damageType,
+//     newModTrait(modEffect)
+//   ));
+// }
+
+function getBonusDamageSourcesFromMod(activeWeapon) {
+  var sources = [];
+  if (!activeWeapon) return sources;
+  const mod = activeWeapon.mod
+  if (!mod) return sources;
+
+  const modData = findModData(mod.id);
+
+  if (modData) {
+    switch (modData.id) {
+      case 'wm_thermal_charge':
+        const thermalEffect = { onHit: 'Expend a charge as a free action to activate its detonator and deal +1d6 explosive bonus damage.' }
+        // addSourceFromMod(sources, modData, thermalEffect)
+        sources.push( newSource(modData.name, modData.id, modData.added_damage[0].val, modData.added_damage[0].type, newModTrait(modData, thermalEffect)) );
+        break;
+
+      // case 'wm_uncle_class_comp_con':
+        // TWO DIFFICULTY
+
+      case 'wm_shock_wreath':
+        const shockEffect = { onHit: modData.effect }
+        sources.push( newSource(modData.name, modData.id, '1d6', 'Burn', newModTrait(modData, shockEffect)) );
+        break;
+
+      // case 'wm_stabilizer_mod':
+        // +5 range and the Ordnance tag
+
+      // case 'wm_nanocomposite_adaptation':
+        // Smart and Seeking
+
+      // case 'wm_paracausal_mod':
+        // Overkill, and its damage can’t be reduced in any way
+
+      // wm_thermal_charge
+      default:
+        const modEffect = { onAttack: modData.effect }
+        if (modData.added_damage) {
+          modData.added_damage.forEach(addedDamage =>
+            sources.push( newSource(modData.name, modData.id, addedDamage.val, addedDamage.type, newModTrait(modData, modEffect)) )
+          );
+        }
+
+      break;
+    }
+  }
+
+  return sources;
+}
+
 //  ============================================    WEAPONS    =======================================================
 
 // Honestly, people can just add stuff manually using the generic dice. The on hit // effects will prompt them to.
@@ -300,5 +371,6 @@ function getPassiveTraitsFromTalents(pilotData) {
 export {
   getBonusDamageSourcesFromMech,
   getBonusDamageSourcesFromTalents,
+  getBonusDamageSourcesFromMod,
   getToHitBonusFromMech,
 };

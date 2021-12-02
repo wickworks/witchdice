@@ -19,7 +19,7 @@ const ChangeLog = () => {
           <ul>
             <li>Made Lancer tool responsive for mobile phones.</li>
             <li>Exposed condition only doubles basic damage types.</li>
-            <li>Mount-altering core bonuses and weapon mods are displayed.</li>
+            <li>Mount core bonuses and weapon mods are displayed.</li>
           </ul>
 
           <div className='version-label'>v0.9 — Nov 2021</div>

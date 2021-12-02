@@ -13,6 +13,7 @@ import {
 import {
   getBonusDamageSourcesFromMech,
   getBonusDamageSourcesFromTalents,
+  getBonusDamageSourcesFromMod,
   getToHitBonusFromMech,
 } from './bonusDamageSourceUtils.js';
 
@@ -27,8 +28,6 @@ function getWeaponsOnMount(mountData) {
     [...mountData.slots, ...mountData.extra]
     .map(slot => slot.weapon)
     .filter(weapon => weapon)
-    .map(weapon => findWeaponData(weapon.id))
-    .filter(weaponData => weaponData);
 
   return weapons;
 }
@@ -114,11 +113,15 @@ const MechSheet = ({
   const gritBonus = getGrit(activePilot);
 
   const activeMount = mounts[activeMountIndex];
-  const activeWeaponData = activeMount && getWeaponsOnMount(activeMount)[activeWeaponIndex];
+
+  const activeMountWeapons = getWeaponsOnMount(activeMount);
+  const activeWeapon = activeMountWeapons && activeMountWeapons[activeWeaponIndex];
+  const activeWeaponData = activeWeapon && findWeaponData(activeWeapon.id)
 
   const bonusDamageSources = [
     ...getBonusDamageSourcesFromMech(activeMech),
     ...getBonusDamageSourcesFromTalents(activePilot),
+    ...getBonusDamageSourcesFromMod(activeWeapon)
   ];
 
   const miscBonusToHit = getToHitBonusFromMech(activeMech);
@@ -183,14 +186,14 @@ const MechMount = ({
   setActiveWeaponIndex,
   activeWeaponIndex,
 }) => {
-  const mountedWeapons = getWeaponsOnMount(mount);
-  const isEmpty = mountedWeapons.length === 0;
+  const mountedWeaponData = getWeaponsOnMount(mount).map(weapon => findWeaponData(weapon.id));
+  const isEmpty = mountedWeaponData.length === 0;
 
   const bonusEffects = mount.bonus_effects.map(effectID => findCoreBonusData(effectID).name);
 
   return (
     <div className={`MechMount ${isEmpty ? 'empty' : ''}`}>
-      { mountedWeapons.map((weaponData, i) =>
+      { mountedWeaponData.map((weaponData, i) =>
         <MechWeapon
           mountType={i === 0 ? mount.mount_type : ''}
           bonusEffects={i === 0 ? bonusEffects : []}
@@ -202,7 +205,7 @@ const MechMount = ({
         />
       )}
 
-      {mountedWeapons.length === 0 &&
+      {mountedWeaponData.length === 0 &&
         <MechWeapon
           mountType={mount.mount_type}
           weaponData={null}
@@ -223,11 +226,8 @@ const MechWeapon = ({
   isActive,
 }) => {
 
-  console.log('mod',mod);
-
   var modData;
   if (mod) modData = findModData(mod.id);
-
 
   return (
     <button
