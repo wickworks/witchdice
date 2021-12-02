@@ -15,11 +15,13 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-          <div className='version-label'>v0.9.1-3 — Dec 2021</div>
+          <div className='version-label'>v0.9.1-4 — Dec 2021</div>
           <ul>
             <li>Made Lancer tool responsive for mobile phones.</li>
             <li>Exposed condition only doubles basic damage types.</li>
             <li>Mount core bonuses and weapon mods are displayed.</li>
+            <li>Weapon mods can add bonus damage or effects.</li>
+            <li>Brutal talent maximizes damage on nat 20s.</li>
           </ul>
 
           <div className='version-label'>v0.9 — Nov 2021</div>
