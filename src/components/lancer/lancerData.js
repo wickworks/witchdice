@@ -119,8 +119,8 @@ const processDiceString = (diceString) => {
   return {count: count, dietype: dietype, bonus: bonus}
 }
 
-function isDamageRange(damageValAndType) {
-  return String(damageValAndType.val).includes('-')
+function isDamageRange(dieType) {
+  return String(dieType).includes('-')
 }
 
 const findTagData = (tagID) => {

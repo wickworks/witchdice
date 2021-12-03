@@ -1,5 +1,6 @@
 import {
   applyDamageMultiplier,
+  isDamageRange,
   FIRST_ROLL_ONLY_TAGS,
   BASIC_DAMAGE_TYPES,
 } from '../../lancerData.js';
@@ -16,7 +17,7 @@ function getSortedTotalPool(rollData, isCrit, damageModifiers) {
 
   // inject average/maximized data right into any kind of summation we're doing
   if (rollData.dieType) {
-    if (damageModifiers.average) {
+    if (damageModifiers.average && !isDamageRange(rollData.dieType)) {
       var averageRoll = Math.ceil(rollData.dieType * .5);
       if (rollData.dieType === 6) averageRoll += .5
       totalPool = totalPool.map(roll => averageRoll);

@@ -73,7 +73,7 @@ const DamageDice = ({
   manualBaseDamageDisabled,
 }) => {
 
-  return ( !isDamageRange(damage) ?
+  return ( !isDamageRange(damage.val) ?
     <div className='damage-dice'>
       {damage.val}
       <div className={`asset ${damage.type.toLowerCase()}`} />

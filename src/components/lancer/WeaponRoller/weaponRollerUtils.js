@@ -82,7 +82,7 @@ function rollDamage(weaponData, isOverkill, manualBaseDamage) {
   damageData.rolls = [];
   weaponData.damage.forEach(damageValAndType => {
     // DAMAGE RANGE; use manually-entered value
-    if (isDamageRange(damageValAndType)) {
+    if (isDamageRange(damageValAndType.val)) {
       damageData.rolls.push({
         rollPool: [manualBaseDamage],
         critPool: [],
