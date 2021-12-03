@@ -81,6 +81,12 @@ const WeaponRoller = ({
   const toggleBonusDamage = (sourceID) => {
     let newBonusDamages = [...activeBonusSources];
 
+    // Special case: walking armories are mutually exclusive, so clear out all the others
+    if (sourceID.startsWith('t_walking_armory')) {
+      newBonusDamages = newBonusDamages.filter(bonusID => !bonusID.startsWith('t_walking_armory') || bonusID === sourceID)
+    }
+
+
     const bonusIndex = newBonusDamages.indexOf(sourceID);
     if (bonusIndex >= 0) {
       newBonusDamages.splice(bonusIndex, 1) // REMOVE source

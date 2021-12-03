@@ -121,7 +121,7 @@ const BonusSourceButton = ({
         :
           <div className='asset dot' />
         }
-        <div className='amount'>{bonusSource.diceString}</div>
+        {bonusSource.diceString && <div className='amount'>{bonusSource.diceString}</div>}
       </div>
       <div className='label'>{bonusSource.name.toLowerCase()}</div>
     </button>
