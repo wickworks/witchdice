@@ -3,6 +3,7 @@ import './BaseDamageBar.scss';
 
 import {
   getTagName,
+  isDamageRange,
 } from '../lancerData.js';
 
 // A weapon profile is a subset of weaponData, and handles weapons
@@ -13,6 +14,10 @@ const BaseDamageBar = ({
   isActive,
   isClickable,
   onClick,
+
+  manualBaseDamage,
+  setManualBaseDamage,
+  manualBaseDamageDisabled,
 }) => {
 
   let weaponTags = weaponProfile.tags ? weaponProfile.tags.map(tagID => getTagName(tagID)) : []
@@ -27,10 +32,13 @@ const BaseDamageBar = ({
         <div className="base-damage">
           <div className='bracket'>{'[ '}</div>
           { weaponProfile.damage.map((damage, i) =>
-            <div className='damage-dice' key={`damage-${i}`}>
-              {damage.val}
-              <div className={`asset ${damage.type.toLowerCase()}`} />
-            </div>
+            <DamageDice
+              damage={damage}
+              manualBaseDamage={manualBaseDamage}
+              setManualBaseDamage={setManualBaseDamage}
+              manualBaseDamageDisabled={manualBaseDamageDisabled}
+              key={`damage-${i}`}
+            />
           )}
           <div className='bracket'>{' ]'}</div>
         </div>
@@ -55,6 +63,33 @@ const BaseDamageBar = ({
         }
       </div>
     </button>
+  )
+}
+
+const DamageDice = ({
+  damage,
+  manualBaseDamage,
+  setManualBaseDamage,
+  manualBaseDamageDisabled,
+}) => {
+
+  return ( !isDamageRange(damage) ?
+    <div className='damage-dice'>
+      {damage.val}
+      <div className={`asset ${damage.type.toLowerCase()}`} />
+    </div>
+  :
+    <div className='manual-damage'>
+      <input
+        value={manualBaseDamage}
+        onChange={e => setManualBaseDamage(parseInt(e.target.value))}
+        min="1" // these are probably fine, what else could it be
+        max="6"
+        type='number'
+        disabled={manualBaseDamageDisabled}
+      />
+      <div className={`asset ${damage.type.toLowerCase()}`} />
+    </div>
   )
 }
 

@@ -122,6 +122,10 @@ const processDiceString = (diceString) => {
   return {count: count, dietype: dietype, bonus: bonus}
 }
 
+function isDamageRange(damageValAndType) {
+  return String(damageValAndType.val).includes('-')
+}
+
 const findTagData = (tagID) => {
   const tagData = allTags.find(tag => tag.id === tagID);
   return tagData;
@@ -239,6 +243,7 @@ const findModData = (modID) => {
 export {
   findSkillData,
   getGrit,
+  isDamageRange,
   applyDamageMultiplier,
   processDiceString,
   findTagData,

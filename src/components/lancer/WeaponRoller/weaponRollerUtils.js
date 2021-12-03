@@ -7,10 +7,11 @@ import {
   findTagOnWeapon,
   processDiceString,
   defaultWeaponDamageType,
+  isDamageRange,
   GENERIC_BONUS_SOURCE
 } from '../lancerData.js';
 
-function createNewAttack(weaponData, flatBonus, accuracyMod, inheritDamage = null) {
+function createNewAttack(weaponData, flatBonus, accuracyMod, manualBaseDamage, inheritDamage = null) {
   let newAttack = {};
 
   // Overkill?
@@ -44,7 +45,7 @@ function createNewAttack(weaponData, flatBonus, accuracyMod, inheritDamage = nul
   if (inheritDamage) {
     newAttack.damage = deepCopy(inheritDamage)
   } else {
-    newAttack.damage = rollDamage(weaponData, newAttack.isOverkill);
+    newAttack.damage = rollDamage(weaponData, newAttack.isOverkill, manualBaseDamage);
   }
 
   newAttack.onAttack = weaponData.on_attack || '';
@@ -75,14 +76,28 @@ function rollToHit(flatBonus, accuracyMod) {
 }
 
 // Fills out the damage rolls for the attack data.
-function rollDamage(weaponData, isOverkill = false) {
+function rollDamage(weaponData, isOverkill, manualBaseDamage) {
   var damageData = {};
 
   damageData.rolls = [];
   weaponData.damage.forEach(damageValAndType => {
-    const damageDice = processDiceString(damageValAndType.val);
-    if (damageDice.count > 0 || damageDice.bonus > 0) {
-      damageData.rolls.push(...produceRollPools(damageDice, damageValAndType.type, isOverkill, weaponData.id))
+    // DAMAGE RANGE; use manually-entered value
+    if (isDamageRange(damageValAndType)) {
+      damageData.rolls.push({
+        rollPool: [manualBaseDamage],
+        critPool: [],
+        keep: 1,
+        dieType: damageValAndType.val,
+        type: damageValAndType.type,
+        id: weaponData.id
+      })
+
+    // NORMAL damage roll
+    } else {
+      const damageDice = processDiceString(damageValAndType.val);
+      if (damageDice.count > 0 || damageDice.bonus > 0) {
+        damageData.rolls.push(...produceRollPools(damageDice, damageValAndType.type, isOverkill, weaponData.id))
+      }
     }
   });
 

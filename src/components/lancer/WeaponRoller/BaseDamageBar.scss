@@ -40,7 +40,7 @@ button.BaseDamageBar {
         margin-top: -4px;
       }
 
-      .damage-dice, .range {
+      .damage-dice, .manual-damage, .range {
         display: flex;
         align-items: center;
         margin-left: 4px;
@@ -49,6 +49,13 @@ button.BaseDamageBar {
           display: inline-block;
           width: 28px;
           height: 28px;
+        }
+
+        input {
+          @include text_monospace;
+          width: 60px;
+          font-size: 24px;
+          text-align: center;
         }
       }
 

@@ -47,6 +47,8 @@ const WeaponRoller = ({
   const [genericBonusDieCount, setGenericBonusDieCount] = useState(0);
   const [genericBonusPlus, setGenericBonusPlus] = useState(0);
 
+  const [manualBaseDamage, setManualBaseDamage] = useState(1);
+
   // =============== CHANGE WEAPON ==================
   useEffect(() => {
     clearAttacks()
@@ -113,7 +115,7 @@ const WeaponRoller = ({
   const createNewAttackRoll = (flatBonus, accuracyMod) => {
 
     const previousAttackDamage = allAttackRolls.length > 0 ? allAttackRolls[0].damage : null;
-    const newAttack = createNewAttack(currentWeaponProfile, flatBonus, accuracyMod, previousAttackDamage)
+    const newAttack = createNewAttack(currentWeaponProfile, flatBonus, accuracyMod, manualBaseDamage, previousAttackDamage)
 
     console.log('New Attack:', newAttack);
 
@@ -199,6 +201,9 @@ const WeaponRoller = ({
             onClick={() => setActiveProfileIndex(i)}
             isClickable={allWeaponProfiles.length > 1 && allAttackRolls.length === 0}
             isActive={allWeaponProfiles.length > 1 && activeProfileIndex === i}
+            manualBaseDamage={manualBaseDamage}
+            setManualBaseDamage={setManualBaseDamage}
+            manualBaseDamageDisabled={allAttackRolls.length > 0}
             key={`basedamage-${i}`}
           />
         )}
@@ -247,6 +252,7 @@ const WeaponRoller = ({
             bonusDamageData={activeBonusDamageData}
             halveBonusDamage={allAttackRolls.length >= 2}
             damageModifiers={totalDamageModifiers}
+            manualBaseDamage={manualBaseDamage}
             isFirstRoll={i === 0}
             setAttackSummary={(attackSummaryData) => setRollSummaryDataWithWeaponName(attackSummaryData, i)}
             key={i}
