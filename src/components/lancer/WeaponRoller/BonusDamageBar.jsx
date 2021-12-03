@@ -31,40 +31,19 @@ const BonusDamageBar = ({
   return (
     <div className="BonusDamageBar">
 
-      <div className='generic-source-container'>
-        <button
-          className={`generic-source ${genericBonusIsActive ? 'active' : 'inactive'}`}
-          onClick={() => setGenericBonusDieCount(Math.min(genericBonusDieCount + 1, MAX_BONUS))}
-        >
-          <div className='amount-container'>
-            {genericBonusDieCount ?
-              <div className='amount'>{genericBonusDieCount}d6</div>
-            :
-              <div className='asset d6' />
-            }
-          </div>
-        </button>
+      <BonusMultipliers
+        damageModifiers={damageModifiers}
+        toggleDamageModifier={toggleDamageModifier}
+      />
 
-        <button
-          className={`generic-source ${genericBonusIsActive ? 'active' : 'inactive'}`}
-          onClick={() => setGenericBonusPlus(Math.min(genericBonusPlus + 1, MAX_BONUS))}
-        >
-          <div className='amount-container'>
-            {genericBonusPlus ?
-              <div className='amount'>+{genericBonusPlus}</div>
-            :
-              <div className='asset plus' />
-            }
-          </div>
-        </button>
-
-        <button
-          className={`generic-reset ${genericBonusIsActive ? 'active' : 'inactive'}`}
-          onClick={toggleGenericBonusDamage}
-        >
-          <div className='label'>Bonus damage</div>
-        </button>
-      </div>
+      <BonusGenerics
+        genericBonusIsActive={genericBonusIsActive}
+        genericBonusDieCount={genericBonusDieCount}
+        genericBonusPlus={genericBonusPlus}
+        toggleGenericBonusDamage={toggleGenericBonusDamage}
+        setGenericBonusDieCount={setGenericBonusDieCount}
+        setGenericBonusPlus={setGenericBonusPlus}
+      />
 
       { availableBonusSources.map((bonusSource, i) =>
         !bonusSource.trait.isPassive &&
@@ -75,31 +54,84 @@ const BonusDamageBar = ({
             key={`${bonusSource.id}-${i}`}
           />
       )}
+    </div>
+  )
+}
 
-      <div className="multipliers-container">
-        <button
-          className={damageModifiers.half ? 'active' : ''}
-          onClick={() => toggleDamageModifier('half')}
-        >
-          <div className='asset x' />
-          <div>1 / 2</div>
-        </button>
+const BonusMultipliers = ({
+  damageModifiers,
+  toggleDamageModifier,
+}) => {
+  return (
+    <div className="multipliers-container">
+      <button
+        className={damageModifiers.half ? 'active' : ''}
+        onClick={() => toggleDamageModifier('half')}
+      >
+        <div className='asset x' />
+        <div>1 / 2</div>
+      </button>
 
-        <button
-          className={damageModifiers.double ? 'active' : ''}
-          onClick={() => toggleDamageModifier('double')}
-        >
-          <div className='asset x' />
-          <div>2</div>
-        </button>
+      <button
+        className={damageModifiers.double ? 'active' : ''}
+        onClick={() => toggleDamageModifier('double')}
+      >
+        <div className='asset x' />
+        <div>2</div>
+      </button>
 
-        <button
-          className={damageModifiers.average ? 'active' : ''}
-          onClick={() => toggleDamageModifier('average')}
-        >
-          <div>Avg</div>
-        </button>
-      </div>
+      <button
+        className={damageModifiers.average ? 'active' : ''}
+        onClick={() => toggleDamageModifier('average')}
+      >
+        <div>Avg</div>
+      </button>
+    </div>
+  )
+}
+
+const BonusGenerics = ({
+  genericBonusIsActive,
+  genericBonusDieCount,
+  genericBonusPlus,
+  toggleGenericBonusDamage,
+  setGenericBonusDieCount,
+  setGenericBonusPlus,
+}) => {
+  return (
+    <div className='generic-source-container'>
+      <button
+        className={`generic-source ${genericBonusIsActive ? 'active' : 'inactive'}`}
+        onClick={() => setGenericBonusDieCount(Math.min(genericBonusDieCount + 1, MAX_BONUS))}
+      >
+        <div className='amount-container'>
+          {genericBonusDieCount ?
+            <div className='amount'>{genericBonusDieCount}d6</div>
+          :
+            <div className='asset d6' />
+          }
+        </div>
+      </button>
+
+      <button
+        className={`generic-source ${genericBonusIsActive ? 'active' : 'inactive'}`}
+        onClick={() => setGenericBonusPlus(Math.min(genericBonusPlus + 1, MAX_BONUS))}
+      >
+        <div className='amount-container'>
+          {genericBonusPlus ?
+            <div className='amount'>+{genericBonusPlus}</div>
+          :
+            <div className='asset plus' />
+          }
+        </div>
+      </button>
+
+      <button
+        className={`generic-reset ${genericBonusIsActive ? 'active' : 'inactive'}`}
+        onClick={toggleGenericBonusDamage}
+      >
+        <div className='label'>Bonus damage</div>
+      </button>
     </div>
   )
 }

@@ -3,6 +3,7 @@ import {
   findTalentData,
   findWeaponData,
   findModData,
+  findCoreBonusData,
 } from './lancerData.js';
 
 
@@ -268,22 +269,6 @@ function newModTrait(modData, modEffect = {}) {
   return {...blankTrait, ...modData, ...modEffect}
 }
 
-// function addSourceFromMod(sources, modData, modEffect = {}) {
-//
-//
-//   modData.added_damage.forEach(damage =>
-//     sources.push( newSource(modData.name, modData.id, damage.val, damage.type, newModTrait(modEffect)) )
-//   );
-//
-//   sources.push(newSource(
-//     modData.name,
-//     modData.id,
-//     diceString,
-//     damageType,
-//     newModTrait(modEffect)
-//   ));
-// }
-
 function getBonusDamageSourcesFromMod(activeWeapon) {
   var sources = [];
   if (!activeWeapon) return sources;
@@ -343,6 +328,38 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
   return sources;
 }
 
+
+//  ============================================    CORE BONUSeS    =================================================
+
+function getBonusDamageSourcesFromCoreBonuses(activeMount) {
+  var sources = [];
+  if (!activeMount) return sources;
+
+  activeMount.bonus_effects.forEach(coreBonusID => {
+    const coreBonusData = findCoreBonusData(coreBonusID);
+
+    if (coreBonusData) {
+      switch (coreBonusID) {
+        case 'cb_overpower_caliber':
+          sources.push( newSource(coreBonusData.name, coreBonusData.id, '1d6', '', {...blankTrait}) );
+          break;
+
+        default:
+          break;
+      }
+    }
+  })
+
+  // all all ids to the sources' trait
+  sources.forEach(source => {
+    if (source.trait) source.trait.id = source.id
+  });
+
+  console.log('cb sources', sources);
+
+  return sources;
+}
+
 //  ============================================    WEAPONS    =======================================================
 
 // Honestly, people can just add stuff manually using the generic dice. The on hit // effects will prompt them to.
@@ -373,5 +390,6 @@ export {
   getBonusDamageSourcesFromMech,
   getBonusDamageSourcesFromTalents,
   getBonusDamageSourcesFromMod,
+  getBonusDamageSourcesFromCoreBonuses,
   getToHitBonusFromMech,
 };

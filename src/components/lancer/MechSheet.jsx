@@ -11,10 +11,11 @@ import {
 } from './lancerData.js';
 
 import {
+  getToHitBonusFromMech,
   getBonusDamageSourcesFromMech,
   getBonusDamageSourcesFromTalents,
   getBonusDamageSourcesFromMod,
-  getToHitBonusFromMech,
+  getBonusDamageSourcesFromCoreBonuses,
 } from './bonusDamageSourceUtils.js';
 
 import { deepCopy } from '../../utils.js';
@@ -131,8 +132,9 @@ const MechSheet = ({
 
   const bonusDamageSources = [
     ...getBonusDamageSourcesFromMech(activeMech),
+    ...getBonusDamageSourcesFromCoreBonuses(activeMount),
+    ...getBonusDamageSourcesFromMod(activeWeapon),
     ...getBonusDamageSourcesFromTalents(activePilot),
-    ...getBonusDamageSourcesFromMod(activeWeapon)
   ];
 
   const miscBonusToHit = getToHitBonusFromMech(activeMech);
