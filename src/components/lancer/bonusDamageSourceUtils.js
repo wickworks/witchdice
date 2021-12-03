@@ -27,7 +27,7 @@ function newSource(name, id, diceString, damageType = '', traitData = null) {
 }
 
 //  ============================================    FRAMES    =======================================================
-function findTraitFromFrame(frameData, traitName) {
+function newFrameTrait(frameData, traitName) {
   const traitData = frameData.traits.find(trait => trait.name === traitName);
   return traitData || null;
 }
@@ -38,7 +38,7 @@ function newSourceFromFrame(frameData, diceString, damageType = '', traitName = 
     frameData.id,
     diceString,
     damageType,
-    findTraitFromFrame(frameData, traitName)
+    newFrameTrait(frameData, traitName)
   )
 }
 
@@ -65,11 +65,18 @@ function getBonusDamageSourcesFromMech(mechData) {
 
     case 'mf_tokugawa':
       sources.push( newSourceFromFrame(frameData, '3', 'Energy', 'Limit Break') );
-      sources.push( newSource('Plasma Sheath', 'mf_tokugawa_dz', '', 'Burn', findTraitFromFrame(frameData, 'Plasma Sheath')) );
+
+      const plasmaEffect = {...newFrameTrait(frameData, 'Plasma Sheath'), damageModifiers: { bonusToBurn: true } }
+      sources.push( newSource('Plasma Sheath', 'mf_tokugawa_dz', '', 'Burn', plasmaEffect) );
       break;
 
     default: break;
   }
+
+  // all all ids to the sources' trait
+  sources.forEach(source => {
+    if (source.trait) source.trait.id = source.id
+  });
 
   return sources;
 }

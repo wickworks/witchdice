@@ -11,7 +11,6 @@ import {
   findTagOnWeapon,
   GENERIC_BONUS_SOURCE,
   DAMAGE_MODIFIERS,
-  BONUS_TO_BURN_TAGS,
 } from '../lancerData.js';
 
 import {
@@ -88,9 +87,6 @@ const WeaponRoller = ({
     } else {
       newBonusDamages.push(sourceID);          // ADD source
     }
-
-    // Special case: tokugawa bonus-to-burn
-    if (BONUS_TO_BURN_TAGS.includes(sourceID)) toggleDamageModifier('bonusToBurn')
 
     setActiveBonusSources(newBonusDamages);
   }

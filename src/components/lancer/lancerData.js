@@ -48,9 +48,6 @@ const blankSkill = {
   "family": ""
 }
 
-// this should definitely get rolled into damageModifiers system
-const BONUS_TO_BURN_TAGS = ['mf_tokugawa_dz']
-
 // these should probably get rolled into damageModifiers system
 const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier', 't_nuclear_cavalier']
 
@@ -259,7 +256,6 @@ export {
   GENERIC_BONUS_SOURCE,
   MAX_BONUS,
   DAMAGE_MODIFIERS,
-  BONUS_TO_BURN_TAGS,
   FIRST_ROLL_ONLY_TAGS,
   BASIC_DAMAGE_TYPES,
   LANCER_DAMAGE_TYPES,
