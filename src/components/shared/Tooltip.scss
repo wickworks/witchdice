@@ -1,0 +1,93 @@
+@import '../../fonts';
+
+$tooltip_width: 320px;
+$nub_width: 12px;
+
+.Tooltip.anchor {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  transform: translateX(-50%);
+  white-space: normal;
+  width: $tooltip_width;
+
+  animation: fade-in .5s;
+
+  @include below_max_width {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: none;
+    width: calc(100vw - (100vw - 100%)); //negates the scrollbar
+    box-sizing: border-box;
+    z-index: 10;
+  }
+
+  .content-container {
+    @include shadow;
+
+    position: relative;
+    height: fit-content;
+    padding: 12px;
+    border-radius: 8px;
+
+    width: 100%;
+    box-sizing: border-box;
+    background-color: $rust;
+    color: white;
+
+
+    &:before {
+      content: '';
+      display: block;
+      width: 0;
+      height: 0;
+      position: absolute;
+      border-left: $nub_width solid transparent;
+      border-right: $nub_width solid transparent;
+      border-top: $nub_width solid $rust;
+      left: 50%;
+      bottom: (($nub_width * -1) + 1px);
+
+      @include below_max_width { display: none; }
+    }
+
+    .title-container {
+      display: flex;
+      justify-content: space-between;
+
+      h4 {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      button.asset.x {
+        width: 24px;
+        height: 24px;
+        filter: invert(100%);
+
+        display: none;
+        @include below_max_width { display: block; }
+      }
+    }
+
+
+
+    .desc-container {
+      font-style: italic;
+    }
+
+    p {
+      // text-align: justify;
+    }
+  }
+}
+
+@keyframes fade-in {
+  0% { opacity: 0.0 }
+
+  70% { opacity: 0.0 }
+
+  100% { opacity: 1.0 }
+}

@@ -11,8 +11,15 @@
   }
 
   .entry {
+    position: relative;
     display: inline-block;
     white-space: nowrap;
+
+    cursor: help;
+
+    &:hover {
+      color: $rust;
+    }
 
     .bracket {
       margin: 0 4px;

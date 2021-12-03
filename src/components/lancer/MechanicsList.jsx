@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Tooltip from '../shared/Tooltip';
 
 import './MechanicsList.scss';
 
@@ -10,6 +11,8 @@ const MechanicsList = ({
   getRankDisplay = (number) => { return number; },
   namesToLowercase = true,
 }) => {
+  const [hoveringIndex, setHoveringIndex] = useState(null);
+
   return (
     <div className={`MechanicsList ${containerClass}`}>
       <div className="label">{label}</div>
@@ -22,13 +25,25 @@ const MechanicsList = ({
           const rank = mechanic.rank
           const name = namesToLowercase ? data.name.toLowerCase() : data.name
           return (
-            <span className="entry" key={dataID}>
+            <span
+              className="entry"
+              onMouseEnter={() => setHoveringIndex(i)}
+              onMouseLeave={() => setHoveringIndex(null)}
+              key={dataID}
+            >
               <span className="bracket">[</span>
               <span className="name">{name}</span>
               { rank !== undefined && rank !== null &&
                 <span className="number">{getRankDisplay(rank)}</span>
               }
               <span className="bracket">]</span>
+
+              {hoveringIndex === i &&
+                <Tooltip
+                  tooltipData={data}
+                  onClose={() => setHoveringIndex(null)}
+                />
+              }
             </span>
           )
         })}

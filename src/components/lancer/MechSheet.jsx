@@ -206,17 +206,21 @@ const MechMount = ({
 
   return (
     <div className={`MechMount ${isEmpty ? 'empty' : ''}`}>
-      { mountedWeaponData.map((weaponData, i) =>
+      { mountedWeaponData.map((weaponData, i) => {
+
+        // WHERE DID ALL MOUNTS GO, PUTTING THIS DOWN FOR TONIGHT
+        const weaponMod = mount.slots[i] ? mount.slots[i].weapon.mod : null;
+
         <MechWeapon
           mountType={i === 0 ? mount.mount_type : ''}
           bonusEffects={i === 0 ? bonusEffects : []}
           weaponData={weaponData}
-          mod={mount.slots[i].weapon.mod}
+          mod={weaponMod}
           onClick={() => setActiveWeaponIndex(i)}
           isActive={activeWeaponIndex === i}
           key={i}
         />
-      )}
+      })}
 
       {mountedWeaponData.length === 0 &&
         <MechWeapon
