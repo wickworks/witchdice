@@ -3,8 +3,11 @@ import React from 'react';
 const BrToParagraphs = ({
   stringWithBrs,
 }) => {
+  var splits = stringWithBrs.replace(/<p>/g, '');
+  splits = splits.split(/<\/p>|<br>/g);
+
   return (
-    stringWithBrs.split('<br>').map((paragraph, i) =>
+    splits.map((paragraph, i) =>
       <p key={`paragraph-${i}`}>{paragraph}</p>
     )
   );
