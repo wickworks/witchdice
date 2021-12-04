@@ -76,10 +76,21 @@ $nub_width: 12px;
 
     .desc-container {
       font-style: italic;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 10; /* number of lines to show */
+              line-clamp: 10;
+      -webkit-box-orient: vertical;
     }
 
     p {
       // text-align: justify;
+
+      a {
+        color: white;
+      }
     }
   }
 }

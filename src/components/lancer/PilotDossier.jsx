@@ -57,6 +57,7 @@ const PilotDossier = ({
               findData={findCoreBonusData}
               mechanicIDList={activePilot.core_bonuses}
               containerClass={'core-bonuses'}
+              compendiumUrl='https://compcon.app/#/compendium/corebonuses'
             />
 
             <MechanicsList
@@ -64,6 +65,7 @@ const PilotDossier = ({
               findData={findFrameData}
               mechanicIDList={activePilot.licenses}
               containerClass={'licenses'}
+              compendiumUrl={`https://compcon.app/#/compendium/search?search=%TITLE`}
             />
 
           </div>
@@ -75,6 +77,7 @@ const PilotDossier = ({
               findData={findTalentData}
               mechanicIDList={activePilot.talents}
               containerClass={'talents'}
+              compendiumUrl='https://compcon.app/#/compendium/talents'
             />
 
             <MechanicsList
@@ -83,6 +86,7 @@ const PilotDossier = ({
               mechanicIDList={activePilot.skills}
               containerClass={'skills'}
               getRankDisplay={ (number) => { return `+${number * 2}`} }
+              compendiumUrl='https://compcon.app/#/compendium/skills'
             />
 
           </div>

@@ -10,8 +10,17 @@ const MechanicsList = ({
   containerClass,
   getRankDisplay = (number) => { return number; },
   namesToLowercase = true,
+  compendiumUrl = '',
 }) => {
   const [hoveringIndex, setHoveringIndex] = useState(null);
+
+  const getCompendiumHref = (data) => {
+    if (!data || !compendiumUrl) return ''
+
+    const title = data.title || data.name || ''
+    const compendiumLink = compendiumUrl.replace(/%TITLE/g, title);
+    return compendiumLink
+  }
 
   return (
     <div className={`MechanicsList ${containerClass}`}>
@@ -41,6 +50,7 @@ const MechanicsList = ({
               {hoveringIndex === i &&
                 <Tooltip
                   tooltipData={data}
+                  compendiumHref={getCompendiumHref(data)}
                   onClose={() => setHoveringIndex(null)}
                 />
               }

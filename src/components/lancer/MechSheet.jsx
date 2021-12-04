@@ -164,6 +164,7 @@ const MechSheet = ({
           mechanicIDList={loadout.systems}
           containerClass={'systems'}
           namesToLowercase={false}
+          compendiumUrl={`https://compcon.app/#/compendium/search?search=%TITLE`}
         />
 
         <div className="mounts-label">Mounts</div>
