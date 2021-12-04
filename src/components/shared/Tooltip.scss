@@ -1,5 +1,6 @@
 @import '../../fonts';
 
+$wait_time: .85s;
 $tooltip_width: 340px;
 $nub_width: 12px;
 
@@ -13,7 +14,7 @@ $nub_width: 12px;
   width: $tooltip_width;
   z-index: 10;
 
-  animation: fade-in .8s, offscreen-until-we-need-it-desktop .8s;
+  animation: fade-in $wait_time, offscreen-until-we-need-it-desktop $wait_time;
 
   @include below_max_width {
     position: fixed;
@@ -24,7 +25,7 @@ $nub_width: 12px;
     width: calc(100vw - (100vw - 100%)); //negates the scrollbar
     box-sizing: border-box;
 
-    animation: fade-in .8s, offscreen-until-we-need-it-mobile .8s;
+    animation: fade-in $wait_time, offscreen-until-we-need-it-mobile $wait_time;
   }
 
   .content-container {
@@ -92,8 +93,10 @@ $nub_width: 12px;
               line-clamp: 7;
       -webkit-box-orient: vertical;
 
-      p.flavor {
-        font-style: italic;
+      p {
+        margin-bottom: 0;
+
+        &.flavor { font-style: italic; }
       }
     }
 

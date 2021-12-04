@@ -1,5 +1,9 @@
 import React from 'react';
 
+import TurndownService from 'turndown';
+const turndownService = new TurndownService()
+
+
 const BrToParagraphs = ({
   stringWithBrs,
   extraClass = '',
@@ -9,7 +13,9 @@ const BrToParagraphs = ({
 
   return (
     splits.map((paragraph, i) =>
-      <p className={extraClass} key={`paragraph-${i}`}>{paragraph}</p>
+      <p className={extraClass} key={`paragraph-${i}`}>
+        {turndownService.turndown(paragraph)}
+      </p>
     )
   );
 }

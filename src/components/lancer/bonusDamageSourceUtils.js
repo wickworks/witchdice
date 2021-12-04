@@ -30,7 +30,8 @@ function newSource(name, id, diceString, damageType = '', traitData = null) {
 //  ============================================    FRAMES    =======================================================
 function newFrameTrait(frameData, traitName) {
   const traitData = frameData.traits.find(trait => trait.name === traitName);
-  return traitData || null;
+
+  return {...blankTrait, ...traitData, name: frameData.name};
 }
 
 function newSourceFromFrame(frameData, diceString, damageType = '', traitName = '') {
@@ -97,7 +98,7 @@ function addSourceFromTalent(sources, currentRank, talentData, rank, diceString,
     // console.log(rankData.name, ' :::: ', rankData);
 
     sources.push(newSource(
-      rankData.name || talentData.name,
+      rankData.name,
       customID || `${talentData.id}_${rank}`,
       diceString,
       damageType,
@@ -107,7 +108,7 @@ function addSourceFromTalent(sources, currentRank, talentData, rank, diceString,
 }
 
 function newTalentTrait(talentData, rank, attackEffects) {
-  return {...talentData.ranks[rank-1], ...blankTrait, ...attackEffects}
+  return {...talentData.ranks[rank-1], ...blankTrait, ...attackEffects, talentData, name: talentData.name}
 }
 
 function getBonusDamageSourcesFromTalents(pilotData) {
@@ -325,6 +326,8 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
     }
   }
 
+  // console.log('mod sources:', sources);
+
   return sources;
 }
 
@@ -341,7 +344,7 @@ function getBonusDamageSourcesFromCoreBonuses(activeMount) {
     if (coreBonusData) {
       switch (coreBonusID) {
         case 'cb_overpower_caliber':
-          sources.push( newSource(coreBonusData.name, coreBonusData.id, '1d6', '', {...blankTrait}) );
+          sources.push( newSource(coreBonusData.name, coreBonusData.id, '1d6', '', {...blankTrait, ...coreBonusData}) );
           break;
 
         default:
@@ -355,7 +358,7 @@ function getBonusDamageSourcesFromCoreBonuses(activeMount) {
     if (source.trait) source.trait.id = source.id
   });
 
-  console.log('cb sources', sources);
+  // console.log('cb sources', sources);
 
   return sources;
 }

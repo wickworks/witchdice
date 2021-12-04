@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Tooltip from '../../shared/Tooltip';
 import { MAX_BONUS } from '../lancerData.js';
 
 import './BonusDamageBar.scss';
@@ -18,6 +19,7 @@ const BonusDamageBar = ({
   damageModifiers,
   toggleDamageModifier,
 }) => {
+  const [hoveringIndex, setHoveringIndex] = useState(null);
 
   const toggleGenericBonusDamage = () => {
     if (genericBonusIsActive) {
@@ -51,6 +53,8 @@ const BonusDamageBar = ({
             isActive={activeBonusSources.indexOf(bonusSource.id) >= 0}
             toggleBonusDamage={toggleBonusDamage}
             bonusSource={bonusSource}
+            isHovering={hoveringIndex === i}
+            setIsHovering={isHovering => setHoveringIndex(isHovering ? i : null)}
             key={`${bonusSource.id}-${i}`}
           />
       )}
@@ -137,26 +141,55 @@ const BonusGenerics = ({
 }
 
 
+function getCompendiumHrefForBonusSource(bonusSource) {
+  return (
+    bonusSource.id.startsWith('t_') ?
+      'https://compcon.app/#/compendium/talents'
+    : bonusSource.id.startsWith('cb_') ?
+    'https://compcon.app/#/compendium/corebonuses'
+    :
+      `https://compcon.app/#/compendium/search?search=${bonusSource.trait.name}`
+    )
+}
+
 const BonusSourceButton = ({
   isActive,
   toggleBonusDamage,
   bonusSource,
+
+  isHovering,
+  setIsHovering,
 }) => {
+
   return (
-    <button
-      className={`bonus-source ${isActive ? 'active' : 'inactive'}`}
-      onClick={() => toggleBonusDamage(bonusSource.id)}
+    <div
+      className='bonus-source-button-container'
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
     >
-      <div className='amount-container'>
-        { bonusSource.type ?
-          <div className={`asset ${bonusSource.type.toLowerCase()}`} />
-        :
-          <div className='asset dot' />
-        }
-        {bonusSource.diceString && <div className='amount'>{bonusSource.diceString}</div>}
-      </div>
-      <div className='label'>{bonusSource.name.toLowerCase()}</div>
-    </button>
+      <button
+        className={`bonus-source ${isActive ? 'active' : 'inactive'}`}
+        onClick={() => toggleBonusDamage(bonusSource.id)}
+      >
+        <div className='amount-container'>
+          { bonusSource.type ?
+            <div className={`asset ${bonusSource.type.toLowerCase()}`} />
+          :
+            <div className='asset dot' />
+          }
+          {bonusSource.diceString && <div className='amount'>{bonusSource.diceString}</div>}
+        </div>
+        <div className='label'>{bonusSource.name.toLowerCase()}</div>
+      </button>
+      {isHovering &&
+        <Tooltip
+          title={bonusSource.name}
+          content={bonusSource.trait.effect || bonusSource.trait.description}
+          compendiumHref={getCompendiumHrefForBonusSource(bonusSource)}
+          onClose={() => setIsHovering(false)}
+        />
+      }
+    </div>
   )
 }
 

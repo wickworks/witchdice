@@ -16,11 +16,7 @@ const MechanicsList = ({
 }) => {
   const [hoveringIndex, setHoveringIndex] = useState(null);
 
-  console.log("~~~~~~~~~~~~",label,"~~~~~~~~~~~~~~~");
-
-  const getTooltipData = (data) => {
-    console.log(data);
-
+  function getTooltipData(data) {
     var tooltipData = {}
     tooltipData.title = data.title || data.name || ''
     tooltipData.content = tooltipContentKey ? data[tooltipContentKey] : ''

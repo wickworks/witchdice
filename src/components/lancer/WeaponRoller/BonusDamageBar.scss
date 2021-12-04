@@ -6,7 +6,6 @@
   grid-template-columns: 1fr 1fr 1fr;
   width: 100%;
   box-sizing: border-box;
-  overflow: hidden;
 
   @include below_max_width { grid-template-columns: 1fr 1fr; }
 
@@ -38,6 +37,7 @@
     align-items: center;
     justify-content: flex-start;
     height: 36px;
+    width: 100%;
 
     .amount-container {
       display: flex;
@@ -60,6 +60,11 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
+  }
+
+  // to anchor the tooltips
+  .bonus-source-button-container {
+    position: relative;
   }
 
   .generic-source-container {
