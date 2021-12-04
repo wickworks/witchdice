@@ -55,17 +55,20 @@ const PilotDossier = ({
             <MechanicsList
               label='Core Bonuses'
               findData={findCoreBonusData}
+              tooltipContentKey='effect'
+              tooltipFlavorKey='description'
+              tooltipHref='https://compcon.app/#/compendium/corebonuses'
               mechanicIDList={activePilot.core_bonuses}
               containerClass={'core-bonuses'}
-              compendiumUrl='https://compcon.app/#/compendium/corebonuses'
             />
 
             <MechanicsList
               label='Licenses'
               findData={findFrameData}
+              tooltipFlavorKey='description'
+              tooltipHref={`https://compcon.app/#/compendium/search?search=%TITLE`}
               mechanicIDList={activePilot.licenses}
               containerClass={'licenses'}
-              compendiumUrl={`https://compcon.app/#/compendium/search?search=%TITLE`}
             />
 
           </div>
@@ -75,18 +78,21 @@ const PilotDossier = ({
             <MechanicsList
               label='Talents'
               findData={findTalentData}
+              tooltipContentKey='terse'
+              tooltipFlavorKey='description'
+              tooltipHref='https://compcon.app/#/compendium/talents'
               mechanicIDList={activePilot.talents}
               containerClass={'talents'}
-              compendiumUrl='https://compcon.app/#/compendium/talents'
             />
 
             <MechanicsList
               label='Skills'
               findData={findSkillData}
+              tooltipContentKey='description'
+              tooltipHref='https://compcon.app/#/compendium/skills'
               mechanicIDList={activePilot.skills}
               containerClass={'skills'}
               getRankDisplay={ (number) => { return `+${number * 2}`} }
-              compendiumUrl='https://compcon.app/#/compendium/skills'
             />
 
           </div>

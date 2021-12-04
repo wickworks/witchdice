@@ -161,10 +161,12 @@ const MechSheet = ({
         <MechanicsList
           label='Systems'
           findData={findSystemData}
+          tooltipContentKey='effect'
+          tooltipFlavorKey='description'
+          tooltipHref='https://compcon.app/#/compendium/search?search=%TITLE'
           mechanicIDList={loadout.systems}
           containerClass={'systems'}
           namesToLowercase={false}
-          compendiumUrl={`https://compcon.app/#/compendium/search?search=%TITLE`}
         />
 
         <div className="mounts-label">Mounts</div>

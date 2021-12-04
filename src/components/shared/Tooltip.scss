@@ -1,6 +1,6 @@
 @import '../../fonts';
 
-$tooltip_width: 320px;
+$tooltip_width: 340px;
 $nub_width: 12px;
 
 .Tooltip.anchor {
@@ -17,7 +17,8 @@ $nub_width: 12px;
 
   @include below_max_width {
     position: fixed;
-    top: 0;
+    padding-bottom: 0;
+    bottom: 0;
     left: 0;
     transform: none;
     width: calc(100vw - (100vw - 100%)); //negates the scrollbar
@@ -38,6 +39,13 @@ $nub_width: 12px;
     box-sizing: border-box;
     background-color: $rust;
     color: white;
+
+    cursor: auto;
+
+    @include below_max_width {
+      border-radius: 0;
+      border-top: 4px solid $crushed_velvet;
+    }
 
 
     &:before {
@@ -76,25 +84,25 @@ $nub_width: 12px;
     }
 
 
-
-    .desc-container {
-      font-style: italic;
-
+    .paragraph-container {
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 10; /* number of lines to show */
-              line-clamp: 10;
+      -webkit-line-clamp: 7; /* number of lines to show */
+              line-clamp: 7;
       -webkit-box-orient: vertical;
-    }
 
-    p {
-      // text-align: justify;
-
-      a {
-        color: white;
+      p.flavor {
+        font-style: italic;
       }
     }
+
+    a {
+      display: block;
+      margin: 12px 0;
+      color: white;
+    }
+
   }
 }
 

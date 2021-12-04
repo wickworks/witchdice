@@ -3,11 +3,12 @@ import BrToParagraphs from './BrToParagraphs';
 import './Tooltip.scss';
 
 const Tooltip = ({
-  tooltipData,
+  title,
+  content = '',
+  flavor = '',
   compendiumHref = '',
   onClose,
 }) => {
-  const title = tooltipData.title || tooltipData.name || ''
 
   return (
     <div className="Tooltip anchor">
@@ -17,25 +18,25 @@ const Tooltip = ({
           <button className="asset x" onClick={onClose} />
         </div>
 
-        {tooltipData.effect &&
-          <BrToParagraphs stringWithBrs={tooltipData.effect} />
-        }
+        <div className='paragraph-container'>
+          {content &&
+            <BrToParagraphs stringWithBrs={content} />
+          }
 
-        {tooltipData.description &&
-          <div className="desc-container">
-            <BrToParagraphs stringWithBrs={tooltipData.description} />
-          </div>
-        }
+          {flavor &&
+            <BrToParagraphs stringWithBrs={flavor} extraClass='flavor' />
+          }
+        </div>
 
         {compendiumHref &&
-          <p><a
+          <a
             className="compendium-link"
             href={compendiumHref}
             target='_blank'
             rel="noopener noreferrer"
           >
             Compendium
-          </a></p>
+          </a>
         }
       </div>
     </div>

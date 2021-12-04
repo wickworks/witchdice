@@ -6,20 +6,28 @@ import './MechanicsList.scss';
 const MechanicsList = ({
   label,
   findData,
+  tooltipContentKey,
+  tooltipFlavorKey,
+  tooltipHref,
   mechanicIDList,
   containerClass,
   getRankDisplay = (number) => { return number; },
   namesToLowercase = true,
-  compendiumUrl = '',
 }) => {
   const [hoveringIndex, setHoveringIndex] = useState(null);
 
-  const getCompendiumHref = (data) => {
-    if (!data || !compendiumUrl) return ''
+  console.log("~~~~~~~~~~~~",label,"~~~~~~~~~~~~~~~");
 
-    const title = data.title || data.name || ''
-    const compendiumLink = compendiumUrl.replace(/%TITLE/g, title);
-    return compendiumLink
+  const getTooltipData = (data) => {
+    console.log(data);
+
+    var tooltipData = {}
+    tooltipData.title = data.title || data.name || ''
+    tooltipData.content = tooltipContentKey ? data[tooltipContentKey] : ''
+    tooltipData.flavor = tooltipFlavorKey ? data[tooltipFlavorKey] : ''
+    tooltipData.href = tooltipHref ? tooltipHref.replace(/%TITLE/g, tooltipData.title) : '';
+
+    return tooltipData
   }
 
   return (
@@ -30,9 +38,12 @@ const MechanicsList = ({
           // sometimes the mechanic is the ID, sometimes it's an object _with_ an ID
           const dataID = mechanic.id || mechanic
           const data = findData(dataID)
+          const tooltipData = getTooltipData(data)
           // and sometimes they come with ranks
           const rank = mechanic.rank
           const name = namesToLowercase ? data.name.toLowerCase() : data.name
+
+
           return (
             <span
               className="entry"
@@ -49,8 +60,10 @@ const MechanicsList = ({
 
               {hoveringIndex === i &&
                 <Tooltip
-                  tooltipData={data}
-                  compendiumHref={getCompendiumHref(data)}
+                  title={tooltipData.title}
+                  content={tooltipData.content}
+                  flavor={tooltipData.flavor}
+                  compendiumHref={tooltipData.href}
                   onClose={() => setHoveringIndex(null)}
                 />
               }
