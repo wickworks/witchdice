@@ -51,6 +51,7 @@ const WeaponRoller = ({
   // =============== CHANGE WEAPON ==================
   useEffect(() => {
     clearAttacks()
+    clearActiveBonusSources()
   }, [JSON.stringify(weaponData)]);
 
   const clearAttacks = () => {
@@ -58,11 +59,14 @@ const WeaponRoller = ({
     setAllAttackRolls([]);
     setIsSettingUpAttack(true);
     setBonusDamageData(null);
+    onClear();
+  }
+
+  const clearActiveBonusSources = () => {
     setActiveBonusSources([]);
     setDamageModifiers({...DAMAGE_MODIFIERS})
     setGenericBonusDieCount(0);
     setGenericBonusPlus(0);
-    onClear();
   }
 
   // =============== MAKE ATTACK ROLLS ==================
