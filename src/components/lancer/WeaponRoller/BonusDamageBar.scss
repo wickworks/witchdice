@@ -66,6 +66,12 @@
   // to anchor the tooltips
   .bonus-source-button-container {
     position: relative;
+
+    // Bad UX to tap a button on mobile and have this tooltip pop up every time.
+    // Just disabling it on mobile for now until I come up with something better.
+    @include constricted {
+      .Tooltip { display: none; }
+    }
   }
 
   .generic-source-container {

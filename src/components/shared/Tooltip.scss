@@ -93,6 +93,9 @@ $nub_width: 12px;
               line-clamp: 7;
       -webkit-box-orient: vertical;
 
+      // line-clamp not working on firefox mobile
+      @include below_max_width { max-height: 144px; }
+
       p {
         margin-bottom: 0;
 
