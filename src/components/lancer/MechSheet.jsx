@@ -209,18 +209,20 @@ const MechMount = ({
     <div className={`MechMount ${isEmpty ? 'empty' : ''}`}>
       { mountedWeaponData.map((weaponData, i) => {
 
-        // WHERE DID ALL MOUNTS GO, PUTTING THIS DOWN FOR TONIGHT
+        // GHOST BUG: if we log mount.slots[i], it'll print fine, but accessing its props crashes it.
         const weaponMod = mount.slots[i] ? mount.slots[i].weapon.mod : null;
 
-        <MechWeapon
-          mountType={i === 0 ? mount.mount_type : ''}
-          bonusEffects={i === 0 ? bonusEffects : []}
-          weaponData={weaponData}
-          mod={weaponMod}
-          onClick={() => setActiveWeaponIndex(i)}
-          isActive={activeWeaponIndex === i}
-          key={i}
-        />
+        return (
+          <MechWeapon
+            mountType={i === 0 ? mount.mount_type : ''}
+            bonusEffects={i === 0 ? bonusEffects : []}
+            weaponData={weaponData}
+            mod={weaponMod}
+            onClick={() => setActiveWeaponIndex(i)}
+            isActive={activeWeaponIndex === i}
+            key={i}
+          />
+        )
       })}
 
       {mountedWeaponData.length === 0 &&
