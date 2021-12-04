@@ -6,12 +6,14 @@ $nub_width: 12px;
 .Tooltip.anchor {
   position: absolute;
   left: 50%;
-  bottom: calc(100% + 12px);
+  bottom: calc(100%);
   transform: translateX(-50%);
+  padding-bottom: $nub_width;
   white-space: normal;
   width: $tooltip_width;
+  z-index: 10;
 
-  animation: fade-in .5s;
+  animation: fade-in .8s, offscreen-until-we-need-it-desktop .8s;
 
   @include below_max_width {
     position: fixed;
@@ -20,7 +22,8 @@ $nub_width: 12px;
     transform: none;
     width: calc(100vw - (100vw - 100%)); //negates the scrollbar
     box-sizing: border-box;
-    z-index: 10;
+
+    animation: fade-in .8s, offscreen-until-we-need-it-mobile .8s;
   }
 
   .content-container {
@@ -96,9 +99,22 @@ $nub_width: 12px;
 }
 
 @keyframes fade-in {
-  0% { opacity: 0.0 }
+  0% { opacity: 0.0; }
+  70% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
 
-  70% { opacity: 0.0 }
 
-  100% { opacity: 1.0 }
+// Push it off the screen so it can't hover, then
+// pop it on only **right** before it starts fading in
+@keyframes offscreen-until-we-need-it-mobile {
+  0% { left: -4000px; }
+  69% { left: -4000px; }
+  70% { left: 0; }
+}
+
+@keyframes offscreen-until-we-need-it-desktop {
+  0% { left: -4000px; }
+  69% { left: -4000px; }
+  70% { left: 50%; }
 }
