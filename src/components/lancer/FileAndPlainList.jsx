@@ -12,15 +12,45 @@ const FileList = ({
   activeFileID,
   deleteActiveFile,
   onFileUpload,
+  onFilePaste,
   acceptFileType = 'application/JSON',
   onTitleClick = null,
   children,
 }) => {
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
 
-  const onFileChange = (e) => {
+  const [pastedFile, setPastedFile] = useState('');
+  const [pastedError, setPastedError] = useState(false);
+
+  const reset = () => {
+    setPastedFile('')
+    setPastedError(false)
     setIsUploadingNewFile(false);
-    onFileUpload(e);
+  }
+
+  const onFileChange = e => {
+    onFileUpload(e)
+    reset()
+  }
+
+  const onPastedFileChange = e => {
+    var jsonString = String(e.target.value)
+
+    try {
+      const pilot = JSON.parse(jsonString)
+
+      // sanity-check the pilot file
+      if (!pilot || !pilot.id || !pilot.mechs) throw('Pilot looks handwritten! :(')
+
+      onFilePaste(pilot)
+      reset()
+      return
+
+    } catch(err) {
+      console.log('Json error:', err);
+      setPastedError(true)
+      setPastedFile(jsonString)
+    }
   }
 
   return (
@@ -31,13 +61,31 @@ const FileList = ({
             {children}
           </div>
 
-          <div className="button-container">
-            <label>
-              Choose file
-              <input type="file" accept={acceptFileType} onChange={onFileChange} />
-            </label>
+          <div className={`button-container ${onFilePaste ? 'column' : ''}`}>
+            <div className="inputs-container">
+              { pastedFile ?
+                pastedError && <button disabled>Invalid Json</button>
+              :
+                <label>
+                  Upload file
+                  <input type="file" accept={acceptFileType} onChange={onFileChange} />
+                </label>
+              }
 
-            <button className='cancel' onClick={() => setIsUploadingNewFile(false)}>
+
+              {onFilePaste &&
+                <div className="paste-container">
+                  <input
+                    type="text"
+                    value={pastedFile}
+                    placeholder='Or paste json here'
+                    onChange={onPastedFileChange}
+                  />
+                </div>
+              }
+            </div>
+
+            <button onClick={reset}>
               Cancel
             </button>
           </div>

@@ -117,6 +117,9 @@ const MainLancer = ({
   }
 
   const createNewPilot = (pilot) => {
+    // sanity-check the pilot file
+    if (!pilot || !pilot.id || !pilot.mechs) return
+
     let newData = deepCopy(allPilotEntries);
 
     // remove any existing pilots of this ID
@@ -286,6 +289,7 @@ const MainLancer = ({
         activeFileID={activePilotID}
         deleteActiveFile={deleteActivePilot}
         onFileUpload={uploadPilotFile}
+        onFilePaste={parsedJson => createNewPilot(parsedJson)}
       >
         Upload a pilot data file (.json) from
         <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.

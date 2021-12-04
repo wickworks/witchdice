@@ -81,24 +81,47 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        flex-direction: column;
         width: 100%;
         position: relative;
 
-        button, label {
-          display: block;
-          width: 200px;
-          text-align: center;
-          padding: 4px 16px;
-          margin: 0 12px;
-          font-size: 26px;
-          cursor: pointer;
-
-          background-color: $parchment_dark;
-
-          &:hover { background-color: $rust_light; }
+        .inputs-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
 
-        input {
+        button, label, input {
+          display: block;
+          width: 240px;
+          box-sizing: border-box;
+          padding: 4px 16px;
+          margin: 12px 12px;
+          text-align: center;
+        }
+
+        button, label {
+          font-size: 26px;
+
+          background-color: $parchment_dark;
+          cursor: pointer;
+
+          &:hover { background-color: $rust_light; }
+
+          &:disabled {
+            background-color: $rust_light;
+            color: white;
+            cursor: auto;
+          }
+        }
+
+        input[type='text'] {
+          @include text_monospace;
+          height: 40px;
+        }
+
+
+        input[type='file'] {
           position: absolute;
           top: 0;
           left: 0;
