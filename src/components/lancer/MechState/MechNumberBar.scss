@@ -15,7 +15,7 @@
       flex-direction: row;
       padding-left: 60px;
 
-      .label { margin-left: auto; }
+      // .label { margin-left: auto; }
     }
     .ticks-container { flex-direction: row; }
   }
@@ -27,16 +27,16 @@
       flex-direction: row-reverse;
       padding-right: 60px;
 
-      .label { margin-right: auto; }
+      // .label { margin-right: auto; }
     }
     .ticks-container { flex-direction: row-reverse; }
   }
 
   &.condensed {
-    width: 50%;
+    // width: 70%;
     flex-direction: column-reverse;
     border-top: none;
-    margin-top: 4px;
+    margin-top: 8px;
 
     .label-container .label { font-size: 16px; }
     .ticks-container .tick {
@@ -56,7 +56,7 @@
 
     display: flex;
     align-items: flex-end;
-    justify-content: space-between;
+    // justify-content: space-between;
 
     .numerical-count {
       font-size: 28px;

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import MechCentralDiamond from './MechCentralDiamond.jsx';
+import MechNumberLabel from './MechNumberLabel.jsx';
 import MechNumberBar from './MechNumberBar.jsx';
 import MechSingleStat from './MechSingleStat.jsx';
 
@@ -38,45 +39,71 @@ const MechState = ({
 
       <div className='hull-and-engineering'>
         <div className='hull-container'>
+
+          <div className='hp-label'>
+            <MechNumberLabel
+              label="HP"
+              maxNumber={getMechMaxHP(activeMech, activePilot)}
+              currentNumber={currentHP}
+              setCurrentNumber={setCurrentHP}
+              leftToRight={false}
+            />
+          </div>
+
           <MechNumberBar
-            label="HP"
-            extraClass='hp-bar'
             maxNumber={getMechMaxHP(activeMech, activePilot)}
             currentNumber={currentHP}
             setCurrentNumber={setCurrentHP}
             leftToRight={false}
           />
 
-          <MechNumberBar
-            label="Structure"
-            extraClass='structure condensed'
-            maxNumber={4}
-            currentNumber={currentStructure}
-            setCurrentNumber={setCurrentStructure}
-            leftToRight={false}
-            skipManualInput={true}
-          />
+          <div className='structure-container'>
+            <MechNumberBar
+              extraClass='condensed'
+              maxNumber={4}
+              currentNumber={currentStructure}
+              setCurrentNumber={setCurrentStructure}
+              leftToRight={false}
+            />
+            <div className='mini-label structure'>
+              <span>{currentStructure}</span>
+              Structure
+            </div>
+          </div>
         </div>
 
         <div className='engineering-container'>
+
+          <div className='heat-label'>
+            <MechNumberLabel
+              label="Heat"
+              maxNumber={getMechMaxHeatCap(activeMech, activePilot)}
+              currentNumber={currentHeat}
+              setCurrentNumber={setCurrentHeat}
+              leftToRight={true}
+            />
+          </div>
+
           <MechNumberBar
-            label="Heat"
-            extraClass='heat-bar'
             maxNumber={getMechMaxHeatCap(activeMech, activePilot)}
             currentNumber={currentHeat}
             setCurrentNumber={setCurrentHeat}
             leftToRight={true}
           />
 
-          <MechNumberBar
-            label="Stress"
-            extraClass='stress condensed'
-            maxNumber={4}
-            currentNumber={currentStress}
-            setCurrentNumber={setCurrentStress}
-            leftToRight={true}
-            skipManualInput={true}
-          />
+          <div className='stress-container'>
+            <MechNumberBar
+              extraClass='condensed'
+              maxNumber={4}
+              currentNumber={currentStress}
+              setCurrentNumber={setCurrentStress}
+              leftToRight={true}
+            />
+            <div className='mini-label stress'>
+              Stress
+              <span>{currentStress}</span>
+            </div>
+          </div>
         </div>
       </div>
 

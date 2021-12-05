@@ -11,6 +11,14 @@
   margin-bottom: 200px;
   padding: 30px 0 0;
 
+  .mini-label {
+    @include text_monospace;
+    font-size: 18px;
+    margin-top: 4px;
+
+    span { margin: 0 6px; }
+  }
+
   .hull-and-engineering {
     display: flex;
     justify-content: center;
@@ -21,16 +29,33 @@
     .hull-container {
       width: 50%;
 
-      .MechNumberBar.structure {
+      .hp-label {
+        margin-right: 60px;
+      }
+
+      .structure-container {
         margin-right: 90px;
+        margin-left: auto;
+        width: 50%;
+
+        .mini-label { text-align: left; }
       }
     }
 
     .engineering-container {
       width: 50%;
 
-      .MechNumberBar.stress {
+      .heat-label {
+        margin-left: 60px;
+      }
+
+      .stress-container {
+        margin-right: auto;
         margin-left: 90px;
+        width: 50%;
+
+        .mini-label { text-align: right; }
+
       }
     }
   }

@@ -1,0 +1,39 @@
+@import '../../../fonts';
+
+.MechNumberLabel {
+  @include text_monospace;
+  text-align: center;
+  padding: 4px 0;
+  color: $rust_dark;
+
+  display: flex;
+  align-items: flex-end;
+
+  &.left-to-right {
+    flex-direction: row;
+  }
+
+  &.right-to-left {
+    flex-direction: row-reverse;
+  }
+
+  .numerical-count {
+    font-size: 28px;
+    display: flex;
+    align-items: center;
+
+    input[type='number'] {
+      @include text_monospace;
+      font-size: 28px;
+      background-color: $parchment_dark;
+      border: 1px solid $soft_black;
+    }
+  }
+
+  .label {
+    font-size: 30px;
+    margin: 0 16px;
+
+    span { margin-right: 8px; }
+  }
+}

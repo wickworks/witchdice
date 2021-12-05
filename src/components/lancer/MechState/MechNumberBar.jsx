@@ -4,10 +4,10 @@ import './MechNumberBar.scss';
 
 const MechNumberBar = ({
   label,
-  extraClass,
   maxNumber,
   currentNumber,
   setCurrentNumber,
+  extraClass = '',
   leftToRight = true,
   skipManualInput = false,
 }) => {
@@ -15,20 +15,6 @@ const MechNumberBar = ({
 
   return (
     <div className={`MechNumberBar ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}`}>
-
-      <div className='label-container'>
-        {!skipManualInput &&
-          <div className='numerical-count'>
-            <input type='number' min={0} max={maxNumber} value={currentNumber} onChange={e => setCurrentNumber(e.target.value)} />
-            /
-            {maxNumber}
-          </div>
-        }
-        <div className='label'>
-          {skipManualInput && <span>{currentNumber}</span>}
-          {label}
-        </div>
-      </div>
 
       <div className='ticks-container'>
 
