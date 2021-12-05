@@ -1,7 +1,5 @@
 @import '../../../fonts';
 
-$bar_color: $parchment_dark;
-
 .MechNumberBar {
   display: flex;
   flex-direction: column;
@@ -35,9 +33,10 @@ $bar_color: $parchment_dark;
   }
 
   &.condensed {
+    width: 50%;
     flex-direction: column-reverse;
     border-top: none;
-    width: 50%;
+    margin-top: 4px;
 
     .label-container .label { font-size: 16px; }
     .ticks-container .tick {
@@ -51,28 +50,29 @@ $bar_color: $parchment_dark;
 
   .label-container {
     @include text_monospace;
-    font-size: 22px;
     text-align: center;
     padding: 4px 0;
     color: $rust_dark;
 
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
 
     .numerical-count {
+      font-size: 28px;
       display: flex;
       align-items: center;
 
       input[type='number'] {
         @include text_monospace;
-        font-size: 22px;
+        font-size: 28px;
         background-color: $parchment_dark;
         border: 1px solid $soft_black;
       }
     }
 
     .label {
+      font-size: 22px;
       margin: 0 8px;
 
       span { margin-right: 8px; }

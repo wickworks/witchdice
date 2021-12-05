@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import MechNumberBar from './MechNumberBar.jsx';
+import MechSingleStat from './MechSingleStat.jsx';
 
 import {
   getMechMaxHP,
@@ -28,10 +29,8 @@ const MechState = ({
         <img src={activeMech.cloud_portrait} alt={'mech portrait'} />
       </div>
 
-      <div className='health-and-heat'>
-
-
-        <div className='health-container'>
+      <div className='hull-and-engineering'>
+        <div className='hull-container'>
           <MechNumberBar
             label="Health"
             extraClass='hp-bar'
@@ -52,7 +51,7 @@ const MechState = ({
           />
         </div>
 
-        <div className='heat-container'>
+        <div className='engineering-container'>
           <MechNumberBar
             label="Heat"
             extraClass='heat-bar'
@@ -74,6 +73,49 @@ const MechState = ({
         </div>
       </div>
 
+      <div className='agility-and-systems'>
+        <div className='agility-container'>
+          <MechSingleStat
+            label="Evasion"
+            extraClass='evasion'
+            number={10}
+            leftToRight={false}
+          />
+
+          <MechSingleStat
+            label="speed"
+            extraClass='speed condensed'
+            number={4}
+            leftToRight={false}
+          />
+
+        </div>
+        <div className='systems-container'>
+
+          <MechSingleStat
+            label="E-Defense"
+            extraClass='e-def'
+            number={8}
+            leftToRight={true}
+          />
+
+          <div className='sensors-and-save'>
+            <MechSingleStat
+              label="Sensor Range"
+              extraClass='sensors'
+              number={15}
+              leftToRight={true}
+            />
+
+            <MechSingleStat
+              label="Save Target"
+              extraClass='save-target'
+              number={10}
+              leftToRight={true}
+            />
+          </div>
+        </div>
+      </div>
 
 
     </div>

@@ -29,21 +29,21 @@
 
     z-index: 5;
 
-    // opacity: .5;
+    opacity: .5;
 
     img {
       height: 100%;
     }
   }
 
-  .health-and-heat {
+  .hull-and-engineering {
     display: flex;
     justify-content: center;
     width: 100%;
 
     padding-top: 12px;
 
-    .health-container {
+    .hull-container {
       width: 50%;
 
       .MechNumberBar.structure {
@@ -51,17 +51,35 @@
       }
     }
 
-    .heat-container {
+    .engineering-container {
       width: 50%;
 
       .MechNumberBar.stress {
         margin-left: 90px;
       }
     }
+  }
 
+  .agility-and-systems {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 
+    padding-top: 12px;
 
+    .agility-container {
+      width: 50%;
+      margin-right: 90px;
+    }
 
+    .systems-container {
+      width: 50%;
+      margin-left: 90px;
+
+      .sensors-and-save {
+        display: flex;
+      }
+    }
   }
 
 

@@ -1,0 +1,27 @@
+@import '../../../fonts';
+
+.MechSingleStat {
+  display: flex;
+
+  width: 100%;
+  box-sizing: border-box;
+
+  &.left-to-right {
+    flex-direction: row;
+  }
+
+  &.right-to-left {
+    flex-direction: row-reverse;
+  }
+
+  &.condensed {
+  }
+
+  .label-container {
+    display: flex;
+  }
+
+  .number-container {
+    display: flex;
+  }
+}
