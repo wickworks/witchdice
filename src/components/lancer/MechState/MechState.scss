@@ -29,7 +29,7 @@
 
     z-index: 5;
 
-    opacity: .5;
+    // opacity: .5;
 
     img {
       height: 100%;
@@ -65,19 +65,28 @@
     justify-content: center;
     width: 100%;
 
-    padding-top: 12px;
+    padding-top: 60px;
 
     .agility-container {
       width: 50%;
-      margin-right: 90px;
+      margin-right: 40px;
+
+      .MechSingleStat.evasion { padding-right: 60px; }
+
     }
 
     .systems-container {
       width: 50%;
-      margin-left: 90px;
+      margin-left: 40px;
+
+      .MechSingleStat.e-def { padding-left: 60px; }
 
       .sensors-and-save {
         display: flex;
+        // width: 60%;
+
+        // .MechSingleStat.sensors { width: 50%; }
+        .MechSingleStat.save-target { margin-left: 10px;}
       }
     }
   }

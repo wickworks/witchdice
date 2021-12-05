@@ -83,7 +83,7 @@ const MechState = ({
           />
 
           <MechSingleStat
-            label="speed"
+            label="Speed"
             extraClass='speed condensed'
             number={4}
             leftToRight={false}
@@ -102,14 +102,14 @@ const MechState = ({
           <div className='sensors-and-save'>
             <MechSingleStat
               label="Sensor Range"
-              extraClass='sensors'
+              extraClass='sensors super-condensed'
               number={15}
               leftToRight={true}
             />
 
             <MechSingleStat
               label="Save Target"
-              extraClass='save-target'
+              extraClass='save-target super-condensed'
               number={10}
               leftToRight={true}
             />
