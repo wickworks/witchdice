@@ -1,0 +1,53 @@
+@import '../../../fonts';
+
+.MechState {
+  position: relative;
+
+  margin-top: 40px;
+  margin-bottom: 200px;
+
+  .central-diamond-portrait {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+
+    width: 200px;
+    height: 200px;
+
+    // float: right;
+    shape-outside: polygon(50% 0,100% 50%,50% 100%,0 50%);
+    clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+
+    background-color: $parchment_dark;
+    background-size: 104px;
+
+    color: transparent; // hide alt text
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    // opacity: .5;
+
+    img {
+      height: 100%;
+    }
+  }
+
+  .health-and-heat {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    .MechNumberBar.hp-bar {
+      margin-right: 20px;
+    }
+
+    .MechNumberBar.heat-bar {
+      margin-left: 20px;
+    }
+  }
+
+
+}

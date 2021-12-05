@@ -1,0 +1,59 @@
+@import '../../../fonts';
+
+
+.MechNumberBar {
+  width: 100%;
+  box-sizing: border-box;
+
+  .label-container {
+    @include text_monospace;
+    font-size: 24px;
+    color: $rust;
+    text-align: center;
+  }
+
+  .ticks-container {
+    display: flex;
+    width: 100%;
+    min-height: 36px;
+    box-sizing: border-box;
+    background-color: $grey_mid_light;
+
+    flex-wrap: wrap;
+
+    &.left-to-right {
+      flex-direction: row;
+    }
+
+    &.right-to-left {
+      flex-direction: row-reverse;
+    }
+
+    button.tick {
+      margin: 2px 1px;
+      padding: 0;
+      // width: 100%;
+      flex-grow: 1;
+
+      min-width: 24px;
+      min-height: 32px;
+
+      &:first-child {
+        min-width: 50px;
+      }
+
+      &.filled {
+        background-color: $rust;
+
+        &:hover { background-color: $rust_light; }
+      }
+
+      &.empty {
+        background-color: $grey_mid;
+
+        &:hover { background-color: $pink; }
+      }
+    }
+  }
+
+}

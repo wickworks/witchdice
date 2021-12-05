@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import WeaponRoller from './WeaponRoller/WeaponRoller.jsx';
+import MechState from './MechState/MechState.jsx';
 import MechanicsList from './MechanicsList.jsx';
 import {
   getGrit,
@@ -143,9 +144,9 @@ const MechSheet = ({
     <div className="MechSheet">
       <div className="mech-container">
 
-        <div className="portrait asset ssc-watermark">
+        {/*<div className="portrait asset ssc-watermark">
           <img src={activeMech.cloud_portrait} alt={'mech portrait'} />
-        </div>
+        </div>*/}
 
         <h2>{activeMech.name}</h2>
 
@@ -157,6 +158,11 @@ const MechSheet = ({
           </div>
           <div className="frame">{frameData.name.toLowerCase()}</div>
         </div>
+
+        <MechState
+          activeMech={activeMech}
+          activePilot={activePilot}
+        />
 
         <MechanicsList
           label='Systems'

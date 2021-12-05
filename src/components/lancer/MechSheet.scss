@@ -16,7 +16,7 @@
 
     position: relative;
     box-sizing: border-box;
-    padding: 12px 12px 12px 38px;
+    padding: 12px 38px;
     width: 100%;
     max-width: 800px;
 
@@ -28,28 +28,7 @@
       font-weight: normal;
     }
 
-    .portrait {
-      width: 200px;
-      height: 200px;
-      margin: 6px;
 
-      float: right;
-      shape-outside: polygon(50% 0,100% 50%,50% 100%,0 50%);
-      clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
-
-      background-color: $parchment_dark;
-      background-size: 104px;
-
-      color: transparent; // hide alt text
-
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      img {
-        height: 100%;
-      }
-    }
 
     .frame-container {
       @include text_monospace;
