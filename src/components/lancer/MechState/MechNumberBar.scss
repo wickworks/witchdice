@@ -3,48 +3,97 @@
 $bar_color: $parchment_dark;
 
 .MechNumberBar {
+  display: flex;
+  flex-direction: column;
+
   width: 100%;
   box-sizing: border-box;
-  border: 4px solid $parchment_dark;
+  // border: 4px solid $parchment_dark;
 
+  &.left-to-right {
+    margin-right: auto;
+
+    .label-container {
+      flex-direction: row;
+      padding-left: 60px;
+
+      .label { margin-left: auto; }
+    }
+    .ticks-container { flex-direction: row; }
+  }
+
+  &.right-to-left {
+    margin-left: auto;
+
+    .label-container {
+      flex-direction: row-reverse;
+      padding-right: 60px;
+
+      .label { margin-right: auto; }
+    }
+    .ticks-container { flex-direction: row-reverse; }
+  }
+
+  &.condensed {
+    flex-direction: column-reverse;
+    border-top: none;
+    width: 50%;
+
+    .label-container .label { font-size: 16px; }
+    .ticks-container .tick {
+      min-height: 26px;
+
+      .number { font-size: 16px; }
+
+      &.zero { min-width: 40px; }
+    }
+  }
 
   .label-container {
     @include text_monospace;
     font-size: 22px;
     text-align: center;
-    padding: 2px 0;
+    padding: 4px 0;
     color: $rust_dark;
 
-    span.numerical-count {
-      margin: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .numerical-count {
+      display: flex;
+      align-items: center;
+
+      input[type='number'] {
+        @include text_monospace;
+        font-size: 22px;
+        background-color: $parchment_dark;
+        border: 1px solid $soft_black;
+      }
+    }
+
+    .label {
+      margin: 0 8px;
+
+      span { margin-right: 8px; }
     }
   }
 
   .ticks-container {
     display: flex;
     width: 100%;
-    min-height: 36px;
     box-sizing: border-box;
-    padding: 4px;
-
-
-    &.left-to-right {
-      flex-direction: row;
-    }
-
-    &.right-to-left {
-      flex-direction: row-reverse;
-    }
 
     button.tick {
       padding: 0;
       flex-grow: 1;
-      min-height: 32px;
-      transition: flex-grow .2s;
+      min-height: 40px;
+
+      &.zero { min-width: 80px; }
 
       .asset {
-        box-sizing: border-box;
         width: 4px; height: 4px;
+        box-sizing: border-box;
         margin: auto;
       }
 
@@ -52,53 +101,34 @@ $bar_color: $parchment_dark;
         @include text_monospace;
         color: $parchment_dark;
         font-weight: bold;
-        visibility: hidden;
-        position: absolute;
-        opacity: 0;
-        transition: opacity .4s;
         font-size: 20px;
+        display: none;
+      }
+
+      &:hover {
+        width: 24px;
+
+        .asset { display: none; }
+        .number { display: block; }
       }
 
       &.filled {
         background-color: $rust;
+
         &:hover { background-color: $crushed_velvet; }
 
-        .asset {
-          // black to $parchment_dark
-          filter: invert(88%) sepia(34%) saturate(340%) hue-rotate(335deg) brightness(92%) contrast(89%);
-        }
+        // black to $parchment_dark
+        .asset { filter: invert(88%) sepia(34%) saturate(340%) hue-rotate(335deg) brightness(92%) contrast(89%); }
       }
 
       &.empty {
         background-color: $parchment_dark;
-        margin: 0;
+
         &:hover { background-color: $pink; }
 
-        .asset { filter: invert(65%); }
+        .asset { filter: invert(45%); }
         .number { color: $rust; }
       }
-
-      &:first-child {
-        min-width: 80px;
-      }
-
-      &.nearby-0 {
-        flex-grow: 6;
-
-        .asset { display: none; }
-
-        .number {
-          position: relative;
-          visibility: visible;
-          opacity: 1;
-        }
-      }
-      &.nearby-1 { flex-grow: 3; }
-      &.nearby-2 { flex-grow: 1; .asset { width: 3px; height: 3px; }}
-      &.nearby-3 { flex-grow: 1; .asset { width: 3px; height: 3px; }}
-      &.nearby-4 { flex-grow: 1; .asset { width: 2px; height: 2px; } }
-      &.nearby-5 { flex-grow: 1; .asset { width: 2px; height: 2px; } }
-      &.distant .asset { width: 1px; height: 1px; }
     }
   }
 }

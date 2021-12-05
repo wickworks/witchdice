@@ -12,10 +12,9 @@
     top: 0;
     transform: translateX(-50%);
 
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
 
-    // float: right;
     shape-outside: polygon(50% 0,100% 50%,50% 100%,0 50%);
     clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
 
@@ -31,6 +30,7 @@
     z-index: 5;
 
     // opacity: .5;
+
     img {
       height: 100%;
     }
@@ -43,13 +43,25 @@
 
     padding-top: 12px;
 
-    // .MechNumberBar.hp-bar {
-    //   margin-right: 20px;
-    // }
-    //
-    // .MechNumberBar.heat-bar {
-    //   margin-left: 20px;
-    // }
+    .health-container {
+      width: 50%;
+
+      .MechNumberBar.structure {
+        margin-right: 90px;
+      }
+    }
+
+    .heat-container {
+      width: 50%;
+
+      .MechNumberBar.stress {
+        margin-left: 90px;
+      }
+    }
+
+
+
+
   }
 
 
