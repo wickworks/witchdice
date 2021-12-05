@@ -13,6 +13,8 @@ const MechState = ({
   activeMech,
   activePilot,
 }) => {
+  const [currentHP, setCurrentHP] = useState(activeMech.current_hp);
+  const [currentHeat, setCurrentHeat] = useState(activeMech.current_heat);
 
   console.log('activemech', activeMech);
 
@@ -29,7 +31,8 @@ const MechState = ({
           label="HP"
           extraClass='hp-bar'
           maxNumber={getMechMaxHP(activeMech, activePilot)}
-          currentNumber={activeMech.current_hp}
+          currentNumber={currentHP}
+          setCurrentNumber={setCurrentHP}
           leftToRight={false}
         />
 
@@ -37,7 +40,8 @@ const MechState = ({
           label="Heat Cap"
           extraClass='heat-bar'
           maxNumber={getMechMaxHeatCap(activeMech, activePilot)}
-          currentNumber={3 || activeMech.current_heat}
+          currentNumber={currentHeat}
+          setCurrentNumber={setCurrentHeat}
           leftToRight={true}
         />
       </div>

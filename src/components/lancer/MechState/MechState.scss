@@ -28,8 +28,9 @@
     justify-content: center;
     align-items: center;
 
-    // opacity: .5;
+    z-index: 5;
 
+    // opacity: .5;
     img {
       height: 100%;
     }
@@ -40,13 +41,15 @@
     justify-content: center;
     width: 100%;
 
-    .MechNumberBar.hp-bar {
-      margin-right: 20px;
-    }
+    padding-top: 12px;
 
-    .MechNumberBar.heat-bar {
-      margin-left: 20px;
-    }
+    // .MechNumberBar.hp-bar {
+    //   margin-right: 20px;
+    // }
+    //
+    // .MechNumberBar.heat-bar {
+    //   margin-left: 20px;
+    // }
   }
 
 

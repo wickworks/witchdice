@@ -50,7 +50,10 @@
       }
 
       .asset { width: 24px; height: 24px; }
-      .asset { width: 24px; height: 24px; }
+      .asset.dot {
+        width: 6px; height: 6px;
+        margin: 0 9px;
+      }
     }
 
     .label {
