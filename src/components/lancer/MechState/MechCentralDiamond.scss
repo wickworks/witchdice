@@ -1,0 +1,151 @@
+@import '../../../fonts';
+
+.MechCentralDiamond {
+  position: absolute;
+  left: 50%;
+  top: 80px;
+  transform: translateX(-50%) rotate(-45deg);
+
+  width: 220px;
+  height: 220px;
+
+  // shape-outside: polygon(50% 0,100% 50%,50% 100%,0 50%);
+  // clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+
+  background-color: $parchment_dark;
+  background-size: 152px;
+
+  // color: transparent; // hide alt text
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 5;
+
+  .relative-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    opacity: .4;
+    &:hover { opacity: 1.0; }
+
+    img.portrait {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .buttons-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+
+      padding: 10px;
+      height: 100%;
+      box-sizing: border-box;
+
+
+      .repairs-container-container {
+        grid-column: 1 / span 3;
+        grid-row: 1 / span 2;
+
+        .repairs-container {
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-end;
+
+          button {
+            padding: 0 0 4px 4px;
+            width: 38px;
+            height: 38px;
+            // background-color: $parchment_mid;
+
+            &:hover {
+              // turns black to $rust
+              filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+            }
+
+            .asset {
+              width: 100%;
+              height: 100%;;
+              transform: rotate(45deg);
+            }
+          }
+        }
+      }
+
+
+      .core-label {
+        @include text_monospace;
+        font-size: 22px;
+        // line-height: 36px;
+        // margin-bottom: 6px;
+
+        &.core {
+          grid-column: 1 / span 1;
+          grid-row: 2 / span 1;
+          writing-mode: vertical-lr;
+          text-align: right;
+          margin-bottom: -10px;
+
+          // padding-bottom: 56px;
+          // padding-left: 6px;
+        }
+
+        &.power {
+          grid-column: 2 / span 1;
+          grid-row: 3 / span 1;
+          margin-top: auto;
+          margin-left: -12px;
+          // padding-bottom: 6px;
+          // padding-left: 56px;
+        }
+      }
+
+      button.core-power {
+        grid-column: 1 / span 1;
+        grid-row: 2 / span 2;
+
+        display: flex;
+        flex-direction: column;
+        // align-items: flex-end;
+        justify-content: flex-end;
+        // margin-left: auto;
+        padding: 0;
+
+        &:hover {
+          // turns black to $rust
+          filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+        }
+
+        .asset {
+          width: 50px;
+          height: 50px;
+          transform: rotate(45deg);
+          margin: 0 0 6px 6px;
+        }
+      }
+
+      .size-container {
+        grid-column: 2 / span 1;
+        grid-row: 2 / span 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+
+        .mech-size.asset {
+          width: 90%;
+          height: 90%;
+          transform: rotate(45deg);
+        }
+      }
+    }
+  }
+}

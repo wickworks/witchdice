@@ -102,6 +102,7 @@ const Footer = () => {
               <li>bookmark by Icon Depot</li>
               <li>edit by Ricki Tri Putra</li>
               <li>Refresh by i cons</li>
+              <li>Battery by Adrien Coquet</li>
             </ul>
 
             <p>

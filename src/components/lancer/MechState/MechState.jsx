@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import MechCentralDiamond from './MechCentralDiamond.jsx';
 import MechNumberBar from './MechNumberBar.jsx';
 import MechSingleStat from './MechSingleStat.jsx';
 
@@ -24,13 +25,16 @@ const MechState = ({
   console.log('activemech', activeMech);
   console.log('frameData', frameData);
 
+  console.log('frameData.stats.repcap', frameData.stats.repcap);
+
   return (
     <div className='MechState asset butterfly-watermark'>
 
-
-      <div className="central-diamond-portrait asset ssc-watermark">
-        <img src={activeMech.cloud_portrait} alt={'mech portrait'} />
-      </div>
+      <MechCentralDiamond
+        activeMech={activeMech}
+        activePilot={activePilot}
+        frameData={frameData}
+      />
 
       <div className='hull-and-engineering'>
         <div className='hull-container'>
@@ -102,21 +106,22 @@ const MechState = ({
             leftToRight={true}
           />
 
-          <div className='sensors-and-save'>
-            <MechSingleStat
-              label="Sensor Range"
-              extraClass='sensors condensed'
-              number={frameData.stats.sensor_range}
-              leftToRight={true}
-            />
+          <MechSingleStat
+            label="Sensor Range"
+            extraClass='sensors condensed'
+            number={frameData.stats.sensor_range}
+            leftToRight={true}
+          />
+        </div>
+      </div>
 
-            {/*<MechSingleStat
-              label="Save Target"
-              extraClass='save-target condensed'
-              number={10}
-              leftToRight={true}
-            />*/}
-          </div>
+      <div className='save-target'>
+        <div className='label'>
+          Save Target
+        </div>
+
+        <div className='number'>
+          {frameData.stats.save}
         </div>
       </div>
 

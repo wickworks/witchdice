@@ -25,6 +25,16 @@
   &.cone { background-image: url('./assets/lancer/aoe_cone.svg'); }
   &.line { background-image: url('./assets/lancer/aoe_line.svg'); }
 
+  &.repair { background-image: url('./assets/lancer/repair.svg'); }
+  &.core-power-empty { background-image: url('./assets/lancer/core_power_empty.svg'); }
+  &.core-power-full { background-image: url('./assets/lancer/core_power_full.svg'); }
+
+  &.size-half { background-image: url('./assets/lancer/size_half.svg'); }
+  &.size-1 { background-image: url('./assets/lancer/size_1.svg'); }
+  &.size-2 { background-image: url('./assets/lancer/size_2.svg'); }
+  &.size-3 { background-image: url('./assets/lancer/size_3.svg'); }
+  &.size-4 { background-image: url('./assets/lancer/size_4.svg'); }
+
 
   &.albatross { background-image: url('./assets/lancer/faction_logos/albatross.svg'); }
   &.aun { background-image: url('./assets/lancer/faction_logos/aun.svg'); }

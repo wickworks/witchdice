@@ -12,11 +12,11 @@ const MechSingleStat = ({
   return (
     <div className={`MechSingleStat ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}`}>
 
-      <div className='label-container'>
+      <div className='label'>
         {label}
       </div>
 
-      <div className='number-container'>
+      <div className='number'>
         {number}
       </div>
     </div>
