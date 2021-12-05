@@ -13,6 +13,7 @@ import './MechState.scss';
 const MechState = ({
   activeMech,
   activePilot,
+  frameData,
 }) => {
   const [currentHP, setCurrentHP] = useState(activeMech.current_hp);
   const [currentHeat, setCurrentHeat] = useState(activeMech.current_heat);
@@ -21,9 +22,11 @@ const MechState = ({
   const [currentStress, setCurrentStress] = useState(4);
 
   console.log('activemech', activeMech);
+  console.log('frameData', frameData);
 
   return (
-    <div className='MechState'>
+    <div className='MechState asset butterfly-watermark'>
+
 
       <div className="central-diamond-portrait asset ssc-watermark">
         <img src={activeMech.cloud_portrait} alt={'mech portrait'} />
@@ -32,7 +35,7 @@ const MechState = ({
       <div className='hull-and-engineering'>
         <div className='hull-container'>
           <MechNumberBar
-            label="Health"
+            label="HP"
             extraClass='hp-bar'
             maxNumber={getMechMaxHP(activeMech, activePilot)}
             currentNumber={currentHP}
@@ -78,14 +81,14 @@ const MechState = ({
           <MechSingleStat
             label="Evasion"
             extraClass='evasion'
-            number={10}
+            number={frameData.stats.evasion}
             leftToRight={false}
           />
 
           <MechSingleStat
-            label="Speed"
+            label="Move Speed"
             extraClass='speed condensed'
-            number={4}
+            number={frameData.stats.speed}
             leftToRight={false}
           />
 
@@ -95,24 +98,24 @@ const MechState = ({
           <MechSingleStat
             label="E-Defense"
             extraClass='e-def'
-            number={8}
+            number={frameData.stats.edef}
             leftToRight={true}
           />
 
           <div className='sensors-and-save'>
             <MechSingleStat
               label="Sensor Range"
-              extraClass='sensors super-condensed'
-              number={15}
+              extraClass='sensors condensed'
+              number={frameData.stats.sensor_range}
               leftToRight={true}
             />
 
-            <MechSingleStat
+            {/*<MechSingleStat
               label="Save Target"
-              extraClass='save-target super-condensed'
+              extraClass='save-target condensed'
               number={10}
               leftToRight={true}
-            />
+            />*/}
           </div>
         </div>
       </div>

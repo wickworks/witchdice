@@ -162,6 +162,7 @@ const MechSheet = ({
         <MechState
           activeMech={activeMech}
           activePilot={activePilot}
+          frameData={frameData}
         />
 
         <MechanicsList
