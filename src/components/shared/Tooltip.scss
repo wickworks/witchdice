@@ -58,7 +58,7 @@ $nub_width: 12px;
       border-left: $nub_width solid transparent;
       border-right: $nub_width solid transparent;
       border-top: $nub_width solid $rust;
-      left: 50%;
+      left: calc(50% - 12px);
       bottom: (($nub_width * -1) + 1px);
 
       @include below_max_width { display: none; }
@@ -89,8 +89,8 @@ $nub_width: 12px;
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
-      -webkit-line-clamp: 7; /* number of lines to show */
-              line-clamp: 7;
+      -webkit-line-clamp: 8; /* number of lines to show */
+              line-clamp: 8;
       -webkit-box-orient: vertical;
 
       // line-clamp not working on firefox mobile

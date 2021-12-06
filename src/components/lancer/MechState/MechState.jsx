@@ -80,6 +80,26 @@ const MechState = ({
     changeHealth(parseInt(currentBurn) * -1)
   }
 
+  const burnTooltip = {
+    title: 'BURN',
+    content: 'At the end of their turn, characters with ' +
+      'burn roll an ENGINEERING check. On a ' +
+      'success, it clears; otherwise, ' +
+      'take damage equal to the amount of ' +
+      'burn currently marked.',
+    hint: 'Click to take your current BURN as damage.'
+  }
+
+  const overshieldTooltip = {
+    title: 'OVERSHIELD',
+    content: 'Damage is dealt to OVERSHIELD first, then HP. ' +
+      'Retain only the highest value of ' +
+      'OVERSHIELD applied – it does not stack. ' +
+      'It benefits normally from anything that would affect ' +
+      'damage (e.g. resistance, armor, etc).',
+    hint: 'Click gain +1 overshield.'
+  }
+
   return (
     <div className='MechState asset butterfly-watermark'>
 
@@ -96,6 +116,7 @@ const MechState = ({
             <MechNumberLabel
               icon={parseInt(currentOvershield) > 0 ? "overshield" : 'overshield-outline'}
               onIconClick={handleOvershieldIconClick}
+              iconTooltipData={overshieldTooltip}
               extraClass={`condensed ${parseInt(currentOvershield) > 0 ? 'overshield' : ''}`}
               maxNumber={null}
               currentNumber={parseInt(currentOvershield)}
@@ -151,6 +172,7 @@ const MechState = ({
             <MechNumberLabel
               icon='burn'
               onIconClick={handleBurnIconClick}
+              iconTooltipData={burnTooltip}
               extraClass={`condensed ${parseInt(currentBurn) > 0 ? 'burning' : ''}`}
               maxNumber={null}
               currentNumber={parseInt(currentBurn)}

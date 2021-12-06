@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Tooltip from '../../shared/Tooltip';
 
 import './MechNumberLabel.scss';
 
@@ -9,6 +10,7 @@ const MechNumberLabel = ({
   setCurrentNumber,
   icon = '',
   onIconClick = () => {},
+  iconTooltipData = {},
   extraClass = '',
   leftToRight = true,
 }) => {
@@ -27,10 +29,15 @@ const MechNumberLabel = ({
       <div className='label'>
         {label && label}
         {icon &&
-          <button
-            className={`asset ${icon}`}
-            onClick={onIconClick}
-          />
+          <button onClick={onIconClick}>
+            <div className={`asset ${icon}`} />
+
+            <Tooltip
+              title={iconTooltipData.title}
+              content={iconTooltipData.content}
+              flavor={iconTooltipData.hint}
+            />
+          </button>
         }
       </div>
     </div>
