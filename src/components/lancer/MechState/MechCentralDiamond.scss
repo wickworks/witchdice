@@ -141,18 +141,18 @@
         }
 
         &.empty {
-          animation: shake .2s;
+          animation: shake .3s;
 
           .empty-box {
             clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
-            transition: clip-path .5s;
+            transition: clip-path 2.8s cubic-bezier(.13,.69,0,.95);
           }
         }
 
         &.full {
           .empty-box {
             clip-path: polygon(0 0,100% 0,100% 0,0 0);
-            transition: clip-path 2s;
+            transition: clip-path 2s cubic-bezier(.07,.36,.13,-0.12);
           }
         }
 
@@ -180,11 +180,11 @@
 
 @keyframes shake {
   0% {  transform: translateX(4px)  translateY(2px); }
-  10% { transform: translateX(-8px) translateY(8px); }
-  15% { transform: translateX(-10px) translateY(-4px); }
-  40% { transform: translateX(8px)  translateY(8px); }
-  60% { transform: translateX(-4px) translateY(6px); }
-  70% { transform: translateX(4px)  translateY(8px); }
+  10% { transform: translateX(-6px) translateY(6px); }
+  15% { transform: translateX(-8px) translateY(-4px); }
+  40% { transform: translateX(6px)  translateY(6px); }
+  60% { transform: translateX(-4px) translateY(4px); }
+  70% { transform: translateX(2px)  translateY(6px); }
   75% { transform: translateX(2px)  translateY(-4px); }
   95% { transform: translateX(-2px) translateY(2px); }
   100% {transform: translateX(0)    translateY(0); }

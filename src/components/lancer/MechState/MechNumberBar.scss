@@ -29,7 +29,7 @@
 
       .number { font-size: 16px; }
 
-      &.zero { min-width: 40px; }
+      &.zero { width: 40px; }
     }
   }
 
@@ -46,7 +46,10 @@
 
       transition: none;
 
-      &.zero { min-width: 100px; }
+      &.zero {
+        width: 100px;
+        flex-shrink: 0;
+      }
 
       .asset {
         width: 4px; height: 4px;
@@ -62,7 +65,7 @@
       }
 
       &:hover {
-        width: 24px;
+        // width: 24px;
 
         .asset { display: none; }
         .number { display: block; }
