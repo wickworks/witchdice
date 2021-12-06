@@ -86,10 +86,9 @@
 
       &.empty {
         background-color: $grey_very_dark;
-        &:hover { background-color: $pink; }
-
+        &:hover { background-color: $grey_light; }
+        .number { color: $grey_very_dark; }
         .asset { filter: invert(45%); }
-        .number { color: $rust; }
       }
     }
 
@@ -99,6 +98,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      cursor: default;
 
       &.filled {
         background-color: $rust;

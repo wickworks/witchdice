@@ -37,8 +37,14 @@ const MechState = ({
     const hp = parseInt(currentHP)
     var change = parseInt(newValue) - overshieldPlusHP
 
+    // if change is 0, that means they clicked the end of the bar; do 1 damage
+    if (change === 0 && overshieldPlusHP >= 1) {
+      change = -1;
+    }
+
+
     // DAMAGE
-    if (change < 0) {
+    if (change <= 0) {
       // overshield takes all of it
       if (Math.abs(change) <= overshield) {
         setCurrentOvershield(overshield + change)
