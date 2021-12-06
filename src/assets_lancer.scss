@@ -28,8 +28,9 @@
   &.repair { background-image: url('./assets/lancer/repair.svg'); }
   &.core-power-empty { background-image: url('./assets/lancer/core_power_empty.svg'); }
   &.core-power-full { background-image: url('./assets/lancer/core_power_full.svg'); }
-  &.overshield-outline { background-image: url('./assets/lancer/shield_outline.svg'); }
+  &.overshield-outline { background-image: url('./assets/lancer/overshield_outline.svg'); }
   &.overshield { background-image: url('./assets/lancer/overshield.svg'); }
+  &.armor { background-image: url('./assets/lancer/shield_outline.svg'); }
 
   &.size-half { background-image: url('./assets/lancer/size_half.svg'); }
   &.size-1 { background-image: url('./assets/lancer/size_1.svg'); }

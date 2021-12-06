@@ -92,7 +92,8 @@ const MechState = ({
             maxNumber={overshieldPlusMaxHP}
             currentNumber={overshieldPlusHP}
             setCurrentNumber={handleHPBarClick}
-            bonusNumber={parseInt(currentOvershield)}
+            overshield={parseInt(currentOvershield)}
+            armor={parseInt(frameData.stats.armor)}
             leftToRight={false}
           />
 

@@ -7,7 +7,8 @@ const MechNumberBar = ({
   maxNumber,
   currentNumber,
   setCurrentNumber,
-  bonusNumber = 0, // i.e. overshield
+  overshield = 0,
+  armor = 0,
   extraClass = '',
   leftToRight = true,
   skipManualInput = false,
@@ -26,10 +27,10 @@ const MechNumberBar = ({
 
         { [...Array(maxNumber)].map((undef, i) => {
           const filledClass = (i < currentNumber) ? 'filled' : 'empty'
-          const bonusClass = (i >= currentNumber-bonusNumber) ? 'bonus' : ''
+          const overshieldClass = (i >= currentNumber-overshield) ? 'overshield' : ''
           return (
             <button
-              className={`tick ${filledClass} ${bonusClass}`}
+              className={`tick ${filledClass} ${overshieldClass}`}
               onClick={() => setCurrentNumber(i+1)}
               key={`${label}-tick-${i}`}
             >
@@ -38,6 +39,14 @@ const MechNumberBar = ({
             </button>
           )
         })}
+
+        {(armor > 0) &&
+          <div className={`armor-container ${currentNumber === maxNumber ? 'filled' : ''} ${overshield > 0 ? 'overshield' : ''}`}>
+            <div className='armor asset shield-outline'>
+              {armor}
+            </div>
+          </div>
+        }
       </div>
     </div>
   );

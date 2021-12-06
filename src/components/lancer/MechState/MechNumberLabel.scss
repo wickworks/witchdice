@@ -24,6 +24,9 @@
   &.condensed {
     // flex-direction: row-reverse;
     // align-items: flex-start;
+    opacity: 0.5;
+
+    &:hover { opacity: 1.0; }
 
     .label {
       font-size: 20px;
@@ -37,6 +40,8 @@
   }
 
   &.overshield {
+    opacity: 1.0;
+
     .numerical-count input[type='number'] {
       background-color: white;
       color: $periwinkle_dark;
@@ -62,9 +67,10 @@
 
     span.asset {
       display: inline-block;
-      width: 26px;
-      height: 26px;
-      margin-bottom: -4px;
+      width: 28px;
+      height: 28px;
+      margin-left: 4px;
+      margin-bottom: -5px;
     }
   }
 }

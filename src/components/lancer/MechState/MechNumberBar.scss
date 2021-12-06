@@ -6,39 +6,24 @@
 
   width: 100%;
   box-sizing: border-box;
-  // border: 4px solid $parchment_dark;
 
   &.left-to-right {
     margin-right: auto;
 
-    .label-container {
-      flex-direction: row;
-      padding-left: 60px;
-
-      // .label { margin-left: auto; }
-    }
     .ticks-container { flex-direction: row; }
   }
 
   &.right-to-left {
     margin-left: auto;
 
-    .label-container {
-      flex-direction: row-reverse;
-      padding-right: 60px;
-
-      // .label { margin-right: auto; }
-    }
     .ticks-container { flex-direction: row-reverse; }
   }
 
   &.condensed {
-    // width: 70%;
     flex-direction: column-reverse;
     border-top: none;
     margin-top: 8px;
 
-    .label-container .label { font-size: 16px; }
     .ticks-container .tick {
       min-height: 26px;
 
@@ -48,39 +33,9 @@
     }
   }
 
-  .label-container {
-    @include text_monospace;
-    text-align: center;
-    padding: 4px 0;
-    color: $rust_dark;
-
-    display: flex;
-    align-items: flex-end;
-    // justify-content: space-between;
-
-    .numerical-count {
-      font-size: 28px;
-      display: flex;
-      align-items: center;
-
-      input[type='number'] {
-        @include text_monospace;
-        font-size: 28px;
-        background-color: $parchment_dark;
-        border: 1px solid $soft_black;
-      }
-    }
-
-    .label {
-      font-size: 28px;
-      margin: 0 8px;
-
-      span { margin-right: 8px; }
-    }
-  }
-
   .ticks-container {
     display: flex;
+    align-items: center;
     width: 100%;
     box-sizing: border-box;
 
@@ -119,7 +74,7 @@
         // black to $parchment_dark
         .asset { filter: invert(88%) sepia(34%) saturate(340%) hue-rotate(335deg) brightness(92%) contrast(89%); }
 
-        &.bonus {
+        &.overshield {
           background-color: white;
           &:hover { background-color: $periwinkle_dark; }
 
@@ -135,6 +90,37 @@
 
         .asset { filter: invert(45%); }
         .number { color: $rust; }
+      }
+    }
+
+    .armor-container {
+      height: 40px;
+      background-color: $grey_very_dark;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &.filled {
+        background-color: $rust;
+
+        &.overshield {
+          background-color: white;
+          .armor.asset { filter: invert(40%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%); }
+        }
+      }
+
+      .armor.asset {
+        @include text_monospace;
+        font-size: 16px;
+        font-weight: bold;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        width: 28px;
+        height: 28px;
+        filter: invert(70%);
       }
     }
   }
