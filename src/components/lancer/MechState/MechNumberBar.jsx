@@ -36,7 +36,14 @@ const MechNumberBar = ({
 
         { [...Array(maxNumber)].map((undef, i) => {
           const filledClass = (i < currentNumber) ? 'filled' : 'empty'
-          const overshieldClass = (i >= currentNumber-overshield) ? 'overshield' : ''
+
+          const noOvershield = currentNumber-overshield
+          const overshieldClass = (i >= noOvershield && overshield > 0) ? 'overshield' : ''
+          var showNumber = (i+1)
+          if (overshieldClass) {
+            if (i >= noOvershield) showNumber = (i-noOvershield+1)
+            if (i >= currentNumber) showNumber = (i-overshield+1)
+          }
           return (
             <button
               className={`tick ${filledClass} ${overshieldClass}`}
@@ -44,7 +51,7 @@ const MechNumberBar = ({
               key={`${label}-tick-${i}`}
             >
               <div className='asset dot' />
-              <div className='number'>{i+1}</div>
+              <div className='number'>{showNumber}</div>
             </button>
           )
         })}
