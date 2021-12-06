@@ -43,8 +43,9 @@
 
     .numerical-count input[type='number'] {
       background-color: white;
-      color: $periwinkle_dark;
-      border-color: $periwinkle_dark;
+      font-weight: bold;
+      color: $periwinkle;
+      border-color: $periwinkle;
     }
   }
 

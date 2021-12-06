@@ -21,6 +21,7 @@ const MechState = ({
   const [currentHP, setCurrentHP] = useState(activeMech.current_hp);
   const [currentHeat, setCurrentHeat] = useState(activeMech.current_heat);
   const [currentBurn, setCurrentBurn] = useState(activeMech.burn);
+  const [currentCore, setCurrentCore] = useState(!!activeMech.current_core_energy);
 
   const [currentStructure, setCurrentStructure] = useState(4);
   const [currentStress, setCurrentStress] = useState(4);
@@ -35,12 +36,6 @@ const MechState = ({
 
   const handleHPBarClick = (newValue) => {
     var change = parseInt(newValue) - overshieldPlusHP
-
-    // if change is 0, that means they clicked the end of the bar; do 1 damage
-    if (change === 0 && overshieldPlusHP >= 1) {
-      change = -1;
-    }
-
     changeHealth(change)
   }
 
@@ -107,6 +102,9 @@ const MechState = ({
         activeMech={activeMech}
         activePilot={activePilot}
         frameData={frameData}
+
+        currentCore={currentCore}
+        setCurrentCore={setCurrentCore}
       />
 
       <div className='hull-and-engineering'>

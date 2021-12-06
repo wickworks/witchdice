@@ -6,6 +6,9 @@ const MechCentralDiamond = ({
   activeMech,
   activePilot,
   frameData,
+
+  currentCore,
+  setCurrentCore,
 }) => {
 
   const mechSize = frameData.stats.size === 0.5 ? 'size-half' : `size-${frameData.stats.size}`
@@ -37,10 +40,12 @@ const MechCentralDiamond = ({
           <div className='core-label core'>CORE</div>
           <div className='core-label power'>POWER</div>
 
-          <button className='core-power'>
-            <div
-              className={`asset ${activeMech.current_core_energy ? 'core-power-full' : 'core-power-empty'}`}
-            />
+          <button
+            className={`core-power ${currentCore ? 'full' : 'empty'}`}
+            onClick={() => setCurrentCore(!currentCore)}
+          >
+            <div className='asset core-power-full' />
+            <div className='empty-box' />
           </button>
         </div>
       </div>

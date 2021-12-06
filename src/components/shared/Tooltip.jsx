@@ -7,6 +7,7 @@ const Tooltip = ({
   content = '',
   flavor = '',
   compendiumHref = '',
+  skipCloseButton = false,
   onClose,
 }) => {
 
@@ -15,7 +16,9 @@ const Tooltip = ({
       <div className="content-container">
         <div className="title-container">
           <h4>{title}</h4>
-          <button className="asset x" onClick={onClose} />
+          { !skipCloseButton &&
+            <button className="asset x" onClick={onClose} />
+          }
         </div>
 
         <div className='paragraph-container'>

@@ -36,6 +36,7 @@ const MechNumberLabel = ({
               title={iconTooltipData.title}
               content={iconTooltipData.content}
               flavor={iconTooltipData.hint}
+              skipCloseButton={true}
             />
           </button>
         }

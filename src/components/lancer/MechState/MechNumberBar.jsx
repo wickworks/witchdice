@@ -15,6 +15,15 @@ const MechNumberBar = ({
 }) => {
   // const displayNumber = hoveringNumber !== null ? hoveringNumber : currentNumber
 
+  const handleTickClick = (number) => {
+    // if change is 0, that means they clicked the end of the bar; do 1 damage
+    if (number > 0 && number === currentNumber) {
+      number -= 1;
+    }
+
+    setCurrentNumber(number)
+  }
+
   return (
     <div className={`MechNumberBar ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}`}>
 
@@ -31,7 +40,7 @@ const MechNumberBar = ({
           return (
             <button
               className={`tick ${filledClass} ${overshieldClass}`}
-              onClick={() => setCurrentNumber(i+1)}
+              onClick={() => handleTickClick(i+1)}
               key={`${label}-tick-${i}`}
             >
               <div className='asset dot' />

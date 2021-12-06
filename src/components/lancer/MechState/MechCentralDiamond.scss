@@ -109,16 +109,15 @@
 
       button.core-power {
         grid-column: 1 / span 1;
-        grid-row: 2 / span 2;
+        grid-row: 3 / span 1;
 
+        position: relative;
         display: flex;
         flex-direction: column;
-        // align-items: flex-end;
         justify-content: flex-end;
-        // margin-left: auto;
         padding: 0;
 
-        &:hover {
+        &:hover .asset {
           // turns black to $rust
           filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
         }
@@ -129,6 +128,35 @@
           transform: rotate(45deg);
           margin: 0 0 6px 6px;
         }
+
+        .empty-box {
+          position: absolute;
+          top: 19px;
+          right: 27px;
+          width: 20px;
+          height: 36px;
+
+          background-color: $parchment_dark;
+          transform: rotate(45deg);
+        }
+
+        &.empty {
+          animation: shake .2s;
+
+          .empty-box {
+            clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+            transition: clip-path .5s;
+          }
+        }
+
+        &.full {
+          .empty-box {
+            clip-path: polygon(0 0,100% 0,100% 0,0 0);
+            transition: clip-path 2s;
+          }
+        }
+
+
       }
 
       .size-container {
@@ -148,4 +176,16 @@
       }
     }
   }
+}
+
+@keyframes shake {
+  0% {  transform: translateX(4px)  translateY(2px); }
+  10% { transform: translateX(-8px) translateY(8px); }
+  15% { transform: translateX(-10px) translateY(-4px); }
+  40% { transform: translateX(8px)  translateY(8px); }
+  60% { transform: translateX(-4px) translateY(6px); }
+  70% { transform: translateX(4px)  translateY(8px); }
+  75% { transform: translateX(2px)  translateY(-4px); }
+  95% { transform: translateX(-2px) translateY(2px); }
+  100% {transform: translateX(0)    translateY(0); }
 }

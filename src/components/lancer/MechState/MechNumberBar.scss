@@ -54,7 +54,6 @@
 
       .number {
         @include text_monospace;
-        color: $parchment_dark;
         font-weight: bold;
         font-size: 20px;
         display: none;
@@ -69,14 +68,16 @@
 
       &.filled {
         background-color: $rust;
-        &:hover { background-color: $crushed_velvet; }
+        &:hover { background-color: $rust_light; }
+        .number { color: $rust_dark; }
 
         // black to $parchment_dark
         .asset { filter: invert(88%) sepia(34%) saturate(340%) hue-rotate(335deg) brightness(92%) contrast(89%); }
 
         &.overshield {
           background-color: white;
-          &:hover { background-color: $periwinkle_dark; }
+          &:hover { background-color: $periwinkle; }
+          .number { color: white; }
 
           // black to $periwinkle
           .asset { filter: invert(40%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%); }
@@ -86,8 +87,8 @@
 
       &.empty {
         background-color: $grey_very_dark;
-        &:hover { background-color: $grey_light; }
-        .number { color: $grey_very_dark; }
+        &:hover { background-color: $grey_dark; }
+        .number { color: $grey_light; }
         .asset { filter: invert(45%); }
       }
     }
