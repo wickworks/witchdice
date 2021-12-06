@@ -13,16 +13,6 @@ const MechNumberBar = ({
   leftToRight = true,
   skipManualInput = false,
 }) => {
-  // const displayNumber = hoveringNumber !== null ? hoveringNumber : currentNumber
-
-  const handleTickClick = (number) => {
-    // if change is 0, that means they clicked the end of the bar; do 1 damage
-    if (number > 0 && number === currentNumber) {
-      number -= 1;
-    }
-
-    setCurrentNumber(number)
-  }
 
   return (
     <div className={`MechNumberBar ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}`}>
@@ -39,19 +29,27 @@ const MechNumberBar = ({
 
           const noOvershield = currentNumber-overshield
           const overshieldClass = (i >= noOvershield && overshield > 0) ? 'overshield' : ''
-          var showNumber = (i+1)
-          if (overshieldClass) {
-            if (i >= noOvershield) showNumber = (i-noOvershield+1)
-            if (i >= currentNumber) showNumber = (i-overshield+1)
+
+          // show the difference between current and the clickable number
+          var showNumber
+          if (i+1 === currentNumber) {
+            showNumber = currentNumber
+          } else {
+            showNumber = (i+1) - currentNumber
+            if (showNumber > 0) showNumber = `+${showNumber}`
           }
+
           return (
             <button
               className={`tick ${filledClass} ${overshieldClass}`}
-              onClick={() => handleTickClick(i+1)}
+              onClick={() => setCurrentNumber(i+1)}
               key={`${label}-tick-${i}`}
+              disabled={i+1 === currentNumber}
             >
               <div className='asset dot' />
-              <div className='number'>{showNumber}</div>
+              <div className='number'>
+                {showNumber}
+              </div>
             </button>
           )
         })}

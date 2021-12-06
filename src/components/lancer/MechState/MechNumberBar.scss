@@ -44,6 +44,8 @@
       flex-grow: 1;
       min-height: 40px;
 
+      transition: none;
+
       &.zero { min-width: 100px; }
 
       .asset {
@@ -103,9 +105,13 @@
 
       &.filled {
         background-color: $rust;
+        // black to $parchment_dark
+        .armor.asset { filter: invert(88%) sepia(34%) saturate(340%) hue-rotate(335deg) brightness(92%) contrast(89%); }
 
         &.overshield {
           background-color: white;
+
+          // black to $periwinkle
           .armor.asset { filter: invert(40%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%); }
         }
       }
