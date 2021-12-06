@@ -114,16 +114,23 @@
 
       &.filled {
         background-color: $rust;
-
         &:hover { background-color: $crushed_velvet; }
 
         // black to $parchment_dark
         .asset { filter: invert(88%) sepia(34%) saturate(340%) hue-rotate(335deg) brightness(92%) contrast(89%); }
+
+        &.bonus {
+          background-color: white;
+          &:hover { background-color: $periwinkle_dark; }
+
+          // black to $periwinkle
+          .asset { filter: invert(40%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%); }
+        }
+
       }
 
       &.empty {
-        background-color: $parchment_dark;
-
+        background-color: $grey_very_dark;
         &:hover { background-color: $pink; }
 
         .asset { filter: invert(45%); }

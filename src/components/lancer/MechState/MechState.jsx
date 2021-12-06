@@ -17,6 +17,7 @@ const MechState = ({
   activePilot,
   frameData,
 }) => {
+  const [currentOvershield, setCurrentOvershield] = useState(activeMech.overshield);
   const [currentHP, setCurrentHP] = useState(activeMech.current_hp);
   const [currentHeat, setCurrentHeat] = useState(activeMech.current_heat);
 
@@ -26,7 +27,34 @@ const MechState = ({
   console.log('activemech', activeMech);
   console.log('frameData', frameData);
 
-  console.log('frameData.stats.repcap', frameData.stats.repcap);
+  const maxHP = getMechMaxHP(activeMech, activePilot)
+
+  const overshieldPlusHP = parseInt(currentHP) + parseInt(currentOvershield)
+  const overshieldPlusMaxHP = maxHP + parseInt(currentOvershield)
+
+  const handleHPBarClick = (newValue) => {
+    const overshield = parseInt(currentOvershield)
+    const hp = parseInt(currentHP)
+    var change = parseInt(newValue) - overshieldPlusHP
+
+    // DAMAGE
+    if (change < 0) {
+      // overshield takes all of it
+      if (Math.abs(change) <= overshield) {
+        setCurrentOvershield(overshield + change)
+
+      // overshield takes some, rest goes to HP
+      } else {
+        change += overshield
+        setCurrentOvershield(0)
+        setCurrentHP(hp + change)
+      }
+
+    // HEALING
+    } else if (change > 0) {
+      setCurrentHP(hp + change)
+    }
+  }
 
   return (
     <div className='MechState asset butterfly-watermark'>
@@ -42,18 +70,29 @@ const MechState = ({
 
           <div className='hp-label'>
             <MechNumberLabel
+              icon={parseInt(currentOvershield) > 0 ? "overshield" : 'overshield-outline'}
+              extraClass={`condensed ${parseInt(currentOvershield) > 0 ? 'overshield' : ''}`}
+              maxNumber={null}
+              currentNumber={parseInt(currentOvershield)}
+              setCurrentNumber={setCurrentOvershield}
+              leftToRight={true}
+            />
+
+
+            <MechNumberLabel
               label="HP"
-              maxNumber={getMechMaxHP(activeMech, activePilot)}
-              currentNumber={currentHP}
+              maxNumber={maxHP}
+              currentNumber={parseInt(currentHP)}
               setCurrentNumber={setCurrentHP}
               leftToRight={false}
             />
           </div>
 
           <MechNumberBar
-            maxNumber={getMechMaxHP(activeMech, activePilot)}
-            currentNumber={currentHP}
-            setCurrentNumber={setCurrentHP}
+            maxNumber={overshieldPlusMaxHP}
+            currentNumber={overshieldPlusHP}
+            setCurrentNumber={handleHPBarClick}
+            bonusNumber={parseInt(currentOvershield)}
             leftToRight={false}
           />
 

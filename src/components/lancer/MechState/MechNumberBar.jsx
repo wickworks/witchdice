@@ -7,6 +7,7 @@ const MechNumberBar = ({
   maxNumber,
   currentNumber,
   setCurrentNumber,
+  bonusNumber = 0, // i.e. overshield
   extraClass = '',
   leftToRight = true,
   skipManualInput = false,
@@ -25,9 +26,10 @@ const MechNumberBar = ({
 
         { [...Array(maxNumber)].map((undef, i) => {
           const filledClass = (i < currentNumber) ? 'filled' : 'empty'
+          const bonusClass = (i >= currentNumber-bonusNumber) ? 'bonus' : ''
           return (
             <button
-              className={`tick ${filledClass}`}
+              className={`tick ${filledClass} ${bonusClass}`}
               onClick={() => setCurrentNumber(i+1)}
               key={`${label}-tick-${i}`}
             >
