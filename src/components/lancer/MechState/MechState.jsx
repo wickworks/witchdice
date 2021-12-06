@@ -20,6 +20,7 @@ const MechState = ({
   const [currentOvershield, setCurrentOvershield] = useState(activeMech.overshield);
   const [currentHP, setCurrentHP] = useState(activeMech.current_hp);
   const [currentHeat, setCurrentHeat] = useState(activeMech.current_heat);
+  const [currentBurn, setCurrentBurn] = useState(activeMech.burn);
 
   const [currentStructure, setCurrentStructure] = useState(4);
   const [currentStress, setCurrentStress] = useState(4);
@@ -27,14 +28,12 @@ const MechState = ({
   console.log('activemech', activeMech);
   console.log('frameData', frameData);
 
-  const maxHP = getMechMaxHP(activeMech, activePilot)
+  const maxHP = getMechMaxHP(activeMech, activePilot, frameData)
 
   const overshieldPlusHP = parseInt(currentHP) + parseInt(currentOvershield)
   const overshieldPlusMaxHP = maxHP + parseInt(currentOvershield)
 
   const handleHPBarClick = (newValue) => {
-    const overshield = parseInt(currentOvershield)
-    const hp = parseInt(currentHP)
     var change = parseInt(newValue) - overshieldPlusHP
 
     // if change is 0, that means they clicked the end of the bar; do 1 damage
@@ -42,6 +41,13 @@ const MechState = ({
       change = -1;
     }
 
+    changeHealth(change)
+  }
+
+  function changeHealth(change) {
+    const overshield = parseInt(currentOvershield)
+    const hp = parseInt(currentHP)
+    var newHP = hp;
 
     // DAMAGE
     if (change <= 0) {
@@ -53,13 +59,25 @@ const MechState = ({
       } else {
         change += overshield
         setCurrentOvershield(0)
-        setCurrentHP(hp + change)
+        newHP = hp + change
       }
-
     // HEALING
     } else if (change > 0) {
-      setCurrentHP(hp + change)
+      newHP = hp + change
     }
+
+    newHP = Math.min(Math.max(newHP, 0), maxHP)
+    setCurrentHP(newHP)
+  }
+
+  // dunno, just tick it up or something
+  const handleOvershieldIconClick = () => {
+    setCurrentOvershield(parseInt(currentOvershield) + 1)
+  }
+
+  // do the current burn to HP
+  const handleBurnIconClick = () => {
+    changeHealth(parseInt(currentBurn) * -1)
   }
 
   return (
@@ -77,6 +95,7 @@ const MechState = ({
           <div className='hp-label'>
             <MechNumberLabel
               icon={parseInt(currentOvershield) > 0 ? "overshield" : 'overshield-outline'}
+              onIconClick={handleOvershieldIconClick}
               extraClass={`condensed ${parseInt(currentOvershield) > 0 ? 'overshield' : ''}`}
               maxNumber={null}
               currentNumber={parseInt(currentOvershield)}
@@ -123,15 +142,25 @@ const MechState = ({
           <div className='heat-label'>
             <MechNumberLabel
               label="Heat"
-              maxNumber={getMechMaxHeatCap(activeMech, activePilot)}
+              maxNumber={getMechMaxHeatCap(activeMech, activePilot, frameData)}
               currentNumber={currentHeat}
               setCurrentNumber={setCurrentHeat}
               leftToRight={true}
             />
+
+            <MechNumberLabel
+              icon='burn'
+              onIconClick={handleBurnIconClick}
+              extraClass={`condensed ${parseInt(currentBurn) > 0 ? 'burning' : ''}`}
+              maxNumber={null}
+              currentNumber={parseInt(currentBurn)}
+              setCurrentNumber={setCurrentBurn}
+              leftToRight={false}
+            />
           </div>
 
           <MechNumberBar
-            maxNumber={getMechMaxHeatCap(activeMech, activePilot)}
+            maxNumber={getMechMaxHeatCap(activeMech, activePilot, frameData)}
             currentNumber={currentHeat}
             setCurrentNumber={setCurrentHeat}
             leftToRight={true}

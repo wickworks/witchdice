@@ -8,10 +8,11 @@ const MechNumberLabel = ({
   currentNumber,
   setCurrentNumber,
   icon = '',
+  onIconClick = () => {},
   extraClass = '',
   leftToRight = true,
 }) => {
-  const maxNumberForInput = maxNumber ? maxNumber : 12
+  const maxNumberForInput = maxNumber ? maxNumber : 20
 
   return (
     <div className={`MechNumberLabel ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}`}>
@@ -25,7 +26,12 @@ const MechNumberLabel = ({
 
       <div className='label'>
         {label && label}
-        {icon && <span className={`asset ${icon}`} />}
+        {icon &&
+          <button
+            className={`asset ${icon}`}
+            onClick={onIconClick}
+          />
+        }
       </div>
     </div>
   );

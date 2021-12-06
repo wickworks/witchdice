@@ -12,12 +12,12 @@
 // } from '../lancerData.js';
 
 
-export function getMechMaxHP(activeMech, activePilot) {
+export function getMechMaxHP(activeMech, activePilot, frameData) {
 
-  return 20;
+  return parseInt(frameData.stats.hp);
 }
 
-export function getMechMaxHeatCap(activeMech, activePilot) {
+export function getMechMaxHeatCap(activeMech, activePilot, frameData) {
 
-  return 10;
+  return parseInt(frameData.stats.heatcap);
 }

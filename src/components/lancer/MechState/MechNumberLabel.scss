@@ -12,13 +12,13 @@
   &.left-to-right {
     flex-direction: row;
 
-    .label { margin-left: 16px; }
+    .label { margin-left: 10px; }
   }
 
   &.right-to-left {
     flex-direction: row-reverse;
 
-    .label { margin-right: 16px; }
+    .label { margin-right: 10px; }
   }
 
   &.condensed {
@@ -49,28 +49,46 @@
     }
   }
 
+  &.burning {
+    opacity: 1.0;
+
+    .numerical-count input[type='number'] {
+      background-color: $electric_orange;
+      color: black;
+      font-weight: bold;
+      border-color: $electric_orange;
+    }
+
+    .label .asset {
+      // black to $electric_orange
+      filter: invert(37%) sepia(70%) saturate(6462%) hue-rotate(2deg) brightness(102%) contrast(102%);
+    }
+  }
+
   .numerical-count {
-    font-size: 28px;
+    font-size: 30px;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
 
     input[type='number'] {
       @include text_monospace;
-      font-size: 28px;
+      font-size: 26px;
       background-color: $parchment_dark;
       border: 1px solid $soft_black;
+      padding: 2px 8px;
     }
   }
 
   .label {
     font-size: 30px;
 
-    span.asset {
-      display: inline-block;
-      width: 28px;
-      height: 28px;
+    button.asset {
+      display: block;
+      width: 30px;
+      height: 30px;
       margin-left: 4px;
-      margin-bottom: -5px;
+      // margin-bottom: -6px;
+      padding: 0;
     }
   }
 }
