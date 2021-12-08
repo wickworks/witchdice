@@ -7,8 +7,8 @@ import MechSingleStat from './MechSingleStat.jsx';
 import {
   getMechMaxHP,
   getMechMaxHeatCap,
+  tickUpOvercharge,
 } from './mechStateUtils.js';
-
 
 import './MechState.scss';
 
@@ -21,15 +21,16 @@ const MechState = ({
   const [currentHP, setCurrentHP] = useState(activeMech.current_hp);
   const [currentHeat, setCurrentHeat] = useState(activeMech.current_heat);
   const [currentBurn, setCurrentBurn] = useState(activeMech.burn);
+  const [currentOverchargeDie, setCurrentOverchargeDie] = useState('1');
   const [currentCore, setCurrentCore] = useState(!!activeMech.current_core_energy);
 
   const [currentStructure, setCurrentStructure] = useState(4);
   const [currentStress, setCurrentStress] = useState(4);
 
-  console.log('activemech', activeMech);
-  console.log('frameData', frameData);
+  // console.log('activemech', activeMech);
+  // console.log('frameData', frameData);
 
-  const maxHP = getMechMaxHP(activeMech, activePilot, frameData)
+  const maxHP = 20 // getMechMaxHP(activeMech, activePilot, frameData)
 
   const overshieldPlusHP = parseInt(currentHP) + parseInt(currentOvershield)
   const overshieldPlusMaxHP = maxHP + parseInt(currentOvershield)
@@ -75,6 +76,12 @@ const MechState = ({
     changeHealth(parseInt(currentBurn) * -1)
   }
 
+  // roll the current for heat, increase the counter
+  const handleOverchargeClick = () => {
+    console.log('ROLL overcharge ', currentOverchargeDie);
+    setCurrentOverchargeDie( tickUpOvercharge(currentOverchargeDie) );
+  }
+
   const burnTooltip = {
     title: 'BURN',
     content: 'At the end of their turn, characters with ' +
@@ -92,7 +99,14 @@ const MechState = ({
       'OVERSHIELD applied – it does not stack. ' +
       'It benefits normally from anything that would affect ' +
       'damage (e.g. resistance, armor, etc).',
-    hint: 'Click gain +1 overshield.'
+    hint: 'Click to gain +1 overshield.'
+  }
+
+  const overchargeTooltip = {
+    title: 'OVERCHARGE',
+    content: 'Pilots can overcharge their mech, allowing them to ' +
+      'make an additional quick action at the cost of heat.',
+    hint: 'Click to increase heat cost. Right-click to decrease.'
   }
 
   return (
@@ -183,6 +197,9 @@ const MechState = ({
             maxNumber={getMechMaxHeatCap(activeMech, activePilot, frameData)}
             currentNumber={currentHeat}
             setCurrentNumber={setCurrentHeat}
+            overchargeDie={currentOverchargeDie}
+            handleOverchargeClick={handleOverchargeClick}
+            overchargeTooltip={overchargeTooltip}
             leftToRight={true}
           />
 

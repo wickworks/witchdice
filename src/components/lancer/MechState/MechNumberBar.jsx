@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Tooltip from '../../shared/Tooltip';
 
 import './MechNumberBar.scss';
 
@@ -7,15 +8,23 @@ const MechNumberBar = ({
   maxNumber,
   currentNumber,
   setCurrentNumber,
+
   overshield = 0,
   armor = 0,
+
+  overchargeDie = '',
+  handleOverchargeClick = () => {},
+  overchargeTooltip = {},
+
   extraClass = '',
   leftToRight = true,
   skipManualInput = false,
 }) => {
 
+  const smallTicksClass = maxNumber > 22 ? 'small-ticks' : ''
+
   return (
-    <div className={`MechNumberBar ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}`}>
+    <div className={`MechNumberBar ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}  ${smallTicksClass}`}>
 
       <div className='ticks-container'>
 
@@ -55,11 +64,25 @@ const MechNumberBar = ({
         })}
 
         {(armor > 0) &&
-          <div className={`armor-container ${currentNumber === maxNumber ? 'filled' : ''} ${overshield > 0 ? 'overshield' : ''}`}>
-            <div className='armor asset shield-outline'>
+          <div className={`final-icon-container armor ${currentNumber === maxNumber ? 'filled' : ''} ${overshield > 0 ? 'overshield' : ''}`}>
+            <div className='asset armor'>
               {armor}
             </div>
           </div>
+        }
+
+        {overchargeDie &&
+          <button className='final-icon-container overcharge filled' onClick={handleOverchargeClick}>
+            {overchargeDie}
+            <div className='asset heat' />
+
+            <Tooltip
+              title={overchargeTooltip.title}
+              content={overchargeTooltip.content}
+              flavor={overchargeTooltip.hint}
+              skipCloseButton={true}
+            />
+          </button>
         }
       </div>
     </div>

@@ -48,6 +48,8 @@ const blankSkill = {
   "family": ""
 }
 
+const OVERCHARGE_SEQUENCE = ['1','1d3','1d6','1d6+4']
+
 // these should probably get rolled into damageModifiers system
 const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier', 't_nuclear_cavalier']
 
@@ -58,7 +60,6 @@ const LANCER_DAMAGE_TYPES = [
   'Burn',
   'Heat',
 ]
-
 
 const DAMAGE_MODIFIERS = {
   double: false,
@@ -259,4 +260,5 @@ export {
   FIRST_ROLL_ONLY_TAGS,
   BASIC_DAMAGE_TYPES,
   LANCER_DAMAGE_TYPES,
+  OVERCHARGE_SEQUENCE,
 }
