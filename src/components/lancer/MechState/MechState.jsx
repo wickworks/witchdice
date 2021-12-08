@@ -91,7 +91,7 @@ const MechState = ({
       'success, it clears; otherwise, ' +
       'take damage equal to the amount of ' +
       'burn currently marked.',
-    hint: 'Click to take your current BURN as damage.'
+    hint: 'Click to gain +1 burn.'
   }
 
   const overshieldTooltip = {
@@ -108,7 +108,7 @@ const MechState = ({
     title: 'OVERCHARGE',
     content: 'Pilots can overcharge their mech, allowing them to ' +
       'make an additional quick action at the cost of heat.',
-    hint: 'Click to increase heat cost. Right-click to decrease.'
+    hint: 'Click to increase heat cost.'
   }
 
   return (
@@ -149,9 +149,9 @@ const MechState = ({
           <div className='overshield-and-burn'>
             <MechNumberIcon
               icon={'overshield-outline'}
+              extraClass={`overshield ${parseInt(currentOvershield) > 0 ? 'active' : ''}`}
               onIconClick={handleOvershieldIconClick}
               iconTooltipData={overshieldTooltip}
-              extraClass={parseInt(currentOvershield) > 0 ? 'overshield' : ''}
               maxNumber={null}
               currentNumber={parseInt(currentOvershield)}
               setCurrentNumber={setCurrentOvershield}
@@ -160,9 +160,9 @@ const MechState = ({
 
             <MechNumberIcon
               icon='burn'
+              extraClass={`burning ${parseInt(currentBurn) > 0 ? 'active' : ''}`}
               onIconClick={handleBurnIconClick}
               iconTooltipData={burnTooltip}
-              extraClass={parseInt(currentBurn) > 0 ? 'burning' : ''}
               maxNumber={null}
               currentNumber={parseInt(currentBurn)}
               setCurrentNumber={setCurrentBurn}
