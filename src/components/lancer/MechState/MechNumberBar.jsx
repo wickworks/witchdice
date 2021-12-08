@@ -12,10 +12,6 @@ const MechNumberBar = ({
   overshield = 0,
   armor = 0,
 
-  overchargeDie = '',
-  handleOverchargeClick = () => {},
-  overchargeTooltip = {},
-
   extraClass = '',
   leftToRight = true,
   skipManualInput = false,
@@ -69,20 +65,6 @@ const MechNumberBar = ({
               {armor}
             </div>
           </div>
-        }
-
-        {overchargeDie &&
-          <button className='final-icon-container overcharge filled' onClick={handleOverchargeClick}>
-            {overchargeDie}
-            <div className='asset heat' />
-
-            <Tooltip
-              title={overchargeTooltip.title}
-              content={overchargeTooltip.content}
-              flavor={overchargeTooltip.hint}
-              skipCloseButton={true}
-            />
-          </button>
         }
       </div>
     </div>

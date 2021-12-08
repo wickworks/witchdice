@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import MechCentralDiamond from './MechCentralDiamond.jsx';
 import MechNumberLabel from './MechNumberLabel.jsx';
 import MechNumberBar from './MechNumberBar.jsx';
+import MechNumberIcon from './MechNumberIcon.jsx';
 import MechSingleStat from './MechSingleStat.jsx';
 
 import {
@@ -71,9 +72,10 @@ const MechState = ({
     setCurrentOvershield(parseInt(currentOvershield) + 1)
   }
 
-  // do the current burn to HP
+  // do the current burn to HP >>> nope, just tick it up
   const handleBurnIconClick = () => {
-    changeHealth(parseInt(currentBurn) * -1)
+    // changeHealth(parseInt(currentBurn) * -1)
+    setCurrentBurn(parseInt(currentBurn) + 1)
   }
 
   // roll the current for heat, increase the counter
@@ -126,18 +128,6 @@ const MechState = ({
 
           <div className='hp-label'>
             <MechNumberLabel
-              icon={parseInt(currentOvershield) > 0 ? "overshield" : 'overshield-outline'}
-              onIconClick={handleOvershieldIconClick}
-              iconTooltipData={overshieldTooltip}
-              extraClass={`condensed ${parseInt(currentOvershield) > 0 ? 'overshield' : ''}`}
-              maxNumber={null}
-              currentNumber={parseInt(currentOvershield)}
-              setCurrentNumber={setCurrentOvershield}
-              leftToRight={true}
-            />
-
-
-            <MechNumberLabel
               label="HP"
               maxNumber={maxHP}
               currentNumber={parseInt(currentHP)}
@@ -154,6 +144,32 @@ const MechState = ({
             armor={parseInt(frameData.stats.armor)}
             leftToRight={false}
           />
+
+
+          <div className='overshield-and-burn'>
+            <MechNumberIcon
+              icon={'overshield-outline'}
+              onIconClick={handleOvershieldIconClick}
+              iconTooltipData={overshieldTooltip}
+              extraClass={parseInt(currentOvershield) > 0 ? 'overshield' : ''}
+              maxNumber={null}
+              currentNumber={parseInt(currentOvershield)}
+              setCurrentNumber={setCurrentOvershield}
+              leftToRight={true}
+            />
+
+            <MechNumberIcon
+              icon='burn'
+              onIconClick={handleBurnIconClick}
+              iconTooltipData={burnTooltip}
+              extraClass={parseInt(currentBurn) > 0 ? 'burning' : ''}
+              maxNumber={null}
+              currentNumber={parseInt(currentBurn)}
+              setCurrentNumber={setCurrentBurn}
+              leftToRight={true}
+            />
+          </div>
+
 
           <div className='structure-container'>
             <MechNumberBar
@@ -179,17 +195,6 @@ const MechState = ({
               currentNumber={currentHeat}
               setCurrentNumber={setCurrentHeat}
               leftToRight={true}
-            />
-
-            <MechNumberLabel
-              icon='burn'
-              onIconClick={handleBurnIconClick}
-              iconTooltipData={burnTooltip}
-              extraClass={`condensed ${parseInt(currentBurn) > 0 ? 'burning' : ''}`}
-              maxNumber={null}
-              currentNumber={parseInt(currentBurn)}
-              setCurrentNumber={setCurrentBurn}
-              leftToRight={false}
             />
           </div>
 

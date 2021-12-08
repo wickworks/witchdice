@@ -30,9 +30,18 @@
       width: 50%;
 
       .hp-label {
-        margin-right: 60px;
+        margin-right: 50px;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
+      }
+
+      .overshield-and-burn {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 8px;
+        margin-right: 96px;
+
+        .MechNumberIcon:last-child { padding-right: 22px; }
       }
 
       .structure-container {

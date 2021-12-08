@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Tooltip from '../../shared/Tooltip';
 
 import './MechNumberLabel.scss';
 
@@ -8,9 +7,6 @@ const MechNumberLabel = ({
   maxNumber,
   currentNumber,
   setCurrentNumber,
-  icon = '',
-  onIconClick = () => {},
-  iconTooltipData = {},
   extraClass = '',
   leftToRight = true,
 }) => {
@@ -21,25 +17,11 @@ const MechNumberLabel = ({
 
       <div className='numerical-count'>
         <input type='number' min={0} max={maxNumberForInput} value={currentNumber} onChange={e => setCurrentNumber(e.target.value)} />
-        {maxNumber &&
-          <>/{maxNumber}</>
-        }
+        /{maxNumber}
       </div>
 
       <div className='label'>
-        {label && label}
-        {icon &&
-          <button onClick={onIconClick}>
-            <div className={`asset ${icon}`} />
-
-            <Tooltip
-              title={iconTooltipData.title}
-              content={iconTooltipData.content}
-              flavor={iconTooltipData.hint}
-              skipCloseButton={true}
-            />
-          </button>
-        }
+        {label}
       </div>
     </div>
   );
