@@ -148,17 +148,6 @@ const MechState = ({
 
           <div className='overshield-and-burn'>
             <MechNumberIcon
-              icon={'overshield-outline'}
-              extraClass={`overshield ${parseInt(currentOvershield) > 0 ? 'active' : ''}`}
-              onIconClick={handleOvershieldIconClick}
-              iconTooltipData={overshieldTooltip}
-              maxNumber={null}
-              currentNumber={parseInt(currentOvershield)}
-              setCurrentNumber={setCurrentOvershield}
-              leftToRight={true}
-            />
-
-            <MechNumberIcon
               icon='burn'
               extraClass={`burning ${parseInt(currentBurn) > 0 ? 'active' : ''}`}
               onIconClick={handleBurnIconClick}
@@ -166,6 +155,17 @@ const MechState = ({
               maxNumber={null}
               currentNumber={parseInt(currentBurn)}
               setCurrentNumber={setCurrentBurn}
+              leftToRight={true}
+            />
+
+            <MechNumberIcon
+              icon={'overshield-outline'}
+              extraClass={`overshield ${parseInt(currentOvershield) > 0 ? 'active' : ''}`}
+              onIconClick={handleOvershieldIconClick}
+              iconTooltipData={overshieldTooltip}
+              maxNumber={null}
+              currentNumber={parseInt(currentOvershield)}
+              setCurrentNumber={setCurrentOvershield}
               leftToRight={true}
             />
           </div>
@@ -202,11 +202,22 @@ const MechState = ({
             maxNumber={getMechMaxHeatCap(activeMech, activePilot, frameData)}
             currentNumber={currentHeat}
             setCurrentNumber={setCurrentHeat}
-            overchargeDie={currentOverchargeDie}
-            handleOverchargeClick={handleOverchargeClick}
-            overchargeTooltip={overchargeTooltip}
             leftToRight={true}
           />
+
+          <div className='overcharge-and-core'>
+            <MechNumberIcon
+              icon='heat'
+              extraClass='overcharge'
+              onIconClick={handleOverchargeClick}
+              iconTooltipData={overchargeTooltip}
+              maxNumber={null}
+              currentNumber={currentOverchargeDie}
+              setCurrentNumber={() => {}}
+              leftToRight={true}
+              buttonOnly={true}
+            />
+          </div>
 
           <div className='stress-container'>
             <MechNumberBar

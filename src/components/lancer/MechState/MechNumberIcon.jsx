@@ -12,14 +12,19 @@ const MechNumberIcon = ({
   iconTooltipData = {},
   extraClass = '',
   leftToRight = true,
+  buttonOnly = false,
 }) => {
   const maxNumberForInput = maxNumber ? maxNumber : 20
 
   return (
     <div className={`MechNumberIcon ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}`}>
 
-      <button onClick={onIconClick}>
+      <button className={buttonOnly ? 'contains-number' : ''} onClick={onIconClick}>
         <div className={`asset ${icon}`} />
+
+        {buttonOnly &&
+          <div className='display-number'>{currentNumber}</div>
+        }
 
         <Tooltip
           title={iconTooltipData.title}
@@ -29,12 +34,14 @@ const MechNumberIcon = ({
         />
       </button>
 
-      <input type='number'
-        min={0}
-        max={maxNumberForInput}
-        value={currentNumber}
-        onChange={e => setCurrentNumber(e.target.value)}
-      />
+      { !buttonOnly &&
+        <input type='number'
+          min={0}
+          max={maxNumberForInput}
+          value={currentNumber}
+          onChange={e => setCurrentNumber(e.target.value)}
+        />
+      }
     </div>
   );
 }

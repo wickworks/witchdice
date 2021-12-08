@@ -26,17 +26,28 @@
   button {
     position: relative;
     display: block;
-    width: 27px;
-    height: 27px;
     padding: 0;
 
     &:hover {
       .Tooltip { display: block; }
     }
 
+    &.contains-number {
+      display: flex;
+      align-items: center;
+
+
+      .display-number {
+        font-size: 20px;
+        color: $grey_mid;
+        padding: 2px 8px;
+        width: 56px;
+      }
+    }
+
     .asset {
-      width: 100%;
-      height: 100%;
+      width: 27px;
+      height: 27px;
 
       filter: invert(50%);
     }
@@ -123,6 +134,30 @@
         font-weight: bold;
         color: white;
         border-color: $electric_orange;
+      }
+    }
+  }
+
+  &.overcharge {
+    background-color: $rust;
+
+    button {
+      &:hover {
+        background-color: $electric_orange;
+
+        .asset { filter: none; }
+        .display-number { color: $soft_black; }
+
+        // .asset { filter: invert(100%); }
+        // .display-number { color: white; }
+      }
+
+      // black to $parchment_dark
+      .asset { filter: invert(88%) sepia(34%) saturate(340%) hue-rotate(335deg) brightness(92%) contrast(89%); }
+
+      .display-number {
+        text-align: left;
+        color: $parchment_dark;
       }
     }
   }

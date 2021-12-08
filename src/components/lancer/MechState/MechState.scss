@@ -62,6 +62,14 @@
         justify-content: space-between;
       }
 
+      .overcharge-and-core {
+        display: flex;
+        margin-top: 8px;
+        margin-left: 96px;
+
+        .MechNumberIcon:first-child { padding-left: 28px; }
+      }
+
       .stress-container {
         margin-right: auto;
         margin-left: 90px;
