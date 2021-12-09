@@ -8,10 +8,13 @@ import MechSingleStat from './MechSingleStat.jsx';
 import {
   getMechMaxHP,
   getMechMaxHeatCap,
-  tickUpOvercharge,
+  tickOvercharge,
 } from './mechStateUtils.js';
 
 import './MechState.scss';
+
+const MAX_OVERSHIELD = 16
+const MAX_BURN = 30
 
 const MechState = ({
   activeMech,
@@ -31,7 +34,8 @@ const MechState = ({
   // console.log('activemech', activeMech);
   // console.log('frameData', frameData);
 
-  const maxHP = 20 // getMechMaxHP(activeMech, activePilot, frameData)
+  const maxHP = getMechMaxHP(activeMech, activePilot, frameData)
+
 
   const overshieldPlusHP = parseInt(currentHP) + parseInt(currentOvershield)
   const overshieldPlusMaxHP = maxHP + parseInt(currentOvershield)
@@ -67,21 +71,26 @@ const MechState = ({
     setCurrentHP(newHP)
   }
 
-  // dunno, just tick it up or something
-  const handleOvershieldIconClick = () => {
-    setCurrentOvershield(parseInt(currentOvershield) + 1)
+  // tick overshield up/down
+  const handleOvershieldIconClick = (rightClick) => {
+    var newShield = parseInt(currentOvershield)
+    if (rightClick) { newShield -= 1 } else { newShield += 1 }
+    newShield = Math.min(Math.max(newShield, 0), MAX_OVERSHIELD)
+    setCurrentOvershield(newShield)
   }
 
-  // do the current burn to HP >>> nope, just tick it up
-  const handleBurnIconClick = () => {
-    // changeHealth(parseInt(currentBurn) * -1)
-    setCurrentBurn(parseInt(currentBurn) + 1)
+  // tick burn up/down
+  const handleBurnIconClick = (rightClick) => {
+    var newBurn = parseInt(currentBurn)
+    if (rightClick) { newBurn -= 1 } else { newBurn += 1 }
+    newBurn = Math.min(Math.max(newBurn, 0), MAX_BURN)
+    setCurrentBurn(newBurn)
   }
 
   // roll the current for heat, increase the counter
-  const handleOverchargeClick = () => {
-    console.log('ROLL overcharge ', currentOverchargeDie);
-    setCurrentOverchargeDie( tickUpOvercharge(currentOverchargeDie) );
+  const handleOverchargeClick = (rightClick) => {
+    var direction = rightClick ? -1 : 1
+    setCurrentOverchargeDie( tickOvercharge(currentOverchargeDie, direction) );
   }
 
   const burnTooltip = {
@@ -91,24 +100,23 @@ const MechState = ({
       'success, it clears; otherwise, ' +
       'take damage equal to the amount of ' +
       'burn currently marked.',
-    hint: 'Click to gain +1 burn.'
+    hint: 'Click to add 1. Right-click to subtract 1.'
   }
 
   const overshieldTooltip = {
     title: 'OVERSHIELD',
     content: 'Damage is dealt to OVERSHIELD first, then HP. ' +
-      'Retain only the highest value of ' +
-      'OVERSHIELD applied – it does not stack. ' +
-      'It benefits normally from anything that would affect ' +
-      'damage (e.g. resistance, armor, etc).',
-    hint: 'Click to gain +1 overshield.'
+      'Retain only the highest value ' +
+      '– it does not stack. ' +
+      'It benefits normally from resistance, armor, etc. ',
+    hint: 'Click to add 1. Right-click to subtract 1.'
   }
 
   const overchargeTooltip = {
     title: 'OVERCHARGE',
     content: 'Pilots can overcharge their mech, allowing them to ' +
       'make an additional quick action at the cost of heat.',
-    hint: 'Click to increase heat cost.'
+    hint: 'Click to tick up. Right-click to tick down.'
   }
 
   const coreTooltip = {
@@ -116,7 +124,7 @@ const MechState = ({
     content: 'CP refers to a reservoir of high-efficiency reactor ' +
       'power, designed to be used in a quick burst. You only get CP when ' +
       'you start a mission or your mech receives a FULL REPAIR. ',
-    hint: 'Click to expend core power.'
+    hint: 'Click to expend. Right-click to recharge.'
   }
 
   return (
@@ -159,9 +167,10 @@ const MechState = ({
             <MechNumberIcon
               extraClass={`overshield ${parseInt(currentOvershield) > 0 ? 'active' : ''}`}
               icon={'overshield-outline'}
-              onIconClick={handleOvershieldIconClick}
+              onIconClick={() => handleOvershieldIconClick(false)}
+              onIconRightClick={() => handleOvershieldIconClick(true)}
               iconTooltipData={overshieldTooltip}
-              maxNumber={16}
+              maxNumber={MAX_OVERSHIELD}
               currentNumber={parseInt(currentOvershield)}
               setCurrentNumber={setCurrentOvershield}
               leftToRight={false}
@@ -170,9 +179,10 @@ const MechState = ({
             <MechNumberIcon
               extraClass={`burning ${parseInt(currentBurn) > 0 ? 'active' : ''}`}
               icon='burn'
-              onIconClick={handleBurnIconClick}
+              onIconClick={() => handleBurnIconClick(false)}
+              onIconRightClick={() => handleBurnIconClick(true)}
               iconTooltipData={burnTooltip}
-              maxNumber={30}
+              maxNumber={MAX_BURN}
               currentNumber={parseInt(currentBurn)}
               setCurrentNumber={setCurrentBurn}
               leftToRight={false}
@@ -219,7 +229,8 @@ const MechState = ({
             <MechNumberIcon
               extraClass={`core-power ${currentCore ? 'active' : ''}`}
               icon='core-power'
-              onIconClick={() => setCurrentCore(!currentCore)}
+              onIconClick={() => setCurrentCore(false)}
+              onIconRightClick={() => setCurrentCore(true)}
               iconTooltipData={coreTooltip}
               maxNumber={null}
               leftToRight={true}
@@ -229,7 +240,8 @@ const MechState = ({
             <MechNumberIcon
               extraClass='overcharge'
               icon='heat'
-              onIconClick={handleOverchargeClick}
+              onIconClick={() => handleOverchargeClick(false)}
+              onIconRightClick={() => handleOverchargeClick(true)}
               iconTooltipData={overchargeTooltip}
               maxNumber={null}
               currentNumber={currentOverchargeDie}

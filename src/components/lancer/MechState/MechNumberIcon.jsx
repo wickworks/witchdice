@@ -9,6 +9,7 @@ const MechNumberIcon = ({
   setCurrentNumber,
   icon = '',
   onIconClick = () => {},
+  onIconRightClick = () => {},
   iconTooltipData = {},
   extraClass = '',
   leftToRight = true,
@@ -19,7 +20,11 @@ const MechNumberIcon = ({
   return (
     <div className={`MechNumberIcon ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}`}>
 
-      <button className={buttonOnly ? 'contains-number' : ''} onClick={onIconClick}>
+      <button
+        className={buttonOnly ? 'contains-number' : ''}
+        onClick={onIconClick}
+        onContextMenu={e => {e.preventDefault(); onIconRightClick();}}
+      >
         <div className='icon-container'>
           <div className={`asset ${icon}`} />
           <div className='power-bars-coverup' />

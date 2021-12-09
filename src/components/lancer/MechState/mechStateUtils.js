@@ -19,12 +19,9 @@ export function getMechMaxHeatCap(activeMech, activePilot, frameData) {
 }
 
 
-export const tickUpOvercharge = (currentOverchargeDie) => {
-  console.log('tickUpOvercharge currentOverchargeDie', currentOverchargeDie);
-  var index = Math.max(OVERCHARGE_SEQUENCE.indexOf(String(currentOverchargeDie)), 0);
-  index += 1
-  index = Math.min(index, OVERCHARGE_SEQUENCE.length-1)
-  console.log('index', index);
-  console.log('OVERCHARGE_SEQUENCE[index]', OVERCHARGE_SEQUENCE[index]);
+export const tickOvercharge = (currentOverchargeDie, direction) => {
+  var index = OVERCHARGE_SEQUENCE.indexOf(String(currentOverchargeDie))
+  index += direction
+  index = Math.max(Math.min(index, OVERCHARGE_SEQUENCE.length-1), 0);
   return OVERCHARGE_SEQUENCE[index]
 }
