@@ -11,14 +11,6 @@
   margin-bottom: 20px;
   padding: 30px 0 0;
 
-  .mini-label {
-    @include text_monospace;
-    font-size: 18px;
-    margin-top: 4px;
-
-    span { margin: 0 6px; }
-  }
-
   .hull-and-engineering {
     display: flex;
     justify-content: center;
@@ -44,13 +36,13 @@
         .MechNumberIcon:last-child { padding-right: 22px; }
       }
 
-      .structure-container {
-        margin-right: 90px;
-        margin-left: auto;
-        width: 50%;
-
-        .mini-label { text-align: left; }
-      }
+      // .structure-container {
+      //   margin-right: 90px;
+      //   margin-left: auto;
+      //   width: 50%;
+      //
+      //   .mini-label { text-align: left; }
+      // }
     }
 
     .engineering-container {
@@ -70,14 +62,14 @@
         .MechNumberIcon:first-child { padding-left: 28px; }
       }
 
-      .stress-container {
-        margin-right: auto;
-        margin-left: 90px;
-        width: 50%;
-
-        .mini-label { text-align: right; }
-
-      }
+      // .stress-container {
+      //   margin-right: auto;
+      //   margin-left: 90px;
+      //   width: 50%;
+      //
+      //   .mini-label { text-align: right; }
+      //
+      // }
     }
   }
 
@@ -86,7 +78,7 @@
     justify-content: center;
     width: 100%;
 
-    padding-top: 60px;
+    padding-top: 30px;
 
     .agility-container {
       width: 50%;

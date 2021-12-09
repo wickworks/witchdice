@@ -16,15 +16,18 @@ const MechNumberBar = ({
   extraClass = '',
   leftToRight = true,
   skipManualInput = false,
+  showAbsoluteValues = false,
 }) => {
 
   const smallTicksClass = maxNumber > 22 ? 'small-ticks' : ''
 
   const burnTarget = (currentNumber - burn)
   const zeroTickBurnClass = (currentNumber > 0 && burn > 0 && burnTarget <= 0) ? 'burn-target' : ''
+  const leftRightClass = leftToRight ? 'left-to-right' : 'right-to-left'
+  const absValuesClass = showAbsoluteValues ? 'absolute-values' : ''
 
   return (
-    <div className={`MechNumberBar ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}  ${smallTicksClass}`}>
+    <div className={`MechNumberBar ${extraClass} ${leftRightClass} ${smallTicksClass} ${absValuesClass}`}>
 
       <div className='ticks-container'>
 
@@ -45,11 +48,15 @@ const MechNumberBar = ({
 
           // show the difference between current and the clickable number
           var showNumber
-          if (i+1 === currentNumber) {
-            showNumber = currentNumber
+          if (showAbsoluteValues) {
+            showNumber = (i+1)
           } else {
-            showNumber = distanceFromCurrent
-            if (showNumber > 0) showNumber = `+${showNumber}`
+            if (i+1 === currentNumber) {
+              showNumber = currentNumber
+            } else {
+              showNumber = distanceFromCurrent
+              if (showNumber > 0) showNumber = `+${showNumber}`
+            }
           }
 
           return (

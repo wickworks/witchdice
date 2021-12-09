@@ -137,6 +137,12 @@ const MechState = ({
 
         currentCore={currentCore}
         setCurrentCore={setCurrentCore}
+
+        currentStress={currentStress}
+        setCurrentStress={setCurrentStress}
+
+        currentStructure={currentStructure}
+        setCurrentStructure={setCurrentStructure}
       />
 
       <div className='hull-and-engineering'>
@@ -190,7 +196,7 @@ const MechState = ({
 
           </div>
 
-
+          {/*
           <div className='structure-container'>
             <MechNumberBar
               extraClass='condensed'
@@ -204,6 +210,8 @@ const MechState = ({
               Structure
             </div>
           </div>
+          */}
+
         </div>
 
         <div className='engineering-container'>
@@ -251,6 +259,7 @@ const MechState = ({
             />
           </div>
 
+          {/*
           <div className='stress-container'>
             <MechNumberBar
               extraClass='condensed'
@@ -264,7 +273,9 @@ const MechState = ({
               <span>{currentStress}</span>
             </div>
           </div>
+          */}
         </div>
+
       </div>
 
       <div className='agility-and-systems'>

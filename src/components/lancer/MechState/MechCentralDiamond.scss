@@ -1,5 +1,7 @@
 @import '../../../fonts';
 
+$grid_count: 8;
+
 .MechCentralDiamond {
   position: absolute;
   left: 50%;
@@ -9,13 +11,8 @@
   width: 220px;
   height: 220px;
 
-  // shape-outside: polygon(50% 0,100% 50%,50% 100%,0 50%);
-  // clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
-
   background-color: $parchment_dark;
   background-size: 152px;
-
-  // color: transparent; // hide alt text
 
   display: flex;
   justify-content: center;
@@ -44,17 +41,63 @@
 
     .buttons-container {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      grid-template-rows: 1fr 1fr 1fr;
+      grid-template-columns: repeat($grid_count, 1fr);
+      grid-template-rows: repeat($grid_count, 1fr);
 
       padding: 10px;
       height: 100%;
       box-sizing: border-box;
 
+      .MechNumberBar {
+        &.structure {
+          grid-column: 1 / span $grid_count;
+          grid-row: 1 / span 1;
+          justify-content: flex-start;
+        }
+
+        &.stress {
+          grid-column: 1 / span $grid_count;
+          grid-row: $grid_count / span 1;
+          justify-content: flex-end;
+        }
+
+        .number { transform: rotate(45deg); }
+      }
+
+      .mini-label {
+        @include text_monospace;
+        display: flex;
+
+        &.structure {
+          grid-column: 1 / span $grid_count;
+          grid-row: 2 / span 2;
+          align-items: flex-start;
+          justify-content: flex-end;
+        }
+
+        &.stress {
+          grid-column: 1 / span $grid_count;
+          grid-row: -4 / span 2;
+          align-items: flex-end;
+        }
+
+        .label {
+          font-size: 16px;
+          margin: 8px 0;
+        }
+
+        .number {
+          margin: 0 12px;
+          font-size: 36px;
+          transform: rotate(45deg);
+        }
+      }
+
 
       .repairs-container-container {
+        display: none;
         grid-column: 1 / span 3;
-        grid-row: 1 / span 2;
+        grid-row: 3 / span 1;
 
         .repairs-container {
           display: flex;
@@ -82,85 +125,6 @@
       }
 
 
-      .core-label {
-        @include text_monospace;
-        font-size: 22px;
-        // line-height: 36px;
-        // margin-bottom: 6px;
-
-        &.core {
-          grid-column: 1 / span 1;
-          grid-row: 2 / span 1;
-          writing-mode: vertical-lr;
-          text-align: right;
-          margin-bottom: -10px;
-
-          // padding-bottom: 56px;
-          // padding-left: 6px;
-        }
-
-        &.power {
-          grid-column: 2 / span 1;
-          grid-row: 3 / span 1;
-          margin-top: auto;
-          margin-left: -12px;
-          // padding-bottom: 6px;
-          // padding-left: 56px;
-        }
-      }
-
-      button.core-power {
-        grid-column: 1 / span 1;
-        grid-row: 3 / span 1;
-
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 0;
-
-        &:hover .asset {
-          // turns black to $rust
-          filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
-        }
-
-        .asset {
-          width: 50px;
-          height: 50px;
-          transform: rotate(45deg);
-          margin: 0 0 6px 6px;
-        }
-
-        .empty-box {
-          position: absolute;
-          top: 19px;
-          right: 27px;
-          width: 20px;
-          height: 36px;
-
-          background-color: $parchment_dark;
-          transform: rotate(45deg);
-        }
-
-        &.empty {
-          animation: shake .3s;
-
-          .empty-box {
-            clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
-            transition: clip-path 2.8s cubic-bezier(.13,.69,0,.95);
-          }
-        }
-
-        &.full {
-          .empty-box {
-            clip-path: polygon(0 0,100% 0,100% 0,0 0);
-            transition: clip-path 2s cubic-bezier(.07,.36,.13,-0.12);
-          }
-        }
-
-
-      }
-
       .size-container {
         grid-column: 3 / span 1;
         grid-row: 3 / span 1;
@@ -170,6 +134,8 @@
         width: 100%;
         height: 100%;
 
+        display: none;
+
         .mech-size.asset {
           width: 90%;
           height: 90%;
@@ -178,16 +144,4 @@
       }
     }
   }
-}
-
-@keyframes shake {
-  0% {  transform: translateX(4px)  translateY(2px); }
-  10% { transform: translateX(-6px) translateY(6px); }
-  15% { transform: translateX(-8px) translateY(-4px); }
-  40% { transform: translateX(6px)  translateY(6px); }
-  60% { transform: translateX(-4px) translateY(4px); }
-  70% { transform: translateX(2px)  translateY(6px); }
-  75% { transform: translateX(2px)  translateY(-4px); }
-  95% { transform: translateX(-2px) translateY(2px); }
-  100% {transform: translateX(0)    translateY(0); }
 }

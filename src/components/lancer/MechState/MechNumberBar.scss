@@ -20,18 +20,33 @@
   }
 
   &.condensed {
-    flex-direction: column-reverse;
-    border-top: none;
-    margin-top: 8px;
+    .ticks-container {
+      align-items: flex-start;
+      height: 100%;
+      width: 100%;
 
-    .ticks-container .tick {
-      min-height: 26px;
+      button.tick {
+        min-width: unset;
+        min-height: 26px;
+        height: 100%;
+        width: 100%;
 
-      .number { font-size: 16px; }
+        &.zero { width: 40px; }
 
-      &.zero { width: 40px; }
+        .number { font-size: 16px; }
+      }
     }
   }
+
+  // &.absolute-values {
+  //   .ticks-container button.tick {
+  //     .asset { display: none; }
+  //     .number { display: block; }
+  //
+  //     &.filled .number { color: $parchment_dark; }
+  //     &.empty .number { color: $grey_mid; }
+  //   }
+  // }
 
   .ticks-container {
     display: flex;
@@ -121,7 +136,7 @@
           background-color: $grey_very_dark;
           cursor: auto;
         }
-        &.filled:hover { background-color: $rust_dark; }
+        &.filled:hover { background-color: $crushed_velvet; }
       }
     }
 

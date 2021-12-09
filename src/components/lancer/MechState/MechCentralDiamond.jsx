@@ -1,4 +1,5 @@
 import React from 'react';
+import MechNumberBar from './MechNumberBar.jsx';
 
 import './MechCentralDiamond.scss';
 
@@ -9,6 +10,12 @@ const MechCentralDiamond = ({
 
   currentCore,
   setCurrentCore,
+
+  currentStress,
+  setCurrentStress,
+
+  currentStructure,
+  setCurrentStructure,
 }) => {
 
   const mechSize = frameData.stats.size === 0.5 ? 'size-half' : `size-${frameData.stats.size}`
@@ -23,6 +30,32 @@ const MechCentralDiamond = ({
 
         <div className='buttons-container'>
 
+          <MechNumberBar
+            extraClass='condensed structure'
+            maxNumber={4}
+            currentNumber={currentStructure}
+            setCurrentNumber={setCurrentStructure}
+            leftToRight={true}
+            showAbsoluteValues={true}
+          />
+          <div className='mini-label structure'>
+            <span className='label'>Structure</span>
+            <span className='number'>{currentStructure}</span>
+          </div>
+
+          <MechNumberBar
+            extraClass='condensed stress'
+            maxNumber={4}
+            currentNumber={currentStress}
+            setCurrentNumber={setCurrentStress}
+            leftToRight={true}
+            showAbsoluteValues={true}
+          />
+          <div className='mini-label stress'>
+            <span className='number'>{currentStress}</span>
+            <span className='label'>Stress</span>
+          </div>
+
           <div className='repairs-container-container'>
             <div className='repairs-container'>
               { [...Array(frameData.stats.repcap)].map((undef, i) =>
@@ -36,19 +69,6 @@ const MechCentralDiamond = ({
           <div className='size-container'>
             <div className={`mech-size asset ${mechSize}`} />
           </div>
-
-          {/*
-          <div className='core-label core'>CORE</div>
-          <div className='core-label power'>POWER</div>
-
-          <button
-            className={`core-power ${currentCore ? 'full' : 'empty'}`}
-            onClick={() => setCurrentCore(!currentCore)}
-          >
-            <div className='asset core-power-full' />
-            <div className='empty-box' />
-          </button>
-          */}
 
         </div>
       </div>
