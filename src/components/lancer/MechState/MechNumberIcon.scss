@@ -44,7 +44,7 @@
   button {
     position: relative;
     display: block;
-    padding: 0;
+    padding: 2px 0;
 
     &:hover:not(:focus) {
       .Tooltip { display: block; }
@@ -107,7 +107,7 @@
 
 
   &.overshield {
-    &:hover { background-color: white; }
+    &:hover { background-color: $grey_light; }
 
     button:hover {
       background-color: $periwinkle;
@@ -134,7 +134,7 @@
 
   &.burning {
     &:hover {
-      background-color: $electric_orange;
+      background-color: $rust_light;
       input[type='number'] { color: $grey_very_dark; }
       .asset { filter: invert(20%) }
     }
@@ -168,7 +168,6 @@
     justify-content: center;
 
     button {
-      padding: 0 5px;
       width: 100%;
       justify-content: center;
 
