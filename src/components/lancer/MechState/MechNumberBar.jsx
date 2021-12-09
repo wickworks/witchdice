@@ -20,13 +20,16 @@ const MechNumberBar = ({
 
   const smallTicksClass = maxNumber > 22 ? 'small-ticks' : ''
 
+  const burnTarget = (currentNumber - burn)
+  const zeroTickBurnClass = (currentNumber > 0 && burn > 0 && burnTarget <= 0) ? 'burn-target' : ''
+
   return (
     <div className={`MechNumberBar ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}  ${smallTicksClass}`}>
 
       <div className='ticks-container'>
 
         <button
-          className={`tick zero ${currentNumber > 0 ? 'filled' : 'empty'}`}
+          className={`tick zero ${currentNumber > 0 ? 'filled' : 'empty'} ${zeroTickBurnClass}`}
           onClick={() => setCurrentNumber(0)}
         />
 
@@ -38,7 +41,7 @@ const MechNumberBar = ({
           const noOvershield = currentNumber-overshield
           const overshieldClass = (i >= noOvershield && overshield > 0) ? 'overshield' : ''
 
-          const burnClass = (distanceFromCurrent < 0 && distanceFromCurrent === (-1*burn)) ? 'burn-target' : ''
+          const burnClass = (distanceFromCurrent < 0 && (i+1) === burnTarget) ? 'burn-target' : ''
 
           // show the difference between current and the clickable number
           var showNumber

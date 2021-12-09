@@ -46,11 +46,6 @@
 
       transition: none;
 
-      &.zero {
-        width: 100px;
-        flex-shrink: 0;
-      }
-
       .asset {
         width: 4px; height: 4px;
         box-sizing: border-box;
@@ -116,6 +111,17 @@
 
           .asset.burn { display: none; }
         }
+      }
+
+      &.zero {
+        width: 100px;
+        flex-shrink: 0;
+
+        &.empty:hover {
+          background-color: $grey_very_dark;
+          cursor: auto;
+        }
+        &.filled:hover { background-color: $rust_dark; }
       }
     }
 
