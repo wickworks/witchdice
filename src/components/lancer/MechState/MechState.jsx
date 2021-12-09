@@ -150,6 +150,7 @@ const MechState = ({
             setCurrentNumber={handleHPBarClick}
             overshield={parseInt(currentOvershield)}
             armor={parseInt(frameData.stats.armor)}
+            burn={parseInt(currentBurn)}
             leftToRight={false}
           />
 
@@ -160,7 +161,7 @@ const MechState = ({
               icon={'overshield-outline'}
               onIconClick={handleOvershieldIconClick}
               iconTooltipData={overshieldTooltip}
-              maxNumber={null}
+              maxNumber={16}
               currentNumber={parseInt(currentOvershield)}
               setCurrentNumber={setCurrentOvershield}
               leftToRight={false}
@@ -171,7 +172,7 @@ const MechState = ({
               icon='burn'
               onIconClick={handleBurnIconClick}
               iconTooltipData={burnTooltip}
-              maxNumber={null}
+              maxNumber={30}
               currentNumber={parseInt(currentBurn)}
               setCurrentNumber={setCurrentBurn}
               leftToRight={false}

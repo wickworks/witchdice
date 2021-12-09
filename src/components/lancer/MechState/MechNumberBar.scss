@@ -55,6 +55,12 @@
         width: 4px; height: 4px;
         box-sizing: border-box;
         margin: auto;
+
+        &.burn {
+          width: 12px;
+          height: 20px;
+          display: none;
+        }
       }
 
       .number {
@@ -87,7 +93,6 @@
           // black to $periwinkle
           .asset { filter: invert(40%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%); }
         }
-
       }
 
       &.empty {
@@ -95,6 +100,22 @@
         &:hover { background-color: $grey_dark; }
         .number { color: $grey_light; }
         .asset { filter: invert(45%); }
+      }
+
+      &.burn-target {
+        background-color: $electric_orange;
+
+        .asset.dot { display: none; }
+        .asset.burn {
+          display: block;
+        }
+
+        &:hover {
+          background-color: $electric_orange;
+          .number { color: white; }
+
+          .asset.burn { display: none; }
+        }
       }
     }
 

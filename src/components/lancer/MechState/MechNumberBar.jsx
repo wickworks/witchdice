@@ -11,6 +11,7 @@ const MechNumberBar = ({
 
   overshield = 0,
   armor = 0,
+  burn = 0,
 
   extraClass = '',
   leftToRight = true,
@@ -30,28 +31,33 @@ const MechNumberBar = ({
         />
 
         { [...Array(maxNumber)].map((undef, i) => {
+          const distanceFromCurrent = (i+1) - currentNumber
+
           const filledClass = (i < currentNumber) ? 'filled' : 'empty'
 
           const noOvershield = currentNumber-overshield
           const overshieldClass = (i >= noOvershield && overshield > 0) ? 'overshield' : ''
+
+          const burnClass = (distanceFromCurrent < 0 && distanceFromCurrent === (-1*burn)) ? 'burn-target' : ''
 
           // show the difference between current and the clickable number
           var showNumber
           if (i+1 === currentNumber) {
             showNumber = currentNumber
           } else {
-            showNumber = (i+1) - currentNumber
+            showNumber = distanceFromCurrent
             if (showNumber > 0) showNumber = `+${showNumber}`
           }
 
           return (
             <button
-              className={`tick ${filledClass} ${overshieldClass}`}
+              className={`tick ${filledClass} ${overshieldClass} ${burnClass}`}
               onClick={() => setCurrentNumber(i+1)}
               key={`${label}-tick-${i}`}
               disabled={i+1 === currentNumber}
             >
               <div className='asset dot' />
+              <div className='asset burn' />
               <div className='number'>
                 {showNumber}
               </div>

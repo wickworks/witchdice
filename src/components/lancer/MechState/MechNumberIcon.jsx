@@ -14,7 +14,7 @@ const MechNumberIcon = ({
   leftToRight = true,
   buttonOnly = false,
 }) => {
-  const maxNumberForInput = maxNumber ? maxNumber : 20
+  const maxNumberForInput = maxNumber ? maxNumber : 30
 
   return (
     <div className={`MechNumberIcon ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}`}>
