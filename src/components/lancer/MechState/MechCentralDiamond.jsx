@@ -21,6 +21,8 @@ const MechCentralDiamond = ({
   const mechSize = frameData.stats.size === 0.5 ? 'size-half' : `size-${frameData.stats.size}`
   // <div className="MechCentralDiamond asset ssc-watermark">
 
+  const repCap = frameData.stats.repcap;
+
   return (
     <div className="MechCentralDiamond">
       <div className='relative-container'>
@@ -58,7 +60,7 @@ const MechCentralDiamond = ({
 
           <div className='repairs-container-container'>
             <div className='repairs-container'>
-              { [...Array(frameData.stats.repcap)].map((undef, i) =>
+              { [...Array(repCap)].map((undef, i) =>
                 <button key={`repair-${i}`}>
                   <div className='asset repair' />
                 </button>

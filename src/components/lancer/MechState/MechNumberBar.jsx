@@ -76,7 +76,7 @@ const MechNumberBar = ({
         })}
 
         {(armor > 0) &&
-          <div className={`final-icon-container armor ${currentNumber === maxNumber ? 'filled' : ''} ${overshield > 0 ? 'overshield' : ''}`}>
+          <div className={`armor-container armor ${currentNumber === maxNumber ? 'filled' : ''} ${overshield > 0 ? 'overshield' : ''}`}>
             <div className='asset armor'>
               {armor}
             </div>
