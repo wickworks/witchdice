@@ -2,7 +2,7 @@
 
 .MechNumberLabel {
   @include text_monospace;
-  font-size: 30px;
+  font-size: 32px;
   padding: 4px 0;
   color: $rust_dark;
 
@@ -27,10 +27,10 @@
 
     input[type='number'] {
       @include text_monospace;
-      font-size: 26px;
+      font-size: 30px;
       background-color: $parchment_dark;
       border: 1px solid $soft_black;
-      padding: 2px 8px;
+      padding: 0 8px;
       width: 56px;
     }
   }

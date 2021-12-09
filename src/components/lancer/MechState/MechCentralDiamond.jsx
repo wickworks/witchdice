@@ -16,13 +16,25 @@ const MechCentralDiamond = ({
 
   currentStructure,
   setCurrentStructure,
+
+  currentRepairs,
+  setCurrentRepairs,
 }) => {
 
   const mechSize = frameData.stats.size === 0.5 ? 'size-half' : `size-${frameData.stats.size}`
-  // <div className="MechCentralDiamond asset ssc-watermark">
 
   const repCap = frameData.stats.repcap;
+  const smallRepairsClass = repCap > 12 ? 'small-repairs' : '';
 
+  function handleRepairClick(repairIndex) {
+    if (repairIndex+1 <= currentRepairs) {
+      setCurrentRepairs(currentRepairs-1)
+    } else {
+      setCurrentRepairs(currentRepairs+1)
+    }
+  }
+
+  // <div className="MechCentralDiamond asset ssc-watermark">
   return (
     <div className="MechCentralDiamond">
       <div className='relative-container'>
@@ -59,18 +71,24 @@ const MechCentralDiamond = ({
           </div>
 
           <div className='repairs-container-container'>
-            <div className='repairs-container'>
+            <div className={`repairs-container ${smallRepairsClass}`}>
               { [...Array(repCap)].map((undef, i) =>
-                <button key={`repair-${i}`}>
+                <button
+                  className={(i+1) <= currentRepairs ? 'available' : 'used'}
+                  onClick={() => handleRepairClick(i)}
+                  key={`repair-${i}`}
+                >
                   <div className='asset repair' />
                 </button>
               )}
             </div>
           </div>
 
-          <div className='size-container'>
-            <div className={`mech-size asset ${mechSize}`} />
-          </div>
+          {repCap <= 12 &&
+            <div className='size-container'>
+              <div className={`mech-size asset ${mechSize}`} />
+            </div>
+          }
 
         </div>
       </div>

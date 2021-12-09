@@ -27,11 +27,12 @@ const MechState = ({
   const [currentBurn, setCurrentBurn] = useState(activeMech.burn);
   const [currentOverchargeDie, setCurrentOverchargeDie] = useState('1');
   const [currentCore, setCurrentCore] = useState(!!activeMech.current_core_energy);
+  const [currentRepairs, setCurrentRepairs] = useState(activeMech.current_repairs);
 
   const [currentStructure, setCurrentStructure] = useState(4);
   const [currentStress, setCurrentStress] = useState(4);
 
-  // console.log('activemech', activeMech);
+  console.log('activemech', activeMech);
   // console.log('frameData', frameData);
 
   const maxHP = getMechMaxHP(activeMech, activePilot, frameData)
@@ -143,6 +144,9 @@ const MechState = ({
 
         currentStructure={currentStructure}
         setCurrentStructure={setCurrentStructure}
+
+        currentRepairs={currentRepairs}
+        setCurrentRepairs={setCurrentRepairs}
       />
 
       <div className='hull-and-engineering'>
