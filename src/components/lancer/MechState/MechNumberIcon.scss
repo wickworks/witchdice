@@ -15,20 +15,38 @@
   // opacity: 0.5;
   // &:hover { opacity: 1.0; }
 
-  // &.left-to-right {
-  //   flex-direction: row;
-  // }
+  &.left-to-right {
+    button { flex-direction: row-reverse; }
+
+    .Tooltip {
+      // swap it to the bottom
+      transform: translate(-75%, 100%);
+
+      .content-container::before {
+        left: calc(75% - 12px);
+      }
+    }
+  }
   //
-  // &.right-to-left {
-  //   flex-direction: row-reverse;
-  // }
+  &.right-to-left {
+    flex-direction: row;
+
+    .Tooltip {
+      // swap it to the bottom
+      transform: translate(-25%, 100%);
+
+      .content-container::before {
+        left: calc(25% - 12px);
+      }
+    }
+  }
 
   button {
     position: relative;
     display: block;
     padding: 0;
 
-    &:hover {
+    &:hover:not(:focus) {
       .Tooltip { display: block; }
     }
 
@@ -36,21 +54,24 @@
       display: flex;
       align-items: center;
 
-
       .display-number {
         font-size: 20px;
         color: $grey_mid;
         padding: 2px 8px;
-        width: 56px;
       }
     }
 
-    .asset {
-      width: 27px;
-      height: 27px;
+    .icon-container {
+      position: relative;
 
-      filter: invert(50%);
+      .asset {
+        width: 28px;
+        height: 28px;
+
+        filter: invert(50%);
+      }
     }
+
 
     .Tooltip {
       @include text_monospace;
@@ -58,12 +79,10 @@
       text-align: left;
       display: none;
 
-      // swap it to the bottom
+      // swap it to the bottom (other attribs set in left-to-right or right-to-left)
       bottom: 0;
       padding-bottom: 0;
       padding-top: 12px;
-
-      transform: translate(-25%, 100%);
 
       .content-container {
         cursor: pointer;
@@ -71,12 +90,9 @@
         &::before {
           top: -11px;
           transform: rotate(180deg);
-          left: calc(25% - 12px);
         }
       }
     }
-
-
   }
 
   input[type='number'] {
@@ -91,6 +107,8 @@
 
 
   &.overshield {
+    &:hover { background-color: white; }
+
     button:hover {
       background-color: $periwinkle;
 
@@ -115,6 +133,12 @@
   }
 
   &.burning {
+    &:hover {
+      background-color: $electric_orange;
+      input[type='number'] { color: $grey_very_dark; }
+      .asset { filter: invert(20%) }
+    }
+
     button:hover {
       background-color: white;
 
@@ -140,26 +164,107 @@
 
   &.overcharge {
     background-color: $rust;
+    width: 109px;
+    justify-content: center;
 
     button {
+      padding: 0 5px;
+      width: 100%;
+      justify-content: center;
+
       &:hover {
-        background-color: $electric_orange;
+        // background-color: $electric_orange;
+        //
+        // .asset { filter: none; }
+        // .display-number { color: $soft_black; }
 
-        .asset { filter: none; }
-        .display-number { color: $soft_black; }
 
-        // .asset { filter: invert(100%); }
-        // .display-number { color: white; }
+        background-color: $rust_light;
+
+        .asset { filter: invert(100%); }
+        .display-number { color: white; }
       }
 
       // black to $parchment_dark
       .asset { filter: invert(88%) sepia(34%) saturate(340%) hue-rotate(335deg) brightness(92%) contrast(89%); }
 
       .display-number {
-        text-align: left;
         color: $parchment_dark;
+        // margin: auto;
       }
     }
   }
 
+  &.core-power {
+    button {
+      display: flex;
+      justify-content: center;
+      width: 89px;
+
+      &:hover {
+        background-color: $grey_dark;
+
+        .asset { filter: invert(50%); }
+      }
+
+      .power-bars-coverup {
+        position: absolute;
+        top: 8px;
+        left: 3px;
+        width: 19px;
+        height: 11px;
+
+        // background-color: $parchment_dark;
+      }
+    }
+
+    &:not(.active) {
+      button {
+        .asset { animation: shake .3s; }
+
+        .power-bars-coverup {
+          animation: shake .3s;
+          background-color: $grey_very_dark;
+          clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+          transition: clip-path 2.8s cubic-bezier(.13,.69,0,.95);
+        }
+      }
+    }
+
+    &.active {
+      background-color: $rust;
+
+      button .power-bars-coverup {
+        background-color: $rust;
+        clip-path: polygon(100% 0,100% 0,100% 100%,100% 100%);
+        transition: clip-path 2s cubic-bezier(.07,.36,.13,-0.12);
+      }
+
+      button:hover {
+        background-color: $rust_light;
+
+        .asset { filter: invert(100%); }
+        .power-bars-coverup { background-color: $rust_light; }
+      }
+
+      button:not(:hover) {
+        // black to $parchment_dark
+        .asset { filter: invert(88%) sepia(34%) saturate(340%) hue-rotate(335deg) brightness(92%) contrast(89%); }
+      }
+    }
+  }
+
+}
+
+
+@keyframes shake {
+  0% {  transform: translateX(4px)  translateY(2px); }
+  10% { transform: translateX(-6px) translateY(6px); }
+  15% { transform: translateX(-8px) translateY(-4px); }
+  40% { transform: translateX(6px)  translateY(6px); }
+  60% { transform: translateX(-4px) translateY(4px); }
+  70% { transform: translateX(2px)  translateY(6px); }
+  75% { transform: translateX(2px)  translateY(-4px); }
+  95% { transform: translateX(-2px) translateY(2px); }
+  100% {transform: translateX(0)    translateY(0); }
 }

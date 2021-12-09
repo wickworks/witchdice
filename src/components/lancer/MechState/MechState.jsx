@@ -111,6 +111,14 @@ const MechState = ({
     hint: 'Click to increase heat cost.'
   }
 
+  const coreTooltip = {
+    title: 'CORE POWER',
+    content: 'CP refers to a reservoir of high-efficiency reactor ' +
+      'power, designed to be used in a quick burst. You only get CP when ' +
+      'you start a mission or your mech receives a FULL REPAIR. ',
+    hint: 'Click to expend core power.'
+  }
+
   return (
     <div className='MechState asset butterfly-watermark'>
 
@@ -148,26 +156,27 @@ const MechState = ({
 
           <div className='overshield-and-burn'>
             <MechNumberIcon
-              icon='burn'
-              extraClass={`burning ${parseInt(currentBurn) > 0 ? 'active' : ''}`}
-              onIconClick={handleBurnIconClick}
-              iconTooltipData={burnTooltip}
-              maxNumber={null}
-              currentNumber={parseInt(currentBurn)}
-              setCurrentNumber={setCurrentBurn}
-              leftToRight={true}
-            />
-
-            <MechNumberIcon
-              icon={'overshield-outline'}
               extraClass={`overshield ${parseInt(currentOvershield) > 0 ? 'active' : ''}`}
+              icon={'overshield-outline'}
               onIconClick={handleOvershieldIconClick}
               iconTooltipData={overshieldTooltip}
               maxNumber={null}
               currentNumber={parseInt(currentOvershield)}
               setCurrentNumber={setCurrentOvershield}
-              leftToRight={true}
+              leftToRight={false}
             />
+
+            <MechNumberIcon
+              extraClass={`burning ${parseInt(currentBurn) > 0 ? 'active' : ''}`}
+              icon='burn'
+              onIconClick={handleBurnIconClick}
+              iconTooltipData={burnTooltip}
+              maxNumber={null}
+              currentNumber={parseInt(currentBurn)}
+              setCurrentNumber={setCurrentBurn}
+              leftToRight={false}
+            />
+
           </div>
 
 
@@ -207,8 +216,18 @@ const MechState = ({
 
           <div className='overcharge-and-core'>
             <MechNumberIcon
-              icon='heat'
+              extraClass={`core-power ${currentCore ? 'active' : ''}`}
+              icon='core-power'
+              onIconClick={() => setCurrentCore(!currentCore)}
+              iconTooltipData={coreTooltip}
+              maxNumber={null}
+              leftToRight={true}
+              buttonOnly={true}
+            />
+
+            <MechNumberIcon
               extraClass='overcharge'
+              icon='heat'
               onIconClick={handleOverchargeClick}
               iconTooltipData={overchargeTooltip}
               maxNumber={null}

@@ -37,6 +37,7 @@ const MechCentralDiamond = ({
             <div className={`mech-size asset ${mechSize}`} />
           </div>
 
+          {/*
           <div className='core-label core'>CORE</div>
           <div className='core-label power'>POWER</div>
 
@@ -47,6 +48,8 @@ const MechCentralDiamond = ({
             <div className='asset core-power-full' />
             <div className='empty-box' />
           </button>
+          */}
+
         </div>
       </div>
     </div>

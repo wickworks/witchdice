@@ -20,9 +20,12 @@ const MechNumberIcon = ({
     <div className={`MechNumberIcon ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}`}>
 
       <button className={buttonOnly ? 'contains-number' : ''} onClick={onIconClick}>
-        <div className={`asset ${icon}`} />
+        <div className='icon-container'>
+          <div className={`asset ${icon}`} />
+          <div className='power-bars-coverup' />
+        </div>
 
-        {buttonOnly &&
+        {buttonOnly && currentNumber &&
           <div className='display-number'>{currentNumber}</div>
         }
 

@@ -26,8 +26,13 @@
   &.line { background-image: url('./assets/lancer/aoe_line.svg'); }
 
   &.repair { background-image: url('./assets/lancer/repair.svg'); }
+
+  &.core-power { background-image: url('./assets/lancer/core_power.svg'); }
+
+
   &.core-power-empty { background-image: url('./assets/lancer/core_power_empty.svg'); }
   &.core-power-full { background-image: url('./assets/lancer/core_power_full.svg'); }
+
   &.overshield-outline { background-image: url('./assets/lancer/overshield_outline.svg'); }
   &.overshield { background-image: url('./assets/lancer/overshield.svg'); }
   &.overcharge { background-image: url('./assets/lancer/overcharge.svg'); }
