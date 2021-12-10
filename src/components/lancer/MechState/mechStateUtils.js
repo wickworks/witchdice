@@ -31,7 +31,7 @@ export function getMechMaxHeatCap(activeMech, activePilot, frameData) {
   const engi = activePilot.mechSkills[3]
   total += engi
 
-  total += getBonusFromSystems('heatcap', activeMech.loadouts[0])
+  // total += getBonusFromSystems('heatcap', activeMech.loadouts[0])
   total += getBonusFromCoreBonuses('heatcap', activePilot.core_bonuses)
 
   return parseInt(total);
@@ -44,8 +44,8 @@ export function getMechMoveSpeed(activeMech, activePilot, frameData) {
   const agi = activePilot.mechSkills[1]
   total += Math.floor(agi * .5)
 
-  total += getBonusFromSystems('speed', activeMech.loadouts[0])
-  total += getBonusFromCoreBonuses('speed', activePilot.core_bonuses)
+  // total += getBonusFromSystems('speed', activeMech.loadouts[0])
+  // total += getBonusFromCoreBonuses('speed', activePilot.core_bonuses)
 
   return parseInt(total);
 }
@@ -56,7 +56,7 @@ export function getMechEvasion(activeMech, activePilot, frameData) {
   const agi = activePilot.mechSkills[1]
   total += agi
 
-  total += getBonusFromSystems('evasion', activeMech.loadouts[0])
+  // total += getBonusFromSystems('evasion', activeMech.loadouts[0])
   total += getBonusFromCoreBonuses('evasion', activePilot.core_bonuses)
 
   return parseInt(total);
@@ -68,7 +68,7 @@ export function getMechEDef(activeMech, activePilot, frameData) {
   const sys = activePilot.mechSkills[2]
   total += sys
 
-  total += getBonusFromSystems('edef', activeMech.loadouts[0])
+  // total += getBonusFromSystems('edef', activeMech.loadouts[0])
   total += getBonusFromCoreBonuses('edef', activePilot.core_bonuses)
 
   return parseInt(total);
@@ -77,7 +77,7 @@ export function getMechEDef(activeMech, activePilot, frameData) {
 export function getMechSaveTarget(activeMech, activePilot, frameData) {
   var total = frameData.stats.save
 
-  total += getBonusFromSystems('save', activeMech.loadouts[0])
+  // total += getBonusFromSystems('save', activeMech.loadouts[0])
   total += getBonusFromCoreBonuses('save', activePilot.core_bonuses)
 
   return parseInt(total);
@@ -89,8 +89,22 @@ export function getMechMaxRepairCap(activeMech, activePilot, frameData) {
   const hull = activePilot.mechSkills[0]
   total += Math.floor(hull * .5)
 
-  total += getBonusFromSystems('repcap', activeMech.loadouts[0])
-  total += getBonusFromCoreBonuses('repcap', activePilot.core_bonuses)
+  // total += getBonusFromSystems('repcap', activeMech.loadouts[0])
+  // total += getBonusFromCoreBonuses('repcap', activePilot.core_bonuses)
+
+  return parseInt(total);
+}
+
+export function getMechSP(activeMech, activePilot, frameData) {
+  var total = frameData.stats.sp
+
+  total += getGrit(activePilot)
+
+  const sys = activePilot.mechSkills[2]
+  total += Math.floor(sys * .5)
+
+  // total += getBonusFromSystems('sp', activeMech.loadouts[0])
+  // total += getBonusFromCoreBonuses('sp', activePilot.core_bonuses)
 
   return parseInt(total);
 }

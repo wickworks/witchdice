@@ -12,6 +12,10 @@ import {
 } from './lancerData.js';
 
 import {
+  getMechSP,
+} from './MechState/mechStateUtils.js';
+
+import {
   getToHitBonusFromMech,
   getBonusDamageSourcesFromMech,
   getBonusDamageSourcesFromTalents,
@@ -166,7 +170,7 @@ const MechSheet = ({
         />
 
         <MechanicsList
-          label='Systems'
+          label={`Systems (${getMechSP(activeMech, activePilot, frameData)} SP)`}
           findData={findSystemData}
           tooltipContentKey='effect'
           tooltipFlavorKey='description'
