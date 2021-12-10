@@ -48,8 +48,36 @@ export function getMechMaxHP(activeMech, activePilot, frameData) {
 }
 
 export function getMechMaxHeatCap(activeMech, activePilot, frameData) {
+  // start with frame base stat
+  var total = parseInt(frameData.stats.hp)
 
-  return parseInt(frameData.stats.heatcap);
+  // add pilot skill
+  const hase = activePilot.mechSkills
+  const engi = hase[3]
+  total += engi
+
+  // add stuff from systems i.e. ??? I don't think anything? adding it anyway.
+  const loadout = activeMech.loadouts[0]
+  loadout.systems.forEach(system => {
+    const systemBonuses = findSystemData(system.id).bonuses;
+    if (systemBonuses) {
+      systemBonuses.forEach(bonus => {
+        if (bonus.id === 'heatcap') total += bonus.val
+      })
+    }
+  })
+
+  // add stuff from core bonuses i.e. that one HA one
+  activePilot.core_bonuses.forEach(coreBonusID => {
+    const coreBonusBonuses = findCoreBonusData(coreBonusID).bonuses;
+    if (coreBonusBonuses) {
+      coreBonusBonuses.forEach(bonusBonus => {
+        if (bonusBonus.id === 'heatcap') total += bonusBonus.val
+      })
+    }
+  })
+
+  return parseInt(total);
 }
 
 
