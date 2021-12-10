@@ -40,6 +40,21 @@
     }
   }
 
+  &.small-ticks {
+    .ticks-container {
+      flex-wrap: wrap;
+
+      @include max_width {
+        button.tick {
+          min-width: 8px;
+          
+          &.zero { width: 90px; }
+          &:nth-child(28) { padding-right: 90px; }
+        }
+      }
+    }
+  }
+
   .ticks-container {
     display: flex;
     align-items: center;
@@ -50,6 +65,7 @@
       padding: 0;
       flex-grow: 1;
       min-height: 40px;
+      // min-width: 8px;
 
       transition: none;
 
@@ -121,10 +137,12 @@
       }
 
       &.zero {
-        @include max_width {
-          flex-shrink: 0;
-          flex-grow: 0;
-          width: 120px;
+        flex-shrink: 0;
+        flex-grow: 0;
+        width: 120px;
+
+        @include below_max_width {
+          width: 30px;
         }
 
         &.empty:hover {

@@ -19,7 +19,7 @@ const MechNumberBar = ({
   showAbsoluteValues = false,
 }) => {
 
-  const smallTicksClass = maxNumber > 22 ? 'small-ticks' : ''
+  const smallTicksClass = maxNumber > 28 ? 'small-ticks' : ''
 
   const burnTarget = (currentNumber - burn)
   const zeroTickBurnClass = (currentNumber > 0 && burn > 0 && burnTarget <= 0) ? 'burn-target' : ''

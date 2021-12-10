@@ -25,7 +25,7 @@ import {
 
 import './MechState.scss';
 
-const MAX_OVERSHIELD = 16
+const MAX_OVERSHIELD = 12
 const MAX_BURN = 30
 
 const MechState = ({
