@@ -11,14 +11,16 @@
 
   &.left-to-right {
     flex-direction: row;
-
-    .label { margin-left: 10px; }
   }
 
-  &.right-to-left {
-    flex-direction: row-reverse;
+  @include max_width {
+    &.right-to-left {
+      flex-direction: row-reverse;
+    }
+  }
 
-    .label { margin-right: 10px; }
+  .label {
+    margin: 0 20px;
   }
 
   .numerical-count {

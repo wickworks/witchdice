@@ -32,7 +32,7 @@ const MechState = ({
   const [currentStructure, setCurrentStructure] = useState(4);
   const [currentStress, setCurrentStress] = useState(4);
 
-  console.log('activemech', activeMech);
+  // console.log('activemech', activeMech);
   // console.log('frameData', frameData);
 
   const maxHP = getMechMaxHP(activeMech, activePilot, frameData)

@@ -44,7 +44,7 @@
   button {
     position: relative;
     display: block;
-    padding: 2px 0;
+    padding: 2px;
 
     &:hover:not(:focus) {
       .Tooltip { display: block; }
@@ -102,7 +102,7 @@
     background-color: transparent;
     border: none;
     padding: 2px 8px;
-    width: 56px;
+    width: 61px;
   }
 
 
@@ -198,7 +198,7 @@
     button {
       display: flex;
       justify-content: center;
-      width: 89px;
+      width: 109px;
 
       &:hover {
         background-color: $grey_dark;

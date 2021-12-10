@@ -1,5 +1,15 @@
 @import '../../../fonts';
 
+@mixin mobile_double_button_divider {
+  margin: 0 auto 0 0;
+  justify-content: space-between;
+  background-color: $rust;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-image: url('../../../assets/nouveau_divider.svg');
+}
+
 .MechState {
   position: relative;
   width: 100%;
@@ -15,16 +25,28 @@
     display: flex;
     justify-content: center;
     width: 100%;
-
     padding-top: 16px;
+
+    @include below_max_width {
+      flex-direction: column;
+    }
 
     .hull-container {
       width: 50%;
+      @include below_max_width {
+        width: 100%;
+        margin-bottom: 20px;
+      }
 
       .hp-label {
-        margin-right: 60px;
         display: flex;
         justify-content: flex-end;
+        margin-right: 60px;
+
+        @include below_max_width {
+          justify-content: flex-start;
+          margin: 0 auto 0 0;
+        }
       }
 
       .overshield-and-burn {
@@ -33,25 +55,32 @@
         margin-top: 4px;
         margin-right: 102px;
 
-        .MechNumberIcon:last-child { padding-right: 22px; }
-      }
+        @include below_max_width {
+          @include mobile_double_button_divider;
+          flex-direction: row-reverse;
+        }
 
-      // .structure-container {
-      //   margin-right: 90px;
-      //   margin-left: auto;
-      //   width: 50%;
-      //
-      //   .mini-label { text-align: left; }
-      // }
+        @include max_width {
+          .MechNumberIcon:last-child { padding-right: 22px; }
+        }
+      }
     }
 
     .engineering-container {
       width: 50%;
+      @include below_max_width {
+        width: 100%;
+      }
 
       .heat-label {
         margin-left: 60px;
         display: flex;
         justify-content: space-between;
+
+        @include below_max_width {
+          margin: 0 auto 0 0;
+          justify-content: flex-start;
+        }
       }
 
       .overcharge-and-core {
@@ -59,17 +88,14 @@
         margin-top: 4px;
         margin-left: 102px;
 
-        .MechNumberIcon:first-child { padding-left: 28px; }
-      }
+        @include below_max_width {
+          @include mobile_double_button_divider;
+        }
 
-      // .stress-container {
-      //   margin-right: auto;
-      //   margin-left: 90px;
-      //   width: 50%;
-      //
-      //   .mini-label { text-align: right; }
-      //
-      // }
+        @include max_width {
+          .MechNumberIcon:first-child { padding-left: 28px; }
+        }
+      }
     }
   }
 
@@ -77,29 +103,27 @@
     display: flex;
     justify-content: center;
     width: 100%;
-
     padding-top: 60px;
 
-    .agility-container {
-      width: 50%;
-      margin-right: 40px;
-
-      .MechSingleStat.evasion { padding-right: 70px; }
-
+    @include below_max_width {
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding-top: 10px;
     }
 
-    .systems-container {
-      width: 50%;
-      margin-left: 40px;
+    @include max_width {
+      .agility-container {
+        width: 50%;
+        margin-right: 40px;
 
-      .MechSingleStat.e-def { padding-left: 70px; }
+        .MechSingleStat.evasion { padding-right: 70px; }
+      }
 
-      .sensors-and-save {
-        display: flex;
-        // width: 60%;
+      .systems-container {
+        width: 50%;
+        margin-left: 40px;
 
-        // .MechSingleStat.sensors { width: 50%; }
-        .MechSingleStat.save-target { margin-left: 10px;}
+        .MechSingleStat.e-def { padding-left: 70px; }
       }
     }
   }
@@ -108,14 +132,27 @@
     @include text_monospace;
     text-align: center;
     margin-top: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     .label {
       font-size: 20px;
+      margin: 0 12px;
     }
 
     .number {
       font-size: 40px;
       margin-top: 6px;
+    }
+
+    @include below_max_width {
+      margin-top: 12px;
+      flex-direction: row;
+      align-items: center;
+
+      .label { font-size: 20px; }
+      .number { font-size: 26px; margin: 0; }
     }
   }
 

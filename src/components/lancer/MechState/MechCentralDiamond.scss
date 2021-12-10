@@ -3,10 +3,6 @@
 $grid_count: 8;
 
 .MechCentralDiamond {
-  position: absolute;
-  left: 50%;
-  top: 80px;
-  transform: translateX(-50%) rotate(-45deg);
 
   width: 220px;
   height: 220px;
@@ -18,7 +14,19 @@ $grid_count: 8;
   justify-content: center;
   align-items: center;
 
-  z-index: 5;
+
+  @include max_width {
+    position: absolute;
+    left: 50%;
+    top: 80px;
+    transform: translateX(-50%) rotate(-45deg);
+    z-index: 5;
+  }
+
+  @include below_max_width {
+    transform: rotate(-45deg);
+    margin: 30px auto;
+  }
 
   .relative-container {
     position: relative;

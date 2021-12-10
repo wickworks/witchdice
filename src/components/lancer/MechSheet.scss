@@ -20,6 +20,10 @@
     width: 100%;
     max-width: 800px;
 
+    @include below_max_width {
+      padding: 12px 26px;
+    }
+
     h2 {
       @include text_monospace;
       font-size: 44px;
