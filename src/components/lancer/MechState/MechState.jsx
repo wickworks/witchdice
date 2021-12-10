@@ -8,6 +8,10 @@ import MechSingleStat from './MechSingleStat.jsx';
 import {
   getMechMaxHP,
   getMechMaxHeatCap,
+  getMechMoveSpeed,
+  getMechEvasion,
+  getMechEDef,
+  getMechSaveTarget,
   tickOvercharge,
 } from './mechStateUtils.js';
 
@@ -36,7 +40,6 @@ const MechState = ({
   // console.log('frameData', frameData);
 
   const maxHP = getMechMaxHP(activeMech, activePilot, frameData)
-
 
   const overshieldPlusHP = parseInt(currentHP) + parseInt(currentOvershield)
   const overshieldPlusMaxHP = maxHP + parseInt(currentOvershield)
@@ -287,14 +290,14 @@ const MechState = ({
           <MechSingleStat
             label="Evasion"
             extraClass='evasion'
-            number={frameData.stats.evasion}
+            number={getMechEvasion(activeMech, activePilot, frameData)}
             leftToRight={false}
           />
 
           <MechSingleStat
             label="Move Speed"
             extraClass='speed condensed'
-            number={frameData.stats.speed}
+            number={getMechMoveSpeed(activeMech, activePilot, frameData)}
             leftToRight={false}
           />
 
@@ -304,7 +307,7 @@ const MechState = ({
           <MechSingleStat
             label="E-Defense"
             extraClass='e-def'
-            number={frameData.stats.edef}
+            number={getMechEDef(activeMech, activePilot, frameData)}
             leftToRight={true}
           />
 
@@ -323,7 +326,7 @@ const MechState = ({
         </div>
 
         <div className='number'>
-          {frameData.stats.save}
+          {getMechSaveTarget(activeMech, activePilot, frameData)}
         </div>
       </div>
 

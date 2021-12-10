@@ -3,6 +3,10 @@ import MechNumberBar from './MechNumberBar.jsx';
 
 import './MechCentralDiamond.scss';
 
+import {
+  getMechMaxRepairCap,
+} from './mechStateUtils.js';
+
 const MechCentralDiamond = ({
   activeMech,
   activePilot,
@@ -23,7 +27,7 @@ const MechCentralDiamond = ({
 
   const mechSize = frameData.stats.size === 0.5 ? 'size-half' : `size-${frameData.stats.size}`
 
-  const repCap = frameData.stats.repcap;
+  const repCap = getMechMaxRepairCap(activeMech, activePilot, frameData);
   const smallRepairsClass = repCap > 12 ? 'small-repairs' : '';
 
   function handleRepairClick(repairIndex) {
