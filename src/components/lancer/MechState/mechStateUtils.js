@@ -4,7 +4,6 @@
 // } from '../../../utils.js';
 
 import {
-  OVERCHARGE_SEQUENCE,
   getGrit,
   findSystemData,
   findCoreBonusData,
@@ -140,15 +139,4 @@ function getBonusFromCoreBonuses(bonusType, coreBonusIDs) {
   })
 
   return coreTotal
-}
-
-
-
-
-
-export const tickOvercharge = (currentOverchargeDie, direction) => {
-  var index = OVERCHARGE_SEQUENCE.indexOf(String(currentOverchargeDie))
-  index += direction
-  index = Math.max(Math.min(index, OVERCHARGE_SEQUENCE.length-1), 0);
-  return OVERCHARGE_SEQUENCE[index]
 }

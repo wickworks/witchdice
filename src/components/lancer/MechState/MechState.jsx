@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MechCentralDiamond from './MechCentralDiamond.jsx';
 import MechNumberLabel from './MechNumberLabel.jsx';
 import MechNumberBar from './MechNumberBar.jsx';
 import MechNumberIcon from './MechNumberIcon.jsx';
 import MechSingleStat from './MechSingleStat.jsx';
+
+import {
+  saveMechStateToLocalStorage,
+} from '../lancerLocalStorage.js';
+
+import {
+  OVERCHARGE_SEQUENCE,
+} from '../lancerData.js';
+
 
 import {
   getMechMaxHP,
@@ -12,7 +21,6 @@ import {
   getMechEvasion,
   getMechEDef,
   getMechSaveTarget,
-  tickOvercharge,
 } from './mechStateUtils.js';
 
 import './MechState.scss';
@@ -29,12 +37,28 @@ const MechState = ({
   const [currentHP, setCurrentHP] = useState(activeMech.current_hp);
   const [currentHeat, setCurrentHeat] = useState(activeMech.current_heat);
   const [currentBurn, setCurrentBurn] = useState(activeMech.burn);
-  const [currentOverchargeDie, setCurrentOverchargeDie] = useState('1');
+  const [currentOverchargeIndex, setCurrentOverchargeIndex] = useState(activeMech.current_overcharge);
   const [currentCore, setCurrentCore] = useState(!!activeMech.current_core_energy);
   const [currentRepairs, setCurrentRepairs] = useState(activeMech.current_repairs);
 
   const [currentStructure, setCurrentStructure] = useState(4);
   const [currentStress, setCurrentStress] = useState(4);
+
+  // if we change anything, save it to local storage
+  useEffect(() => {
+    saveMechStateToLocalStorage({
+      overshield: currentOvershield,
+      current_hp: currentHP,
+      current_heat: currentHeat,
+      burn: currentBurn,
+      current_overcharge: currentOverchargeIndex,
+      current_core_energy: currentCore ? 1 : 0,
+      current_repairs: currentRepairs,
+      current_stress: currentStructure,
+      current_structure: currentStress,
+    }, activePilot, activeMech)
+  }, [currentOvershield, currentHP, currentHeat, currentBurn, currentOverchargeIndex, currentCore, currentRepairs, currentStructure, currentStress]);
+
 
   // console.log('activemech', activeMech);
   // console.log('frameData', frameData);
@@ -43,6 +67,8 @@ const MechState = ({
 
   const overshieldPlusHP = parseInt(currentHP) + parseInt(currentOvershield)
   const overshieldPlusMaxHP = maxHP + parseInt(currentOvershield)
+
+  const overchargeDie = OVERCHARGE_SEQUENCE[currentOverchargeIndex]
 
   const handleHPBarClick = (newValue) => {
     var change = parseInt(newValue) - overshieldPlusHP
@@ -94,7 +120,8 @@ const MechState = ({
   // roll the current for heat, increase the counter
   const handleOverchargeClick = (rightClick) => {
     var direction = rightClick ? -1 : 1
-    setCurrentOverchargeDie( tickOvercharge(currentOverchargeDie, direction) );
+    var newIndex = Math.max(Math.min(currentOverchargeIndex + direction, OVERCHARGE_SEQUENCE.length-1), 0);
+    setCurrentOverchargeIndex( newIndex );
   }
 
   const burnTooltip = {
@@ -259,7 +286,7 @@ const MechState = ({
               onIconRightClick={() => handleOverchargeClick(true)}
               iconTooltipData={overchargeTooltip}
               maxNumber={null}
-              currentNumber={currentOverchargeDie}
+              currentNumber={overchargeDie}
               setCurrentNumber={() => {}}
               leftToRight={true}
               buttonOnly={true}

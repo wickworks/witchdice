@@ -8,6 +8,8 @@
   background-position: center;
   background-repeat: no-repeat;
   background-image: url('../../../assets/nouveau_divider.svg');
+
+  @include constricted { background-image: none; }
 }
 
 .MechState {
