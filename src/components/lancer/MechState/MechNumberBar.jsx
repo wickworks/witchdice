@@ -13,6 +13,9 @@ const MechNumberBar = ({
   armor = 0,
   burn = 0,
 
+  dotIcon = 'dot',
+  zeroIcon = '',
+
   extraClass = '',
   leftToRight = true,
   skipManualInput = false,
@@ -34,7 +37,10 @@ const MechNumberBar = ({
         <button
           className={`tick zero ${currentNumber > 0 ? 'filled' : 'empty'} ${zeroTickBurnClass}`}
           onClick={() => setCurrentNumber(0)}
-        />
+        >
+          {zeroIcon && <div className={`asset ${zeroIcon}`} />}
+          <div className='number'>0</div>
+        </button>
 
         { [...Array(maxNumber)].map((undef, i) => {
           const distanceFromCurrent = (i+1) - currentNumber
@@ -66,11 +72,9 @@ const MechNumberBar = ({
               key={`${label}-tick-${i}`}
               disabled={i+1 === currentNumber}
             >
-              <div className='asset dot' />
+              <div className={`asset ${dotIcon}`} />
               <div className='asset burn' />
-              <div className='number'>
-                {showNumber}
-              </div>
+              <div className='number'>{showNumber}</div>
             </button>
           )
         })}

@@ -50,6 +50,8 @@ const MechCentralDiamond = ({
 
           <MechNumberBar
             extraClass='condensed structure'
+            dotIcon='structure'
+            zeroIcon='x'
             maxNumber={4}
             currentNumber={currentStructure}
             setCurrentNumber={setCurrentStructure}
@@ -63,6 +65,8 @@ const MechCentralDiamond = ({
 
           <MechNumberBar
             extraClass='condensed stress'
+            dotIcon='reactor'
+            zeroIcon='x'
             maxNumber={4}
             currentNumber={currentStress}
             setCurrentNumber={setCurrentStress}

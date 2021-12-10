@@ -47,7 +47,7 @@
       @include max_width {
         button.tick {
           min-width: 8px;
-          
+
           &.zero { width: 90px; }
           &:nth-child(28) { padding-right: 90px; }
         }
@@ -149,7 +149,11 @@
           background-color: $grey_very_dark;
           cursor: auto;
         }
-        &.filled:hover { background-color: $crushed_velvet; }
+        &.filled:hover {
+          background-color: $crushed_velvet;
+        }
+
+        .number { color: white; }
       }
     }
 

@@ -2,6 +2,13 @@
 
 $grid_count: 8;
 
+@mixin big_icons {
+  .ticks-container button.tick .asset {
+    width: 20px; height: 20px;
+    transform: rotate(45deg);
+  }
+}
+
 .MechCentralDiamond {
 
   width: 220px;
@@ -78,12 +85,14 @@ $grid_count: 8;
 
       .MechNumberBar {
         &.structure {
+          @include big_icons;
           grid-column: 1 / span $grid_count;
           grid-row: 1 / span 1;
           justify-content: flex-start;
         }
 
         &.stress {
+          @include big_icons;
           grid-column: 1 / span $grid_count;
           grid-row: $grid_count / span 1;
           justify-content: flex-end;
@@ -111,7 +120,7 @@ $grid_count: 8;
 
         .label {
           font-size: 18px;
-          margin: 8px 0;
+          margin: 6px 0;
         }
 
         .number {
