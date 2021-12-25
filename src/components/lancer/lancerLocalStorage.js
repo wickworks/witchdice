@@ -44,7 +44,7 @@ export const saveMechStateToLocalStorage = (mechState, activePilot, activeMech) 
 
   if (mechIndex >= 0) {
     Object.keys(mechState).forEach(statKey => {
-      pilotData.mechs[mechIndex][statKey] = mechState[statKey]
+      pilotData.mechs[mechIndex][statKey] = parseInt(mechState[statKey])
     });
     savePilotData(pilotData)
   } else {

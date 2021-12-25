@@ -6,10 +6,6 @@ import MechNumberIcon from './MechNumberIcon.jsx';
 import MechSingleStat from './MechSingleStat.jsx';
 
 import {
-  saveMechStateToLocalStorage,
-} from '../lancerLocalStorage.js';
-
-import {
   OVERCHARGE_SEQUENCE,
 } from '../lancerData.js';
 
@@ -32,6 +28,7 @@ const MechState = ({
   activeMech,
   activePilot,
   frameData,
+  updateMechState,
 }) => {
   const [currentOvershield, setCurrentOvershield] = useState(activeMech.overshield);
   const [currentHP, setCurrentHP] = useState(activeMech.current_hp);
@@ -41,12 +38,29 @@ const MechState = ({
   const [currentCore, setCurrentCore] = useState(!!activeMech.current_core_energy);
   const [currentRepairs, setCurrentRepairs] = useState(activeMech.current_repairs);
 
-  const [currentStructure, setCurrentStructure] = useState(4);
-  const [currentStress, setCurrentStress] = useState(4);
+  const [currentStructure, setCurrentStructure] = useState(activeMech.current_structure);
+  const [currentStress, setCurrentStress] = useState(activeMech.current_stress);
 
-  // if we change anything, save it to local storage
+  function initializeCurrentStatus() {
+    setCurrentOvershield(parseInt(activeMech.overshield));
+    setCurrentHP(parseInt(activeMech.current_hp));
+    setCurrentHeat(parseInt(activeMech.current_heat));
+    setCurrentBurn(parseInt(activeMech.burn));
+    setCurrentOverchargeIndex(parseInt(activeMech.current_overcharge));
+    setCurrentCore(!!activeMech.current_core_energy);
+    setCurrentRepairs(parseInt(activeMech.current_repairs));
+    setCurrentStructure(parseInt(activeMech.current_structure));
+    setCurrentStress(parseInt(activeMech.current_stress));
+  }
+
+  // if we change mechs, reset state to that mech
   useEffect(() => {
-    saveMechStateToLocalStorage({
+    initializeCurrentStatus()
+  }, [activeMech.id, activePilot.id]);
+
+  // if we change anything, save it to the pilot array & local storage
+  useEffect(() => {
+    updateMechState({
       overshield: currentOvershield,
       current_hp: currentHP,
       current_heat: currentHeat,
@@ -56,7 +70,7 @@ const MechState = ({
       current_repairs: currentRepairs,
       current_stress: currentStructure,
       current_structure: currentStress,
-    }, activePilot, activeMech)
+    })
   }, [currentOvershield, currentHP, currentHeat, currentBurn, currentOverchargeIndex, currentCore, currentRepairs, currentStructure, currentStress]);
 
 

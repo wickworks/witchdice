@@ -83,6 +83,7 @@ function getMountsFromLoadout(loadout) {
 const MechSheet = ({
   activeMech,
   activePilot,
+  updateMechState,
 
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
@@ -167,6 +168,7 @@ const MechSheet = ({
           activeMech={activeMech}
           activePilot={activePilot}
           frameData={frameData}
+          updateMechState={updateMechState}
         />
 
         <MechanicsList

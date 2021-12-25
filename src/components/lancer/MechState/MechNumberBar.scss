@@ -16,8 +16,11 @@
 
   @include max_width {
 
+    &.left-to-right { border-right: 4px solid $rust_dark; }
+
     &.right-to-left {
       margin-left: auto;
+      border-left: 4px solid $rust_dark;
 
       .ticks-container { flex-direction: row-reverse; }
     }

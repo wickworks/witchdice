@@ -18,6 +18,7 @@ import {
   savePilotData,
   loadPilotData,
   deletePilotData,
+  saveMechStateToLocalStorage,
   PILOT_PREFIX,
   LCP_PREFIX,
   STORAGE_ID_LENGTH,
@@ -148,7 +149,7 @@ const MainLancer = ({
     deletePilotData(activePilot)
     localStorage.setItem("lancer-selected-character", '');
 
-    // remove from the current list of crafter entries
+    // remove from the current list of pilot entries
     let pilotIndex = allPilotEntries.findIndex(entry => entry.id === activePilot.id);
     if (pilotIndex >= 0) {
       let newData = deepCopy(allPilotEntries)
@@ -160,6 +161,31 @@ const MainLancer = ({
     setActiveMechID(null);
   }
 
+
+  const updateMechState = (newMechData) => {
+    let newPilotData = deepCopy(activePilot);
+    const pilotIndex = allPilotEntries.findIndex(entry => entry.id === activePilot.id);
+    const mechIndex = activePilot.mechs.findIndex(mech => mech.id == activeMechID)
+
+    if (mechIndex >= 0 && pilotIndex >= 0) {
+      Object.keys(newMechData).forEach(statKey => {
+        newPilotData.mechs[mechIndex][statKey] = parseInt(newMechData[statKey])
+      });
+
+      // update it in localstorage
+      savePilotData(newPilotData)
+
+      // update it in the list of pilot entries
+      if (pilotIndex >= 0) {
+        let newEntryData = [...allPilotEntries] // doesn't need to be a deep copy
+        newEntryData[pilotIndex] = newPilotData
+        setAllPilotEntries(newEntryData);
+      }
+
+    } else {
+      console.error('Could not find mech or pilot to save it!', newMechData)
+    }
+  }
 
   // =============== LCP FILES ==================
   async function parseLcpFile(e) {
@@ -316,6 +342,7 @@ const MainLancer = ({
         <MechSheet
           activeMech={activeMech}
           activePilot={activePilot}
+          updateMechState={updateMechState}
 
           setPartyLastAttackKey={setPartyLastAttackKey}
           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
