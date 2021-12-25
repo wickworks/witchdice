@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
 
+  border-bottom: 4px solid $rust_dark;
   width: 100%;
   box-sizing: border-box;
 
@@ -14,6 +15,7 @@
   }
 
   @include max_width {
+
     &.right-to-left {
       margin-left: auto;
 
@@ -104,12 +106,13 @@
         .asset { filter: invert(88%) sepia(34%) saturate(340%) hue-rotate(335deg) brightness(92%) contrast(89%); }
 
         &.overshield {
-          background-color: white;
-          &:hover { background-color: $periwinkle; }
+          background-color: $periwinkle;
+          &:hover { background-color: $periwinkle_dark; }
           .number { color: white; }
 
           // black to $periwinkle
-          .asset { filter: invert(40%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%); }
+          // .asset { filter: invert(40%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%); }
+          .asset { filter: invert(100%); }
         }
       }
 
@@ -159,6 +162,7 @@
 
     .armor-container {
       height: 40px;
+      padding: 0 2px;
       background-color: $grey_very_dark;
       display: flex;
       justify-content: center;

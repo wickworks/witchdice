@@ -110,24 +110,31 @@
     &:hover { background-color: $grey_light; }
 
     button:hover {
-      background-color: $periwinkle;
+      background-color: white;
 
-      // black to white
-      .asset { filter: invert(100%); }
+      // black to $periwinkle
+      .asset { filter: invert(40%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%); }
     }
 
     &.active {
-      background-color: white;
+      // background-color: white;
+      background-color: $periwinkle;
 
       button:not(:hover) {
+        .asset { filter: invert(100%); }
+
+
         // black to $periwinkle
-        .asset { filter: invert(40%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%); }
+        // .asset { filter: invert(40%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%); }
       }
 
       input[type='number'] {
         font-weight: bold;
-        color: $periwinkle;
-        border-color: $periwinkle;
+        // color: $periwinkle;
+        // border-color: $periwinkle;
+
+        color: white;
+        border-color: white;
       }
     }
   }
