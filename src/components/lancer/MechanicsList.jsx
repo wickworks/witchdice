@@ -45,7 +45,7 @@ const MechanicsList = ({
               className="entry"
               onMouseEnter={() => setHoveringIndex(i)}
               onMouseLeave={() => setHoveringIndex(null)}
-              key={dataID}
+              key={`${dataID}-${i}`}
             >
               <span className="bracket">[</span>
               <span className="name">{name}</span>
