@@ -31,7 +31,6 @@ function App() {
               </div>
             </Route>
 
-            {/*
             <Route path="/lancer">
               <div className='lancer banner-container-container'>
                 <a
@@ -44,7 +43,6 @@ function App() {
                 </a>
               </div>
             </Route>
-            */}
 
             <div className='witch-dice banner-container-container'>
               <div className='banner-container'>
