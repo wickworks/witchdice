@@ -55,8 +55,8 @@
       .overshield-and-burn {
         display: flex;
         justify-content: flex-end;
-        margin-top: 4px;
-        margin-right: 102px;
+        border-top: 4px solid $rust_dark;
+        margin-right: 98px;
 
         @include below_max_width {
           @include mobile_double_button_divider;
@@ -88,8 +88,8 @@
 
       .overcharge-and-core {
         display: flex;
-        margin-top: 4px;
-        margin-left: 102px;
+        border-top: 4px solid $rust_dark;
+        margin-left: 98px;
 
         @include below_max_width {
           @include mobile_double_button_divider;

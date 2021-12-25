@@ -22,6 +22,8 @@ const BaseDamageBar = ({
 
   let weaponTags = weaponProfile.tags ? weaponProfile.tags.map(tagID => getTagName(tagID)) : []
 
+  console.log('weaponProfile', weaponProfile);
+
   return (
     <button
       className={`BaseDamageBar ${isActive ? 'active' : ''}`}
@@ -29,19 +31,21 @@ const BaseDamageBar = ({
       disabled={!isClickable}
     >
       <div className="damage-and-range">
-        <div className="base-damage">
-          <div className='bracket'>{'[ '}</div>
-          { weaponProfile.damage.map((damage, i) =>
-            <DamageDice
-              damage={damage}
-              manualBaseDamage={manualBaseDamage}
-              setManualBaseDamage={setManualBaseDamage}
-              manualBaseDamageDisabled={manualBaseDamageDisabled}
-              key={`damage-${i}`}
-            />
-          )}
-          <div className='bracket'>{' ]'}</div>
-        </div>
+        { weaponProfile.damage &&
+          <div className="base-damage">
+            <div className='bracket'>{'[ '}</div>
+            { weaponProfile.damage.map((damage, i) =>
+              <DamageDice
+                damage={damage}
+                manualBaseDamage={manualBaseDamage}
+                setManualBaseDamage={setManualBaseDamage}
+                manualBaseDamageDisabled={manualBaseDamageDisabled}
+                key={`damage-${i}`}
+              />
+            )}
+            <div className='bracket'>{' ]'}</div>
+          </div>
+        }
 
         <div className="base-range">
           <div className='bracket'>{'[ '}</div>
