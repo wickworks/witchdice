@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import WeaponRoller from './WeaponRoller/WeaponRoller.jsx';
 import MechState from './MechState/MechState.jsx';
 import MechanicsList from './MechanicsList.jsx';
+import MechTraits from './MechTraits.jsx';
 import {
   getGrit,
   findWeaponData,
@@ -164,12 +165,7 @@ const MechSheet = ({
           <div className="frame">{frameData.name.toLowerCase()}</div>
         </div>
 
-        <MechState
-          activeMech={activeMech}
-          activePilot={activePilot}
-          frameData={frameData}
-          updateMechState={updateMechState}
-        />
+        { frameData.traits && <MechTraits traitList={frameData.traits} /> }
 
         <MechanicsList
           label={`Systems (${getMechSP(activeMech, activePilot, frameData)} SP)`}
@@ -180,6 +176,13 @@ const MechSheet = ({
           mechanicIDList={loadout.systems}
           containerClass={'systems'}
           namesToLowercase={false}
+        />
+
+        <MechState
+          activeMech={activeMech}
+          activePilot={activePilot}
+          frameData={frameData}
+          updateMechState={updateMechState}
         />
 
         <div className="mounts-label">Mounts</div>
@@ -288,8 +291,6 @@ const MechWeapon = ({
     </button>
   )
 }
-
-
 
 
 export default MechSheet;
