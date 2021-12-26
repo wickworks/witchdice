@@ -84,6 +84,9 @@ const MechState = ({
 
   const overchargeDie = OVERCHARGE_SEQUENCE[currentOverchargeIndex]
 
+  const maxHeat = getMechMaxHeatCap(activeMech, activePilot, frameData)
+  const isInDangerZone = parseInt(currentHeat) >= Math.ceil(parseInt(maxHeat) * .5)
+
   const handleHPBarClick = (newValue) => {
     var change = parseInt(newValue) - overshieldPlusHP
     changeHealth(change)
@@ -265,6 +268,12 @@ const MechState = ({
         <div className='engineering-container'>
 
           <div className='heat-label'>
+
+            <div className='danger-zone-container'>
+              { isInDangerZone && '!! Danger Zone !!' }
+            </div>
+
+
             <MechNumberLabel
               label="Heat"
               maxNumber={getMechMaxHeatCap(activeMech, activePilot, frameData)}
