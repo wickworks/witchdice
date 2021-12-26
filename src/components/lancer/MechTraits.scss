@@ -1,6 +1,6 @@
 @import '../../fonts';
 
-.MechTraits {
+.MechTraits, .MechCoreSystem {
   margin-top: 26px;
 
   .label {
@@ -18,23 +18,29 @@
     @include below_max_width {
       grid-template-columns: 1fr;
     }
-
-		.trait {
-      padding: 0 0 12px;
-
-      .name {
-        background-color: $rust;
-        color: white;
-        padding: 4px 6px;
-      }
-
-      .description {
-        // @include text_monospace;
-        padding: 2px 6px;
-
-      }
-		}
   }
 
+  .trait {
+    padding: 0 0 12px;
 
+    .name {
+      background-color: $rust;
+      color: white;
+      padding: 6px 6px;
+
+      &.title-case { text-transform: capitalize; }
+
+      .detail {
+        @include text_monospace;
+        font-size: 12px;
+        margin-top: 4px;
+      }
+    }
+
+    .description {
+      padding: 2px 6px;
+
+      ul { margin: 4px 0; }
+    }
+  }
 }

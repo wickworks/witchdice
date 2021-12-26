@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import WeaponRoller from './WeaponRoller/WeaponRoller.jsx';
 import MechState from './MechState/MechState.jsx';
 import MechanicsList from './MechanicsList.jsx';
-import MechTraits from './MechTraits.jsx';
+import { MechTraits, MechCoreSystem } from './MechTraits.jsx';
 import {
   getGrit,
   findWeaponData,
@@ -165,7 +165,9 @@ const MechSheet = ({
           <div className="frame">{frameData.name.toLowerCase()}</div>
         </div>
 
-        { frameData.traits && <MechTraits traitList={frameData.traits} /> }
+        <MechTraits traitList={frameData.traits} />
+
+        <MechCoreSystem coreSystem={frameData.core_system} />
 
         <MechanicsList
           label={`Systems (${getMechSP(activeMech, activePilot, frameData)} SP)`}
