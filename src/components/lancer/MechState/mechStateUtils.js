@@ -76,6 +76,8 @@ export function getMechEDef(activeMech, activePilot, frameData) {
 export function getMechSaveTarget(activeMech, activePilot, frameData) {
   var total = frameData.stats.save
 
+  total += getGrit(activePilot)
+
   // total += getBonusFromSystems('save', activeMech.loadouts[0])
   total += getBonusFromCoreBonuses('save', activePilot.core_bonuses)
 
