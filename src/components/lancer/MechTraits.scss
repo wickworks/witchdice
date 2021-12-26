@@ -3,6 +3,13 @@
 .MechTraits {
   margin-top: 26px;
 
+  .label {
+    @include text_monospace;
+    font-size: 20px;
+    color: $grey_mid;
+    margin: 10px 0 4px;
+  }
+
   .traits-container {
     display: grid;
     grid-template-columns: 1fr 1fr;

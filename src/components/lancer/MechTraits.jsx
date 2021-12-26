@@ -7,6 +7,8 @@ const MechTraits = ({
 }) => {
   return (
 		<div className='MechTraits'>
+			<div className="label">Traits</div>
+
     	<div className='traits-container'>
 				{ traitList.map((trait, i) => {
 					return (
