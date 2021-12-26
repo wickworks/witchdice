@@ -78,28 +78,30 @@ function rollToHit(flatBonus, accuracyMod) {
 // Fills out the damage rolls for the attack data.
 function rollDamage(weaponData, isOverkill, manualBaseDamage) {
   var damageData = {};
-
   damageData.rolls = [];
-  weaponData.damage.forEach(damageValAndType => {
-    // DAMAGE RANGE; use manually-entered value
-    if (isDamageRange(damageValAndType.val)) {
-      damageData.rolls.push({
-        rollPool: [manualBaseDamage],
-        critPool: [],
-        keep: 1,
-        dieType: damageValAndType.val,
-        type: damageValAndType.type,
-        id: weaponData.id
-      })
 
-    // NORMAL damage roll
-    } else {
-      const damageDice = processDiceString(damageValAndType.val);
-      if (damageDice.count > 0 || damageDice.bonus > 0) {
-        damageData.rolls.push(...produceRollPools(damageDice, damageValAndType.type, isOverkill, weaponData.id))
+  if (weaponData.damage) {
+    weaponData.damage.forEach(damageValAndType => {
+      // DAMAGE RANGE; use manually-entered value
+      if (isDamageRange(damageValAndType.val)) {
+        damageData.rolls.push({
+          rollPool: [manualBaseDamage],
+          critPool: [],
+          keep: 1,
+          dieType: damageValAndType.val,
+          type: damageValAndType.type,
+          id: weaponData.id
+        })
+
+      // NORMAL damage roll
+      } else {
+        const damageDice = processDiceString(damageValAndType.val);
+        if (damageDice.count > 0 || damageDice.bonus > 0) {
+          damageData.rolls.push(...produceRollPools(damageDice, damageValAndType.type, isOverkill, weaponData.id))
+        }
       }
-    }
-  });
+    });
+  }
 
   return damageData;
 }
