@@ -12,6 +12,7 @@
 
   .traits-container {
     display: grid;
+    grid-auto-flow: dense;
     grid-template-columns: 1fr 1fr;
     column-gap: 20px;
 
@@ -22,6 +23,8 @@
 
   .trait {
     padding: 0 0 12px;
+
+    &.tall { grid-row: span 2; }
 
     .name {
       background-color: $rust;

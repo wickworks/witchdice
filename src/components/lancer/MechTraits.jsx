@@ -13,7 +13,7 @@ const MechTraits = ({
     	<div className='traits-container'>
 				{ traitList.map((trait, i) => {
 					return (
-						<div className='trait'>
+						<div className={`trait ${trait.description.length > 160 ? 'tall' : ''}`}>
 							<div className='name title-case'>
 								{trait.name.toLowerCase()}
 							</div>
