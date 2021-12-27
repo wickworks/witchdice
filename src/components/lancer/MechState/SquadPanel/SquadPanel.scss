@@ -1,0 +1,39 @@
+@import '../../../../fonts';
+
+.SquadPanel {
+	@include standard_side_margin;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  align-items: center;
+
+  .squad-container {
+    @include shadow;
+    @include parchment_background;
+    @include nouveau_border("nouveau_lancer_mech.svg");
+
+		position: relative;
+    box-sizing: border-box;
+    padding: 30px 38px;
+    width: 100%;
+    max-width: 800px;
+
+    @include below_max_width {
+      padding: 30px 26px;
+    }
+
+		.mechs-container {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around;
+			// display: grid;
+			// grid-template-columns: 1fr 1fr;
+			//
+			// @include constricted {
+			// 	grid-template-columns: 1fr;
+			// }
+		}
+	}
+}

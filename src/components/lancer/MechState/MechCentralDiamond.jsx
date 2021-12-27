@@ -42,11 +42,15 @@ const MechCentralDiamond = ({
   return (
     <div className="MechCentralDiamond">
       <div className='relative-container'>
-        { activeMech.cloud_portrait ?
-          <img className='portrait' src={activeMech.cloud_portrait} alt={'mech portrait'} />
-        :
-          <div className={`portrait asset ${frameData.id}`} />
-        }
+
+
+        <div className='portrait-container'>
+          { activeMech.cloud_portrait ?
+            <img className='portrait' src={activeMech.cloud_portrait} alt={'mech portrait'} />
+          :
+            <div className={`portrait asset ${frameData.id}`} />
+          }
+        </div>
 
         <div className='buttons-container'>
 

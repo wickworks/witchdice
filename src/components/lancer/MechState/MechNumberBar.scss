@@ -27,6 +27,8 @@
   }
 
   &.condensed {
+    border: none;
+
     .ticks-container {
       align-items: flex-start;
       height: 100%;

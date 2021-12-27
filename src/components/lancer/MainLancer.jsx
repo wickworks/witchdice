@@ -3,6 +3,7 @@ import { FileList, PlainList } from './FileAndPlainList.jsx';
 import EntryList from '../shared/EntryList.jsx';
 import PilotDossier from './PilotDossier.jsx';
 import MechSheet from './MechSheet.jsx';
+import SquadPanel from './MechState/SquadPanel/SquadPanel.jsx';
 import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 
 import PromisifyFileReader from 'promisify-file-reader'
@@ -338,7 +339,7 @@ const MainLancer = ({
         </>
       }
 
-      { activeMech &&
+      { activeMech && <>
         <MechSheet
           activeMech={activeMech}
           activePilot={activePilot}
@@ -348,7 +349,12 @@ const MainLancer = ({
           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
           setRollSummaryData={setRollSummaryData}
         />
-      }
+
+        <SquadPanel
+          activeMech={activeMech}
+          activePilot={activePilot}
+        />
+      </>}
     </div>
   )
 }

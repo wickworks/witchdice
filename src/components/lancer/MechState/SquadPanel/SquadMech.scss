@@ -1,0 +1,159 @@
+@import '../../../../fonts';
+
+$diamond_size: 140px;
+$structure_height: 20px;
+$border_width: 2px;
+
+.SquadMech {
+	// @include text_monospace;
+
+	min-width: 320px;
+
+	transform: rotate(-45deg);
+	display: grid;
+	grid-template-columns: auto $diamond_size auto;
+	grid-auto-rows: auto $structure_height $diamond_size $structure_height auto;
+
+	column-gap: 4px;
+
+	.readout {
+		color: $rust;
+		font-size: 30px;
+		margin: 2px 0;
+
+		&.hp {
+			grid-row: 1;
+			grid-column: 2;
+		}
+
+		&.heat {
+			grid-row: 5;
+			grid-column: 2;
+		}
+	}
+
+	.tick-container {
+		display: flex;
+		border: $border_width solid $rust_dark;
+		background-color: $rust;
+
+		&.structure {
+			grid-row: 2;
+			grid-column: 2;
+		}
+
+		&.stress {
+			grid-row: 4;
+			grid-column: 2;
+		}
+
+		.tick {
+			width: calc(140px * .25);
+			background-color: $rust;
+			// padding: 1px 0;
+			display: flex;
+			align-items: center;
+
+			.asset {
+				width: 16px; height: 16px;
+				margin: auto;
+		    transform: rotate(45deg);
+
+				// black to $parchment_dark
+				filter: invert(88%) sepia(34%) saturate(340%) hue-rotate(335deg) brightness(92%) contrast(89%);
+			}
+		}
+	}
+
+	.mech-and-pilot-portraits {
+		grid-row: 3;
+		grid-column: 2;
+
+		width: $diamond_size;
+		height: $diamond_size;
+
+		display: grid;
+		grid-template-columns: 50% 50%;
+		grid-auto-rows: 50% 50%;
+
+		background-color: $parchment_dark;
+		border-left: $border_width solid $rust_dark;
+		border-right: $border_width solid $rust_dark;
+		box-sizing: border-box;
+
+		.mech-portrait-container {
+			grid-row: 1 / span 2;
+			grid-column: 1 / span 2;
+
+			box-sizing: border-box;
+			width: 100%;
+			height: 100%;
+			clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+
+			.mech-portrait {
+				transform: rotate(45deg) scale(144%);
+
+				box-sizing: border-box;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				background-size: cover;
+				background-repeat: no-repeat;
+			}
+		}
+
+		.pilot-portrait-border {
+			grid-row: 2;
+			grid-column: 1;
+			z-index: 10;
+
+			box-sizing: border-box;
+			width: 100%;
+			height: 100%;
+
+			border-top: $border_width solid $rust_dark;
+			border-right: $border_width solid $rust_dark;
+			background-color: $rust_dark;
+
+			.pilot-portrait-container {
+				box-sizing: border-box;
+				width: 100%;
+				height: 100%;
+
+				clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+
+				.pilot-portrait {
+					transform: rotate(45deg) scale(144%);
+
+					box-sizing: border-box;
+					width: 100%;
+					height: 100%;
+					object-fit: contain;
+					background-size: contain;
+					background-repeat: no-repeat;
+				}
+			}
+		}
+	}
+
+	.statuses {
+		@include text_monospace;
+
+		font-size: 14px;
+		color: $rust;
+		writing-mode: vertical-rl;
+
+		&.internal {
+			grid-row: 2 / span 3;
+			grid-column: 3;
+			margin-right: auto;
+		}
+
+		&.external {
+			grid-row: 2 / span 3;
+			grid-column: 1;
+			margin-left: auto;
+		}
+	}
+
+}
