@@ -36,16 +36,16 @@ function createSquadMech(mechData, pilotData) {
 	// TODO: should sanitize this on the receiving end
 	squadMech.portraitPilot = pilotData.cloud_portrait
 
-	let statuses = []
-	if (mechData.burn) statuses.push(`Burn ${mechData.burn}`)
-	if (mechData.overshield) statuses.push(`Overshield ${mechData.overshield}`)
+	let statuses = ['Systems Destroyed']
 	if (!mechData.current_core_energy) statuses.push('CP exhausted')
 	if (mechData.current_overcharge > 0) statuses.push(`Overcharge ${OVERCHARGE_SEQUENCE[mechData.current_overcharge]}`)
+  // Destroyed systems?
 	squadMech.statusInternal = statuses.join(', ')
 
-	statuses = []
-	// Exposed, etc.
-	// Destroyed systems?
+	statuses = ['Jammed, Impaired, Burn 2, Overshield 2']
+  if (mechData.burn) statuses.push(`Burn ${mechData.burn}`)
+	if (mechData.overshield) statuses.push(`Overshield ${mechData.overshield}`)
+  // Exposed, etc.
 	squadMech.statusExternal = statuses.join(', ')
 
 	// console.log('squad mech', squadMech);

@@ -16,24 +16,36 @@
 
 		position: relative;
     box-sizing: border-box;
-    padding: 30px 38px;
+    padding: 60px 38px;
     width: 100%;
     max-width: 800px;
 
     @include below_max_width {
-      padding: 30px 26px;
+      padding: 60px 26px;
     }
 
 		.mechs-container {
+			// position: relative;
+			// background-color: salmon;
 			display: flex;
-			flex-wrap: wrap;
-			justify-content: space-around;
-			// display: grid;
-			// grid-template-columns: 1fr 1fr;
-			//
-			// @include constricted {
-			// 	grid-template-columns: 1fr;
-			// }
+			flex-direction: column;
+			justify-content: center;
+
+			width: 450px;
+			margin: auto;
+
+			.SquadMech {
+				&:not(:first-child) { margin-top: -110px; }
+				&:nth-child(odd) { margin-left: -48px; }
+				&:nth-child(even) { margin-left: auto; margin-right: -48px; }
+			}
+
+			@include constricted {
+				width: unset;
+				margin-left: -80px;
+
+				.SquadMech { margin-top: 0 !important; } // either this or add more useless identifiers
+			}
 
 			button.add-mech {
 				display: flex;
