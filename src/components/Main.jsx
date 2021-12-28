@@ -360,6 +360,8 @@ const Main = ({
               setPartyLastAttackKey={setPartyLastAttackKey}
               setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
               setRollSummaryData={setRollSummaryData}
+              partyConnected={partyConnected}
+              partyRoom={partyRoom}
             />
             {renderDicebag()}
           </Suspense>

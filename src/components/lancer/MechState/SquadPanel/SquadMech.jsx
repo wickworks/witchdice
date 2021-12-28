@@ -3,16 +3,15 @@ import { findFrameData } from '../../lancerData.js';
 import './SquadMech.scss';
 
 const SquadMech = ({
-	pilotData,
-	mechData
+	squadMech,
 }) => {
 
 	function renderMechPortrait() {
-		if (mechData.cloud_portrait) {
-			return <img className='mech-portrait' src={mechData.cloud_portrait} alt={'mech portrait'} />
+		if (squadMech.portraitMech.startsWith('mf_')) {
+			return <div className={`mech-portrait asset ${squadMech.portraitMech}`} />
 		} else {
-			const frameData = findFrameData(mechData.frame);
-			return <div className={`mech-portrait asset ${frameData.id}`} />
+			// TODO: SANITIZE THIS INSTEAD OF PUTTING USER-DEFINED TEXT INTO SRC
+			return <img className='mech-portrait' src={squadMech.portraitMech} alt={'mech portrait'} />
 		}
 	}
 
@@ -20,13 +19,13 @@ const SquadMech = ({
     <div className='SquadMech' >
 
 			<div className='readout hp'>
-				HP 12/12
+				HP {squadMech.hpCurrent}/{squadMech.hpMax}
 			</div>
 
 			<div className='tick-container structure'>
-				{ [...Array(4)].map((undef, i) => {
+				{ [...Array(squadMech.structure)].map((undef, i) => {
 					return (
-						<div className='tick'>
+						<div className='tick' key={i}>
 							<div className='asset structure' />
 						</div>
 					)
@@ -39,19 +38,19 @@ const SquadMech = ({
 					{ renderMechPortrait() }
 				</div>
 
-				{ pilotData.cloud_portrait &&
+				{ squadMech.portraitPilot &&
 					<div className='pilot-portrait-border'>
 						<div className='pilot-portrait-container'>
-							<img className="pilot-portrait" src={pilotData.cloud_portrait} alt={'pilot portrait'} />
+							<img className="pilot-portrait" src={squadMech.portraitPilot} alt={'pilot portrait'} />
 						</div>
 					</div>
 				}
 			</div>
 
 			<div className='tick-container stress'>
-				{ [...Array(4)].map((undef, i) => {
+				{ [...Array(squadMech.stress)].map((undef, i) => {
 					return (
-						<div className='tick'>
+						<div className='tick' key={i}>
 							<div className='asset reactor' />
 						</div>
 					)
@@ -59,15 +58,15 @@ const SquadMech = ({
 			</div>
 
 			<div className='readout heat'>
-				Heat 5/5
+				Heat {squadMech.heatCurrent}/{squadMech.heatMax}
 			</div>
 
 			<div className='statuses internal'>
-				Burn 2, CP Exhausted
+				{squadMech.statusInternal}
 			</div>
 
 			<div className='statuses external'>
-				Jammed, Impaired
+				{squadMech.statusExternal}
 			</div>
     </div>
   );

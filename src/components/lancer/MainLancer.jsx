@@ -11,7 +11,6 @@ import { parseContentPack } from './contentPackParser.js';
 
 import compendiaJonesJson from './pilot_data/YOURGRACE.json';
 
-
 import {
   saveLcpData,
   loadLcpData,
@@ -30,9 +29,6 @@ import { getIDFromStorageName } from '../../localstorage.js';
 
 import './MainLancer.scss';
 
-
-
-
 const coreLcpEntry = {
   name: 'Core Data',
   id: 'core'
@@ -42,6 +38,9 @@ const MainLancer = ({
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
   setRollSummaryData,
+
+  partyConnected,
+  partyRoom,
 }) => {
   const [allLcpEntries, setAllLcpEntries] = useState([coreLcpEntry]);
   const [activeLcpID, setActiveLcpID] = useState(coreLcpEntry.id);
@@ -339,7 +338,7 @@ const MainLancer = ({
         </>
       }
 
-      { activeMech && <>
+      { activeMech &&
         <MechSheet
           activeMech={activeMech}
           activePilot={activePilot}
@@ -349,12 +348,17 @@ const MainLancer = ({
           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
           setRollSummaryData={setRollSummaryData}
         />
+      }
 
+      { partyConnected &&
         <SquadPanel
           activeMech={activeMech}
           activePilot={activePilot}
+
+          partyConnected={partyConnected}
+          partyRoom={partyRoom}
         />
-      </>}
+      }
     </div>
   )
 }

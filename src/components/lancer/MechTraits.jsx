@@ -13,7 +13,7 @@ const MechTraits = ({
     	<div className='traits-container'>
 				{ traitList.map((trait, i) => {
 					return (
-						<div className={`trait ${trait.description.length > 160 ? 'tall' : ''}`}>
+						<div className={`trait ${trait.description.length > 160 ? 'tall' : ''}`} key={trait.name}>
 							<div className='name title-case'>
 								{trait.name.toLowerCase()}
 							</div>
@@ -45,7 +45,7 @@ const MechCoreSystem = ({
 
 			{ coreSystem.passive_actions && coreSystem.passive_actions.map((passiveAction, i) => {
 				return (
-					<div className='trait'>
+					<div className='trait' key={passiveAction.name}>
 						<div className='name'>
 							{passiveAction.name}
 							<div className='detail'>{passiveAction.activation}</div>

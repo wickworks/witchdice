@@ -76,7 +76,7 @@ $border_width: 2px;
 		grid-template-columns: 50% 50%;
 		grid-auto-rows: 50% 50%;
 
-		background-color: $parchment_dark;
+		background-color: $parchment;
 		border-left: $border_width solid $rust_dark;
 		border-right: $border_width solid $rust_dark;
 		box-sizing: border-box;
@@ -91,13 +91,13 @@ $border_width: 2px;
 			clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
 
 			.mech-portrait {
-				transform: rotate(45deg) scale(144%);
+				transform: rotate(45deg) scale(120%);
 
 				box-sizing: border-box;
 				width: 100%;
 				height: 100%;
-				object-fit: cover;
-				background-size: cover;
+				object-fit: contain;
+				background-size: contain;
 				background-repeat: no-repeat;
 			}
 		}

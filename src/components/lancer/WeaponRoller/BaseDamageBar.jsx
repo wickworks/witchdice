@@ -22,8 +22,6 @@ const BaseDamageBar = ({
 
   let weaponTags = weaponProfile.tags ? weaponProfile.tags.map(tagID => getTagName(tagID)) : []
 
-  console.log('weaponProfile', weaponProfile);
-
   return (
     <button
       className={`BaseDamageBar ${isActive ? 'active' : ''}`}
