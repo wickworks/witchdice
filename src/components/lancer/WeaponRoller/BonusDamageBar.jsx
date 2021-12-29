@@ -181,7 +181,7 @@ const BonusSourceButton = ({
         </div>
         <div className='label'>{bonusSource.name.toLowerCase()}</div>
       </button>
-      {isHovering &&
+      {isHovering && bonusSource.trait.name &&
         <Tooltip
           title={bonusSource.name}
           content={bonusSource.trait.effect || bonusSource.trait.description}

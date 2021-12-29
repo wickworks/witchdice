@@ -17,7 +17,7 @@ const blankTrait = {
   isPassive: false,
 }
 
-function newSource(name, id, diceString, damageType = '', traitData = null) {
+function newSource(name, id, diceString, damageType = '', traitData = {} ) {
   return {
     name: name,
     id: id,
