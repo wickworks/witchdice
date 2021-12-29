@@ -21,7 +21,8 @@ const SquadMech = ({
 			return <img className="pilot-portrait" src={squadMech.portraitPilot} alt={'pilot portrait'} />
 		} else {
 			// TODO: BETTER DEFAULT PILOT PORTRAIT
-			return <div className='pilot-portrait asset default_pilot' />
+			// return <div className='pilot-portrait asset default_pilot' />
+			return <div className='empty-portrait asset ssc-watermark' />
 		}
 	}
 

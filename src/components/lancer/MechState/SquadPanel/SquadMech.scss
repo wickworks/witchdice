@@ -1,7 +1,7 @@
 @import '../../../../fonts';
 
 $diamond_size: 210px;
-$border_external: 8px;
+$border_external: 4px;
 $border_internal: 4px;
 $icon_size: 15px;
 
@@ -80,8 +80,8 @@ $icon_size: 15px;
 			width: $diamond_size;
 			height: $diamond_size;
 
-			background-color: $grey_mid_light;
-			border: $border_external solid $grey_mid_lighter;
+			background-color: $rust_dark;
+			border: $border_external solid $rust_dark;
 			padding-right: $border_internal;
 			padding-bottom: $border_internal;
 
@@ -92,34 +92,53 @@ $icon_size: 15px;
 				box-sizing: border-box;
 				width: 100%;
 				height: 100%;
-				background-color: $grey_light;
+				background-color: $parchment_dark;
 
 				.mech-portrait, .pilot-portrait {
+					transform: rotate(-45deg) scale(140%);
+
 					box-sizing: border-box;
 					width: 100%;
 					height: 100%;
-					background-repeat: no-repeat;
-				}
 
-				.mech-portrait {
-					transform: rotate(-45deg) scale(150%);
-					object-fit: contain;
-					background-size: contain;
-				}
-
-				.pilot-portrait {
-					transform: rotate(-45deg) scale(140%);
 					object-fit: cover;
 					background-size: cover;
 					background-position: top;
 					object-position: top;
+					background-repeat: no-repeat;
+				}
+
+				.mech-portrait {
+					// transform: rotate(-45deg) scale(140%);
+					// object-fit: cover;
+					// background-size: cover;
+					// background-position: top;
+					// object-position: top;
+					background-color: $grey_very_light;
+				}
+
+				// .pilot-portrait {
+				// 	transform: rotate(-45deg) scale(140%);
+				// 	object-fit: cover;
+				// 	background-size: cover;
+				// 	background-position: top;
+				// 	object-position: top;
+				// }
+
+				.empty-portrait {
+					transform: rotate(-45deg) scale(140%);
+					background-size: 50px;
+					width: 100%;
+					height: 100%;
+					// filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+					// filter: brightness(70%);
 				}
 			}
 
 			.SmallStatDiamond {
 				@include text_monospace;
-				color: $rust;
-				background-color: $grey_very_light;
+				color: $faded_pink;
+				background-color: $rust;
 
 				box-sizing: border-box;
 				width: 100%;
@@ -159,10 +178,11 @@ $icon_size: 15px;
 							margin: 4px;
 
 							// turns black to $rust
-							filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+							// filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+							filter: invert(70%);
 
 							// turns black to a light grey
-							&.spent { filter: invert(60%); }
+							&.spent { filter: invert(10%); }
 						}
 					}
 				}

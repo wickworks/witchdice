@@ -11,8 +11,10 @@
 
   .squad-container {
     @include shadow;
-    @include parchment_background;
-    @include nouveau_border("nouveau_lancer_mech.svg");
+    // @include parchment_background;
+    // @include nouveau_border("nouveau_lancer_mech.svg");
+		border-radius: 14px;
+		background-color: $parchment_dark;
 
 		position: relative;
     box-sizing: border-box;
@@ -31,11 +33,11 @@
 			flex-direction: column;
 			justify-content: center;
 
-			width: 450px;
+			width: 480px;
 			margin: auto;
 
 			.SquadMech {
-				&:not(:first-child) { margin-top: -110px; }
+				&:not(:first-child) { margin-top: -136px; }
 				&:nth-child(odd) { margin-left: -48px; }
 				&:nth-child(even) { margin-left: auto; margin-right: -48px; }
 			}
