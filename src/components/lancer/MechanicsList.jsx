@@ -16,10 +16,10 @@ const MechanicsList = ({
 }) => {
   const [hoveringIndex, setHoveringIndex] = useState(null);
 
-  function getTooltipData(data) {
+  function getTooltipData(data, mechanic) {
     var tooltipData = {}
-    tooltipData.title = data.title || data.name || ''
-    tooltipData.content = tooltipContentKey ? data[tooltipContentKey] : ''
+    tooltipData.title = mechanic.custom_desc || data.title || data.name || ''
+    tooltipData.content = mechanic.custom_detail || (tooltipContentKey ? data[tooltipContentKey] : '')
     tooltipData.flavor = tooltipFlavorKey ? data[tooltipFlavorKey] : ''
     tooltipData.href = tooltipHref ? tooltipHref.replace(/%TITLE/g, tooltipData.title) : '';
 
@@ -34,11 +34,11 @@ const MechanicsList = ({
           // sometimes the mechanic is the ID, sometimes it's an object _with_ an ID
           const dataID = mechanic.id || mechanic
           const data = findData(dataID)
-          const tooltipData = getTooltipData(data)
+          const tooltipData = getTooltipData(data, mechanic)
           // and sometimes they come with ranks
           const rank = mechanic.rank
-          const name = namesToLowercase ? data.name.toLowerCase() : data.name
-
+          let name = mechanic.custom_desc || data.name
+          name = namesToLowercase ? name.toLowerCase() : name
 
           return (
             <span

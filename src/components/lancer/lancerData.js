@@ -174,7 +174,7 @@ const defaultWeaponDamageType = (weaponData) => {
 }
 
 function findGameDataFromLcp(gameDataType, gameDataID) {
-  var lcpFrameData;
+  var lcpGameData;
 
   // First, load up any LCPs from localstorage that we haven't gotten yet
   for ( var i = 0, len = localStorage.length; i < len; ++i ) {
@@ -190,10 +190,11 @@ function findGameDataFromLcp(gameDataType, gameDataID) {
 
   // Then look through the loaded lcp content
   Object.keys(loadedLcpData).forEach(lcpID => {
-     lcpFrameData = loadedLcpData[lcpID].data[gameDataType].find(gamedata => gamedata.id === gameDataID) || lcpFrameData;
+    const lcpAllDataForDataType = loadedLcpData[lcpID].data[gameDataType];
+    if (lcpAllDataForDataType) lcpGameData = lcpAllDataForDataType.find(gamedata => gamedata.id === gameDataID) || lcpGameData;
   });
 
-  return lcpFrameData;
+  return lcpGameData;
 }
 
 const findFrameData = (frameID) => {
