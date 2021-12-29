@@ -40,7 +40,7 @@ const MechCoreSystem = ({
 
 			<div className='traits-container'>
 
-				{ coreSystem.passive_name &&
+				{ coreSystem.passive_effect &&
 					<TraitBlock
 						key={coreSystem.passive_name}
 						name={coreSystem.passive_name}
