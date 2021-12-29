@@ -49,21 +49,13 @@
 				justify-content: center;
 				align-items: center;
 
-				color: $rust;
-
+				transform: rotate(45deg);
 				opacity: .8;
 
-				&:hover {
-					opacity: 1.0;
-				}
 
-				.asset {
-					width: 64px;
-					height: 64px;
 
-					// turns black to $rust
-					filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
-				}
+
+
 			}
 		}
 	}

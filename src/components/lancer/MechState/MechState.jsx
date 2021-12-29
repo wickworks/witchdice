@@ -186,9 +186,6 @@ const MechState = ({
         activePilot={activePilot}
         frameData={frameData}
 
-        currentCore={currentCore}
-        setCurrentCore={setCurrentCore}
-
         currentStress={currentStress}
         setCurrentStress={setCurrentStress}
 
@@ -247,25 +244,7 @@ const MechState = ({
               setCurrentNumber={setCurrentBurn}
               leftToRight={false}
             />
-
           </div>
-
-          {/*
-          <div className='structure-container'>
-            <MechNumberBar
-              extraClass='condensed'
-              maxNumber={4}
-              currentNumber={currentStructure}
-              setCurrentNumber={setCurrentStructure}
-              leftToRight={false}
-            />
-            <div className='mini-label structure'>
-              <span>{currentStructure}</span>
-              Structure
-            </div>
-          </div>
-          */}
-
         </div>
 
         <div className='engineering-container'>
@@ -316,24 +295,7 @@ const MechState = ({
               buttonOnly={true}
             />
           </div>
-
-          {/*
-          <div className='stress-container'>
-            <MechNumberBar
-              extraClass='condensed'
-              maxNumber={4}
-              currentNumber={currentStress}
-              setCurrentNumber={setCurrentStress}
-              leftToRight={true}
-            />
-            <div className='mini-label stress'>
-              Stress
-              <span>{currentStress}</span>
-            </div>
-          </div>
-          */}
         </div>
-
       </div>
 
       <div className='agility-and-systems'>
@@ -351,10 +313,9 @@ const MechState = ({
             number={getMechMoveSpeed(activeMech, activePilot, frameData)}
             leftToRight={false}
           />
-
         </div>
-        <div className='systems-container'>
 
+        <div className='systems-container'>
           <MechSingleStat
             label="E-Defense"
             extraClass='e-def'

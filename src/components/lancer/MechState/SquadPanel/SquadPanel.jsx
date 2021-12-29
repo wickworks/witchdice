@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SquadMech from './SquadMech.jsx';
+import { SquadMech, AddSquadMechButton } from './SquadMech.jsx';
 import { deepCopy } from '../../../../utils.js';
 
 import {
@@ -23,6 +23,7 @@ function createSquadMech(mechData, pilotData) {
 	const frameData = findFrameData(mechData.frame);
 	let squadMech = {}
 	squadMech.id = mechData.id
+  squadMech.name = mechData.name
 
 	squadMech.hpCurrent = mechData.current_hp
 	squadMech.hpMax = getMechMaxHP(mechData, pilotData, frameData)
@@ -205,10 +206,7 @@ const SquadPanel = ({
           )}
 
 					{activeMech && !isCurrentMechInSquad &&
-						<button className='add-mech' onClick={addCurrentMechToSquad}>
-							<div className='asset plus' />
-							Add Mech to Squad
-						</button>
+						<AddSquadMechButton squadMech={createSquadMech(activeMech, activePilot)} handleClick={addCurrentMechToSquad} />
 					}
 				</div>
 

@@ -2,40 +2,37 @@ import React from 'react';
 import { findFrameData } from '../../lancerData.js';
 import './SquadMech.scss';
 
+function renderMechPortrait(squadMech) {
+	if (squadMech.portraitMech.startsWith('mf_')) {
+		return <div className={`mech-portrait asset ${squadMech.portraitMech}`} />
+	} else {
+		// TODO: SANITIZE THIS INSTEAD OF PUTTING USER-DEFINED TEXT INTO SRC
+		return <img className='mech-portrait' src={squadMech.portraitMech} alt={'mech portrait'} />
+	}
+}
+
+function renderPilotPortrait(squadMech) {
+	if (squadMech.portraitPilot) {
+		// TODO: SANITIZE THIS INSTEAD OF PUTTING USER-DEFINED TEXT INTO SRC
+		return <img className="pilot-portrait" src={squadMech.portraitPilot} alt={'pilot portrait'} />
+	} else {
+		// TODO: BETTER DEFAULT PILOT PORTRAIT
+		// return <div className='pilot-portrait asset default_pilot' />
+		return <div className='empty-portrait asset ssc-watermark' />
+	}
+}
+
 const SquadMech = ({
 	squadMech,
 	onRemove,
 }) => {
-
-	function renderMechPortrait() {
-		if (squadMech.portraitMech.startsWith('mf_')) {
-			return <div className={`mech-portrait asset ${squadMech.portraitMech}`} />
-		} else {
-			// TODO: SANITIZE THIS INSTEAD OF PUTTING USER-DEFINED TEXT INTO SRC
-			return <img className='mech-portrait' src={squadMech.portraitMech} alt={'mech portrait'} />
-		}
-	}
-
-	function renderPilotPortrait() {
-		if (squadMech.portraitPilot) {
-			// TODO: SANITIZE THIS INSTEAD OF PUTTING USER-DEFINED TEXT INTO SRC
-			return <img className="pilot-portrait" src={squadMech.portraitPilot} alt={'pilot portrait'} />
-		} else {
-			// TODO: BETTER DEFAULT PILOT PORTRAIT
-			// return <div className='pilot-portrait asset default_pilot' />
-			return <div className='empty-portrait asset ssc-watermark' />
-		}
-	}
-
-
-
   return (
     <div className='SquadMech' >
 
 			<div className='diamond-and-statuses'>
 				<div className='summary-diamond'>
 					<div className='portrait-container'>
-						{ renderMechPortrait() }
+						{ renderMechPortrait(squadMech) }
 					</div>
 
 
@@ -59,7 +56,7 @@ const SquadMech = ({
 
 
 					<div className='portrait-container'>
-						{ renderPilotPortrait() }
+						{ renderPilotPortrait(squadMech) }
 					</div>
 				</div>
 
@@ -109,5 +106,29 @@ const SmallStatDiamond = ({
   );
 }
 
+const AddSquadMechButton = ({
+  squadMech,
+	handleClick,
+}) => {
 
-export default SquadMech;
+  return (
+		<button className='AddSquadMechButton' onClick={handleClick}>
+			<div className='add-mech-container'>
+				<div className='portrait-container'>
+					{ renderMechPortrait(squadMech) }
+				</div>
+
+				<div className='name-container'>
+					<div className='name'>{squadMech.name.toUpperCase()}</div>
+				</div>
+
+				<div className='icon-container'>
+					<div className='asset plus' />
+				</div>
+			</div>
+		</button>
+  );
+}
+
+
+export { SquadMech, AddSquadMechButton };

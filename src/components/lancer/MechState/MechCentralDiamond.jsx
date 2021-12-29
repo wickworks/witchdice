@@ -12,9 +12,6 @@ const MechCentralDiamond = ({
   activePilot,
   frameData,
 
-  currentCore,
-  setCurrentCore,
-
   currentStress,
   setCurrentStress,
 
