@@ -90,16 +90,17 @@ const SquadPanel = ({
 
 	// we clicked "delete mech" locally
 	const deleteEntry = (index) => {
-		if (index < 0 || index >= setAllSquadMechs.length) return
+    console.log('deleting mech from squad', index);
 
-		console.log('deleting mech from squad');
+		if (index < 0 || index >= allSquadMechs.length) return
+
 
 		if (partyConnected) {
 			const firebaseKey = allSquadMechs[index].firebaseKey
 			getFirebaseDB().child('mechsquad').child(partyRoom).child(firebaseKey).remove()
 		}
 
-		let newData = [...setAllSquadMechs]
+		let newData = [...allSquadMechs]
 		newData.splice(index, 1);
 		setAllSquadMechs(newData)
 	}
@@ -196,7 +197,7 @@ const SquadPanel = ({
 				<div className='mechs-container'>
 					{ allSquadMechs.map((squadMech, i) =>
             <>
-              <SquadMech squadMech={squadMech} key={squadMech.id} />
+              <SquadMech squadMech={squadMech} onRemove={() => deleteEntry(i)} key={squadMech.id} />
               {i % 2 === 0 &&
                 <> <div className='filler' /> <div className='filler' /> </>
               }

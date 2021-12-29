@@ -4,6 +4,7 @@ import './SquadMech.scss';
 
 const SquadMech = ({
 	squadMech,
+	onRemove,
 }) => {
 
 	function renderMechPortrait() {
@@ -70,6 +71,8 @@ const SquadMech = ({
 				<div className='statuses external'>
 					{squadMech.statusExternal}
 				</div>
+
+				<button className='remove-mech asset x' onClick={onRemove} />
 			</div>
     </div>
   );

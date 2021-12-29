@@ -41,6 +41,7 @@
       flex-wrap: wrap;
       font-size: 22px;
       margin-top: 2px;
+      margin-bottom: 26px;
 
       .asset {
         display: inline-block;
@@ -68,7 +69,7 @@
       .label {
         @include text_monospace;
         font-size: 20px;
-        color: $grey_mid;
+        color: $grey_very_dark;
         margin: 10px 0 4px;
       }
     }
