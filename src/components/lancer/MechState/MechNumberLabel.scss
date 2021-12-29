@@ -9,15 +9,16 @@
   display: flex;
   align-items: flex-end;
 
-  &.left-to-right {
-    flex-direction: row;
-  }
+  &.left-to-right { flex-direction: row; }
 
   @include max_width {
-    &.right-to-left {
-      flex-direction: row-reverse;
-    }
+    &.right-to-left { flex-direction: row-reverse; }
   }
+
+  @include below_max_width {
+    &.left-to-right, &.right-to-left { flex-direction: row-reverse; }
+  }
+
 
   .label {
     margin: 0 20px;

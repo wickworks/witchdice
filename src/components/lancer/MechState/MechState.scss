@@ -43,7 +43,7 @@
       .hp-label {
         display: flex;
         justify-content: flex-end;
-        margin-right: 60px;
+        margin-right: 40px;
 
         @include below_max_width {
           justify-content: flex-start;
@@ -78,7 +78,7 @@
       }
 
       .heat-label {
-        margin-left: 60px;
+        margin-left: 40px;
         display: flex;
         justify-content: space-between;
         flex-direction: column;

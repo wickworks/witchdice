@@ -24,6 +24,40 @@ import './MechState.scss';
 const MAX_OVERSHIELD = 12
 const MAX_BURN = 30
 
+const burnTooltip = {
+  title: 'BURN',
+  content: 'At the end of their turn, characters with ' +
+    'burn roll an ENGINEERING check. On a ' +
+    'success, it clears; otherwise, ' +
+    'take damage equal to the amount of ' +
+    'burn currently marked.',
+  hint: 'Click to add 1. Right-click to subtract 1.'
+}
+
+const overshieldTooltip = {
+  title: 'OVERSHIELD',
+  content: 'Damage is dealt to OVERSHIELD first, then HP. ' +
+    'Retain only the highest value ' +
+    '– it does not stack. ' +
+    'It benefits normally from resistance, armor, etc. ',
+  hint: 'Click to add 1. Right-click to subtract 1.'
+}
+
+const overchargeTooltip = {
+  title: 'OVERCHARGE',
+  content: 'Pilots can overcharge their mech, allowing them to ' +
+    'make an additional quick action at the cost of heat.',
+  hint: 'Click to tick up. Right-click to tick down.'
+}
+
+const coreTooltip = {
+  title: 'CORE POWER',
+  content: 'CP refers to a reservoir of high-efficiency reactor ' +
+    'power, designed to be used in a quick burst. You only get CP when ' +
+    'you start a mission or your mech receives a FULL REPAIR. ',
+  hint: 'Click to expend. Right-click to recharge.'
+}
+
 const MechState = ({
   activeMech,
   activePilot,
@@ -141,39 +175,7 @@ const MechState = ({
     setCurrentOverchargeIndex( newIndex );
   }
 
-  const burnTooltip = {
-    title: 'BURN',
-    content: 'At the end of their turn, characters with ' +
-      'burn roll an ENGINEERING check. On a ' +
-      'success, it clears; otherwise, ' +
-      'take damage equal to the amount of ' +
-      'burn currently marked.',
-    hint: 'Click to add 1. Right-click to subtract 1.'
-  }
 
-  const overshieldTooltip = {
-    title: 'OVERSHIELD',
-    content: 'Damage is dealt to OVERSHIELD first, then HP. ' +
-      'Retain only the highest value ' +
-      '– it does not stack. ' +
-      'It benefits normally from resistance, armor, etc. ',
-    hint: 'Click to add 1. Right-click to subtract 1.'
-  }
-
-  const overchargeTooltip = {
-    title: 'OVERCHARGE',
-    content: 'Pilots can overcharge their mech, allowing them to ' +
-      'make an additional quick action at the cost of heat.',
-    hint: 'Click to tick up. Right-click to tick down.'
-  }
-
-  const coreTooltip = {
-    title: 'CORE POWER',
-    content: 'CP refers to a reservoir of high-efficiency reactor ' +
-      'power, designed to be used in a quick burst. You only get CP when ' +
-      'you start a mission or your mech receives a FULL REPAIR. ',
-    hint: 'Click to expend. Right-click to recharge.'
-  }
 
   return (
     <div className='MechState asset butterfly-watermark'>
@@ -268,11 +270,9 @@ const MechState = ({
         <div className='engineering-container'>
 
           <div className='heat-label'>
-
             <div className='danger-zone-container'>
               { isInDangerZone && '!! Danger Zone !!' }
             </div>
-
 
             <MechNumberLabel
               label="Heat"
