@@ -80,8 +80,8 @@ $icon_size: 15px;
 			width: $diamond_size;
 			height: $diamond_size;
 
-			background-color: $rust;
-			border: $border_external solid $rust_light;
+			background-color: $grey_mid_light;
+			border: $border_external solid $grey_mid_lighter;
 			padding-right: $border_internal;
 			padding-bottom: $border_internal;
 
@@ -92,7 +92,7 @@ $icon_size: 15px;
 				box-sizing: border-box;
 				width: 100%;
 				height: 100%;
-				background-color: $parchment;
+				background-color: $grey_light;
 
 				.mech-portrait, .pilot-portrait {
 					box-sizing: border-box;
@@ -102,7 +102,7 @@ $icon_size: 15px;
 				}
 
 				.mech-portrait {
-					transform: rotate(-45deg) scale(140%);
+					transform: rotate(-45deg) scale(150%);
 					object-fit: contain;
 					background-size: contain;
 				}
@@ -119,7 +119,7 @@ $icon_size: 15px;
 			.SmallStatDiamond {
 				@include text_monospace;
 				color: $rust;
-				background-color: $faded_pink;
+				background-color: $grey_very_light;
 
 				box-sizing: border-box;
 				width: 100%;
@@ -174,7 +174,8 @@ $icon_size: 15px;
 			@include text_monospace;
 
 			font-size: 14px;
-			color: $rust;
+			color: $rust_dark;
+			// color: $rust;
 			// writing-mode: vertical-rl;
 
 			// &.internal {
