@@ -11,8 +11,9 @@ const allTalents = data.talents;
 const allCoreBonuses = data.core_bonuses;
 const allSystems = data.systems;
 const allMods = data.mods;
+const allStatuses = data.statuses;
 
-var loadedLcpData = {};
+export const LANCER_CONDITIONS = allStatuses.filter(status => status.type === 'Condition')
 
 const blankTalent = {
   "id": "missing_talent",
@@ -48,20 +49,20 @@ const blankSkill = {
   "family": ""
 }
 
-const OVERCHARGE_SEQUENCE = ['1','1d3','1d6','1d6+4']
+export const OVERCHARGE_SEQUENCE = ['1','1d3','1d6','1d6+4']
 
 // these should probably get rolled into damageModifiers system
-const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier', 't_nuclear_cavalier']
+export const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier', 't_nuclear_cavalier']
 
-const BASIC_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy', 'Variable']
+export const BASIC_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy', 'Variable']
 
-const LANCER_DAMAGE_TYPES = [
+export const LANCER_DAMAGE_TYPES = [
   ...BASIC_DAMAGE_TYPES,
   'Burn',
   'Heat',
 ]
 
-const DAMAGE_MODIFIERS = {
+export const DAMAGE_MODIFIERS = {
   double: false,
   half: false,
   average: false,
@@ -69,25 +70,25 @@ const DAMAGE_MODIFIERS = {
   maximized: false, // Only used by the brutal talent & works on nat 20s
 }
 
-function applyDamageMultiplier(damage, damageType, damageModifiers) {
+export function applyDamageMultiplier(damage, damageType, damageModifiers) {
   var multiplier = 1.0;
   if (damageModifiers.double && BASIC_DAMAGE_TYPES.includes(damageType)) multiplier *= 2.0;
   if (damageModifiers.half) multiplier *= .5;
   return damage * multiplier;
 }
 
-const MAX_BONUS = 9; // either added or dice rolled
-const GENERIC_BONUS_SOURCE = {
+export const MAX_BONUS = 9; // either added or dice rolled
+export const GENERIC_BONUS_SOURCE = {
   name: 'Bonus damage',
   diceString: `${MAX_BONUS}d6+${MAX_BONUS}`, // we roll the max because user might increase it post-roll
   type: '',
   id: 'generic',
 }
 
-function getGrit(pilot) { return Math.ceil(pilot.level * .5) }
+export function getGrit(pilot) { return Math.ceil(pilot.level * .5) }
 
 // turns '10d6+4' into {count: 10, dietype: 6, bonus: 4}
-const processDiceString = (diceString) => {
+export const processDiceString = (diceString) => {
   var dice = String(diceString)
 
   var count = 0;
@@ -120,16 +121,16 @@ const processDiceString = (diceString) => {
   return {count: count, dietype: dietype, bonus: bonus}
 }
 
-function isDamageRange(dieType) {
+export function isDamageRange(dieType) {
   return String(dieType).includes('-')
 }
 
-const findTagData = (tagID) => {
+export const findTagData = (tagID) => {
   const tagData = allTags.find(tag => tag.id === tagID);
   return tagData;
 }
 
-const findTagOnWeapon = (weaponData, tagID) => {
+export const findTagOnWeapon = (weaponData, tagID) => {
   if (weaponData.tags) {
     const weaponTag = weaponData.tags.find(weapontag => weapontag.id === tagID);
     return weaponTag;
@@ -137,7 +138,7 @@ const findTagOnWeapon = (weaponData, tagID) => {
   return null;
 }
 
-const getTagName = (tag) => {
+export const getTagName = (tag) => {
   const tagData = findTagData(tag.id)
 
   if (tagData) {
@@ -151,7 +152,7 @@ const getTagName = (tag) => {
 }
 
 // Gets the type of damage dealt by the weapon, or Variable if multiple or none.
-const defaultWeaponDamageType = (weaponData) => {
+export const defaultWeaponDamageType = (weaponData) => {
 
   var damageType = '';
   if (weaponData.damage) {
@@ -173,6 +174,8 @@ const defaultWeaponDamageType = (weaponData) => {
   return damageType || 'Variable';
 }
 
+
+var loadedLcpData = {};
 function findGameDataFromLcp(gameDataType, gameDataID) {
   var lcpGameData;
 
@@ -197,69 +200,44 @@ function findGameDataFromLcp(gameDataType, gameDataID) {
   return lcpGameData;
 }
 
-const findFrameData = (frameID) => {
+export const findFrameData = (frameID) => {
   var frameData = allFrames.find(frame => frame.id === frameID);
   if (!frameData) frameData = findGameDataFromLcp('frames', frameID)
   return frameData ? frameData : findFrameData('missing_frame');
 }
 
-const findWeaponData = (weaponID) => {
+export const findWeaponData = (weaponID) => {
   var weaponData = allWeapons.find(weapon => weapon.id === weaponID);
   if (!weaponData) weaponData = findGameDataFromLcp('weapons', weaponID)
   return weaponData ? weaponData : findWeaponData('missing_mechweapon');
 }
 
-const findTalentData = (talentID) => {
+export const findTalentData = (talentID) => {
   var talentData = allTalents.find(talent => talent.id === talentID);
   if (!talentData) talentData = findGameDataFromLcp('talents', talentID)
   return talentData ? talentData : blankTalent;
 }
 
-const findSkillData = (skillID) => {
+export const findSkillData = (skillID) => {
   var skillData = allSkills.find(skill => skill.id === skillID);
   if (!skillData) skillData = findGameDataFromLcp('skills', skillID)
   return skillData ? skillData : blankSkill;
 }
 
-const findCoreBonusData = (coreBonusID) => {
+export const findCoreBonusData = (coreBonusID) => {
   var coreBonusData = allCoreBonuses.find(coreBonus => coreBonus.id === coreBonusID);
   if (!coreBonusData) coreBonusData = findGameDataFromLcp('core_bonuses', coreBonusID)
   return coreBonusData ? coreBonusData : findWeaponData('missing_corebonus');
 }
 
-const findSystemData = (systemID) => {
+export const findSystemData = (systemID) => {
   var systemData = allSystems.find(system => system.id === systemID);
   if (!systemData) systemData = findGameDataFromLcp('systems', systemID)
   return systemData ? systemData : findWeaponData('missing_mechsystem');
 }
 
-const findModData = (modID) => {
+export const findModData = (modID) => {
   var modData = allMods.find(system => system.id === modID);
   if (!modData) modData = findGameDataFromLcp('mods', modID)
   return modData ? modData : findModData('missing_weaponmod');
-}
-
-export {
-  findSkillData,
-  getGrit,
-  isDamageRange,
-  applyDamageMultiplier,
-  processDiceString,
-  findTagData,
-  findTagOnWeapon,
-  getTagName,
-  defaultWeaponDamageType,
-  findFrameData,
-  findWeaponData,
-  findTalentData,
-  findCoreBonusData,
-  findSystemData,
-  findModData,
-  GENERIC_BONUS_SOURCE,
-  MAX_BONUS,
-  DAMAGE_MODIFIERS,
-  FIRST_ROLL_ONLY_TAGS,
-  BASIC_DAMAGE_TYPES,
-  LANCER_DAMAGE_TYPES,
-  OVERCHARGE_SEQUENCE,
 }

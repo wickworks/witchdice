@@ -4,6 +4,7 @@ import MechNumberLabel from './MechNumberLabel.jsx';
 import MechNumberBar from './MechNumberBar.jsx';
 import MechNumberIcon from './MechNumberIcon.jsx';
 import MechSingleStat from './MechSingleStat.jsx';
+import ConditionSelect from './ConditionSelect.jsx';
 
 import {
   OVERCHARGE_SEQUENCE,
@@ -74,6 +75,8 @@ const MechState = ({
 
   const [currentStructure, setCurrentStructure] = useState(activeMech.current_structure);
   const [currentStress, setCurrentStress] = useState(activeMech.current_stress);
+
+  const [activeConditions, setActiveConditions] = useState([]);
 
   function initializeCurrentStatus() {
     setCurrentOvershield(parseInt(activeMech.overshield));
@@ -174,8 +177,6 @@ const MechState = ({
     var newIndex = Math.max(Math.min(currentOverchargeIndex + direction, OVERCHARGE_SEQUENCE.length-1), 0);
     setCurrentOverchargeIndex( newIndex );
   }
-
-
 
   return (
     <div className='MechState asset butterfly-watermark'>
@@ -380,7 +381,7 @@ const MechState = ({
         </div>
       </div>
 
-
+      <ConditionSelect activeConditions={activeConditions} setActiveConditions={setActiveConditions} />
     </div>
   );
 }
