@@ -194,9 +194,14 @@ const SquadPanel = ({
     	<div className='squad-container'>
 
 				<div className='mechs-container'>
-					{ allSquadMechs.map(squadMech =>
-						<SquadMech squadMech={squadMech} key={squadMech.id} />
-					)}
+					{ allSquadMechs.map((squadMech, i) =>
+            <>
+              <SquadMech squadMech={squadMech} key={squadMech.id} />
+              {i % 2 === 0 &&
+                <> <div className='filler' /> <div className='filler' /> </>
+              }
+            </>
+          )}
 
 					{activeMech && !isCurrentMechInSquad &&
 						<button className='add-mech' onClick={addCurrentMechToSquad}>

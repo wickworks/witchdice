@@ -18,35 +18,29 @@
 
 		position: relative;
     box-sizing: border-box;
-    padding: 60px 38px;
+    padding: 90px 38px;
     width: 100%;
     max-width: 800px;
 
     @include below_max_width {
-      padding: 60px 26px;
+      padding: 90px 26px;
     }
 
 		.mechs-container {
-			// position: relative;
-			// background-color: salmon;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-
-			width: 480px;
 			margin: auto;
+			width: fit-content;
 
-			.SquadMech {
-				&:not(:first-child) { margin-top: -136px; }
-				&:nth-child(odd) { margin-left: -48px; }
-				&:nth-child(even) { margin-left: auto; margin-right: -48px; }
-			}
+			display: grid;
+			grid-template-columns: 150px 150px;
+			grid-auto-rows: 150px;
+			column-gap: 15px;
+			row-gap: 15px;
 
 			@include constricted {
-				width: unset;
-				margin-left: -80px;
+				grid-template-columns: 150px;
+				row-gap: 150px;
 
-				.SquadMech { margin-top: 0 !important; } // either this or add more useless identifiers
+				.filler { display: none; }
 			}
 
 			button.add-mech {

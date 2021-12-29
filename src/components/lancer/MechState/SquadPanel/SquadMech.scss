@@ -1,6 +1,6 @@
 @import '../../../../fonts';
 
-$diamond_size: 210px;
+$diamond_size: 210px; // 150px square "core"
 $border_external: 4px;
 $border_internal: 4px;
 $icon_size: 15px;
@@ -9,10 +9,15 @@ $icon_size: 15px;
 	// @include text_monospace;
 	// margin: 30px;
 
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
 	&:nth-child(odd) {
 		.diamond-and-statuses {
 			grid-template-columns: 80px $diamond_size;
 			grid-template-rows: $diamond_size 80px;
+			padding: 86px 86px 0 0;
 
 			.summary-diamond {
 				grid-column: 2; grid-row: 1;
@@ -37,6 +42,7 @@ $icon_size: 15px;
 		.diamond-and-statuses {
 			grid-template-columns: $diamond_size 80px;
 			grid-template-rows: 80px $diamond_size;
+			padding: 0 0 86px 86px;
 
 			.summary-diamond {
 				grid-column: 1; grid-row: 2;
@@ -66,8 +72,6 @@ $icon_size: 15px;
 
 		width: fit-content;
 		transform: rotate(45deg);
-
-		@include constricted { margin: auto; }
 
 		.summary-diamond {
 			display: grid;
