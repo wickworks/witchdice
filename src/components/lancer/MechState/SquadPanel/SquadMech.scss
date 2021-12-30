@@ -97,7 +97,8 @@ button.AddSquadMechButton {
 		.name-container {
 			@include text_monospace;
 			color: $rust_dark;
-			writing-mode: sideways-lr;
+			writing-mode: vertical-rl;
+			transform: rotate(180deg);
 			grid-row: span 2;
 			padding-left: 4px;
 
@@ -130,10 +131,11 @@ button.AddSquadMechButton {
 			.statuses.external {
 				animation: statuses_vert $boot_time linear;
 				grid-column: 1; grid-row: 1;
-				writing-mode: sideways-lr;
+				writing-mode: vertical-rl;
+				transform: rotate(180deg);
 				max-height: 100%;
 				margin-left: auto;
-				padding-top: 20px;
+				padding-bottom: 20px;
 			}
 
 			.statuses.internal {
@@ -167,10 +169,11 @@ button.AddSquadMechButton {
 			.statuses.internal {
 				animation: statuses_vert $boot_time linear;
 				grid-column: 2; grid-row: 2;
-				writing-mode: sideways-lr;
+				writing-mode: vertical-rl;
+				transform: rotate(180deg);
 				max-height: 100%;
 				text-align: right;
-				padding-bottom: 20px;
+				padding-top: 20px;
 			}
 
 			button.remove-mech { margin-top: auto; }
