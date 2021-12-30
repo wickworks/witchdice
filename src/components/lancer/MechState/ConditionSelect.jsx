@@ -49,8 +49,6 @@ const ConditionSelect = ({
 	setActiveConditions,
 }) => {
 
-	console.log('activeConditions',activeConditions);
-
   return (
     <div className='ConditionSelect'>
 

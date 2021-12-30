@@ -61,25 +61,29 @@ const SquadPanel = ({
 	partyConnected,
   partyRoom,
 }) => {
-	// When we see a new entry in firebase, we put it here.
-  // This triggers triggering it getting added to allSquadMechs.
-  const [latestSquadMech, setLatestSquadMech] = useState(null);
+	// When we see a new entry in firebase or locally, we put it here.
+  // This triggers triggering it getting added/updated in allSquadMechs.
+  const [lastUpdatedSquadMech, setLastUpdatedSquadMech] = useState(null);
 
   // Similar logic, but for targeted destruction of keys
-  const [latestDestroyKey, setLatestDestroyKey] = useState('');
+  const [lastDestroyedKey, setLastDestroyedKey] = useState('');
 
   // List of all the entries to display.
   const [allSquadMechs, setAllSquadMechs] = useState([]);
 
+  // Is the current mech in the lineup?
+	const isCurrentMechInSquad = activeMech && allSquadMechs.find(squadMech => squadMech.id === activeMech.id)
+  const activeSquadMech = (activeMech && activePilot) ? createSquadMech(activeMech, activePilot) : null
+
 	// we clicked "add mech" locally
 	const addCurrentMechToSquad = () => {
-		const newEntry = createSquadMech(activeMech, activePilot)
+    const newEntry = deepCopy(activeSquadMech)
 
 		if (partyConnected) {
 			const dbSquadRef = getFirebaseDB().child('mechsquad').child(partyRoom)
 			const newKey = dbSquadRef.push(newEntry).key
 
-			// add the firebase key to the locally-saved entry
+      // add the firebase key to the locally-saved entry
 			newEntry.firebaseKey = newKey
 		}
 
@@ -89,12 +93,9 @@ const SquadPanel = ({
 		setAllSquadMechs(newData)
 	}
 
-	// we clicked "delete mech" locally
+	// Clicked "delete mech" locally: trigger a server deleting & remove locally.
 	const deleteEntry = (index) => {
-    console.log('deleting mech from squad', index);
-
 		if (index < 0 || index >= allSquadMechs.length) return
-
 
 		if (partyConnected) {
 			const firebaseKey = allSquadMechs[index].firebaseKey
@@ -107,54 +108,67 @@ const SquadPanel = ({
 	}
 
 	function updateEntryInFirebase(entry) {
-		const firebaseEntry = deepCopy(entry)
+		const firebaseEntry = {...entry}
 		const firebaseKey = firebaseEntry.firebaseKey
 		delete firebaseEntry.firebaseKey // keep the key itself out of the firebase object
-		getFirebaseDB().child('mechsquad').child(partyRoom).child(firebaseKey).set(firebaseEntry)
 	}
 
-
-  // ~~ CREATE / UPDATE ~~
-  // There's a new kid in town! let's welcome them and add them to the data
+  // ~~ DETECT LOCAL CHANGE, TRIGGER A SERVER UPDATE  ~~
   useEffect(() => {
-    if (latestSquadMech) {
+    if (isCurrentMechInSquad && activeSquadMech) {
+      // get the current firebase key for this mech
+      const oldEntry = allSquadMechs.find(entry => entry.id === lastUpdatedSquadMech.id)
+
+      if (oldEntry) {
+        const newEntry = {...activeSquadMech, firebaseKey: oldEntry.firebaseKey}
+
+        // update it locally
+        setLastUpdatedSquadMech(newEntry)
+
+        // update it on the server
+        updateEntryInFirebase(newEntry)
+      }
+    }
+  }, [ JSON.stringify(activeSquadMech) ]); // eslint-disable-line react-hooks/exhaustive-deps
+
+
+  // ~~ CREATE / UPDATE FROM SERVER ~~
+  // New/updated mech on the server! Add it to the local data.
+  useEffect(() => {
+    if (lastUpdatedSquadMech) {
       let newData = [...allSquadMechs]
       let isUpdate = false;
 
       allSquadMechs.forEach((entry, i) => {
-        if (entry !== null && entry.firebaseKey === latestSquadMech.firebaseKey) {
+        if (entry.firebaseKey === lastUpdatedSquadMech.firebaseKey) {
           isUpdate = true
-          let newEntry = deepCopy(latestSquadMech)
-          newData[i] = newEntry
+          newData[i] = deepCopy(lastUpdatedSquadMech)
         }
       });
-      if (!isUpdate) newData.push(latestSquadMech)
+      if (!isUpdate) newData.push(lastUpdatedSquadMech)
       setAllSquadMechs(newData)
-
-			console.log('create/update to latest squad mech : ', latestSquadMech);
     }
 
-  }, [latestSquadMech]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [lastUpdatedSquadMech]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	// ~~ DESTROY ~~
-  // We have a new target. Search and destroy, by any means necessary.
+	// ~~ DESTROY TO SERVER ~~
+  // Tell the server to remove a mech of the given key.
   useEffect(() => {
-    if (latestDestroyKey) {
+    if (lastDestroyedKey) {
       let newData = [...allSquadMechs]
       allSquadMechs.forEach((entry, i) => {
-        if (entry !== null && entry.firebaseKey === latestDestroyKey) {
+        if (entry !== null && entry.firebaseKey === lastDestroyedKey) {
           newData.splice(i, 1);
         }
       });
       setAllSquadMechs(newData)
     }
 
-  }, [latestDestroyKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [lastDestroyedKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	// ~~ INITIAL CONNECTION ~~
+	// ~~ INITIAL CONNECTION FROM SERVER ~~
+  // Watch server for change/add/delete events & update the local data accordingly.
 	useEffect(() => {
-		console.log('initial connection : party connected : ', partyConnected);
-
 		if (partyConnected) {
 			try {
 				const dbInitiativeRef = getFirebaseDB().child('mechsquad').child(partyRoom)
@@ -163,7 +177,7 @@ const SquadPanel = ({
 					if (snapshot) {
 						let newEntry = snapshot.val() // restore the firebase key to the entry's object
 						newEntry.firebaseKey = snapshot.key
-						setLatestSquadMech(newEntry)
+						setLastUpdatedSquadMech(newEntry)
 					}
 				});
 
@@ -171,13 +185,13 @@ const SquadPanel = ({
 					if (snapshot) {
 						let newEntry = snapshot.val() // restore the firebase key to the entry's object
 						newEntry.firebaseKey = snapshot.key
-						setLatestSquadMech(newEntry)
+						setLastUpdatedSquadMech(newEntry)
 					}
 				});
 
 				dbInitiativeRef.on('child_removed', (snapshot) => {
 					if (snapshot) {
-						setLatestDestroyKey(snapshot.key) // triggers a search and destroy
+						setLastDestroyedKey(snapshot.key) // triggers a search and destroy
 					}
 				});
 
@@ -188,21 +202,18 @@ const SquadPanel = ({
 
 	}, [partyConnected]); // eslint-disable-line react-hooks/exhaustive-deps
 
-	// Is the current mech in the lineup?
-	const isCurrentMechInSquad = activeMech && allSquadMechs.find(squadMech => squadMech.id === activeMech.id)
-
   return (
 		<div className='SquadPanel'>
     	<div className='squad-container'>
 
 				<div className='mechs-container'>
 					{ allSquadMechs.map((squadMech, i) =>
-            <>
-              <SquadMech squadMech={squadMech} onRemove={() => deleteEntry(i)} key={squadMech.id} />
+            <React.Fragment key={squadMech.id}>
+              <SquadMech squadMech={squadMech} onRemove={() => deleteEntry(i)} />
               {i % 2 === 0 &&
                 <> <div className='filler' /> <div className='filler' /> </>
               }
-            </>
+            </React.Fragment>
           )}
 
 					{activeMech && !isCurrentMechInSquad &&
