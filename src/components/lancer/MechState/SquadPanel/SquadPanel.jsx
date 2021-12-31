@@ -110,23 +110,21 @@ const SquadPanel = ({
 	}
 
 	function updateEntryInFirebase(entry) {
-		const firebaseEntry = {...entry}
+		let firebaseEntry = {...entry}
 		const firebaseKey = firebaseEntry.firebaseKey
 		delete firebaseEntry.firebaseKey // keep the key itself out of the firebase object
+    getFirebaseDB().child('mechsquad').child(partyRoom).child(firebaseKey).set(firebaseEntry)
 	}
 
   // ~~ DETECT LOCAL CHANGE, TRIGGER A SERVER UPDATE  ~~
   useEffect(() => {
     if (isCurrentMechInSquad && activeSquadMech) {
       // get the current firebase key for this mech
-      const oldEntry = allSquadMechs.find(entry => entry.id === lastUpdatedSquadMech.id)
-
+      const oldEntry = allSquadMechs.find(entry => entry.id === activeSquadMech.id)
       if (oldEntry) {
         const newEntry = {...activeSquadMech, firebaseKey: oldEntry.firebaseKey}
-
         // update it locally
         setLastUpdatedSquadMech(newEntry)
-
         // update it on the server
         updateEntryInFirebase(newEntry)
       }
@@ -134,8 +132,8 @@ const SquadPanel = ({
   }, [ JSON.stringify(activeSquadMech) ]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
-  // ~~ CREATE / UPDATE FROM SERVER ~~
-  // New/updated mech on the server! Add it to the local data.
+  // ~~ CREATE / UPDATE FROM SERVER OR LOCAL CHANGE ~~
+  // New/updated mech on the server or local data! Add it to the local allSquadMechs.
   useEffect(() => {
     if (lastUpdatedSquadMech) {
       let newData = [...allSquadMechs]
@@ -147,6 +145,7 @@ const SquadPanel = ({
           newData[i] = deepCopy(lastUpdatedSquadMech)
         }
       });
+
       if (!isUpdate) newData.push(lastUpdatedSquadMech)
       setAllSquadMechs(newData)
     }
