@@ -19,7 +19,7 @@ const MechNumberLabel = ({
       </div>
 
       <div className='numerical-count'>
-        <input type='number' min={0} max={maxNumberForInput} value={currentNumber} onChange={e => setCurrentNumber(e.target.value)} />
+        <input type='number' min={0} max={maxNumberForInput} value={currentNumber} onChange={e => setCurrentNumber(e.target.value || 0)} />
         /{maxNumber}
       </div>
     </div>

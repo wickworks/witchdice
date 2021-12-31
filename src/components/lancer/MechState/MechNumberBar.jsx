@@ -42,7 +42,7 @@ const MechNumberBar = ({
           <div className='number'>0</div>
         </button>
 
-        { [...Array(maxNumber)].map((undef, i) => {
+        { [...Array(maxNumber || 0)].map((undef, i) => {
           const distanceFromCurrent = (i+1) - currentNumber
 
           const filledClass = (i < currentNumber) ? 'filled' : 'empty'
