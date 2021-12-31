@@ -6,26 +6,26 @@
   .label {
     @include text_monospace;
     font-size: 20px;
-    color: $grey_very_dark;
+    color: $grey_mid;
     margin: 10px 0 4px;
   }
 
   .traits-container {
     display: grid;
+    column-gap: 20px;
     grid-auto-flow: dense;
     grid-template-columns: 1fr 1fr;
-    column-gap: 20px;
 
-    @include below_max_width {
-      grid-template-columns: 1fr;
-    }
+    @include below_max_width { grid-template-columns: 1fr; }
   }
 
   .TraitBlock {
     padding: 0 0 12px;
 
-    &.tall { grid-row: span 2; }
-    &.wide, &:only-child { grid-column: span 2; }
+    @include max_width {
+      &.tall { grid-row: span 2; }
+      &.wide, &:only-child { grid-column: span 2; }
+    }
 
     button.name {
       display: block;

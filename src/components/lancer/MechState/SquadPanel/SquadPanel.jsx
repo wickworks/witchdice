@@ -208,6 +208,10 @@ const SquadPanel = ({
 		<div className='SquadPanel'>
     	<div className='squad-container'>
 
+        <div className='squad-label'>
+          LANCERS
+        </div>
+
 				<div className='mechs-container'>
 					{ allSquadMechs.map((squadMech, i) =>
             <React.Fragment key={squadMech.id}>
