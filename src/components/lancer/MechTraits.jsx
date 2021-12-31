@@ -107,12 +107,16 @@ const TraitBlock = ({
 	const tallClass = description.length > 460 ? 'wide' : ''
 
 	const titleClass = isTitleCase ? 'title-case' : '';
+	const collapsedClass = isCollapsed ? 'collapsed' : '';
 	const actionClass = isAction ? 'action' : '';
 	const cpClass = isCP ? 'core-power' : '';
 
   return (
 		<div className={`TraitBlock ${wideClass} ${tallClass} ${extraClass}`}>
-			<button className={`name ${titleClass} ${actionClass} ${cpClass}`}  onClick={handleClick}>
+			<button
+				className={`name ${titleClass} ${actionClass} ${cpClass} ${collapsedClass}`}
+				onClick={handleClick}
+			>
 				<div>{name}</div>
 				{activation && <div className='detail'>{activation}</div>}
 			</button>

@@ -6,7 +6,7 @@
   .label {
     @include text_monospace;
     font-size: 20px;
-    color: $grey_mid;
+    color: $grey_mid_lighter;
     margin: 10px 0 4px;
   }
 
@@ -40,6 +40,13 @@
       &.core-power { background-color: $rust_dark; }
 
       &:hover { filter: brightness(115%); }
+
+      &.collapsed {
+        background-color: $parchment_dark;
+        color: $soft_black;
+
+        &:hover { filter: brightness(85%); }
+      }
 
       .detail {
         @include text_monospace;

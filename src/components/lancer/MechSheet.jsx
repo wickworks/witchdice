@@ -97,7 +97,10 @@ const MechSheet = ({
   useEffect(() => {
     setActiveMountIndex(null);
     setActiveWeaponIndex(0);
-  }, [activeMech, activePilot]);
+  }, [
+    (activeMech && activeMech.id),
+    (activePilot && activePilot.id)]
+  );
 
   const changeMountAndWeapon = (newMount, newWeapon) => {
     setActiveMountIndex(newMount)

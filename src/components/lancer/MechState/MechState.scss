@@ -21,6 +21,8 @@
 
   margin-bottom: 20px;
 
+  @include below_max_width { margin-top: 60px; }
+
   .hull-and-engineering {
     display: flex;
     justify-content: center;
