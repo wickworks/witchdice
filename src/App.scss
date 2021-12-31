@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: flex-start;
 
-  overflow: hidden;
+  // overflow: hidden; // breaks sticky positioning
   min-height: 100vh;
 
   background-image: url('./assets/bg.webp');

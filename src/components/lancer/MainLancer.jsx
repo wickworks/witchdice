@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FileList, PlainList } from './FileAndPlainList.jsx';
 import EntryList from '../shared/EntryList.jsx';
+import JumplinkPanel from './JumplinkPanel.jsx';
 import PilotDossier from './PilotDossier.jsx';
 import MechSheet from './MechSheet.jsx';
 import SquadPanel from './MechState/SquadPanel/SquadPanel.jsx';
@@ -30,7 +31,7 @@ import { getIDFromStorageName } from '../../localstorage.js';
 import './MainLancer.scss';
 
 const coreLcpEntry = {
-  name: 'Core Data',
+  name: 'Core LCP Data',
   id: 'core'
 }
 
@@ -307,6 +308,7 @@ const MainLancer = ({
         }
       </div>
 
+      { activePilot && <JumplinkPanel partyConnected={partyConnected} /> }
 
       <FileList
         title='Pilot'
@@ -322,6 +324,7 @@ const MainLancer = ({
         <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
       </FileList>
 
+      <a className='jumplink-anchor' id='pilot' />
       { activePilot &&
         <>
           <PilotDossier
@@ -339,6 +342,7 @@ const MainLancer = ({
         </>
       }
 
+      <a className='jumplink-anchor' id='mech' />
       { activeMech &&
         <MechSheet
           activeMech={activeMech}
@@ -351,6 +355,7 @@ const MainLancer = ({
         />
       }
 
+      <a className='jumplink-anchor' id='squad' />
       { partyConnected &&
         <SquadPanel
           activeMech={activeMech}
@@ -360,6 +365,8 @@ const MainLancer = ({
           partyRoom={partyRoom}
         />
       }
+
+      <a className='jumplink-anchor' id='dicebag' />
     </div>
   )
 }

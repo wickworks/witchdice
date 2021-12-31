@@ -1,0 +1,67 @@
+@import '../../fonts';
+
+.jumplink-anchor {
+  display: block !important;
+  position: relative;
+  top: -30px;
+  visibility: hidden;
+
+  height: 350px;
+  margin-bottom: -350px;
+}
+
+.JumplinkPanel {
+	// @include standard_side_margin;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  align-items: center;
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  background-color: $crushed_velvet;
+
+
+  .jumplinks {
+    @include shadow;
+    // @include parchment_background;
+    // @include nouveau_border("nouveau_lancer_squad.svg");
+
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 800px;
+
+    .link-container {
+      display: flex;
+      justify-content: space-between;
+
+      a {
+        display: block;
+        color: $pink;
+        text-decoration: none;
+        text-align: center;
+        padding: 8px;
+
+        box-sizing: border-box;
+        width: 100%;
+
+        &:hover {
+          background-color: $pink_logo_dark;
+          color: white;
+        }
+
+        &.current {
+          background-color: $rust;
+          color: white;
+        }
+      }
+    }
+  }
+}

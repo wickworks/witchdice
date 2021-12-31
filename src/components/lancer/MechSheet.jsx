@@ -190,6 +190,7 @@ const MechSheet = ({
           namesToLowercase={false}
         />
 
+        <a className='jumplink-anchor' id='weapons' />
         <div className="mounts-label">Mounts</div>
 
         <div className="mounts-list">
