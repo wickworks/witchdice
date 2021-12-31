@@ -106,8 +106,8 @@ const MechState = ({
       current_overcharge: currentOverchargeIndex,
       current_core_energy: currentCore ? 1 : 0,
       current_repairs: currentRepairs,
-      current_stress: currentStructure,
-      current_structure: currentStress,
+      current_stress: currentStress,
+      current_structure: currentStructure,
       conditions: activeConditions
     })
   }, [
