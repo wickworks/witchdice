@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SquadMech, AddSquadMechButton } from './SquadMech.jsx';
-import { deepCopy } from '../../../../utils.js';
+import { deepCopy, capitalize } from '../../../../utils.js';
 
 import {
   getMechMaxHP,
@@ -40,14 +40,14 @@ function createSquadMech(mechData, pilotData) {
 	squadMech.portraitPilot = pilotData.cloud_portrait
 
 	let statuses = []
-  if (mechData.conditions) statuses = [...mechData.conditions]
+  if (mechData.conditions) statuses = mechData.conditions.map(condition => capitalize(condition.toLowerCase()))
   if (mechData.burn) statuses.push(`Burn ${mechData.burn}`)
 	if (mechData.overshield) statuses.push(`Overshield ${mechData.overshield}`)
 	squadMech.statusExternal = statuses.join(',')
 
   statuses = []
 	if (!mechData.current_core_energy) statuses.push('CP exhausted')
-	if (mechData.current_overcharge > 0) statuses.push(`Overcharge: +${OVERCHARGE_SEQUENCE[mechData.current_overcharge]} heat`)
+	if (mechData.current_overcharge > 0) statuses.push(`Overcharge ${OVERCHARGE_SEQUENCE[mechData.current_overcharge]} heat`)
   // Destroyed systems?
 	squadMech.statusInternal = statuses.join(',')
 

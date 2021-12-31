@@ -5,7 +5,7 @@ import { getOptionFromValue } from '../../../utils.js';
 import './ConditionSelect.scss';
 
 import {
-  LANCER_CONDITIONS,
+  allStatuses,
   findStatusData,
 } from '../lancerData.js';
 
@@ -43,7 +43,7 @@ import {
 
 // =============== ADD / REMOVE TAG CRAP =============
 
-const conditionOptions = LANCER_CONDITIONS.map(condition => ({
+const conditionOptions = allStatuses.map(condition => ({
   "value" : condition.name,
   "label" : condition.name
 }))

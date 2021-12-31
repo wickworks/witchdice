@@ -11,9 +11,7 @@ const allTalents = data.talents;
 const allCoreBonuses = data.core_bonuses;
 const allSystems = data.systems;
 const allMods = data.mods;
-const allStatuses = data.statuses;
-
-export const LANCER_CONDITIONS = allStatuses.filter(status => status.type === 'Condition')
+export const allStatuses = data.statuses;
 
 const blankTalent = {
   "id": "missing_talent",
