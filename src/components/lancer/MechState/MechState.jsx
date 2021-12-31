@@ -76,7 +76,7 @@ const MechState = ({
   const [currentStructure, setCurrentStructure] = useState(activeMech.current_structure);
   const [currentStress, setCurrentStress] = useState(activeMech.current_stress);
 
-  const [activeConditions, setActiveConditions] = useState([]);
+  const [activeConditions, setActiveConditions] = useState(activeMech.conditions);
 
   function initializeCurrentStatus() {
     setCurrentOvershield(parseInt(activeMech.overshield));
@@ -88,6 +88,7 @@ const MechState = ({
     setCurrentRepairs(parseInt(activeMech.current_repairs));
     setCurrentStructure(parseInt(activeMech.current_structure));
     setCurrentStress(parseInt(activeMech.current_stress));
+    setActiveConditions(activeMech.conditions)
   }
 
   // if we change mechs, reset state to that mech
@@ -107,8 +108,20 @@ const MechState = ({
       current_repairs: currentRepairs,
       current_stress: currentStructure,
       current_structure: currentStress,
+      conditions: activeConditions
     })
-  }, [currentOvershield, currentHP, currentHeat, currentBurn, currentOverchargeIndex, currentCore, currentRepairs, currentStructure, currentStress]);
+  }, [
+    currentOvershield,
+    currentHP,
+    currentHeat,
+    currentBurn,
+    currentOverchargeIndex,
+    currentCore,
+    currentRepairs,
+    currentStructure,
+    currentStress,
+    activeConditions,
+  ]);
 
 
   // console.log('activemech', activeMech);

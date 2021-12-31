@@ -49,6 +49,14 @@ const blankSkill = {
   "family": ""
 }
 
+const blankStatus = {
+  "name": "unknown_status",
+  "icon": "unknown",
+  "type": "Status",
+  "terse": "Unknown status.",
+  "effects": "Unknown status."
+}
+
 export const OVERCHARGE_SEQUENCE = ['1','1d3','1d6','1d6+4']
 
 // these should probably get rolled into damageModifiers system
@@ -237,7 +245,13 @@ export const findSystemData = (systemID) => {
 }
 
 export const findModData = (modID) => {
-  var modData = allMods.find(system => system.id === modID);
+  var modData = allMods.find(mod => mod.id === modID);
   if (!modData) modData = findGameDataFromLcp('mods', modID)
   return modData ? modData : findModData('missing_weaponmod');
+}
+
+export const findStatusData = (statusName) => {
+  var statusData = allStatuses.find(status => status.name === statusName);
+  // if (!statusData) statusData = findGameDataFromLcp('statuses', statusName) // new lcps can't really add new statuses
+  return statusData ? statusData : blankStatus;
 }

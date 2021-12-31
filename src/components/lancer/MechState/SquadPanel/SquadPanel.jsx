@@ -20,6 +20,8 @@ function getFirebaseDB() {
 
 // makes a condensed form of mech + pilot to show to the rest of the squad
 function createSquadMech(mechData, pilotData) {
+  // console.log('mechData', mechData);
+
 	const frameData = findFrameData(mechData.frame);
 	let squadMech = {}
 	squadMech.id = mechData.id
@@ -37,17 +39,17 @@ function createSquadMech(mechData, pilotData) {
 	// TODO: should sanitize this on the receiving end
 	squadMech.portraitPilot = pilotData.cloud_portrait
 
-	let statuses = ['Systems Destroyed']
-	if (!mechData.current_core_energy) statuses.push('CP exhausted')
-	if (mechData.current_overcharge > 0) statuses.push(`Overcharge ${OVERCHARGE_SEQUENCE[mechData.current_overcharge]}`)
-  // Destroyed systems?
-	squadMech.statusInternal = statuses.join(', ')
-
-	statuses = ['Jammed, Impaired, Burn 2, Overshield 2']
+	let statuses = []
+  if (mechData.conditions) statuses = [...mechData.conditions]
   if (mechData.burn) statuses.push(`Burn ${mechData.burn}`)
 	if (mechData.overshield) statuses.push(`Overshield ${mechData.overshield}`)
-  // Exposed, etc.
-	squadMech.statusExternal = statuses.join(', ')
+	squadMech.statusExternal = statuses.join(',')
+
+  statuses = []
+	if (!mechData.current_core_energy) statuses.push('CP exhausted')
+	if (mechData.current_overcharge > 0) statuses.push(`Overcharge: +${OVERCHARGE_SEQUENCE[mechData.current_overcharge]} heat`)
+  // Destroyed systems?
+	squadMech.statusInternal = statuses.join(',')
 
 	// console.log('squad mech', squadMech);
 	return squadMech;

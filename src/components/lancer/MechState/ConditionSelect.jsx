@@ -6,6 +6,7 @@ import './ConditionSelect.scss';
 
 import {
   LANCER_CONDITIONS,
+  findStatusData,
 } from '../lancerData.js';
 
 
@@ -38,8 +39,12 @@ import {
 //   ...clearSelectDropdownIconStyle
 // }
 
+
+
+// =============== ADD / REMOVE TAG CRAP =============
+
 const conditionOptions = LANCER_CONDITIONS.map(condition => ({
-  "value" : condition.icon,
+  "value" : condition.name,
   "label" : condition.name
 }))
 
@@ -48,19 +53,37 @@ const ConditionSelect = ({
 	activeConditions,
 	setActiveConditions,
 }) => {
+  const selectedConditions = activeConditions
+    ? activeConditions.map(conditionName => getOptionFromValue(conditionOptions, conditionName))
+    : []
+
+  const updateSelectedConditions = (newSelectedConditions) => {
+    let newConditions = newSelectedConditions ? newSelectedConditions.map(cond => cond.value) : []
+    setActiveConditions(newConditions)
+  }
 
   return (
     <div className='ConditionSelect'>
+      <Select
+        isMulti
+        placeholder='Conditions'
+        name='conditions'
+        className='conditions-dropdown'
+        options={conditionOptions}
+        value={selectedConditions}
+        onChange={updateSelectedConditions}
+      />
 
-			<Select
-	      isMulti
-	      placeholder='Conditions'
-	      name='conditions'
-	      className='conditions-dropdown'
-	      options={conditionOptions}
-	      value={activeConditions}
-	      onChange={options => setActiveConditions(options)}
-	    />
+      { activeConditions &&
+        <div className='condition-container'>
+          { activeConditions.map(condition =>
+            <div className='condition' key={condition}>
+              <div className='label'>{condition}</div>
+              <div className='text'>{findStatusData(condition).terse}</div>
+            </div>
+          )}
+        </div>
+      }
     </div>
   );
 }

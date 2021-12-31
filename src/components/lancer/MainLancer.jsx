@@ -169,7 +169,8 @@ const MainLancer = ({
 
     if (mechIndex >= 0 && pilotIndex >= 0) {
       Object.keys(newMechData).forEach(statKey => {
-        newPilotData.mechs[mechIndex][statKey] = parseInt(newMechData[statKey])
+        const newValue = (statKey === 'conditions') ? newMechData[statKey] : parseInt(newMechData[statKey])
+        newPilotData.mechs[mechIndex][statKey] = newValue
       });
 
       // update it in localstorage

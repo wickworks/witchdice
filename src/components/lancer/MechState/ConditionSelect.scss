@@ -2,4 +2,25 @@
 
 .ConditionSelect {
 	margin-top: 20px;
+
+	.condition-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		column-gap: 20px;
+		row-gap: 16px;
+		margin-top: 8px;
+
+		.condition {
+			.label {
+				@include text_monospace;
+				color: $rust;
+				background-color: $parchment_dark;
+				padding: 2px 6px;
+			}
+
+			.text {
+				padding: 0 6px;
+			}
+		}
+	}
 }
