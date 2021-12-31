@@ -5,6 +5,7 @@ import { deepCopy, capitalize } from '../../../../utils.js';
 import {
   getMechMaxHP,
   getMechMaxHeatCap,
+  getMechMaxRepairCap,
 } from '../mechStateUtils.js';
 
 import {
@@ -47,7 +48,10 @@ function createSquadMech(mechData, pilotData) {
 
   statuses = []
 	if (!mechData.current_core_energy) statuses.push('CP exhausted')
-	if (mechData.current_overcharge > 0) statuses.push(`Overcharge ${OVERCHARGE_SEQUENCE[mechData.current_overcharge]} heat`)
+  if (mechData.current_overcharge > 0) statuses.push(`Overcharge ${OVERCHARGE_SEQUENCE[mechData.current_overcharge]} heat`)
+	if (mechData.current_repairs < getMechMaxRepairCap(mechData, pilotData, frameData)) {
+    statuses.push(`${mechData.current_repairs} repairs left`)
+  }
   // Destroyed systems?
 	squadMech.statusInternal = statuses.join(',')
 

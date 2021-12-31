@@ -169,6 +169,13 @@ const MechSheet = ({
 
         <MechCoreSystem coreSystem={frameData.core_system} />
 
+        <MechState
+          activeMech={activeMech}
+          activePilot={activePilot}
+          frameData={frameData}
+          updateMechState={updateMechState}
+        />
+
         <MechanicsList
           label={`Systems (${getMechSP(activeMech, activePilot, frameData)} SP)`}
           findData={findSystemData}
@@ -178,13 +185,6 @@ const MechSheet = ({
           mechanicIDList={loadout.systems}
           containerClass={'systems'}
           namesToLowercase={false}
-        />
-
-        <MechState
-          activeMech={activeMech}
-          activePilot={activePilot}
-          frameData={frameData}
-          updateMechState={updateMechState}
         />
 
         <div className="mounts-label">Mounts</div>
