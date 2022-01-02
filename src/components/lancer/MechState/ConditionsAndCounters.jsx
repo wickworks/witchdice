@@ -11,36 +11,6 @@ import {
 } from '../lancerData.js';
 
 
-// Style for the drop-down menus
-// const centerSelectStyle = {
-//   valueContainer: (provided, state) => {
-//     const justifyContent = 'center';
-//     const padding = '6px'
-//     return { ...provided, justifyContent, padding };
-//   },
-//   menu: (provided, state) => {
-//     const fontSize = '16px';
-//     return { ...provided, fontSize };
-//   },
-// }
-//
-// const clearSelectDropdownIconStyle = {
-//   indicatorsContainer: (provided, state) => {
-//     const display = 'none';
-//     return { ...provided, display };
-//   }
-// }
-//
-// const disguiseSelectStyle = {
-//   control: (provided, state) => {
-//     const backgroundColor = 'transparent';
-//     const border = 'none';
-//     return { ...provided, backgroundColor, border };
-//   },
-//   ...clearSelectDropdownIconStyle
-// }
-
-
 
 // =============== ADD / REMOVE TAG CRAP =============
 
@@ -95,7 +65,7 @@ const ConditionsAndCounters = ({
       <div className='condition-container'>
         <Select
           isMulti
-          placeholder='Conditions'
+          placeholder='Add Condition'
           name='conditions'
           className='conditions-dropdown'
           options={conditionOptions}
@@ -103,14 +73,16 @@ const ConditionsAndCounters = ({
           onChange={updateSelectedConditions}
         />
 
+
+                <button className='add-custom-counter' onClick={addCounter}>
+                  Add Custom Counter
+                  <div className='asset plus' />
+                </button>
+
         { activeConditions && activeConditions.map(condition =>
           <Condition condition={condition} key={condition} />
         )}
 
-        <button className='add-custom-counter' onClick={addCounter}>
-          Add Custom Counter
-          <div className='asset plus' />
-        </button>
 
         { customCounters && customCounters.map((counter, i) =>
           <CustomCounter

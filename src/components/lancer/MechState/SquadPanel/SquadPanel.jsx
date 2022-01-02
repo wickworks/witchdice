@@ -48,7 +48,11 @@ function createSquadMech(mechData, pilotData) {
 	squadMech.statusExternal = statuses.join(',')
 
   statuses = []
-  if (pilotData.custom_counters) getCountersFromPilot(pilotData).forEach(counter => statuses.push(`${counter.name}: ${counter.val}`))
+  if (pilotData.custom_counters) {
+    getCountersFromPilot(pilotData)
+      .filter(counter => counter.name.length > 0)
+      .forEach(counter => statuses.push(`${counter.name}: ${counter.val}`))
+  }
   if (mechData.current_overcharge > 0) statuses.push(`Overcharge ${OVERCHARGE_SEQUENCE[mechData.current_overcharge]} heat`)
   if (!mechData.current_core_energy) statuses.push('CP exhausted')
 	if (mechData.current_repairs < getMechMaxRepairCap(mechData, pilotData, frameData)) {
