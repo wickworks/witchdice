@@ -4,8 +4,8 @@ import TextInput from '../TextInput.jsx';
 import './RoomConnect.scss';
 
 const RoomConnect = ({
-  partyRoom, partyName,
-  setPartyRoom, setPartyName,
+  partyRoom, setPartyRoom,
+  partyName, setPartyName,
   generateRoomName,
   partyConnected, connectToRoom,
   rollMode
@@ -45,9 +45,7 @@ const RoomConnect = ({
     }, 2000);
   }
 
-
   const connectDisabled = (partyRoom.length <= 6 || partyName.length <= 0);
-
 
 	return (
     <div className={`RoomConnect ${partyConnected ? 'connected' : 'disconnected'}`}>
