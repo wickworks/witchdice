@@ -114,11 +114,6 @@ const MechState = ({
       custom_counters: customCounters.map(counter => {return {name: counter.name, id: counter.id, custom: true}}),
       counter_data: customCounters.map(counter => {return {id: counter.id, val: counter.val}}),
     })
-
-    console.log('updating custom counters to ', {
-      custom_counters: customCounters.map(counter => {return {name: counter.name, id: counter.id, custom: true}}),
-      counter_data: customCounters.map(counter => {return {id: counter.id, val: counter.val}})
-    });
   }, [
     currentOvershield,
     currentHP,

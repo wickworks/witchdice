@@ -184,7 +184,6 @@ const MainLancer = ({
 
       // update it in localstorage
       savePilotData(newPilotData)
-      console.log('newPilotData',newPilotData);
 
       // update it in the list of pilot entries
       if (pilotIndex >= 0) {
