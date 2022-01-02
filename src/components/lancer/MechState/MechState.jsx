@@ -4,7 +4,7 @@ import MechNumberLabel from './MechNumberLabel.jsx';
 import MechNumberBar from './MechNumberBar.jsx';
 import MechNumberIcon from './MechNumberIcon.jsx';
 import MechSingleStat from './MechSingleStat.jsx';
-import ConditionSelect from './ConditionSelect.jsx';
+import ConditionsAndCounters from './ConditionsAndCounters.jsx';
 
 import {
   OVERCHARGE_SEQUENCE,
@@ -18,6 +18,7 @@ import {
   getMechEvasion,
   getMechEDef,
   getMechSaveTarget,
+  getCountersFromPilot,
 } from './mechStateUtils.js';
 
 import './MechState.scss';
@@ -77,6 +78,7 @@ const MechState = ({
   const [currentStress, setCurrentStress] = useState(activeMech.current_stress);
 
   const [activeConditions, setActiveConditions] = useState(activeMech.conditions);
+  const [customCounters, setCustomCounters] = useState(getCountersFromPilot(activePilot));
 
   function initializeCurrentStatus() {
     setCurrentOvershield(parseInt(activeMech.overshield));
@@ -108,8 +110,15 @@ const MechState = ({
       current_repairs: currentRepairs,
       current_stress: currentStress,
       current_structure: currentStructure,
-      conditions: activeConditions
+      conditions: activeConditions,
+      custom_counters: customCounters.map(counter => {return {name: counter.name, id: counter.id, custom: true}}),
+      counter_data: customCounters.map(counter => {return {id: counter.id, val: counter.val}}),
     })
+
+    console.log('updating custom counters to ', {
+      custom_counters: customCounters.map(counter => {return {name: counter.name, id: counter.id, custom: true}}),
+      counter_data: customCounters.map(counter => {return {id: counter.id, val: counter.val}})
+    });
   }, [
     currentOvershield,
     currentHP,
@@ -121,11 +130,13 @@ const MechState = ({
     currentStructure,
     currentStress,
     activeConditions,
+    JSON.stringify(customCounters),
   ]);
 
 
   // console.log('activemech', activeMech);
   // console.log('frameData', frameData);
+  // console.log('customCounters', customCounters);
 
   const maxHP = getMechMaxHP(activeMech, activePilot, frameData)
 
@@ -355,7 +366,12 @@ const MechState = ({
         </div>
       </div>
 
-      <ConditionSelect activeConditions={activeConditions} setActiveConditions={setActiveConditions} />
+      <ConditionsAndCounters
+        activeConditions={activeConditions}
+        setActiveConditions={setActiveConditions}
+        customCounters={customCounters}
+        setCustomCounters={setCustomCounters}
+      />
     </div>
   );
 }

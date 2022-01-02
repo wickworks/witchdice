@@ -1,0 +1,95 @@
+@import '../../../fonts';
+
+.ConditionsAndCounters {
+	margin-top: 20px;
+
+	.condition-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		grid-auto-flow: dense;
+		align-items: center;
+		column-gap: 20px;
+		row-gap: 16px;
+
+		margin-top: 8px;
+
+		.Condition {
+			&:last-child:nth-child(odd) {
+				grid-column: span 2;
+				@include constricted { grid-column: span 1; }
+			}
+
+			.label {
+				@include text_monospace;
+				color: $rust;
+				background-color: $parchment_dark;
+				padding: 2px 6px;
+			}
+
+			.text { padding: 4px 6px 0; }
+		}
+
+		button.add-custom-counter {
+			@include text_monospace;
+			display: block;
+			height: fit-content;
+			padding: 4px 6px;
+			border-radius: 4px;
+			background-color: $parchment_dark;
+			// background-color: white;
+			color: $periwinkle_dark;
+
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+
+			&:hover { background-color: $pink; }
+			// &:hover { filter: brightness(95%); }
+
+			.asset {
+				width: 28px; height: 28px;
+				margin-left: 8px;
+				// turns black to $periwinkle
+				filter: invert(40%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%);
+
+				// turns black to $rust
+				// filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+			}
+		}
+
+		.CustomCounter {
+			@include text_monospace;
+			color: $soft_black;
+			background-color: $periwinkle;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+
+			.TextInput {
+				padding: 0;
+				color: white;
+				&:hover { background-color: $periwinkle_dark; }
+
+				.display { padding: 8px 10px; }
+				input { margin: 0 10px; }
+			}
+
+			input[type='number'] {
+				font-size: 20px;
+				margin-right: 6px;
+			}
+
+			button.delete {
+				padding: 8px 6px;
+
+				.asset {
+					width: 20px; height: 20px;
+					filter: invert(100%);
+				}
+
+				&:hover { background-color: $periwinkle_dark; }
+			}
+		}
+	}
+}

@@ -170,12 +170,21 @@ const MainLancer = ({
 
     if (mechIndex >= 0 && pilotIndex >= 0) {
       Object.keys(newMechData).forEach(statKey => {
-        const newValue = (statKey === 'conditions') ? newMechData[statKey] : parseInt(newMechData[statKey])
-        newPilotData.mechs[mechIndex][statKey] = newValue
+        // update something on the pilot, actually
+        if (statKey === 'custom_counters' || statKey === 'counter_data') {
+          newPilotData[statKey] = newMechData[statKey]
+
+        // update a mech value
+        } else if (statKey === 'conditions') {
+          newPilotData.mechs[mechIndex][statKey] = newMechData[statKey]
+        } else {
+          newPilotData.mechs[mechIndex][statKey] = parseInt(newMechData[statKey])
+        }
       });
 
       // update it in localstorage
       savePilotData(newPilotData)
+      console.log('newPilotData',newPilotData);
 
       // update it in the list of pilot entries
       if (pilotIndex >= 0) {

@@ -142,3 +142,23 @@ function getBonusFromCoreBonuses(bonusType, coreBonusIDs) {
 
   return coreTotal
 }
+
+// convert the custom counters stored in pilots (custom_counters and counter_data) into a single array of objects
+export function getCountersFromPilot(pilotData) {
+  let counters = [];
+
+  if (pilotData.custom_counters && pilotData.counter_data) {
+    pilotData.custom_counters.forEach(counter =>
+      counters.push({
+        name: counter.name,
+        id: counter.id
+      })
+    )
+    pilotData.counter_data.forEach(counterData => {
+      const matchingCounter = counters.find(counter => counter.id === counterData.id);
+      if (matchingCounter) matchingCounter.val = counterData.val;
+    })
+  }
+
+  return counters
+}
