@@ -15,6 +15,12 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
+          <div className='version-label'>v0.10.1 — Jan 2021</div>
+          <ul>
+            <li>Custom counters on lancer sheet.</li>
+            <li>/simple/some-room-id will join a room (hi Gather visitors)</li>
+          </ul>
+
           <div className='version-label'>v0.10.0 — Dec 2021</div>
           <ul>
             <li>Mech character sheet; hp, heat etc.</li>
