@@ -10,35 +10,50 @@ import './WeaponRollerSetup.scss';
 const COVER_SOFT = 'Soft Cover'
 const COVER_HARD = 'Hard Cover'
 
-function getInitialSources(weaponData) {
+function getInitialSources(weaponData, invadeData) {
   var initialSources = [];
 
-  if (findTagOnWeapon(weaponData, 'tg_accurate'))   initialSources.push('Accurate')
-  if (findTagOnWeapon(weaponData, 'tg_inaccurate')) initialSources.push('Inaccurate')
+  if (weaponData) {
+    if (findTagOnWeapon(weaponData, 'tg_accurate'))   initialSources.push('Accurate')
+    if (findTagOnWeapon(weaponData, 'tg_inaccurate')) initialSources.push('Inaccurate')
+  }
+
+  if (invadeData) {
+    // ???? goblin and hive swarm ????
+  }
+
+  // How about the mech being impaired?
 
   return initialSources;
 }
 
 const WeaponRollerSetup = ({
   weaponData,
-  gritBonus,
+  invadeData,
+  rollBonus,
+  rollBonusLabel = '',
   createNewAttackRoll,
 }) => {
-  const [currentSources, setCurrentSources] = useState(getInitialSources(weaponData));
+  const isTechAttack = !weaponData && invadeData;
+
+  const [currentSources, setCurrentSources] = useState(getInitialSources(weaponData, invadeData));
   const [manualMod, setManualMod] = useState(0);
 
   // =============== CHANGE WEAPON ==================
   useEffect(() => {
     resetModifiers();
-  }, [weaponData]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [weaponData, invadeData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const resetModifiers = () => {
     setCurrentSources(getInitialSources(weaponData));
     setManualMod(0);
   }
 
-  var difficultySources = ['Impaired', 'Inaccurate', COVER_HARD, COVER_SOFT]
-  var accuracySources = ['Accurate', 'Consume Lock']
+  var difficultySources = ['Impaired']
+  if (!isTechAttack) difficultySources.push('Inaccurate', COVER_HARD, COVER_SOFT)
+
+  var accuracySources = ['Consume Lock']
+  if (!isTechAttack) difficultySources.push('Accurate')
 
   const MANUAL_MOD = `Other (${manualMod > 0 ? '+' : ''}${manualMod})`
   var currentSourcesPlusManual = [...currentSources]
@@ -94,7 +109,8 @@ const WeaponRollerSetup = ({
     <div className="WeaponRollerSetup">
 
       <DiamondRollButton
-        gritBonus={gritBonus}
+        rollBonus={rollBonus}
+        rollBonusLabel={rollBonusLabel}
         currentMod={currentMod}
         createNewAttackRoll={createNewAttackRoll}
       />

@@ -16,6 +16,7 @@ import {
 
 import {
   getMechSP,
+  getMechTechAttack,
 } from './MechState/mechStateUtils.js';
 
 import {
@@ -274,8 +275,8 @@ const MechSheet = ({
       {activeInvadeData &&
         <TechRoller
           invadeData={activeInvadeData}
-          techAttackBonus={0}
-          sensorRange={10}
+          techAttackBonus={getMechTechAttack(activeMech, activePilot, frameData)}
+          sensorRange={frameData.stats.sensor_range}
           setRollSummaryData={setRollSummaryDataWithName}
           onClear={newAttackSummary}
         />

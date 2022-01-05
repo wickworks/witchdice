@@ -19,9 +19,20 @@
     .base-tech-stats {
       display: flex;
       justify-content: space-between;
-      font-size: 18px;
+      font-size: 22px;
     }
   }
 
+  .WeaponRollerSetup .DiamondRollButton .BigRollButton .new-roll {
+    background-color: $periwinkle_dark;
+    // background-color: $periwinkle_light;
 
+    // black to $periwinkle (but lightened)
+    .asset { filter: invert(60%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%); }
+  }
+
+
+  .status-bar .action-buttons-container {
+    justify-content: center;
+  }
 }

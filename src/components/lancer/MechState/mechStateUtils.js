@@ -96,6 +96,18 @@ export function getMechMaxRepairCap(activeMech, activePilot, frameData) {
   return parseInt(total);
 }
 
+export function getMechTechAttack(activeMech, activePilot, frameData) {
+  var total = frameData.stats.tech_attack
+
+  const sys = activePilot.mechSkills[2]
+  total += sys
+
+  // total += getBonusFromSystems('sp', activeMech.loadouts[0])
+  // total += getBonusFromCoreBonuses('sp', activePilot.core_bonuses)
+
+  return parseInt(total);
+}
+
 export function getMechSP(activeMech, activePilot, frameData) {
   var total = frameData.stats.sp
 

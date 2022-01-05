@@ -94,9 +94,10 @@
 
     .action-buttons-container {
       display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
+      justify-content: space-between;
       margin-top: 4px;
+
+      @include constricted { flex-direction: column; }
 
       button {
         display: flex;
@@ -110,18 +111,8 @@
         border-radius: 6px;
 
         &:hover { background-color: $parchment_dark; }
-
-
-        &.add-target {
-          color: $crushed_velvet;
-        }
-
-        &.clear-attacks {
-          color: $rust;
-          margin-left: auto;
-
-          @include constricted { margin: 0; }
-        }
+        &.add-target { color: $crushed_velvet; }
+        &.clear-attacks { color: $rust; }
 
         .asset {
           width: 24px;

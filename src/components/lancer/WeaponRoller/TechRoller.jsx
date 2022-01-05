@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
+import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
+import WeaponRollerSetup from './WeaponRollerSetup.jsx';
 import './TechRoller.scss';
 import './WeaponRoller.scss';
+
+import {
+  createNewTechAttack,
+} from './weaponRollerUtils.js';
 
 const TechRoller = ({
   invadeData,
@@ -10,7 +16,9 @@ const TechRoller = ({
   onClear,
 }) => {
 
-  const [allAttackRolls, setAllAttackRolls] = useState([]);
+  const [techAttackRoll, setTechAttackRoll] = useState(null);
+  const [bonusDamageData, setBonusDamageData] = useState(null);
+
   const [isSettingUpAttack, setIsSettingUpAttack] = useState(true);
 
   // { invadeOptions.map((invade, i) =>
@@ -19,13 +27,42 @@ const TechRoller = ({
   //   </button>
   // )}
 
+  const createNewAttackRoll = () => {
+
+    const accuracyMod = 0;
+    const newAttack = createNewTechAttack(invadeData, techAttackBonus, accuracyMod)
+
+    var bonusDamage = {};
+    bonusDamage.rolls = []
+    // bonusDamage.rolls = rollBonusDamage(
+    //   [...availableBonusSources, GENERIC_BONUS_SOURCE],
+    //   defaultWeaponDamageType(currentWeaponProfile),
+    //   newAttack.isOverkill
+    // );
+    bonusDamage.traits = [] // getBonusTraits(availableBonusSources)
+
+    setBonusDamageData(bonusDamage);
+    setTechAttackRoll(newAttack)
+    setIsSettingUpAttack(false);
+
+  }
+
+  const clearAttacks = () => {
+    // setAllAttackSummaries([]);
+    // setAllAttackRolls([]);
+    setIsSettingUpAttack(true);
+    setBonusDamageData(null);
+    onClear();
+  }
+
+
   return (
     <div className='TechRoller WeaponRoller'>
       <h3 className='name'>{invadeData.name}</h3>
 
       <div className="top-bar">
         <div className='effect-row base-tech-stats'>
-          <div>Tech Attack: +{techAttackBonus}</div>
+          <div>Tech Attack: {techAttackBonus >= 0 ? '+' : ''}{techAttackBonus}</div>
           <div>Sensor range: {sensorRange}</div>
         </div>
 
@@ -35,12 +72,39 @@ const TechRoller = ({
       </div>
 
       <div className="attacks-bar">
+        { techAttackRoll &&
+          <WeaponAttack
+            attackData={techAttackRoll}
+            bonusDamageData={bonusDamageData}
+            halveBonusDamage={false}
+            damageModifiers={[]}
+            manualBaseDamage={0}
+            isFirstRoll={true}
+            setAttackSummary={(attackSummaryData) => {}}
+          />
+        }
 
+        { isSettingUpAttack &&
+          <WeaponRollerSetup
+            invadeData={invadeData}
+            rollBonus={techAttackBonus}
+            rollBonusLabel='Tech'
+            createNewAttackRoll={createNewAttackRoll}
+          />
+        }
       </div>
 
 
       <div className='status-bar'>
 
+        { !isSettingUpAttack &&
+          <div className='action-buttons-container'>
+            <button className='clear-attacks' onClick={clearAttacks} >
+              <div className='asset x' />
+              Clear
+            </button>
+          </div>
+        }
       </div>
     </div>
   )

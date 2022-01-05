@@ -268,7 +268,8 @@ const WeaponRoller = ({
         { isSettingUpAttack &&
           <WeaponRollerSetup
             weaponData={currentWeaponProfile}
-            gritBonus={gritBonus}
+            rollBonus={gritBonus}
+            rollBonusLabel='Grit'
             createNewAttackRoll={createNewAttackRoll}
           />
         }

@@ -35,7 +35,7 @@ const WeaponAttack = ({
   var isCrit = isHit && finalFinalResult >= 20;
   if (invertCrit) isCrit = !isCrit
 
-  const isReliable = attackData.reliable.val > 0;
+  const isReliable = attackData.reliable && attackData.reliable.val > 0;
   const convertedBonusToBurn = damageModifiers.bonusToBurn && bonusDamageData.rolls.length > 0;
   var selfHeat = attackData.selfHeat;
 

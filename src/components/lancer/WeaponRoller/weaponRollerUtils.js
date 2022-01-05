@@ -11,7 +11,40 @@ import {
   GENERIC_BONUS_SOURCE
 } from '../lancerData.js';
 
-function createNewAttack(weaponData, flatBonus, accuracyMod, manualBaseDamage, inheritDamage = null) {
+export function createNewTechAttack(invadeData, flatBonus, accuracyMod) {
+  let newAttack = {};
+
+  newAttack.isOverkill = false
+  newAttack.isArmorPiercing = false
+  newAttack.reliable = { val: 0, type: 'Variable' }
+  newAttack.knockback = 0
+  newAttack.selfHeat = 0
+
+  newAttack.toHit = rollToHit(flatBonus, accuracyMod);
+  newAttack.toHitReroll = rollToHit(flatBonus, accuracyMod);
+
+  // always just two heat (WHAT ABOUT NUC CAV?)
+  let techDamage = {}
+  techDamage.rolls = []
+  techDamage.rolls.push({
+    rollPool: [2],
+    critPool: [],
+    keep: 1,
+    dieType: 'flat',
+    type: 'Heat',
+    id: invadeData.name
+  })
+
+  newAttack.damage = techDamage
+
+  // newAttack.onAttack = weaponData.on_attack || '';
+  newAttack.onHit = invadeData.detail || '';
+  // newAttack.onCrit = weaponData.on_crit || '';
+
+  return newAttack
+}
+
+export function createNewAttack(weaponData, flatBonus, accuracyMod, manualBaseDamage, inheritDamage = null) {
   let newAttack = {};
 
   // Overkill?
@@ -57,7 +90,7 @@ function createNewAttack(weaponData, flatBonus, accuracyMod, manualBaseDamage, i
 
 
 // Fills out the to-hit roll for the attack data.
-function rollToHit(flatBonus, accuracyMod) {
+export function rollToHit(flatBonus, accuracyMod) {
   var toHit = {};
 
   toHit.baseRoll = getRandomInt(20);
@@ -76,7 +109,7 @@ function rollToHit(flatBonus, accuracyMod) {
 }
 
 // Fills out the damage rolls for the attack data.
-function rollDamage(weaponData, isOverkill, manualBaseDamage) {
+export function rollDamage(weaponData, isOverkill, manualBaseDamage) {
   var damageData = {};
   damageData.rolls = [];
 
@@ -107,7 +140,7 @@ function rollDamage(weaponData, isOverkill, manualBaseDamage) {
 }
 
 // Fills out the damage rolls for the attack data.
-function rollBonusDamage(bonusSourceData, defaultType, isOverkill = false) {
+export function rollBonusDamage(bonusSourceData, defaultType, isOverkill = false) {
   var rolls = [];
 
   bonusSourceData.forEach(source => {
@@ -123,7 +156,7 @@ function rollBonusDamage(bonusSourceData, defaultType, isOverkill = false) {
   return rolls;
 }
 
-function produceRollPools(damageDice, damageType, isOverkill = false, sourceID = '') {
+export function produceRollPools(damageDice, damageType, isOverkill = false, sourceID = '') {
   let rolls = []; // for damageData.rolls
 
   // ROLLS
@@ -161,7 +194,7 @@ function produceRollPools(damageDice, damageType, isOverkill = false, sourceID =
 }
 
 // Adds to the given roll/critPool with a random damage roll, including overkill triggers
-function makeDamageRoll(dieType, rollPool, isOverkill) {
+export function makeDamageRoll(dieType, rollPool, isOverkill) {
   let roll = getRandomInt(dieType) ;
   rollPool.push(roll)
 
@@ -174,7 +207,7 @@ function makeDamageRoll(dieType, rollPool, isOverkill) {
 }
 
 
-function getBonusTraits(bonusSourceData) {
+export function getBonusTraits(bonusSourceData) {
   var traits = [];
 
   bonusSourceData.forEach(source => {
@@ -186,7 +219,7 @@ function getBonusTraits(bonusSourceData) {
   return traits;
 }
 
-function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBonusDieCount, genericBonusPlus, isOverkill) {
+export function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBonusDieCount, genericBonusPlus, isOverkill) {
   var activeBonusDamageData = {};
 
   if (bonusDamageData) {
@@ -249,15 +282,4 @@ function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBo
   }
 
   return activeBonusDamageData
-}
-
-export {
-  rollToHit,
-  rollDamage,
-  rollBonusDamage,
-  getBonusTraits,
-  produceRollPools,
-  makeDamageRoll,
-  getActiveBonusDamageData,
-  createNewAttack,
 }
