@@ -1,7 +1,8 @@
 @import '../../../fonts';
 @import '../../../assets_lancer';
 
-.WeaponRoller {
+// Serves as a basis for TechRoller, which overwrites some values
+.WeaponRoller, .TechRoller {
   @include shadow;
   @include parchment_background;
   @include nouveau_border("nouveau_lancer_weapon.svg");

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import WeaponRoller from './WeaponRoller/WeaponRoller.jsx';
+import TechRoller from './WeaponRoller/TechRoller.jsx';
 import MechState from './MechState/MechState.jsx';
 import MechanicsList from './MechanicsList.jsx';
 import { MechTraits, MechCoreSystem } from './MechTraits.jsx';
@@ -10,6 +11,7 @@ import {
   findSystemData,
   findCoreBonusData,
   findModData,
+  findTalentData,
 } from './lancerData.js';
 
 import {
@@ -81,6 +83,36 @@ function getMountsFromLoadout(loadout) {
   return mounts;
 }
 
+function getInvadeOptions(loadout, pilotTalents) {
+  let invades = [];
+
+  invades.push({
+    "name": "Fragment Signal",
+    "activation": "Invade",
+    "detail": "IMPAIR and SLOW a character until the end of their next turn.",
+  })
+
+  loadout.systems.forEach(system => {
+    const systemActions = findSystemData(system.id).actions
+    if (systemActions) {
+      systemActions.forEach(action => {
+        if (action.activation === 'Invade') invades.push(action)
+      })
+    }
+  })
+
+  pilotTalents.forEach(pilotTalent => {
+    const talentActions = findTalentData(pilotTalent.id).actions
+    if (talentActions) {
+      talentActions.forEach(action => {
+        if (action.activation === 'Invade') invades.push(action)
+      })
+    }
+  })
+
+  return invades
+}
+
 const MechSheet = ({
   activeMech,
   activePilot,
@@ -93,6 +125,8 @@ const MechSheet = ({
   const [activeMountIndex, setActiveMountIndex] = useState(null);
   const [activeWeaponIndex, setActiveWeaponIndex] = useState(0);
 
+  const [activeInvadeIndex, setActiveInvadeIndex] = useState(null)
+
   // =============== CHANGE MECH / WEAPON ==================
   useEffect(() => {
     setActiveMountIndex(null);
@@ -102,14 +136,23 @@ const MechSheet = ({
     (activePilot && activePilot.id)]
   );
 
-  const changeMountAndWeapon = (newMount, newWeapon) => {
-    setActiveMountIndex(newMount)
-    setActiveWeaponIndex(newWeapon)
+  const changeMountAndWeapon = (mountIndex, weaponIndex) => {
+    setActiveMountIndex(mountIndex)
+    setActiveWeaponIndex(weaponIndex)
+    setActiveInvadeIndex(null)
 
     // the next attack roll will be a new entry in the summary
     newAttackSummary()
   }
 
+  const activateInvade = (invadeIndex) => {
+    setActiveMountIndex(null)
+    setActiveWeaponIndex(0)
+    setActiveInvadeIndex(invadeIndex)
+
+    // the next attack roll will be a new entry in the summary
+    newAttackSummary()
+  }
 
   // =============== SUMMARY DATA ==================
   // inject the mech name to summary data before sending it up
@@ -130,12 +173,12 @@ const MechSheet = ({
 
   const loadout = activeMech.loadouts[0];
   const mounts = getMountsFromLoadout(loadout);
+  const invades = getInvadeOptions(loadout, activePilot.talents);
 
   const frameData = findFrameData(activeMech.frame);
   const gritBonus = getGrit(activePilot);
 
   const activeMount = mounts[activeMountIndex];
-
   const activeMountWeapons = getWeaponsOnMount(activeMount);
   const activeWeapon = activeMountWeapons && activeMountWeapons[activeWeaponIndex];
   const activeWeaponData = activeWeapon && getModdedWeaponData(activeWeapon)
@@ -148,6 +191,8 @@ const MechSheet = ({
   ];
 
   const miscBonusToHit = getToHitBonusFromMech(activeMech);
+
+  const activeInvadeData = invades[activeInvadeIndex]
 
   return (
     <div className="MechSheet">
@@ -202,6 +247,16 @@ const MechSheet = ({
               key={`mount-${i}`}
             />
           )}
+
+          { invades.map((invade, i) =>
+            <div className='MechMount tech' key={`invade-${i}`}>
+              <TechAttack
+                invadeData={invade}
+                onClick={() => activateInvade(i)}
+                isActive={activeInvadeIndex === i}
+              />
+            </div>
+          )}
         </div>
       </div>
 
@@ -211,6 +266,16 @@ const MechSheet = ({
           gritBonus={gritBonus+miscBonusToHit}
           availableBonusSources={bonusDamageSources}
           isPrimaryWeaponOnMount={activeWeaponIndex === 0}
+          setRollSummaryData={setRollSummaryDataWithName}
+          onClear={newAttackSummary}
+        />
+      }
+
+      {activeInvadeData &&
+        <TechRoller
+          invadeData={activeInvadeData}
+          techAttackBonus={0}
+          sensorRange={10}
           setRollSummaryData={setRollSummaryDataWithName}
           onClear={newAttackSummary}
         />
@@ -260,6 +325,28 @@ const MechMount = ({
     </div>
   )
 }
+
+const TechAttack = ({
+  invadeData,
+  onClick,
+  isActive,
+}) => {
+  const mountType = 'Invade'
+
+  return (
+    <button
+      className={`TechAttack tech ${isActive ? 'active' : ''}`}
+      onClick={onClick}
+    >
+      { mountType && <div className='mount-type'>{mountType}</div>}
+
+      <div className="mech-weapon">
+        <div className="name">{invadeData.name}</div>
+      </div>
+    </button>
+  )
+}
+
 
 const MechWeapon = ({
   mountType = '',

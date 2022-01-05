@@ -23,7 +23,7 @@ const JumplinkPanel = ({
           className='link-container'
         >
           {jumplinks.map(link =>
-            <a href={`#${link}`}>{capitalize(link)}</a>
+            <a href={`#${link}`} key={link}>{capitalize(link)}</a>
           )}
         </Scrollspy>
       </div>

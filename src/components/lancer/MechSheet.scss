@@ -104,8 +104,9 @@
   @include constricted { width: 100%; }
 
   &.empty { border-color: $faded_grey; }
+  &.tech { border-color: $periwinkle; }
 
-  .MechWeapon {
+  .MechWeapon, .TechAttack {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -123,6 +124,8 @@
       background-color: $rust;
       border-color: $parchment_dark;
       color: white;
+
+      &.tech { background-color: $periwinkle; }
     }
 
     &:disabled {

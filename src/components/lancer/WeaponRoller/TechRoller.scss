@@ -1,0 +1,27 @@
+@import '../../../fonts';
+
+// Inherits a lot from WeaponRoller; we're just overriding
+.TechRoller {
+  @include nouveau_border("nouveau_lancer_tech.svg");
+
+  h3 {
+    @include text_monospace;
+    font-size: 32px;
+    color: $periwinkle_dark;
+  }
+
+  .top-bar {
+    @include text_monospace;
+    color: $periwinkle_dark;
+
+    > * { border-color: $periwinkle_light; }
+
+    .base-tech-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 18px;
+    }
+  }
+
+
+}
