@@ -14,15 +14,30 @@ const MechTraits = ({
 
     	<div className='traits-container'>
 				{ traitList.map((trait, i) =>
-					<TraitBlock
-						name={trait.name.toLowerCase()}
-						key={trait.name}
-						isTitleCase={true}
-						activation=''
-						description={trait.description}
-						isCollapsed={isCollapsed}
-						handleClick={() => setIsCollapsed(!isCollapsed)}
-					/>
+					<React.Fragment key={trait.name}>
+						<TraitBlock
+							name={trait.name.toLowerCase()}
+							isTitleCase={true}
+							activation=''
+							description={trait.description}
+							isCollapsed={isCollapsed}
+							handleClick={() => setIsCollapsed(!isCollapsed)}
+						/>
+
+						{ trait.actions && trait.actions.map((traitAction, i) => {
+							return (
+								<TraitBlock
+									key={traitAction.name}
+									name={traitAction.name}
+									activation={traitAction.activation}
+									frequency={traitAction.frequency}
+									description={traitAction.detail}
+									isCollapsed={isCollapsed}
+									handleClick={() => setIsCollapsed(!isCollapsed)}
+								/>
+							)
+						})}
+					</React.Fragment>
 				)}
 			</div>
     </div>
@@ -58,7 +73,6 @@ const MechCoreSystem = ({
 							name={passiveAction.name}
 							activation={passiveAction.activation}
 							description={passiveAction.detail}
-							isAction={true}
 							isCollapsed={isCollapsed}
 							handleClick={() => setIsCollapsed(!isCollapsed)}
 						/>
@@ -81,7 +95,6 @@ const MechCoreSystem = ({
 							name={activeAction.name}
 							activation={activeAction.activation}
 							description={activeAction.detail}
-							isAction={true}
 							isCollapsed={isCollapsed}
 							handleClick={() => setIsCollapsed(!isCollapsed)}
 						/>
@@ -95,11 +108,11 @@ const MechCoreSystem = ({
 const TraitBlock = ({
 	name,
 	activation,
+	frequency,
 	description,
 	handleClick,
 	extraClass = '',
 	isTitleCase = false,
-	isAction = false,
 	isCP = false,
 	isCollapsed = false,
 }) => {
@@ -108,17 +121,21 @@ const TraitBlock = ({
 
 	const titleClass = isTitleCase ? 'title-case' : '';
 	const collapsedClass = isCollapsed ? 'collapsed' : '';
-	const actionClass = isAction ? 'action' : '';
 	const cpClass = isCP ? 'core-power' : '';
 
   return (
 		<div className={`TraitBlock ${wideClass} ${tallClass} ${extraClass}`}>
 			<button
-				className={`name ${titleClass} ${actionClass} ${cpClass} ${collapsedClass}`}
+				className={`name ${titleClass} ${activation.toLowerCase()} ${cpClass} ${collapsedClass}`}
 				onClick={handleClick}
 			>
 				<div>{name}</div>
-				{activation && <div className='detail'>{activation}</div>}
+				{activation &&
+					<div className='detail'>
+						{activation}
+						{frequency && `, ${frequency}`}
+					</div>
+				}
 			</button>
 
 			{!isCollapsed &&

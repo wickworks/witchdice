@@ -19,6 +19,7 @@ function getInitialSources(weaponData, invadeData) {
   }
 
   if (invadeData) {
+    
     // ???? goblin and hive swarm ????
   }
 

@@ -36,7 +36,7 @@
       padding: 6px 6px;
 
       &.title-case { text-transform: capitalize; }
-      &.action { background-color: $crushed_velvet; }
+      &.action, &.reaction { background-color: $crushed_velvet; }
       &.core-power { background-color: $rust_dark; }
 
       &:hover { filter: brightness(115%); }
@@ -52,6 +52,8 @@
         @include text_monospace;
         font-size: 12px;
         margin-top: 4px;
+
+        // span.frequency { margin-left: 8px; }
       }
     }
 
