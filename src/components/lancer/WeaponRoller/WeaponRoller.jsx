@@ -260,6 +260,7 @@ const WeaponRoller = ({
             damageModifiers={totalDamageModifiers}
             manualBaseDamage={manualBaseDamage}
             isFirstRoll={i === 0}
+            isTechAttack={false}
             setAttackSummary={(attackSummaryData) => setRollSummaryDataWithWeaponName(attackSummaryData, i)}
             key={i}
           />

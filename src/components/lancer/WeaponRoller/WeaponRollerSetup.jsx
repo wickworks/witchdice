@@ -53,7 +53,7 @@ const WeaponRollerSetup = ({
   if (!isTechAttack) difficultySources.push('Inaccurate', COVER_HARD, COVER_SOFT)
 
   var accuracySources = ['Consume Lock']
-  if (!isTechAttack) difficultySources.push('Accurate')
+  if (!isTechAttack) accuracySources.push('Accurate')
 
   const MANUAL_MOD = `Other (${manualMod > 0 ? '+' : ''}${manualMod})`
   var currentSourcesPlusManual = [...currentSources]

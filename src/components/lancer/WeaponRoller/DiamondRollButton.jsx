@@ -17,7 +17,7 @@ const DiamondRollButton = ({
   return (
     <div className="DiamondRollButton">
       <div className='grit'>
-        +{rollBonus}
+        {rollBonus >= 0 ? '+' : ''}{rollBonus}
         <span className='label'>{rollBonusLabel}</span>
       </div>
 

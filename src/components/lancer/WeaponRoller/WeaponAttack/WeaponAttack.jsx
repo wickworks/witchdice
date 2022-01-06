@@ -21,6 +21,7 @@ const WeaponAttack = ({
   halveBonusDamage,
   damageModifiers,
   isFirstRoll,
+  isTechAttack,
   setAttackSummary,
 }) => {
   const [isChoosingHitMiss, setIsChoosingHitMiss] = useState(true);
@@ -32,7 +33,7 @@ const WeaponAttack = ({
 
   const finalResult = isRerolled ? attackData.toHitReroll.finalResult : attackData.toHit.finalResult
   const finalFinalResult = manualRoll > 0 ? manualRoll : finalResult
-  var isCrit = isHit && finalFinalResult >= 20;
+  var isCrit = isHit && finalFinalResult >= 20 && !isTechAttack;
   if (invertCrit) isCrit = !isCrit
 
   const isReliable = attackData.reliable && attackData.reliable.val > 0;

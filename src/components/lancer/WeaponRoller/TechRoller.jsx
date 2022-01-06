@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
 import WeaponRollerSetup from './WeaponRollerSetup.jsx';
 import './TechRoller.scss';
@@ -21,12 +21,6 @@ const TechRoller = ({
 
   const [isSettingUpAttack, setIsSettingUpAttack] = useState(true);
 
-  // { invadeOptions.map((invade, i) =>
-  //   <button className='invade' key={invade.name}>
-  //     {invade.name}
-  //   </button>
-  // )}
-
   const createNewAttackRoll = () => {
 
     const accuracyMod = 0;
@@ -47,14 +41,29 @@ const TechRoller = ({
 
   }
 
+  // =============== CHANGE WEAPON ==================
+  useEffect(() => {
+    clearAttacks()
+    // clearActiveBonusSources()
+  }, [JSON.stringify(invadeData)]);
+
+
   const clearAttacks = () => {
     // setAllAttackSummaries([]);
-    // setAllAttackRolls([]);
     setIsSettingUpAttack(true);
+    setTechAttackRoll(null);
     setBonusDamageData(null);
     onClear();
   }
 
+  // ====== ROLL SUMMARY PANEL ======
+  const setRollSummaryDataWithTechName = (invadeSummaryData) => {
+    setRollSummaryData({
+      conditions: [invadeData.name],
+      rolls: [invadeSummaryData],
+      skipTotal: true,
+    })
+  }
 
   return (
     <div className='TechRoller WeaponRoller'>
@@ -80,7 +89,8 @@ const TechRoller = ({
             damageModifiers={[]}
             manualBaseDamage={0}
             isFirstRoll={true}
-            setAttackSummary={(attackSummaryData) => {}}
+            isTechAttack={true}
+            setAttackSummary={setRollSummaryDataWithTechName}
           />
         }
 
