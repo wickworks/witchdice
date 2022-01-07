@@ -114,6 +114,48 @@ function getInvadeOptions(loadout, pilotTalents) {
   return invades
 }
 
+// We only care about synergies that apply to weapons
+function getWeaponSynergies(source) {
+  if (source.trait.synergies) {
+    return source.trait.synergies.filter(synergy => synergy.locations.includes('weapon'))
+  }
+  return []
+}
+
+function getBonusDamageSources(activeMech, activePilot, activeMount, activeWeapon) {
+  let bonusDamageSources = [
+    ...getBonusDamageSourcesFromMech(activeMech),
+    ...getBonusDamageSourcesFromCoreBonuses(activeMount),
+    ...getBonusDamageSourcesFromMod(activeWeapon),
+    ...getBonusDamageSourcesFromTalents(activePilot),
+  ]
+
+  // filter them out by synergy e.g. melee talents only apply to melee weapons
+  if (activeWeapon) {
+    bonusDamageSources = bonusDamageSources.filter(source => {
+      const synergies = getWeaponSynergies(source)
+      const weaponData = findWeaponData(activeWeapon.id)
+
+      const failingSynergies = synergies.filter(synergy => {
+        // Weapon type? (mimic gun counts as everything)
+        if (synergy.weapon_types) {
+          if (!synergy.weapon_types.includes(weaponData.type) && weaponData.type !== '???') return true
+        }
+        // Weapon size?
+        if (synergy.weapon_sizes) {
+          if (!synergy.weapon_sizes.includes(weaponData.mount)) return true
+        }
+        return false
+      })
+
+      // Only include sources without failing synergies
+      return failingSynergies.length === 0;
+    })
+  }
+
+  return bonusDamageSources
+}
+
 const MechSheet = ({
   activeMech,
   activePilot,
@@ -184,12 +226,9 @@ const MechSheet = ({
   const activeWeapon = activeMountWeapons && activeMountWeapons[activeWeaponIndex];
   const activeWeaponData = activeWeapon && getModdedWeaponData(activeWeapon)
 
-  const bonusDamageSources = [
-    ...getBonusDamageSourcesFromMech(activeMech),
-    ...getBonusDamageSourcesFromCoreBonuses(activeMount),
-    ...getBonusDamageSourcesFromMod(activeWeapon),
-    ...getBonusDamageSourcesFromTalents(activePilot),
-  ];
+  const bonusDamageSources = getBonusDamageSources(activeMech, activePilot, activeMount, activeWeapon);
+
+  // Filter out any bonus damage sources
 
   const miscBonusToHit = getToHitBonusFromMech(activeMech);
 

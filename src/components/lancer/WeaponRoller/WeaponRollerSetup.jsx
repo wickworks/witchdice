@@ -47,7 +47,6 @@ const WeaponRollerSetup = ({
 
   // get other weird sources from this character's mech or pilot build
   const characterSources = getCharacterSpecificSourceData(activeMech, activePilot, weaponData, invadeData)
-  console.log('characterSources',characterSources);
   characterSources.forEach(characterSource => {
     if (characterSource.accuracy) {
       accuracySources.push(characterSource.name)

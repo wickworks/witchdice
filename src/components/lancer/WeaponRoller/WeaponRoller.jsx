@@ -143,7 +143,8 @@ const WeaponRoller = ({
         newAttack.isOverkill
       );
 
-      bonusDamage.traits = getBonusTraits(availableBonusSources)
+      // pull any traits out of the bounus sources
+      bonusDamage.traits = availableBonusSources.filter(source => source.trait).map(source => source.trait)
 
       setBonusDamageData(bonusDamage);
     }
