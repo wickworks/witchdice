@@ -31,7 +31,7 @@ const BaseDamageBar = ({
       <div className="damage-and-range">
         { weaponProfile.damage &&
           <div className="base-damage">
-            <div className='bracket'>{'[ '}</div>
+            <div className='bracket'>[</div>
             { weaponProfile.damage.map((damage, i) =>
               <DamageDice
                 damage={damage}
@@ -41,19 +41,19 @@ const BaseDamageBar = ({
                 key={`damage-${i}`}
               />
             )}
-            <div className='bracket'>{' ]'}</div>
+            <div className='bracket'>]</div>
           </div>
         }
 
         <div className="base-range">
-          <div className='bracket'>{'[ '}</div>
+          <div className='bracket'>[</div>
           { weaponProfile.range.map((range, i) =>
             <div className='range' key={`range-${i}`}>
               {range.val}
               <div className={`asset ${range.type.toLowerCase()}`} />
             </div>
           )}
-          <div className='bracket'>{' ]'}</div>
+          <div className='bracket'>]</div>
         </div>
       </div>
 

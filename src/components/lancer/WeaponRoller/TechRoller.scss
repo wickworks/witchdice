@@ -18,8 +18,29 @@
 
     .base-tech-stats {
       display: flex;
-      justify-content: space-between;
-      font-size: 22px;
+      // justify-content: space-between;
+      flex-wrap: wrap;
+
+      .tech-stat {
+        display: flex;
+        align-items: center;
+        margin-right: 12px;
+
+        .bracket {
+          margin-top: -4px;
+          font-size: 24px;
+        }
+
+        .label {
+          margin-left: 4px;
+          font-size: 18px;
+        }
+
+        .value {
+          margin: 0 4px 0 8px;
+          font-size: 26px;
+        }
+      }
     }
   }
 
@@ -27,6 +48,8 @@
     background-color: $periwinkle_dark;
     // background-color: $periwinkle_light;
 
+
+    .result { color: $periwinkle_light; }
     // black to $periwinkle (but lightened)
     .asset { filter: invert(60%) sepia(11%) saturate(2194%) hue-rotate(179deg) brightness(101%) contrast(89%); }
   }

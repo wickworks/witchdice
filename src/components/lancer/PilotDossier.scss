@@ -9,6 +9,8 @@ $right_column_wid: 370px;
   justify-content: center;
   box-sizing: border-box;
 
+  overflow: hidden;
+
   .dossier-container {
     @include shadow;
     @include parchment_background;

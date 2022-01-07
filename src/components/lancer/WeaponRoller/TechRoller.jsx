@@ -9,9 +9,13 @@ import {
 } from './weaponRollerUtils.js';
 
 const TechRoller = ({
+  activeMech,
+  activePilot,
+
   invadeData,
   techAttackBonus,
   sensorRange,
+
   setRollSummaryData,
   onClear,
 }) => {
@@ -71,8 +75,18 @@ const TechRoller = ({
 
       <div className="top-bar">
         <div className='effect-row base-tech-stats'>
-          <div>Tech Attack: {techAttackBonus >= 0 ? '+' : ''}{techAttackBonus}</div>
-          <div>Sensor range: {sensorRange}</div>
+          <div className='tech-stat'>
+            <div className='bracket'>[</div>
+            <div className='label'>Tech Attack</div>
+            <div className='value'>{techAttackBonus >= 0 ? '+' : ''}{techAttackBonus}</div>
+            <div className='bracket'>]</div>
+          </div>
+          <div className='tech-stat'>
+            <div className='bracket'>[</div>
+            <div className='label'>Sensor range</div>
+            <div className='value'>{sensorRange}</div>
+            <div className='bracket'>]</div>
+          </div>
         </div>
 
         <div className='effect-row'>
@@ -96,6 +110,8 @@ const TechRoller = ({
 
         { isSettingUpAttack &&
           <WeaponRollerSetup
+            activeMech={activeMech}
+            activePilot={activePilot}
             invadeData={invadeData}
             rollBonus={techAttackBonus}
             rollBonusLabel='Tech'

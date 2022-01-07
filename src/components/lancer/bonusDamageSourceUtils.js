@@ -44,7 +44,7 @@ function newSourceFromFrame(frameData, diceString, damageType = '', traitName = 
   )
 }
 
-function getBonusDamageSourcesFromMech(mechData) {
+export function getBonusDamageSourcesFromMech(mechData) {
   var sources = [];
 
   const frameData = findFrameData(mechData.frame);
@@ -83,7 +83,7 @@ function getBonusDamageSourcesFromMech(mechData) {
   return sources;
 }
 
-function getToHitBonusFromMech(mechData) {
+export function getToHitBonusFromMech(mechData) {
   var toHitBonus = 0;
   if (mechData.frame === 'mf_deaths_head') toHitBonus += 1;
   return toHitBonus;
@@ -111,7 +111,7 @@ function newTalentTrait(talentData, rank, attackEffects) {
   return {...talentData.ranks[rank-1], ...blankTrait, ...attackEffects, talentData, name: talentData.name}
 }
 
-function getBonusDamageSourcesFromTalents(pilotData) {
+export function getBonusDamageSourcesFromTalents(pilotData) {
   var sources = [];
 
   pilotData.talents.forEach(talentAndRank => {
@@ -270,7 +270,7 @@ function newModTrait(modData, modEffect = {}) {
   return {...blankTrait, ...modData, ...modEffect}
 }
 
-function getBonusDamageSourcesFromMod(activeWeapon) {
+export function getBonusDamageSourcesFromMod(activeWeapon) {
   var sources = [];
   if (!activeWeapon) return sources;
   const mod = activeWeapon.mod
@@ -334,7 +334,7 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
 
 //  ============================================    CORE BONUSeS    =================================================
 
-function getBonusDamageSourcesFromCoreBonuses(activeMount) {
+export function getBonusDamageSourcesFromCoreBonuses(activeMount) {
   var sources = [];
   if (!activeMount) return sources;
 
@@ -387,12 +387,3 @@ function getBonusDamageSourcesFromCoreBonuses(activeMount) {
 //
 //   return sources;
 // }
-
-
-export {
-  getBonusDamageSourcesFromMech,
-  getBonusDamageSourcesFromTalents,
-  getBonusDamageSourcesFromMod,
-  getBonusDamageSourcesFromCoreBonuses,
-  getToHitBonusFromMech,
-};

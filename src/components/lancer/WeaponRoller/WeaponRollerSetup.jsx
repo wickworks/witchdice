@@ -2,42 +2,31 @@ import React, { useState, useEffect } from 'react';
 import DiamondRollButton from './DiamondRollButton.jsx';
 
 import {
-  findTagOnWeapon,
-} from '../lancerData.js';
+  getCharacterSpecificSourceData,
+  getStartingSources,
+} from './accuracySourceUtils.js';
 
 import './WeaponRollerSetup.scss';
 
 const COVER_SOFT = 'Soft Cover'
 const COVER_HARD = 'Hard Cover'
 
-function getInitialSources(weaponData, invadeData) {
-  var initialSources = [];
 
-  if (weaponData) {
-    if (findTagOnWeapon(weaponData, 'tg_accurate'))   initialSources.push('Accurate')
-    if (findTagOnWeapon(weaponData, 'tg_inaccurate')) initialSources.push('Inaccurate')
-  }
-
-  if (invadeData) {
-    
-    // ???? goblin and hive swarm ????
-  }
-
-  // How about the mech being impaired?
-
-  return initialSources;
-}
 
 const WeaponRollerSetup = ({
+  activeMech,
+  activePilot,
+
   weaponData,
   invadeData,
+
   rollBonus,
   rollBonusLabel = '',
   createNewAttackRoll,
 }) => {
   const isTechAttack = !weaponData && invadeData;
 
-  const [currentSources, setCurrentSources] = useState(getInitialSources(weaponData, invadeData));
+  const [currentSources, setCurrentSources] = useState(getStartingSources(activeMech, activePilot, weaponData, invadeData));
   const [manualMod, setManualMod] = useState(0);
 
   // =============== CHANGE WEAPON ==================
@@ -46,7 +35,7 @@ const WeaponRollerSetup = ({
   }, [weaponData, invadeData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const resetModifiers = () => {
-    setCurrentSources(getInitialSources(weaponData));
+    setCurrentSources(getStartingSources(activeMech, activePilot, weaponData, invadeData));
     setManualMod(0);
   }
 
@@ -55,6 +44,18 @@ const WeaponRollerSetup = ({
 
   var accuracySources = ['Consume Lock']
   if (!isTechAttack) accuracySources.push('Accurate')
+
+  // get other weird sources from this character's mech or pilot build
+  const characterSources = getCharacterSpecificSourceData(activeMech, activePilot, weaponData, invadeData)
+  console.log('characterSources',characterSources);
+  characterSources.forEach(characterSource => {
+    if (characterSource.accuracy) {
+      accuracySources.push(characterSource.name)
+    } else {
+      difficultySources.push(characterSource.name)
+    }
+  });
+
 
   const MANUAL_MOD = `Other (${manualMod > 0 ? '+' : ''}${manualMod})`
   var currentSourcesPlusManual = [...currentSources]

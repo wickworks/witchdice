@@ -263,6 +263,8 @@ const MechSheet = ({
 
       {activeWeaponData &&
         <WeaponRoller
+          activeMech={activeMech}
+          activePilot={activePilot}
           weaponData={activeWeaponData}
           gritBonus={gritBonus+miscBonusToHit}
           availableBonusSources={bonusDamageSources}
@@ -274,6 +276,8 @@ const MechSheet = ({
 
       {activeInvadeData &&
         <TechRoller
+          activeMech={activeMech}
+          activePilot={activePilot}
           invadeData={activeInvadeData}
           techAttackBonus={getMechTechAttack(activeMech, activePilot, frameData)}
           sensorRange={frameData.stats.sensor_range}

@@ -139,6 +139,9 @@
     .mount-type {
       @include text_monospace;
       font-size: 20px;
+
+      @include below_max_width { font-size: 16px; }
+      @include constricted { font-size: 12px; }
     }
 
     .bonus-effect, .mod {
@@ -151,6 +154,16 @@
       text-align: left;
       font-size: 30px;
       text-transform: capitalize;
+
+      @include below_max_width {
+        margin-top: 6px;
+        font-size: 22px;
+      }
+
+      @include constricted {
+        margin-top: 2px;
+        font-size: 18px;
+      }
     }
 
     .i-have-no-weapon {

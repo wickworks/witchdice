@@ -23,6 +23,9 @@ import {
 import './WeaponRoller.scss';
 
 const WeaponRoller = ({
+  activeMech,
+  activePilot,
+
   weaponData,
   gritBonus,
   availableBonusSources = [],
@@ -268,6 +271,8 @@ const WeaponRoller = ({
 
         { isSettingUpAttack &&
           <WeaponRollerSetup
+            activeMech={activeMech}
+            activePilot={activePilot}
             weaponData={currentWeaponProfile}
             rollBonus={gritBonus}
             rollBonusLabel='Grit'
