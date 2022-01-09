@@ -7,9 +7,12 @@ const turndownService = new TurndownService()
 const BrToParagraphs = ({
   stringWithBrs,
   extraClass = '',
+  limitToFirstParagraph = false,
 }) => {
   var splits = stringWithBrs.replace(/<p>/g, '');
   splits = splits.split(/<\/p>|<br>/g);
+
+  if (limitToFirstParagraph) splits = [splits[0]]
 
   return (
     splits.map((paragraph, i) =>

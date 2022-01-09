@@ -23,12 +23,12 @@ const Tooltip = ({
 
         <div className='paragraph-container'>
           {content &&
-            <BrToParagraphs stringWithBrs={content} />
+            <BrToParagraphs stringWithBrs={content} limitToFirstParagraph={true} />
           }
 
-          {/**flavor &&
-            <BrToParagraphs stringWithBrs={flavor} extraClass='flavor' />
-          **/}
+          {flavor &&
+            <BrToParagraphs stringWithBrs={flavor} limitToFirstParagraph={true} extraClass='flavor' />
+          }
         </div>
 
         {compendiumHref &&
