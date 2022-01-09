@@ -3,13 +3,12 @@ import DiamondRollButton from './DiamondRollButton.jsx';
 
 import {
   getAvailableAccuracySources,
-  getStartingSources,
+  getStartingSourceIDs,
+  newAccSource,
 } from './accuracySourceUtils.js';
 
 import './WeaponRollerSetup.scss';
 
-const COVER_SOFT = 'Soft Cover'
-const COVER_HARD = 'Hard Cover'
 
 
 
@@ -26,7 +25,8 @@ const WeaponRollerSetup = ({
 }) => {
   const isTechAttack = !weaponData && invadeData;
 
-  const [currentSources, setCurrentSources] = useState(getStartingSources(activeMech, activePilot, weaponData, invadeData));
+  // IDs of available accuracy sources
+  const [currentSourceIDs, setCurrentSourceIDs] = useState(getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData));
   const [manualMod, setManualMod] = useState(0);
 
   // =============== CHANGE WEAPON ==================
@@ -35,63 +35,56 @@ const WeaponRollerSetup = ({
   }, [weaponData, invadeData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const resetModifiers = () => {
-    setCurrentSources(getStartingSources(activeMech, activePilot, weaponData, invadeData));
+    setCurrentSourceIDs(getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData));
     setManualMod(0);
   }
 
-  var difficultySources = []
-  if (!isTechAttack) difficultySources.push(COVER_HARD, COVER_SOFT)
+  const availableSources = getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData)
+  var currentSourceIDsPlusManual = [...currentSourceIDs]
+  let accuracySources = availableSources.filter(source => source.accuracy)
+  let difficultySources = availableSources.filter(source => !source.accuracy)
 
-  var accuracySources = ['Consume Lock', 'Prone Target']
+  const manualName = `Other (${manualMod > 0 ? '+' : ''}${manualMod})`
+  const MANUAL_SOURCE = newAccSource(manualName, 'manual', '', manualMod > 0, true)
+  if (manualMod !== 0) {
+    currentSourceIDsPlusManual.push(MANUAL_SOURCE.id)
+    if (manualMod > 0) accuracySources.push(MANUAL_SOURCE)
+    if (manualMod < 0) difficultySources.push(MANUAL_SOURCE)
+  }
 
-  // get other weird sources from this character's mech or pilot build
-  const characterSources = getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData)
-  characterSources.forEach(characterSource => {
-    if (characterSource.accuracy) {
-      accuracySources.push(characterSource.name)
-    } else {
-      difficultySources.push(characterSource.name)
-    }
-  });
+  const toggleSource = (sourceID) => {
+    let newSourceIDs = [...currentSourceIDs];
 
-
-  const MANUAL_MOD = `Other (${manualMod > 0 ? '+' : ''}${manualMod})`
-  var currentSourcesPlusManual = [...currentSources]
-  if (manualMod !== 0)  currentSourcesPlusManual.push(MANUAL_MOD)
-  if (manualMod < 0)    difficultySources.push(MANUAL_MOD)
-  if (manualMod > 0)    accuracySources.push(MANUAL_MOD)
-
-  const toggleSource = (source) => {
-    let newSources = [...currentSources];
-
-    if (source === MANUAL_MOD) {
+    if (sourceID === MANUAL_SOURCE.id) {
       setManualMod(0)
 
     } else {
-      const sourceIndex = newSources.indexOf(source);
+      const sourceIndex = newSourceIDs.indexOf(sourceID);
       if (sourceIndex >= 0) {
-        newSources.splice(sourceIndex, 1) // REMOVE source
+        newSourceIDs.splice(sourceIndex, 1) // REMOVE source
       } else {
-        newSources.push(source);          // ADD source
+        newSourceIDs.push(sourceID);          // ADD source
 
         // soft and hard cover are mutually exclusive
-        if (source === COVER_SOFT && newSources.includes(COVER_HARD)) {
-          newSources.splice(newSources.indexOf(COVER_HARD), 1)
-        } else if (source === COVER_HARD && newSources.includes(COVER_SOFT)) {
-          newSources.splice(newSources.indexOf(COVER_SOFT), 1)
+        if (sourceID === 'cover_soft' && newSourceIDs.includes('cover_hard')) {
+          newSourceIDs.splice(newSourceIDs.indexOf('cover_hard'), 1)
+        } else if (sourceID === 'cover_hard' && newSourceIDs.includes('cover_soft')) {
+          newSourceIDs.splice(newSourceIDs.indexOf('cover_soft'), 1)
         }
       }
-      setCurrentSources(newSources);
+      setCurrentSourceIDs(newSourceIDs);
     }
   }
 
-  var currentMod = 0;
-  currentSourcesPlusManual.forEach(source => {
-    if (source === MANUAL_MOD)                   currentMod += manualMod
-    else if (source === COVER_HARD)              currentMod += -2
-    else if (difficultySources.includes(source)) currentMod += -1
-    else if (accuracySources.includes(source))   currentMod +=  1
-  })
+  // tally up all the accuracy and difficulty sources
+  var currentMod = manualMod;
+  availableSources
+    .filter(source => currentSourceIDs.includes(source.id))
+    .forEach(source => {
+      if (source.id === 'cover_hard') currentMod += -2
+      else if (source.accuracy)       currentMod +=  1
+      else if (!source.accuracy)      currentMod += -1
+    });
   currentMod = Math.max(Math.min(currentMod, 9), -9)
 
   const clickNumberLine = (mod) => {
@@ -130,7 +123,7 @@ const WeaponRollerSetup = ({
 
           <Sources
             possibleSources={difficultySources}
-            currentSources={currentSourcesPlusManual}
+            currentSourceIDs={currentSourceIDsPlusManual}
             clickSource={toggleSource}
           />
         </div>
@@ -149,7 +142,7 @@ const WeaponRollerSetup = ({
 
           <Sources
             possibleSources={accuracySources}
-            currentSources={currentSourcesPlusManual}
+            currentSourceIDs={currentSourceIDsPlusManual}
             clickSource={toggleSource}
           />
         </div>
@@ -196,18 +189,18 @@ const NumberLine = ({
 
 const Sources = ({
   possibleSources,
-  currentSources,
+  currentSourceIDs,
   clickSource,
   manualMod,
 }) => (
   <div className="Sources">
     { possibleSources.map(source =>
       <button
-        onClick={() => clickSource(source)}
-        className={currentSources.includes(source) ? 'current' : ''}
-        key={source}
+        onClick={() => clickSource(source.id)}
+        className={currentSourceIDs.includes(source.id) ? 'current' : ''}
+        key={source.id}
       >
-        {source.toLowerCase()}
+        {source.name.toLowerCase()}
       </button>
     )}
   </div>
