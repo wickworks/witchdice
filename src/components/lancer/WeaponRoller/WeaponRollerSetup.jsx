@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DiamondRollButton from './DiamondRollButton.jsx';
 
 import {
-  getCharacterSpecificSourceData,
+  getAvailableAccuracySources,
   getStartingSources,
 } from './accuracySourceUtils.js';
 
@@ -39,14 +39,13 @@ const WeaponRollerSetup = ({
     setManualMod(0);
   }
 
-  var difficultySources = ['Impaired']
-  if (!isTechAttack) difficultySources.push('Inaccurate', COVER_HARD, COVER_SOFT)
+  var difficultySources = []
+  if (!isTechAttack) difficultySources.push(COVER_HARD, COVER_SOFT)
 
-  var accuracySources = ['Consume Lock']
-  if (!isTechAttack) accuracySources.push('Accurate')
+  var accuracySources = ['Consume Lock', 'Prone Target']
 
   // get other weird sources from this character's mech or pilot build
-  const characterSources = getCharacterSpecificSourceData(activeMech, activePilot, weaponData, invadeData)
+  const characterSources = getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData)
   characterSources.forEach(characterSource => {
     if (characterSource.accuracy) {
       accuracySources.push(characterSource.name)
@@ -208,7 +207,7 @@ const Sources = ({
         className={currentSources.includes(source) ? 'current' : ''}
         key={source}
       >
-        {source}
+        {source.toLowerCase()}
       </button>
     )}
   </div>

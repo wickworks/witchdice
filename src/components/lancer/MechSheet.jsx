@@ -138,11 +138,11 @@ function getBonusDamageSources(activeMech, activePilot, activeMount, activeWeapo
 
       const failingSynergies = synergies.filter(synergy => {
         // Weapon type? (mimic gun counts as everything)
-        if (synergy.weapon_types) {
+        if (synergy.weapon_types && synergy.weapon_types[0] !== 'any') {
           if (!synergy.weapon_types.includes(weaponData.type) && weaponData.type !== '???') return true
         }
         // Weapon size?
-        if (synergy.weapon_sizes) {
+        if (synergy.weapon_sizes && synergy.weapon_sizes[0] !== 'any') {
           if (!synergy.weapon_sizes.includes(weaponData.mount)) return true
         }
         return false
