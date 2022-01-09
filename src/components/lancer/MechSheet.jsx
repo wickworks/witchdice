@@ -27,6 +27,11 @@ import {
   getBonusDamageSourcesFromCoreBonuses,
 } from './bonusDamageSourceUtils.js';
 
+import {
+  getWeaponSynergies,
+  getFailingWeaponSynergies,
+} from './WeaponRoller/synergyUtils.js';
+
 import { deepCopy } from '../../utils.js';
 
 import './MechSheet.scss';
@@ -114,14 +119,6 @@ function getInvadeOptions(loadout, pilotTalents) {
   return invades
 }
 
-// We only care about synergies that apply to weapons
-function getWeaponSynergies(source) {
-  if (source.trait.synergies) {
-    return source.trait.synergies.filter(synergy => synergy.locations.includes('weapon'))
-  }
-  return []
-}
-
 function getBonusDamageSources(activeMech, activePilot, activeMount, activeWeapon) {
   let bonusDamageSources = [
     ...getBonusDamageSourcesFromMech(activeMech),
@@ -133,20 +130,9 @@ function getBonusDamageSources(activeMech, activePilot, activeMount, activeWeapo
   // filter them out by synergy e.g. melee talents only apply to melee weapons
   if (activeWeapon) {
     bonusDamageSources = bonusDamageSources.filter(source => {
-      const synergies = getWeaponSynergies(source)
+      const synergies = getWeaponSynergies(source.trait.synergies)
       const weaponData = findWeaponData(activeWeapon.id)
-
-      const failingSynergies = synergies.filter(synergy => {
-        // Weapon type? (mimic gun counts as everything)
-        if (synergy.weapon_types && synergy.weapon_types[0] !== 'any') {
-          if (!synergy.weapon_types.includes(weaponData.type) && weaponData.type !== '???') return true
-        }
-        // Weapon size?
-        if (synergy.weapon_sizes && synergy.weapon_sizes[0] !== 'any') {
-          if (!synergy.weapon_sizes.includes(weaponData.mount)) return true
-        }
-        return false
-      })
+      const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
 
       // Only include sources without failing synergies
       return failingSynergies.length === 0;

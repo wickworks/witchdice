@@ -4,13 +4,22 @@ import {
   findTalentData,
 } from '../lancerData.js';
 
+import {
+  getWeaponSynergies,
+  getFailingWeaponSynergies,
+} from './synergyUtils.js';
 
-function addAccSourceFromTalent(sources, talentID, rank, isAccuracy = true, defaultOn = false) {
-  const talentData = findTalentData(talentID)
+
+function addAccSourceFromTalent(sources, weaponData, talentData, rank, isAccuracy = true, defaultOn = false) {
   const name = talentData.ranks[rank-1].name
   const desc = talentData.ranks[rank-1].description
 
-  addAccSource(sources, name, talentID, desc, isAccuracy, defaultOn )
+  const synergies = getWeaponSynergies(talentData.ranks[rank-1].synergies)
+  const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
+
+  if (failingSynergies.length === 0) {
+    addAccSource(sources, name, talentData.id, desc, isAccuracy, defaultOn )
+  }
 }
 
 function addAccSource(sources, name, id, desc, isAccuracy = true, defaultOn = false) {
@@ -53,35 +62,35 @@ export function getAvailableAccuracySources(activeMech, activePilot, weaponData,
     if (findTagOnWeapon(weaponData, 'tg_inaccurate')) addAccSource(sources, 'Inaccurate', 'tg_inaccurate', 'Attacks made with this weapon receive +1 difficulty.', false, true)
 
     activePilot.talents.forEach(talentAndRank => {
-      const id = talentAndRank.id;
+      const talentData = findTalentData(talentAndRank.id)
       const rank = talentAndRank.rank;
 
       switch (talentAndRank.id) {
         case 't_brawler':
-          if (rank >= 1) addAccSourceFromTalent(sources, id, 1)
+          if (rank >= 1) addAccSourceFromTalent(sources, weaponData, talentData, 1)
           break;
         case 't_brutal':
-          if (rank >= 3) addAccSourceFromTalent(sources, id, 3)
+          if (rank >= 3) addAccSourceFromTalent(sources, weaponData, talentData, 3)
           break;
         case 't_crack_shot':
-          if (rank >= 1) addAccSourceFromTalent(sources, id, 1)
-          if (rank >= 2) addAccSourceFromTalent(sources, id, 1, false)
+          if (rank >= 1) addAccSourceFromTalent(sources, weaponData, talentData, 1)
+          if (rank >= 2) addAccSourceFromTalent(sources, weaponData, talentData, 2, false)
           break;
         case 't_combined_arms':
-          if (rank >= 3) addAccSourceFromTalent(sources, id, 3)
+          if (rank >= 3) addAccSourceFromTalent(sources, weaponData, talentData, 3)
           break;
         case 't_duelist':
-          if (rank >= 1) addAccSourceFromTalent(sources, id, 1)
+          if (rank >= 1) addAccSourceFromTalent(sources, weaponData, talentData, 1)
           break;
         case 't_gunslinger':
-          if (rank >= 1) addAccSourceFromTalent(sources, id, 1)
+          if (rank >= 1) addAccSourceFromTalent(sources, weaponData, talentData, 1)
           break;
         case 't_tactician':
-          if (rank >= 1) addAccSourceFromTalent(sources, id, 1)
-          if (rank >= 2) addAccSourceFromTalent(sources, id, 2)
+          if (rank >= 1) addAccSourceFromTalent(sources, weaponData, talentData, 1)
+          if (rank >= 2) addAccSourceFromTalent(sources, weaponData, talentData, 2)
           break;
         case 't_vanguard':
-          if (rank >= 1) addAccSourceFromTalent(sources, id, 1)
+          if (rank >= 1) addAccSourceFromTalent(sources, weaponData, talentData, 1)
           break;
       }
     });
