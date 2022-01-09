@@ -230,24 +230,38 @@ export function getBonusDamageSourcesFromTalents(pilotData) {
           break;
 
         case 't_walking_armory':
+          // The json doesn't include synergies because it's a separate system, but you and I, we know the score.
+          // let walkingTalentData = {...talentData}
+          // walkingTalentData.synergies = [{
+          //   "locations": ["weapon"],
+          //   "weapon_types": ["Rifle","Cannon","Launcher","CQB","Nexus"],
+          //   "weapon_sizes": ["Main"],
+          // }]
+
+          const synergies = [{
+            "locations": ["weapon"],
+            "weapon_types": ["Rifle","Cannon","Launcher","CQB","Nexus"],
+            "weapon_sizes": ["Main"],
+          }]
+
           if (rank >= 1) {
-            const thumperEffect = {onHit: 'THUMPER: Knockback 1'}
+            const thumperEffect = {onHit: 'THUMPER: Knockback 1', synergies}
             sources.push( newSource('THUMPER', 't_walking_armory_1_thumper', '', 'Explosive', newTalentTrait(talentData,1,thumperEffect)) );
 
-            const shockEffect = {onAttack: 'SHOCK: Choose one character targeted by your attack; adjacent characters take 1 Energy AP, whether the attack is a hit or miss.'}
+            const shockEffect = {onAttack: 'SHOCK: Choose one character targeted by your attack; adjacent characters take 1 Energy AP, whether the attack is a hit or miss.', synergies}
             sources.push( newSource('SHOCK', 't_walking_armory_1_shock', '', 'Energy', newTalentTrait(talentData,1,shockEffect)) );
 
-            const magEffect = {onAttack: 'MAG: Arcing.'}
+            const magEffect = {onAttack: 'MAG: Arcing.', synergies}
             sources.push( newSource('MAG', 't_walking_armory_1_mag', '', 'Kinetic', newTalentTrait(talentData,1,magEffect)) );
           }
           if (rank >= 2) {
-            const hellEffect = { damageModifiers: { bonusToBurn: true } }
+            const hellEffect = { damageModifiers: { bonusToBurn: true }, synergies}
             sources.push( newSource('HELLFIRE', 't_walking_armory_2_hellfire', '', 'Energy', newTalentTrait(talentData,2,hellEffect)) );
 
-            const jagerEffect = {onHit: 'JAGER: Knockback 2, one character hit by the attack – your choice – must succeed on a HULL save or be knocked PRONE.'}
+            const jagerEffect = {onHit: 'JAGER: Knockback 2, one character hit by the attack – your choice – must succeed on a HULL save or be knocked PRONE.', synergies}
             sources.push( newSource('JAGER', 't_walking_armory_2_jager', '', 'Explosive', newTalentTrait(talentData,2,jagerEffect)) );
 
-            const sabotEffect = {onHit: 'SABOT: Armor Piercing.'}
+            const sabotEffect = {onHit: 'SABOT: Armor Piercing.', synergies}
             sources.push( newSource('SABOT', 't_walking_armory_2_sabot', '', 'Explosive', newTalentTrait(talentData,2,sabotEffect)) );
           }
           break;
