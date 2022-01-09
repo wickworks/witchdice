@@ -65,7 +65,8 @@
     }
 
     .MechanicsList.systems {
-      min-height: 80px;
+      // min-height: 80px;
+      margin-bottom: 8px;
 
       .label {
         @include text_monospace;

@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 
+import {
+  findSystemData,
+} from './lancerData.js';
+
 import './MechTraits.scss';
 
 const MechTraits = ({
@@ -105,10 +109,76 @@ const MechCoreSystem = ({
   );
 }
 
+const MechSystemActions = ({
+	systems,
+}) => {
+	const [isCollapsed, setIsCollapsed] = useState(true);
+
+	function renderActions(system) {
+		let renderedActions = []
+		const systemData = findSystemData(system.id)
+
+		systemData.actions && systemData.actions.map((action, i) => {
+			if (action.activation !== 'Invade') { // invades are handled by the weapon roller
+				renderedActions.push(
+					<TraitBlock
+						key={`${systemData.name}-action-${i}`}
+						name={action.name || systemData.name}
+						activation={action.activation}
+						range={action.range}
+						description={action.detail}
+						isCollapsed={isCollapsed}
+						handleClick={() => setIsCollapsed(!isCollapsed)}
+					/>
+				)
+			}
+		})
+
+		return renderedActions
+	}
+
+	function renderDeployables(system) {
+		let renderedDeployables = []
+		const systemData = findSystemData(system.id)
+
+		systemData.deployables && systemData.deployables.map((deployable, i) => {
+			renderedDeployables.push(
+				<TraitBlock
+					key={`${systemData.name}-deployable-${i}`}
+					name={deployable.name}
+					activation={deployable.activation}
+					range={deployable.range}
+					description={deployable.detail}
+					isCollapsed={isCollapsed}
+					handleClick={() => setIsCollapsed(!isCollapsed)}
+				/>
+			)
+		})
+
+		console.log('RENDER DEPOLOTS', systemData.deployables);
+
+		return renderedDeployables
+	}
+
+  return (
+		<div className='MechSystemActions'>
+			<div className='traits-container'>
+				{ systems.map(system =>
+					<>
+						{renderActions(system)}
+						{renderDeployables(system)}
+					</>
+				)}
+			</div>
+    </div>
+  );
+}
+
 const TraitBlock = ({
 	name,
 	activation,
 	frequency,
+	range,
 	description,
 	handleClick,
 	extraClass = '',
@@ -134,6 +204,12 @@ const TraitBlock = ({
 					<div className='detail'>
 						{activation}
 						{frequency && `, ${frequency}`}
+						{range && range.map((range, i) =>
+	            <div className='range-icon' key={`range-${i}`}>
+	              {range.val}
+	              <div className={`asset ${range.type.toLowerCase()}`} />
+	            </div>
+	          )}
 					</div>
 				}
 			</button>
@@ -148,4 +224,4 @@ const TraitBlock = ({
 }
 
 
-export { MechTraits, MechCoreSystem };
+export { MechTraits, MechCoreSystem, MechSystemActions };

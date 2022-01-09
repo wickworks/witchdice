@@ -52,8 +52,8 @@
 
 			.label {
 				@include text_monospace;
-				color: $rust;
-				background-color: $parchment_dark;
+				color: white;
+				background-color: $rust;
 				padding: 2px 6px;
 			}
 

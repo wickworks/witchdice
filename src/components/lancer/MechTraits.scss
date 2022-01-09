@@ -1,6 +1,6 @@
 @import '../../fonts';
 
-.MechTraits, .MechCoreSystem {
+.MechTraits, .MechCoreSystem, .MechSystemActions {
   margin-top: 0;
 
   .label {
@@ -46,12 +46,29 @@
         color: $soft_black;
 
         &:hover { filter: brightness(85%); }
+
+        .detail .range-icon .asset { filter: none; }
       }
 
       .detail {
         @include text_monospace;
         font-size: 12px;
         margin-top: 4px;
+
+        display: flex;
+        align-items: center;
+
+        .range-icon {
+          display: flex;
+          align-items: center;
+          margin-left: 10px;
+
+          .asset {
+            width: 18px; height: 18px;
+            margin-top: -2px;
+            filter: invert(100%);
+          }
+        }
 
         // span.frequency { margin-left: 8px; }
       }
@@ -60,7 +77,13 @@
     .description {
       padding: 2px 6px;
 
+      p:first-child { margin-top: 0; }
+
       ul { margin: 4px 0; }
+
+      br {
+        margin-top: 4px;
+      }
     }
   }
 }

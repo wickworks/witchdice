@@ -3,7 +3,7 @@ import WeaponRoller from './WeaponRoller/WeaponRoller.jsx';
 import TechRoller from './WeaponRoller/TechRoller.jsx';
 import MechState from './MechState/MechState.jsx';
 import MechanicsList from './MechanicsList.jsx';
-import { MechTraits, MechCoreSystem } from './MechTraits.jsx';
+import { MechTraits, MechCoreSystem, MechSystemActions } from './MechTraits.jsx';
 import {
   getGrit,
   findWeaponData,
@@ -260,6 +260,8 @@ const MechSheet = ({
           containerClass={'systems'}
           namesToLowercase={false}
         />
+
+        <MechSystemActions systems={loadout.systems} />
 
         <a className='jumplink-anchor' id='weapons' />
         <div className="mounts-label">Mounts</div>
