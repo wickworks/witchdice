@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import DiamondRollButton from './DiamondRollButton.jsx';
+import Tooltip from '../../shared/Tooltip';
 
 import {
   getAvailableAccuracySources,
@@ -121,10 +122,10 @@ const WeaponRollerSetup = ({
             handleClick={clickNumberLine}
           />
 
-          <Sources
+          <SourcesContainer
             possibleSources={difficultySources}
             currentSourceIDs={currentSourceIDsPlusManual}
-            clickSource={toggleSource}
+            onSourceClick={toggleSource}
           />
         </div>
 
@@ -140,10 +141,10 @@ const WeaponRollerSetup = ({
             handleClick={clickNumberLine}
           />
 
-          <Sources
+          <SourcesContainer
             possibleSources={accuracySources}
             currentSourceIDs={currentSourceIDsPlusManual}
-            clickSource={toggleSource}
+            onSourceClick={toggleSource}
           />
         </div>
       </div>
@@ -187,23 +188,52 @@ const NumberLine = ({
   </div>
 )
 
-const Sources = ({
+const SourcesContainer = ({
   possibleSources,
   currentSourceIDs,
-  clickSource,
-  manualMod,
+  onSourceClick,
 }) => (
-  <div className="Sources">
+  <div className="SourcesContainer">
     { possibleSources.map(source =>
-      <button
-        onClick={() => clickSource(source.id)}
-        className={currentSourceIDs.includes(source.id) ? 'current' : ''}
+      <Source
+        source={source}
+        onSourceClick={onSourceClick}
+        isCurrent={currentSourceIDs.includes(source.id)}
         key={source.id}
-      >
-        {source.name.toLowerCase()}
-      </button>
+      />
     )}
   </div>
 )
+
+const Source = ({
+  source,
+  isCurrent,
+  onSourceClick,
+}) => {
+  const [isHovering, setIsHovering] = useState(false);
+
+  return (
+    <div
+      className='Source'
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+    >
+      <button
+        onClick={() => onSourceClick(source.id)}
+        className={isCurrent ? 'current' : ''}
+      >
+        {source.name.toLowerCase()}
+      </button>
+      {isHovering && source.desc &&
+        <Tooltip
+          title={source.name}
+          content={source.desc}
+          onClose={() => setIsHovering(false)}
+        />
+      }
+    </div>
+  )
+}
+
 
 export default WeaponRollerSetup;

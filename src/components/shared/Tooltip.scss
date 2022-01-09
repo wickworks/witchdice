@@ -69,9 +69,11 @@ $nub_width: 12px;
       justify-content: space-between;
 
       h4 {
-        font-size: 24px;
         font-weight: bold;
         margin: 0;
+        font-size: 20px;
+
+        @include below_max_width { font-size: 24px; }
       }
 
       button.asset.x {
@@ -86,27 +88,39 @@ $nub_width: 12px;
 
 
     .paragraph-container {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 8; /* number of lines to show */
-              line-clamp: 8;
-      -webkit-box-orient: vertical;
 
-      // line-clamp not working on firefox mobile
-      @include below_max_width { max-height: 144px; }
+      * {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 8; /* number of lines to show */
+                line-clamp: 8;
+        -webkit-box-orient: vertical;
+
+        // line-clamp not working on firefox mobile
+        // @include below_max_width { max-height: 144px; }
+
+        font-size: 15px;
+
+        @include below_max_width { font-size: 16px; }
+      }
 
       p {
         margin-bottom: 0;
+
+        &:first-child { margin-top: 8px; }
 
         &.flavor { font-style: italic; }
       }
     }
 
+    // compendium link
     a {
       display: block;
       margin: 12px 0;
       color: white;
+      font-size: 15px;
+      @include below_max_width { font-size: 16px; }
     }
 
   }

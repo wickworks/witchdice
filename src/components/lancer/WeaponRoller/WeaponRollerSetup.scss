@@ -45,7 +45,7 @@ $number_speed: 0.25s;
         margin-right: 14px;
         @include condensed_setup { align-items: flex-start; }
 
-        * { color: $rust; }
+        button { color: $rust; }
 
         .Sources button {
           text-align: right;
@@ -58,7 +58,7 @@ $number_speed: 0.25s;
         margin-left: 14px;
         @include condensed_setup { margin-left: 0; }
 
-        * { color: $soft_black; }
+        button { color: $soft_black; }
 
         .Sources button {
           text-align: left;
@@ -153,7 +153,7 @@ $number_speed: 0.25s;
         }
       }
 
-      .Sources {
+      .SourcesContainer {
         display: flex;
         flex-wrap: wrap;
         width: 100%;
@@ -163,30 +163,42 @@ $number_speed: 0.25s;
         //   grid-column: 2;
         // }
 
-        button {
-          display: block;
-          white-space: nowrap;
-          font-weight: bold;
-          letter-spacing: 1px;
-          text-transform: capitalize;
-          text-overflow: ellipsis;
-          overflow: hidden;
+        .Source {
           width: 50%;
-          height: fit-content;
-          padding: 4px 8px;
-          margin: 4px 0;
+          position: relative;
 
-          &:hover {
-            background-color: $parchment_dark;
-          }
-
-          &.current {
-            background-color: $rust;
-            color: white;
+          button {
+            display: block;
+            white-space: nowrap;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: capitalize;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            height: fit-content;
+            text-align: left;
+            width: 100%;
+            padding: 4px 8px;
+            margin: 4px 0;
 
             &:hover {
-              background-color: $rust_light;
+              background-color: $parchment_dark;
             }
+
+            &.current {
+              background-color: $rust;
+              color: white;
+
+              &:hover {
+                background-color: $rust_light;
+              }
+            }
+          }
+
+          // Bad UX to tap a button on mobile and have this tooltip pop up every time.
+          // Just disabling it on mobile for now until I come up with something better.
+          @include constricted {
+            .Tooltip { display: none; }
           }
         }
       }

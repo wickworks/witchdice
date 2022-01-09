@@ -26,9 +26,9 @@ const Tooltip = ({
             <BrToParagraphs stringWithBrs={content} />
           }
 
-          {flavor &&
+          {/**flavor &&
             <BrToParagraphs stringWithBrs={flavor} extraClass='flavor' />
-          }
+          **/}
         </div>
 
         {compendiumHref &&
