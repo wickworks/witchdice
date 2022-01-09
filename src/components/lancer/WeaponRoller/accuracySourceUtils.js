@@ -61,6 +61,9 @@ export function getAvailableAccuracySources(activeMech, activePilot, weaponData,
     if (findTagOnWeapon(weaponData, 'tg_accurate'))   addAccSource(sources, 'Accurate', 'tg_accurate', 'Attacks made with this weapon receive +1 accuracy.', true, true)
     if (findTagOnWeapon(weaponData, 'tg_inaccurate')) addAccSource(sources, 'Inaccurate', 'tg_inaccurate', 'Attacks made with this weapon receive +1 difficulty.', false, true)
 
+    let ignoresEngaged = false
+    if (weaponData.id === 'mw_bristlecrown_flechette_launcher') ignoresEngaged = true;
+
     activePilot.talents.forEach(talentAndRank => {
       const talentData = findTalentData(talentAndRank.id)
       const rank = talentAndRank.rank;
@@ -77,6 +80,7 @@ export function getAvailableAccuracySources(activeMech, activePilot, weaponData,
           if (rank >= 2) addAccSourceFromTalent(sources, weaponData, talentData, 2, false)
           break;
         case 't_combined_arms':
+          if (rank >= 2) ignoresEngaged = true
           if (rank >= 3) addAccSourceFromTalent(sources, weaponData, talentData, 3)
           break;
         case 't_duelist':
@@ -94,6 +98,11 @@ export function getAvailableAccuracySources(activeMech, activePilot, weaponData,
           break;
       }
     });
+
+    if (weaponData.type !== 'Melee' && !ignoresEngaged) {
+      const desc = 'If a character moves adjacent to a hostile character, they both gain the ENGAGED status for as long as they remain adjacent to one another. Ranged attacks made by an ENGAGED character receive +1 difficulty.'
+      addAccSource(sources, 'Engaged', 'engaged', desc, false)
+    }
   }
 
   if (invadeData) {
