@@ -239,6 +239,7 @@ const MechSheet = ({
           <div className="frame">{frameData.name.toLowerCase()}</div>
         </div>
 
+        <MechTraits traitList={frameData.traits} coreSystem={frameData.core_system} />
 
         <MechState
           activeMech={activeMech}
@@ -247,7 +248,6 @@ const MechSheet = ({
           updateMechState={updateMechState}
         />
 
-        <MechTraits traitList={frameData.traits} coreSystem={frameData.core_system} />
 
         {/**<MechanicsList
           label={`Systems (${getMechSP(activeMech, activePilot, frameData)} SP)`}

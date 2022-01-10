@@ -12,7 +12,6 @@ const MechTraits = ({
 	traitList,
 	coreSystem,
 }) => {
-	const [isCollapsed, setIsCollapsed] = useState(true);
 
   return (
 		<div className='MechTraits'>
@@ -26,8 +25,6 @@ const MechTraits = ({
 							isTitleCase={true}
 							activation=''
 							description={trait.description}
-							isCollapsed={isCollapsed}
-							handleClick={() => setIsCollapsed(!isCollapsed)}
 						/>
 
 						{ trait.actions && trait.actions.map((traitAction, i) => {
@@ -38,8 +35,6 @@ const MechTraits = ({
 									activation={traitAction.activation}
 									frequency={traitAction.frequency}
 									description={traitAction.detail}
-									isCollapsed={isCollapsed}
-									handleClick={() => setIsCollapsed(!isCollapsed)}
 								/>
 							)
 						})}
@@ -52,8 +47,6 @@ const MechTraits = ({
 						name={coreSystem.passive_name}
 						activation=''
 						description={coreSystem.passive_effect}
-						isCollapsed={isCollapsed}
-						handleClick={() => setIsCollapsed(!isCollapsed)}
 					/>
 				}
 
@@ -64,8 +57,6 @@ const MechTraits = ({
 							name={passiveAction.name}
 							activation={passiveAction.activation}
 							description={passiveAction.detail}
-							isCollapsed={isCollapsed}
-							handleClick={() => setIsCollapsed(!isCollapsed)}
 						/>
 					)
 				})}
@@ -75,8 +66,6 @@ const MechTraits = ({
 					activation={`Active (1 CP), ${coreSystem.activation}`}
 					description={coreSystem.active_effect}
 					isCP={true}
-					isCollapsed={isCollapsed}
-					handleClick={() => setIsCollapsed(!isCollapsed)}
 				/>
 
 				{ coreSystem.active_actions && coreSystem.active_actions.map((activeAction, i) => {
@@ -86,8 +75,6 @@ const MechTraits = ({
 							name={activeAction.name}
 							activation={activeAction.activation}
 							description={activeAction.detail}
-							isCollapsed={isCollapsed}
-							handleClick={() => setIsCollapsed(!isCollapsed)}
 						/>
 					)
 				})}
@@ -95,29 +82,12 @@ const MechTraits = ({
     </div>
   );
 }
-//
-// const MechCoreSystem = ({
-// 	coreSystem,
-// }) => {
-// 	const [isCollapsed, setIsCollapsed] = useState(true);
-//
-//   return (
-// 		<div className='MechCoreSystem'>
-// 			{/**<div className="label">Core System — {coreSystem.name}</div>**/}
-//
-// 			<div className='traits-container'>
-//
-//
-// 			</div>
-//     </div>
-//   );
-// }
+
 
 const MechSystemActions = ({
 	systems,
 	setLimitedCountForSystem
 }) => {
-	const [isCollapsed, setIsCollapsed] = useState(true);
 
 	function getLimited(system, systemData) {
 		const limitedTag = systemData.tags && systemData.tags.find(tag => tag.id === 'tg_limited')
@@ -138,8 +108,6 @@ const MechSystemActions = ({
 			<TraitBlock
 				name={systemData.name.toLowerCase()}
 				description={systemData.effect}
-				isCollapsed={isCollapsed}
-				handleClick={() => setIsCollapsed(!isCollapsed)}
 				isTitleCase={true}
 			/>
 		)
@@ -161,8 +129,6 @@ const MechSystemActions = ({
 						limited={limited}
 						setLimitedCount={(count) => setLimitedCountForSystem(count, i)}
 						description={action.detail}
-						isCollapsed={isCollapsed}
-						handleClick={() => setIsCollapsed(!isCollapsed)}
 					/>
 				)
 			}
@@ -186,8 +152,6 @@ const MechSystemActions = ({
 					limited={limited}
 					setLimitedCount={(count) => setLimitedCountForSystem(count, i)}
 					description={deployable.detail}
-					isCollapsed={isCollapsed}
-					handleClick={() => setIsCollapsed(!isCollapsed)}
 				/>
 			)
 		})
@@ -231,12 +195,12 @@ const TraitBlock = ({
 	limited = null, // {current: X, max: Y, icon: 'generic-item'}
 	setLimitedCount = () => {},
 	description = '',
-	handleClick = () => {},
 	extraClass = '',
 	isTitleCase = false,
 	isCP = false,
-	isCollapsed = false,
 }) => {
+	const [isCollapsed, setIsCollapsed] = useState(true);
+
 	const wideClass = description.length > 160 ? 'tall' : ''
 	const tallClass = description.length > 460 ? 'wide' : ''
 
@@ -248,7 +212,7 @@ const TraitBlock = ({
 		<div className={`TraitBlock ${wideClass} ${tallClass} ${collapsedClass} ${extraClass}`}>
 			<button
 				className={`name ${titleClass} ${activation.toLowerCase()} ${cpClass} ${collapsedClass}`}
-				onClick={handleClick}
+				onClick={() => setIsCollapsed(!isCollapsed)}
 			>
 				<div>{name}</div>
 				{activation &&

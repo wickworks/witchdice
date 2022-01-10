@@ -5,9 +5,9 @@
 
   .label {
     @include text_monospace;
-    font-size: 16px;
-    color: $grey_mid_lighter;
-    margin: 10px 0 4px;
+    font-size: 20px;
+    color: $grey_mid;
+    margin: 10px 0 10px;
   }
 
   .traits-container {
