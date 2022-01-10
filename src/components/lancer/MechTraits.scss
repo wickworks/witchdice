@@ -101,8 +101,33 @@
 
       ul { margin: 4px 0; }
 
-      br {
-        margin-top: 4px;
+      br { margin-top: 4px; }
+
+      button.destroy-system {
+        display: flex;
+        float: left;
+
+        padding: 0;
+        margin-right: 8px;
+        border-radius: 2px;
+
+        &:hover {
+          background-color: $pink;
+
+          .hover-text { display: block; }
+        }
+
+        .hover-text {
+          display: none;
+          padding: 0 8px;
+        }
+
+        .asset {
+          width: 19px; height: 19px;
+
+          // turns black to $rust
+          filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+        }
       }
     }
   }

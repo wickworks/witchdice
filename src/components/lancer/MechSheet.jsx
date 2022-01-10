@@ -100,7 +100,7 @@ function getInvadeOptions(loadout, pilotTalents) {
 
   loadout.systems.forEach(system => {
     const systemActions = findSystemData(system.id).actions
-    if (systemActions) {
+    if (systemActions && !system.destroyed) {
       systemActions.forEach(action => {
         if (action.activation === 'Invade') invades.push(action)
       })
@@ -266,6 +266,11 @@ const MechSheet = ({
           setLimitedCountForSystem={(count, systemIndex) =>
             updateMechState({
               systemUses: {index: systemIndex, uses: count}
+            })
+          }
+          setDestroyedForSystem={(destroyed, systemIndex) =>
+            updateMechState({
+              systemDestroyed: {index: systemIndex, destroyed: destroyed}
             })
           }
         />

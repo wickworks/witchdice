@@ -129,7 +129,7 @@ function getBonusFromSystems(bonusType, loadout) {
 
   loadout.systems.forEach(system => {
     const systemBonuses = findSystemData(system.id).bonuses;
-    if (systemBonuses) {
+    if (systemBonuses && !system.destroyed) {
       systemBonuses.forEach(bonus => {
         if (bonus.id === bonusType) systemTotal += bonus.val
       })

@@ -89,7 +89,8 @@ const MechTraits = ({
 
 const MechSystemActions = ({
 	systems,
-	setLimitedCountForSystem
+	setLimitedCountForSystem,
+  setDestroyedForSystem,
 }) => {
 
 	function getLimited(system, systemData) {
@@ -106,12 +107,22 @@ const MechSystemActions = ({
 		return limited
 	}
 
-	function renderPassives(systemData) {
+  function isDestructable(systemData) {
+    const indestructableTag = (systemData.tags && systemData.tags.find(tag => tag.id === 'tg_indestructible'))
+    return !indestructableTag
+  }
+
+	function renderPassives(system, systemData, systemIndex) {
 		return (
 			<TraitBlock
 				name={systemData.name.toLowerCase()}
 				description={systemData.effect}
-				isTitleCase={true}
+
+        isDestructable={isDestructable(systemData)}
+        isDestroyed={system.destroyed}
+        onDestroy={() => setDestroyedForSystem(!system.destroyed, systemIndex)}
+
+        isTitleCase={true}
 			/>
 		)
 	}
@@ -131,9 +142,14 @@ const MechSystemActions = ({
 						activation={action.activation}
 						trigger={action.trigger}
 						range={action.range}
+            description={action.detail}
+
 						limited={limited}
 						setLimitedCount={(count) => setLimitedCountForSystem(count, systemIndex)}
-						description={action.detail}
+
+            isDestructable={isDestructable(systemData)}
+            isDestroyed={system.destroyed}
+            onDestroy={() => setDestroyedForSystem(!system.destroyed, systemIndex)}
 					/>
 				)
 			}
@@ -155,9 +171,14 @@ const MechSystemActions = ({
 					activation={deployable.activation}
 					trigger={deployable.trigger}
 					range={deployable.range}
+          description={deployable.detail}
+
 					limited={limited}
 					setLimitedCount={(count) => setLimitedCountForSystem(count, systemIndex)}
-					description={deployable.detail}
+
+          isDestructable={isDestructable(systemData)}
+          isDestroyed={system.destroyed}
+          onDestroy={() => setDestroyedForSystem(!system.destroyed, systemIndex)}
 				/>
 			)
 		})
@@ -174,7 +195,7 @@ const MechSystemActions = ({
 					const systemData = findSystemData(system.id)
 					return (
 						<React.Fragment key={`${system.id}-${i}`}>
-							{systemData.effect && renderPassives(systemData)}
+							{systemData.effect && renderPassives(system, systemData, i)}
 						</React.Fragment>
 					)
 				})}
@@ -195,33 +216,43 @@ const MechSystemActions = ({
 
 const TraitBlock = ({
 	name,
-	activation = '',
+  activation = '',
 	frequency = '',
 	trigger = '',
 	range = null,
-	limited = null, // {current: X, max: Y, icon: 'generic-item'}
+  description = '',
+
+  limited = null, // {current: X, max: Y, icon: 'generic-item'}
 	setLimitedCount = () => {},
-	description = '',
+
+  isDestructable = false,
+  isDestroyed = false,
+  onDestroy = null,
+
 	extraClass = '',
 	isTitleCase = false,
 	isCP = false,
 }) => {
 	const [isCollapsed, setIsCollapsed] = useState(true);
 
-	const wideClass = description.length > 160 ? 'tall' : ''
-	const tallClass = description.length > 460 ? 'wide' : ''
+	const sizeClass = description.length > 460 ? 'wide' : description.length > 160 ? 'tall' : ''
 
 	const titleClass = isTitleCase ? 'title-case' : '';
 	const collapsedClass = isCollapsed ? 'collapsed' : '';
-	const cpClass = isCP ? 'core-power' : '';
+  const cpClass = isCP ? 'core-power' : '';
+	const destroyedClass = isDestroyed ? 'destroyed' : '';
 
   return (
-		<div className={`TraitBlock ${wideClass} ${tallClass} ${collapsedClass} ${extraClass}`}>
+		<div className={`TraitBlock ${sizeClass} ${collapsedClass} ${destroyedClass} ${extraClass}`}>
 			<button
 				className={`name ${titleClass} ${activation.toLowerCase()} ${cpClass} ${collapsedClass}`}
 				onClick={() => setIsCollapsed(!isCollapsed)}
 			>
-				<div>{name}</div>
+				<div className='title'>
+          {name}
+          {isDestroyed && ' [ DESTROYED ]'}
+        </div>
+
 				{activation &&
 					<div className='detail'>
 						{activation}
@@ -244,7 +275,7 @@ const TraitBlock = ({
 
 			{!isCollapsed &&
 				<>
-					{limited &&
+					{limited && !isDestroyed &&
 						<MechNumberBar
 							extraClass='condensed'
 							dotIcon={limited.icon || 'generic-item'}
@@ -256,8 +287,22 @@ const TraitBlock = ({
 					}
 
 					<div className='description'>
+            {isDestructable &&
+              <button className='destroy-system' onClick={onDestroy}>
+                <div className={`asset ${isDestroyed ? 'repair' : 'x-thick'}`} />
+                <div className='hover-text'>
+                  <strong>{isDestroyed ? 'REPAIR SYSTEM' : 'DESTROY SYSTEM'}</strong>
+                </div>
+              </button>
+            }
+
 						{trigger && <p><strong>Trigger:</strong> {trigger}</p>}
-						{ReactHtmlParser(description)}
+
+            {isDestroyed ?
+              '[ SYSTEM DESTROYED ]'
+            :
+              ReactHtmlParser(description)
+            }
 					</div>
 				</>
 			}
