@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import MechNumberBar from './MechState/MechNumberBar.jsx'
 
 import {
   findSystemData,
@@ -9,12 +10,13 @@ import './MechTraits.scss';
 
 const MechTraits = ({
 	traitList,
+	coreSystem,
 }) => {
 	const [isCollapsed, setIsCollapsed] = useState(true);
 
   return (
 		<div className='MechTraits'>
-			<div className="label">Traits</div>
+			<div className="label">Frame Traits & Core System</div>
 
     	<div className='traits-container'>
 				{ traitList.map((trait, i) =>
@@ -43,21 +45,6 @@ const MechTraits = ({
 						})}
 					</React.Fragment>
 				)}
-			</div>
-    </div>
-  );
-}
-
-const MechCoreSystem = ({
-	coreSystem,
-}) => {
-	const [isCollapsed, setIsCollapsed] = useState(true);
-
-  return (
-		<div className='MechCoreSystem'>
-			<div className="label">Core System — {coreSystem.name}</div>
-
-			<div className='traits-container'>
 
 				{ coreSystem.passive_effect &&
 					<TraitBlock
@@ -108,24 +95,71 @@ const MechCoreSystem = ({
     </div>
   );
 }
+//
+// const MechCoreSystem = ({
+// 	coreSystem,
+// }) => {
+// 	const [isCollapsed, setIsCollapsed] = useState(true);
+//
+//   return (
+// 		<div className='MechCoreSystem'>
+// 			{/**<div className="label">Core System — {coreSystem.name}</div>**/}
+//
+// 			<div className='traits-container'>
+//
+//
+// 			</div>
+//     </div>
+//   );
+// }
 
 const MechSystemActions = ({
 	systems,
+	setLimitedCountForSystem
 }) => {
 	const [isCollapsed, setIsCollapsed] = useState(true);
 
-	function renderActions(system) {
-		let renderedActions = []
-		const systemData = findSystemData(system.id)
+	function getLimited(system, systemData) {
+		const limitedTag = systemData.tags && systemData.tags.find(tag => tag.id === 'tg_limited')
+		let limited = null
 
+		if (limitedTag) {
+			limited = {
+				current: system.uses || 0,
+				max: limitedTag.val,
+				icon: 'generic-item'
+			}
+		}
+		return limited
+	}
+
+	function renderPassives(system, systemData) {
+		return (
+			<TraitBlock
+				name={systemData.name.toLowerCase()}
+				description={systemData.effect}
+				isCollapsed={isCollapsed}
+				handleClick={() => setIsCollapsed(!isCollapsed)}
+				isTitleCase={true}
+			/>
+		)
+	}
+
+	function renderActions(system, systemData) {
+		let renderedActions = []
 		systemData.actions && systemData.actions.map((action, i) => {
 			if (action.activation !== 'Invade') { // invades are handled by the weapon roller
+				let limited = getLimited(system, systemData)
+				if (action.name && action.name.includes('Grenade')) limited.icon = 'grenade'
+
 				renderedActions.push(
 					<TraitBlock
 						key={`${systemData.name}-action-${i}`}
 						name={action.name || systemData.name}
 						activation={action.activation}
 						range={action.range}
+						limited={limited}
+						setLimitedCount={(count) => setLimitedCountForSystem(count, i)}
 						description={action.detail}
 						isCollapsed={isCollapsed}
 						handleClick={() => setIsCollapsed(!isCollapsed)}
@@ -137,17 +171,20 @@ const MechSystemActions = ({
 		return renderedActions
 	}
 
-	function renderDeployables(system) {
+	function renderDeployables(system, systemData) {
 		let renderedDeployables = []
-		const systemData = findSystemData(system.id)
-
 		systemData.deployables && systemData.deployables.map((deployable, i) => {
+			let limited = getLimited(system, systemData)
+			if (deployable.type === 'Mine') limited.icon = 'mine'
+
 			renderedDeployables.push(
 				<TraitBlock
 					key={`${systemData.name}-deployable-${i}`}
 					name={deployable.name}
 					activation={deployable.activation}
 					range={deployable.range}
+					limited={limited}
+					setLimitedCount={(count) => setLimitedCountForSystem(count, i)}
 					description={deployable.detail}
 					isCollapsed={isCollapsed}
 					handleClick={() => setIsCollapsed(!isCollapsed)}
@@ -155,20 +192,32 @@ const MechSystemActions = ({
 			)
 		})
 
-		console.log('RENDER DEPOLOTS', systemData.deployables);
-
 		return renderedDeployables
 	}
 
+
   return (
 		<div className='MechSystemActions'>
+			<div className="label">Systems</div>
 			<div className='traits-container'>
-				{ systems.map(system =>
-					<>
-						{renderActions(system)}
-						{renderDeployables(system)}
-					</>
-				)}
+				{ systems.map((system,i) => {
+					const systemData = findSystemData(system.id)
+					return (
+						<React.Fragment key={`${system.id}-${i}`}>
+							{systemData.effect && renderPassives(system, systemData)}
+						</React.Fragment>
+					)
+				})}
+
+				{ systems.map((system,i) => {
+					const systemData = findSystemData(system.id)
+					return (
+						<React.Fragment key={`${system.id}-${i}`}>
+							{systemData.actions && renderActions(system, systemData)}
+							{systemData.deployables && renderDeployables(system, systemData)}
+						</React.Fragment>
+					)
+				})}
 			</div>
     </div>
   );
@@ -176,11 +225,13 @@ const MechSystemActions = ({
 
 const TraitBlock = ({
 	name,
-	activation,
-	frequency,
-	range,
-	description,
-	handleClick,
+	activation = '',
+	frequency = '',
+	range = null,
+	limited = null, // {current: X, max: Y, icon: 'generic-item'}
+	setLimitedCount = () => {},
+	description = '',
+	handleClick = () => {},
 	extraClass = '',
 	isTitleCase = false,
 	isCP = false,
@@ -194,7 +245,7 @@ const TraitBlock = ({
 	const cpClass = isCP ? 'core-power' : '';
 
   return (
-		<div className={`TraitBlock ${wideClass} ${tallClass} ${extraClass}`}>
+		<div className={`TraitBlock ${wideClass} ${tallClass} ${collapsedClass} ${extraClass}`}>
 			<button
 				className={`name ${titleClass} ${activation.toLowerCase()} ${cpClass} ${collapsedClass}`}
 				onClick={handleClick}
@@ -210,18 +261,37 @@ const TraitBlock = ({
 	              <div className={`asset ${range.type.toLowerCase()}`} />
 	            </div>
 	          )}
+						{limited &&
+							<div className='limited'>
+								Limited {limited.current}/{limited.max}
+							</div>
+						}
 					</div>
 				}
 			</button>
 
+
 			{!isCollapsed &&
-				<div className='description'>
-					{ReactHtmlParser(description)}
-				</div>
+				<>
+					{limited &&
+						<MechNumberBar
+							extraClass='condensed'
+							dotIcon={limited.icon || 'generic-item'}
+							maxNumber={limited.max}
+							currentNumber={limited.current}
+							setCurrentNumber={setLimitedCount}
+							leftToRight={true}
+						/>
+					}
+
+					<div className='description'>
+						{ReactHtmlParser(description)}
+					</div>
+				</>
 			}
 		</div>
   );
 }
 
 
-export { MechTraits, MechCoreSystem, MechSystemActions };
+export { MechTraits, MechSystemActions };

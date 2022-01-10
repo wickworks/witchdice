@@ -3,7 +3,7 @@ import WeaponRoller from './WeaponRoller/WeaponRoller.jsx';
 import TechRoller from './WeaponRoller/TechRoller.jsx';
 import MechState from './MechState/MechState.jsx';
 import MechanicsList from './MechanicsList.jsx';
-import { MechTraits, MechCoreSystem, MechSystemActions } from './MechTraits.jsx';
+import { MechTraits, MechSystemActions } from './MechTraits.jsx';
 import {
   getGrit,
   findWeaponData,
@@ -239,9 +239,6 @@ const MechSheet = ({
           <div className="frame">{frameData.name.toLowerCase()}</div>
         </div>
 
-        <MechTraits traitList={frameData.traits} />
-
-        <MechCoreSystem coreSystem={frameData.core_system} />
 
         <MechState
           activeMech={activeMech}
@@ -250,7 +247,9 @@ const MechSheet = ({
           updateMechState={updateMechState}
         />
 
-        <MechanicsList
+        <MechTraits traitList={frameData.traits} coreSystem={frameData.core_system} />
+
+        {/**<MechanicsList
           label={`Systems (${getMechSP(activeMech, activePilot, frameData)} SP)`}
           findData={findSystemData}
           tooltipContentKey='effect'
@@ -259,9 +258,13 @@ const MechSheet = ({
           mechanicIDList={loadout.systems}
           containerClass={'systems'}
           namesToLowercase={false}
-        />
+        />**/}
 
-        <MechSystemActions systems={loadout.systems} />
+
+        <MechSystemActions
+          systems={loadout.systems}
+          setLimitedCountForSystem={null}
+        />
 
         <a className='jumplink-anchor' id='weapons' />
         <div className="mounts-label">Mounts</div>

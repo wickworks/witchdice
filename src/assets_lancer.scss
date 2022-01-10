@@ -38,12 +38,15 @@
   &.overcharge { background-image: url('./assets/lancer/overcharge.svg'); }
   &.armor { background-image: url('./assets/lancer/shield_outline.svg'); }
 
+  &.generic-item { background-image: url('./assets/lancer/generic_item.svg'); }
+  &.mine { background-image: url('./assets/lancer/mine.svg'); }
+  &.grenade { background-image: url('./assets/lancer/grenade.svg'); }
+
   &.size-half { background-image: url('./assets/lancer/size_half.svg'); }
   &.size-1 { background-image: url('./assets/lancer/size_1.svg'); }
   &.size-2 { background-image: url('./assets/lancer/size_2.svg'); }
   &.size-3 { background-image: url('./assets/lancer/size_3.svg'); }
   &.size-4 { background-image: url('./assets/lancer/size_4.svg'); }
-
 
   &.albatross { background-image: url('./assets/lancer/faction_logos/albatross.svg'); }
   &.aun { background-image: url('./assets/lancer/faction_logos/aun.svg'); }
