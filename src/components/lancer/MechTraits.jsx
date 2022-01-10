@@ -132,7 +132,7 @@ const MechSystemActions = ({
     let limited = getLimited(system, systemData)
 
 		systemData.actions.forEach((action, i) => {
-			if (action.activation !== 'Invade') { // invades are handled by the weapon roller
+			if (action.activation !==  'Invade') { // invades are handled by the weapon roller
 
 				if (action.name && action.name.includes('Grenade')) limited.icon = 'grenade'
 				renderedActions.push(
@@ -289,10 +289,10 @@ const TraitBlock = ({
 					<div className='description'>
             {isDestructable &&
               <button className='destroy-system' onClick={onDestroy}>
-                <div className={`asset ${isDestroyed ? 'repair' : 'x-thick'}`} />
                 <div className='hover-text'>
                   <strong>{isDestroyed ? 'REPAIR SYSTEM' : 'DESTROY SYSTEM'}</strong>
                 </div>
+                <div className={`asset ${isDestroyed ? 'repair' : 'x'}`} />
               </button>
             }
 

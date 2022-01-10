@@ -105,16 +105,17 @@
 
       button.destroy-system {
         display: flex;
-        float: left;
+        align-items: center;
+        float: right;
 
         padding: 0;
-        margin-right: 8px;
-        border-radius: 2px;
+        margin: -6px -6px 0 6px;
 
         &:hover {
           background-color: $pink;
 
           .hover-text { display: block; }
+          .asset.x { filter: none; }
         }
 
         .hover-text {
@@ -123,10 +124,10 @@
         }
 
         .asset {
-          width: 19px; height: 19px;
+          width: 24px; height: 24px;
 
           // turns black to $rust
-          filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+          &.x { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
         }
       }
     }
