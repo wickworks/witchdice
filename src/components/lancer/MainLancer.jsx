@@ -174,6 +174,14 @@ const MainLancer = ({
         if (statKey === 'custom_counters' || statKey === 'counter_data') {
           newPilotData[statKey] = newMechData[statKey]
 
+        // update the state of a system on the mech
+        } else if (statKey === 'systemUses') {
+          const systemIndex = newMechData[statKey].index
+          newPilotData.mechs[mechIndex].loadouts[0].systems[systemIndex].uses = newMechData[statKey].uses
+        } else if (statKey === 'systemDestroyed') {
+          const systemIndex = newMechData[statKey].index
+          newPilotData.mechs[mechIndex].loadouts[0].systems[systemIndex].destroyed = newMechData[statKey].destroyed
+
         // update a mech value
         } else if (statKey === 'conditions') {
           newPilotData.mechs[mechIndex][statKey] = newMechData[statKey]

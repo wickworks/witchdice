@@ -82,7 +82,6 @@
 
     .MechNumberBar {
       .ticks-container button.tick {
-        background-color: $parchment_dark;
 
         &:hover {
           background-color: $pink;
@@ -91,7 +90,6 @@
 
         .asset {
           width: 20px; height: 20px;
-          filter: none;
         }
       }
     }

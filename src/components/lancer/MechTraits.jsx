@@ -106,7 +106,7 @@ const MechSystemActions = ({
 		return limited
 	}
 
-	function renderPassives(system, systemData) {
+	function renderPassives(systemData) {
 		return (
 			<TraitBlock
 				name={systemData.name.toLowerCase()}
@@ -116,13 +116,14 @@ const MechSystemActions = ({
 		)
 	}
 
-	function renderActions(system, systemData) {
+	function renderActions(system, systemData, systemIndex) {
 		let renderedActions = []
-		systemData.actions && systemData.actions.map((action, i) => {
-			if (action.activation !== 'Invade') { // invades are handled by the weapon roller
-				let limited = getLimited(system, systemData)
-				if (action.name && action.name.includes('Grenade')) limited.icon = 'grenade'
+    let limited = getLimited(system, systemData)
 
+		systemData.actions.forEach((action, i) => {
+			if (action.activation !== 'Invade') { // invades are handled by the weapon roller
+
+				if (action.name && action.name.includes('Grenade')) limited.icon = 'grenade'
 				renderedActions.push(
 					<TraitBlock
 						key={`${systemData.name}-action-${i}`}
@@ -131,7 +132,7 @@ const MechSystemActions = ({
 						trigger={action.trigger}
 						range={action.range}
 						limited={limited}
-						setLimitedCount={(count) => setLimitedCountForSystem(count, i)}
+						setLimitedCount={(count) => setLimitedCountForSystem(count, systemIndex)}
 						description={action.detail}
 					/>
 				)
@@ -141,12 +142,12 @@ const MechSystemActions = ({
 		return renderedActions
 	}
 
-	function renderDeployables(system, systemData) {
+	function renderDeployables(system, systemData, systemIndex) {
 		let renderedDeployables = []
-		systemData.deployables && systemData.deployables.map((deployable, i) => {
-			let limited = getLimited(system, systemData)
-			if (deployable.type === 'Mine') limited.icon = 'mine'
+    let limited = getLimited(system, systemData)
 
+		systemData.deployables.forEach((deployable, i) => {
+			if (deployable.type === 'Mine') limited.icon = 'mine'
 			renderedDeployables.push(
 				<TraitBlock
 					key={`${systemData.name}-deployable-${i}`}
@@ -155,7 +156,7 @@ const MechSystemActions = ({
 					trigger={deployable.trigger}
 					range={deployable.range}
 					limited={limited}
-					setLimitedCount={(count) => setLimitedCountForSystem(count, i)}
+					setLimitedCount={(count) => setLimitedCountForSystem(count, systemIndex)}
 					description={deployable.detail}
 				/>
 			)
@@ -173,7 +174,7 @@ const MechSystemActions = ({
 					const systemData = findSystemData(system.id)
 					return (
 						<React.Fragment key={`${system.id}-${i}`}>
-							{systemData.effect && renderPassives(system, systemData)}
+							{systemData.effect && renderPassives(systemData)}
 						</React.Fragment>
 					)
 				})}
@@ -182,8 +183,8 @@ const MechSystemActions = ({
 					const systemData = findSystemData(system.id)
 					return (
 						<React.Fragment key={`${system.id}-${i}`}>
-							{systemData.actions && renderActions(system, systemData)}
-							{systemData.deployables && renderDeployables(system, systemData)}
+							{systemData.actions && renderActions(system, systemData, i)}
+							{systemData.deployables && renderDeployables(system, systemData, i)}
 						</React.Fragment>
 					)
 				})}

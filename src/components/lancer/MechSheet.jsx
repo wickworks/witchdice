@@ -263,7 +263,11 @@ const MechSheet = ({
 
         <MechSystemActions
           systems={loadout.systems}
-          setLimitedCountForSystem={null}
+          setLimitedCountForSystem={(count, systemIndex) =>
+            updateMechState({
+              systemUses: {index: systemIndex, uses: count}
+            })
+          }
         />
 
         <a className='jumplink-anchor' id='weapons' />
