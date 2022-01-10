@@ -33,6 +33,7 @@ const MechTraits = ({
 									key={traitAction.name}
 									name={traitAction.name}
 									activation={traitAction.activation}
+									trigger={traitAction.trigger}
 									frequency={traitAction.frequency}
 									description={traitAction.detail}
 								/>
@@ -56,6 +57,7 @@ const MechTraits = ({
 							key={passiveAction.name}
 							name={passiveAction.name}
 							activation={passiveAction.activation}
+							trigger={passiveAction.trigger}
 							description={passiveAction.detail}
 						/>
 					)
@@ -74,6 +76,7 @@ const MechTraits = ({
 							key={activeAction.name}
 							name={activeAction.name}
 							activation={activeAction.activation}
+							trigger={activeAction.trigger}
 							description={activeAction.detail}
 						/>
 					)
@@ -125,6 +128,7 @@ const MechSystemActions = ({
 						key={`${systemData.name}-action-${i}`}
 						name={action.name || systemData.name}
 						activation={action.activation}
+						trigger={action.trigger}
 						range={action.range}
 						limited={limited}
 						setLimitedCount={(count) => setLimitedCountForSystem(count, i)}
@@ -148,6 +152,7 @@ const MechSystemActions = ({
 					key={`${systemData.name}-deployable-${i}`}
 					name={deployable.name}
 					activation={deployable.activation}
+					trigger={deployable.trigger}
 					range={deployable.range}
 					limited={limited}
 					setLimitedCount={(count) => setLimitedCountForSystem(count, i)}
@@ -191,6 +196,7 @@ const TraitBlock = ({
 	name,
 	activation = '',
 	frequency = '',
+	trigger = '',
 	range = null,
 	limited = null, // {current: X, max: Y, icon: 'generic-item'}
 	setLimitedCount = () => {},
@@ -249,6 +255,7 @@ const TraitBlock = ({
 					}
 
 					<div className='description'>
+						{trigger && <p><strong>Trigger:</strong> {trigger}</p>}
 						{ReactHtmlParser(description)}
 					</div>
 				</>
