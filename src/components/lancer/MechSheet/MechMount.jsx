@@ -49,7 +49,7 @@ function getMountsFromLoadout(loadout) {
   )
 
   // IMPROVED improved_armament
-  if (loadout.improved_armament.slots.length > 0) {
+  if (loadout.improved_armament.slots.length > 0 && loadout.improved_armament.slots[0].weapon) {
     let improved_armament = deepCopy(loadout.improved_armament)
     improved_armament.bonus_effects.push('cb_improved_armament')
     improved_armament.source = 'improved_armament'
@@ -154,7 +154,7 @@ const MechMount = ({
 
       {mountedWeaponData.length === 0 &&
         <MechWeapon
-          mountType={mount.mount_type}
+          mountType={mount.source}
           weaponData={null}
           onClick={() => {}}
           isActive={false}
