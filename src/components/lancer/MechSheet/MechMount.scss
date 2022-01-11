@@ -1,6 +1,6 @@
 @import '../../../fonts';
 
-.MechMount {
+.MechMount, .TechAttack {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -12,8 +12,8 @@
   box-sizing: border-box;
   @include constricted { width: 100%; }
 
+  &.TechAttack { border-color: $periwinkle; }
   &.empty { border-color: $faded_grey; }
-  &.tech { border-color: $periwinkle; }
 
   .DestroySystemButton {
     position: absolute;
@@ -31,6 +31,7 @@
 
   .MechWeapon {
     position: relative;
+    height: 100%;
   }
 
   button.select-weapon, button.select-tech {
@@ -52,7 +53,7 @@
       border-color: $parchment_dark;
       color: white;
 
-      &.tech { background-color: $periwinkle; }
+      &.select-tech { background-color: $periwinkle; }
     }
 
     &:disabled {

@@ -15,11 +15,15 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-          <div className='version-label'>v0.10.1-2 — Jan 2021</div>
+          <div className='version-label'>v0.10.1-3 — Jan 2021</div>
           <ul>
             <li>Custom counters on lancer sheet.</li>
-            <li>/simple/some-room-id will join a room (hi Gather visitors)</li>
+            <li>/simple/some-room-id will join a room (hi, Gather visitors!)</li>
             <li>Lancer tech attacks</li>
+            <li>Talents & systems that give accuracy are listed when relevant.</li>
+            <li>Show systems as collapsible blocks instead of tooltips.</li>
+            <li>Can mark systems and weapons as destroyed.</li>
+            <li>Can track charges for limited systems.</li>
           </ul>
 
           <div className='version-label'>v0.10.0 — Dec 2021</div>

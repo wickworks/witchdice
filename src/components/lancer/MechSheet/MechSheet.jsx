@@ -211,13 +211,12 @@ const MechSheet = ({
           )}
 
           { invades.map((invade, i) =>
-            <div className='MechMount tech' key={`invade-${i}`}>
-              <TechAttack
-                invadeData={invade}
-                onClick={() => activateInvade(i)}
-                isActive={activeInvadeIndex === i}
-              />
-            </div>
+            <TechAttack
+              key={`invade-${i}`}
+              invadeData={invade}
+              onClick={() => activateInvade(i)}
+              isActive={activeInvadeIndex === i}
+            />
           )}
         </div>
       </div>
