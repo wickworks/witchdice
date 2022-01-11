@@ -28,11 +28,11 @@ function getModdedWeaponData(weapon) {
   return weaponData;
 }
 
-function getWeaponsOnMount(mountData) {
-  if (!mountData) return
+function getWeaponsOnMount(mount) {
+  if (!mount) return
 
   const weapons =
-    [...mountData.slots, ...mountData.extra]
+    [...mount.slots, ...mount.extra]
     .slice(0,2) // in case there's leftover 'extra' data that shouldn't be there
     .map(slot => slot.weapon)
     .filter(weapon => weapon)

@@ -11,9 +11,15 @@ import {
 
 import {
   findFrameData,
-	findSystemData,
+  findSystemData,
+	findWeaponData,
   OVERCHARGE_SEQUENCE,
 } from '../lancerData.js';
+
+import {
+  getMountsFromLoadout,
+  getWeaponsOnMount,
+} from '../MechSheet/MechMount.jsx';
 
 import './SquadPanel.scss';
 
@@ -68,10 +74,15 @@ function createSquadMech(mechData, pilotData) {
   mechData.loadouts[0].systems.forEach(system => {
     if (system.destroyed) {
       const destroyedSystemData = findSystemData(system.id)
-      destroyedSystemNames.push( capitalize(destroyedSystemData.name.toLowerCase()) )
+      destroyedSystemNames.push( destroyedSystemData.name.toUpperCase() )
     }
   })
-  if (destroyedSystemNames.length > 0) statuses.push(`DESTROYED: ${destroyedSystemNames.join(',')}`)
+  getMountsFromLoadout(mechData.loadouts[0]).forEach(mount => {
+    getWeaponsOnMount(mount).forEach(weapon => {
+      if (weapon.destroyed) destroyedSystemNames.push( findWeaponData(weapon.id).name )
+    })
+  })
+  if (destroyedSystemNames.length > 0) statuses.push(`DESTROYED:,${destroyedSystemNames.join(',')}`)
 
 	squadMech.statusInternal = statuses.join(',')
 
