@@ -10,7 +10,8 @@ import {
 } from '../mechStateUtils.js';
 
 import {
-	findFrameData,
+  findFrameData,
+	findSystemData,
   OVERCHARGE_SEQUENCE,
 } from '../../lancerData.js';
 
@@ -41,12 +42,16 @@ function createSquadMech(mechData, pilotData) {
 	// TODO: should sanitize this on the receiving end
 	squadMech.portraitPilot = pilotData.cloud_portrait
 
-	let statuses = []
+	let statuses;
+
+  // EXTERNAL statuses
+  statuses = []
   if (mechData.conditions) statuses = mechData.conditions.map(condition => capitalize(condition.toLowerCase()))
   if (mechData.burn) statuses.push(`Burn ${mechData.burn}`)
 	if (mechData.overshield) statuses.push(`Overshield ${mechData.overshield}`)
 	squadMech.statusExternal = statuses.join(',')
 
+  // INTERNAL statuses
   statuses = []
   if (pilotData.custom_counters) {
     getCountersFromPilot(pilotData)
@@ -58,7 +63,16 @@ function createSquadMech(mechData, pilotData) {
 	if (mechData.current_repairs < getMechMaxRepairCap(mechData, pilotData, frameData)) {
     statuses.push(`${mechData.current_repairs} repairs left`)
   }
-  // Destroyed systems?
+
+  let destroyedSystemNames = []
+  mechData.loadouts[0].systems.forEach(system => {
+    if (system.destroyed) {
+      const destroyedSystemData = findSystemData(system.id)
+      destroyedSystemNames.push( capitalize(destroyedSystemData.name.toLowerCase()) )
+    }
+  })
+  if (destroyedSystemNames.length > 0) statuses.push(`DESTROYED: ${destroyedSystemNames.join(',')}`)
+
 	squadMech.statusInternal = statuses.join(',')
 
 	// console.log('squad mech', squadMech);

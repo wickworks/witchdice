@@ -124,7 +124,7 @@
         }
 
         .asset {
-          width: 24px; height: 24px;
+          width: 22px; height: 22px;
 
           // turns black to $rust
           &.x { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
