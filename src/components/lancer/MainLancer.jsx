@@ -3,8 +3,8 @@ import { FileList, PlainList } from './FileAndPlainList.jsx';
 import EntryList from '../shared/EntryList.jsx';
 import JumplinkPanel from './JumplinkPanel.jsx';
 import PilotDossier from './PilotDossier.jsx';
-import MechSheet from './MechSheet.jsx';
-import SquadPanel from './MechState/SquadPanel/SquadPanel.jsx';
+import MechSheet from './MechSheet/MechSheet.jsx';
+import SquadPanel from './SquadPanel/SquadPanel.jsx';
 import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 
 import PromisifyFileReader from 'promisify-file-reader'

@@ -1,0 +1,82 @@
+@import '../../../fonts';
+
+.MechSheet {
+  @include standard_side_margin;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  align-items: center;
+  overflow: hidden;
+
+  .mech-container {
+    @include shadow;
+    @include parchment_background;
+    @include nouveau_border("nouveau_lancer_mech.svg");
+
+    position: relative;
+    box-sizing: border-box;
+    padding: 12px 38px;
+    width: 100%;
+    max-width: 800px;
+
+    @include below_max_width {
+      padding: 12px 26px;
+    }
+
+    h2 {
+      @include text_monospace;
+      font-size: 44px;
+      margin: 16px 0 0;
+      color: $rust;
+      font-weight: normal;
+    }
+
+
+
+    .frame-container {
+      @include text_monospace;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      font-size: 22px;
+      margin-top: 2px;
+      margin-bottom: 26px;
+
+      .asset {
+        display: inline-block;
+        width: 26px;
+        height: 26px;
+        margin-right: 4px;
+
+        // turns black to $grey_mid
+        filter: invert(46%) sepia(0%) saturate(10%) hue-rotate(179deg) brightness(100%) contrast(86%);
+      }
+
+      .manufacturer {
+        margin-right: 10px;
+        color: $grey_mid;
+      }
+
+      .frame {
+        text-transform: capitalize;
+      }
+    }
+
+    .mounts-label {
+      @include text_monospace;
+      font-size: 20px;
+      color: $grey_mid;
+      margin: 14px 0 6px;
+    }
+
+    .mounts-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 6px;
+      margin-right: 26px;
+    }
+  }
+}

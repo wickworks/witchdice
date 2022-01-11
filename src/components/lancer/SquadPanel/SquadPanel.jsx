@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { SquadMech, AddSquadMechButton } from './SquadMech.jsx';
-import { deepCopy, capitalize } from '../../../../utils.js';
+import { deepCopy, capitalize } from '../../../utils.js';
 
 import {
   getMechMaxHP,
   getMechMaxHeatCap,
   getMechMaxRepairCap,
   getCountersFromPilot,
-} from '../mechStateUtils.js';
+} from '../MechState/mechStateUtils.js';
 
 import {
   findFrameData,
 	findSystemData,
   OVERCHARGE_SEQUENCE,
-} from '../../lancerData.js';
+} from '../lancerData.js';
 
 import './SquadPanel.scss';
 

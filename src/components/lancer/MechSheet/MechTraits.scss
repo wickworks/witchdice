@@ -1,4 +1,4 @@
-@import '../../fonts';
+@import '../../../fonts';
 
 .MechTraits, .MechCoreSystem, .MechSystemActions {
   margin-top: 0;
@@ -112,15 +112,15 @@
         margin: -6px -6px 0 6px;
 
         &:hover {
-          background-color: $pink;
+          background-color: $parchment_dark;
 
           .hover-text { display: block; }
-          .asset.x { filter: none; }
         }
 
         .hover-text {
           display: none;
           padding: 0 8px;
+          color: $rust;
         }
 
         .asset {

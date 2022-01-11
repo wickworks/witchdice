@@ -1,0 +1,85 @@
+@import '../../../fonts';
+
+
+.MechMount {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  text-align: left;
+  border: 2px solid $rust;
+
+  width: 45%;
+  box-sizing: border-box;
+  @include constricted { width: 100%; }
+
+  &.empty { border-color: $faded_grey; }
+  &.tech { border-color: $periwinkle; }
+
+  .MechWeapon, .TechAttack {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 14px 10px;
+
+    &:hover {
+      background-color: $parchment_dark;
+    }
+
+    &.active {
+      background-color: $rust;
+      border-color: $parchment_dark;
+      color: white;
+
+      &.tech { background-color: $periwinkle; }
+    }
+
+    &:disabled {
+      background-color: transparent;
+
+      .mount-type {
+        color: $grey_mid;
+      }
+    }
+
+    .mount-type {
+      @include text_monospace;
+      font-size: 20px;
+
+      @include below_max_width { font-size: 16px; }
+      @include constricted { font-size: 12px; }
+    }
+
+    .bonus-effect, .mod {
+      @include text_monospace;
+      font-size: 12px;
+    }
+
+    .mech-weapon {
+      margin-top: 12px;
+      text-align: left;
+      font-size: 30px;
+      text-transform: capitalize;
+
+      @include below_max_width {
+        margin-top: 6px;
+        font-size: 22px;
+      }
+
+      @include constricted {
+        margin-top: 2px;
+        font-size: 18px;
+      }
+    }
+
+    .i-have-no-weapon {
+      font-size: 24px;
+      font-style: italic;
+      color: $grey_mid_light;
+      margin: 12px auto 0;
+    }
+  }
+}

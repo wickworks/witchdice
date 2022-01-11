@@ -4,7 +4,7 @@ import {
   findWeaponData,
   findModData,
   findCoreBonusData,
-} from './lancerData.js';
+} from '../lancerData.js';
 
 
 const blankTrait = {

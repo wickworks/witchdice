@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
-import MechNumberBar from './MechState/MechNumberBar.jsx'
+import MechNumberBar from '../MechState/MechNumberBar.jsx'
 
 import {
   findSystemData,
-} from './lancerData.js';
+} from '../lancerData.js';
 
 import './MechTraits.scss';
 
