@@ -113,7 +113,7 @@ const MechSystemActions = ({
     return !indestructableTag
   }
 
-	function renderPassives(system, systemData, systemIndex) {
+	function renderPassive(system, systemData, systemIndex) {
 		return (
 			<TraitBlock
 				name={systemData.name.toLowerCase()}
@@ -127,6 +127,21 @@ const MechSystemActions = ({
 			/>
 		)
 	}
+
+  function renderInvades(system, systemData, systemIndex) {
+    return (
+      <TraitBlock
+        name={systemData.name.toLowerCase()}
+        description={`Gain the following options for Invade: ${systemData.actions.map(action => action.name).join(', ')}`}
+
+        isDestructable={isDestructable(systemData)}
+        isDestroyed={system.destroyed}
+        onDestroy={() => setDestroyedForSystem(!system.destroyed, systemIndex)}
+
+        isTitleCase={true}
+      />
+    )
+  }
 
 	function renderActions(system, systemData, systemIndex) {
 		let renderedActions = []
@@ -193,10 +208,17 @@ const MechSystemActions = ({
 			<div className="label">Systems</div>
 			<div className='traits-container'>
 				{ systems.map((system,i) => {
+
 					const systemData = findSystemData(system.id)
+          const grantsInvades = systemData.actions && systemData.actions.filter(action => action.activation === 'Invade').length > 0
+
+          console.log(systemData.name, 'grantsInvades', grantsInvades);
 					return (
 						<React.Fragment key={`${system.id}-${i}`}>
-							{systemData.effect && renderPassives(system, systemData, i)}
+              {systemData.effect && renderPassive(system, systemData, i)}
+							{!systemData.effect && grantsInvades &&
+                renderInvades(system, systemData, i)
+              }
 						</React.Fragment>
 					)
 				})}
@@ -244,12 +266,12 @@ const TraitBlock = ({
 	const destroyedClass = isDestroyed ? 'destroyed' : '';
 
   return (
-		<div className={`TraitBlock ${sizeClass} ${collapsedClass} ${destroyedClass} ${extraClass}`}>
+		<div className={`TraitBlock ${sizeClass} ${collapsedClass} ${extraClass}`}>
 			<button
 				className={`name ${titleClass} ${activation.toLowerCase()} ${cpClass} ${collapsedClass}`}
 				onClick={() => setIsCollapsed(!isCollapsed)}
 			>
-				<div className='title'>
+				<div className={`title ${destroyedClass}`}>
           {name}
           {isDestroyed && ' [ DESTROYED ]'}
         </div>

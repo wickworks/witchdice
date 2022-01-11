@@ -52,6 +52,12 @@
         .detail .range-icon .asset { filter: none; }
       }
 
+      .title {
+        &.destroyed {
+          font-style: italic;
+        }
+      }
+
       .detail {
         @include text_monospace;
         font-size: 12px;
@@ -106,7 +112,7 @@
       .DestroySystemButton {
         margin: -6px -6px 0 6px;
         float: right;
-        
+
       }
     }
   }
