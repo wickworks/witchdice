@@ -193,10 +193,20 @@ const MechSheet = ({
         <div className="mounts-list">
           { mounts.map((mount, i) =>
             <MechMount
+              key={`mount-${i}`}
               mount={mount}
               setActiveWeaponIndex={(weaponIndex) => changeMountAndWeapon(i, weaponIndex)}
               activeWeaponIndex={activeMountIndex === i ? activeWeaponIndex : -1}
-              key={`mount-${i}`}
+              setDestroyedForWeapon={(destroyed, weaponIndex) =>
+                updateMechState({
+                  weaponDestroyed: {
+                    mountSource: mount.source,
+                    mountIndex: i,
+                    weaponIndex: weaponIndex,
+                    destroyed: destroyed
+                  }
+                })
+              }
             />
           )}
 
@@ -212,7 +222,7 @@ const MechSheet = ({
         </div>
       </div>
 
-      {activeWeaponData &&
+      {activeWeaponData && !activeWeaponData.destroyed &&
         <WeaponRoller
           activeMech={activeMech}
           activePilot={activePilot}

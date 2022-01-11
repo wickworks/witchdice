@@ -174,13 +174,34 @@ const MainLancer = ({
         if (statKey === 'custom_counters' || statKey === 'counter_data') {
           newPilotData[statKey] = newMechData[statKey]
 
-        // update the state of a system on the mech
+        // update the state of a system on the mech (modifying a value in a json tree is hell)
         } else if (statKey === 'systemUses') {
           const systemIndex = newMechData[statKey].index
           newPilotData.mechs[mechIndex].loadouts[0].systems[systemIndex].uses = newMechData[statKey].uses
         } else if (statKey === 'systemDestroyed') {
           const systemIndex = newMechData[statKey].index
           newPilotData.mechs[mechIndex].loadouts[0].systems[systemIndex].destroyed = newMechData[statKey].destroyed
+        } else if (statKey === 'weaponDestroyed') {
+          console.log('newMechData[statKey]', newMechData[statKey]);
+
+          const mountSource = newMechData[statKey].mountSource
+          const mountIndex = newMechData[statKey].mountIndex
+          const weaponIndex = newMechData[statKey].weaponIndex
+          const loadout = newPilotData.mechs[mechIndex].loadouts[0]
+          let slot
+          if (mountSource === 'mounts') {
+            slot = loadout.mounts[mountIndex].slots[weaponIndex]
+            if (!slot) slot = loadout.mounts[mountIndex].extra[0]
+          } else if (mountSource === 'improved_armament') {
+            slot = loadout.improved_armament.slots[weaponIndex]
+            if (!slot) slot = loadout.improved_armament.extra[0]
+          } else if (mountSource === 'integratedWeapon') {
+            slot = loadout.integratedWeapon.slots[weaponIndex]
+            if (!slot) slot = loadout.integratedWeapon.extra[0]
+          } else if (mountSource === 'integratedMounts') {
+            // integrated mounts can't be destroyed; only including here for thouroughness
+          }
+          slot.weapon.destroyed = newMechData[statKey].destroyed
 
         // update a mech value
         } else if (statKey === 'conditions') {

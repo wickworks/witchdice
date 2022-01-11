@@ -1,0 +1,27 @@
+@import '../../../fonts';
+
+button.DestroySystemButton {
+  display: flex;
+  align-items: center;
+
+  padding: 0;
+
+  &:hover {
+    background-color: $parchment_dark;
+
+    .hover-text { display: block; }
+  }
+
+  .hover-text {
+    display: none;
+    padding: 0 8px;
+    color: $rust;
+  }
+
+  .asset {
+    width: 22px; height: 22px;
+
+    // turns black to $rust
+    &.x { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
+  }
+}

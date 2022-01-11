@@ -1,7 +1,7 @@
 @import '../../../fonts';
 
-
 .MechMount {
+  position: relative;
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
@@ -15,7 +15,25 @@
   &.empty { border-color: $faded_grey; }
   &.tech { border-color: $periwinkle; }
 
-  .MechWeapon, .TechAttack {
+  .DestroySystemButton {
+    position: absolute;
+    left: calc(100% + 2px);
+    top: -2px;
+
+    flex-direction: column-reverse;
+
+    .hover-text {
+      writing-mode: vertical-rl;
+      padding: 8px 0;
+      // font-size: 12px;
+    }
+  }
+
+  .MechWeapon {
+    position: relative;
+  }
+
+  button.select-weapon, button.select-tech {
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
@@ -58,7 +76,7 @@
       font-size: 12px;
     }
 
-    .mech-weapon {
+    .weapon-name-container {
       margin-top: 12px;
       text-align: left;
       font-size: 30px;
@@ -72,6 +90,10 @@
       @include constricted {
         margin-top: 2px;
         font-size: 18px;
+      }
+
+      &.destroyed {
+        font-style: italic;
       }
     }
 

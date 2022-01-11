@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
 import MechNumberBar from '../MechState/MechNumberBar.jsx'
+import DestroySystemButton from './DestroySystemButton.jsx'
 
 import {
   findSystemData,
@@ -288,12 +289,10 @@ const TraitBlock = ({
 
 					<div className='description'>
             {isDestructable &&
-              <button className='destroy-system' onClick={onDestroy}>
-                <div className='hover-text'>
-                  <strong>{isDestroyed ? 'REPAIR SYSTEM' : 'DESTROY SYSTEM'}</strong>
-                </div>
-                <div className={`asset ${isDestroyed ? 'repair' : 'x'}`} />
-              </button>
+              <DestroySystemButton
+                onDestroy={onDestroy}
+                isDestroyed={isDestroyed}
+              />
             }
 
 						{trigger && <p><strong>Trigger:</strong> {trigger}</p>}
