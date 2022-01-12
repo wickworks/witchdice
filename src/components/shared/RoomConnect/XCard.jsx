@@ -137,7 +137,7 @@ const XCardModal = ({
         className='XCardModal'
         aria-modal='true'
         aria-labelledby='whodunnit'
-        role='alertdialogue'
+        role='dialog'
         tabIndex='-1'
         onClick={closeModal}
         onKeyDown={e => { if (e.keyCode === 27) closeModal() }}

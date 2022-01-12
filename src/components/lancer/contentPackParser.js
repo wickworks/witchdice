@@ -67,7 +67,7 @@ const parseContentPack = async function (binString) {
 
     const generateItemID = (type, name) => {
         const sanitizedName = name
-            .replace(/[ \/-]/g, '_')
+            .replace(/[ /-]/g, '_')
             .replace(/[^A-Za-z0-9_]/g, '')
             .toLowerCase();
         return `${manifest.item_prefix}__${type}_${sanitizedName}`;
