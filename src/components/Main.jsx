@@ -86,12 +86,12 @@ const Main = ({
         generateRoomName()
       }
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   // automatically try to connect to a room if we flag it to do so
   useEffect(() => {
     if (partyAutoconnect) connectToRoom(partyRoom)
-  }, [partyAutoconnect]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [partyAutoconnect]);
 
   // =============== FIREBASE DICE ROLL FUNCTIONS ==================
 
@@ -201,7 +201,7 @@ const Main = ({
 
       addNewAttackPartyRoll(actionData);
     }
-  }, [rollSummaryData]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [rollSummaryData]);
 
   // Detect new roll actions coming in from firebase => update allPartyActionData
   useEffect(() => {
@@ -223,7 +223,7 @@ const Main = ({
       setAllPartyActionData(newData);
     }
 
-  }, [latestAction]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [latestAction]);
 
 
   // =============== UTILS ==================
@@ -272,7 +272,7 @@ const Main = ({
 
   useEffect(() => {
     setIsModalOpen( (xCardRaisedBy.length > 0) )
-  }, [xCardRaisedBy]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [xCardRaisedBy]);
 
 
 

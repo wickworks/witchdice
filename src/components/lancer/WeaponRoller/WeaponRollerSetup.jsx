@@ -33,7 +33,7 @@ const WeaponRollerSetup = ({
   // =============== CHANGE WEAPON ==================
   useEffect(() => {
     resetModifiers();
-  }, [weaponData, invadeData]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [weaponData, invadeData]);
 
   const resetModifiers = () => {
     setCurrentSourceIDs(getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData));

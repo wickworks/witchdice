@@ -51,10 +51,11 @@ const WeaponRoller = ({
   const [manualBaseDamage, setManualBaseDamage] = useState(1);
 
   // =============== CHANGE WEAPON ==================
+  const stringifiedWeaponData = JSON.stringify(weaponData)
   useEffect(() => {
     clearAttacks()
     clearActiveBonusSources()
-  }, [JSON.stringify(weaponData)]);
+  }, [stringifiedWeaponData]);
 
   const clearAttacks = () => {
     setAllAttackSummaries([]);

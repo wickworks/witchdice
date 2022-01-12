@@ -34,7 +34,7 @@ const XCard = ({
       }
     }
 
-  }, [latestRaiseEvent]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [latestRaiseEvent]);
 
   useEffect(() => {
     if (partyConnected) {
@@ -54,7 +54,7 @@ const XCard = ({
       }
     }
 
-  }, [partyConnected]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [partyConnected]);
 
   const handleRaiseButton = () => {
     setXCardRaisedBy(partyName || "me")
@@ -124,7 +124,7 @@ const XCardModal = ({
         restoreFocusOnElement = null
       }
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   const closeModal = () => {
     clearTimeout(currentFlashTimeout)

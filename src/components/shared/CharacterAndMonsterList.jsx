@@ -88,7 +88,7 @@ const MonsterList = ({
     if (monsterEntries.length > 24) {
       setScrambleSeed( getRandomInt(monsterEntries.length-12) )
     }
-  }, [monsterEntries]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [monsterEntries]);
 
   // intercept entry clicks to store in the recent monster list
   const processEntryClick = (id) => {

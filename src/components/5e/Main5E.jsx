@@ -111,7 +111,7 @@ const Main5E = ({
     // if we were looking at a character, restore that
     const oldSelectedID = localStorage.getItem("5e-selected-character");
     if (oldSelectedID) setActiveCharacter( parseInt(oldSelectedID) )
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
 
   function initializeCharactersAndMonsters() {
@@ -275,7 +275,7 @@ const Main5E = ({
       setAllCharacterEntries(newData);
     }
 
-  }, [characterName]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [characterName]);
 
   const updateAllAttackData = (key, value, attackID) => {
     // console.log('');

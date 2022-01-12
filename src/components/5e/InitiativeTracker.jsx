@@ -137,7 +137,7 @@ const InitiativeTracker = ({
       updateAllInitiativeData(newData)
     }
 
-  }, [latestInitiative]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [latestInitiative]);
 
   // ~~ DESTROY ~~
   // We have a new target. Search and destroy, by any means necessary.
@@ -152,7 +152,7 @@ const InitiativeTracker = ({
       updateAllInitiativeData(newData)
     }
 
-  }, [latestDestroyKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [latestDestroyKey]);
 
 
   useEffect(() => {
@@ -195,7 +195,7 @@ const InitiativeTracker = ({
       }
     }
 
-  }, [partyConnected]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [partyConnected]);
 
 
 	return (

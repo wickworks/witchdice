@@ -99,7 +99,7 @@ const MainLancer = ({
         setActivePilot(newActivePilot.id)
       }
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
   // always select the last mech from a pilot
   // useEffect(() => {
@@ -107,7 +107,7 @@ const MainLancer = ({
   //     const lastMechIndex = activePilot.mechs.length - 1
   //     setActiveMechID(activePilot.mechs[lastMechIndex].id);
   //   }
-  // }, [activePilotID]); // eslint-disable-line react-hooks/exhaustive-deps
+  // }, [activePilotID]);
 
 
   // =============== PILOT FILES ==================

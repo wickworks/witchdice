@@ -76,13 +76,12 @@ const MechSheet = ({
   const [activeInvadeIndex, setActiveInvadeIndex] = useState(null)
 
   // =============== CHANGE MECH / WEAPON ==================
+  const filteredMechID = (activeMech && activeMech.id)
+  const filteredPilotID = (activePilot && activePilot.id)
   useEffect(() => {
     setActiveMountIndex(null);
     setActiveWeaponIndex(0);
-  }, [
-    (activeMech && activeMech.id),
-    (activePilot && activePilot.id)]
-  );
+  }, [filteredMechID,filteredPilotID]);
 
   const changeMountAndWeapon = (mountIndex, weaponIndex) => {
     setActiveMountIndex(mountIndex)

@@ -104,10 +104,10 @@ const WeaponAttack = ({
   const toHitData = isRerolled ? attackData.toHitReroll : attackData.toHit;
 
   // ====== ROLL SUMMARY PANEL ======
-
+  const stringifiedDamageModifiers = JSON.stringify(damageModifiers)
   useEffect(() => {
     sendAttackToRollSummary(attackData);
-  }, [isHit, invertCrit, isRerolled, manualRoll, summary.length, bonusDamageData.rolls.length, JSON.stringify(damageModifiers)]);
+  }, [isHit, invertCrit, isRerolled, manualRoll, summary.length, bonusDamageData.rolls.length, stringifiedDamageModifiers]);
 
   function sendAttackToRollSummary(newAttack) {
     let rollConditions = [];

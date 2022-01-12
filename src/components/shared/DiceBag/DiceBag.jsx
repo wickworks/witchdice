@@ -111,14 +111,14 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   // add it to the party roll panel
   useEffect(() => {
     addNewDicebagPartyRoll(rollData, summaryMode, true);
-  }, [rollData]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [rollData]);
 
   // update it on the party roll panel — IF we're not busy queueing up a new roll
   useEffect(() => {
     if (rollDieType.length === 0) {
       addNewDicebagPartyRoll(rollData, summaryMode, false);
     }
-  }, [summaryMode]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [summaryMode]);
 
 
   // what is the highest type of die we're queueing up to roll?

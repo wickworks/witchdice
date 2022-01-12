@@ -46,11 +46,7 @@ const TechRoller = ({
   }
 
   // =============== CHANGE WEAPON ==================
-  useEffect(() => {
-    clearAttacks()
-    // clearActiveBonusSources()
-  }, [JSON.stringify(invadeData)]);
-
+  const stringifiedInvadeData = JSON.stringify(invadeData)
 
   const clearAttacks = () => {
     // setAllAttackSummaries([]);
@@ -59,6 +55,12 @@ const TechRoller = ({
     setBonusDamageData(null);
     onClear();
   }
+
+  useEffect(() => {
+    clearAttacks()
+    // clearActiveBonusSources()
+  }, [stringifiedInvadeData]);
+
 
   // ====== ROLL SUMMARY PANEL ======
   const setRollSummaryDataWithTechName = (invadeSummaryData) => {

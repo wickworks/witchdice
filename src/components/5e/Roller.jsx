@@ -32,7 +32,7 @@ const Roller = ({
       calculateDamage();
     }
 
-  }, [rollData, advantage, disadvantage, evasion, toHitAC]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [rollData, advantage, disadvantage, evasion, toHitAC]);
 
 
   // figure out what's a hit

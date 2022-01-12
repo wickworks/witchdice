@@ -23,7 +23,7 @@ const DiceBookmarks = ({
     if (loadedBookmarks) {
       setAllBookmarkData(JSON.parse(loadedBookmarks))
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
 
   const addNewBookmark = () => {

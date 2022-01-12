@@ -53,7 +53,7 @@ const DamageEdit = ({
     if (damageData.condition !== '' && !damageData.tags.includes('condition')) {
       setCondition('', attackID, damageID)
     }
-  }, [damageData]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [damageData]);
 
   // =============== CHANGE MODIFIERS ============= //
   function handleSavingThrowDCClick(e, leftMouse) {

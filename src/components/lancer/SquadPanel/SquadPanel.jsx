@@ -164,7 +164,7 @@ const SquadPanel = ({
         updateEntryInFirebase(newEntry)
       }
     }
-  }, [ JSON.stringify(activeSquadMech) ]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ JSON.stringify(activeSquadMech) ]);
 
 
   // ~~ CREATE / UPDATE FROM SERVER OR LOCAL CHANGE ~~
@@ -185,7 +185,7 @@ const SquadPanel = ({
       setAllSquadMechs(newData)
     }
 
-  }, [lastUpdatedSquadMech]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [lastUpdatedSquadMech]);
 
 	// ~~ DESTROY TO SERVER ~~
   // Tell the server to remove a mech of the given key.
@@ -200,7 +200,7 @@ const SquadPanel = ({
       setAllSquadMechs(newData)
     }
 
-  }, [lastDestroyedKey]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [lastDestroyedKey]);
 
 	// ~~ INITIAL CONNECTION FROM SERVER ~~
   // Watch server for change/add/delete events & update the local data accordingly.
@@ -236,7 +236,7 @@ const SquadPanel = ({
 			}
 		}
 
-	}, [partyConnected]); // eslint-disable-line react-hooks/exhaustive-deps
+	}, [partyConnected]);
 
   return (
 		<div className='SquadPanel'>
