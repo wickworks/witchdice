@@ -1,7 +1,6 @@
 import {
   loadLocalData,
   saveLocalData,
-  getIDFromStorageName,
   getStorageName,
 } from '../../localstorage.js';
 
@@ -40,7 +39,7 @@ export function deletePilotData(pilot) {
 
 export const saveMechStateToLocalStorage = (mechState, activePilot, activeMech) => {
   var pilotData = loadPilotData(activePilot.id)
-  const mechIndex = pilotData.mechs.findIndex(mech => mech.id == activeMech.id)
+  const mechIndex = pilotData.mechs.findIndex(mech => mech.id === activeMech.id)
 
   if (mechIndex >= 0) {
     Object.keys(mechState).forEach(statKey => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import MechCentralDiamond from './MechCentralDiamond.jsx';
 import MechNumberLabel from './MechNumberLabel.jsx';
 import MechNumberBar from './MechNumberBar.jsx';

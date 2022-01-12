@@ -15,7 +15,6 @@ import {
 
 import {
   rollBonusDamage,
-  getBonusTraits,
   getActiveBonusDamageData,
   createNewAttack,
 } from './weaponRollerUtils.js';

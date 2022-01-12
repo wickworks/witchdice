@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Select from 'react-select'
 import TextInput from '../../shared/TextInput.jsx';
 import { getOptionFromValue, deepCopy } from '../../../utils.js';

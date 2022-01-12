@@ -166,7 +166,7 @@ const PartyRollAttack = ({actionRollData}) => {
   const {name, attack, save, didsave, applies} = actionRollData;
 
   const isAttack = ('attack' in actionRollData) && (attack > -10); // magic number; abilities set a big negative
-  const isAbility = ('attack' in actionRollData) && !isAttack;
+  // const isAbility = ('attack' in actionRollData) && !isAttack;
   const isSave = ('save' in actionRollData) && true;
 
   var nameText = name;

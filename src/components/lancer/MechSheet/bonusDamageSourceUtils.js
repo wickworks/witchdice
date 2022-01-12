@@ -1,7 +1,6 @@
 import {
   findFrameData,
   findTalentData,
-  findWeaponData,
   findModData,
   findCoreBonusData,
 } from '../lancerData.js';

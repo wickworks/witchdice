@@ -96,6 +96,8 @@ export function getAvailableAccuracySources(activeMech, activePilot, weaponData,
         case 't_vanguard':
           if (rank >= 1) addAccSourceFromTalent(sources, weaponData, talentData, 1)
           break;
+        default:
+          break;
       }
     });
 

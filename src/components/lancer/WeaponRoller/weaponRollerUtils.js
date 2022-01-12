@@ -240,7 +240,7 @@ export function getActiveBonusDamageData(bonusDamageData, activeBonusSources, ge
       // This hack is made considerably more ugly by the existence of Overkill
       var useDieCount = genericBonusDieCount;
       if (isOverkill) {
-        var overkillCount = 0;
+        // var overkillCount = 0;
         var i = 0;
         while (i < useDieCount) {
           if (genericData.rollPool[i] === 1) useDieCount += 1
@@ -251,7 +251,7 @@ export function getActiveBonusDamageData(bonusDamageData, activeBonusSources, ge
 
       useDieCount = genericBonusDieCount;
       if (isOverkill) {
-        overkillCount = 0;
+        // overkillCount = 0;
         i = 0;
         while (i < useDieCount) {
           if (genericData.critPool[i] === 1) useDieCount += 1

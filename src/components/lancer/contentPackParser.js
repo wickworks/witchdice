@@ -1,4 +1,4 @@
-import JSZip, { JSZipObject } from 'jszip'
+import JSZip from 'jszip'
 // import {
 //   IMechWeaponData,
 //   IManufacturerData,

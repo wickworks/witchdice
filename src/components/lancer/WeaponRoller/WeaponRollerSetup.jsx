@@ -24,7 +24,7 @@ const WeaponRollerSetup = ({
   rollBonusLabel = '',
   createNewAttackRoll,
 }) => {
-  const isTechAttack = !weaponData && invadeData;
+  // const isTechAttack = !weaponData && invadeData;
 
   // IDs of available accuracy sources
   const [currentSourceIDs, setCurrentSourceIDs] = useState(getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData));

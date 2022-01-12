@@ -1,5 +1,4 @@
 import React from 'react';
-import { findFrameData } from '../lancerData.js';
 import './SquadMech.scss';
 
 function renderMechPortrait(squadMech) {

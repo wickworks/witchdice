@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import Tooltip from '../../shared/Tooltip';
+import React from 'react';
 
 import './MechNumberBar.scss';
 

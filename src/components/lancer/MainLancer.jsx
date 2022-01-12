@@ -5,7 +5,6 @@ import JumplinkPanel from './JumplinkPanel.jsx';
 import PilotDossier from './PilotDossier.jsx';
 import MechSheet from './MechSheet/MechSheet.jsx';
 import SquadPanel from './SquadPanel/SquadPanel.jsx';
-import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 
 import PromisifyFileReader from 'promisify-file-reader'
 import { parseContentPack } from './contentPackParser.js';
@@ -19,7 +18,6 @@ import {
   savePilotData,
   loadPilotData,
   deletePilotData,
-  saveMechStateToLocalStorage,
   PILOT_PREFIX,
   LCP_PREFIX,
   STORAGE_ID_LENGTH,
@@ -178,7 +176,7 @@ const MainLancer = ({
   const updateMechState = (newMechData) => {
     let newPilotData = deepCopy(activePilot);
     const pilotIndex = allPilotEntries.findIndex(entry => entry.id === activePilot.id);
-    const mechIndex = activePilot.mechs.findIndex(mech => mech.id == activeMechID)
+    const mechIndex = activePilot.mechs.findIndex(mech => mech.id === activeMechID)
 
     if (mechIndex >= 0 && pilotIndex >= 0) {
       Object.keys(newMechData).forEach(statKey => {
@@ -247,7 +245,6 @@ const MainLancer = ({
     var contentPack;
     try {
       return await parseContentPack(fileData)
-      console.log('Parsed content pack:', contentPack);
     } catch (e) {
       console.log('ERROR parsing content pack:', e.message);
     }
@@ -375,7 +372,7 @@ const MainLancer = ({
         <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
       </FileList>
 
-      <a className='jumplink-anchor' id='pilot' />
+      <div className='jumplink-anchor' id='pilot' />
       { activePilot &&
         <>
           <PilotDossier
@@ -393,7 +390,7 @@ const MainLancer = ({
         </>
       }
 
-      <a className='jumplink-anchor' id='mech' />
+      <div className='jumplink-anchor' id='mech' />
       { activeMech &&
         <MechSheet
           activeMech={activeMech}
@@ -406,7 +403,7 @@ const MainLancer = ({
         />
       }
 
-      <a className='jumplink-anchor' id='squad' />
+      <div className='jumplink-anchor' id='squad' />
       { partyConnected &&
         <SquadPanel
           activeMech={activeMech}
@@ -417,7 +414,7 @@ const MainLancer = ({
         />
       }
 
-      <a className='jumplink-anchor' id='dicebag' />
+      <div className='jumplink-anchor' id='dicebag' />
     </div>
   )
 }

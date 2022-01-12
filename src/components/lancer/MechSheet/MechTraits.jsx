@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 import MechNumberBar from '../MechState/MechNumberBar.jsx'
 import DestroySystemButton from './DestroySystemButton.jsx'
 

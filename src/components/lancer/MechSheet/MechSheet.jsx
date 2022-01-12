@@ -8,14 +8,9 @@ import {
   getGrit,
   findWeaponData,
   findFrameData,
-  findSystemData,
-  findCoreBonusData,
-  findModData,
-  findTalentData,
 } from '../lancerData.js';
 
 import {
-  getMechSP,
   getMechTechAttack,
 } from '../MechState/mechStateUtils.js';
 
@@ -40,8 +35,6 @@ import {
   getWeaponSynergies,
   getFailingWeaponSynergies,
 } from '../WeaponRoller/synergyUtils.js';
-
-import { deepCopy } from '../../../utils.js';
 
 import './MechSheet.scss';
 
@@ -194,7 +187,7 @@ const MechSheet = ({
           }
         />
 
-        <a className='jumplink-anchor' id='weapons' />
+        <div className='jumplink-anchor' id='weapons' />
         <div className="mounts-label">Mounts</div>
 
         <div className="mounts-list">

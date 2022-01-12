@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
-import EntryList from '../shared/EntryList.jsx';
 
 import './FileAndPlainList.scss';
 
@@ -40,7 +39,7 @@ const FileList = ({
       const pilot = JSON.parse(jsonString)
 
       // sanity-check the pilot file
-      if (!pilot || !pilot.id || !pilot.mechs) throw('Pilot looks handwritten! :(')
+      if (!pilot || !pilot.id || !pilot.mechs) throw new Error('Pilot looks handwritten! :(')
 
       onFilePaste(pilot)
       reset()
