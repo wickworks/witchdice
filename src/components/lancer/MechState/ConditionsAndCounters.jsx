@@ -28,30 +28,16 @@ const ConditionsAndCounters = ({
   activePilot,
 	updateMechState
 }) => {
-  const [activeConditions, setActiveConditions] = useState(activeMech.conditions);
-  const [customCounters, setCustomCounters] = useState(getCountersFromPilot(activePilot));
+  const activeConditions = activeMech.conditions;
+  const setActiveConditions = (conditions) => updateMechState({conditions: conditions})
 
-  function initializeCurrentStatus() {
-    setActiveConditions(activeMech.conditions)
-  }
-
-  // if we change mechs, reset state to that mech
-  useEffect(() => {
-    initializeCurrentStatus()
-  }, [activeMech.id, activePilot.id]);
-
-  // if we change anything, save it to the pilot array & local storage
-  useEffect(() => {
-    updateMechState({
-      conditions: activeConditions,
-      custom_counters: customCounters.map(counter => {return {name: counter.name, id: counter.id, custom: true}}),
-      counter_data: customCounters.map(counter => {return {id: counter.id, val: counter.val}}),
-    })
-  }, [
-    activeConditions,
-    JSON.stringify(customCounters),
-  ]);
-
+  const customCounters = getCountersFromPilot(activePilot);
+  const setCustomCounters = (custom_counters) => updateMechState(
+    {
+      custom_counters: custom_counters.map(counter => {return {name: counter.name, id: counter.id, custom: true}}),
+      counter_data: custom_counters.map(counter => {return {id: counter.id, val: counter.val}}),
+    }
+  )
 
   const selectedConditions = activeConditions
     ? activeConditions.map(conditionName => getOptionFromValue(conditionOptions, conditionName))
