@@ -4,7 +4,6 @@ import MechNumberLabel from './MechNumberLabel.jsx';
 import MechNumberBar from './MechNumberBar.jsx';
 import MechNumberIcon from './MechNumberIcon.jsx';
 import MechSingleStat from './MechSingleStat.jsx';
-import ConditionsAndCounters from './ConditionsAndCounters.jsx';
 
 import {
   OVERCHARGE_SEQUENCE,
@@ -18,7 +17,6 @@ import {
   getMechEvasion,
   getMechEDef,
   getMechSaveTarget,
-  getCountersFromPilot,
 } from './mechStateUtils.js';
 
 import './MechState.scss';
@@ -77,9 +75,6 @@ const MechState = ({
   const [currentStructure, setCurrentStructure] = useState(activeMech.current_structure);
   const [currentStress, setCurrentStress] = useState(activeMech.current_stress);
 
-  const [activeConditions, setActiveConditions] = useState(activeMech.conditions);
-  const [customCounters, setCustomCounters] = useState(getCountersFromPilot(activePilot));
-
   function initializeCurrentStatus() {
     setCurrentOvershield(parseInt(activeMech.overshield));
     setCurrentHP(parseInt(activeMech.current_hp));
@@ -90,7 +85,6 @@ const MechState = ({
     setCurrentRepairs(parseInt(activeMech.current_repairs));
     setCurrentStructure(parseInt(activeMech.current_structure));
     setCurrentStress(parseInt(activeMech.current_stress));
-    setActiveConditions(activeMech.conditions)
   }
 
   // if we change mechs, reset state to that mech
@@ -110,9 +104,6 @@ const MechState = ({
       current_repairs: currentRepairs,
       current_stress: currentStress,
       current_structure: currentStructure,
-      conditions: activeConditions,
-      custom_counters: customCounters.map(counter => {return {name: counter.name, id: counter.id, custom: true}}),
-      counter_data: customCounters.map(counter => {return {id: counter.id, val: counter.val}}),
     })
   }, [
     currentOvershield,
@@ -124,8 +115,6 @@ const MechState = ({
     currentRepairs,
     currentStructure,
     currentStress,
-    activeConditions,
-    JSON.stringify(customCounters),
   ]);
 
 
@@ -360,13 +349,6 @@ const MechState = ({
           {getMechSaveTarget(activeMech, activePilot, frameData)}
         </div>
       </div>
-
-      <ConditionsAndCounters
-        activeConditions={activeConditions}
-        setActiveConditions={setActiveConditions}
-        customCounters={customCounters}
-        setCustomCounters={setCustomCounters}
-      />
     </div>
   );
 }

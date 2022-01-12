@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MechTraits, MechSystemActions } from './MechTraits.jsx';
 import MechState from '../MechState/MechState.jsx';
+import ConditionsAndCounters from '../MechState/ConditionsAndCounters.jsx';
 import WeaponRoller from '../WeaponRoller/WeaponRoller.jsx';
 import TechRoller from '../WeaponRoller/TechRoller.jsx';
 import {
@@ -170,6 +171,12 @@ const MechSheet = ({
           activeMech={activeMech}
           activePilot={activePilot}
           frameData={frameData}
+          updateMechState={updateMechState}
+        />
+
+        <ConditionsAndCounters
+          activeMech={activeMech}
+          activePilot={activePilot}
           updateMechState={updateMechState}
         />
 

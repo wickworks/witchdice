@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select'
 import TextInput from '../../shared/TextInput.jsx';
 import { getOptionFromValue, deepCopy } from '../../../utils.js';
@@ -10,6 +10,9 @@ import {
   findStatusData,
 } from '../lancerData.js';
 
+import {
+  getCountersFromPilot,
+} from './mechStateUtils.js';
 
 
 // =============== ADD / REMOVE TAG CRAP =============
@@ -21,12 +24,35 @@ const conditionOptions = allStatuses.map(condition => ({
 
 
 const ConditionsAndCounters = ({
-	activeConditions,
-	setActiveConditions,
-
-  customCounters,
-  setCustomCounters
+  activeMech,
+  activePilot,
+	updateMechState
 }) => {
+  const [activeConditions, setActiveConditions] = useState(activeMech.conditions);
+  const [customCounters, setCustomCounters] = useState(getCountersFromPilot(activePilot));
+
+  function initializeCurrentStatus() {
+    setActiveConditions(activeMech.conditions)
+  }
+
+  // if we change mechs, reset state to that mech
+  useEffect(() => {
+    initializeCurrentStatus()
+  }, [activeMech.id, activePilot.id]);
+
+  // if we change anything, save it to the pilot array & local storage
+  useEffect(() => {
+    updateMechState({
+      conditions: activeConditions,
+      custom_counters: customCounters.map(counter => {return {name: counter.name, id: counter.id, custom: true}}),
+      counter_data: customCounters.map(counter => {return {id: counter.id, val: counter.val}}),
+    })
+  }, [
+    activeConditions,
+    JSON.stringify(customCounters),
+  ]);
+
+
   const selectedConditions = activeConditions
     ? activeConditions.map(conditionName => getOptionFromValue(conditionOptions, conditionName))
     : []
