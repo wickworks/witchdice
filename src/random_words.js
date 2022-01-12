@@ -1,5 +1,5 @@
 var wordList = [
-'bear', 'bear', 'oat', 'tea', 'soft', 'willow', 'toad', 'doll', 'flower', 'peach', 'milky', 'dream', 'spring', 'kitty', 'pixie', 'fairy', 'fae',
+'bear', 'bear', 'oat', 'tea', 'soft', 'willow', 'toad', 'doll', 'flower', 'peach', 'milky', 'dream', 'spring', 'pixie', 'fairy', 'fae',
 'sargasso', 'sea', 'brood', 'conflate', 'demure', 'dulcet', 'elixir', 'eloquent', 'ephemeral', 'epiphany', 'ethereal', 'evanescent', 'evocative', 'fetching', 'felicity', 'furtive', 'glamour', 'gossamer', 'harbinger', 'labyrinth', 'lagoon', 'languor', 'lilt', 'lithe', 'love', 'murmur', 'nemesis', 'opulent', 'penumbra', 'plethora', 'ripple', 'susurrous', 'talisman', 'umbrella', 'vestige',
 'cerulean', 'mist', 'serene', 'form', 'lake', 'art', 'ideal','dream','gentle','treasure','life','gem','serpent','wonder','sculpt',
 'mother','passion','smile','eternity','fantastic','destiny','freedom','tranquil',
@@ -12,7 +12,8 @@ var wordList = [
 'waltz','tango','cache','heart','thorn','ibex','bribe','crown','dust','echo','tender','fourteen','fifteen','garden','grand','gumption',
 'olive','salmon','tarot','balm','jupiter','athena','table',
 'golden','silver','emerald','ruby','sapphire','rose','opal','iris',
-'like', 'lichen', 'pickman', 'green', 'slumber', 'folly', 'beast', 'bell', 'candle', 'wax', 'root', 'curse',
+'like','lichen','pickman','green','slumber','folly','beast','bell','candle','wax','root','curse',
+'ponderosa','mafic','felsic','cobolt','quartz','tamarack','mycelial','honeydew','silica','diaphanous','endeavor','garnet','malachite','interlude','aspen','apogee','perigee','luminous','orion','geode','gypsum','acolyte','arbiter','boreal','continuum','quake','typhoon','basalt','granite','alpine','cider','traction','anise','xylem','thistle','moss','riparian','cedar','spruce','hemlock','willow','solar','lunar','tidal','spiral','nautilus','frost','dew','ravine','abyss','fractal','aperture','copper','bismuth','antimony','arsenic','seraphim','hierophant','elysium','asphodel'
 ];
 
 function words(options) {
