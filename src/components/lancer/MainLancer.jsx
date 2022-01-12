@@ -51,7 +51,10 @@ const MainLancer = ({
   const [activePilotID, setActivePilotID] = useState(null);
   const [activeMechID, setActiveMechID] = useState(null);
 
-  const activePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
+  const [triggerRerender, setTriggerRerender] = useState(false);
+
+  // const activePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
+  const activePilot = activePilotID && loadPilotData(activePilotID); // load the pilot data from local storage
   const allMechEntries = activePilot ? activePilot.mechs : [];
   const activeMech = allMechEntries.find(mech => mech.id === activeMechID);
 
@@ -87,7 +90,7 @@ const MainLancer = ({
       }
     }
 
-    setAllPilotEntries(pilotEntries);
+    setAllPilotEntries(pilotEntries.map(pilot => ({name: pilot.name, id: pilot.id})));
     setAllLcpEntries(lcpEntries);
 
     // if we were looking at a pilot, restore tham and their first mech
@@ -95,7 +98,7 @@ const MainLancer = ({
     if (oldSelectedID) {
       const newActivePilot = pilotEntries.find(pilot => pilot.id.startsWith(oldSelectedID));
       if (newActivePilot) {
-        setActivePilot(newActivePilot.id, pilotEntries)
+        setActivePilot(newActivePilot.id)
       }
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -122,14 +125,14 @@ const MainLancer = ({
     // sanity-check the pilot file
     if (!pilot || !pilot.id || !pilot.mechs) return
 
-    let newData = deepCopy(allPilotEntries);
+    let newData = [...allPilotEntries]
 
     // remove any existing pilots of this ID
     let pilotIndex = allPilotEntries.findIndex(entry => entry.id === pilot.id);
     if (pilotIndex >= 0) newData.splice(pilotIndex, 1)
 
     // store the entry & set it to active
-    newData.push(pilot);
+    newData.push({name: pilot.name, id: pilot.id});
     setAllPilotEntries(newData);
     setActivePilot(pilot.id)
 
@@ -137,16 +140,19 @@ const MainLancer = ({
     savePilotData(pilot)
   }
 
-  const setActivePilot = (pilotID, initializingPilotEntries = null) => {
-    // on the first render, we don't have allPilotEntries set up yet
-    const pilotEntries = initializingPilotEntries || allPilotEntries
-    const newActivePilot = pilotEntries.find(pilot => pilot.id === pilotID);
+  const setActivePilot = (pilotID) => {
+    const newActivePilot = pilotID && loadPilotData(pilotID)
 
     if (newActivePilot) {
       setActivePilotID(pilotID);
 
-      // select the first mech of a pilot
-      if (newActivePilot && newActivePilot.mechs.length >= 0) setActiveMechID(newActivePilot.mechs[0].id);
+      // select the last mech
+      if (newActivePilot && newActivePilot.mechs.length > 0) {
+        const lastMechIndex = newActivePilot.mechs.length - 1
+        setActiveMechID(newActivePilot.mechs[lastMechIndex].id);
+      } else {
+        setActiveMechID(null)
+      }
 
       localStorage.setItem("lancer-selected-character", pilotID.slice(0,STORAGE_ID_LENGTH));
     }
@@ -159,7 +165,7 @@ const MainLancer = ({
     // remove from the current list of pilot entries
     let pilotIndex = allPilotEntries.findIndex(entry => entry.id === activePilot.id);
     if (pilotIndex >= 0) {
-      let newData = deepCopy(allPilotEntries)
+      let newData = [...allPilotEntries]
       newData.splice(pilotIndex, 1)
       setAllPilotEntries(newData);
     }
@@ -221,11 +227,13 @@ const MainLancer = ({
       savePilotData(newPilotData)
 
       // update it in the list of pilot entries
-      if (pilotIndex >= 0) {
-        let newEntryData = [...allPilotEntries] // doesn't need to be a deep copy
-        newEntryData[pilotIndex] = newPilotData
-        setAllPilotEntries(newEntryData);
-      }
+      // if (pilotIndex >= 0) {
+      //   let newEntryData = [...allPilotEntries] // doesn't need to be a deep copy
+      //   newEntryData[pilotIndex] = newPilotData
+      //   setAllPilotEntries(newEntryData);
+      // }
+
+      setTriggerRerender(!triggerRerender)
 
     } else {
       console.error('Could not find mech or pilot to save it!', newMechData)
