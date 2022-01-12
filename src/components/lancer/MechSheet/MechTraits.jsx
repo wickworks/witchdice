@@ -212,7 +212,6 @@ const MechSystemActions = ({
 					const systemData = findSystemData(system.id)
           const grantsInvades = systemData.actions && systemData.actions.filter(action => action.activation === 'Invade').length > 0
 
-          console.log(systemData.name, 'grantsInvades', grantsInvades);
 					return (
 						<React.Fragment key={`${system.id}-${i}`}>
               {systemData.effect && renderPassive(system, systemData, i)}
