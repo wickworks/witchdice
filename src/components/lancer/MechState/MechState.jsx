@@ -64,58 +64,85 @@ const MechState = ({
   frameData,
   updateMechState,
 }) => {
-  const [currentOvershield, setCurrentOvershield] = useState(activeMech.overshield);
-  const [currentHP, setCurrentHP] = useState(activeMech.current_hp);
-  const [currentHeat, setCurrentHeat] = useState(activeMech.current_heat);
-  const [currentBurn, setCurrentBurn] = useState(activeMech.burn);
-  const [currentOverchargeIndex, setCurrentOverchargeIndex] = useState(activeMech.current_overcharge);
-  const [currentCore, setCurrentCore] = useState(!!activeMech.current_core_energy);
-  const [currentRepairs, setCurrentRepairs] = useState(activeMech.current_repairs);
+  const currentOvershield = activeMech.overshield;
+  const setCurrentOvershield = (overshield) => updateMechState({overshield: overshield})
 
-  const [currentStructure, setCurrentStructure] = useState(activeMech.current_structure);
-  const [currentStress, setCurrentStress] = useState(activeMech.current_stress);
+  const currentHP = activeMech.current_hp;
+  const setCurrentHP = (current_hp) => updateMechState({current_hp: current_hp})
 
-  function initializeCurrentStatus() {
-    setCurrentOvershield(parseInt(activeMech.overshield));
-    setCurrentHP(parseInt(activeMech.current_hp));
-    setCurrentHeat(parseInt(activeMech.current_heat));
-    setCurrentBurn(parseInt(activeMech.burn));
-    setCurrentOverchargeIndex(parseInt(activeMech.current_overcharge));
-    setCurrentCore(!!activeMech.current_core_energy);
-    setCurrentRepairs(parseInt(activeMech.current_repairs));
-    setCurrentStructure(parseInt(activeMech.current_structure));
-    setCurrentStress(parseInt(activeMech.current_stress));
-  }
+  const currentHeat = activeMech.current_heat;
+  const setCurrentHeat = (current_heat) => updateMechState({current_heat: current_heat})
+
+  const currentBurn = activeMech.burn;
+  const setCurrentBurn = (burn) => updateMechState({burn: burn})
+
+  const currentOverchargeIndex = activeMech.current_overcharge;
+  const setCurrentOverchargeIndex = (current_overcharge) => updateMechState({current_overcharge: current_overcharge})
+
+  const currentCore = !!activeMech.current_core_energy;
+  const setCurrentCore = (hasCoreEnergy) => updateMechState({current_core_energy: hasCoreEnergy ? 1 : 0})
+
+  const currentRepairs = activeMech.current_repairs;
+  const setCurrentRepairs = (current_repairs) => updateMechState({current_repairs: current_repairs})
+
+  const currentStructure = activeMech.current_structure;
+  const setCurrentStructure = (current_structure) => updateMechState({current_structure: current_structure})
+
+  const currentStress = activeMech.current_stress;
+  const setCurrentStress = (current_stress) => updateMechState({current_stress: current_stress})
+
+  // const [currentOvershield, setCurrentOvershield] = useState(activeMech.overshield);
+  // const [currentHP, setCurrentHP] = useState(activeMech.current_hp);
+  // const [currentHeat, setCurrentHeat] = useState(activeMech.current_heat);
+  // const [currentBurn, setCurrentBurn] = useState(activeMech.burn);
+  // const [currentOverchargeIndex, setCurrentOverchargeIndex] = useState(activeMech.current_overcharge);
+  // const [currentCore, setCurrentCore] = useState(!!activeMech.current_core_energy);
+  // const [currentRepairs, setCurrentRepairs] = useState(activeMech.current_repairs);
+  //
+  // const [currentStructure, setCurrentStructure] = useState(activeMech.current_structure);
+  // const [currentStress, setCurrentStress] = useState(activeMech.current_stress);
+
+  // function initializeCurrentStatus() {
+  //   setCurrentOvershield(parseInt(activeMech.overshield));
+  //   setCurrentHP(parseInt(activeMech.current_hp));
+  //   setCurrentHeat(parseInt(activeMech.current_heat));
+  //   setCurrentBurn(parseInt(activeMech.burn));
+  //   setCurrentOverchargeIndex(parseInt(activeMech.current_overcharge));
+  //   setCurrentCore(!!activeMech.current_core_energy);
+  //   setCurrentRepairs(parseInt(activeMech.current_repairs));
+  //   setCurrentStructure(parseInt(activeMech.current_structure));
+  //   setCurrentStress(parseInt(activeMech.current_stress));
+  // }
 
   // if we change mechs, reset state to that mech
-  useEffect(() => {
-    initializeCurrentStatus()
-  }, [activeMech.id, activePilot.id]);
+  // useEffect(() => {
+  //   initializeCurrentStatus()
+  // }, [activeMech.id, activePilot.id]);
 
   // if we change anything, save it to the pilot array & local storage
-  useEffect(() => {
-    updateMechState({
-      overshield: currentOvershield,
-      current_hp: currentHP,
-      current_heat: currentHeat,
-      burn: currentBurn,
-      current_overcharge: currentOverchargeIndex,
-      current_core_energy: currentCore ? 1 : 0,
-      current_repairs: currentRepairs,
-      current_stress: currentStress,
-      current_structure: currentStructure,
-    })
-  }, [
-    currentOvershield,
-    currentHP,
-    currentHeat,
-    currentBurn,
-    currentOverchargeIndex,
-    currentCore,
-    currentRepairs,
-    currentStructure,
-    currentStress,
-  ]);
+  // useEffect(() => {
+  //   updateMechState({
+  //     overshield: currentOvershield,
+  //     current_hp: currentHP,
+  //     current_heat: currentHeat,
+  //     burn: currentBurn,
+  //     current_overcharge: currentOverchargeIndex,
+  //     current_core_energy: currentCore ? 1 : 0,
+  //     current_repairs: currentRepairs,
+  //     current_stress: currentStress,
+  //     current_structure: currentStructure,
+  //   })
+  // }, [
+  //   currentOvershield,
+  //   currentHP,
+  //   currentHeat,
+  //   currentBurn,
+  //   currentOverchargeIndex,
+  //   currentCore,
+  //   currentRepairs,
+  //   currentStructure,
+  //   currentStress,
+  // ]);
 
 
   // console.log('activemech', activeMech);
