@@ -55,9 +55,19 @@ export function getBonusDamageSourcesFromMech(mechData) {
       break;
 
     case 'mf_deaths_head':
-      sources.push( newSource('Mark for Death - Aux', 'mf_deaths_head_aux', '1d6', '') );
-      sources.push( newSource('Mark for Death - Main', 'mf_deaths_head_main', '2d6', '') );
-      sources.push( newSource('Mark for Death - Heavy', 'mf_deaths_head_heavy', '3d6', '') );
+      const synergies = {
+        "locations": ["weapon"],
+        "weapon_types": ["Rifle","Cannon","Launcher","CQB","Nexus"],
+      }
+
+      const auxEffect = { synergies: [{...synergies, "weapon_sizes": ["Auxiliary"]}] }
+      sources.push( newSource('Mark for Death', 'mf_deaths_head_aux', '1d6', '', auxEffect) );
+
+      const mainEffect = { synergies: [{...synergies, "weapon_sizes": ["Main"]}] }
+      sources.push( newSource('Mark for Death', 'mf_deaths_head_main', '2d6', '', mainEffect) );
+
+      const heavyEffect = { synergies: [{...synergies, "weapon_sizes": ["Heavy"]}] }
+      sources.push( newSource('Mark for Death', 'mf_deaths_head_heavy', '3d6', '', heavyEffect) );
       break;
 
     case 'mf_mourning_cloak':
