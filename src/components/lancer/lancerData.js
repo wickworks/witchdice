@@ -3,6 +3,7 @@ import { getIDFromStorageName } from '../../localstorage.js';
 import { loadLcpData, LCP_PREFIX, STORAGE_ID_LENGTH } from './lancerLocalStorage.js';
 
 const data = require('lancer-data');
+const allActions = data.actions;
 const allWeapons = data.weapons;
 const allSkills = data.skills;
 const allTags = data.tags;
@@ -53,6 +54,14 @@ const blankStatus = {
   "type": "Status",
   "terse": "Unknown status.",
   "effects": "Unknown status."
+}
+
+const blankAction = {
+  "id": "act_unknown",
+  "name": "UNKNOWN ACTION",
+  "activation": "",
+  "terse": "",
+  "detail": "",
 }
 
 export const OVERCHARGE_SEQUENCE = ['1','1d3','1d6','1d6+4']
@@ -252,4 +261,11 @@ export const findStatusData = (statusName) => {
   var statusData = allStatuses.find(status => status.name === statusName);
   // if (!statusData) statusData = findGameDataFromLcp('statuses', statusName) // new lcps can't really add new statuses
   return statusData ? statusData : blankStatus;
+}
+
+
+export const findActionData = (actionID) => {
+  var actionData = allActions.find(action => action.id === actionID);
+  // if (!actionData) actionData = findGameDataFromLcp('actiones', actionName) // new lcps can't really add new actions
+  return actionData ? actionData : blankAction;
 }

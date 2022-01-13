@@ -1,6 +1,7 @@
 import React from 'react';
 import DestroySystemButton from './DestroySystemButton.jsx'
 import {
+  findActionData,
   findWeaponData,
   findSystemData,
   findCoreBonusData,
@@ -14,6 +15,11 @@ import './MechMount.scss';
 
 
 function getModdedWeaponData(weapon) {
+  // if we're asking for baseline weapon data, give that instead
+  if (weapon.id.startsWith('act_')) {
+    return baselineWeapons.find(baseline => baseline.id === weapon.id)
+  }
+
   let weaponData = deepCopy( findWeaponData(weapon.id) );
 
   // now we actually MODIFY the weaponData to add any tags from mods. Much easier than doing it dynamically later.
@@ -33,7 +39,7 @@ function getWeaponsOnMount(mount) {
 
   const weapons =
     [...mount.slots, ...mount.extra]
-    .slice(0,2) // in case there's leftover 'extra' data that shouldn't be there
+    // .slice(0,2) // in case there's leftover 'extra' data that shouldn't be there
     .map(slot => slot.weapon)
     .filter(weapon => weapon)
 
@@ -113,6 +119,56 @@ function getInvadeOptions(loadout, pilotTalents) {
   return invades
 }
 
+const baselineWeapons = [
+  {
+    id: 'act_ram',
+    name: 'Ram',
+    mount: 'Quick Action',
+    type: 'Melee',
+    damage: [],
+    range: [{type: 'Threat', val: '1'}],
+    effect: findActionData('act_ram').detail,
+  },
+  {
+    id: 'act_grapple',
+    name: 'Grapple',
+    mount: 'Quick Action',
+    type: 'Melee',
+    damage: [],
+    range: [{type: 'Threat', val: '1'}],
+    effect: findActionData('act_grapple').detail,
+  },
+  {
+    id: 'act_improvised_attack',
+    name: 'Improvised Attack',
+    mount: 'Full Action',
+    type: 'Melee',
+    damage: [{type: 'Kinetic', val: '1d6'}],
+    range: [{type: 'Threat', val: '1'}],
+    effect: findActionData('act_improvised_attack').detail,
+  }
+]
+
+const baselineMount = {
+  mount_type: 'Baseline',
+  slots: [
+    {
+      size: 'Quick Action',
+      weapon: { id: 'act_ram' }
+    },
+    {
+      size: 'Quick Action',
+      weapon: { id: 'act_grapple' }
+    },
+    {
+      size: 'Full Action',
+      weapon: { id: 'act_improvised_attack' }
+    }
+  ],
+  extra: [],
+  bonus_effects: []
+}
+
 
 const MechMount = ({
   mount,
@@ -124,12 +180,13 @@ const MechMount = ({
   const mountedWeapons = getWeaponsOnMount(mount)
   const mountedWeaponData = mountedWeapons.map(weapon => getModdedWeaponData(weapon))
   const isEmpty = mountedWeaponData.length === 0
-  const isDestructable = mount.source !== 'integratedMounts'
+  const isBaseline = mount.mount_type === 'Baseline'
+  const isDestructable = mount.source !== 'integratedMounts' && !isBaseline
 
   const bonusEffects = mount.bonus_effects.map(effectID => findCoreBonusData(effectID).name);
 
   return (
-    <div className={`MechMount ${isEmpty ? 'empty' : ''}`}>
+    <div className={`MechMount ${isEmpty ? 'empty' : ''} ${isBaseline ? 'baseline' : ''}`}>
       { mountedWeaponData.map((weaponData, i) => {
 
         // GHOST BUG: if we log mount.slots[i], it'll print fine, but accessing its props crashes it.
@@ -137,7 +194,7 @@ const MechMount = ({
 
         return (
           <MechWeapon
-            mountType={i === 0 ? mount.mount_type : ''}
+            mountType={(i === 0 && !isBaseline) ? mount.mount_type : ''}
             bonusEffects={i === 0 ? bonusEffects : []}
             weaponData={weaponData}
             mod={weaponMod}
@@ -154,7 +211,7 @@ const MechMount = ({
 
       {mountedWeaponData.length === 0 &&
         <MechWeapon
-          mountType={mount.source}
+          mountType={mount.mount_type}
           weaponData={null}
           onClick={() => {}}
           isActive={false}
@@ -246,5 +303,6 @@ export {
   getModdedWeaponData,
   getWeaponsOnMount,
   getInvadeOptions,
-  getMountsFromLoadout
+  getMountsFromLoadout,
+  baselineMount,
 };

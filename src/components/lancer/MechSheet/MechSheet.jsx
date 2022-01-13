@@ -19,6 +19,7 @@ import {
   getInvadeOptions,
   getWeaponsOnMount,
   getModdedWeaponData,
+  baselineMount,
   TechAttack,
   MechMount
 } from './MechMount.jsx';
@@ -48,9 +49,10 @@ function getBonusDamageSources(activeMech, activePilot, activeMount, activeWeapo
 
   // filter them out by synergy e.g. melee talents only apply to melee weapons
   if (activeWeapon) {
+    const weaponData = getModdedWeaponData(activeWeapon)
+
     bonusDamageSources = bonusDamageSources.filter(source => {
       const synergies = getWeaponSynergies(source.trait.synergies)
-      const weaponData = findWeaponData(activeWeapon.id)
       const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
 
       // Only include sources without failing synergies
@@ -119,7 +121,7 @@ const MechSheet = ({
   // =============== GET THE DATA FOR THE SHEET ==================
 
   const loadout = activeMech.loadouts[0];
-  const mounts = getMountsFromLoadout(loadout);
+  const mounts = [...getMountsFromLoadout(loadout), baselineMount];
   const invades = getInvadeOptions(loadout, activePilot.talents);
 
   const frameData = findFrameData(activeMech.frame);
@@ -187,7 +189,7 @@ const MechSheet = ({
         />
 
         <div className='jumplink-anchor' id='weapons' />
-        <div className="mounts-label">Mounts</div>
+        <div className="mounts-label">Mounts & Attacks</div>
 
         <div className="mounts-list">
           { mounts.map((mount, i) =>

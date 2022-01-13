@@ -15,6 +15,13 @@
   &.TechAttack { border-color: $periwinkle; }
   &.empty { border-color: $faded_grey; }
 
+  &.baseline {
+    .MechWeapon button.select-weapon .weapon-name-container {
+      margin-top: 0;
+      @include max_width { font-size: 22px; }
+    }
+  }
+
   .DestroySystemButton {
     position: absolute;
     left: calc(100% + 2px);

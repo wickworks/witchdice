@@ -29,7 +29,7 @@ const BaseDamageBar = ({
       disabled={!isClickable}
     >
       <div className="damage-and-range">
-        { weaponProfile.damage &&
+        { weaponProfile.damage && weaponProfile.damage.length > 0 &&
           <div className="base-damage">
             <div className='bracket'>[</div>
             { weaponProfile.damage.map((damage, i) =>
