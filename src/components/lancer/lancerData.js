@@ -64,6 +64,91 @@ const blankAction = {
   "detail": "",
 }
 
+
+var loadedLcpData = {};
+function findGameDataFromLcp(gameDataType, gameDataID) {
+  var lcpGameData;
+
+  // First, load up any LCPs from localstorage that we haven't gotten yet
+  for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+    const key = localStorage.key(i);
+    if (key.startsWith(`${LCP_PREFIX}-`)) {
+      const lcpID = getIDFromStorageName(LCP_PREFIX, key, STORAGE_ID_LENGTH);
+      if (!loadedLcpData[lcpID]) {
+        const lcpData = loadLcpData(lcpID);
+        loadedLcpData[lcpID] = lcpData;
+      }
+    }
+  }
+
+  // Then look through the loaded lcp content
+  Object.keys(loadedLcpData).forEach(lcpID => {
+    const lcpAllDataForDataType = loadedLcpData[lcpID].data[gameDataType];
+    if (lcpAllDataForDataType) lcpGameData = lcpAllDataForDataType.find(gamedata => gamedata.id === gameDataID) || lcpGameData;
+  });
+
+  return lcpGameData;
+}
+
+export const findFrameData = (frameID) => {
+  var frameData = allFrames.find(frame => frame.id === frameID);
+  if (!frameData) frameData = findGameDataFromLcp('frames', frameID)
+  return frameData ? frameData : findFrameData('missing_frame');
+}
+
+export const findWeaponData = (weaponID) => {
+  var weaponData = allWeapons.find(weapon => weapon.id === weaponID);
+  if (!weaponData) weaponData = findGameDataFromLcp('weapons', weaponID)
+  return weaponData ? weaponData : findWeaponData('missing_mechweapon');
+}
+
+export const findTalentData = (talentID) => {
+  var talentData = allTalents.find(talent => talent.id === talentID);
+  if (!talentData) talentData = findGameDataFromLcp('talents', talentID)
+  return talentData ? talentData : blankTalent;
+}
+
+export const findSkillData = (skillID) => {
+  var skillData = allSkills.find(skill => skill.id === skillID);
+  if (!skillData) skillData = findGameDataFromLcp('skills', skillID)
+  return skillData ? skillData : blankSkill;
+}
+
+export const findCoreBonusData = (coreBonusID) => {
+  var coreBonusData = allCoreBonuses.find(coreBonus => coreBonus.id === coreBonusID);
+  if (!coreBonusData) coreBonusData = findGameDataFromLcp('core_bonuses', coreBonusID)
+  return coreBonusData ? coreBonusData : findWeaponData('missing_corebonus');
+}
+
+export const findSystemData = (systemID) => {
+  var systemData = allSystems.find(system => system.id === systemID);
+  if (!systemData) systemData = findGameDataFromLcp('systems', systemID)
+  return systemData ? systemData : findWeaponData('missing_mechsystem');
+}
+
+export const findModData = (modID) => {
+  var modData = allMods.find(mod => mod.id === modID);
+  if (!modData) modData = findGameDataFromLcp('mods', modID)
+  return modData ? modData : findModData('missing_weaponmod');
+}
+
+export const findStatusData = (statusName) => {
+  var statusData = allStatuses.find(status => status.name === statusName);
+  // if (!statusData) statusData = findGameDataFromLcp('statuses', statusName) // new lcps can't really add new statuses
+  return statusData ? statusData : blankStatus;
+}
+
+export const findActionData = (actionID) => {
+  var actionData = allActions.find(action => action.id === actionID);
+  // if (!actionData) actionData = findGameDataFromLcp('actiones', actionName) // new lcps can't really add new actions
+  return actionData ? actionData : blankAction;
+}
+
+
+
+
+
+
 export const OVERCHARGE_SEQUENCE = ['1','1d3','1d6','1d6+4']
 
 // these should probably get rolled into damageModifiers system
@@ -189,83 +274,54 @@ export const defaultWeaponDamageType = (weaponData) => {
   return damageType || 'Variable';
 }
 
-
-var loadedLcpData = {};
-function findGameDataFromLcp(gameDataType, gameDataID) {
-  var lcpGameData;
-
-  // First, load up any LCPs from localstorage that we haven't gotten yet
-  for ( var i = 0, len = localStorage.length; i < len; ++i ) {
-    const key = localStorage.key(i);
-    if (key.startsWith(`${LCP_PREFIX}-`)) {
-      const lcpID = getIDFromStorageName(LCP_PREFIX, key, STORAGE_ID_LENGTH);
-      if (!loadedLcpData[lcpID]) {
-        const lcpData = loadLcpData(lcpID);
-        loadedLcpData[lcpID] = lcpData;
-      }
-    }
+export const baselineWeapons = [
+  {
+    id: 'act_ram',
+    name: 'Ram',
+    mount: 'Quick Action',
+    type: 'Melee',
+    damage: [],
+    range: [{type: 'Threat', val: '1'}],
+    effect: findActionData('act_ram').detail,
+    on_hit: "Prone.<br>Knockback 1 (optional).",
+  },
+  {
+    id: 'act_grapple',
+    name: 'Grapple',
+    mount: 'Quick Action',
+    type: 'Melee',
+    damage: [],
+    range: [{type: 'Threat', val: '1'}],
+    effect: findActionData('act_grapple').detail,
+    on_hit: "Engaged.<br>No boosts or reactions.<br>Smaller character is immobilized.",
+  },
+  {
+    id: 'act_improvised_attack',
+    name: 'Improvised Attack',
+    mount: 'Full Action',
+    type: 'Melee',
+    damage: [{type: 'Kinetic', val: '1d6'}],
+    range: [{type: 'Threat', val: '1'}],
+    effect: findActionData('act_improvised_attack').detail,
   }
+]
 
-  // Then look through the loaded lcp content
-  Object.keys(loadedLcpData).forEach(lcpID => {
-    const lcpAllDataForDataType = loadedLcpData[lcpID].data[gameDataType];
-    if (lcpAllDataForDataType) lcpGameData = lcpAllDataForDataType.find(gamedata => gamedata.id === gameDataID) || lcpGameData;
-  });
-
-  return lcpGameData;
-}
-
-export const findFrameData = (frameID) => {
-  var frameData = allFrames.find(frame => frame.id === frameID);
-  if (!frameData) frameData = findGameDataFromLcp('frames', frameID)
-  return frameData ? frameData : findFrameData('missing_frame');
-}
-
-export const findWeaponData = (weaponID) => {
-  var weaponData = allWeapons.find(weapon => weapon.id === weaponID);
-  if (!weaponData) weaponData = findGameDataFromLcp('weapons', weaponID)
-  return weaponData ? weaponData : findWeaponData('missing_mechweapon');
-}
-
-export const findTalentData = (talentID) => {
-  var talentData = allTalents.find(talent => talent.id === talentID);
-  if (!talentData) talentData = findGameDataFromLcp('talents', talentID)
-  return talentData ? talentData : blankTalent;
-}
-
-export const findSkillData = (skillID) => {
-  var skillData = allSkills.find(skill => skill.id === skillID);
-  if (!skillData) skillData = findGameDataFromLcp('skills', skillID)
-  return skillData ? skillData : blankSkill;
-}
-
-export const findCoreBonusData = (coreBonusID) => {
-  var coreBonusData = allCoreBonuses.find(coreBonus => coreBonus.id === coreBonusID);
-  if (!coreBonusData) coreBonusData = findGameDataFromLcp('core_bonuses', coreBonusID)
-  return coreBonusData ? coreBonusData : findWeaponData('missing_corebonus');
-}
-
-export const findSystemData = (systemID) => {
-  var systemData = allSystems.find(system => system.id === systemID);
-  if (!systemData) systemData = findGameDataFromLcp('systems', systemID)
-  return systemData ? systemData : findWeaponData('missing_mechsystem');
-}
-
-export const findModData = (modID) => {
-  var modData = allMods.find(mod => mod.id === modID);
-  if (!modData) modData = findGameDataFromLcp('mods', modID)
-  return modData ? modData : findModData('missing_weaponmod');
-}
-
-export const findStatusData = (statusName) => {
-  var statusData = allStatuses.find(status => status.name === statusName);
-  // if (!statusData) statusData = findGameDataFromLcp('statuses', statusName) // new lcps can't really add new statuses
-  return statusData ? statusData : blankStatus;
-}
-
-
-export const findActionData = (actionID) => {
-  var actionData = allActions.find(action => action.id === actionID);
-  // if (!actionData) actionData = findGameDataFromLcp('actiones', actionName) // new lcps can't really add new actions
-  return actionData ? actionData : blankAction;
+export const baselineMount = {
+  mount_type: 'Baseline',
+  slots: [
+    {
+      size: 'Quick Action',
+      weapon: { id: 'act_ram' }
+    },
+    {
+      size: 'Quick Action',
+      weapon: { id: 'act_grapple' }
+    },
+    {
+      size: 'Full Action',
+      weapon: { id: 'act_improvised_attack' }
+    }
+  ],
+  extra: [],
+  bonus_effects: []
 }

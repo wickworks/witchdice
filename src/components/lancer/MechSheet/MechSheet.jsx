@@ -8,7 +8,10 @@ import {
   getGrit,
   findWeaponData,
   findFrameData,
+  baselineMount,
 } from '../lancerData.js';
+
+import { deepCopy } from '../../../utils.js';
 
 import {
   getMechTechAttack,
@@ -19,7 +22,6 @@ import {
   getInvadeOptions,
   getWeaponsOnMount,
   getModdedWeaponData,
-  baselineMount,
   TechAttack,
   MechMount
 } from './MechMount.jsx';
@@ -103,6 +105,25 @@ const MechSheet = ({
     newAttackSummary()
   }
 
+  function getActiveWeaponData(weapon) {
+    if (!weapon) return null
+
+    let weaponData = getModdedWeaponData(activeWeapon)
+
+    // Special case: modify RAM and IMPROVISED ATTACKS due to systems or talents
+    if (weapon.id === 'act_ram' && loadout.systems.find(system => system.id === 'ms_siege_ram')) {
+      weaponData = deepCopy(weaponData) // don't modify the original
+      weaponData.damage = [{type: 'Kinetic', val: '2'}]
+    }
+    if (weapon.id === 'act_improvised_attack' && activePilot.talents.find(talent => (talent.id === 't_brawler' && talent.rank >= 2))) {
+      weaponData = deepCopy(weaponData) // don't modify the original
+      weaponData.damage = [{type: 'Kinetic', val: '2d6+2'}]
+      weaponData.on_hit = "Knockback 2."
+    }
+
+    return weaponData
+  }
+
   // =============== SUMMARY DATA ==================
   // inject the mech name to summary data before sending it up
   const setRollSummaryDataWithName = (rollSummaryData) => {
@@ -130,7 +151,7 @@ const MechSheet = ({
   const activeMount = mounts[activeMountIndex];
   const activeMountWeapons = getWeaponsOnMount(activeMount);
   const activeWeapon = activeMountWeapons && activeMountWeapons[activeWeaponIndex];
-  const activeWeaponData = activeWeapon && getModdedWeaponData(activeWeapon)
+  const activeWeaponData = getActiveWeaponData(activeWeapon)
 
   const bonusDamageSources = getBonusDamageSources(activeMech, activePilot, activeMount, activeWeapon);
 

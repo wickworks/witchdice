@@ -7,6 +7,8 @@ import {
   findCoreBonusData,
   findModData,
   findTalentData,
+  baselineMount,
+  baselineWeapons
 } from '../lancerData.js';
 
 import { deepCopy } from '../../../utils.js';
@@ -117,56 +119,6 @@ function getInvadeOptions(loadout, pilotTalents) {
   })
 
   return invades
-}
-
-const baselineWeapons = [
-  {
-    id: 'act_ram',
-    name: 'Ram',
-    mount: 'Quick Action',
-    type: 'Melee',
-    damage: [],
-    range: [{type: 'Threat', val: '1'}],
-    effect: findActionData('act_ram').detail,
-  },
-  {
-    id: 'act_grapple',
-    name: 'Grapple',
-    mount: 'Quick Action',
-    type: 'Melee',
-    damage: [],
-    range: [{type: 'Threat', val: '1'}],
-    effect: findActionData('act_grapple').detail,
-  },
-  {
-    id: 'act_improvised_attack',
-    name: 'Improvised Attack',
-    mount: 'Full Action',
-    type: 'Melee',
-    damage: [{type: 'Kinetic', val: '1d6'}],
-    range: [{type: 'Threat', val: '1'}],
-    effect: findActionData('act_improvised_attack').detail,
-  }
-]
-
-const baselineMount = {
-  mount_type: 'Baseline',
-  slots: [
-    {
-      size: 'Quick Action',
-      weapon: { id: 'act_ram' }
-    },
-    {
-      size: 'Quick Action',
-      weapon: { id: 'act_grapple' }
-    },
-    {
-      size: 'Full Action',
-      weapon: { id: 'act_improvised_attack' }
-    }
-  ],
-  extra: [],
-  bonus_effects: []
 }
 
 
