@@ -137,7 +137,7 @@ const MechSystemActions = ({
     const description = isInvade ?
       `Gain the following options for Invade: ${systemData.actions.map(action => action.name).join(', ')}`
     :
-      `Gain the following tech actions: ${systemData.actions.map(action => action.name).join(', ')}`
+      `Gain the following tech actions: ${systemData.actions.map(action => action.name || systemData.name).join(', ')}`
 
     return (
       <TraitBlock
@@ -163,7 +163,7 @@ const MechSystemActions = ({
 					<TraitBlock
 						key={`${systemData.name}-action-${i}`}
 						name={action.name || systemData.name}
-						activation={action.activation}
+						activation={action.activation || 'Quick'} // default to quick actions
 						trigger={action.trigger}
 						range={action.range}
             description={action.detail}
@@ -192,7 +192,7 @@ const MechSystemActions = ({
 				<TraitBlock
 					key={`${systemData.name}-deployable-${i}`}
 					name={deployable.name}
-					activation={deployable.activation}
+					activation={deployable.activation || 'Quick'} // default to quick actions
 					trigger={deployable.trigger}
 					range={deployable.range}
           description={deployable.detail}
@@ -265,7 +265,18 @@ const TraitBlock = ({
 }) => {
 	const [isCollapsed, setIsCollapsed] = useState(true);
 
-	const sizeClass = description.length > 460 ? 'wide' : description.length > 160 ? 'tall' : ''
+  const systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : description
+
+	const sizeClass = systemDescription.length > 460 ?
+      'wide'
+    : systemDescription.length > 280 ?
+      'tall-3x'
+    : systemDescription.length > 200 ?
+      'tall-2x'
+    : systemDescription.length > 120 ?
+      'tall-1x'
+    :
+      ''
 
 	const titleClass = isTitleCase ? 'title-case' : '';
 	const collapsedClass = isCollapsed ? 'collapsed' : '';
@@ -309,6 +320,7 @@ const TraitBlock = ({
 						<MechNumberBar
 							extraClass='condensed'
 							dotIcon={limited.icon || 'generic-item'}
+              zeroIcon='dot'
 							maxNumber={limited.max}
 							currentNumber={limited.current}
 							setCurrentNumber={setLimitedCount}
@@ -326,11 +338,8 @@ const TraitBlock = ({
 
 						{trigger && <p><strong>Trigger:</strong> {trigger}</p>}
 
-            {isDestroyed ?
-              '[ SYSTEM DESTROYED ]'
-            :
-              ReactHtmlParser(description)
-            }
+            {ReactHtmlParser(systemDescription)}
+
 					</div>
 				</>
 			}

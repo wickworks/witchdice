@@ -24,7 +24,9 @@
 
     @include max_width {
       &:not(.collapsed) {
-        &.tall { grid-row: span 2; }
+        &.tall-1x { grid-row: span 2; }
+        &.tall-2x { grid-row: span 3; }
+        &.tall-3x { grid-row: span 4; }
         &.wide, &:only-child { grid-column: span 2; }
       }
     }
@@ -94,7 +96,7 @@
           .number { color: $soft_black; }
         }
 
-        .asset {
+        .asset:not(.dot) {
           width: 20px; height: 20px;
         }
       }
