@@ -195,7 +195,7 @@ const WeaponAttack = ({
               )}
             </div>
 
-            { totalsByType.length > 0 && <DamageSubtotal totalsByType={totalsByType} /> }
+            { Object.keys(totalsByType).length > 0 && <DamageSubtotal totalsByType={totalsByType} /> }
           </>
         : isReliable ?
           <>
