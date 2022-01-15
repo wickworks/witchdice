@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
 import WeaponRollerSetup from './WeaponRollerSetup.jsx';
+import BrToParagraphs from '../../shared/BrToParagraphs.jsx';
 import './TechRoller.scss';
 import './WeaponRoller.scss';
 
@@ -19,16 +20,16 @@ const TechRoller = ({
   setRollSummaryData,
   onClear,
 }) => {
-
   const [techAttackRoll, setTechAttackRoll] = useState(null);
   const [bonusDamageData, setBonusDamageData] = useState(null);
-
   const [isSettingUpAttack, setIsSettingUpAttack] = useState(true);
+
+  const isInvade = invadeData.activation === 'Invade'
 
   const createNewAttackRoll = () => {
 
     const accuracyMod = 0;
-    const newAttack = createNewTechAttack(invadeData, techAttackBonus, accuracyMod)
+    const newAttack = createNewTechAttack(invadeData, techAttackBonus, accuracyMod, isInvade)
 
     var bonusDamage = {};
     bonusDamage.rolls = []
@@ -89,10 +90,13 @@ const TechRoller = ({
             <div className='value'>{sensorRange}</div>
             <div className='bracket'>]</div>
           </div>
+          <div className="tags">
+            <span className='size'>{invadeData.activation}</span>
+          </div>
         </div>
 
         <div className='effect-row'>
-          {invadeData.detail}
+          <BrToParagraphs stringWithBrs={invadeData.detail}/>
         </div>
       </div>
 

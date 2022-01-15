@@ -91,7 +91,24 @@ function getMountsFromLoadout(loadout) {
   return mounts;
 }
 
-function getInvadeOptions(loadout, pilotTalents) {
+function isSystemTechAttack(systemData, onlyCheckInvade = false) {
+  if (!systemData || !systemData.actions) return false
+
+
+  let isTechAttack = false
+  systemData.actions.forEach(action => {
+    if (action.activation === 'Invade') isTechAttack = true
+    if (
+      !onlyCheckInvade &&
+      ['Quick Tech', 'Full Tech'].includes(action.activation) &&
+      action.detail.includes('ake a tech attack')
+    ) { isTechAttack = true }
+  })
+
+  return isTechAttack
+}
+
+function getInvadeAndTechAttacks(loadout, pilotTalents) {
   let invades = [];
 
   invades.push({
@@ -101,11 +118,13 @@ function getInvadeOptions(loadout, pilotTalents) {
   })
 
   loadout.systems.forEach(system => {
-    const systemActions = findSystemData(system.id).actions
-    if (systemActions && !system.destroyed) {
-      systemActions.forEach(action => {
-        if (action.activation === 'Invade') invades.push(action)
+    const systemData = findSystemData(system.id)
+    if (!system.destroyed && isSystemTechAttack(systemData)) {
+      // not all actions have unique names e.g. Markerlight; in these cases, inherit from the system
+      const techAttacks = systemData.actions.map(action => {
+        return {...action, name: (action.name || systemData.name)}
       })
+      invades.push(...techAttacks)
     }
   })
 
@@ -178,7 +197,7 @@ const TechAttack = ({
   onClick,
   isActive,
 }) => {
-  const mountType = 'Invade'
+  const mountType = invadeData.activation
 
   return (
     <div className='TechAttack'>
@@ -189,7 +208,7 @@ const TechAttack = ({
         { mountType && <div className='mount-type'>{mountType}</div>}
 
         <div className="weapon-name-container">
-          <div className="name">{invadeData.name}</div>
+          <div className="name">{invadeData.name.toLowerCase()}</div>
         </div>
       </button>
     </div>
@@ -254,7 +273,8 @@ export {
   TechAttack,
   getModdedWeaponData,
   getWeaponsOnMount,
-  getInvadeOptions,
+  getInvadeAndTechAttacks,
   getMountsFromLoadout,
+  isSystemTechAttack,
   baselineMount,
 };

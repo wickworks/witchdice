@@ -13,7 +13,7 @@
   .traits-container {
     display: grid;
     column-gap: 20px;
-    grid-auto-flow: dense;
+    // grid-auto-flow: dense;
     grid-template-columns: 1fr 1fr;
 
     @include below_max_width { grid-template-columns: 1fr; }

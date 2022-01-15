@@ -11,7 +11,7 @@ import {
   GENERIC_BONUS_SOURCE
 } from '../lancerData.js';
 
-export function createNewTechAttack(invadeData, flatBonus, accuracyMod) {
+export function createNewTechAttack(invadeData, flatBonus, accuracyMod, isInvade = true) {
   let newAttack = {};
 
   newAttack.isOverkill = false
@@ -26,14 +26,16 @@ export function createNewTechAttack(invadeData, flatBonus, accuracyMod) {
   // always just two heat (WHAT ABOUT NUC CAV?)
   let techDamage = {}
   techDamage.rolls = []
-  techDamage.rolls.push({
-    rollPool: [2],
-    critPool: [],
-    keep: 1,
-    dieType: 'flat',
-    type: 'Heat',
-    id: invadeData.name
-  })
+  if (isInvade) {
+    techDamage.rolls.push({
+      rollPool: [2],
+      critPool: [],
+      keep: 1,
+      dieType: 'flat',
+      type: 'Heat',
+      id: invadeData.name
+    })
+  }
 
   newAttack.damage = techDamage
 

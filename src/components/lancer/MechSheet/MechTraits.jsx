@@ -7,6 +7,10 @@ import {
   findSystemData,
 } from '../lancerData.js';
 
+import {
+  isSystemTechAttack,
+} from './MechMount.jsx';
+
 import './MechTraits.scss';
 
 const MechTraits = ({
@@ -128,12 +132,17 @@ const MechSystemActions = ({
 		)
 	}
 
-  function renderInvades(system, systemData, systemIndex) {
+  function renderTechAttacks(system, systemData, systemIndex) {
+    const isInvade = isSystemTechAttack(systemData, true)
+    const description = isInvade ?
+      `Gain the following options for Invade: ${systemData.actions.map(action => action.name).join(', ')}`
+    :
+      `Gain the following tech actions: ${systemData.actions.map(action => action.name).join(', ')}`
+
     return (
       <TraitBlock
         name={systemData.name.toLowerCase()}
-        description={`Gain the following options for Invade: ${systemData.actions.map(action => action.name).join(', ')}`}
-
+        description={description}
         isDestructable={isDestructable(systemData)}
         isDestroyed={system.destroyed}
         onDestroy={() => setDestroyedForSystem(!system.destroyed, systemIndex)}
@@ -147,9 +156,8 @@ const MechSystemActions = ({
 		let renderedActions = []
     let limited = getLimited(system, systemData)
 
-		systemData.actions.forEach((action, i) => {
-			if (action.activation !==  'Invade') { // invades are handled by the weapon roller
-
+    if (!isSystemTechAttack(systemData)) {
+  		systemData.actions.forEach((action, i) => {
 				if (action.name && action.name.includes('Grenade')) limited.icon = 'grenade'
 				renderedActions.push(
 					<TraitBlock
@@ -168,8 +176,8 @@ const MechSystemActions = ({
             onDestroy={() => setDestroyedForSystem(!system.destroyed, systemIndex)}
 					/>
 				)
-			}
-		})
+			})
+		}
 
 		return renderedActions
 	}
@@ -210,13 +218,13 @@ const MechSystemActions = ({
 				{ systems.map((system,i) => {
 
 					const systemData = findSystemData(system.id)
-          const grantsInvades = systemData.actions && systemData.actions.filter(action => action.activation === 'Invade').length > 0
+          const grantsTechAttacks = isSystemTechAttack(systemData)
 
 					return (
 						<React.Fragment key={`${system.id}-${i}`}>
               {systemData.effect && renderPassive(system, systemData, i)}
-							{!systemData.effect && grantsInvades &&
-                renderInvades(system, systemData, i)
+							{!systemData.effect && grantsTechAttacks &&
+                renderTechAttacks(system, systemData, i)
               }
 						</React.Fragment>
 					)

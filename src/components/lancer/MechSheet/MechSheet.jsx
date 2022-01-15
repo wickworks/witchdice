@@ -19,7 +19,7 @@ import {
 
 import {
   getMountsFromLoadout,
-  getInvadeOptions,
+  getInvadeAndTechAttacks,
   getWeaponsOnMount,
   getModdedWeaponData,
   TechAttack,
@@ -143,7 +143,7 @@ const MechSheet = ({
 
   const loadout = activeMech.loadouts[0];
   const mounts = [...getMountsFromLoadout(loadout), baselineMount];
-  const invades = getInvadeOptions(loadout, activePilot.talents);
+  const invades = getInvadeAndTechAttacks(loadout, activePilot.talents);
 
   const frameData = findFrameData(activeMech.frame);
   const gritBonus = getGrit(activePilot);
