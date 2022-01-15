@@ -50,6 +50,9 @@
   }
 
   .attacks-bar {
+    @include below_max_width { padding: 0 10px; }
+
+
     button.add-target {
       display: flex;
       align-items: center;

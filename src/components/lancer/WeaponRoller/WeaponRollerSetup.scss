@@ -46,11 +46,6 @@ $number_speed: 0.25s;
         @include condensed_setup { align-items: flex-start; }
 
         button { color: $rust; }
-
-        .Sources button {
-          text-align: right;
-          @include condensed_setup { text-align: center; }
-        }
       }
 
       &.accuracy {
@@ -59,11 +54,6 @@ $number_speed: 0.25s;
         @include condensed_setup { margin-left: 0; }
 
         button { color: $soft_black; }
-
-        .Sources button {
-          text-align: left;
-          @include condensed_setup { text-align: center; }
-        }
       }
 
       .column-label {
@@ -193,6 +183,11 @@ $number_speed: 0.25s;
                 background-color: $rust_light;
               }
             }
+
+            @include condensed_setup {
+              text-align: center;
+            }
+
           }
 
           // Bad UX to tap a button on mobile and have this tooltip pop up every time.
