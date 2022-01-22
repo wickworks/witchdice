@@ -1,0 +1,24 @@
+@import '../../fonts';
+
+.FullRepairButton {
+  @include standard_side_margin;
+  margin-top: 20px;
+
+  button {
+    display: block;
+    margin: 0 20px 0 auto;
+    padding: 6px 20px;
+
+    font-size: 18px;
+    color: $pink;
+
+    border-radius: 6px 6px 0 0;
+    background-color: $rust;
+
+    &:hover {
+      background-color: $rust_light;
+      color: white;
+    }
+  }
+
+}
