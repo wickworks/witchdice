@@ -103,6 +103,7 @@ const Footer = () => {
               <li>edit by Ricki Tri Putra</li>
               <li>Refresh by i cons</li>
               <li>Battery by Adrien Coquet</li>
+              <li>DNA by Tresnatiq</li>
             </ul>
 
             <p>
