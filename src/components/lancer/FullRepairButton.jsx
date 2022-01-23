@@ -15,6 +15,7 @@ import {
 } from './MechState/mechStateUtils.js';
 
 import './FullRepairButton.scss';
+import './FullRepairDnaSync.scss';
 
 
 const diagnosticMessages = [
@@ -46,16 +47,17 @@ const workingMessages = [
   'Considering a spherical [mech part]...',
   'Condensing magic smoke...',
   'Reticulating splines...',
-  'g  o  o  t  s',
-  '# pacman -Syu',
-  '/r 4d6kh3',
-  '$ sudo killall sshd',
+  'g  o  o  t  s ...',
+  '# pacman -Syu ...',
+  '/r 4d6kh3 ...',
+  '$ sudo killall sshd ...',
 ]
 
 const finishingMessages = [
   'Reactor: ONLINE',
   'Sensors: ONLINE',
   'Weapons: ONLINE',
+  'ALL SYSTEMS NOMINAL'
 ]
 
 // Too long? Find out how to add:
@@ -134,33 +136,54 @@ const FullRepairButton = ({
 
 
   return (
-    <div className='FullRepairButton'>
-      <div className={`dna-container ${stage}`}>
-        <div className='asset dna_left' />
-        <div className='asset dna_right' />
+    <div className={`FullRepairButton ${stage}`}>
+      <FullRepairDnaSync stage={stage} />
+
+      <div className={`status-text-container ${stage}`}>
+        { stage === STAGE_COMPLETED ?
+          <button className={`status-bar ${stage}`} onClick={() => setStage(STAGE_UNCLICKED)}>
+            FULL REPAIR COMPLETE
+          </button>
+        : stage === STAGE_ANIMATING ?
+          <div className='status-text'>
+            {repairingMessages[repairingMessageIndex]}
+          </div>
+        : stage === STAGE_PLEASE_CONFIRM &&
+          <div className='confirm-cancel-container'>
+            <button className={`status-bar ${stage}`} onClick={initiateRepairs}>
+              Confirm FULL REPAIR
+            </button>
+            <button className={`status-bar ${stage}`} onClick={() => setStage(STAGE_UNCLICKED)}>
+              CANCEL
+            </button>
+          </div>
+        }
       </div>
 
-      <div className='button-container-container'>
-        <div className='button-container'>
-          { stage === STAGE_COMPLETED ?
-            <button className={`status-bar ${stage}`} onClick={() => setStage(STAGE_UNCLICKED)}>
-              All systems nominal!
-            </button>
-          : stage === STAGE_ANIMATING ?
-            <button className='status-bar' disabled>
-              {repairingMessages[repairingMessageIndex]}
-            </button>
-          : stage === STAGE_PLEASE_CONFIRM ?
-            <button className='status-bar' onClick={initiateRepairs}>
-              Confirm FULL REPAIR.
-            </button>
-          : stage === STAGE_UNCLICKED &&
-            <button className='unclicked' onClick={() => setStage(STAGE_PLEASE_CONFIRM)}>
-              Full Repair
-            </button>
-          }
+
+      <div className='pseudo-panel-container'>
+        <div className='pseudo-panel'>
+          <button
+            className='unclicked'
+            onClick={() => setStage(STAGE_PLEASE_CONFIRM)}
+            disabled={stage !== STAGE_UNCLICKED}
+          >
+            Full Repair
+          </button>
         </div>
       </div>
+    </div>
+  );
+}
+
+const FullRepairDnaSync = ({
+  stage
+}) => {
+
+  return (
+    <div className={`FullRepairDnaSync ${stage}`}>
+      <div className='asset dna_left' />
+      <div className='asset dna_right' />
     </div>
   );
 }
