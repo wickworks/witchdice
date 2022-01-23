@@ -19,8 +19,7 @@ import './FullRepairDnaSync.scss';
 
 
 const diagnosticMessages = [
-  'Diagnosing damage...',
-  'Diagnostics: REPAIRS NEEDED',
+  'Diagnostics: Repairs needed!',
   'Diagnostics: Warranty voided!',
   'Diagnostics: Complete',
 ]
@@ -64,7 +63,7 @@ const finishingMessages = [
 // Castigating The Enemies Of— Wait, that doesn’t happen yet! Haha.
 // YOU BETTER NOT GET ME THAT SCRATCHED NEXT TIME, PILOT.
 
-const MESSAGE_COUNT = 12 // in total, minus the 4 startup and ending ones
+const MESSAGE_COUNT = 10 // in total, minus the 4 startup and ending ones
 
 const STAGE_UNCLICKED = 'unclicked'
 const STAGE_PLEASE_CONFIRM = 'please-confirm'
@@ -107,7 +106,7 @@ const FullRepairButton = ({
     messages.push(...shuffledDiagnostics.slice(0, 2))
 
     const shuffledWorking = workingMessages.sort(() => 0.5 - Math.random())
-    messages.push(...shuffledWorking.slice(0, 8))
+    messages.push(...shuffledWorking.slice(0, MESSAGE_COUNT-4))
 
     const shuffledFinishing = finishingMessages.sort(() => 0.5 - Math.random())
     messages.push(...shuffledFinishing.slice(0, 2))

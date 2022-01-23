@@ -1,6 +1,7 @@
 @import '../../fonts';
 
 $dna_size: 50px; // duplicated in animations
+$sync_time: 3.8s;
 
 
 .FullRepairDnaSync {
@@ -21,7 +22,6 @@ $dna_size: 50px; // duplicated in animations
   .asset {
     position: absolute;
     top: -17px;
-    left: calc($dna_size * -2);
     left: -50px; // animated
     width: 200%;
     background-size: $dna_size;
@@ -61,13 +61,13 @@ $dna_size: 50px; // duplicated in animations
     .asset {
       // animation-fill-mode: forwards;
 
-      &.dna_left { animation: dna_left_sync 4.8s linear, slow_sideways_scroll 5s linear infinite; }
-      &.dna_right { animation: dna_right_sync 4.8s linear, slow_sideways_scroll 5s linear infinite; }
+      &.dna_left { animation: dna_left_sync $sync_time linear, slow_sideways_scroll 5s linear infinite; }
+      &.dna_right { animation: dna_right_sync $sync_time linear, slow_sideways_scroll 5s linear infinite; }
     }
   }
 
   &.completed {
-    animation: flash_brightness .5s ease-out;
+    animation: flash_brightness .4s ease-out;
     background-color: $crushed_velvet;
     outline-color: black;
     border-color: white;
@@ -124,7 +124,6 @@ $dna_size: 50px; // duplicated in animations
 }
 
 @keyframes flash_brightness {
-  0% { filter: brightness(100%); }
-	20% { filter: brightness(300%); }
+	0% { filter: brightness(500%); }
   100% { filter: brightness(100%); }
 }

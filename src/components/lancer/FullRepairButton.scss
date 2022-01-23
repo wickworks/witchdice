@@ -94,7 +94,7 @@
       }
 
       &.completed {
-        animation: flash_brightness .5s ease-out;
+        animation: flash_brightness .4s ease-out;
       }
     }
   }
@@ -103,6 +103,6 @@
 
 @keyframes flash_brightness {
   0% { filter: brightness(100%); }
-	20% { filter: brightness(300%); }
+	15% { filter: brightness(300%); }
   100% { filter: brightness(100%); }
 }
