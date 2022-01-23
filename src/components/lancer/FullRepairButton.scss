@@ -1,76 +1,198 @@
 @import '../../fonts';
 
+$flash_duration: .5s;
+$dna_size: 50px; // duplicated in animations
+
 .FullRepairButton {
-  // margin-top: 20px;
-  @include standard_side_margin;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+
+  .button-container-container {
+    @include standard_side_margin;
+    margin-top: 8px;
+    width: 100%;
+
+    .button-container {
+      max-width: 800px;
+      margin: auto;
+
+      button {
+        display: block;
+        padding: 6px 20px;
+        margin: 0 20px 0 auto;
+        overflow: hidden;
+        white-space: nowrap;
+
+        font-size: 18px;
+        color: $pink;
+
+        border-radius: 6px 6px 0 0;
+        background-color: $rust;
+
+        transition: width .25s;
+
+        &:hover:not(:disabled) {
+          background-color: $rust_light;
+          color: white;
+        }
+
+        &.unclicked {
+          width: 140px;
+        }
+
+        &.status-bar {
+          width: calc(100% - 40px);
+          box-sizing: border-box;
+          text-align: left;
+
+          &.completed {
+            animation: flash_brightness $flash_duration ease-out;
+          }
+        }
+      }
+
+    }
+  }
 
   .dna-container {
     position: relative;
-    width: 100%;
-    height: 30px;
     pointer-events: none;
-    opacity: 1;
+    overflow: hidden;
 
-    transition: opacity .5s;
+    background-color: $soft_black;
+    border: 1px solid $grey_mid;
+    outline: 2px solid $rust_dark;
+    margin: 2px 0 2px -2px;
 
-    &.unclicked {
-      opacity: 0;
+    width: 120%;
+    height: 30px;
+    // opacity: 1;
 
-      .asset {
-        transition: transform .1s .5s;
-      }
-    }
 
     .asset {
       position: absolute;
       top: -17px;
-      left: 0;
+      left: calc($dna_size * -2);
+      left: -50px; // animated
       width: 200%;
-      background-size: 40px;
+      background-size: $dna_size;
       background-repeat: repeat-x;
 
-      transition: transform 5s;
-
-      &.dna_left { transform: translateX(-8px); }
-      &.dna_right { transform: translateX(8px); }
-    }
-
-    &.animating, &.completed {
-      .asset.dna_left, .asset.dna_right {
-        transform: translateX(0);
-      }
-    }
-  }
-
-  button {
-    display: block;
-    padding: 6px 20px;
-    margin: 0 20px 0 auto;
-    overflow: hidden;
-    white-space: nowrap;
-
-    font-size: 18px;
-    color: $pink;
-
-    border-radius: 6px 6px 0 0;
-    background-color: $rust;
-
-    transition: width .5s;
-
-    &:hover:not(:disabled) {
-      background-color: $rust_light;
-      color: white;
+      animation: none;
     }
 
     &.unclicked {
-      width: 140px;
+      // opacity: 0;
+      width: 0;
+      height: 0;
+      border-width: 0;
+      outline-width: 0;
+      margin: 0;
+
+      transition: width .3s .5s, height .5s, border-width .3s .5s, outline-width .3s .5s, margin .5s;
+
+      .asset {
+        transition: transform .1s .5s; // quickly move them back out of sync
+      }
     }
 
-    &.status-bar {
-      width: calc(100% - 40px);
-      box-sizing: border-box;
-      text-align: left;
+    &.please-confirm {
+      transition: width .5s, height .5s .4s, border-width .1s, outline-width .1s, margin .1s;
+
+      .asset {
+        &.dna_left { animation: dna_left_wait 4s linear infinite; }
+        &.dna_right { animation: dna_right_wait 4s linear infinite; }
+      }
+    }
+
+    &.animating {
+      .asset {
+        // animation-fill-mode: forwards;
+
+        &.dna_left { animation: dna_left_sync 4.8s linear, slow_sideways_scroll 5s linear infinite; }
+        &.dna_right { animation: dna_right_sync 4.8s linear, slow_sideways_scroll 5s linear infinite; }
+      }
+    }
+
+    &.completed {
+      animation: flash_brightness $flash_duration ease-out;
+      background-color: $crushed_velvet;
+      outline-color: black;
+      border-color: white;
+
+      .asset {
+        &.dna_left { animation: dna_left_complete 3s ease infinite, slow_sideways_scroll 5s linear infinite reverse; }
+        &.dna_right { animation: dna_right_complete 3s ease infinite, slow_sideways_scroll 5s linear infinite reverse; }
+
+        // &.dna_left {
+        //   // turns black to $periwinkle_light
+        //   // filter: invert(74%) sepia(31%) saturate(356%) hue-rotate(176deg) brightness(93%) contrast(90%);
+        //
+        //   // turns black to $periwinkle_dark
+        //   filter: invert(13%) sepia(11%) saturate(6831%) hue-rotate(212deg) brightness(91%) contrast(95%);
+        // }
+        //
+        // &.dna_right {
+        //   // turns black to $rust
+        //   filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+        //
+        //   // // turns black to $rust_light
+        //   // filter: invert(79%) sepia(17%) saturate(5631%) hue-rotate(312deg) brightness(87%) contrast(83%);
+        // }
+      }
     }
   }
+}
 
+@keyframes slow_sideways_scroll {
+	0% { left: -100px; } // don't know why dna_size doesn't work here
+	100% { left: -50px; }
+}
+
+@keyframes dna_left_wait {
+  0% { transform: translate(-8px, 0px); }
+  25% { transform: translate(-9px, -1px); }
+  50% { transform: translate(-10px, 0px); }
+  75% { transform: translate(-9px, 1px); }
+  100% { transform: translate(-8px, 0px); }
+}
+
+@keyframes dna_right_wait {
+  0% { transform: translate(8px, 0px); }
+  25% { transform: translate(9px, 1px); }
+  50% { transform: translate(10px, 0px); }
+  75% { transform: translate(9px, -1px); }
+  100% { transform: translate(8px, 0px); }
+}
+
+@keyframes dna_left_sync {
+  0% { transform: translate(-8px, 1px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+@keyframes dna_right_sync {
+  0% { transform: translate(8px, -1px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+@keyframes dna_left_complete {
+  0% { filter: brightness(150%); transform: translate(0, .5px); }
+  50% { filter: brightness(100%); transform: translate(0, -.5px); }
+  100% { filter: brightness(150%); transform: translate(0, .5px); }
+}
+
+@keyframes dna_right_complete {
+  0% { filter: brightness(100%); transform: translate(0, -.5px); }
+  50% { filter: brightness(150%); transform: translate(0, .5px); }
+  100% { filter: brightness(100%); transform: translate(0, -.5px); }
+}
+
+
+@keyframes flash_brightness {
+  0% { filter: brightness(100%); }
+	20% { filter: brightness(300%); }
+  100% { filter: brightness(100%); }
 }

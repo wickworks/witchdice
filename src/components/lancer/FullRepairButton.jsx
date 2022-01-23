@@ -119,7 +119,7 @@ const FullRepairButton = ({
       onFullRepair()
       setStage(STAGE_COMPLETED)
     } else {
-      const delay = 200 + (Math.random() * 200)
+      const delay = 400 // + (Math.random() * 200)
       setRepairingMessageIndex(newIndex)
       setTimeout(() => advanceRepairMessage(newIndex), delay)
     }
@@ -140,23 +140,27 @@ const FullRepairButton = ({
         <div className='asset dna_right' />
       </div>
 
-      { stage === STAGE_COMPLETED ?
-        <button className='status-bar' onClick={() => setStage(STAGE_UNCLICKED)}>
-          All systems nominal!
-        </button>
-      : stage === STAGE_ANIMATING ?
-        <button className='status-bar' disabled>
-          {repairingMessages[repairingMessageIndex]}
-        </button>
-      : stage === STAGE_PLEASE_CONFIRM ?
-        <button className='status-bar' onClick={initiateRepairs}>
-          Confirm FULL REPAIR.
-        </button>
-      : stage === STAGE_UNCLICKED &&
-        <button className='unclicked' onClick={() => setStage(STAGE_PLEASE_CONFIRM)}>
-          Full Repair
-        </button>
-      }
+      <div className='button-container-container'>
+        <div className='button-container'>
+          { stage === STAGE_COMPLETED ?
+            <button className={`status-bar ${stage}`} onClick={() => setStage(STAGE_UNCLICKED)}>
+              All systems nominal!
+            </button>
+          : stage === STAGE_ANIMATING ?
+            <button className='status-bar' disabled>
+              {repairingMessages[repairingMessageIndex]}
+            </button>
+          : stage === STAGE_PLEASE_CONFIRM ?
+            <button className='status-bar' onClick={initiateRepairs}>
+              Confirm FULL REPAIR.
+            </button>
+          : stage === STAGE_UNCLICKED &&
+            <button className='unclicked' onClick={() => setStage(STAGE_PLEASE_CONFIRM)}>
+              Full Repair
+            </button>
+          }
+        </div>
+      </div>
     </div>
   );
 }
