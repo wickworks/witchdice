@@ -114,17 +114,18 @@ const MechState = ({
     const overshield = parseInt(currentOvershield)
     const hp = parseInt(currentHP)
     var newHP = hp;
+    var newOvershield = overshield;
 
     // DAMAGE
     if (change <= 0) {
       // overshield takes all of it
       if (Math.abs(change) <= overshield) {
-        setCurrentOvershield(overshield + change)
+        newOvershield =overshield + change
 
       // overshield takes some, rest goes to HP
       } else {
         change += overshield
-        setCurrentOvershield(0)
+        newOvershield = 0
         newHP = hp + change
       }
     // HEALING
@@ -133,7 +134,7 @@ const MechState = ({
     }
 
     newHP = Math.min(Math.max(newHP, 0), maxHP)
-    setCurrentHP(newHP)
+    updateMechState({overshield: newOvershield, current_hp: newHP})
   }
 
   // tick overshield up/down
