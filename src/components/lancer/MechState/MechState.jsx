@@ -17,6 +17,7 @@ import {
   getMechEvasion,
   getMechEDef,
   getMechSaveTarget,
+  getMechArmor,
 } from './mechStateUtils.js';
 
 import './MechState.scss';
@@ -196,7 +197,7 @@ const MechState = ({
             currentNumber={overshieldPlusHP}
             setCurrentNumber={handleHPBarClick}
             overshield={parseInt(currentOvershield)}
-            armor={parseInt(frameData.stats.armor)}
+            armor={parseInt(getMechArmor(activeMech, activePilot, frameData))}
             burn={parseInt(currentBurn)}
             leftToRight={false}
           />

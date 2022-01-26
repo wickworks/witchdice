@@ -122,6 +122,15 @@ export function getMechSP(activeMech, activePilot, frameData) {
   return parseInt(total);
 }
 
+export function getMechArmor(activeMech, activePilot, frameData) {
+  var total = frameData.stats.armor
+
+  // total += getBonusFromSystems('save', activeMech.loadouts[0])
+  total += getBonusFromCoreBonuses('armor', activePilot.core_bonuses)
+
+  return parseInt(total);
+}
+
 
 // look for systems that increase some stat
 function getBonusFromSystems(bonusType, loadout) {
