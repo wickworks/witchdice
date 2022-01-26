@@ -15,7 +15,7 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-          <div className='version-label'>v0.10.1-5 — Jan 2021</div>
+          <div className='version-label'>v0.10.1-6 — Jan 2021</div>
           <ul>
             <li>Custom counters on lancer sheet.</li>
             <li>/simple/some-room-id will join a room (hi, Gather visitors!)</li>
@@ -28,6 +28,8 @@ const ChangeLog = () => {
             <li>Grapple/ram/improvised attacks added to mounts list.</li>
             <li>Non-invade tech attacks added to mounts list.</li>
             <li>Added full repair button + animation.</li>
+            <li>Full repair messages from the Pilot.net lancer discord.</li>
+            <li>Weapon mods i.e. UNCLE can affect accuracy.</li>
           </ul>
 
           <div className='version-label'>v0.10.0 — Dec 2021</div>

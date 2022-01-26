@@ -18,10 +18,11 @@ http://localhost:4000
 # prep for deploy
 update ChangeLog.jsx and version.js
 npm run build
-move deployed branch up to main
 
 # preview the deploy
 firebase hosting:channel:deploy eye-of-newt
 
 # actually deploy
 firebase deploy
+make a version commit
+move deployed branch up to main
