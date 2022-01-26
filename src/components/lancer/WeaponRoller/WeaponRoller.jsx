@@ -26,6 +26,7 @@ const WeaponRoller = ({
   activePilot,
 
   weaponData,
+  weaponMod,
   gritBonus,
   availableBonusSources = [],
   isPrimaryWeaponOnMount,
@@ -275,6 +276,7 @@ const WeaponRoller = ({
             activeMech={activeMech}
             activePilot={activePilot}
             weaponData={currentWeaponProfile}
+            weaponMod={weaponMod}
             rollBonus={gritBonus}
             rollBonusLabel='Grit'
             createNewAttackRoll={createNewAttackRoll}

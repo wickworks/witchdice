@@ -248,6 +248,7 @@ const MechSheet = ({
           activeMech={activeMech}
           activePilot={activePilot}
           weaponData={activeWeaponData}
+          weaponMod={activeWeapon.mod}
           gritBonus={gritBonus+miscBonusToHit}
           availableBonusSources={bonusDamageSources}
           isPrimaryWeaponOnMount={activeWeaponIndex === 0}

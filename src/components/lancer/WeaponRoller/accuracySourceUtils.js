@@ -2,6 +2,7 @@
 import {
   findTagOnWeapon,
   findTalentData,
+  findModData,
 } from '../lancerData.js';
 
 import {
@@ -10,7 +11,7 @@ import {
 } from './synergyUtils.js';
 
 
-function addAccSourceFromTalent(sources, weaponData, talentData, rank, isAccuracy = true, defaultOn = false) {
+function addAccSourceFromTalent(sources, weaponData, talentData, rank, accBonus = 1, defaultOn = false) {
   const name = talentData.ranks[rank-1].name
   const desc = talentData.ranks[rank-1].description
 
@@ -18,31 +19,30 @@ function addAccSourceFromTalent(sources, weaponData, talentData, rank, isAccurac
   const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
 
   if (failingSynergies.length === 0) {
-    addAccSource(sources, name, talentData.id, desc, isAccuracy, defaultOn )
+    addAccSource(sources, name, talentData.id, desc, accBonus, defaultOn )
   }
 }
 
-function addAccSource(sources, name, id, desc, isAccuracy = true, defaultOn = false) {
-  sources.push(newAccSource(name, id, desc, isAccuracy, defaultOn))
+function addAccSource(sources, name, id, desc, accBonus = 1, defaultOn = false) {
+  sources.push(newAccSource(name, id, desc, accBonus, defaultOn))
 }
 
-export function newAccSource(name, id, desc, isAccuracy = true, defaultOn = false) {
+export function newAccSource(name, id, desc, accBonus = 1, defaultOn = false) {
   return ({
     name: name,
     id: id,
     desc: desc,
-    accuracy: isAccuracy,
+    accBonus: accBonus,
     default: defaultOn,
   })
 }
 
-export function getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData) {
+export function getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData, weaponMod) {
   let sources = []
 
   // WEAPON/INVADE-AGNOSTIC
   addAccSource(sources, 'Consume Lock', 'lock_on', 'Any character making an attack against a character with LOCK ON may choose to gain +1 accuracy on that attack and then clear the LOCK ON condition after that attack resolves.')
   addAccSource(sources, 'Prone Target', 'prone', 'Attacks against PRONE targets receive +1 accuracy.')
-
 
   if (activeMech.conditions.includes('IMPAIRED')) {
     const desc =  'IMPAIRED characters receive +1 difficulty on all attacks, saves, and skill checks.'
@@ -55,15 +55,19 @@ export function getAvailableAccuracySources(activeMech, activePilot, weaponData,
   }
 
   if (weaponData) {
-    addAccSource(sources, 'Hard Cover', 'cover_hard', 'Hard cover is solid enough to block shots and hide behind, and adds +2 difficulty to any ranged attacks.', false)
-    addAccSource(sources, 'Soft Cover', 'cover_soft', 'Any time a target is obscured or obstructed somehow, it has soft cover, adding +1 difficulty to any ranged attacks.', false)
+    // -- COVER --
+    addAccSource(sources, 'Hard Cover', 'cover_hard', 'Hard cover is solid enough to block shots and hide behind, and adds +2 difficulty to any ranged attacks.', -2)
+    addAccSource(sources, 'Soft Cover', 'cover_soft', 'Any time a target is obscured or obstructed somehow, it has soft cover, adding +1 difficulty to any ranged attacks.', -1)
 
-    if (findTagOnWeapon(weaponData, 'tg_accurate'))   addAccSource(sources, 'Accurate', 'tg_accurate', 'Attacks made with this weapon receive +1 accuracy.', true, true)
-    if (findTagOnWeapon(weaponData, 'tg_inaccurate')) addAccSource(sources, 'Inaccurate', 'tg_inaccurate', 'Attacks made with this weapon receive +1 difficulty.', false, true)
+    // -- WEAPON TAGS --
+    if (findTagOnWeapon(weaponData, 'tg_accurate'))   addAccSource(sources, 'Accurate', 'tg_accurate', 'Attacks made with this weapon receive +1 accuracy.', 1, true)
+    if (findTagOnWeapon(weaponData, 'tg_inaccurate')) addAccSource(sources, 'Inaccurate', 'tg_inaccurate', 'Attacks made with this weapon receive +1 difficulty.', -1, true)
 
+    // -- (initialize engagement) --
     let ignoresEngaged = false
     if (weaponData.id === 'mw_bristlecrown_flechette_launcher') ignoresEngaged = true;
 
+    // -- WEAPON TALENTS --
     activePilot.talents.forEach(talentAndRank => {
       const talentData = findTalentData(talentAndRank.id)
       const rank = talentAndRank.rank;
@@ -77,7 +81,7 @@ export function getAvailableAccuracySources(activeMech, activePilot, weaponData,
           break;
         case 't_crack_shot':
           if (rank >= 1) addAccSourceFromTalent(sources, weaponData, talentData, 1)
-          if (rank >= 2) addAccSourceFromTalent(sources, weaponData, talentData, 2, false)
+          if (rank >= 2) addAccSourceFromTalent(sources, weaponData, talentData, 2, -1)
           break;
         case 't_combined_arms':
           if (rank >= 2) ignoresEngaged = true
@@ -101,14 +105,25 @@ export function getAvailableAccuracySources(activeMech, activePilot, weaponData,
       }
     });
 
+    // -- ENGAGEMENT --
     if (weaponData.type !== 'Melee' && !ignoresEngaged) {
       const desc = 'If a character moves adjacent to a hostile character, they both gain the ENGAGED status for as long as they remain adjacent to one another. Ranged attacks made by an ENGAGED character receive +1 difficulty.'
-      addAccSource(sources, 'Engaged', 'engaged', desc, false)
+      addAccSource(sources, 'Engaged', 'engaged', desc, -1)
+    }
+
+    // -- WEAPON MODS --
+    if (weaponMod) {
+      const modData = findModData(weaponMod.id)
+      switch (weaponMod.id) {
+        case 'wm_uncle_class_comp_con':
+          addAccSource(sources, modData.name, weaponMod.id, '1/turn, you can attack at +2 difficulty with UNCLE’s weapon as a free action.', -2, true)
+          break;
+      }
     }
   }
 
   if (invadeData) {
-    if (activeMech.frame === 'mf_goblin') addAccSource(sources, 'Liturgicode', 'mf_goblin', 'The Goblin gains +1 accuracy on tech attacks.', true, true)
+    if (activeMech.frame === 'mf_goblin') addAccSource(sources, 'Liturgicode', 'mf_goblin', 'The Goblin gains +1 accuracy on tech attacks.', 1, true)
 
     const loadout = activeMech.loadouts[0]
     if (loadout) {
@@ -120,7 +135,8 @@ export function getAvailableAccuracySources(activeMech, activePilot, weaponData,
 }
 
 
-export function getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData) {
-  const availableSources = getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData)
-  return availableSources.filter(source => source.default === true).map(source => source.id);
+export function getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData, weaponMod) {
+  const availableSources = getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData, weaponMod)
+  const startingSources = availableSources.filter(source => source.default === true).map(source => source.id)
+  return startingSources;
 }

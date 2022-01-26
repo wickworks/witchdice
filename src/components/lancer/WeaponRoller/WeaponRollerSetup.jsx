@@ -18,6 +18,7 @@ const WeaponRollerSetup = ({
   activePilot,
 
   weaponData,
+  weaponMod,
   invadeData,
 
   rollBonus,
@@ -27,7 +28,7 @@ const WeaponRollerSetup = ({
   // const isTechAttack = !weaponData && invadeData;
 
   // IDs of available accuracy sources
-  const [currentSourceIDs, setCurrentSourceIDs] = useState(getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData));
+  const [currentSourceIDs, setCurrentSourceIDs] = useState(getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData, weaponMod));
   const [manualMod, setManualMod] = useState(0);
 
   // =============== CHANGE WEAPON ==================
@@ -36,14 +37,14 @@ const WeaponRollerSetup = ({
   }, [weaponData, invadeData]);
 
   const resetModifiers = () => {
-    setCurrentSourceIDs(getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData));
+    setCurrentSourceIDs(getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData, weaponMod));
     setManualMod(0);
   }
 
-  const availableSources = getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData)
+  const availableSources = getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData, weaponMod)
   var currentSourceIDsPlusManual = [...currentSourceIDs]
-  let accuracySources = availableSources.filter(source => source.accuracy)
-  let difficultySources = availableSources.filter(source => !source.accuracy)
+  let accuracySources = availableSources.filter(source => source.accBonus > 0)
+  let difficultySources = availableSources.filter(source => source.accBonus < 0)
 
   const manualName = `Other (${manualMod > 0 ? '+' : ''}${manualMod})`
   const MANUAL_SOURCE = newAccSource(manualName, 'manual', '', manualMod > 0, true)
@@ -81,11 +82,7 @@ const WeaponRollerSetup = ({
   var currentMod = manualMod;
   availableSources
     .filter(source => currentSourceIDs.includes(source.id))
-    .forEach(source => {
-      if (source.id === 'cover_hard') currentMod += -2
-      else if (source.accuracy)       currentMod +=  1
-      else if (!source.accuracy)      currentMod += -1
-    });
+    .forEach(source => currentMod += source.accBonus);
   currentMod = Math.max(Math.min(currentMod, 9), -9)
 
   const clickNumberLine = (mod) => {
