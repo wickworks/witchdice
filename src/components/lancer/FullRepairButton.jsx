@@ -5,6 +5,12 @@ import {
 } from './lancerData.js';
 
 import {
+  diagnosticMessages,
+  workingMessagesByManufacturer,
+  finishingMessages,
+} from './fullRepairMessages.js';
+
+import {
   getMechMaxHP,
   getMechMaxHeatCap,
   getMechMoveSpeed,
@@ -17,53 +23,13 @@ import {
 import './FullRepairButton.scss';
 import './FullRepairDnaSync.scss';
 
-
-const diagnosticMessages = [
-  'Diagnostics: Repairs needed!',
-  'Diagnostics: Warranty voided!',
-  'Diagnostics: Complete',
-]
-
-const workingMessages = [
-  'Dispatching repair nanites...',
-  'Running self test...',
-  'Charging solidcore...',
-  'Swinging wrench...',
-  'Constructing pylons...',
-  'Facing the gazebo...',
-  'Reversing the polarity...',
-  'Attempting percussive maintenance...',
-  'Deleting system32...',
-  'Deploying duct tape...',
-  'Reinstalling propaganda...',
-  'Pending 2FA...',
-  'Scheduling unscheduled disassembly...',
-  'Rolling ability scores...',
-  'Calculating THAC0...',
-  'Initiating virus scan...',
-  'Praising the sun...',
-  'Assuming direct control...',
-  'Considering a spherical [mech part]...',
-  'Condensing magic smoke...',
-  'Reticulating splines...',
-  'g  o  o  t  s ...',
-  '# pacman -Syu ...',
-  '/r 4d6kh3 ...',
-  '$ sudo killall sshd ...',
-]
-
-const finishingMessages = [
-  'Reactor: ONLINE',
-  'Sensors: ONLINE',
-  'Weapons: ONLINE',
-  'ALL SYSTEMS NOMINAL'
-]
-
 // Too long? Find out how to add:
 // Castigating The Enemies Of— Wait, that doesn’t happen yet! Haha.
 // YOU BETTER NOT GET ME THAT SCRATCHED NEXT TIME, PILOT.
 
 const MESSAGE_COUNT = 10 // in total, minus the 4 startup and ending ones
+
+const MESSAGE_SPEED = 400;
 
 const STAGE_UNCLICKED = 'unclicked'
 const STAGE_PLEASE_CONFIRM = 'please-confirm'
@@ -105,6 +71,10 @@ const FullRepairButton = ({
     const shuffledDiagnostics = diagnosticMessages.sort(() => 0.5 - Math.random())
     messages.push(...shuffledDiagnostics.slice(0, 2))
 
+
+    const frameData = findFrameData(activeMech.frame)
+    const manufacturer = frameData.source.replace('-','').toLowerCase()
+    const workingMessages = workingMessagesByManufacturer[manufacturer] || workingMessagesByManufacturer['ipsn']
     const shuffledWorking = workingMessages.sort(() => 0.5 - Math.random())
     messages.push(...shuffledWorking.slice(0, MESSAGE_COUNT-4))
 
@@ -120,9 +90,8 @@ const FullRepairButton = ({
       onFullRepair()
       setStage(STAGE_COMPLETED)
     } else {
-      const delay = 400 // + (Math.random() * 200)
       setRepairingMessageIndex(newIndex)
-      setTimeout(() => advanceRepairMessage(newIndex), delay)
+      setTimeout(() => advanceRepairMessage(newIndex), MESSAGE_SPEED)
     }
   }
 

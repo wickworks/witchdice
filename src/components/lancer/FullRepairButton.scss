@@ -63,10 +63,12 @@
 
     .status-text {
       @include text_monospace;
-      padding: 6px 20px;
+      padding: 6px 20px 6px 20%;
       font-size: 18px;
       color: $periwinkle_light;
-      text-align: center;
+      text-align: left;
+
+      @include below_max_width { padding-left: 5%; }
     }
 
     .confirm-cancel-container {
