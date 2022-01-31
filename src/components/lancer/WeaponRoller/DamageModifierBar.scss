@@ -1,0 +1,33 @@
+@import '../../../fonts';
+
+.DamageModifierBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  box-sizing: border-box;
+  width: 100%;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 4px 0;
+
+    &:hover { background-color: $parchment_dark; }
+    .asset {
+      width: 14px;
+      height: 14px;
+      margin-right: 4px;
+    }
+
+    &.active {
+      background-color: $rust;
+      color: white;
+
+      &:hover { background-color: $rust_light; }
+      .asset { filter: invert(100%); }
+    }
+  }
+}

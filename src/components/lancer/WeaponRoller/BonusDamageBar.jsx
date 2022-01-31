@@ -33,11 +33,6 @@ const BonusDamageBar = ({
   return (
     <div className="BonusDamageBar">
 
-      <BonusMultipliers
-        damageModifiers={damageModifiers}
-        toggleDamageModifier={toggleDamageModifier}
-      />
-
       <BonusGenerics
         genericBonusIsActive={genericBonusIsActive}
         genericBonusDieCount={genericBonusDieCount}
@@ -62,37 +57,6 @@ const BonusDamageBar = ({
   )
 }
 
-const BonusMultipliers = ({
-  damageModifiers,
-  toggleDamageModifier,
-}) => {
-  return (
-    <div className="multipliers-container">
-      <button
-        className={damageModifiers.half ? 'active' : ''}
-        onClick={() => toggleDamageModifier('half')}
-      >
-        <div className='asset x' />
-        <div>1 / 2</div>
-      </button>
-
-      <button
-        className={damageModifiers.double ? 'active' : ''}
-        onClick={() => toggleDamageModifier('double')}
-      >
-        <div className='asset x' />
-        <div>2</div>
-      </button>
-
-      <button
-        className={damageModifiers.average ? 'active' : ''}
-        onClick={() => toggleDamageModifier('average')}
-      >
-        <div>Avg</div>
-      </button>
-    </div>
-  )
-}
 
 const BonusGenerics = ({
   genericBonusIsActive,

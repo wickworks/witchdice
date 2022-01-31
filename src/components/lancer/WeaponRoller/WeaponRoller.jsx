@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
 import WeaponRollerSetup from './WeaponRollerSetup.jsx';
 import BonusDamageBar from './BonusDamageBar.jsx';
+import DamageModifierBar from './DamageModifierBar.jsx';
 import BaseDamageBar from './BaseDamageBar.jsx';
 import BrToParagraphs from '../../shared/BrToParagraphs.jsx';
 import { deepCopy } from '../../../utils.js';
@@ -219,6 +220,8 @@ const WeaponRoller = ({
           />
         )}
 
+
+
         {weaponData.effect &&
           <div className='effect-row'>
             <BrToParagraphs stringWithBrs={weaponData.effect}/>
@@ -239,6 +242,11 @@ const WeaponRoller = ({
             <p><strong>On attack:</strong> {weaponData.on_attack}</p>
           </div>
         }
+
+        <DamageModifierBar
+          damageModifiers={damageModifiers}
+          toggleDamageModifier={toggleDamageModifier}
+        />
 
         <BonusDamageBar
           genericBonusDieCount={genericBonusDieCount}
