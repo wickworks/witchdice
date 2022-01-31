@@ -379,6 +379,7 @@ const Main5E = ({
   const rollFunctions = {
     setRollData: (newData) => setRollData(deepCopy(newData)),
     setHit: (value, id) => updateRollData('hit',value,id),
+    setManualCrit: (value, id) => updateRollData('manualCrit',value,id),
     setRollOne: (value, id) => updateRollData('rollOne',parseInt(value),id),
     setRollTwo: (value, id) => updateRollData('rollTwo',parseInt(value),id),
     setDamageRollData: (value, id) => updateRollData('damageRollData',value,id),

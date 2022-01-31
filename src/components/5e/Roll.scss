@@ -10,12 +10,19 @@
     flex-wrap: wrap;
   }
 
-  .asset.d20 {
-    width: 36px;
-    height: 36px;
-    margin: 6px 0;
-    flex-shrink: 0;
+  button.crit-toggler {
+    .asset.d20 {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      margin: 6px 0;
+      flex-shrink: 0;
+
+      &:hover { background-color: $pink_logo_light; }
+    }
   }
+
+
 
   .result-roll {
     display: flex;
@@ -65,20 +72,24 @@
     display: flex;
     align-items: center;
 
-    .asset.result-crit {
-      width: 36px;
-      height: 36px;
+    button.crit-toggler {
+      display: flex;
+      align-items: center;
 
-      .asset {
-        width: 20px;
-        height: 20px;
-        margin: 9px auto;
+      .asset.result-crit {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        &:hover { background-color: $pink_logo_light; }
 
-        // turn black to white
-        filter: invert(100%) sepia(100%) saturate(19%) hue-rotate(347deg) brightness(106%) contrast(104%);
+        .asset {
+          width: 20px;
+          height: 20px;
+          margin: 9px auto;
 
-        // turn black to red
-        // filter: invert(17%) sepia(62%) saturate(5292%) hue-rotate(339deg) brightness(87%) contrast(98%);
+          // turn black to white
+          filter: invert(100%) sepia(100%) saturate(19%) hue-rotate(347deg) brightness(106%) contrast(104%);
+        }
       }
     }
 

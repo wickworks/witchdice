@@ -15,7 +15,7 @@ const Roll = ({
 
   // no 'crit' here; use isCrit from props instead
   const {hit, attackBonus, damageRollData, critRollData} = attackRollData;
-  const {setHit, setRollOne, setDamageRollData, setCritRollData} = rollFunctions;
+  const {setHit, setManualCrit, setRollOne, setDamageRollData, setCritRollData} = rollFunctions;
 
   // saving throws are reversed, it's confusing, I know >> NO LONGER
   const isHit = hit; // (type === 'save' ? !hit : hit);
@@ -139,16 +139,20 @@ const Roll = ({
       { type === 'attack' ?
         isCrit ?
           <div className='result-crit-container'>
-            <div className='asset d20_frame result-crit'>
-              <div className='asset necrotic' />
-            </div>
+            <button className='crit-toggler' onClick={() => setManualCrit(false, rollID)}>
+              <div className='asset d20_frame result-crit'>
+                <div className='asset necrotic' />
+              </div>
+            </button>
             <div className='crit-label'>
               CRIT
             </div>
           </div>
         :
           <>
-            <div className={`asset d20`} />
+            <button className='crit-toggler' onClick={() => setManualCrit(true, rollID)}>
+              <div className={`asset d20`} />
+            </button>
 
             <div className={`result-roll ${useLowerRollClass}`}>
               <span className='roll-use'>

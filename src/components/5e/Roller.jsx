@@ -150,6 +150,10 @@ const Roller = ({
       isFumble = roll.rollOne === 1;
     }
 
+    // have we set a manual crit? (manualCrit will be undefined if not)
+    if (roll.manualCrit === false) { isCrit = false; }
+    if (roll.manualCrit === true) { isCrit = true; }
+
     return {isCrit: isCrit, isFumble: isFumble};
   }
 
