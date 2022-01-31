@@ -174,7 +174,7 @@ export function getBonusDamageSourcesFromTalents(pilotData) {
           break;
 
         case 't_executioner':
-          const cleaveEffect = { onCrit: 'Deal 3 Kinetic damage to all characters and objects of your choice within THREAT�, other than the one you just attacked.' }
+          const cleaveEffect = { onCrit: 'Deal 3 Kinetic damage to all characters and objects of your choice within THREAT, other than the one you just attacked.' }
           addSourceFromTalent(sources,rank,talentData, 2, '', '', cleaveEffect);
 
           const escapeEffect = { onMiss: '1/round, when you miss with a melee attack, you reroll it against a different target within THREAT and line of sight.' }
@@ -309,8 +309,11 @@ export function getBonusDamageSourcesFromMod(activeWeapon) {
         sources.push( newSource(modData.name, modData.id, modData.added_damage[0].val, modData.added_damage[0].type, newModTrait(modData, thermalEffect)) );
         break;
 
-      // case 'wm_uncle_class_comp_con':
+      case 'wm_uncle_class_comp_con':
         // TWO DIFFICULTY
+        const uncleEffect = { isPassive: true }
+        sources.push( newSource(modData.name, modData.id, '', '', newModTrait(modData, uncleEffect)) );
+        break;
 
       case 'wm_shock_wreath':
         const shockEffect = { onHit: 'If target already is suffering from burn, it can additionally only draw line of sight to adjacent spaces until the end of its next turn.' }
