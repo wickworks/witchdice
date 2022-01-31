@@ -100,6 +100,7 @@
     @include text_default;
     background-color: transparent;
     border: none;
+    padding: 0;
     cursor: pointer;
 
     &:disabled { cursor: auto; }
