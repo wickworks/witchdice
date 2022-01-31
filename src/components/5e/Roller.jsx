@@ -6,6 +6,7 @@ import { abilityTypes, allDamageTypes, anyDamageSourceContains } from './data.js
 import './Roller.scss';
 
 
+
 const Roller = ({
   rollData,
   rollFunctions,
@@ -19,7 +20,7 @@ const Roller = ({
   const [advantage, setAdvantage] = useState(false);
   const [disadvantage, setDisadvantage] = useState(false);
   const [evasion, setEvasion] = useState(false);
-  const [toHitAC, setToHitAC] = useState(0); // only used for massive attacks
+  const [toHitAC, setToHitAC] = useState(10); // only used for massive attacks
 
   // outcomes of calculateDamage
   const [damageTotal, setDamageTotal] = useState(false);
@@ -28,14 +29,20 @@ const Roller = ({
   // when the roll data changes, figure out what's a hit & send up the summary
   useEffect(() => {
     // only calculate damge if we changed what hit
-    if (!autoCalculateHits()) {
-      calculateDamage();
-    }
-
+    if (!autoCalculateHits()) calculateDamage()
   }, [rollData, advantage, disadvantage, evasion, toHitAC]);
 
+  // figure out what whether to show evasion checkbox & to hit AC or not
+  let showEvasionOption = false;
+  let showToHitAC = false;
+  attackSourceData.forEach((attackSource) => {
+    if (attackSource.type === 'save' && attackSource.savingThrowType === 0 && attackSource.dieCount > 0) {
+      showEvasionOption = true;
+    }
+    if (attackSource.dieCount >= 10) showToHitAC = true
+  });
 
-  // figure out what's a hit
+  // figure out what's a hit -- automatically make crits and fumbles go appropriately & handle large-attack to-hit-acs.
   function autoCalculateHits() {
     let newRollData = deepCopy(rollData);// so we can update the whole thing in one go
     let madeChange = false;
@@ -49,19 +56,21 @@ const Roller = ({
         const critFumble = getCritOrFumble(roll)
 
         // all critical hits are hits
-        if (critFumble.isCrit && !roll.hit) {
-          newRollData[rollID].hit = true
-          madeChange = true;
-        }
+        if (critFumble.isCrit) {
+          if (!roll.hit) {
+            newRollData[rollID].hit = true
+            madeChange = true;
+          }
 
         // all critical fumbles are misses
-        if (critFumble.isFumble && roll.hit) {
-          newRollData[rollID].hit = false
-          madeChange = true;
-        }
+        } else if (critFumble.isFumble) {
+          if (roll.hit) {
+            newRollData[rollID].hit = false
+            madeChange = true;
+          }
 
-        // do we have a to-hit AC?
-        if (toHitAC > 0) {
+        // are we auto-calculating hits?
+        } else if (showToHitAC && toHitAC > 0) {
           const rollUse = getRollUseDiscard(roll).rollUse
           const newHit = rollUse >= toHitAC
           madeChange = madeChange || (newRollData[rollID].hit !== newHit)
@@ -70,7 +79,9 @@ const Roller = ({
       }
     }
 
-    if (madeChange) { rollFunctions.setRollData(newRollData); }
+    if (madeChange) {
+      rollFunctions.setRollData(newRollData);
+    }
     return madeChange;
   }
 
@@ -143,10 +154,10 @@ const Roller = ({
   }
 
 
-  let startingBreakdown = {};
-  allDamageTypes.forEach((type) => { startingBreakdown[type] = 0 })
-
   function calculateDamage() {
+    let startingBreakdown = {};
+    allDamageTypes.forEach((type) => { startingBreakdown[type] = 0 })
+
     // calculate damage total & breakdown by type
     let newDamageTotal = 0;
     let newDamageBreakdown = deepCopy(startingBreakdown);
@@ -264,16 +275,7 @@ const Roller = ({
     setRollSummaryData(rollSummaryData);
   }
 
-  // figure out what whether to show evasion checkbox & to hit AC or not
-  let showEvasionOption = false;
-  let showToHitAC = false || (toHitAC > 0); // once you start showing it, don't stop
-  attackSourceData.forEach((attackSource) => {
-    if (attackSource.type === 'save' && attackSource.savingThrowType === 0 && attackSource.dieCount > 0) {
-      showEvasionOption = true;
-    }
 
-    if (attackSource.dieCount >= 10) showToHitAC = true
-  });
 
 
   let currentAttackName = '';//used in the render attack title loop, dunno why I can't declare there
@@ -320,7 +322,7 @@ const Roller = ({
               <input
                 type="number"
                 value={toHitAC}
-                onChange={e => setToHitAC(parseInt(e.target.value))}
+                onChange={e => setToHitAC(Math.max(Math.min(parseInt(e.target.value), 30), 0))}
               />
               AC
             </label>
