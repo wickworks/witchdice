@@ -47,6 +47,23 @@
         &:last-child { margin: 0; }
       }
     }
+
+    .TraitBlock {
+      button.name {
+        padding: 6px 18px;
+
+        &.collapsed {
+          background-color: transparent;
+
+          &:hover {
+            background-color: $parchment_dark;
+            filter: brightness(100%);
+          }
+        }
+      }
+
+      .description { padding: 6px 18px; }
+    }
   }
 
   .attacks-bar {

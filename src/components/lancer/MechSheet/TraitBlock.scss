@@ -1,0 +1,100 @@
+@import '../../../fonts';
+
+.TraitBlock {
+
+  @include max_width {
+    &:not(.collapsed) {
+      &.tall-1x { grid-row: span 2; }
+      &.tall-2x { grid-row: span 3; }
+      &.tall-3x { grid-row: span 4; }
+      &.wide, &:only-child { grid-column: span 2; }
+    }
+  }
+
+  button.name {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background-color: $rust;
+    color: white;
+    padding: 6px 6px;
+
+    &.title-case { text-transform: capitalize; }
+    &.action, &.reaction { background-color: $crushed_velvet; }
+    &.core-power { background-color: $rust_dark; }
+
+    &:hover { filter: brightness(115%); }
+
+    &.collapsed {
+      background-color: $parchment_dark;
+      color: $soft_black;
+
+      &:hover { filter: brightness(85%); }
+
+      .detail .range-icon .asset { filter: none; }
+    }
+
+    .title {
+      &.destroyed {
+        font-style: italic;
+      }
+    }
+
+    .detail {
+      @include text_monospace;
+      font-size: 12px;
+      margin-top: 4px;
+
+      display: flex;
+      align-items: center;
+
+      .range-icon {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+
+        .asset {
+          width: 18px; height: 18px;
+          margin-top: -2px;
+          filter: invert(100%);
+        }
+      }
+
+      .limited {
+        margin-left: auto;
+      }
+
+      // span.frequency { margin-left: 8px; }
+    }
+  }
+
+  .MechNumberBar {
+    .ticks-container button.tick {
+
+      &:hover {
+        background-color: $pink;
+        .number { color: $soft_black; }
+      }
+
+      .asset:not(.dot) {
+        width: 20px; height: 20px;
+      }
+    }
+  }
+
+  .description {
+    padding: 6px 6px;
+
+    p:first-child { margin-top: 0; }
+
+    ul { margin: 4px 0; }
+
+    br { margin-top: 4px; }
+
+    .DestroySystemButton {
+      margin: -6px -6px 0 6px;
+      float: right;
+
+    }
+  }
+}

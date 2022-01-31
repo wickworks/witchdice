@@ -5,6 +5,7 @@ import BonusDamageBar from './BonusDamageBar.jsx';
 import DamageModifierBar from './DamageModifierBar.jsx';
 import BaseDamageBar from './BaseDamageBar.jsx';
 import BrToParagraphs from '../../shared/BrToParagraphs.jsx';
+import TraitBlock from '../MechSheet/TraitBlock.jsx'
 import { deepCopy } from '../../../utils.js';
 
 import {
@@ -84,6 +85,7 @@ const WeaponRoller = ({
   }
   const currentWeaponProfile = allWeaponProfiles[activeProfileIndex];
 
+  // console.log('weaponData',weaponData);
   // console.log('allWeaponProfiles',allWeaponProfiles);
 
   // Add or remove the name of a bonus damage to the active list
@@ -211,7 +213,7 @@ const WeaponRoller = ({
             weaponProfile={weaponProfile}
             mountType={weaponData.mount}
             onClick={() => setActiveProfileIndex(i)}
-            isClickable={allWeaponProfiles.length > 1 && allAttackRolls.length === 0}
+            isClickable={allWeaponProfiles.length > 1 && allAttackRolls.length === 0 && activeProfileIndex !== i}
             isActive={allWeaponProfiles.length > 1 && activeProfileIndex === i}
             manualBaseDamage={manualBaseDamage}
             setManualBaseDamage={setManualBaseDamage}
@@ -220,13 +222,22 @@ const WeaponRoller = ({
           />
         )}
 
-
-
         {weaponData.effect &&
           <div className='effect-row'>
             <BrToParagraphs stringWithBrs={weaponData.effect}/>
           </div>
         }
+
+        { weaponData.actions && weaponData.actions.map((action, i) =>
+          <TraitBlock
+            key={action.name}
+            name={action.name}
+            activation={action.activation}
+            trigger={action.trigger}
+            frequency={action.frequency}
+            description={action.detail}
+          />
+        )}
 
         { availableBonusSources.map((availableBonusSource, i) =>
           ( availableBonusSource.trait.effect &&
