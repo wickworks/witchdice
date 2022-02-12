@@ -15,6 +15,18 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
+          <div className='version-label'>v0.10.7 — Feb 2021</div>
+          <ul>
+            <li>Self-heat only shows up on first attack.</li>
+            <li>Melee and ranged talents show up correctly in accuracy list.</li>
+            <li>Custom skill triggers named correctly.</li>
+            <li>Show special actions from lancer weapons.</li>
+            <li>Tech attacks use accuracy correctly, fixed roll results display.</li>
+            <li>Moved lancer multipliers to their own row.</li>
+            <li>5e roller can toggle crits.</li>
+            <li>Improved 5e auto-hit system for 10+ attacks.</li>
+          </ul>
+
           <div className='version-label'>v0.10.1-6 — Jan 2021</div>
           <ul>
             <li>Custom counters on lancer sheet.</li>
