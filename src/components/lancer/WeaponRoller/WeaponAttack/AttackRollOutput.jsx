@@ -67,7 +67,7 @@ const AttackRollOutput = ({
                 </span>
               </>
             }
-            {toHitData.flatBonus &&
+            {parseInt(toHitData.flatBonus) !== 0 &&
               <>
                 <span className='plus'>{parseInt(toHitData.flatBonus) > 0 ? '+' : ''}</span>
                 <span className='amount'>
