@@ -32,7 +32,7 @@ import {
   getBonusDamageSourcesFromTalents,
   getBonusDamageSourcesFromMod,
   getBonusDamageSourcesFromCoreBonuses,
-} from './bonusDamageSourceUtils.js';
+} from '../WeaponRoller/bonusDamageSourceUtils.js';
 
 import {
   getWeaponSynergies,

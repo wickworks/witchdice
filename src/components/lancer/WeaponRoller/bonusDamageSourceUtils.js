@@ -225,8 +225,9 @@ export function getBonusDamageSourcesFromTalents(pilotData) {
 
         case 't_stormbringer':
           const delugeEffect = {
-            onCrit: '1/round, when you successfully attack with a LAUNCHER and consume LOCK ON, you may also knock your target PRONE.',
-            requiresLockon: true
+            onHit: '1/round, when you successfully attack with a LAUNCHER and consume LOCK ON, you may also knock your target PRONE.',
+            requiresLockon: true,
+            defaultActive: true,
           }
           addSourceFromTalent(sources,rank,talentData, 1, '', '', delugeEffect);
 

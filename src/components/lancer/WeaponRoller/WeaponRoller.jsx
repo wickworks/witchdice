@@ -125,10 +125,17 @@ const WeaponRoller = ({
   }
 
   // Create a new attack roll, including to-hit and damage.
-  const createNewAttackRoll = (flatBonus, accuracyMod) => {
+  const createNewAttackRoll = (flatBonus, accuracyMod, consumedLock) => {
 
     const previousAttackDamage = allAttackRolls.length > 0 ? allAttackRolls[0].damage : null;
-    const newAttack = createNewAttack(currentWeaponProfile, flatBonus, accuracyMod, manualBaseDamage, previousAttackDamage)
+    const newAttack = createNewAttack(
+      currentWeaponProfile,
+      flatBonus,
+      accuracyMod,
+      consumedLock,
+      manualBaseDamage,
+      previousAttackDamage
+    )
 
     console.log('New Attack:', newAttack);
 

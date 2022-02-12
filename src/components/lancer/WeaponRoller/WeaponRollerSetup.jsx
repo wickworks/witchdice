@@ -96,6 +96,8 @@ const WeaponRollerSetup = ({
   const difficultyArray = Array.from({length: 9}, (x, i) => i - 9);
   const accuracyArray = Array.from({length: 9}, (x, i) => i + 1);
 
+  const isConsumingLock = !!currentSourceIDs.find(id => id === 'lock_on');
+
   return (
     <div className="WeaponRollerSetup">
 
@@ -103,7 +105,9 @@ const WeaponRollerSetup = ({
         rollBonus={rollBonus}
         rollBonusLabel={rollBonusLabel}
         currentMod={currentMod}
-        createNewAttackRoll={createNewAttackRoll}
+        createNewAttackRoll={
+          (flatBonus, accuracyMod) => createNewAttackRoll(flatBonus, accuracyMod, isConsumingLock)
+        }
       />
 
       <div className="column-container">

@@ -39,6 +39,7 @@ const WeaponAttack = ({
   const isReliable = attackData.reliable && attackData.reliable.val > 0;
   const convertedBonusToBurn = damageModifiers.bonusToBurn && bonusDamageData.rolls.length > 0;
   var selfHeat = attackData.selfHeat;
+  const consumedLock = attackData.consumedLock;
 
   // Flip MAXIMIZED to FALSE unless it was a nat 20.
   if (damageModifiers.maximized) {
@@ -48,22 +49,26 @@ const WeaponAttack = ({
   }
 
   // ==================================== EFFECTS ====================================
-  function addTraitSummary(summary, onWhat) {
+  function addTraitSummary(summary, onWhat, consumedLock) {
     bonusDamageData.traits.forEach(trait => {
-      if (trait[onWhat])               summary.push(trait[onWhat])
+      // onCrit, etc        either doesn't require a lock or we consumed one
+      if (trait[onWhat] && (!trait.requiresLockon || consumedLock)) {
+        summary.push(trait[onWhat])
+      }
     });
   }
 
   var summary = [];
+  if (consumedLock)                     summary.push('Consumed lock.')
   addTraitSummary(summary, 'onAttack');
   if (isHit) {
     if (attackData.onHit)               summary.push(attackData.onHit)
-    addTraitSummary(summary, 'onHit');
+    addTraitSummary(summary, 'onHit', consumedLock);
 
     if (isCrit) {
                                         summary.push('Critical hit.')
       if (attackData.onCrit)            summary.push(attackData.onCrit)
-      addTraitSummary(summary, 'onCrit');
+      addTraitSummary(summary, 'onCrit', consumedLock);
       if (damageModifiers.maximized)    summary.push('Natural 20. Maximum possible damage and bonus damage.')
     }
     if (damageModifiers.half)           summary.push('Half damage.')
@@ -81,7 +86,7 @@ const WeaponAttack = ({
 
   } else {
     if (isReliable)                     summary.push('Reliable.')
-    addTraitSummary(summary, 'onMiss');
+    addTraitSummary(summary, 'onMiss', consumedLock);
   }
   if (selfHeat)                         summary.push(`Heat ${selfHeat} (Self).`)
   if (isRerolled)                       summary.push('Rerolled.')

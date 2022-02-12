@@ -46,7 +46,7 @@ export function createNewTechAttack(invadeData, flatBonus, accuracyMod, isInvade
   return newAttack
 }
 
-export function createNewAttack(weaponData, flatBonus, accuracyMod, manualBaseDamage, inheritDamage = null) {
+export function createNewAttack(weaponData, flatBonus, accuracyMod, consumedLock, manualBaseDamage, inheritDamage = null) {
   let newAttack = {};
 
   // Overkill?
@@ -73,6 +73,10 @@ export function createNewAttack(weaponData, flatBonus, accuracyMod, manualBaseDa
   const selfHeatTag = findTagOnWeapon(weaponData, 'tg_heat_self')
   if (selfHeatTag) newAttack.selfHeat = selfHeatTag.val;
 
+  // consumedLock?
+  newAttack.consumedLock = !!consumedLock
+
+  // DID WE HIT?
   newAttack.toHit = rollToHit(flatBonus, accuracyMod);
   newAttack.toHitReroll = rollToHit(flatBonus, accuracyMod);
 
