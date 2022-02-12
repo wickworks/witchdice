@@ -60,7 +60,11 @@ const WeaponAttack = ({
 
   var summary = [];
   if (consumedLock)                     summary.push('Consumed lock.')
-  addTraitSummary(summary, 'onAttack');
+  if (isFirstRoll) {
+    if (attackData.onAttack)              summary.push(attackData.onAttack)
+    addTraitSummary(summary, 'onAttack');
+    if (selfHeat)                         summary.push(`Heat ${selfHeat} (Self).`)
+  }
   if (isHit) {
     if (attackData.onHit)               summary.push(attackData.onHit)
     addTraitSummary(summary, 'onHit', consumedLock);
@@ -88,7 +92,6 @@ const WeaponAttack = ({
     if (isReliable)                     summary.push('Reliable.')
     addTraitSummary(summary, 'onMiss', consumedLock);
   }
-  if (selfHeat)                         summary.push(`Heat ${selfHeat} (Self).`)
   if (isRerolled)                       summary.push('Rerolled.')
   if (manualRoll > 0)                   summary.push('Manual roll.')
 
