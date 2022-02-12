@@ -26,10 +26,10 @@ const TechRoller = ({
 
   const isInvade = invadeData.activation === 'Invade'
 
-  const createNewAttackRoll = () => {
+  const createNewAttackRoll = (flatBonus, accuracyMod) => {
 
-    const accuracyMod = 0;
-    const newAttack = createNewTechAttack(invadeData, techAttackBonus, accuracyMod, isInvade)
+
+    const newAttack = createNewTechAttack(invadeData, flatBonus, accuracyMod, isInvade)
 
     var bonusDamage = {};
     bonusDamage.rolls = []
