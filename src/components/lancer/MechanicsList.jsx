@@ -18,8 +18,15 @@ const MechanicsList = ({
 
   function getTooltipData(data, mechanic) {
     var tooltipData = {}
-    tooltipData.title = mechanic.custom_desc || data.title || data.name || ''
-    tooltipData.content = mechanic.custom_detail || (tooltipContentKey ? data[tooltipContentKey] : '')
+    const useCustomData = !!(mechanic.custom_desc || mechanic.custom_detail)
+
+    if (useCustomData) {
+      tooltipData.title = mechanic.id
+      tooltipData.content = mechanic.custom_desc + ' ' + mechanic.custom_detail
+    } else {
+      tooltipData.title = data.title || data.name || ''
+      tooltipData.content = (tooltipContentKey ? data[tooltipContentKey] : '')
+    }
     tooltipData.flavor = tooltipFlavorKey ? data[tooltipFlavorKey] : ''
     tooltipData.href = tooltipHref ? tooltipHref.replace(/%TITLE/g, tooltipData.title) : '';
 
@@ -37,7 +44,7 @@ const MechanicsList = ({
           const tooltipData = getTooltipData(data, mechanic)
           // and sometimes they come with ranks
           const rank = mechanic.rank
-          let name = mechanic.custom_desc || data.name
+          let name = tooltipData.title
           name = namesToLowercase ? name.toLowerCase() : name
 
           return (
