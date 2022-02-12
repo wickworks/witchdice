@@ -39,13 +39,13 @@ const XCard = ({
   useEffect(() => {
     if (partyConnected) {
       try {
-        const dbInitiativeRef = getFirebaseDB().child('emotes').child(partyRoom)
+        const dbEmoteRef = getFirebaseDB().child('emotes').child(partyRoom)
 
-        dbInitiativeRef.on('child_changed', (snapshot) => {
+        dbEmoteRef.on('child_changed', (snapshot) => {
           if (snapshot) setLatestRaiseEvent(snapshot.val())
         })
 
-        dbInitiativeRef.on('child_added', (snapshot) => {
+        dbEmoteRef.on('child_added', (snapshot) => {
           if (snapshot) setLatestRaiseEvent(snapshot.val())
         })
 
@@ -61,13 +61,13 @@ const XCard = ({
     restoreFocusOnElement = document.activeElement
 
     if (partyConnected) {
-      const dbInitiativeRef = getFirebaseDB().child('emotes').child(partyRoom)
+      const dbEmoteRef = getFirebaseDB().child('emotes').child(partyRoom)
 
       const raiseEvent = {
         name: partyName,
         time: Date.now()
       }
-      dbInitiativeRef.child('xcard').set(raiseEvent)
+      dbEmoteRef.child('xcard').set(raiseEvent)
     }
   }
 
