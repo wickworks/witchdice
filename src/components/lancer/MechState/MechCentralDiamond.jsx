@@ -3,14 +3,11 @@ import MechNumberBar from './MechNumberBar.jsx';
 
 import './MechCentralDiamond.scss';
 
-import {
-  getMechMaxRepairCap,
-} from './mechStateUtils.js';
-
 const MechCentralDiamond = ({
-  activeMech,
-  activePilot,
-  frameData,
+  maxRepairCap,
+  mechSize,
+  mechPortraitCloud,
+  mechPortraitDefault,
 
   currentStress,
   setCurrentStress,
@@ -22,10 +19,9 @@ const MechCentralDiamond = ({
   setCurrentRepairs,
 }) => {
 
-  const mechSize = frameData.stats.size === 0.5 ? 'size-half' : `size-${frameData.stats.size}`
+  const mechSizeClass = mechSize === 0.5 ? 'size-half' : `size-${mechSize}`
 
-  const repCap = getMechMaxRepairCap(activeMech, activePilot, frameData);
-  const smallRepairsClass = repCap > 12 ? 'small-repairs' : '';
+  const smallRepairsClass = maxRepairCap > 12 ? 'small-repairs' : '';
 
   function handleRepairClick(repairIndex) {
     if (repairIndex+1 <= currentRepairs) {
@@ -42,10 +38,10 @@ const MechCentralDiamond = ({
 
 
         <div className='portrait-container'>
-          { activeMech.cloud_portrait ?
-            <img className='portrait' src={activeMech.cloud_portrait} alt={'mech portrait'} />
+          { mechPortraitCloud ?
+            <img className='portrait' src={mechPortraitCloud} alt={'mech portrait'} />
           :
-            <div className={`portrait asset ${frameData.id}`} />
+            <div className={`portrait asset ${mechPortraitDefault}`} />
           }
         </div>
 
@@ -83,7 +79,7 @@ const MechCentralDiamond = ({
 
           <div className='repairs-container-container'>
             <div className={`repairs-container ${smallRepairsClass}`}>
-              { [...Array(repCap)].map((undef, i) =>
+              { [...Array(maxRepairCap)].map((undef, i) =>
                 <button
                   className={(i+1) <= currentRepairs ? 'available' : 'used'}
                   onClick={() => handleRepairClick(i)}
@@ -95,9 +91,9 @@ const MechCentralDiamond = ({
             </div>
           </div>
 
-          {repCap <= 12 &&
+          {maxRepairCap <= 12 &&
             <div className='size-container'>
-              <div className={`mech-size asset ${mechSize}`} />
+              <div className={`mech-size asset ${mechSizeClass}`} />
             </div>
           }
 

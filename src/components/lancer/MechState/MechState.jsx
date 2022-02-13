@@ -18,6 +18,7 @@ import {
   getMechEDef,
   getMechSaveTarget,
   getMechArmor,
+  getMechMaxRepairCap,
 } from './mechStateUtils.js';
 
 import './MechState.scss';
@@ -165,9 +166,10 @@ const MechState = ({
     <div className='MechState asset butterfly-watermark'>
 
       <MechCentralDiamond
-        activeMech={activeMech}
-        activePilot={activePilot}
-        frameData={frameData}
+        maxRepairCap={getMechMaxRepairCap(activeMech, activePilot, frameData)}
+        mechPortraitCloud={activeMech.cloud_portrait}
+        mechPortraitDefault={frameData.id}
+        mechSize={frameData.stats.size}
 
         currentStress={currentStress}
         setCurrentStress={setCurrentStress}
