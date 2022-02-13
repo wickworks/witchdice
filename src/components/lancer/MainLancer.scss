@@ -19,6 +19,36 @@
     }
   }
 
+  .game-mode-switcher-container {
+    @include standard_side_margin;
+    display: flex;
+    justify-content: center;
+
+    .game-mode-switcher {
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      border-radius: 6px;
+      background-color: $crushed_velvet;
+
+      button {
+        font-size: 20px;
+        padding: 4px;
+        width: 120px;
+        border-radius: 6px;
+        color: $pink_logo_light;
+        background-color: $crushed_velvet;
+
+        &:hover { background-color: $pink_logo_dark; }
+
+        &.active {
+          background-color: $rust;
+          color: white;
+        }
+      }
+    }
+  }
+
   .lcp-container {
     margin: 12px auto 20px;
 
@@ -42,8 +72,6 @@
     }
 
     .FileList.content-packs {
-
-
       // .title { color: $crushed_velvet; }
 
       .id-core .DeleteButton { display: none; }

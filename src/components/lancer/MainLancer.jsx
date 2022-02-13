@@ -24,6 +24,9 @@ const coreLcpEntry = {
   id: 'core'
 }
 
+const GAME_MODE_PLAYER = 1
+const GAME_MODE_NPC = 2
+
 const MainLancer = ({
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
@@ -37,6 +40,7 @@ const MainLancer = ({
   const [isShowingLcpList, setIsShowingLcpList] = useState(false);
 
   const [triggerRerender, setTriggerRerender] = useState(false);
+  const [gameMode, setGameMode] = useState(GAME_MODE_PLAYER);
 
   // =============== LCP FILES ==================
   async function parseLcpFile(e) {
@@ -176,18 +180,39 @@ const MainLancer = ({
         }
       </div>
 
+      <div className='game-mode-switcher-container'>
+        <div className='game-mode-switcher'>
+          <button
+            onClick={() => setGameMode(GAME_MODE_PLAYER)}
+            className={gameMode === GAME_MODE_PLAYER ? 'active' : ''}
+          >
+            Player
+          </button>
+          <button
+            onClick={() => setGameMode(GAME_MODE_NPC)}
+            className={gameMode === GAME_MODE_NPC ? 'active' : ''}
+          >
+            GM
+          </button>
+        </div>
+      </div>
 
 
-      <LancerPlayerMode
-        setTriggerRerender={setTriggerRerender}
-        triggerRerender={triggerRerender}
+      { gameMode === GAME_MODE_PLAYER ?
+        <LancerPlayerMode
+          setTriggerRerender={setTriggerRerender}
+          triggerRerender={triggerRerender}
 
-        partyConnected={partyConnected}
-        partyRoom={partyRoom}
-        setPartyLastAttackKey={setPartyLastAttackKey}
-        setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-        setRollSummaryData={setRollSummaryData}
-      />
+          partyConnected={partyConnected}
+          partyRoom={partyRoom}
+          setPartyLastAttackKey={setPartyLastAttackKey}
+          setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+          setRollSummaryData={setRollSummaryData}
+        />
+      : gameMode === GAME_MODE_NPC &&
+        <LancerNpcMode
+        />
+      }
 
 
       <div className='jumplink-anchor' id='dicebag' />
