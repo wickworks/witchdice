@@ -15,6 +15,7 @@ import { deepCopy } from '../../../utils.js';
 
 import {
   getMechTechAttack,
+  getCountersFromPilot,
 } from '../MechState/mechStateUtils.js';
 
 import {
@@ -190,8 +191,8 @@ const MechSheet = ({
         />
 
         <ConditionsAndCounters
-          activeMech={activeMech}
-          activePilot={activePilot}
+          activeConditions={activeMech.conditions}
+          activeCounters={getCountersFromPilot(activePilot)}
           updateMechState={updateMechState}
         />
 

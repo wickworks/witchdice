@@ -10,10 +10,6 @@ import {
   findStatusData,
 } from '../lancerData.js';
 
-import {
-  getCountersFromPilot,
-} from './mechStateUtils.js';
-
 
 // =============== ADD / REMOVE TAG CRAP =============
 
@@ -24,14 +20,12 @@ const conditionOptions = allStatuses.map(condition => ({
 
 
 const ConditionsAndCounters = ({
-  activeMech,
-  activePilot,
+  activeConditions,
+  activeCounters,
 	updateMechState
 }) => {
-  const activeConditions = activeMech.conditions;
   const setActiveConditions = (conditions) => updateMechState({conditions: conditions})
 
-  const customCounters = getCountersFromPilot(activePilot);
   const setCustomCounters = (custom_counters) => updateMechState(
     {
       custom_counters: custom_counters.map(counter => {return {name: counter.name, id: counter.id, custom: true}}),
@@ -49,19 +43,19 @@ const ConditionsAndCounters = ({
   }
 
   const updateCounter = (counterData, index) => {
-    let newData = deepCopy(customCounters)
+    let newData = deepCopy(activeCounters)
     newData[index] = counterData
     setCustomCounters(newData)
   }
 
   const deleteCounter = (index) => {
-    let newData = deepCopy(customCounters)
+    let newData = deepCopy(activeCounters)
     newData.splice(index, 1)
     setCustomCounters(newData)
   }
 
   const addCounter = () => {
-    let newData = deepCopy(customCounters)
+    let newData = deepCopy(activeCounters)
     newData.push({
       id: String(parseInt(Math.random() * 1000000)), // COMPCON makes some super long alphanumeric id but this should work too
       name: '',
@@ -96,7 +90,7 @@ const ConditionsAndCounters = ({
         )}
 
 
-        { customCounters && customCounters.map((counter, i) =>
+        { activeCounters && activeCounters.map((counter, i) =>
           <CustomCounter
             counter={counter}
             updateCounter={counterData => updateCounter(counterData, i)}
