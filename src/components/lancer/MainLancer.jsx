@@ -211,6 +211,11 @@ const MainLancer = ({
         />
       : gameMode === GAME_MODE_NPC &&
         <LancerNpcMode
+          partyConnected={partyConnected}
+          partyRoom={partyRoom}
+          setPartyLastAttackKey={setPartyLastAttackKey}
+          setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+          setRollSummaryData={setRollSummaryData}
         />
       }
 

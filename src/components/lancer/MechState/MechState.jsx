@@ -239,7 +239,7 @@ const MechState = ({
 
             <MechNumberLabel
               label="Heat"
-              maxNumber={getMechMaxHeatCap(activeMech, activePilot, frameData)}
+              maxNumber={maxHeat}
               currentNumber={currentHeat}
               setCurrentNumber={setCurrentHeat}
               leftToRight={true}
@@ -247,7 +247,7 @@ const MechState = ({
           </div>
 
           <MechNumberBar
-            maxNumber={getMechMaxHeatCap(activeMech, activePilot, frameData)}
+            maxNumber={maxHeat}
             currentNumber={currentHeat}
             setCurrentNumber={setCurrentHeat}
             leftToRight={true}
