@@ -1,6 +1,6 @@
 import React from 'react';
-import MechanicsList from './MechanicsList.jsx';
-import { findSkillData, findFrameData, findTalentData, findCoreBonusData } from './lancerData.js';
+import MechanicsList from '../MechanicsList.jsx';
+import { findSkillData, findFrameData, findTalentData, findCoreBonusData } from '../lancerData.js';
 import './PilotDossier.scss';
 
 function hashCode(s){

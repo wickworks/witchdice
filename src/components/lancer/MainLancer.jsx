@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FileList } from './FileAndPlainList.jsx';
-import MainLancerPlayers from './MainLancerPlayers.jsx';
+import LancerPlayerMode from './LancerPlayerMode/LancerPlayerMode.jsx';
+import LancerNpcMode from './LancerNpcMode/LancerNpcMode.jsx';
 
 import PromisifyFileReader from 'promisify-file-reader'
 import { parseContentPack } from './contentPackParser.js';
@@ -177,7 +178,7 @@ const MainLancer = ({
 
 
 
-      <MainLancerPlayers
+      <LancerPlayerMode
         setTriggerRerender={setTriggerRerender}
         triggerRerender={triggerRerender}
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import {
   findFrameData,
-} from './lancerData.js';
+} from '../../lancerData.js';
 
 import {
   diagnosticMessages,
@@ -18,7 +18,7 @@ import {
   getMechEDef,
   getMechSaveTarget,
   getMechMaxRepairCap,
-} from './MechState/mechStateUtils.js';
+} from '../../MechState/mechStateUtils.js';
 
 import './FullRepairButton.scss';
 import './FullRepairDnaSync.scss';

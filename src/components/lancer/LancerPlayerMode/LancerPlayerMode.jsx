@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { FileList, PlainList } from './FileAndPlainList.jsx';
-import EntryList from '../shared/EntryList.jsx';
+import { FileList, PlainList } from '../FileAndPlainList.jsx';
+import EntryList from '../../shared/EntryList.jsx';
 import PilotDossier from './PilotDossier.jsx';
-import FullRepairButton from './FullRepairButton.jsx';
-import MechSheet from './MechSheet/MechSheet.jsx';
-import SquadPanel from './SquadPanel/SquadPanel.jsx';
-import JumplinkPanel from './JumplinkPanel.jsx';
+import FullRepairButton from './FullRepairButton/FullRepairButton.jsx';
+import MechSheet from '../MechSheet/MechSheet.jsx';
+import SquadPanel from '../SquadPanel/SquadPanel.jsx';
+import JumplinkPanel from '../JumplinkPanel.jsx';
 
 import {
   savePilotData,
@@ -13,16 +13,16 @@ import {
   deletePilotData,
   PILOT_PREFIX,
   STORAGE_ID_LENGTH,
-} from './lancerLocalStorage.js';
+} from '../lancerLocalStorage.js';
 
-import { deepCopy } from '../../utils.js';
-import { findSystemData, findWeaponData } from './lancerData.js';
-import { getIDFromStorageName } from '../../localstorage.js';
-import compendiaJonesJson from './pilot_data/YOURGRACE.json';
+import { deepCopy } from '../../../utils.js';
+import { findSystemData, findWeaponData } from '../lancerData.js';
+import { getIDFromStorageName } from '../../../localstorage.js';
+import compendiaJonesJson from './YOURGRACE.json';
 
-// import './MainLancerPlayers.scss';
+// import './LancerPlayerMode.scss';
 
-const MainLancerPlayers = ({
+const LancerPlayerMode = ({
   setTriggerRerender,
   triggerRerender,
 
@@ -235,7 +235,7 @@ const MainLancerPlayers = ({
 
 
   return (
-    <div className='MainLancerPlayers'>
+    <div className='LancerPlayerMode'>
 
       { activePilot && <JumplinkPanel partyConnected={partyConnected} /> }
 
@@ -305,4 +305,4 @@ const MainLancerPlayers = ({
 
 
 
-export default MainLancerPlayers;
+export default LancerPlayerMode;
