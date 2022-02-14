@@ -17,7 +17,7 @@ const TechRoller = ({
   setRollSummaryData,
   onClear,
 
-  accuracySourceInputs,
+  accuracyAndDamageSourceInputs,
 }) => {
   const [techAttackRoll, setTechAttackRoll] = useState(null);
   const [bonusDamageData, setBonusDamageData] = useState(null);
@@ -118,7 +118,7 @@ const TechRoller = ({
             rollBonus={techAttackBonus}
             rollBonusLabel='Tech'
             createNewAttackRoll={createNewAttackRoll}
-            accuracySourceInputs={accuracySourceInputs}
+            accuracySourceInputs={accuracyAndDamageSourceInputs}
           />
         }
       </div>
