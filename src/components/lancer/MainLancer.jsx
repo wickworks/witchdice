@@ -40,7 +40,7 @@ const MainLancer = ({
   const [isShowingLcpList, setIsShowingLcpList] = useState(false);
 
   const [triggerRerender, setTriggerRerender] = useState(false);
-  const [gameMode, setGameMode] = useState(GAME_MODE_PLAYER);
+  const [gameMode, setGameMode] = useState(GAME_MODE_NPC);
 
   // =============== LCP FILES ==================
   async function parseLcpFile(e) {

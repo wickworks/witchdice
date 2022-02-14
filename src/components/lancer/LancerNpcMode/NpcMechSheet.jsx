@@ -27,6 +27,16 @@ const PlayerMechSheet = ({
 
   console.log('npcClassData',npcClassData);
 
+  function getStat(key) {
+    let stat = activeNpc.stats[key]
+    if (activeNpc.stats.overrides && activeNpc.stats.overrides[key] > 0) {
+      stat = activeNpc.stats.overrides[key]
+    } else if (activeNpc.stats.bonuses) {
+      stat += activeNpc.stats.bonuses[key] || 0
+    }
+    return stat
+  }
+
   const robotState = {
     overshield: activeNpc.overshield,
     hp: activeNpc.currentStats.hp,
@@ -40,16 +50,6 @@ const PlayerMechSheet = ({
 
     conditions: activeNpc.conditions,
     counters: getCountersFromPilot(activeNpc),
-  }
-
-  function getStat(key) {
-    let stat = activeNpc.stats[key]
-    if (activeNpc.stats.overrides && activeNpc.stats.overrides[key] > 0) {
-      stat = activeNpc.stats.overrides[key]
-    } else if (activeNpc.stats.bonuses) {
-      stat += activeNpc.stats.bonuses[key] || 0
-    }
-    return stat
   }
 
   const robotStats = {
@@ -76,7 +76,7 @@ const PlayerMechSheet = ({
     cloud_portrait: activeNpc.cloudImage,
     frameID: activeNpc.class,
     frameSourceIcon: npcClassData.role.toLowerCase(),
-    frameSourceText: npcClassData.role,
+    frameSourceText: activeNpc.templates.map(templateID => findNpcTemplateData(templateID).name).join(' '),
     frameName: npcClassData.name.toLowerCase(),
   }
 
