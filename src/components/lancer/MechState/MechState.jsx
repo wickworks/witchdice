@@ -10,17 +10,6 @@ import {
 } from '../lancerData.js';
 
 
-import {
-  getMechMaxHP,
-  getMechMaxHeatCap,
-  getMechMoveSpeed,
-  getMechEvasion,
-  getMechEDef,
-  getMechSaveTarget,
-  getMechArmor,
-  getMechMaxRepairCap,
-} from './mechStateUtils.js';
-
 import './MechState.scss';
 
 const MAX_OVERSHIELD = 12
@@ -61,51 +50,45 @@ const coreTooltip = {
 }
 
 const MechState = ({
-  activeMech,
-  activePilot,
-  frameData,
+  robotStats,
+  robotState,
+
   updateMechState,
 }) => {
-  const currentOvershield = activeMech.overshield;
+  const currentOvershield = robotState.overshield;
   const setCurrentOvershield = (overshield) => updateMechState({overshield: overshield})
 
-  const currentHP = activeMech.current_hp;
+  const currentHP = robotState.current_hp;
   const setCurrentHP = (current_hp) => updateMechState({current_hp: current_hp})
 
-  const currentHeat = activeMech.current_heat;
+  const currentHeat = robotState.current_heat;
   const setCurrentHeat = (current_heat) => updateMechState({current_heat: current_heat})
 
-  const currentBurn = activeMech.burn;
+  const currentBurn = robotState.burn;
   const setCurrentBurn = (burn) => updateMechState({burn: burn})
 
-  const currentOverchargeIndex = activeMech.current_overcharge;
+  const currentOverchargeIndex = robotState.current_overcharge;
   const setCurrentOverchargeIndex = (current_overcharge) => updateMechState({current_overcharge: current_overcharge})
 
-  const currentCore = !!activeMech.current_core_energy;
+  const currentCore = !!robotState.current_core_energy;
   const setCurrentCore = (hasCoreEnergy) => updateMechState({current_core_energy: hasCoreEnergy ? 1 : 0})
 
-  const currentRepairs = activeMech.current_repairs;
+  const currentRepairs = robotState.current_repairs;
   const setCurrentRepairs = (current_repairs) => updateMechState({current_repairs: current_repairs})
 
-  const currentStructure = activeMech.current_structure;
+  const currentStructure = robotState.current_structure;
   const setCurrentStructure = (current_structure) => updateMechState({current_structure: current_structure})
 
-  const currentStress = activeMech.current_stress;
+  const currentStress = robotState.current_stress;
   const setCurrentStress = (current_stress) => updateMechState({current_stress: current_stress})
 
-  // console.log('activemech', activeMech);
-  // console.log('frameData', frameData);
-  // console.log('customCounters', customCounters);
-
-  const maxHP = getMechMaxHP(activeMech, activePilot, frameData)
 
   const overshieldPlusHP = parseInt(currentHP) + parseInt(currentOvershield)
-  const overshieldPlusMaxHP = maxHP + parseInt(currentOvershield)
+  const overshieldPlusMaxHP = robotStats.maxHP + parseInt(currentOvershield)
 
   const overchargeDie = OVERCHARGE_SEQUENCE[currentOverchargeIndex]
 
-  const maxHeat = getMechMaxHeatCap(activeMech, activePilot, frameData)
-  const isInDangerZone = parseInt(currentHeat) >= Math.ceil(parseInt(maxHeat) * .5)
+  const isInDangerZone = parseInt(currentHeat) >= Math.ceil(robotStats.maxHeat * .5)
 
   const handleHPBarClick = (newValue) => {
     var change = parseInt(newValue) - overshieldPlusHP
@@ -135,7 +118,7 @@ const MechState = ({
       newHP = hp + change
     }
 
-    newHP = Math.min(Math.max(newHP, 0), maxHP)
+    newHP = Math.min(Math.max(newHP, 0), robotStats.maxHP)
     updateMechState({overshield: newOvershield, current_hp: newHP})
   }
 
@@ -166,10 +149,10 @@ const MechState = ({
     <div className='MechState asset butterfly-watermark'>
 
       <MechCentralDiamond
-        maxRepairCap={getMechMaxRepairCap(activeMech, activePilot, frameData)}
-        mechPortraitCloud={activeMech.cloud_portrait}
-        mechPortraitDefault={frameData.id}
-        mechSize={frameData.stats.size}
+        maxRepairCap={robotStats.maxRepairCap}
+        mechPortraitCloud={robotStats.cloud_portrait}
+        mechPortraitDefault={robotStats.frameID}
+        mechSize={robotStats.size}
 
         currentStress={currentStress}
         setCurrentStress={setCurrentStress}
@@ -187,7 +170,7 @@ const MechState = ({
           <div className='hp-label'>
             <MechNumberLabel
               label="HP"
-              maxNumber={maxHP}
+              maxNumber={robotStats.maxHP}
               currentNumber={parseInt(currentHP)}
               setCurrentNumber={setCurrentHP}
               leftToRight={false}
@@ -199,7 +182,7 @@ const MechState = ({
             currentNumber={overshieldPlusHP}
             setCurrentNumber={handleHPBarClick}
             overshield={parseInt(currentOvershield)}
-            armor={parseInt(getMechArmor(activeMech, activePilot, frameData))}
+            armor={robotStats.armor}
             burn={parseInt(currentBurn)}
             leftToRight={false}
           />
@@ -241,7 +224,7 @@ const MechState = ({
 
             <MechNumberLabel
               label="Heat"
-              maxNumber={maxHeat}
+              maxNumber={robotStats.maxHeat}
               currentNumber={currentHeat}
               setCurrentNumber={setCurrentHeat}
               leftToRight={true}
@@ -249,7 +232,7 @@ const MechState = ({
           </div>
 
           <MechNumberBar
-            maxNumber={maxHeat}
+            maxNumber={robotStats.maxHeat}
             currentNumber={currentHeat}
             setCurrentNumber={setCurrentHeat}
             leftToRight={true}
@@ -288,14 +271,14 @@ const MechState = ({
           <MechSingleStat
             label="Evasion"
             extraClass='evasion'
-            number={getMechEvasion(activeMech, activePilot, frameData)}
+            number={robotStats.evasion}
             leftToRight={false}
           />
 
           <MechSingleStat
             label="Move Speed"
             extraClass='speed condensed'
-            number={getMechMoveSpeed(activeMech, activePilot, frameData)}
+            number={robotStats.moveSpeed}
             leftToRight={false}
           />
         </div>
@@ -304,14 +287,14 @@ const MechState = ({
           <MechSingleStat
             label="E-Defense"
             extraClass='e-def'
-            number={getMechEDef(activeMech, activePilot, frameData)}
+            number={robotStats.eDef}
             leftToRight={true}
           />
 
           <MechSingleStat
             label="Sensor Range"
             extraClass='sensors condensed'
-            number={frameData.stats.sensor_range}
+            number={robotStats.sensorRange}
             leftToRight={true}
           />
         </div>
@@ -323,7 +306,7 @@ const MechState = ({
         </div>
 
         <div className='number'>
-          {getMechSaveTarget(activeMech, activePilot, frameData)}
+          {robotStats.saveTarget}
         </div>
       </div>
     </div>

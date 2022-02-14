@@ -13,10 +13,21 @@ import {
 
 import { deepCopy } from '../../../utils.js';
 
+
 import {
+  getMechMaxHP,
+  getMechMaxHeatCap,
+  getMechMoveSpeed,
+  getMechEvasion,
+  getMechEDef,
+  getMechSaveTarget,
+  getMechArmor,
+  getMechMaxRepairCap,
+
   getMechTechAttack,
   getCountersFromPilot,
 } from '../MechState/mechStateUtils.js';
+
 
 import {
   getMountsFromLoadout,
@@ -162,6 +173,35 @@ const MechSheet = ({
 
   const activeInvadeData = invades[activeInvadeIndex]
 
+  const robotState = {
+    overshield: activeMech.overshield,
+    current_hp: activeMech.current_hp,
+    current_heat: activeMech.current_heat,
+    burn: activeMech.burn,
+    current_overcharge: activeMech.current_overcharge,
+    current_core_energy: activeMech.current_core_energy,
+    current_repairs: activeMech.current_repairs,
+    current_structure: activeMech.current_structure,
+    current_stress: activeMech.current_stress,
+  }
+
+  const robotStats = {
+    maxHP: getMechMaxHP(activeMech, activePilot, frameData),
+    maxHeat: getMechMaxHeatCap(activeMech, activePilot, frameData),
+    maxRepairCap: getMechMaxRepairCap(activeMech, activePilot, frameData),
+
+    size: frameData.stats.size,
+    armor: getMechArmor(activeMech, activePilot, frameData),
+    evasion: getMechEvasion(activeMech, activePilot, frameData),
+    moveSpeed: getMechMoveSpeed(activeMech, activePilot, frameData),
+    eDef: getMechEDef(activeMech, activePilot, frameData),
+    saveTarget: getMechSaveTarget(activeMech, activePilot, frameData),
+    sensorRange: frameData.stats.sensor_range,
+
+    frameID: frameData.id,
+    cloud_portrait: activeMech.cloud_portrait,
+  }
+
   const accuracySourceInputs = {
     frameID: activeMech.frame,
     mechSystems: loadout.systems,
@@ -191,9 +231,8 @@ const MechSheet = ({
         <MechTraits traitList={frameData.traits} coreSystem={frameData.core_system} />
 
         <MechState
-          activeMech={activeMech}
-          activePilot={activePilot}
-          frameData={frameData}
+          robotState={robotState}
+          robotStats={robotStats}
           updateMechState={updateMechState}
         />
 
