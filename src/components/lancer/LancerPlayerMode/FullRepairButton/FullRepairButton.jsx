@@ -12,11 +12,6 @@ import {
 
 import {
   getMechMaxHP,
-  getMechMaxHeatCap,
-  getMechMoveSpeed,
-  getMechEvasion,
-  getMechEDef,
-  getMechSaveTarget,
   getMechMaxRepairCap,
 } from '../../MechState/mechStateUtils.js';
 

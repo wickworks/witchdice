@@ -14,7 +14,6 @@ import {
   STORAGE_ID_LENGTH,
 } from '../lancerLocalStorage.js';
 
-import { findSystemData, findWeaponData } from '../lancerData.js';
 import { getIDFromStorageName } from '../../../localstorage.js';
 import compendiaJonesJson from './YOURGRACE.json';
 

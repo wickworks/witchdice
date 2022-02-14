@@ -122,6 +122,8 @@ export function getAvailableAccuracySources(frameID, mechSystems, pilotTalents, 
         case 'wm_uncle_class_comp_con':
           addAccSource(sources, modData.name, weaponMod.id, '1/turn, you can attack at +2 difficulty with UNCLE’s weapon as a free action.', -2, true)
           break;
+        default:
+          break;
       }
     }
   }

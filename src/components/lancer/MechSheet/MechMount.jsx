@@ -1,13 +1,11 @@
 import React from 'react';
 import DestroySystemButton from './DestroySystemButton.jsx'
 import {
-  findActionData,
   findWeaponData,
   findSystemData,
   findCoreBonusData,
   findModData,
   findTalentData,
-  baselineMount,
   baselineWeapons
 } from '../lancerData.js';
 

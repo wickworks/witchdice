@@ -5,11 +5,7 @@ import ConditionsAndCounters from '../MechState/ConditionsAndCounters.jsx';
 import WeaponRoller from '../WeaponRoller/WeaponRoller.jsx';
 import TechRoller from '../WeaponRoller/TechRoller.jsx';
 
-import { deepCopy } from '../../../utils.js';
-
 import {
-  getMountsFromLoadout,
-  getInvadeAndTechAttacks,
   getWeaponsOnMount,
   getModdedWeaponData,
   TechAttack,
@@ -17,14 +13,8 @@ import {
 } from './MechMount.jsx';
 
 import {
-  getToHitBonusFromMech,
   getAvailableBonusDamageSources,
 } from '../WeaponRoller/bonusDamageSourceUtils.js';
-
-import {
-  getWeaponSynergies,
-  getFailingWeaponSynergies,
-} from '../WeaponRoller/synergyUtils.js';
 
 import './MechSheet.scss';
 
