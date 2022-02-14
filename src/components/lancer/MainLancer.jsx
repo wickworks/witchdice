@@ -211,6 +211,9 @@ const MainLancer = ({
         />
       : gameMode === GAME_MODE_NPC &&
         <LancerNpcMode
+          setTriggerRerender={setTriggerRerender}
+          triggerRerender={triggerRerender}
+
           partyConnected={partyConnected}
           partyRoom={partyRoom}
           setPartyLastAttackKey={setPartyLastAttackKey}

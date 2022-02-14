@@ -164,7 +164,9 @@ function getBonusFromCoreBonuses(bonusType, coreBonusIDs) {
   return coreTotal
 }
 
-// convert the custom counters stored in pilots (custom_counters and counter_data) into a single array of objects
+// Convert the custom counters stored in pilots (custom_counters and counter_data)
+// into a single array of objects.
+// This - ALSO - works for NPCs because they thankfully have the same keys. 
 export function getCountersFromPilot(pilotData) {
   let counters = [];
 

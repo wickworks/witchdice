@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import MechSheet from '../MechSheet/MechSheet.jsx';
+import NpcMechSheet from './NpcMechSheet.jsx';
+
+import gravityOfTheSituationJson from './GRAVITYOFTHESITUATION.json';
 
 // import './LancerNpcMode.scss';
 
 const LancerNpcMode = ({
+  setTriggerRerender,
+  triggerRerender,
+
   partyConnected,
   partyRoom,
   setPartyLastAttackKey,
@@ -15,7 +20,7 @@ const LancerNpcMode = ({
   //
   // const activeNpc = activeNpcID && loadNpcData(activeNpcID); // load the pilot data from local storage
 
-  const activeNpc = {}
+  const activeNpc = gravityOfTheSituationJson
 
   const updateNpcState = () => {
 
@@ -24,10 +29,11 @@ const LancerNpcMode = ({
   return (
     <div className='LancerNpcMode'>
 
-      <MechSheet
-        activeMech={activeNpc}
-        activePilot={null}
-        updateMechState={updateNpcState}
+      <NpcMechSheet
+        activeNpc={activeNpc}
+
+        setTriggerRerender={setTriggerRerender}
+        triggerRerender={triggerRerender}
 
         setPartyLastAttackKey={setPartyLastAttackKey}
         setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}

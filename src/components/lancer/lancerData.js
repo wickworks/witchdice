@@ -12,6 +12,7 @@ const allTalents = data.talents;
 const allCoreBonuses = data.core_bonuses;
 const allSystems = data.systems;
 const allMods = data.mods;
+const allNpcClasses = data.npc_classes;
 export const allStatuses = data.statuses;
 
 const blankTalent = {
@@ -62,6 +63,33 @@ const blankAction = {
   "activation": "",
   "terse": "",
   "detail": "",
+}
+
+const blankNpcClass = {
+  "id": "npcc_unknown",
+  "name": "UNKNOWN NPC",
+  "role": "",
+  "info": {"flavor": '', "tactics": ''},
+  "stats": {
+    "armor": [0,0,0],
+    "hp": [0,0,0],
+    "evade": [0,0,0],
+    "edef": [0,0,0],
+    "heatcap": [0,0,0],
+    "speed": [0,0,0],
+    "sensor": [0,0,0],
+    "save": [0,0,0],
+    "hull": [0,0,0],
+    "agility": [0,0,0],
+    "systems": [0,0,0],
+    "engineering": [0,0,0],
+    "size": [0,0,0],
+    "activations": [0,0,0]
+
+  },
+  "base_features": [],
+  "optional_features": [],
+  "power": 0,
 }
 
 
@@ -140,10 +168,15 @@ export const findStatusData = (statusName) => {
 
 export const findActionData = (actionID) => {
   var actionData = allActions.find(action => action.id === actionID);
-  // if (!actionData) actionData = findGameDataFromLcp('actiones', actionName) // new lcps can't really add new actions
+  // if (!actionData) actionData = findGameDataFromLcp('actions', actionID) // new lcps can't really add new actions
   return actionData ? actionData : blankAction;
 }
 
+export const findNpcClassData = (npcClassID) => {
+  var npcClassData = allNpcClasses.find(npcClass => npcClass.id === npcClassID);
+  if (!npcClassData) npcClassData = findGameDataFromLcp('npcClasses', npcClassID) // new lcps can't really add new actions
+  return npcClassData ? npcClassData : blankNpcClass;
+}
 
 
 
