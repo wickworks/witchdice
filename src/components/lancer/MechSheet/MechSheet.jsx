@@ -4,30 +4,8 @@ import MechState from '../MechState/MechState.jsx';
 import ConditionsAndCounters from '../MechState/ConditionsAndCounters.jsx';
 import WeaponRoller from '../WeaponRoller/WeaponRoller.jsx';
 import TechRoller from '../WeaponRoller/TechRoller.jsx';
-import {
-  getGrit,
-  findWeaponData,
-  findFrameData,
-  baselineMount,
-} from '../lancerData.js';
 
 import { deepCopy } from '../../../utils.js';
-
-
-import {
-  getMechMaxHP,
-  getMechMaxHeatCap,
-  getMechMoveSpeed,
-  getMechEvasion,
-  getMechEDef,
-  getMechSaveTarget,
-  getMechArmor,
-  getMechMaxRepairCap,
-
-  getMechTechAttack,
-  getCountersFromPilot,
-} from '../MechState/mechStateUtils.js';
-
 
 import {
   getMountsFromLoadout,
@@ -40,10 +18,7 @@ import {
 
 import {
   getToHitBonusFromMech,
-  getBonusDamageSourcesFromMech,
-  getBonusDamageSourcesFromTalents,
-  getBonusDamageSourcesFromMod,
-  getBonusDamageSourcesFromCoreBonuses,
+  getAvailableBonusDamageSources,
 } from '../WeaponRoller/bonusDamageSourceUtils.js';
 
 import {
@@ -53,34 +28,18 @@ import {
 
 import './MechSheet.scss';
 
-function getBonusDamageSources(activeMech, activePilot, activeMount, activeWeapon) {
-  let bonusDamageSources = [
-    ...getBonusDamageSourcesFromMech(activeMech),
-    ...getBonusDamageSourcesFromCoreBonuses(activeMount),
-    ...getBonusDamageSourcesFromMod(activeWeapon),
-    ...getBonusDamageSourcesFromTalents(activePilot),
-  ]
-
-  // filter them out by synergy e.g. melee talents only apply to melee weapons
-  if (activeWeapon) {
-    const weaponData = getModdedWeaponData(activeWeapon)
-
-    bonusDamageSources = bonusDamageSources.filter(source => {
-      const synergies = getWeaponSynergies(source.trait.synergies)
-      const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
-
-      // Only include sources without failing synergies
-      return failingSynergies.length === 0;
-    })
-  }
-
-  return bonusDamageSources
-}
 
 const MechSheet = ({
-  activeMech,
-  activePilot,
+  // activeMech,
+  // activePilot,
+
+  robotState,
+  robotStats,
+  robotInfo,
+  robotLoadout,
   updateMechState,
+
+  accuracyAndDamageSourceInputs,
 
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
@@ -92,12 +51,10 @@ const MechSheet = ({
   const [activeInvadeIndex, setActiveInvadeIndex] = useState(null)
 
   // =============== CHANGE MECH / WEAPON ==================
-  const filteredMechID = (activeMech && activeMech.id)
-  const filteredPilotID = (activePilot && activePilot.id)
   useEffect(() => {
     setActiveMountIndex(null);
     setActiveWeaponIndex(0);
-  }, [filteredMechID,filteredPilotID]);
+  }, [robotInfo.id]);
 
   const changeMountAndWeapon = (mountIndex, weaponIndex) => {
     setActiveMountIndex(mountIndex)
@@ -117,30 +74,10 @@ const MechSheet = ({
     newAttackSummary()
   }
 
-  function getActiveWeaponData(weapon) {
-    if (!weapon) return null
-
-    let weaponData = getModdedWeaponData(activeWeapon)
-
-    // Special case: modify RAM and IMPROVISED ATTACKS due to systems or talents
-    if (weapon.id === 'act_ram' && loadout.systems.find(system => system.id === 'ms_siege_ram')) {
-      weaponData = deepCopy(weaponData) // don't modify the original
-      weaponData.damage = [{type: 'Kinetic', val: '2'}]
-    }
-    if (weapon.id === 'act_improvised_attack' && activePilot.talents.find(talent => (talent.id === 't_brawler' && talent.rank >= 2))) {
-      weaponData = deepCopy(weaponData) // don't modify the original
-      weaponData.damage = [{type: 'Kinetic', val: '2d6+2'}]
-      weaponData.on_hit = "Knockback 2."
-    }
-
-    return weaponData
-  }
-
   // =============== SUMMARY DATA ==================
   // inject the mech name to summary data before sending it up
   const setRollSummaryDataWithName = (rollSummaryData) => {
-    rollSummaryData.characterName = activeMech.name
-    // console.log('rollSummaryData', rollSummaryData)
+    rollSummaryData.characterName = robotInfo.name
     setRollSummaryData(rollSummaryData)
   }
 
@@ -152,62 +89,14 @@ const MechSheet = ({
 
 
   // =============== GET THE DATA FOR THE SHEET ==================
-
-  const loadout = activeMech.loadouts[0];
-  const mounts = [...getMountsFromLoadout(loadout), baselineMount];
-  const invades = getInvadeAndTechAttacks(loadout, activePilot.talents);
-
-  const frameData = findFrameData(activeMech.frame);
-  const gritBonus = getGrit(activePilot);
-
-  const activeMount = mounts[activeMountIndex];
+  const activeMount = robotLoadout.mounts[activeMountIndex];
   const activeMountWeapons = getWeaponsOnMount(activeMount);
   const activeWeapon = activeMountWeapons && activeMountWeapons[activeWeaponIndex];
-  const activeWeaponData = getActiveWeaponData(activeWeapon)
+  const activeWeaponData = getModdedWeaponData(activeWeapon)
 
-  const bonusDamageSources = getBonusDamageSources(activeMech, activePilot, activeMount, activeWeapon);
+  const activeInvadeData = robotLoadout.invades[activeInvadeIndex]
 
-  // Filter out any bonus damage sources
-
-  const miscBonusToHit = getToHitBonusFromMech(activeMech);
-
-  const activeInvadeData = invades[activeInvadeIndex]
-
-  const robotState = {
-    overshield: activeMech.overshield,
-    current_hp: activeMech.current_hp,
-    current_heat: activeMech.current_heat,
-    burn: activeMech.burn,
-    current_overcharge: activeMech.current_overcharge,
-    current_core_energy: activeMech.current_core_energy,
-    current_repairs: activeMech.current_repairs,
-    current_structure: activeMech.current_structure,
-    current_stress: activeMech.current_stress,
-  }
-
-  const robotStats = {
-    maxHP: getMechMaxHP(activeMech, activePilot, frameData),
-    maxHeat: getMechMaxHeatCap(activeMech, activePilot, frameData),
-    maxRepairCap: getMechMaxRepairCap(activeMech, activePilot, frameData),
-
-    size: frameData.stats.size,
-    armor: getMechArmor(activeMech, activePilot, frameData),
-    evasion: getMechEvasion(activeMech, activePilot, frameData),
-    moveSpeed: getMechMoveSpeed(activeMech, activePilot, frameData),
-    eDef: getMechEDef(activeMech, activePilot, frameData),
-    saveTarget: getMechSaveTarget(activeMech, activePilot, frameData),
-    sensorRange: frameData.stats.sensor_range,
-
-    frameID: frameData.id,
-    cloud_portrait: activeMech.cloud_portrait,
-  }
-
-  const accuracySourceInputs = {
-    frameID: activeMech.frame,
-    mechSystems: loadout.systems,
-    pilotTalents: activePilot.talents,
-    isImpaired: activeMech.conditions.includes('IMPAIRED'),
-  }
+  const bonusDamageSources = getAvailableBonusDamageSources(accuracyAndDamageSourceInputs, activeMount, activeWeapon);
 
   return (
     <div className="MechSheet">
@@ -217,33 +106,31 @@ const MechSheet = ({
           <img src={activeMech.cloud_portrait} alt={'mech portrait'} />
         </div>*/}
 
-        <h2>{activeMech.name}</h2>
+        <h2>{robotInfo.name}</h2>
 
         <div className='frame-container'>
-          <div className={`asset ${frameData.source.toLowerCase()}`} />
-          <div className='manufacturer'>
-
-            {frameData.source}
-          </div>
-          <div className="frame">{frameData.name.toLowerCase()}</div>
+          <div className={`asset ${robotInfo.frameSourceIcon}`} />
+          <div className='manufacturer'>{robotInfo.frameSourceText}</div>
+          <div className="frame">{robotInfo.frameName}</div>
         </div>
 
-        <MechTraits traitList={frameData.traits} coreSystem={frameData.core_system} />
+        <MechTraits frameTraits={robotLoadout.frameTraits} />
 
         <MechState
           robotState={robotState}
           robotStats={robotStats}
+          robotInfo={robotInfo}
           updateMechState={updateMechState}
         />
 
         <ConditionsAndCounters
-          activeConditions={activeMech.conditions}
-          activeCounters={getCountersFromPilot(activePilot)}
+          activeConditions={robotState.conditions}
+          activeCounters={robotState.counters}
           updateMechState={updateMechState}
         />
 
         <MechSystemActions
-          systems={loadout.systems}
+          systems={robotLoadout.systems}
           setLimitedCountForSystem={(count, systemIndex) =>
             updateMechState({
               systemUses: {index: systemIndex, uses: count}
@@ -260,7 +147,7 @@ const MechSheet = ({
         <div className="mounts-label">Mounts & Attacks</div>
 
         <div className="mounts-list">
-          { mounts.map((mount, i) =>
+          { robotLoadout.mounts.map((mount, i) =>
             <MechMount
               key={`mount-${i}`}
               mount={mount}
@@ -279,7 +166,7 @@ const MechSheet = ({
             />
           )}
 
-          { invades.map((invade, i) =>
+          { robotLoadout.invades.map((invade, i) =>
             <TechAttack
               key={`invade-${i}`}
               invadeData={invade}
@@ -294,9 +181,9 @@ const MechSheet = ({
         <WeaponRoller
           weaponData={activeWeaponData}
           weaponMod={activeWeapon.mod}
-          gritBonus={gritBonus+miscBonusToHit}
+          gritBonus={robotStats.attackBonus+robotStats.attackBonusRanged}
           availableBonusSources={bonusDamageSources}
-          accuracySourceInputs={accuracySourceInputs}
+          accuracyAndDamageSourceInputs={accuracyAndDamageSourceInputs}
           isPrimaryWeaponOnMount={activeWeaponIndex === 0}
           setRollSummaryData={setRollSummaryDataWithName}
           onClear={newAttackSummary}
@@ -306,9 +193,9 @@ const MechSheet = ({
       {activeInvadeData &&
         <TechRoller
           invadeData={activeInvadeData}
-          techAttackBonus={getMechTechAttack(activeMech, activePilot, frameData)}
-          sensorRange={frameData.stats.sensor_range}
-          accuracySourceInputs={accuracySourceInputs}
+          techAttackBonus={robotStats.techAttackBonus}
+          sensorRange={robotStats.sensorRange}
+          accuracyAndDamageSourceInputs={accuracyAndDamageSourceInputs}
           setRollSummaryData={setRollSummaryDataWithName}
           onClear={newAttackSummary}
         />

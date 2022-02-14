@@ -50,8 +50,9 @@ const coreTooltip = {
 }
 
 const MechState = ({
-  robotStats,
   robotState,
+  robotStats,
+  robotInfo,
 
   updateMechState,
 }) => {
@@ -150,8 +151,8 @@ const MechState = ({
 
       <MechCentralDiamond
         maxRepairCap={robotStats.maxRepairCap}
-        mechPortraitCloud={robotStats.cloud_portrait}
-        mechPortraitDefault={robotStats.frameID}
+        mechPortraitCloud={robotInfo.cloud_portrait}
+        mechPortraitDefault={robotInfo.frameID}
         mechSize={robotStats.size}
 
         currentStress={currentStress}

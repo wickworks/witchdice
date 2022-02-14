@@ -17,18 +17,38 @@ import './MechMount.scss';
 
 
 function getModdedWeaponData(weapon) {
-  // if we're asking for baseline weapon data, give that instead
+  let weaponData
+  if (!weapon) return weaponData
+
+  // Baseline ram / improvise / grapple
   if (weapon.id.startsWith('act_')) {
-    return baselineWeapons.find(baseline => baseline.id === weapon.id)
+    weaponData = deepCopy(baselineWeapons.find(baseline => baseline.id === weapon.id))
+
+    // Modify RAM and IMPROVISED ATTACKS due to systems or talents
+    if (weapon.mod) {
+      if (weapon.id === 'act_ram' && weapon.mod === 'ms_siege_ram') {
+        weaponData.damage = [{type: 'Kinetic', val: '2'}]
+      }
+
+      if (weapon.id === 'act_improvised_attack' && weapon.mod === 't_brawler') {
+        weaponData.damage = [{type: 'Kinetic', val: '2d6+2'}]
+        weaponData.on_hit = "Knockback 2."
+      }
+    }
+
+  // Normal weapon
+  } else {
+    weaponData = deepCopy( findWeaponData(weapon.id) );
+
+    // Now we actually MODIFY the weaponData to add any tags from mods.
+    // Much easier than doing it dynamically later.
+    if (weapon.mod) {
+      const modData = findModData(weapon.mod.id)
+      if (modData.added_tags) weaponData.tags = [...weaponData.tags, ...modData.added_tags]
+    }
   }
 
-  let weaponData = deepCopy( findWeaponData(weapon.id) );
 
-  // now we actually MODIFY the weaponData to add any tags from mods. Much easier than doing it dynamically later.
-  if (weapon.mod) {
-    const modData = findModData(weapon.mod.id)
-    if (modData.added_tags) weaponData.tags = [...weaponData.tags, ...modData.added_tags]
-  }
 
   // Also mark it as, y'know, destroyed
   if (weapon.destroyed) weaponData.destroyed = true
@@ -276,5 +296,4 @@ export {
   getInvadeAndTechAttacks,
   getMountsFromLoadout,
   isSystemTechAttack,
-  baselineMount,
 };

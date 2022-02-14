@@ -34,7 +34,7 @@ const WeaponRoller = ({
   setRollSummaryData,
   onClear,
 
-  accuracySourceInputs,
+  accuracyAndDamageSourceInputs,
 }) => {
   const [allAttackSummaries, setAllAttackSummaries] = useState([]); // for the summary panel
 
@@ -304,7 +304,7 @@ const WeaponRoller = ({
             rollBonus={gritBonus}
             rollBonusLabel='Grit'
             createNewAttackRoll={createNewAttackRoll}
-            accuracySourceInputs={accuracySourceInputs}
+            accuracySourceInputs={accuracyAndDamageSourceInputs}
           />
         }
       </div>

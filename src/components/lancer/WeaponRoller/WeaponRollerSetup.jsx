@@ -10,9 +10,6 @@ import {
 
 import './WeaponRollerSetup.scss';
 
-
-
-
 const WeaponRollerSetup = ({
   weaponMod,
   weaponData,

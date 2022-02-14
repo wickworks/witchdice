@@ -3,7 +3,37 @@ import {
   findTalentData,
   findModData,
   findCoreBonusData,
+  findWeaponData,
 } from '../lancerData.js';
+
+import {
+  getWeaponSynergies,
+  getFailingWeaponSynergies,
+} from './synergyUtils.js';
+
+export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, activeWeapon) {
+  let bonusDamageSources = [
+    ...getBonusDamageSourcesFromMech(damageSourceInputs.frameID),
+    ...getBonusDamageSourcesFromTalents(damageSourceInputs.pilotTalents),
+    ...getBonusDamageSourcesFromCoreBonuses(activeMount),
+    ...getBonusDamageSourcesFromMod(activeWeapon),
+  ]
+
+  // filter them out by synergy e.g. melee talents only apply to melee weapons
+  if (activeWeapon) {
+    const weaponData = findWeaponData(activeWeapon.id)
+
+    bonusDamageSources = bonusDamageSources.filter(source => {
+      const synergies = getWeaponSynergies(source.trait.synergies)
+      const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
+
+      // Only include sources without failing synergies
+      return failingSynergies.length === 0;
+    })
+  }
+
+  return bonusDamageSources
+}
 
 
 const blankTrait = {
@@ -43,7 +73,7 @@ function newSourceFromFrame(frameData, diceString, damageType = '', traitName = 
   )
 }
 
-export function getBonusDamageSourcesFromMech(mechData) {
+function getBonusDamageSourcesFromMech(mechData) {
   var sources = [];
 
   const frameData = findFrameData(mechData.frame);
@@ -92,9 +122,9 @@ export function getBonusDamageSourcesFromMech(mechData) {
   return sources;
 }
 
-export function getToHitBonusFromMech(mechData) {
+export function getToHitBonusFromMech(frameID) {
   var toHitBonus = 0;
-  if (mechData.frame === 'mf_deaths_head') toHitBonus += 1;
+  if (frameID === 'mf_deaths_head') toHitBonus += 1;
   return toHitBonus;
 }
 
@@ -120,10 +150,10 @@ function newTalentTrait(talentData, rank, attackEffects) {
   return {...talentData.ranks[rank-1], ...blankTrait, ...attackEffects, talentData, name: talentData.name}
 }
 
-export function getBonusDamageSourcesFromTalents(pilotData) {
+function getBonusDamageSourcesFromTalents(pilotTalents) {
   var sources = [];
 
-  pilotData.talents.forEach(talentAndRank => {
+  pilotTalents.forEach(talentAndRank => {
     const talentData = findTalentData(talentAndRank.id);
     const rank = talentAndRank.rank;
 
@@ -294,7 +324,7 @@ function newModTrait(modData, modEffect = {}) {
   return {...blankTrait, ...modData, ...modEffect}
 }
 
-export function getBonusDamageSourcesFromMod(activeWeapon) {
+function getBonusDamageSourcesFromMod(activeWeapon) {
   var sources = [];
   if (!activeWeapon) return sources;
   const mod = activeWeapon.mod
@@ -361,7 +391,7 @@ export function getBonusDamageSourcesFromMod(activeWeapon) {
 
 //  ============================================    CORE BONUSeS    =================================================
 
-export function getBonusDamageSourcesFromCoreBonuses(activeMount) {
+function getBonusDamageSourcesFromCoreBonuses(activeMount) {
   var sources = [];
   if (!activeMount) return sources;
 

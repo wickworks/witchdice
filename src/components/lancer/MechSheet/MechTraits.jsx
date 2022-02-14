@@ -12,8 +12,7 @@ import {
 import './MechTraits.scss';
 
 const MechTraits = ({
-	traitList,
-	coreSystem,
+	frameTraits
 }) => {
 
   return (
@@ -21,67 +20,17 @@ const MechTraits = ({
 			<div className="label">Frame Traits & Core System</div>
 
     	<div className='traits-container'>
-				{ traitList.map((trait, i) =>
-					<React.Fragment key={trait.name}>
-						<TraitBlock
-							name={trait.name.toLowerCase()}
-							isTitleCase={true}
-							activation=''
-							description={trait.description}
-						/>
-
-						{ trait.actions && trait.actions.map((traitAction, i) =>
-							<TraitBlock
-								key={traitAction.name}
-								name={traitAction.name}
-								activation={traitAction.activation}
-								trigger={traitAction.trigger}
-								frequency={traitAction.frequency}
-								description={traitAction.detail}
-							/>
-						)}
-					</React.Fragment>
+				{ frameTraits.map((trait, i) =>
+          <TraitBlock
+            key={`${trait.name}-${i}`}
+            name={trait.name}
+            activation={trait.activation}
+            trigger={trait.trigger}
+            frequency={trait.frequency}
+            description={trait.detail}
+            isCP={trait.isCP}
+          />
 				)}
-
-				{ coreSystem.passive_effect &&
-					<TraitBlock
-						key={coreSystem.passive_name}
-						name={coreSystem.passive_name}
-						activation=''
-						description={coreSystem.passive_effect}
-					/>
-				}
-
-				{ coreSystem.passive_actions && coreSystem.passive_actions.map((passiveAction, i) => {
-					return (
-						<TraitBlock
-							key={passiveAction.name}
-							name={passiveAction.name}
-							activation={passiveAction.activation}
-							trigger={passiveAction.trigger}
-							description={passiveAction.detail}
-						/>
-					)
-				})}
-
-				<TraitBlock
-					name={coreSystem.active_name}
-					activation={`Active (1 CP), ${coreSystem.activation}`}
-					description={coreSystem.active_effect}
-					isCP={true}
-				/>
-
-				{ coreSystem.active_actions && coreSystem.active_actions.map((activeAction, i) => {
-					return (
-						<TraitBlock
-							key={activeAction.name}
-							name={activeAction.name}
-							activation={activeAction.activation}
-							trigger={activeAction.trigger}
-							description={activeAction.detail}
-						/>
-					)
-				})}
 			</div>
     </div>
   );
