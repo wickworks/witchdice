@@ -59,28 +59,28 @@ const MechState = ({
   const currentOvershield = robotState.overshield;
   const setCurrentOvershield = (overshield) => updateMechState({overshield: overshield})
 
-  const currentHP = robotState.current_hp;
+  const currentHP = robotState.hp;
   const setCurrentHP = (current_hp) => updateMechState({current_hp: current_hp})
 
-  const currentHeat = robotState.current_heat;
+  const currentHeat = robotState.heat;
   const setCurrentHeat = (current_heat) => updateMechState({current_heat: current_heat})
 
   const currentBurn = robotState.burn;
   const setCurrentBurn = (burn) => updateMechState({burn: burn})
 
-  const currentOverchargeIndex = robotState.current_overcharge;
+  const currentOverchargeIndex = robotState.overcharge;
   const setCurrentOverchargeIndex = (current_overcharge) => updateMechState({current_overcharge: current_overcharge})
 
-  const currentCore = !!robotState.current_core_energy;
+  const currentCore = !!robotState.core_energy;
   const setCurrentCore = (hasCoreEnergy) => updateMechState({current_core_energy: hasCoreEnergy ? 1 : 0})
 
-  const currentRepairs = robotState.current_repairs;
+  const currentRepairs = robotState.repairs;
   const setCurrentRepairs = (current_repairs) => updateMechState({current_repairs: current_repairs})
 
-  const currentStructure = robotState.current_structure;
+  const currentStructure = robotState.structure;
   const setCurrentStructure = (current_structure) => updateMechState({current_structure: current_structure})
 
-  const currentStress = robotState.current_stress;
+  const currentStress = robotState.stress;
   const setCurrentStress = (current_stress) => updateMechState({current_stress: current_stress})
 
 

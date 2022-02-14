@@ -136,14 +136,14 @@ const PlayerMechSheet = ({
 
   const robotState = {
     overshield: activeMech.overshield,
-    current_hp: activeMech.current_hp,
-    current_heat: activeMech.current_heat,
+    hp: activeMech.current_hp,
+    heat: activeMech.current_heat,
     burn: activeMech.burn,
-    current_overcharge: activeMech.current_overcharge,
-    current_core_energy: activeMech.current_core_energy,
-    current_repairs: activeMech.current_repairs,
-    current_structure: activeMech.current_structure,
-    current_stress: activeMech.current_stress,
+    overcharge: activeMech.current_overcharge,
+    coreEnergy: activeMech.current_core_energy,
+    repairs: activeMech.current_repairs,
+    structure: activeMech.current_structure,
+    stress: activeMech.current_stress,
 
     conditions: activeMech.conditions,
     counters: getCountersFromPilot(activePilot),
