@@ -6,7 +6,9 @@ import {
 } from '../MechState/mechStateUtils.js';
 
 import {
-  findNpcClassData
+  findNpcClassData,
+  findNpcFeatureData,
+  findNpcTemplateData,
 } from '../lancerData.js';
 
 const PlayerMechSheet = ({
@@ -40,19 +42,29 @@ const PlayerMechSheet = ({
     counters: getCountersFromPilot(activeNpc),
   }
 
+  function getStat(key) {
+    let stat = activeNpc.stats[key]
+    if (activeNpc.stats.overrides && activeNpc.stats.overrides[key] > 0) {
+      stat = activeNpc.stats.overrides[key]
+    } else if (activeNpc.stats.bonuses) {
+      stat += activeNpc.stats.bonuses[key] || 0
+    }
+    return stat
+  }
+
   const robotStats = {
-    maxHP: activeNpc.stats.overshield,
-    maxHeat: activeNpc.stats.heatcap,
+    maxHP: getStat('hp'),
+    maxHeat: getStat('heatcap'),
     maxRepairCap: 0,
 
-    size: activeNpc.stats.size,
-    armor: activeNpc.stats.armor,
-    evasion: activeNpc.stats.evade,
-    moveSpeed: activeNpc.stats.speed,
-    eDef: activeNpc.stats.edef,
-    saveTarget: activeNpc.stats.save,
-    sensorRange: activeNpc.stats.sensor,
-    techAttackBonus: activeNpc.stats.systems,
+    size: getStat('size'),
+    armor: getStat('armor'),
+    evasion: getStat('evade'),
+    moveSpeed: getStat('speed'),
+    eDef: getStat('edef'),
+    saveTarget: getStat('save'),
+    sensorRange: getStat('sensor'),
+    techAttackBonus: getStat('systems'),
 
     attackBonus: 0,
     attackBonusRanged: 0,

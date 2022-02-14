@@ -13,6 +13,8 @@ const allCoreBonuses = data.core_bonuses;
 const allSystems = data.systems;
 const allMods = data.mods;
 const allNpcClasses = data.npc_classes;
+const allNpcFeatures = data.npc_features;
+const allNpcTemplates = data.npc_templates;
 export const allStatuses = data.statuses;
 
 const blankTalent = {
@@ -90,6 +92,29 @@ const blankNpcClass = {
   "base_features": [],
   "optional_features": [],
   "power": 0,
+}
+
+const blankNpcFeature = {
+  "id": "npcf_unknown",
+  "name": "UNKNOWN NPC SYSTEM",
+  "origin": {
+    "type": "Class",
+    "name": "UNKNOWN NPC",
+    "base": true
+  },
+  "locked": false,
+  "type": "System",
+  "effect": "",
+  "tags": []
+}
+
+const blankNpcTemplate = {
+  "id": "npct_unknown",
+  "name": "UNKNOWN NPC TEMPLATE",
+  "description": "",
+  "base_features": [],
+  "optional_features": [],
+  "power": 0
 }
 
 
@@ -174,8 +199,22 @@ export const findActionData = (actionID) => {
 
 export const findNpcClassData = (npcClassID) => {
   var npcClassData = allNpcClasses.find(npcClass => npcClass.id === npcClassID);
-  if (!npcClassData) npcClassData = findGameDataFromLcp('npcClasses', npcClassID) // new lcps can't really add new actions
+  if (!npcClassData) npcClassData = findGameDataFromLcp('npcClasses', npcClassID)
   return npcClassData ? npcClassData : blankNpcClass;
+}
+
+
+export const findNpcFeatureData = (npcFeatureID) => {
+  var npcFeatureData = allNpcFeatures.find(npcFeature => npcFeature.id === npcFeatureID);
+  if (!npcFeatureData) npcFeatureData = findGameDataFromLcp('npcFeatures', npcFeatureID)
+  return npcFeatureData ? npcFeatureData : blankNpcFeature;
+}
+
+
+export const findNpcTemplateData = (npcTemplateID) => {
+  var npcTemplateData = allNpcTemplates.find(npcTemplate => npcTemplate.id === npcTemplateID);
+  if (!npcTemplateData) npcTemplateData = findGameDataFromLcp('npcTemplates', npcTemplateID)
+  return npcTemplateData ? npcTemplateData : blankNpcTemplate;
 }
 
 

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import NpcMechSheet from './NpcMechSheet.jsx';
 
-import gravityOfTheSituationJson from './GRAVITYOFTHESITUATION.json';
+// import npcJson from './GRAVITYOFTHESITUATION.json';
+import npcJson from './THEWORMS.json';
 
 // import './LancerNpcMode.scss';
 
@@ -20,7 +21,7 @@ const LancerNpcMode = ({
   //
   // const activeNpc = activeNpcID && loadNpcData(activeNpcID); // load the pilot data from local storage
 
-  const activeNpc = gravityOfTheSituationJson
+  const activeNpc = npcJson
 
   const updateNpcState = () => {
 
