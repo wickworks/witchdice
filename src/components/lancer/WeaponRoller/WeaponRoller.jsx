@@ -24,17 +24,17 @@ import {
 import './WeaponRoller.scss';
 
 const WeaponRoller = ({
-  activeMech,
-  activePilot,
-
   weaponData,
   weaponMod,
   gritBonus,
+
   availableBonusSources = [],
   isPrimaryWeaponOnMount,
 
   setRollSummaryData,
   onClear,
+
+  accuracySourceInputs,
 }) => {
   const [allAttackSummaries, setAllAttackSummaries] = useState([]); // for the summary panel
 
@@ -299,13 +299,12 @@ const WeaponRoller = ({
 
         { isSettingUpAttack &&
           <WeaponRollerSetup
-            activeMech={activeMech}
-            activePilot={activePilot}
             weaponData={currentWeaponProfile}
             weaponMod={weaponMod}
             rollBonus={gritBonus}
             rollBonusLabel='Grit'
             createNewAttackRoll={createNewAttackRoll}
+            accuracySourceInputs={accuracySourceInputs}
           />
         }
       </div>

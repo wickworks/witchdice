@@ -37,19 +37,23 @@ export function newAccSource(name, id, desc, accBonus = 1, defaultOn = false) {
   })
 }
 
-export function getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData, weaponMod) {
+// activeMech.frame
+// activeMech.loadouts[0].systems
+// if (activeMech.conditions.includes('IMPAIRED')) {
+// activePilot.talents
+export function getAvailableAccuracySources(frameID, mechSystems, pilotTalents, isImpaired, weaponData, invadeData, weaponMod) {
   let sources = []
 
   // WEAPON/INVADE-AGNOSTIC
   addAccSource(sources, 'Consume Lock', 'lock_on', 'Any character making an attack against a character with LOCK ON may choose to gain +1 accuracy on that attack and then clear the LOCK ON condition after that attack resolves.')
   addAccSource(sources, 'Prone Target', 'prone', 'Attacks against PRONE targets receive +1 accuracy.')
 
-  if (activeMech.conditions.includes('IMPAIRED')) {
+  if (isImpaired) {
     const desc =  'IMPAIRED characters receive +1 difficulty on all attacks, saves, and skill checks.'
     addAccSource(sources, 'Impaired', 'impaired', desc, false, true)
   }
 
-  if (activeMech.frame === 'mf_tortuga') {
+  if (frameID === 'mf_tortuga') {
     const desc = 'The Tortuga gains +1 accuracy on all attacks made as reactions (e.g. OVERWATCH).'
     addAccSource(sources, 'Sentinal', 'mf_tortuga', desc)
   }
@@ -68,7 +72,7 @@ export function getAvailableAccuracySources(activeMech, activePilot, weaponData,
     if (weaponData.id === 'mw_bristlecrown_flechette_launcher') ignoresEngaged = true;
 
     // -- WEAPON TALENTS --
-    activePilot.talents.forEach(talentAndRank => {
+    pilotTalents && pilotTalents.forEach(talentAndRank => {
       const talentData = findTalentData(talentAndRank.id)
       const rank = talentAndRank.rank;
 
@@ -123,11 +127,10 @@ export function getAvailableAccuracySources(activeMech, activePilot, weaponData,
   }
 
   if (invadeData) {
-    if (activeMech.frame === 'mf_goblin') addAccSource(sources, 'Liturgicode', 'mf_goblin', 'The Goblin gains +1 accuracy on tech attacks.', 1, true)
+    if (frameID === 'mf_goblin') addAccSource(sources, 'Liturgicode', 'mf_goblin', 'The Goblin gains +1 accuracy on tech attacks.', 1, true)
 
-    const loadout = activeMech.loadouts[0]
-    if (loadout) {
-      if (loadout.systems.find(system => system.id === 'ms_scanner_swarm')) addAccSource(sources, 'Scanner Swarm', 'ms_scanner_swarm', 'You gain +1 accuracy on tech attacks against adjacent characters.')
+    if (mechSystems && mechSystems.find(system => system.id === 'ms_scanner_swarm')) {
+      addAccSource(sources, 'Scanner Swarm', 'ms_scanner_swarm', 'You gain +1 accuracy on tech attacks against adjacent characters.')
     }
   }
 
@@ -135,8 +138,8 @@ export function getAvailableAccuracySources(activeMech, activePilot, weaponData,
 }
 
 
-export function getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData, weaponMod) {
-  const availableSources = getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData, weaponMod)
+// const availableSources = getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData, weaponMod)
+export function getStartingSourceIDs(availableSources) {
   const startingSources = availableSources.filter(source => source.default === true).map(source => source.id)
   return startingSources;
 }

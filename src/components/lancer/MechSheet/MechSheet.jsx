@@ -162,6 +162,13 @@ const MechSheet = ({
 
   const activeInvadeData = invades[activeInvadeIndex]
 
+  const accuracySourceInputs = {
+    frameID: activeMech.frame,
+    mechSystems: loadout.systems,
+    pilotTalents: activePilot.talents,
+    isImpaired: activeMech.conditions.includes('IMPAIRED'),
+  }
+
   return (
     <div className="MechSheet">
       <div className="mech-container">
@@ -246,12 +253,11 @@ const MechSheet = ({
 
       {activeWeaponData && !activeWeaponData.destroyed &&
         <WeaponRoller
-          activeMech={activeMech}
-          activePilot={activePilot}
           weaponData={activeWeaponData}
           weaponMod={activeWeapon.mod}
           gritBonus={gritBonus+miscBonusToHit}
           availableBonusSources={bonusDamageSources}
+          accuracySourceInputs={accuracySourceInputs}
           isPrimaryWeaponOnMount={activeWeaponIndex === 0}
           setRollSummaryData={setRollSummaryDataWithName}
           onClear={newAttackSummary}
@@ -260,11 +266,10 @@ const MechSheet = ({
 
       {activeInvadeData &&
         <TechRoller
-          activeMech={activeMech}
-          activePilot={activePilot}
           invadeData={activeInvadeData}
           techAttackBonus={getMechTechAttack(activeMech, activePilot, frameData)}
           sensorRange={frameData.stats.sensor_range}
+          accuracySourceInputs={accuracySourceInputs}
           setRollSummaryData={setRollSummaryDataWithName}
           onClear={newAttackSummary}
         />

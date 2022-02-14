@@ -14,21 +14,29 @@ import './WeaponRollerSetup.scss';
 
 
 const WeaponRollerSetup = ({
-  activeMech,
-  activePilot,
-
-  weaponData,
   weaponMod,
+  weaponData,
   invadeData,
 
   rollBonus,
   rollBonusLabel = '',
   createNewAttackRoll,
+
+  accuracySourceInputs,
 }) => {
-  // const isTechAttack = !weaponData && invadeData;
+
+  const availableAccuracySources = getAvailableAccuracySources(
+    accuracySourceInputs.frameID,
+    accuracySourceInputs.mechSystems,
+    accuracySourceInputs.pilotTalents,
+    accuracySourceInputs.isImpaired,
+    weaponData,
+    invadeData,
+    weaponMod
+  )
 
   // IDs of available accuracy sources
-  const [currentSourceIDs, setCurrentSourceIDs] = useState(getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData, weaponMod));
+  const [currentSourceIDs, setCurrentSourceIDs] = useState(getStartingSourceIDs(availableAccuracySources));
   const [manualMod, setManualMod] = useState(0);
 
   // =============== CHANGE WEAPON ==================
@@ -37,14 +45,13 @@ const WeaponRollerSetup = ({
   }, [weaponData, invadeData]);
 
   const resetModifiers = () => {
-    setCurrentSourceIDs(getStartingSourceIDs(activeMech, activePilot, weaponData, invadeData, weaponMod));
+    setCurrentSourceIDs(getStartingSourceIDs(availableAccuracySources));
     setManualMod(0);
   }
 
-  const availableSources = getAvailableAccuracySources(activeMech, activePilot, weaponData, invadeData, weaponMod)
   var currentSourceIDsPlusManual = [...currentSourceIDs]
-  let accuracySources = availableSources.filter(source => source.accBonus > 0)
-  let difficultySources = availableSources.filter(source => source.accBonus < 0)
+  let accuracySources = availableAccuracySources.filter(source => source.accBonus > 0)
+  let difficultySources = availableAccuracySources.filter(source => source.accBonus < 0)
 
   const manualName = `Other (${manualMod > 0 ? '+' : ''}${manualMod})`
   const MANUAL_SOURCE = newAccSource(manualName, 'manual', '', manualMod > 0, true)
@@ -80,7 +87,7 @@ const WeaponRollerSetup = ({
 
   // tally up all the accuracy and difficulty sources
   var currentMod = manualMod;
-  availableSources
+  availableAccuracySources
     .filter(source => currentSourceIDs.includes(source.id))
     .forEach(source => currentMod += source.accBonus);
   currentMod = Math.max(Math.min(currentMod, 9), -9)

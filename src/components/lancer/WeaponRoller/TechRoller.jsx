@@ -10,15 +10,14 @@ import {
 } from './weaponRollerUtils.js';
 
 const TechRoller = ({
-  activeMech,
-  activePilot,
-
   invadeData,
   techAttackBonus,
   sensorRange,
 
   setRollSummaryData,
   onClear,
+
+  accuracySourceInputs,
 }) => {
   const [techAttackRoll, setTechAttackRoll] = useState(null);
   const [bonusDamageData, setBonusDamageData] = useState(null);
@@ -27,7 +26,6 @@ const TechRoller = ({
   const isInvade = invadeData.activation === 'Invade'
 
   const createNewAttackRoll = (flatBonus, accuracyMod, consumedLock) => {
-
 
     const newAttack = createNewTechAttack(invadeData, flatBonus, accuracyMod, isInvade)
 
@@ -116,12 +114,11 @@ const TechRoller = ({
 
         { isSettingUpAttack &&
           <WeaponRollerSetup
-            activeMech={activeMech}
-            activePilot={activePilot}
             invadeData={invadeData}
             rollBonus={techAttackBonus}
             rollBonusLabel='Tech'
             createNewAttackRoll={createNewAttackRoll}
+            accuracySourceInputs={accuracySourceInputs}
           />
         }
       </div>
