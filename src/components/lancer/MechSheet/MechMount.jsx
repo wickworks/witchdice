@@ -66,49 +66,6 @@ function getWeaponsOnMount(mount) {
   return weapons;
 }
 
-function getMountsFromLoadout(loadout) {
-  let mounts = [];
-
-  // STANDARD MOUNTS
-  mounts = loadout.mounts.map(mount =>
-    ({...mount, source: 'mounts'})
-  )
-
-  // IMPROVED improved_armament
-  if (loadout.improved_armament.slots.length > 0 && loadout.improved_armament.slots[0].weapon) {
-    let improved_armament = deepCopy(loadout.improved_armament)
-    improved_armament.bonus_effects.push('cb_improved_armament')
-    improved_armament.source = 'improved_armament'
-    mounts.push(improved_armament)
-  }
-
-  // give the integrated weapon a bonus_effect and source to make it clear where it came from
-  if (loadout.integratedWeapon.slots.length > 0 && loadout.integratedWeapon.slots[0].weapon) {
-    let integratedWeapon = deepCopy(loadout.integratedWeapon)
-    integratedWeapon.bonus_effects = ['cb_integrated_weapon']
-    integratedWeapon.source = 'integratedWeapon'
-    mounts.push(integratedWeapon)
-  }
-
-  // gotta make a dummy mount for integrated mounts
-  if (loadout.integratedMounts.length > 0) {
-    const integratedMounts =
-      loadout.integratedMounts.map(integratedMountWeapon => {
-        return {
-          mount_type: "Integrated",
-          lock: false,
-          slots: [ integratedMountWeapon ],
-          extra: [],
-          bonus_effects: [],
-          source: 'integratedMounts'
-        }
-      })
-    mounts.push(...integratedMounts)
-  }
-
-  return mounts;
-}
-
 function isSystemTechAttack(systemData, onlyCheckInvade = false) {
   if (!systemData || !systemData.actions) return false
 
@@ -126,37 +83,11 @@ function isSystemTechAttack(systemData, onlyCheckInvade = false) {
   return isTechAttack
 }
 
-function getInvadeAndTechAttacks(loadout, pilotTalents) {
-  let invades = [];
-
-  invades.push({
-    "name": "Fragment Signal",
-    "activation": "Invade",
-    "detail": "IMPAIR and SLOW a character until the end of their next turn.",
-  })
-
-  loadout.systems.forEach(system => {
-    const systemData = findSystemData(system.id)
-    if (!system.destroyed && isSystemTechAttack(systemData)) {
-      // not all actions have unique names e.g. Markerlight; in these cases, inherit from the system
-      const techAttacks = systemData.actions.map(action => {
-        return {...action, name: (action.name || systemData.name)}
-      })
-      invades.push(...techAttacks)
-    }
-  })
-
-  pilotTalents.forEach(pilotTalent => {
-    const talentActions = findTalentData(pilotTalent.id).actions
-    if (talentActions) {
-      talentActions.forEach(action => {
-        if (action.activation === 'Invade') invades.push(action)
-      })
-    }
-  })
-
-  return invades
+function isNpcFeatureTechAttack(featureData) {
+  if (!featureData || !featureData.effect) return false
+  return !!featureData.effect.indexOf('makes a tech attack')
 }
+
 
 
 const MechMount = ({
@@ -291,7 +222,6 @@ export {
   TechAttack,
   getModdedWeaponData,
   getWeaponsOnMount,
-  getInvadeAndTechAttacks,
-  getMountsFromLoadout,
   isSystemTechAttack,
+  isNpcFeatureTechAttack,
 };

@@ -16,10 +16,9 @@ import {
   OVERCHARGE_SEQUENCE,
 } from '../lancerData.js';
 
-import {
-  getMountsFromLoadout,
-  getWeaponsOnMount,
-} from '../MechSheet/MechMount.jsx';
+import { getWeaponsOnMount } from '../MechSheet/MechMount.jsx';
+
+import { getMountsFromLoadout } from '../LancerPlayerMode/PlayerMechSheet.jsx';
 
 import './SquadPanel.scss';
 

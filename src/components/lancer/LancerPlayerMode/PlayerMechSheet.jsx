@@ -3,8 +3,6 @@ import MechSheet from '../MechSheet/MechSheet.jsx';
 import FullRepairButton from './FullRepairButton/FullRepairButton.jsx';
 
 import {
-  getMountsFromLoadout,
-  getInvadeAndTechAttacks,
   isSystemTechAttack,
 } from '../MechSheet/MechMount.jsx';
 
@@ -31,6 +29,7 @@ import {
   findWeaponData,
   findFrameData,
   findSystemData,
+  findTalentData,
   baselineMount,
   isSystemDestructable,
   getSystemLimited,
@@ -342,13 +341,14 @@ function getSystemTraits(systems) {
     if (systemData.actions) {
       let limited = getSystemLimited(system, systemData)
 
+      // (invades go into the mounts list, but quick tech is fine here)
       if (!isSystemTechAttack(systemData)) {
         systemData.actions.forEach((action, i) => {
           if (action.name && action.name.includes('Grenade')) limited.icon = 'grenade'
 
           systemTraits.push({
             systemIndex: systemIndex,
-            name: action.name || systemData.name,
+            name: (action.name || systemData.name).toLowerCase(),
             activation: action.activation || 'Quick',
             trigger: action.trigger,
             range: action.range,
@@ -385,6 +385,8 @@ function getSystemTraits(systems) {
     }
   })
 
+  // console.log('systemTraits',systemTraits);
+
   return systemTraits
 }
 
@@ -405,5 +407,81 @@ function modifiedBaselineMount(activePilot, loadout) {
   return mount
 }
 
+
+export function getMountsFromLoadout(loadout) {
+  let mounts = [];
+
+  // STANDARD MOUNTS
+  mounts = loadout.mounts.map(mount =>
+    ({...mount, source: 'mounts'})
+  )
+
+  // IMPROVED improved_armament
+  if (loadout.improved_armament.slots.length > 0 && loadout.improved_armament.slots[0].weapon) {
+    let improved_armament = deepCopy(loadout.improved_armament)
+    improved_armament.bonus_effects.push('cb_improved_armament')
+    improved_armament.source = 'improved_armament'
+    mounts.push(improved_armament)
+  }
+
+  // give the integrated weapon a bonus_effect and source to make it clear where it came from
+  if (loadout.integratedWeapon.slots.length > 0 && loadout.integratedWeapon.slots[0].weapon) {
+    let integratedWeapon = deepCopy(loadout.integratedWeapon)
+    integratedWeapon.bonus_effects = ['cb_integrated_weapon']
+    integratedWeapon.source = 'integratedWeapon'
+    mounts.push(integratedWeapon)
+  }
+
+  // gotta make a dummy mount for integrated mounts
+  if (loadout.integratedMounts.length > 0) {
+    const integratedMounts =
+      loadout.integratedMounts.map(integratedMountWeapon => {
+        return {
+          mount_type: "Integrated",
+          lock: false,
+          slots: [ integratedMountWeapon ],
+          extra: [],
+          bonus_effects: [],
+          source: 'integratedMounts'
+        }
+      })
+    mounts.push(...integratedMounts)
+  }
+
+  return mounts;
+}
+
+
+function getInvadeAndTechAttacks(loadout, pilotTalents) {
+  let invades = [];
+
+  loadout.systems.forEach(system => {
+    const systemData = findSystemData(system.id)
+    if (!system.destroyed && isSystemTechAttack(systemData, false)) {
+      // not all actions have unique names e.g. Markerlight; in these cases, inherit from the system
+      const techAttacks = systemData.actions.map(action => {
+        return {...action, name: (action.name || systemData.name)}
+      })
+      invades.push(...techAttacks)
+    }
+  })
+
+  pilotTalents.forEach(pilotTalent => {
+    const talentActions = findTalentData(pilotTalent.id).actions
+    if (talentActions) {
+      talentActions.forEach(action => {
+        if (action.activation === 'Invade') invades.push(action)
+      })
+    }
+  })
+
+  invades.push({
+    "name": "Fragment Signal",
+    "activation": "Invade",
+    "detail": "IMPAIR and SLOW a character until the end of their next turn.",
+  })
+
+  return invades
+}
 
 export default PlayerMechSheet;

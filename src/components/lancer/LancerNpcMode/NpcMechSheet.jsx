@@ -1,14 +1,13 @@
 import React from 'react';
 import MechSheet from '../MechSheet/MechSheet.jsx';
 
-import {
-  getCountersFromPilot,
-} from '../MechState/mechStateUtils.js';
-
+import { getCountersFromPilot } from '../MechState/mechStateUtils.js';
+import { isNpcFeatureTechAttack } from '../MechSheet/MechMount.jsx';
 import {
   findNpcClassData,
   findNpcFeatureData,
   findNpcTemplateData,
+  baselineMount,
 } from '../lancerData.js';
 
 const PlayerMechSheet = ({
@@ -82,13 +81,11 @@ const PlayerMechSheet = ({
 
   const robotLoadout = {
     // frameTraits: getFrameTraits(frameData.traits, frameData.core_system),
-    frameTraits: [],
+    frameTraits: getNpcTraits(activeNpc.items),
     // systems: loadout.systems,
-    systems: getFeatureTraits(activeNpc.items),
-    // mounts: [...getMountsFromLoadout(loadout), modifiedBaselineMount(activePilot, loadout)],
-    mounts: [],
-    // invades: getInvadeAndTechAttacks(loadout, activePilot.talents),
-    invades: [],
+    systems: getSystemTraits(activeNpc.items),
+    mounts: [...getNpcWeaponAttacks(activeNpc.items), baselineMount],
+    invades: getNpcTechAttacks(activeNpc.items),
   }
 
 
@@ -125,24 +122,124 @@ const PlayerMechSheet = ({
   );
 }
 
-function getFeatureTraits(items) {
+function getNpcTraits(items) {
   let featureTraits = []
 
   items.forEach((item, itemIndex) => {
     const featureData = findNpcFeatureData(item.itemID)
 
-    featureTraits.push({
-      systemIndex: itemIndex,
-      name: (item.flavorName || featureData.name).toLowerCase(),
-      description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
-      isDestructable: true,
-      isDestroyed: item.destroyed,
-      isTitleCase: true,
-    })
+    if (featureData.type === 'Trait') {
+      featureTraits.push({
+        systemIndex: itemIndex,
+        name: (item.flavorName || featureData.name).toLowerCase(),
+        description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
+        isDestructable: true,
+        isDestroyed: item.destroyed,
+        isTitleCase: true,
+      })
+    }
+
   })
 
   return featureTraits
 }
 
+function getSystemTraits(items) {
+  let featureTraits = []
+
+  items.forEach((item, itemIndex) => {
+    const featureData = findNpcFeatureData(item.itemID)
+
+    if (featureData.type === 'Tech' && !isNpcFeatureTechAttack(featureData)) {
+      featureTraits.push({
+        systemIndex: itemIndex,
+        name: (item.flavorName || featureData.name).toLowerCase(),
+        activation: `${item.tech_type || 'Quick'} Tech`,
+        description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
+        isDestructable: true,
+        isDestroyed: item.destroyed,
+        isTitleCase: true,
+      })
+
+    } else if (['System', 'Reaction'].includes(featureData.type)) {
+      featureTraits.push({
+        systemIndex: itemIndex,
+        name: (item.flavorName || featureData.name).toLowerCase(),
+        description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
+        isDestructable: true,
+        isDestroyed: item.destroyed,
+        isTitleCase: true,
+      })
+    }
+  })
+
+  return featureTraits
+}
+
+function getNpcWeaponAttacks(items) {
+  let weaponAttacks = []
+
+  items.forEach((item, itemIndex) => {
+    const featureData = findNpcFeatureData(item.itemID)
+
+    if (featureData.type === 'Weapon') {
+
+      // make a fascimile of player mounts
+      weaponAttacks.push({
+        mount_type: featureData.weapon_type,
+        lock: false,
+        slots: [
+          {
+             size: featureData.weapon_type,
+             weapon: {
+                id: item.itemID,
+                destroyed: false,
+                cascading: false,
+                loaded: true,
+                note: item.description,
+                mod: null,
+                customDamageType: null,
+                maxUseOverride: 0,
+                uses: 0,
+                selectedProfile: 0
+             }
+          }
+        ],
+        extra: [],
+        bonus_effects: [],
+        source: 'npcItems'
+      })
+    }
+
+  })
+
+  return weaponAttacks
+}
+
+function getNpcTechAttacks(items) {
+  let techAttacks = []
+
+  items.forEach((item, itemIndex) => {
+    const featureData = findNpcFeatureData(item.itemID)
+
+    if (featureData.type === 'Tech' && isNpcFeatureTechAttack(featureData)) {
+      // const effectWithoutFirstSentence = featureData.effect.slice(featureData.effect.indexOf('.') + 1)
+      techAttacks.push({
+        "name": featureData.name,
+        "activation": "Invade",
+        "detail": featureData.effect,
+      })
+    }
+
+  })
+
+  techAttacks.push({
+    "name": "Fragment Signal",
+    "activation": "Invade",
+    "detail": "Target character takes 2 Heat and is Impaired until the end of their next turn.",
+  })
+
+  return techAttacks
+}
 
 export default PlayerMechSheet;
