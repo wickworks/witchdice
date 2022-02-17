@@ -84,7 +84,7 @@ const PlayerMechSheet = ({
     // frameTraits: getFrameTraits(frameData.traits, frameData.core_system),
     frameTraits: [],
     // systems: loadout.systems,
-    systems: [],
+    systems: getFeatureTraits(activeNpc.items),
     // mounts: [...getMountsFromLoadout(loadout), modifiedBaselineMount(activePilot, loadout)],
     mounts: [],
     // invades: getInvadeAndTechAttacks(loadout, activePilot.talents),
@@ -125,7 +125,24 @@ const PlayerMechSheet = ({
   );
 }
 
+function getFeatureTraits(items) {
+  let featureTraits = []
 
+  items.forEach((item, itemIndex) => {
+    const featureData = findNpcFeatureData(item.itemID)
+
+    featureTraits.push({
+      systemIndex: itemIndex,
+      name: (item.flavorName || featureData.name).toLowerCase(),
+      description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
+      isDestructable: true,
+      isDestroyed: item.destroyed,
+      isTitleCase: true,
+    })
+  })
+
+  return featureTraits
+}
 
 
 export default PlayerMechSheet;
