@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MechTraits, MechSystemActions } from './MechTraits.jsx';
+import MechTraits from './MechTraits.jsx';
 import MechState from '../MechState/MechState.jsx';
 import ConditionsAndCounters from '../MechState/ConditionsAndCounters.jsx';
 import WeaponRoller from '../WeaponRoller/WeaponRoller.jsx';
@@ -104,7 +104,10 @@ const MechSheet = ({
           <div className="frame">{robotInfo.frameName}</div>
         </div>
 
-        <MechTraits frameTraits={robotLoadout.frameTraits} />
+        <MechTraits
+          sectionTitle='Frame Traits & Core System'
+          frameTraits={robotLoadout.frameTraits}
+        />
 
         <MechState
           robotState={robotState}
@@ -119,8 +122,9 @@ const MechSheet = ({
           updateMechState={updateMechState}
         />
 
-        <MechSystemActions
-          systems={robotLoadout.systems}
+        <MechTraits
+          sectionTitle='Systems'
+          frameTraits={robotLoadout.systems}
           setLimitedCountForSystem={(count, systemIndex) =>
             updateMechState({
               systemUses: {index: systemIndex, uses: count}

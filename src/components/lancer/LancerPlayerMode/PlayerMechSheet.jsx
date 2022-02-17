@@ -5,6 +5,7 @@ import FullRepairButton from './FullRepairButton/FullRepairButton.jsx';
 import {
   getMountsFromLoadout,
   getInvadeAndTechAttacks,
+  isSystemTechAttack,
 } from '../MechSheet/MechMount.jsx';
 
 import {
@@ -31,92 +32,14 @@ import {
   findFrameData,
   findSystemData,
   baselineMount,
+  isSystemDestructable,
+  getSystemLimited,
 } from '../lancerData.js';
 
 import { deepCopy } from '../../../utils.js';
 import {
   savePilotData,
 } from '../lancerLocalStorage.js';
-
-
-// Harvest the many frame traits and actions available in core systems
-function getFrameTraits(traitList, coreSystem) {
-  let frameTraits = []
-
-  traitList.forEach(trait => {
-    frameTraits.push({
-      name: trait.name.toLowerCase(),
-      isTitleCase: true,
-      description: trait.description,
-    })
-
-    if (trait.actions) {
-      trait.actions.forEach(traitAction =>
-        frameTraits.push({
-          name: traitAction.name,
-          activation: traitAction.activation,
-          trigger: traitAction.trigger,
-          frequency: traitAction.frequency,
-          description: traitAction.detail,
-        })
-      )
-    }
-  })
-
-  if (coreSystem.passive_effect) {
-    frameTraits.push({
-      name: coreSystem.passive_name,
-      description: coreSystem.passive_effect,
-    })
-  }
-
-  if (coreSystem.passive_actions) {
-    coreSystem.passive_actions.forEach(passiveAction => {
-      frameTraits.push({
-        name: passiveAction.name,
-        activation: passiveAction.activation,
-        trigger: passiveAction.trigger,
-        description: passiveAction.detail,
-      })
-    })
-  }
-
-  frameTraits.push({
-    name: coreSystem.active_name,
-    activation: `Active (1 CP), ${coreSystem.activation}`,
-    description: coreSystem.active_effect,
-    isCP: true,
-  })
-
-  if (coreSystem.active_actions) {
-    coreSystem.active_actions.forEach(activeAction => {
-      frameTraits.push({
-        name: activeAction.name,
-        activation: activeAction.activation,
-        trigger: activeAction.trigger,
-        description: activeAction.detail,
-      })
-    })
-  }
-
-  return frameTraits
-}
-
-
-// Special case: modify RAM and IMPROVISED ATTACKS due to systems or talents
-function modifiedBaselineMount(activePilot, loadout) {
-  let mount = deepCopy(baselineMount)
-  mount.slots.forEach(slot => {
-    if (slot.weapon.id === 'act_ram' && loadout.systems.find(system => system.id === 'ms_siege_ram')) {
-      slot.weapon.mod = 'ms_siege_ram'
-    }
-
-    if (slot.weapon.id === 'act_improvised_attack' && activePilot.talents.find(talent => (talent.id === 't_brawler' && talent.rank >= 2))) {
-      slot.weapon.mod = 't_brawler'
-    }
-  })
-  return mount
-}
 
 
 const PlayerMechSheet = ({
@@ -179,7 +102,7 @@ const PlayerMechSheet = ({
 
   const robotLoadout = {
     frameTraits: getFrameTraits(frameData.traits, frameData.core_system),
-    systems: loadout.systems,
+    systems: getSystemTraits(loadout.systems),
 
     mounts: [...getMountsFromLoadout(loadout), modifiedBaselineMount(activePilot, loadout)],
     invades: getInvadeAndTechAttacks(loadout, activePilot.talents),
@@ -306,6 +229,181 @@ const PlayerMechSheet = ({
 }
 
 
+
+// Harvest the many frame traits and actions available in core systems
+function getFrameTraits(traitList, coreSystem) {
+  let frameTraits = []
+
+  traitList.forEach(trait => {
+    frameTraits.push({
+      name: trait.name.toLowerCase(),
+      isTitleCase: true,
+      description: trait.description,
+    })
+
+    if (trait.actions) {
+      trait.actions.forEach(traitAction =>
+        frameTraits.push({
+          name: traitAction.name,
+          activation: traitAction.activation,
+          trigger: traitAction.trigger,
+          frequency: traitAction.frequency,
+          description: traitAction.detail,
+        })
+      )
+    }
+  })
+
+  if (coreSystem.passive_effect) {
+    frameTraits.push({
+      name: coreSystem.passive_name,
+      description: coreSystem.passive_effect,
+    })
+  }
+
+  if (coreSystem.passive_actions) {
+    coreSystem.passive_actions.forEach(passiveAction => {
+      frameTraits.push({
+        name: passiveAction.name,
+        activation: passiveAction.activation,
+        trigger: passiveAction.trigger,
+        description: passiveAction.detail,
+      })
+    })
+  }
+
+  frameTraits.push({
+    name: coreSystem.active_name,
+    activation: `Active (1 CP), ${coreSystem.activation}`,
+    description: coreSystem.active_effect,
+    isCP: true,
+  })
+
+  if (coreSystem.active_actions) {
+    coreSystem.active_actions.forEach(activeAction => {
+      frameTraits.push({
+        name: activeAction.name,
+        activation: activeAction.activation,
+        trigger: activeAction.trigger,
+        description: activeAction.detail,
+      })
+    })
+  }
+
+  return frameTraits
+}
+
+
+// Harvest the actions and whatnot from a mech's loadout
+function getSystemTraits(systems) {
+  let systemTraits = []
+
+  // PASSIVES and TECH first
+  systems.forEach((system, systemIndex) => {
+    const systemData = findSystemData(system.id)
+    const grantsTechAttacks = isSystemTechAttack(systemData)
+
+    // passives
+    if (systemData.effect) {
+      systemTraits.push({
+        systemIndex: systemIndex,
+        name: systemData.name.toLowerCase(),
+        description: systemData.effect,
+        isDestructable: isSystemDestructable(systemData),
+        isDestroyed: system.destroyed,
+        isTitleCase: true,
+      })
+    }
+
+    // tech actions
+    if (!systemData.effect && grantsTechAttacks) {
+      const isInvade = isSystemTechAttack(systemData, true)
+      const techDescription = isInvade ?
+        `Gain the following options for Invade: ${systemData.actions.map(action => action.name).join(', ')}`
+      :
+        `Gain the following tech actions: ${systemData.actions.map(action => action.name || systemData.name).join(', ')}`
+
+      systemTraits.push({
+        systemIndex: systemIndex,
+        name: systemData.name.toLowerCase(),
+        description: techDescription,
+        isDestructable: isSystemDestructable(systemData),
+        isDestroyed: system.destroyed,
+        isTitleCase: true,
+      })
+    }
+  })
+
+  // ACTIONS and DEPLOYABLES second
+  systems.forEach((system,systemIndex) => {
+    const systemData = findSystemData(system.id)
+
+    // actions
+    if (systemData.actions) {
+      let limited = getSystemLimited(system, systemData)
+
+      if (!isSystemTechAttack(systemData)) {
+        systemData.actions.forEach((action, i) => {
+          if (action.name && action.name.includes('Grenade')) limited.icon = 'grenade'
+
+          systemTraits.push({
+            systemIndex: systemIndex,
+            name: action.name || systemData.name,
+            activation: action.activation || 'Quick',
+            trigger: action.trigger,
+            range: action.range,
+            description: action.detail,
+            isDestructable: isSystemDestructable(systemData),
+            isDestroyed: system.destroyed,
+            limited: limited,
+            isTitleCase: true,
+          })
+        })
+      }
+    }
+
+    // deployables
+    if (systemData.deployables) {
+      let limited = getSystemLimited(system, systemData)
+
+      systemData.deployables.forEach((deployable, i) => {
+        if (deployable.type === 'Mine') limited.icon = 'mine'
+
+        systemTraits.push({
+          systemIndex: systemIndex,
+          name: deployable.name,
+          activation: deployable.activation || 'Quick',
+          trigger: deployable.trigger,
+          range: deployable.range,
+          description: deployable.detail,
+          isDestructable: isSystemDestructable(systemData),
+          isDestroyed: system.destroyed,
+          limited: limited,
+          isTitleCase: true,
+        })
+      })
+    }
+  })
+
+  return systemTraits
+}
+
+
+
+// Special case: modify RAM and IMPROVISED ATTACKS due to systems or talents
+function modifiedBaselineMount(activePilot, loadout) {
+  let mount = deepCopy(baselineMount)
+  mount.slots.forEach(slot => {
+    if (slot.weapon.id === 'act_ram' && loadout.systems.find(system => system.id === 'ms_siege_ram')) {
+      slot.weapon.mod = 'ms_siege_ram'
+    }
+
+    if (slot.weapon.id === 'act_improvised_attack' && activePilot.talents.find(talent => (talent.id === 't_brawler' && talent.rank >= 2))) {
+      slot.weapon.mod = 't_brawler'
+    }
+  })
+  return mount
+}
 
 
 export default PlayerMechSheet;

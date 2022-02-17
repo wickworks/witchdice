@@ -310,6 +310,26 @@ export const findTagOnWeapon = (weaponData, tagID) => {
   return null;
 }
 
+export const isSystemDestructable = (systemData) => {
+  const indestructableTag = (systemData.tags && systemData.tags.find(tag => tag.id === 'tg_indestructible'))
+  return !indestructableTag
+}
+
+export const getSystemLimited = (system, systemData) => {
+  const limitedTag = systemData.tags && systemData.tags.find(tag => tag.id === 'tg_limited')
+  let limited = null
+
+  if (limitedTag) {
+    limited = {
+      current: system.uses || 0,
+      max: limitedTag.val,
+      icon: 'generic-item'
+    }
+  }
+  return limited
+}
+
+
 export const getTagName = (tag) => {
   const tagData = findTagData(tag.id)
 
