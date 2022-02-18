@@ -1,0 +1,24 @@
+@import '../../../fonts';
+
+
+.ActiveNpcBox {
+  .active-npc-container {
+    @include shadow;
+    @include parchment_background;
+    @include nouveau_border('nouveau_list_characters.svg');
+
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 320px;
+    min-height: 178px;
+    padding: 10px 11px;
+
+    .title-bar {
+      h2 {
+        @include text_card_label;
+        text-align: center;
+        margin: 6px 0;
+      }
+    }
+  }
+}

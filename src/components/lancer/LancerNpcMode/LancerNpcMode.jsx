@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FileList, PlainList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
+import ActiveNpcBox from './ActiveNpcBox.jsx';
 import NpcMechSheet from './NpcMechSheet.jsx';
 import NpcRoster from './NpcRoster.jsx';
 
@@ -45,6 +46,14 @@ const LancerNpcMode = ({
           />
         </PlainList>
       </div>
+
+      <div className='active-npc-boxes-container'>
+        <ActiveNpcBox label={'Reinforcements'} condensed={true}/>
+        <ActiveNpcBox label={'Casualties'} condensed={true} />
+        <ActiveNpcBox label={'Active Combatants'} condensed={false} />
+
+      </div>
+
 
       <NpcMechSheet
         activeNpc={activeNpc}

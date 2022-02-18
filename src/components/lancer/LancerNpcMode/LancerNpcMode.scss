@@ -8,16 +8,19 @@
     justify-content: space-between;
     flex-wrap: wrap-reverse;
     max-width: 800px;
+    box-sizing: border-box;
     width: 100%;
     margin: 20px auto;
 
     .NpcRoster {
+      box-sizing: border-box;
       width: 100%;
       max-width: 390px;
       margin: auto;
     }
 
     .PlainList.encounters {
+      box-sizing: border-box;
       width: 100%;
       max-width: 390px;
       margin: auto;
@@ -26,6 +29,25 @@
         margin: 0;
       }
     }
+  }
 
+  .active-npc-boxes-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 800px;
+    box-sizing: border-box;
+    width: 100%;
+    margin: 20px auto;
+
+    .ActiveNpcBox {
+      &.condensed {
+        width: 50%;
+      }
+
+      &.full {
+        width: 100%;
+      }
+    }
   }
 }
