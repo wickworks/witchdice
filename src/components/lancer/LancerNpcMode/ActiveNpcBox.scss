@@ -2,7 +2,7 @@
 
 
 .ActiveNpcBox {
-  .active-npc-container {
+  .panel {
     @include shadow;
     @include parchment_background;
     @include nouveau_border('nouveau_list_characters.svg');
@@ -19,6 +19,10 @@
         text-align: center;
         margin: 6px 0;
       }
+    }
+
+    .active-npc-container {
+
     }
   }
 }

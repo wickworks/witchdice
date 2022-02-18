@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import './NpcRoster.scss';
 
 const NpcRoster = ({
-
+  addNpcToEncounter,
 }) => {
   // const [activeNpcID, setActiveNpcID] = useState(null);
 
@@ -24,6 +24,7 @@ const NpcRoster = ({
         <table className="roster-table">
           <thead>
             <tr className='headers'>
+              <th className='add'></th>
               <th className='name'>Name</th>
               <th className='class'>Class</th>
               <th className='role'>Role</th>
@@ -34,6 +35,7 @@ const NpcRoster = ({
           <tbody>
             {npcEntries.map(entry =>
               <tr className='entry' key={entry.id}>
+                <td className='add'><button onClick={() => addNpcToEncounter(entry.id)}>+</button></td>
                 <td className='name'>{entry.name}</td>
                 <td className='class'>{entry.class}</td>
                 <td className='role'><div className={`asset ${entry.role.toLowerCase()}`}/></td>

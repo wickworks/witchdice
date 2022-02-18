@@ -6,6 +6,7 @@ const ActiveNpcBox = ({
   label,
   condensed = true,
 
+  npcList,
 }) => {
   // const [activeNpcID, setActiveNpcID] = useState(null);
 
@@ -15,11 +16,21 @@ const ActiveNpcBox = ({
   //   {name: 'THE BIRDS', class: 'Cataphract', role: 'Striker', tier: 1, id: '222'},
   // ]
 
+  console.log(label,'npcList',npcList);
+
   return (
     <div className={`ActiveNpcBox ${condensed ? 'condensed' : 'full'}`}>
-      <div className='active-npc-container'>
+      <div className='panel'>
         <div className="title-bar">
           <h2>{label}</h2>
+        </div>
+
+        <div className="active-npc-container">
+          {npcList.map(npcData =>
+            <div>
+              {npcData.name}
+            </div>
+          )}
         </div>
       </div>
     </div>

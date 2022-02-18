@@ -31,7 +31,7 @@
     table.roster-table {
       box-sizing: border-box;
       width: 100%;
-      padding: 0 6px;
+      padding: 0 6px 0 0;
 
       th.name, th.class {
         text-align: left;
@@ -45,6 +45,22 @@
 
       td.tier {
         text-align: center;
+      }
+
+      td.add {
+        text-align: center;
+        button {
+          width: 24px;
+          height: 24px;
+          color: $rust;
+          font-size: 20px;
+          font-weight: bold;
+
+          &:hover {
+            background-color: $rust;
+            color: white;
+          }
+        }
       }
     }
   }
