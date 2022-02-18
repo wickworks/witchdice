@@ -201,7 +201,7 @@ function getNpcWeaponAttacks(items) {
                 customDamageType: null,
                 maxUseOverride: 0,
                 uses: 0,
-                selectedProfile: 0
+                selectedProfile: item.tier
              }
           }
         ],

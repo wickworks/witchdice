@@ -218,7 +218,7 @@ const WeaponRoller = ({
         { allWeaponProfiles.map((weaponProfile, i) =>
           <BaseDamageBar
             weaponProfile={weaponProfile}
-            mountType={weaponData.mount}
+            mountType={weaponData.mount || weaponData.weapon_type}
             onClick={() => setActiveProfileIndex(i)}
             isClickable={allWeaponProfiles.length > 1 && allAttackRolls.length === 0 && activeProfileIndex !== i}
             isActive={allWeaponProfiles.length > 1 && activeProfileIndex === i}

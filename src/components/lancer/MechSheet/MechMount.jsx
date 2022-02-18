@@ -6,6 +6,7 @@ import {
   findCoreBonusData,
   findModData,
   findTalentData,
+  findNpcFeatureData,
   baselineWeapons
 } from '../lancerData.js';
 
@@ -15,8 +16,8 @@ import './MechMount.scss';
 
 
 function getModdedWeaponData(weapon) {
+  if (!weapon) return null
   let weaponData
-  if (!weapon) return weaponData
 
   // Baseline ram / improvise / grapple
   if (weapon.id.startsWith('act_')) {
@@ -34,6 +35,22 @@ function getModdedWeaponData(weapon) {
       }
     }
 
+  // NPC weapons
+  } else if (weapon.id.startsWith('npcf_')) {
+    let featureData = findNpcFeatureData(weapon.id)
+    const npcTier = weapon.selectedProfile
+
+    weaponData = deepCopy(featureData)
+
+    // select the correct tier of damage
+    // npcs only ever have one kind of damage
+    weaponData.damage.forEach(damageObject => {
+      damageObject.val = damageObject.damage[npcTier]
+    });
+
+    // Say what the effect will be ahead of time.
+    weaponData.effect += weaponData.on_hit
+
   // Normal weapon
   } else {
     weaponData = deepCopy( findWeaponData(weapon.id) );
@@ -45,8 +62,6 @@ function getModdedWeaponData(weapon) {
       if (modData.added_tags) weaponData.tags = [...weaponData.tags, ...modData.added_tags]
     }
   }
-
-
 
   // Also mark it as, y'know, destroyed
   if (weapon.destroyed) weaponData.destroyed = true
