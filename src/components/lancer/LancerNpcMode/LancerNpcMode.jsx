@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { FileList, PlainList } from '../FileAndPlainList.jsx';
+import EntryList from '../../shared/EntryList.jsx';
 import NpcMechSheet from './NpcMechSheet.jsx';
+import NpcRoster from './NpcRoster.jsx';
 
 // import npcJson from './GRAVITYOFTHESITUATION.json';
 import npcJson from './THEWORMS.json';
 
-// import './LancerNpcMode.scss';
+import './LancerNpcMode.scss';
 
 const LancerNpcMode = ({
   setTriggerRerender,
@@ -29,6 +32,19 @@ const LancerNpcMode = ({
 
   return (
     <div className='LancerNpcMode'>
+
+      <div className='encounter-and-roster-container'>
+        <NpcRoster />
+
+        <PlainList title='Encounter' extraClass='encounters'>
+          <EntryList
+            entries={[]}
+            handleEntryClick={()=>{}}
+            activeCharacterID={null}
+            deleteEnabled={true}
+          />
+        </PlainList>
+      </div>
 
       <NpcMechSheet
         activeNpc={activeNpc}

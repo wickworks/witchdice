@@ -1,0 +1,31 @@
+@import '../../../fonts';
+
+
+.LancerNpcMode {
+
+  .encounter-and-roster-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap-reverse;
+    max-width: 800px;
+    width: 100%;
+    margin: 20px auto;
+
+    .NpcRoster {
+      width: 100%;
+      max-width: 390px;
+      margin: auto;
+    }
+
+    .PlainList.encounters {
+      width: 100%;
+      max-width: 390px;
+      margin: auto;
+
+      .panel {
+        margin: 0;
+      }
+    }
+
+  }
+}

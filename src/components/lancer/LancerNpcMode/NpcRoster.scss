@@ -1,0 +1,45 @@
+@import '../../../fonts';
+
+
+.NpcRoster {
+  .roster-container {
+    @include shadow;
+    @include parchment_background;
+    @include nouveau_border('nouveau_list_characters.svg');
+
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 320px;
+    min-height: 178px;
+    padding: 10px 11px;
+
+    .title-bar {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      background-color: $parchment_dark;
+      border-radius: 6px 6px 0 0;
+
+      h2 {
+        @include text_card_label;
+        margin: 0 14px 0 0;
+        padding: 6px 0 6px 12px;
+      }
+    }
+
+    table.roster-table {
+      box-sizing: border-box;
+      width: 100%;
+      padding: 0 6px;
+
+      th.name, th.class {
+        text-align: left;
+      }
+
+      td.role, td.tier {
+        text-align: center;
+      }
+    }
+  }
+}
