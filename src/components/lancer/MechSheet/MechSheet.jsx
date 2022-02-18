@@ -88,6 +88,11 @@ const MechSheet = ({
 
   const bonusDamageSources = getAvailableBonusDamageSources(accuracyAndDamageSourceInputs, activeMount, activeWeapon);
 
+  // console.log('activeWeapon',activeWeapon);
+  let totalAttackBonus = robotStats.attackBonus
+  if (robotStats.attackBonusRanged) totalAttackBonus += robotStats.attackBonusRanged
+  if (activeWeapon && activeWeapon.npcAttackBonus) totalAttackBonus += activeWeapon.npcAttackBonus
+
   return (
     <div className="MechSheet">
       <div className="mech-container">
@@ -175,7 +180,8 @@ const MechSheet = ({
         <WeaponRoller
           weaponData={activeWeaponData}
           weaponMod={activeWeapon.mod}
-          gritBonus={robotStats.attackBonus+robotStats.attackBonusRanged}
+          weaponNpcAccuracy={activeWeapon.npcAccuracyBonus}
+          gritBonus={totalAttackBonus}
           availableBonusSources={bonusDamageSources}
           accuracyAndDamageSourceInputs={accuracyAndDamageSourceInputs}
           isPrimaryWeaponOnMount={activeWeaponIndex === 0}

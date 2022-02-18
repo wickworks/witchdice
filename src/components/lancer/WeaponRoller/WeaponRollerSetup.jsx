@@ -11,8 +11,9 @@ import {
 import './WeaponRollerSetup.scss';
 
 const WeaponRollerSetup = ({
-  weaponMod,
   weaponData,
+  weaponMod,
+  weaponNpcAccuracy,
   invadeData,
 
   rollBonus,
@@ -22,14 +23,15 @@ const WeaponRollerSetup = ({
   accuracySourceInputs,
 }) => {
 
-  const availableAccuracySources = getAvailableAccuracySources(
+  let availableAccuracySources = getAvailableAccuracySources(
     accuracySourceInputs.frameID,
     accuracySourceInputs.mechSystems,
     accuracySourceInputs.pilotTalents,
     accuracySourceInputs.isImpaired,
     weaponData,
     invadeData,
-    weaponMod
+    weaponMod,
+    weaponNpcAccuracy,
   )
 
   // IDs of available accuracy sources

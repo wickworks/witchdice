@@ -38,14 +38,13 @@ function getModdedWeaponData(weapon) {
   // NPC weapons
   } else if (weapon.id.startsWith('npcf_')) {
     let featureData = findNpcFeatureData(weapon.id)
-    const npcTier = weapon.selectedProfile
 
     weaponData = deepCopy(featureData)
 
     // select the correct tier of damage
     // npcs only ever have one kind of damage
     weaponData.damage.forEach(damageObject => {
-      damageObject.val = damageObject.damage[npcTier]
+      damageObject.val = damageObject.damage[weapon.npcTier-1]
     });
 
     // Say what the effect will be ahead of time.

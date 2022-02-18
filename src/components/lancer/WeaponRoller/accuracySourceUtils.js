@@ -41,7 +41,7 @@ export function newAccSource(name, id, desc, accBonus = 1, defaultOn = false) {
 // activeMech.loadouts[0].systems
 // if (activeMech.conditions.includes('IMPAIRED')) {
 // activePilot.talents
-export function getAvailableAccuracySources(frameID, mechSystems, pilotTalents, isImpaired, weaponData, invadeData, weaponMod) {
+export function getAvailableAccuracySources(frameID, mechSystems, pilotTalents, isImpaired, weaponData, invadeData, weaponMod, weaponNpcAccuracy) {
   let sources = []
 
   // WEAPON/INVADE-AGNOSTIC
@@ -125,6 +125,11 @@ export function getAvailableAccuracySources(frameID, mechSystems, pilotTalents, 
         default:
           break;
       }
+    }
+
+    // NPC sources
+    if (!!weaponNpcAccuracy) {
+      addAccSource(sources, weaponData.name, weaponData.id, '', weaponNpcAccuracy, true)
     }
   }
 

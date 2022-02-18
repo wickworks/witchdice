@@ -201,7 +201,11 @@ function getNpcWeaponAttacks(items) {
                 customDamageType: null,
                 maxUseOverride: 0,
                 uses: 0,
-                selectedProfile: item.tier
+                selectedProfile: 0,
+
+                npcTier: item.tier,
+                npcAttackBonus: featureData.attack_bonus[item.tier-1],
+                npcAccuracyBonus: featureData.accuracy[item.tier-1],
              }
           }
         ],

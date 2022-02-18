@@ -4,6 +4,7 @@ import DiamondRollButton from '../DiamondRollButton.jsx';
 import './ChooseHitMiss.scss';
 
 const ChooseHitMiss = ({
+  rollBonusLabel,
   attackData,
   isRerolled,
   setIsRerolled,
@@ -22,7 +23,7 @@ const ChooseHitMiss = ({
     <div className="ChooseHitMiss WeaponRollerSetup">
       <DiamondRollButton
         rollBonus={toHitData.flatBonus}
-        rollBonusLabel={'Grit'}
+        rollBonusLabel={rollBonusLabel}
         currentMod={toHitData.accuracyBonus}
         createNewAttackRoll={() => setIsRerolled(!isRerolled)}
         rollResult={toHitData.finalResult}

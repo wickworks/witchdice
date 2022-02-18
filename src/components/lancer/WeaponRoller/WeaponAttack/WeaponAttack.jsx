@@ -142,6 +142,7 @@ const WeaponAttack = ({
 
   return ( isChoosingHitMiss ?
     <ChooseHitMiss
+      rollBonusLabel={isTechAttack ? 'Tech' : 'Grit'}
       attackData={attackData}
       isRerolled={isRerolled}
       setIsRerolled={setIsRerolled}

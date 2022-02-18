@@ -26,6 +26,7 @@ import './WeaponRoller.scss';
 const WeaponRoller = ({
   weaponData,
   weaponMod,
+  weaponNpcAccuracy,
   gritBonus,
 
   availableBonusSources = [],
@@ -301,8 +302,9 @@ const WeaponRoller = ({
           <WeaponRollerSetup
             weaponData={currentWeaponProfile}
             weaponMod={weaponMod}
+            weaponNpcAccuracy={weaponNpcAccuracy}
             rollBonus={gritBonus}
-            rollBonusLabel='Grit'
+            rollBonusLabel={weaponNpcAccuracy === undefined ? 'Grit' : 'Flat'}
             createNewAttackRoll={createNewAttackRoll}
             accuracySourceInputs={accuracyAndDamageSourceInputs}
           />
