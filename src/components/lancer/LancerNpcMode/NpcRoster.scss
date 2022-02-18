@@ -37,7 +37,13 @@
         text-align: left;
       }
 
-      td.role, td.tier {
+      td.role .asset {
+        margin: auto;
+        width: 24px;
+        height: 24px;
+      }
+
+      td.tier {
         text-align: center;
       }
     }

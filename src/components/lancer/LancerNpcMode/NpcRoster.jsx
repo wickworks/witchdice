@@ -36,7 +36,7 @@ const NpcRoster = ({
               <tr className='entry' key={entry.id}>
                 <td className='name'>{entry.name}</td>
                 <td className='class'>{entry.class}</td>
-                <td className='role'><span className={`asset ${entry.role.toLowerCase()}`}/></td>
+                <td className='role'><div className={`asset ${entry.role.toLowerCase()}`}/></td>
                 <td className='tier'>{entry.tier}</td>
               </tr>
             )}

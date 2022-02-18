@@ -48,6 +48,12 @@
   &.size-3 { background-image: url('./assets/lancer/size_3.svg'); }
   &.size-4 { background-image: url('./assets/lancer/size_4.svg'); }
 
+  &.artillery { background-image: url('./assets/lancer/role_artillery.svg'); }
+  &.controller { background-image: url('./assets/lancer/role_controller.svg'); }
+  &.defender { background-image: url('./assets/lancer/role_defender.svg'); }
+  &.striker { background-image: url('./assets/lancer/role_striker.svg'); }
+  &.support { background-image: url('./assets/lancer/role_support.svg'); }
+
   &.albatross { background-image: url('./assets/lancer/faction_logos/albatross.svg'); }
   &.aun { background-image: url('./assets/lancer/faction_logos/aun.svg'); }
   &.barony { background-image: url('./assets/lancer/faction_logos/barony.svg'); }
