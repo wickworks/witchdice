@@ -141,11 +141,15 @@ const LancerPlayerMode = ({
   }
 
 
+  let jumplinks = ['pilot','mech','weapons','dicebag']
+  if (partyConnected) jumplinks.splice(-1, 0, 'squad')
 
   return (
     <div className='LancerPlayerMode'>
 
-      { activePilot && <JumplinkPanel partyConnected={partyConnected} /> }
+      { activePilot &&
+        <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />
+      }
 
       <FileList
         title='Pilot'

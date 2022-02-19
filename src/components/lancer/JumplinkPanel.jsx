@@ -6,11 +6,9 @@ import './JumplinkPanel.scss';
 
 
 const JumplinkPanel = ({
-  partyConnected
+  partyConnected,
+  jumplinks
 }) => {
-
-  let jumplinks = ['pilot','mech','weapons','dicebag']
-  if (partyConnected) jumplinks.splice(-1, 0, 'squad')
 
   return (
     <div className='JumplinkPanel'>

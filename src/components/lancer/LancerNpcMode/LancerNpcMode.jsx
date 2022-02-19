@@ -4,6 +4,7 @@ import EntryList from '../../shared/EntryList.jsx';
 import ActiveNpcBox from './ActiveNpcBox.jsx';
 import NpcMechSheet from './NpcMechSheet.jsx';
 import NpcRoster from './NpcRoster.jsx';
+import JumplinkPanel from '../JumplinkPanel.jsx';
 
 import { deepCopy } from '../../../utils.js';
 
@@ -56,10 +57,21 @@ const LancerNpcMode = ({
   const npcListReinforcements = activeEncounter.reinforcements.map(id => activeEncounter.npcData[id])
   const npcListCasualties = activeEncounter.casualties.map(id => activeEncounter.npcData[id])
 
+  let jumplinks = ['roster']
+  if (activeNpc) {
+    jumplinks.push('npc')
+    jumplinks.push('weapons')
+  }
+  jumplinks.push('dicebag')
+
+
   return (
     <div className='LancerNpcMode'>
 
+      <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />
+
       <div className='encounter-and-roster-container'>
+        <div className='jumplink-anchor' id='roster' />
         <NpcRoster
           addNpcToEncounter={addNpcToEncounter}
         />
@@ -94,6 +106,7 @@ const LancerNpcMode = ({
       </div>
 
 
+      <div className='jumplink-anchor' id='npc' />
       <NpcMechSheet
         activeNpc={activeNpc}
 
