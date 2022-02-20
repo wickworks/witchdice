@@ -12,11 +12,15 @@
     width: 100%;
     margin: 20px auto;
 
-    .NpcRoster {
+    .FileList.npcs {
       box-sizing: border-box;
       width: 100%;
       max-width: 390px;
       margin: auto;
+
+      .panel {
+        margin: 0;
+      }
     }
 
     .CharacterList {

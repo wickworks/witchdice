@@ -6,17 +6,19 @@ import './FileAndPlainList.scss';
 const FileList = ({
   title,
   extraClass,
-  allFileEntries,
-  setActiveFileID,
-  activeFileID,
-  deleteActiveFile,
   onFileUpload,
   onFilePaste,
   acceptFileType = 'application/JSON',
   onTitleClick = null,
+
+  isUploadingNewFile,
+  setIsUploadingNewFile,
+
+  instructions = '',
   children,
 }) => {
-  const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
+  // Moved to parent so it can have flexible children
+  // const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
 
   const [pastedFile, setPastedFile] = useState('');
   const [pastedError, setPastedError] = useState(false);
@@ -57,7 +59,7 @@ const FileList = ({
       { isUploadingNewFile ?
         <PlainList title={title} extraClass='new-file' onTitleClick={onTitleClick}>
           <div className="instructions">
-            {children}
+            {instructions}
           </div>
 
           <div className={`button-container ${onFilePaste ? 'column' : ''}`}>
@@ -90,15 +92,7 @@ const FileList = ({
           </div>
         </PlainList>
       :
-        <CharacterList
-          title={title}
-          onTitleClick={onTitleClick}
-          characterEntries={allFileEntries}
-          handleEntryClick={setActiveFileID}
-          activeCharacterID={activeFileID}
-          deleteActiveCharacter={deleteActiveFile}
-          createNewCharacter={() => setIsUploadingNewFile(true)}
-        />
+        children
       }
     </div>
   );

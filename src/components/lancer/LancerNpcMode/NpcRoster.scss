@@ -26,6 +26,58 @@
         margin: 0 14px 0 0;
         padding: 6px 0 6px 12px;
       }
+
+      button.new-character {
+        display: flex;
+        align-items: center;
+        padding: 6px 12px;
+        border: none;
+        border-radius: 0 6px 0 0;
+        background: none;
+        cursor: pointer;
+
+        &:hover { background-color: $pink; }
+
+        &.first {
+          @include text_title_heavy;
+          font-size: 32px;
+          font-style: normal;
+          margin: 10px auto 0;
+
+          &:hover { background-color: $parchment_dark; }
+
+          .asset.plus {
+            height: 40px;
+            width: 40px;
+            margin-left: 8px;
+
+            // turns black to $rust
+            filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+          }
+        }
+      }
+
+      button.new-character {
+        @include text_default;
+        display: flex;
+        align-items: center;
+
+        height: 100%;
+        color: $rust;
+        padding: 6px 12px;
+        border-radius: 0 6px 0 0;
+        background: none;
+        cursor: pointer;
+
+        .asset.plus {
+          height: 22px;
+          width: 22px;
+          margin-left: 8px;
+
+          // turns black to $rust
+          filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+        }
+      }
     }
 
     table.roster-table {

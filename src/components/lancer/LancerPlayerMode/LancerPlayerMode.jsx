@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FileList, PlainList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
+import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import PilotDossier from './PilotDossier.jsx';
 import PlayerMechSheet from './PlayerMechSheet.jsx';
 import SquadPanel from '../SquadPanel/SquadPanel.jsx';
@@ -35,6 +36,8 @@ const LancerPlayerMode = ({
   const [allPilotEntries, setAllPilotEntries] = useState([]);
   const [activePilotID, setActivePilotID] = useState(null);
   const [activeMechID, setActiveMechID] = useState(null);
+
+  const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
 
   // const activePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
   const activePilot = activePilotID && loadPilotData(activePilotID); // load the pilot data from local storage
@@ -159,15 +162,26 @@ const LancerPlayerMode = ({
       <FileList
         title='Pilot'
         extraClass='pilots'
-        allFileEntries={allPilotEntries}
-        setActiveFileID={setActivePilot}
-        activeFileID={activePilotID}
-        deleteActiveFile={deleteActivePilot}
         onFileUpload={uploadPilotFile}
         onFilePaste={parsedJson => createNewPilot(parsedJson)}
+        isUploadingNewFile={isUploadingNewFile}
+        setIsUploadingNewFile={setIsUploadingNewFile}
+        instructions={
+          <>
+            Upload a pilot data file (.json) from
+            <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
+          </>
+        }
       >
-        Upload a pilot data file (.json) from
-        <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
+        <CharacterList
+          title={'Pilot'}
+          characterEntries={allPilotEntries}
+          handleEntryClick={setActivePilot}
+          activeCharacterID={activePilotID}
+          deleteActiveCharacter={deleteActivePilot}
+          createNewCharacter={() => setIsUploadingNewFile(true)}
+        />
+
       </FileList>
 
       <div className='jumplink-anchor' id='pilot' />

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { FileList, PlainList } from '../FileAndPlainList.jsx';
+import { FileList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
 import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import ActiveNpcBox from './ActiveNpcBox.jsx';
@@ -49,9 +49,12 @@ const LancerNpcMode = ({
 }) => {
   //
   const [allEncounterEntries, setAllEncounterEntries] = useState([])
+  const [allNpcData, setAllNpcData] = useState([])
 
   const [activeEncounterID, setActiveEncounterID] = useState(null)
   const [activeNpcID, setActiveNpcID] = useState(null)
+
+  const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
 
   const activeEncounter = activeEncounterID && loadEncounterData(activeEncounterID);
   const activeNpc = (activeEncounter && activeNpcID) && activeEncounter.allNpcData.find(npc => npc.id === activeNpcID);
@@ -91,21 +94,19 @@ const LancerNpcMode = ({
     }
   }, []);
 
-  const updateNpcState = () => {
+  // =============== ENCOUNTERS ==================
 
-  }
 
   function buildNewEncounter() {
     let newEncounter = deepCopy(emptyEncounter)
     newEncounter.id = `${getRandomFingerprint()}`
     newEncounter.name = `${randomWords(1)}-${randomWords(1)}`
 
-    console.log('new eouncouter', newEncounter);
     return newEncounter
   }
 
   const createNewEncounter = () => {
-    const newEncounter = buildNewEncounter()
+    let newEncounter = buildNewEncounter()
     setActiveEncounterID(newEncounter.id)
 
     let encounterEntries = [...allEncounterEntries]
@@ -114,7 +115,6 @@ const LancerNpcMode = ({
 
     saveEncounterData(newEncounter)
   }
-
 
 
   const deleteActiveEncounter = () => {
@@ -144,8 +144,30 @@ const LancerNpcMode = ({
   }
 
 
+  const npcListActive = activeEncounter && activeEncounter.active.map(id => activeEncounter.npcData[id])
+  const npcListReinforcements = activeEncounter && activeEncounter.reinforcements.map(id => activeEncounter.npcData[id])
+  const npcListCasualties = activeEncounter && activeEncounter.casualties.map(id => activeEncounter.npcData[id])
+
+
+  const updateActiveNpcState = () => {
+
+  }
+
+  // =============== NPC ROSTER ==================
+
+
+
+
+  const createNewNpc = () => {
+
+  }
+
   const loadNpcData = (npcId) => {
     return npcJson;
+  }
+
+  const uploadNpcFile = () => {
+
   }
 
   const addNpcToEncounter = (npcId) => {
@@ -162,10 +184,7 @@ const LancerNpcMode = ({
     }
   }
 
-  const npcListActive = activeEncounter && activeEncounter.active.map(id => activeEncounter.npcData[id])
-  const npcListReinforcements = activeEncounter && activeEncounter.reinforcements.map(id => activeEncounter.npcData[id])
-  const npcListCasualties = activeEncounter && activeEncounter.casualties.map(id => activeEncounter.npcData[id])
-
+  // --- JUMPLINKS --
   let jumplinks = ['roster']
   if (activeNpc) {
     jumplinks.push('npc')
@@ -181,9 +200,28 @@ const LancerNpcMode = ({
 
       <div className='encounter-and-roster-container'>
         <div className='jumplink-anchor' id='roster' />
-        <NpcRoster
-          addNpcToEncounter={addNpcToEncounter}
-        />
+
+
+        <FileList
+          title='NPC'
+          extraClass='npcs'
+          onFileUpload={uploadNpcFile}
+          onFilePaste={parsedJson => createNewNpc(parsedJson)}
+          isUploadingNewFile={isUploadingNewFile}
+          setIsUploadingNewFile={setIsUploadingNewFile}
+          instructions={
+            <>
+              Upload a npc data file (.json) from
+              <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
+            </>
+          }
+        >
+          <NpcRoster
+            allNpcData={allNpcData}
+            addNpcToEncounter={addNpcToEncounter}
+            setIsUploadingNewFile={setIsUploadingNewFile}
+          />
+        </FileList>
 
         <CharacterList
           title='Encounter'
