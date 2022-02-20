@@ -6,6 +6,7 @@ import {
 
 export const PILOT_PREFIX = 'pilot';
 export const LCP_PREFIX = 'lcp';
+export const ENCOUNTER_PREFIX = 'encounter';
 export const STORAGE_ID_LENGTH = 6;
 
 
@@ -22,6 +23,8 @@ export function deleteLcpData(lcpID, lcpName) {
   localStorage.removeItem(storageName);
 }
 
+
+
 export function savePilotData(pilot) {
   saveLocalData(PILOT_PREFIX, pilot.id.slice(0,STORAGE_ID_LENGTH), pilot.name, pilot);
 }
@@ -35,8 +38,6 @@ export function deletePilotData(pilot) {
   localStorage.removeItem(storageName);
 }
 
-
-
 export const saveMechStateToLocalStorage = (mechState, activePilot, activeMech) => {
   var pilotData = loadPilotData(activePilot.id)
   const mechIndex = pilotData.mechs.findIndex(mech => mech.id === activeMech.id)
@@ -49,5 +50,32 @@ export const saveMechStateToLocalStorage = (mechState, activePilot, activeMech) 
   } else {
     console.error('Could not find mech ', activeMech.id, ' for pilot!')
   }
+}
 
+
+export function saveEncounterData(encounter) {
+  saveLocalData(ENCOUNTER_PREFIX, encounter.id.slice(0,STORAGE_ID_LENGTH), encounter.name, encounter);
+}
+
+export function loadEncounterData(encounterID) {
+  return loadLocalData(ENCOUNTER_PREFIX, encounterID.slice(0,STORAGE_ID_LENGTH));
+}
+
+export function deleteEncounterData(encounter) {
+  const storageName = getStorageName(ENCOUNTER_PREFIX, encounter.id.slice(0,STORAGE_ID_LENGTH), encounter.name);
+  localStorage.removeItem(storageName);
+}
+
+export const saveNpcStateToLocalStorage = (mechState, activePilot, activeMech) => {
+  var pilotData = loadPilotData(activePilot.id)
+  const mechIndex = pilotData.mechs.findIndex(mech => mech.id === activeMech.id)
+
+  if (mechIndex >= 0) {
+    Object.keys(mechState).forEach(statKey => {
+      pilotData.mechs[mechIndex][statKey] = parseInt(mechState[statKey])
+    });
+    savePilotData(pilotData)
+  } else {
+    console.error('Could not find mech ', activeMech.id, ' for pilot!')
+  }
 }

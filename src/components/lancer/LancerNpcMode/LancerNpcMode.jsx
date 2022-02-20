@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { FileList, PlainList } from '../FileAndPlainList.jsx';
+// import { FileList, PlainList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
+import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import ActiveNpcBox from './ActiveNpcBox.jsx';
 import NpcMechSheet from './NpcMechSheet.jsx';
 import NpcRoster from './NpcRoster.jsx';
 import JumplinkPanel from '../JumplinkPanel.jsx';
 
 import { deepCopy } from '../../../utils.js';
+import { randomWords } from '../../../random_words.js';
+
+import {
+  saveEncounterData,
+  loadEncounterData,
+  deleteEncounterData,
+  ENCOUNTER_PREFIX,
+  STORAGE_ID_LENGTH,
+} from '../lancerLocalStorage.js';
+
+import { getIDFromStorageName, getRandomFingerprint } from '../../../localstorage.js';
 
 
 // import npcJson from './GRAVITYOFTHESITUATION.json';
@@ -14,7 +26,16 @@ import npcJson from './THEWORMS.json';
 
 import './LancerNpcMode.scss';
 
-const emptyEncounter = { active: [], reinforcements: [], casualties: [], npcData: {} }
+const emptyEncounter = {
+  id: '',
+  name: '',
+  active: [],
+  reinforcements: [],
+  casualties: [],
+  npcData: {},
+}
+
+const SELECTED_ENCOUNTER_KEY = "lancer-selected-encounter"
 
 const LancerNpcMode = ({
   setTriggerRerender,
@@ -27,14 +48,101 @@ const LancerNpcMode = ({
   setRollSummaryData,
 }) => {
   //
-  const [activeEncounter, setActiveEncounter] = useState(emptyEncounter)
-  //
-  // const activeNpc = activeNpcID && loadNpcData(activeNpcID); // load the pilot data from local storage
-  const activeNpc = npcJson
+  const [allEncounterEntries, setAllEncounterEntries] = useState([])
+
+  const [activeEncounterID, setActiveEncounterID] = useState(null)
+  const [activeNpcID, setActiveNpcID] = useState(null)
+
+  const activeEncounter = activeEncounterID && loadEncounterData(activeEncounterID);
+  const activeNpc = (activeEncounter && activeNpcID) && activeEncounter.allNpcData.find(npc => npc.id === activeNpcID);
+
+
+  // =============== INITIALIZE ==================
+  useEffect(() => {
+    let encounterEntries = [];
+
+    for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+      const key = localStorage.key(i);
+      if (key.startsWith(`${ENCOUNTER_PREFIX}-`)) {
+        const encounterID = getIDFromStorageName(ENCOUNTER_PREFIX, key, STORAGE_ID_LENGTH);
+        const encounterData = loadEncounterData(encounterID);
+        if (encounterData) encounterEntries.push(encounterData);
+      }
+    }
+
+    // If we have no encounters, make a new one
+    if (encounterEntries.length === 0) {
+      const newEncounter = buildNewEncounter()
+      encounterEntries.push(newEncounter)
+      setActiveEncounterID(newEncounter.id)
+      saveEncounterData(newEncounter)
+    }
+
+    setAllEncounterEntries(encounterEntries.map(encounter => ({name: encounter.name, id: encounter.id})));
+
+    // if we were looking at a encounter, restore it
+    const oldSelectedID = localStorage.getItem(SELECTED_ENCOUNTER_KEY);
+    console.log('sel id :',oldSelectedID);
+    if (oldSelectedID) {
+      const newActiveEncounter = encounterEntries.find(encounter => encounter.id.startsWith(oldSelectedID));
+      if (newActiveEncounter) {
+        setActiveEncounterID(newActiveEncounter.id)
+      }
+    }
+  }, []);
 
   const updateNpcState = () => {
 
   }
+
+  function buildNewEncounter() {
+    let newEncounter = deepCopy(emptyEncounter)
+    newEncounter.id = `${getRandomFingerprint()}`
+    newEncounter.name = `${randomWords(1)}-${randomWords(1)}`
+
+    console.log('new eouncouter', newEncounter);
+    return newEncounter
+  }
+
+  const createNewEncounter = () => {
+    const newEncounter = buildNewEncounter()
+    setActiveEncounterID(newEncounter.id)
+
+    let encounterEntries = [...allEncounterEntries]
+    encounterEntries.push({name: newEncounter.name, id: newEncounter.id})
+    setAllEncounterEntries(encounterEntries)
+
+    saveEncounterData(newEncounter)
+  }
+
+
+
+  const deleteActiveEncounter = () => {
+    if (!activeEncounter) return
+
+    deleteEncounterData(activeEncounter)
+    localStorage.setItem(SELECTED_ENCOUNTER_KEY, '');
+
+    // remove from the current list of encounter entries
+    let encounterIndex = allEncounterEntries.findIndex(entry => entry.id === activeEncounter.id);
+    if (encounterIndex >= 0) {
+      let newData = [...allEncounterEntries]
+      newData.splice(encounterIndex, 1)
+      setAllEncounterEntries(newData);
+    }
+
+    setActiveEncounterID(null);
+    setActiveNpcID(null);
+  }
+
+  const setActiveEncounter = (encounterID) => {
+    const newActiveEncounter = encounterID && loadEncounterData(encounterID)
+    if (newActiveEncounter) {
+      setActiveEncounterID(encounterID);
+      localStorage.setItem(SELECTED_ENCOUNTER_KEY, encounterID.slice(0,STORAGE_ID_LENGTH));
+    }
+  }
+
 
   const loadNpcData = (npcId) => {
     return npcJson;
@@ -49,13 +157,14 @@ const LancerNpcMode = ({
       newEncounter.reinforcements.push(npcId)
       newEncounter.npcData[npcId] = npcData
 
-      setActiveEncounter(newEncounter)
+      saveEncounterData(newEncounter)
+      setTriggerRerender(!triggerRerender)
     }
   }
 
-  const npcListActive = activeEncounter.active.map(id => activeEncounter.npcData[id])
-  const npcListReinforcements = activeEncounter.reinforcements.map(id => activeEncounter.npcData[id])
-  const npcListCasualties = activeEncounter.casualties.map(id => activeEncounter.npcData[id])
+  const npcListActive = activeEncounter && activeEncounter.active.map(id => activeEncounter.npcData[id])
+  const npcListReinforcements = activeEncounter && activeEncounter.reinforcements.map(id => activeEncounter.npcData[id])
+  const npcListCasualties = activeEncounter && activeEncounter.casualties.map(id => activeEncounter.npcData[id])
 
   let jumplinks = ['roster']
   if (activeNpc) {
@@ -76,47 +185,49 @@ const LancerNpcMode = ({
           addNpcToEncounter={addNpcToEncounter}
         />
 
-        <PlainList title='Encounter' extraClass='encounters'>
-          <EntryList
-            entries={[]}
-            handleEntryClick={()=>{}}
-            activeCharacterID={null}
-            deleteEnabled={true}
+        <CharacterList
+          title='Encounter'
+          characterEntries={allEncounterEntries}
+          handleEntryClick={setActiveEncounter}
+          activeCharacterID={activeEncounterID}
+          deleteActiveCharacter={deleteActiveEncounter}
+          createNewCharacter={createNewEncounter}
+        />
+      </div>
+
+      { activeEncounter &&
+        <div className='active-npc-boxes-container'>
+          <ActiveNpcBox
+            label={'Reinforcements'}
+            condensed={true}
+            npcList={npcListReinforcements}
           />
-        </PlainList>
-      </div>
+          <ActiveNpcBox
+            label={'Casualties'}
+            condensed={true}
+            npcList={npcListCasualties}
+          />
+          <ActiveNpcBox
+            label={'Active Combatants'}
+            condensed={false}
+            npcList={npcListActive}
+          />
+        </div>
+      }
 
-      <div className='active-npc-boxes-container'>
-        <ActiveNpcBox
-          label={'Reinforcements'}
-          condensed={true}
-          npcList={npcListReinforcements}
+      { activeNpc && <>
+        <div className='jumplink-anchor' id='npc' />
+        <NpcMechSheet
+          activeNpc={activeNpc}
+
+          setTriggerRerender={setTriggerRerender}
+          triggerRerender={triggerRerender}
+
+          setPartyLastAttackKey={setPartyLastAttackKey}
+          setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+          setRollSummaryData={setRollSummaryData}
         />
-        <ActiveNpcBox
-          label={'Casualties'}
-          condensed={true}
-          npcList={npcListCasualties}
-        />
-        <ActiveNpcBox
-          label={'Active Combatants'}
-          condensed={false}
-          npcList={npcListActive}
-        />
-
-      </div>
-
-
-      <div className='jumplink-anchor' id='npc' />
-      <NpcMechSheet
-        activeNpc={activeNpc}
-
-        setTriggerRerender={setTriggerRerender}
-        triggerRerender={triggerRerender}
-
-        setPartyLastAttackKey={setPartyLastAttackKey}
-        setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-        setRollSummaryData={setRollSummaryData}
-      />
+      </>}
 
     </div>
   );

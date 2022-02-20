@@ -19,6 +19,9 @@ import compendiaJonesJson from './YOURGRACE.json';
 
 // import './LancerPlayerMode.scss';
 
+
+const SELECTED_CHARACTER_KEY = "lancer-selected-character"
+
 const LancerPlayerMode = ({
   setTriggerRerender,
   triggerRerender,
@@ -61,7 +64,7 @@ const LancerPlayerMode = ({
     setAllPilotEntries(pilotEntries.map(pilot => ({name: pilot.name, id: pilot.id})));
 
     // if we were looking at a pilot, restore tham and their first mech
-    const oldSelectedID = localStorage.getItem("lancer-selected-character");
+    const oldSelectedID = localStorage.getItem(SELECTED_CHARACTER_KEY);
     if (oldSelectedID) {
       const newActivePilot = pilotEntries.find(pilot => pilot.id.startsWith(oldSelectedID));
       if (newActivePilot) {
@@ -120,13 +123,15 @@ const LancerPlayerMode = ({
         setActiveMechID(null)
       }
 
-      localStorage.setItem("lancer-selected-character", pilotID.slice(0,STORAGE_ID_LENGTH));
+      localStorage.setItem(SELECTED_CHARACTER_KEY, pilotID.slice(0,STORAGE_ID_LENGTH));
     }
   }
 
   const deleteActivePilot = () => {
+    if (!activePilot) return
+
     deletePilotData(activePilot)
-    localStorage.setItem("lancer-selected-character", '');
+    localStorage.setItem(SELECTED_CHARACTER_KEY, '');
 
     // remove from the current list of pilot entries
     let pilotIndex = allPilotEntries.findIndex(entry => entry.id === activePilot.id);
