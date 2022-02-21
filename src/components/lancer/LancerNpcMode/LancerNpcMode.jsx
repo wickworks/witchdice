@@ -16,7 +16,11 @@ import {
   deleteEncounterData,
   ENCOUNTER_PREFIX,
   STORAGE_ID_LENGTH,
+  NPC_LIBRARY_NAME,
 } from '../lancerLocalStorage.js';
+
+import { loadLocalData, saveLocalData, } from '../../../localstorage.js';
+
 
 import { getIDFromStorageName, getRandomFingerprint } from '../../../localstorage.js';
 
@@ -49,7 +53,7 @@ const LancerNpcMode = ({
 }) => {
   //
   const [allEncounterEntries, setAllEncounterEntries] = useState([])
-  const [allNpcData, setAllNpcData] = useState([])
+  const [npcLibrary, setNpcLibrary] = useState({})
 
   const [activeEncounterID, setActiveEncounterID] = useState(null)
   const [activeNpcID, setActiveNpcID] = useState(null)
@@ -57,7 +61,7 @@ const LancerNpcMode = ({
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
 
   const activeEncounter = activeEncounterID && loadEncounterData(activeEncounterID);
-  const activeNpc = (activeEncounter && activeNpcID) && activeEncounter.allNpcData.find(npc => npc.id === activeNpcID);
+  const activeNpc = (activeEncounter && activeNpcID) && activeEncounter.npcData.find(npc => npc.id === activeNpcID);
 
 
   // =============== INITIALIZE ==================
@@ -71,6 +75,9 @@ const LancerNpcMode = ({
         const encounterData = loadEncounterData(encounterID);
         if (encounterData) encounterEntries.push(encounterData);
       }
+
+      // load the npc library into memory
+      if (key === NPC_LIBRARY_NAME) setNpcLibrary( JSON.parse(localStorage.getItem(NPC_LIBRARY_NAME)) )
     }
 
     // If we have no encounters, make a new one
@@ -156,23 +163,30 @@ const LancerNpcMode = ({
   // =============== NPC ROSTER ==================
 
 
+  const createNewNpc = (npc) => {
+    // sanity-check the npc file
+    if (!npc || !npc.id || !npc.class) return
 
+    let newData = {...npcLibrary}
+    newData[npc.id] = npc;
 
-  const createNewNpc = () => {
-
+    // save the whole library to state & localstorage
+    setNpcLibrary(newData)
+    localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newData));
   }
 
-  const loadNpcData = (npcId) => {
-    return npcJson;
-  }
-
-  const uploadNpcFile = () => {
-
+  const uploadNpcFile = e => {
+    console.log('uploadNpcFile',uploadNpcFile);
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = e => {
+      createNewNpc( JSON.parse(e.target.result) )
+    };
   }
 
   const addNpcToEncounter = (npcId) => {
     console.log('Adding npc to encounter', npcId);
-    const npcData = loadNpcData(npcId)
+    const npcData = npcLibrary[npcId]
 
     if (npcData) {
       let newEncounter = deepCopy(activeEncounter)
@@ -183,6 +197,7 @@ const LancerNpcMode = ({
       setTriggerRerender(!triggerRerender)
     }
   }
+
 
   // --- JUMPLINKS --
   let jumplinks = ['roster']
@@ -217,7 +232,7 @@ const LancerNpcMode = ({
           }
         >
           <NpcRoster
-            allNpcData={allNpcData}
+            npcLibrary={npcLibrary}
             addNpcToEncounter={addNpcToEncounter}
             setIsUploadingNewFile={setIsUploadingNewFile}
           />

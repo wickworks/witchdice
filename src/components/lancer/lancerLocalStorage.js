@@ -8,7 +8,7 @@ export const PILOT_PREFIX = 'pilot';
 export const LCP_PREFIX = 'lcp';
 export const ENCOUNTER_PREFIX = 'encounter';
 export const STORAGE_ID_LENGTH = 6;
-
+export const NPC_LIBRARY_NAME = 'lancer-npcs'
 
 export function saveLcpData(contentPack) {
   saveLocalData(LCP_PREFIX, contentPack.id.slice(0,STORAGE_ID_LENGTH), contentPack.manifest.name, contentPack);

@@ -26,8 +26,8 @@ const ActiveNpcBox = ({
         </div>
 
         <div className="active-npc-container">
-          {npcList.map((npcData) =>
-            <div key={npcData.id}>
+          {npcList.map((npcData, i) =>
+            <div key={`${npcData.id}-${i}`}>
               {npcData.name}
             </div>
           )}

@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 
+import {
+  findNpcClassData,
+  findNpcFeatureData,
+  findNpcTemplateData,
+  baselineMount,
+} from '../lancerData.js';
+
 import './NpcRoster.scss';
 
 const NpcRoster = ({
-  allNpcData,
+  npcLibrary,
   addNpcToEncounter,
   setIsUploadingNewFile,
 }) => {
@@ -14,6 +21,8 @@ const NpcRoster = ({
   //   {name: 'THE EARLY', class: 'Ronin', role: 'Striker', tier: 1, id: '321'},
   //   {name: 'THE BIRDS', class: 'Cataphract', role: 'Striker', tier: 1, id: '222'},
   // ]
+
+  // console.log('npcLibrary',npcLibrary);
 
   return (
     <div className='NpcRoster'>
@@ -39,15 +48,21 @@ const NpcRoster = ({
           </thead>
 
           <tbody>
-            {allNpcData.map(entry =>
-              <tr className='entry' key={entry.id}>
-                <td className='add'><button onClick={() => addNpcToEncounter(entry.id)}>+</button></td>
-                <td className='name'>{entry.name}</td>
-                <td className='class'>{entry.class}</td>
-                <td className='role'><div className={`asset ${entry.role.toLowerCase()}`}/></td>
-                <td className='tier'>{entry.tier}</td>
-              </tr>
-            )}
+            {Object.keys(npcLibrary).map((npcID,i) => {
+              console.log('npcID',npcID);
+              const npc = npcLibrary[npcID]
+              const npcData = findNpcClassData(npc.class)
+
+              return (
+                <tr className='npc' key={`${npc.id}-${i}`}>
+                  <td className='add'><button onClick={() => addNpcToEncounter(npc.id)}>+</button></td>
+                  <td className='name'>{npc.name}</td>
+                  <td className='class'>{npcData.name}</td>
+                  <td className='role'><div className={`asset ${npcData.role.toLowerCase()}`}/></td>
+                  <td className='tier'>{npc.tier}</td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </div>
