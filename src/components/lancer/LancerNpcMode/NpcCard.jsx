@@ -27,6 +27,7 @@ function getClassNames(npc, npcData) {
 const NpcCardInactive = ({
   npc,
   onClick,
+  isSelected,
 }) => {
   const npcData = findNpcClassData(npc.class)
   // console.log('npcData',npcData);
@@ -55,13 +56,14 @@ const NpcCardGrunt = ({
   onClickDie,
   onClickReserve,
   onSelect,
+  isSelected,
 }) => {
   const npcData = findNpcClassData(npc.class)
 
   return (
-    <div className='NpcCardGrunt'>
+    <div className='NpcCardGrunt' id={isSelected ? 'selected-npc-card' : ''}>
 
-      <button className='ClickToSelect' onClick={onSelect} />
+      <button className='ClickToSelect' onClick={onSelect} disabled={isSelected}/>
 
       <div className='ActivationsTracker'>
         <input type='checkbox' />
@@ -101,12 +103,13 @@ const NpcCardFull = ({
   onClickDie,
   onClickReserve,
   onSelect,
+  isSelected,
 }) => {
   const npcData = findNpcClassData(npc.class)
 
   return (
-    <div className='NpcCardFull'>
-      <button className='ClickToSelect' onClick={onSelect} />
+    <div className='NpcCardFull' id={isSelected ? 'selected-npc-card' : ''}>
+      <button className='ClickToSelect' onClick={onSelect} disabled={isSelected} />
 
       <div className='ActivationsTracker'>
         <input type='checkbox' />

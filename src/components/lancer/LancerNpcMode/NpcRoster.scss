@@ -101,6 +101,7 @@
 
       td.add {
         text-align: center;
+
         button {
           width: 24px;
           height: 24px;
@@ -111,6 +112,11 @@
           &:hover {
             background-color: $rust;
             color: white;
+          }
+
+          &:disabled {
+            background-color: transparent;
+            color: $grey_mid
           }
         }
       }

@@ -2,6 +2,16 @@
 
 $side_button: 24px;
 
+@keyframes flashIn {
+  0% {
+    clip-path: polygon(0 0,0 0,0 100%,0 100%);
+  }
+  100% {
+    clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+  }
+}
+
+
 .DieOrReserveButton {
   opacity: 0.3;
   border-radius: 3px;
@@ -42,7 +52,7 @@ button.ClickToSelect {
   background-color: transparent;
   z-index: 2;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: rgba(1,1,1,.2);
   }
 }
@@ -60,6 +70,8 @@ button.ClickToSelect {
   background-color: $grey_very_very_dark;
   filter: brightness(110%);
   transition: filter .1s;
+
+  animation: .55s steps(8, end) 0s 1 flashIn;
 
   &:hover {
     filter: brightness(140%);
@@ -125,6 +137,18 @@ button.ClickToSelect {
   }
 }
 
+
+.NpcCardGrunt, .NpcCardFull {
+  padding: 6px 6px 2px;
+  height: fit-content;
+
+  animation: .55s steps(8, end) 0s 1 flashIn;
+
+  &#selected-npc-card {
+    background-color: $pumpkin;
+  }
+}
+
 .NpcCardGrunt {
   display: grid;
   grid-template-columns: $side_button 1.3fr 42px .7fr $side_button;
@@ -132,9 +156,7 @@ button.ClickToSelect {
 
   column-gap: 4px;
   row-gap: 4px;
-  padding: 6px 6px 2px;
 
-  height: fit-content;
 
   button.ClickToSelect {
     grid-column: 2 / span 3;
@@ -210,9 +232,10 @@ button.ClickToSelect {
   grid-template-columns: $side_button 1.3fr 20px 20px 20px .7fr $side_button;
   grid-template-rows: 1fr 1fr .8fr 1.2fr;
 
+  grid-row: span 2;
+
   column-gap: 4px;
   row-gap: 4px;
-  padding: 6px 6px 2px;
 
   button.ClickToSelect {
     grid-column: 2 / span 5;

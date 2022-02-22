@@ -14,6 +14,7 @@ const NpcRoster = ({
   npcLibrary,
   addNpcToEncounter,
   setIsUploadingNewFile,
+  hasActiveEncounter,
 }) => {
 
   return (
@@ -46,7 +47,7 @@ const NpcRoster = ({
 
               return (
                 <tr className='npc' key={`${npc.id}-${i}`}>
-                  <td className='add'><button onClick={() => addNpcToEncounter(npc.id)}>+</button></td>
+                  <td className='add'><button onClick={() => addNpcToEncounter(npc.id)} disabled={!hasActiveEncounter}>+</button></td>
                   <td className='name'>{npc.name}</td>
                   <td className='class'>{capitalize(npcData.name.toLowerCase())}</td>
                   <td className='role'><div className={`asset ${npcData.role.toLowerCase()}`}/></td>

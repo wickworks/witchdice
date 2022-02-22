@@ -9,6 +9,7 @@ const ActiveNpcBox = ({
 
   npcList,
   setNpcStatus,
+  activeNpcFingerprint,
   setActiveNpcFingerprint,
 }) => {
   const condensedClass = condensed ? 'condensed' : 'full'
@@ -29,6 +30,7 @@ const ActiveNpcBox = ({
                   key={npc.fingerprint}
                   npc={npc}
                   onClick={() => setNpcStatus(npc.fingerprint, 'active')}
+                  isSelected={npc.fingerprint === activeNpcFingerprint}
                 />
               )
             } else if (npc.templates.includes('npct_grunt')) {
@@ -39,6 +41,7 @@ const ActiveNpcBox = ({
                   onClickDie={() => setNpcStatus(npc.fingerprint, 'casualties')}
                   onClickReserve={() => setNpcStatus(npc.fingerprint, 'reinforcements')}
                   onSelect={() => setActiveNpcFingerprint(npc.fingerprint)}
+                  isSelected={npc.fingerprint === activeNpcFingerprint}
                 />
               )
             } else {
@@ -49,6 +52,7 @@ const ActiveNpcBox = ({
                   onClickDie={() => setNpcStatus(npc.fingerprint, 'casualties')}
                   onClickReserve={() => setNpcStatus(npc.fingerprint, 'reinforcements')}
                   onSelect={() => setActiveNpcFingerprint(npc.fingerprint)}
+                  isSelected={npc.fingerprint === activeNpcFingerprint}
                 />
               )
             }

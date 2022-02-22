@@ -217,6 +217,9 @@ const LancerNpcMode = ({
 
     saveEncounterData(newEncounter)
     setTriggerRerender(!triggerRerender)
+
+    // if it was selected, deselect it
+    if (activeNpcFingerprint === npcFingerprint) setActiveNpcFingerprint(null)
   }
 
 
@@ -262,6 +265,7 @@ const LancerNpcMode = ({
             npcLibrary={npcLibrary}
             addNpcToEncounter={addNpcToEncounter}
             setIsUploadingNewFile={setIsUploadingNewFile}
+            hasActiveEncounter={!!activeEncounter}
           />
         </FileList>
 
@@ -283,12 +287,14 @@ const LancerNpcMode = ({
             condensed={true}
             npcList={npcListReinforcements}
             setNpcStatus={setNpcStatus}
+            activeNpcFingerprint={activeNpcFingerprint}
           />
           <ActiveNpcBox
             label={'Casualties'}
             condensed={true}
             npcList={npcListCasualties}
             setNpcStatus={setNpcStatus}
+            activeNpcFingerprint={activeNpcFingerprint}
           />
           <ActiveNpcBox
             label={'Active Combatants'}
@@ -296,6 +302,7 @@ const LancerNpcMode = ({
             npcList={npcListActive}
             setNpcStatus={setNpcStatus}
             setActiveNpcFingerprint={setActiveNpcFingerprint}
+            activeNpcFingerprint={activeNpcFingerprint}
           />
         </div>
       }
