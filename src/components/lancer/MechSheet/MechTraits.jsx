@@ -10,7 +10,6 @@ const MechTraits = ({
   setLimitedCountForSystem = () => {},
   setDestroyedForSystem = () => {},
 }) => {
-
   return (
 		<div className='MechTraits'>
 			<div className="label">{sectionTitle}</div>
@@ -26,8 +25,8 @@ const MechTraits = ({
             description={trait.description}
             isCP={trait.isCP}
             isDestructable={trait.isDestructable}
-            isDestroyed={trait.destroyed}
-            onDestroy={() => setDestroyedForSystem(!trait.destroyed, trait.systemIndex)}
+            isDestroyed={trait.isDestroyed}
+            onDestroy={() => setDestroyedForSystem(!trait.isDestroyed, trait.systemIndex)}
             limited={trait.limited}
             setLimitedCount={(count) => setLimitedCountForSystem(count, trait.systemIndex)}
             isTitleCase={trait.isTitleCase}

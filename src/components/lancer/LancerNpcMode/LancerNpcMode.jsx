@@ -241,9 +241,12 @@ const LancerNpcMode = ({
 
           // equipment features
           case 'systemUses':
+            newNpcData.items[newMechData[statKey].index].uses = newMechData[statKey].uses
           case 'systemDestroyed':
+            newNpcData.items[newMechData[statKey].index].destroyed = newMechData[statKey].destroyed
+          case 'weaponUses':
+            break
           case 'weaponDestroyed':
-            console.log('     equipment features');
             break;
 
           // not relavant for npcs

@@ -121,8 +121,8 @@ function getNpcTraits(items) {
         systemIndex: itemIndex,
         name: (item.flavorName || featureData.name).toLowerCase(),
         description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
-        isDestructable: true,
-        isDestroyed: item.destroyed,
+        isDestructable: false,
+        isDestroyed: false,
         isTitleCase: true,
       })
     }
