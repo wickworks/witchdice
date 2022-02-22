@@ -3,7 +3,7 @@
 $side_button: 24px;
 
 .DieOrReserveButton {
-  opacity: 0.5;
+  opacity: 0.3;
   border-radius: 3px;
 
   &:hover {
@@ -38,7 +38,16 @@ $side_button: 24px;
   }
 }
 
-button.NpcCardInactive {
+button.ClickToSelect {
+  background-color: transparent;
+  z-index: 2;
+
+  &:hover {
+    background-color: rgba(1,1,1,.2);
+  }
+}
+
+.NpcCardInactive {
   display: grid;
   grid-template-columns: 1fr 20px 20px;
   column-gap: 4px;
@@ -116,7 +125,6 @@ button.NpcCardInactive {
   }
 }
 
-
 .NpcCardGrunt {
   display: grid;
   grid-template-columns: $side_button 1.3fr 42px .7fr $side_button;
@@ -124,7 +132,14 @@ button.NpcCardInactive {
 
   column-gap: 4px;
   row-gap: 4px;
-  padding: 6px 6px;
+  padding: 6px 6px 2px;
+
+  height: fit-content;
+
+  button.ClickToSelect {
+    grid-column: 2 / span 3;
+    grid-row: 1 / span 2;
+  }
 
   .ActivationsTracker {
     grid-column: 1;
@@ -197,8 +212,12 @@ button.NpcCardInactive {
 
   column-gap: 4px;
   row-gap: 4px;
-  padding: 6px 6px;
+  padding: 6px 6px 2px;
 
+  button.ClickToSelect {
+    grid-column: 2 / span 5;
+    grid-row: 1 / span 4;
+  }
 
   .ActivationsTracker {
     grid-column: 1;

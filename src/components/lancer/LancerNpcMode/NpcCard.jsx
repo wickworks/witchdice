@@ -54,11 +54,14 @@ const NpcCardGrunt = ({
   npc,
   onClickDie,
   onClickReserve,
+  onSelect,
 }) => {
   const npcData = findNpcClassData(npc.class)
 
   return (
     <div className='NpcCardGrunt'>
+
+      <button className='ClickToSelect' onClick={onSelect} />
 
       <div className='ActivationsTracker'>
         <input type='checkbox' />
@@ -97,11 +100,13 @@ const NpcCardFull = ({
   npc,
   onClickDie,
   onClickReserve,
+  onSelect,
 }) => {
   const npcData = findNpcClassData(npc.class)
 
   return (
     <div className='NpcCardFull'>
+      <button className='ClickToSelect' onClick={onSelect} />
 
       <div className='ActivationsTracker'>
         <input type='checkbox' />

@@ -9,17 +9,8 @@ const ActiveNpcBox = ({
 
   npcList,
   setNpcStatus,
+  setActiveNpcFingerprint,
 }) => {
-  // const [activeNpcID, setActiveNpcID] = useState(null);
-
-  // const npcEntries = [
-  //   {name: 'THE WORMS', class: 'Hornet', role: 'Controller', tier: 1, id: '123'},
-  //   {name: 'THE EARLY', class: 'Ronin', role: 'Striker', tier: 1, id: '321'},
-  //   {name: 'THE BIRDS', class: 'Cataphract', role: 'Striker', tier: 1, id: '222'},
-  // ]
-
-  // console.log(label,'npcList',npcList);
-
   const condensedClass = condensed ? 'condensed' : 'full'
 
   return (
@@ -47,6 +38,7 @@ const ActiveNpcBox = ({
                   npc={npc}
                   onClickDie={() => setNpcStatus(npc.fingerprint, 'casualties')}
                   onClickReserve={() => setNpcStatus(npc.fingerprint, 'reinforcements')}
+                  onSelect={() => setActiveNpcFingerprint(npc.fingerprint)}
                 />
               )
             } else {
@@ -56,6 +48,7 @@ const ActiveNpcBox = ({
                   npc={npc}
                   onClickDie={() => setNpcStatus(npc.fingerprint, 'casualties')}
                   onClickReserve={() => setNpcStatus(npc.fingerprint, 'reinforcements')}
+                  onSelect={() => setActiveNpcFingerprint(npc.fingerprint)}
                 />
               )
             }

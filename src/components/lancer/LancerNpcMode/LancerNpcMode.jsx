@@ -65,7 +65,7 @@ const LancerNpcMode = ({
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
 
   const activeEncounter = activeEncounterID && loadEncounterData(activeEncounterID);
-  const activeNpc = (activeEncounter && activeNpcFingerprint) && activeEncounter.allNpcs.find(npc => npc.id === activeNpcFingerprint);
+  const activeNpc = (activeEncounter && activeNpcFingerprint) && activeEncounter.allNpcs[activeNpcFingerprint];
 
 
   // =============== INITIALIZE ==================
@@ -290,6 +290,7 @@ const LancerNpcMode = ({
             condensed={false}
             npcList={npcListActive}
             setNpcStatus={setNpcStatus}
+            setActiveNpcFingerprint={setActiveNpcFingerprint}
           />
         </div>
       }
