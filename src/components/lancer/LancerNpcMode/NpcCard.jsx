@@ -19,7 +19,7 @@ const NpcCardInactive = ({
   // console.log('npcData',npcData);
 
   return (
-    <button className='NpcCardInactive'>
+    <button className='NpcCardInactive' onClick={onClick}>
       <div className='name'>
         {npc.name}
       </div>

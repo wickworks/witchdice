@@ -41,7 +41,6 @@ const NpcRoster = ({
 
           <tbody>
             {Object.keys(npcLibrary).map((npcID,i) => {
-              console.log('npcID',npcID);
               const npc = npcLibrary[npcID]
               const npcData = findNpcClassData(npc.class)
 

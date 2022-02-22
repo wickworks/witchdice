@@ -34,7 +34,7 @@ const ActiveNpcBox = ({
             const key = `${npc.id}-${i}`
 
             if (condensed) {
-              return (<NpcCardInactive npc={npc} key={key} onClick={() => setNpcStatus(i, 'active')}/>)
+              return (<NpcCardInactive npc={npc} key={key} onClick={() => setNpcStatus(npc.id, 'active')}/>)
             } else if (npc.templates.includes('npct_grunt')) {
               return (<NpcCardGrunt npc={npc} key={key}/>)
             } else {

@@ -19,10 +19,14 @@ import {
   NPC_LIBRARY_NAME,
 } from '../lancerLocalStorage.js';
 
-import { loadLocalData, saveLocalData, } from '../../../localstorage.js';
+import {
+  loadLocalData,
+  saveLocalData,
+  getIDFromStorageName,
+  getRandomFingerprint,
+} from '../../../localstorage.js';
 
 
-import { getIDFromStorageName, getRandomFingerprint } from '../../../localstorage.js';
 
 
 // import npcJson from './GRAVITYOFTHESITUATION.json';
@@ -36,7 +40,7 @@ const emptyEncounter = {
   active: [],
   reinforcements: [],
   casualties: [],
-  npcData: {},
+  allNpcs: {},
 }
 
 const SELECTED_ENCOUNTER_KEY = "lancer-selected-encounter"
@@ -61,7 +65,7 @@ const LancerNpcMode = ({
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
 
   const activeEncounter = activeEncounterID && loadEncounterData(activeEncounterID);
-  const activeNpc = (activeEncounter && activeNpcID) && activeEncounter.npcData.find(npc => npc.id === activeNpcID);
+  const activeNpc = (activeEncounter && activeNpcID) && activeEncounter.allNpcs.find(npc => npc.id === activeNpcID);
 
 
   // =============== INITIALIZE ==================
@@ -128,12 +132,15 @@ const LancerNpcMode = ({
 
   const addNpcToEncounter = (npcId) => {
     console.log('Adding npc to encounter', npcId);
-    const npcData = npcLibrary[npcId]
+    const npc = npcLibrary[npcId]
 
-    if (npcData) {
+    if (npc) {
+      let newNpc = deepCopy(npc)
+      newNpc.id = getRandomFingerprint() // need a new id so we can tell them apart
+
       let newEncounter = deepCopy(activeEncounter)
-      newEncounter.reinforcements.push(npcId)
-      newEncounter.npcData[npcId] = npcData
+      newEncounter.reinforcements.push(newNpc.id)
+      newEncounter.allNpcs[newNpc.id] = newNpc
 
       saveEncounterData(newEncounter)
       setTriggerRerender(!triggerRerender)
@@ -190,13 +197,26 @@ const LancerNpcMode = ({
   }
 
 
-  const npcListActive = activeEncounter && activeEncounter.active.map(id => activeEncounter.npcData[id])
-  const npcListReinforcements = activeEncounter && activeEncounter.reinforcements.map(id => activeEncounter.npcData[id])
-  const npcListCasualties = activeEncounter && activeEncounter.casualties.map(id => activeEncounter.npcData[id])
+  const npcListActive = activeEncounter && activeEncounter.active.map(id => activeEncounter.allNpcs[id])
+  const npcListReinforcements = activeEncounter && activeEncounter.reinforcements.map(id => activeEncounter.allNpcs[id])
+  const npcListCasualties = activeEncounter && activeEncounter.casualties.map(id => activeEncounter.allNpcs[id])
 
 
-  const setNpcStatus = () => {
+  const setNpcStatus = (npcId, status) => {
+    console.log('setNpcStatus', npcId, status);
 
+    let newEncounter = {...activeEncounter}
+
+    // remove it from all previous statuses
+    newEncounter.active = newEncounter.active.filter(id => id !== npcId)
+    newEncounter.reinforcements = newEncounter.reinforcements.filter(id => id !== npcId)
+    newEncounter.casualties = newEncounter.casualties.filter(id => id !== npcId)
+
+    // add it to the new list
+    newEncounter[status].push(npcId)
+
+    saveEncounterData(newEncounter)
+    setTriggerRerender(!triggerRerender)
   }
 
 
