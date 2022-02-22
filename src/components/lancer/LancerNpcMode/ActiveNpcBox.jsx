@@ -25,7 +25,7 @@ const ActiveNpcBox = ({
   return (
     <div className={`ActiveNpcBox ${condensedClass}`}>
       <div className={`panel ${condensedClass}`}>
-        <div className="title-bar">
+        <div className={`title-bar ${condensedClass}`}>
           <h2>{label}</h2>
         </div>
 

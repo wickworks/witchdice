@@ -3,6 +3,7 @@ import MechSheet from '../MechSheet/MechSheet.jsx';
 
 import { getCountersFromPilot } from '../MechState/mechStateUtils.js';
 import { isNpcFeatureTechAttack } from '../MechSheet/MechMount.jsx';
+import { getStat } from './npcUtils.js';
 import {
   findNpcClassData,
   findNpcFeatureData,
@@ -10,7 +11,7 @@ import {
   baselineMount,
 } from '../lancerData.js';
 
-const PlayerMechSheet = ({
+const NpcMechSheet = ({
   activeNpc,
 
   setTriggerRerender,
@@ -25,16 +26,6 @@ const PlayerMechSheet = ({
   const npcClassData = findNpcClassData(activeNpc.class)
 
   console.log('npcClassData',npcClassData);
-
-  function getStat(key) {
-    let stat = activeNpc.stats[key]
-    if (activeNpc.stats.overrides && activeNpc.stats.overrides[key] > 0) {
-      stat = activeNpc.stats.overrides[key]
-    } else if (activeNpc.stats.bonuses) {
-      stat += activeNpc.stats.bonuses[key] || 0
-    }
-    return stat
-  }
 
   const robotState = {
     overshield: activeNpc.overshield,
@@ -52,18 +43,18 @@ const PlayerMechSheet = ({
   }
 
   const robotStats = {
-    maxHP: getStat('hp'),
-    maxHeat: getStat('heatcap'),
+    maxHP: getStat('hp', activeNpc),
+    maxHeat: getStat('heatcap', activeNpc),
     maxRepairCap: 0,
 
-    size: getStat('size'),
-    armor: getStat('armor'),
-    evasion: getStat('evade'),
-    moveSpeed: getStat('speed'),
-    eDef: getStat('edef'),
-    saveTarget: getStat('save'),
-    sensorRange: getStat('sensor'),
-    techAttackBonus: getStat('systems'),
+    size: getStat('size', activeNpc),
+    armor: getStat('armor', activeNpc),
+    evasion: getStat('evade', activeNpc),
+    moveSpeed: getStat('speed', activeNpc),
+    eDef: getStat('edef', activeNpc),
+    saveTarget: getStat('save', activeNpc),
+    sensorRange: getStat('sensor', activeNpc),
+    techAttackBonus: getStat('systems', activeNpc),
 
     attackBonus: 0,
     attackBonusRanged: 0,
@@ -246,4 +237,4 @@ function getNpcTechAttacks(items) {
   return techAttacks
 }
 
-export default PlayerMechSheet;
+export default NpcMechSheet;

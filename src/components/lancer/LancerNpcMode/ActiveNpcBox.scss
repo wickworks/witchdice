@@ -29,6 +29,10 @@
         text-align: center;
         margin: 6px 0;
       }
+
+      &.condensed h2 {
+        color: $grey_mid_light;
+      }
     }
 
     .active-npc-container {
@@ -37,7 +41,7 @@
       // column-gap: 12px;
       // row-gap: 4px;
 
-      padding: 4px 10px;
+      padding: 4px 12px;
 
       &.condensed {
         // background-color: $soft_black;

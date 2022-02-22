@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { capitalize } from '../../../utils.js';
 
+import { getStat } from './npcUtils.js';
+
 import {
   findNpcClassData,
   findNpcFeatureData,
@@ -58,12 +60,11 @@ const NpcCardGrunt = ({
   return (
     <div className='NpcCardGrunt'>
 
-      <div className='activations'>
+      <div className='ActivationsTracker'>
         <input type='checkbox' />
       </div>
 
-      <div className={`tier asset npc-tier-${npc.tier}`} />
-
+      {/*<div className={`tier asset npc-tier-${npc.tier}`} />*/}
 
       <div className='name'>
         {npc.name}
@@ -75,10 +76,9 @@ const NpcCardGrunt = ({
 
       <div className={`portrait asset ${npcData.class} striker`} />
 
-      <div className='class'>
+      <div className='conditions'>
         {npc.conditions.join(', ')}
       </div>
-
 
       <button className='DieOrReserveButton die' onClick={onClickDie}>
         <div className='asset necrotic' />
@@ -95,12 +95,68 @@ const NpcCardGrunt = ({
 
 const NpcCardFull = ({
   npc,
+  onClickDie,
+  onClickReserve,
 }) => {
   const npcData = findNpcClassData(npc.class)
 
   return (
     <div className='NpcCardFull'>
 
+      <div className='ActivationsTracker'>
+        <input type='checkbox' />
+      </div>
+
+      <div className='name'>
+        {npc.name}
+      </div>
+
+      <div className='class'>
+        {getClassNames(npc, npcData)}
+      </div>
+
+      <div className='structure'>
+        {[...Array(getStat('structure',npc))].map((undef, i) => {
+          const filledClass = (i < npc.currentStats.structure) ? 'filled' : 'empty'
+          return (<div className={`asset structure ${filledClass}`} />)
+        })}
+      </div>
+
+      <div className='hp'>
+        <span className='numbers'>
+          {npc.currentStats.hp}/{getStat('hp',npc)}
+        </span>
+        <span className='label'>HP</span>
+      </div>
+
+      <div className={`portrait asset ${npcData.class} striker`} />
+
+      <div className='conditions'>
+        {npc.conditions.join(', ')}
+      </div>
+
+      <div className='stress'>
+        {[...Array(getStat('stress',npc))].map((undef, i) => {
+          const filledClass = (i < (npc.currentStats.stress || 1)) ? 'filled' : 'empty'
+          return (<div className={`asset reactor ${filledClass}`} />)
+        })}
+      </div>
+
+      <div className='heat'>
+        <span className='label'>Heat</span>
+        <span className='numbers'>
+          {npc.currentStats.heatcap}/{getStat('heatcap',npc)}
+        </span>
+
+      </div>
+
+      <button className='DieOrReserveButton die' onClick={onClickDie}>
+        <div className='asset necrotic' />
+      </button>
+
+      <button className='DieOrReserveButton reserve' onClick={onClickReserve}>
+        <div className='asset force' />
+      </button>
 
     </div>
   );
