@@ -146,13 +146,16 @@ const MechState = ({
     setCurrentOverchargeIndex( newIndex );
   }
 
+  // player mechs default to frame images, npcs have blank image
+  const defaultPortrait = robotInfo.frameID.startsWith('mf_') ? robotInfo.frameID : 'mf_standard_pattern_i_everest'
+
   return (
     <div className='MechState asset butterfly-watermark'>
 
       <MechCentralDiamond
         maxRepairCap={robotStats.maxRepairCap}
         mechPortraitCloud={robotInfo.cloud_portrait}
-        mechPortraitDefault={robotInfo.frameID}
+        mechPortraitDefault={defaultPortrait}
         mechSize={robotStats.size}
 
         currentStress={currentStress}

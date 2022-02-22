@@ -42,7 +42,7 @@ const NpcCardInactive = ({
         {getClassNames(npc, npcData)}
       </div>
 
-      <div className={`portrait asset ${npcData.class} striker`} />
+      <div className={`portrait asset ${npcData.class} mf_standard_pattern_i_everest`} />
 
       <div className={`role asset ${npcData.role.toLowerCase()}`} />
       <div className={`tier asset npc-tier-${npc.tier}`} />
@@ -79,7 +79,7 @@ const NpcCardGrunt = ({
         {getClassNames(npc, npcData)}
       </div>
 
-      <div className={`portrait asset ${npcData.class} striker`} />
+      <div className={`portrait asset ${npcData.class} mf_standard_pattern_i_everest`} />
 
       <div className='conditions'>
         {npc.conditions.join(', ')}
@@ -137,7 +137,7 @@ const NpcCardFull = ({
         <span className='label'>HP</span>
       </div>
 
-      <div className={`portrait asset ${npcData.class} striker`} />
+      <div className={`portrait asset ${npcData.class} mf_standard_pattern_i_everest`} />
 
       <div className='conditions'>
         {npc.conditions.join(', ')}

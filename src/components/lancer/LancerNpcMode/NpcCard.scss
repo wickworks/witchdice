@@ -4,7 +4,7 @@ $side_button: 24px;
 
 @keyframes flashIn {
   0% {
-    clip-path: polygon(0 0,0 0,0 100%,0 100%);
+    clip-path: polygon(0 0,10% 0,10% 100%,0 100%);
   }
   100% {
     clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
@@ -18,7 +18,7 @@ $side_button: 24px;
 
   &:hover {
     opacity: 1.0;
-    background-color: $rust;
+    background-color: $rust_light;
 
     .asset { filter: invert(100%); }
   }
@@ -57,7 +57,7 @@ button.ClickToSelect {
   }
 }
 
-.NpcCardInactive {
+button.NpcCardInactive {
   display: grid;
   grid-template-columns: 1fr 20px 20px;
   column-gap: 4px;
@@ -71,7 +71,7 @@ button.ClickToSelect {
   filter: brightness(110%);
   transition: filter .1s;
 
-  animation: .55s steps(8, end) 0s 1 flashIn;
+  animation: .45s steps(8, end) 0s 1 flashIn;
 
   &:hover {
     filter: brightness(140%);
@@ -142,10 +142,12 @@ button.ClickToSelect {
   padding: 6px 6px;
   height: fit-content;
 
-  animation: .55s steps(8, end) 0s 1 flashIn;
+  animation: .45s steps(8, end) 0s 1 flashIn;
 
   &#selected-npc-card {
-    background-color: $pumpkin;
+    background-color: $rust;
+    * { color: white; }
+    .asset:not(.portrait) { filter: invert(100%); }
   }
 }
 
@@ -175,6 +177,10 @@ button.ClickToSelect {
     grid-row: 1;
     text-align: right;
     align-self: end;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .class {
@@ -263,6 +269,10 @@ button.ClickToSelect {
     grid-column: 2 / span 2;
     grid-row: 1;
     text-align: right;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .class {
