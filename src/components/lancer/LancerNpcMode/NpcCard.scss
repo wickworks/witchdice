@@ -1,6 +1,23 @@
 @import '../../../fonts';
 
+$side_button: 24px;
 
+.DieOrReserveButton {
+  opacity: 0.5;
+  border-radius: 3px;
+
+  &:hover {
+    opacity: 1.0;
+    background-color: $rust;
+
+    .asset { filter: invert(100%); }
+  }
+
+  .asset {
+    width: $side_button;
+    height: $side_button;
+  }
+}
 
 button.NpcCardInactive {
   display: grid;
@@ -21,7 +38,7 @@ button.NpcCardInactive {
   }
 
   .name {
-    font-size: 16px;
+    font-size: 14px;
     color: $grey_mid;
     grid-column: 1;
     grid-row: 1;
@@ -30,7 +47,8 @@ button.NpcCardInactive {
   }
 
   .class {
-    font-size: 14px;
+    @include text_monospace;
+    font-size: 12px;
     color: $grey_mid;
     grid-column: 1;
     grid-row: 2;
@@ -81,10 +99,95 @@ button.NpcCardInactive {
 
 
 .NpcCardGrunt {
+  display: grid;
+  grid-template-columns: $side_button 1.3fr 42px .7fr $side_button;
+  grid-template-rows: 1fr 1fr;
+  column-gap: 4px;
+  row-gap: 4px;
 
+  padding: 6px 6px;
+
+  .DieOrReserveButton {
+    &.die {
+      grid-column: 5;
+      grid-row: 1;
+    }
+
+    &.reserve {
+      grid-column: 5;
+      grid-row: 2;
+    }
+  }
+
+  .name {
+    font-size: 16px;
+    color: $rust;
+    grid-column: 2;
+    grid-row: 1;
+    text-align: right;
+    align-self: end;
+  }
+
+  .class {
+    @include text_monospace;
+    font-size: 13px;
+    color: $grey_dark;
+    grid-column: 2;
+    grid-row: 2;
+    text-align: right;
+  }
+
+  .portrait.asset {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    align-self: center;
+
+    background-color: $mud;
+    width: 42px;
+    height: 42px;
+
+    clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+  }
+
+  .tier.asset {
+    display: none;
+
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
+    align-self: center;
+
+    width: $side_button;
+    height: $side_button;
+
+    // turns black to $rust
+    filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+
+  }
+
+  .activations {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    align-self: center;
+
+    display: flex;
+    align-items: center;
+
+
+    input {
+      width: $side_button;
+      height: $side_button;
+      margin: 0;
+    }
+  }
 }
 
 
 .NpcCardFull {
-
+  display: grid;
+  grid-template-columns: $side_button 1fr 20px 20px 20px 1fr $side_button;
+  grid-template-rows: 1fr 1fr .8fr 1.2fr;
+  // column-gap: 4px;
+  row-gap: 4px;
 }

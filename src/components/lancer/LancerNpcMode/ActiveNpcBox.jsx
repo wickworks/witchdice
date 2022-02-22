@@ -31,14 +31,33 @@ const ActiveNpcBox = ({
 
         <div className={`active-npc-container ${condensedClass}`}>
           {npcList.map((npc, i) => {
-            const key = `${npc.id}-${i}`
 
             if (condensed) {
-              return (<NpcCardInactive npc={npc} key={key} onClick={() => setNpcStatus(npc.id, 'active')}/>)
+              return (
+                <NpcCardInactive
+                  key={npc.fingerprint}
+                  npc={npc}
+                  onClick={() => setNpcStatus(npc.fingerprint, 'active')}
+                />
+              )
             } else if (npc.templates.includes('npct_grunt')) {
-              return (<NpcCardGrunt npc={npc} key={key}/>)
+              return (
+                <NpcCardGrunt
+                  key={npc.fingerprint}
+                  npc={npc}
+                  onClickDie={() => setNpcStatus(npc.fingerprint, 'casualties')}
+                  onClickReserve={() => setNpcStatus(npc.fingerprint, 'reinforcements')}
+                />
+              )
             } else {
-              return (<NpcCardFull npc={npc} key={key}/>)
+              return (
+                <NpcCardFull
+                  key={npc.fingerprint}
+                  npc={npc}
+                  onClickDie={() => setNpcStatus(npc.fingerprint, 'casualties')}
+                  onClickReserve={() => setNpcStatus(npc.fingerprint, 'reinforcements')}
+                />
+              )
             }
           })}
 

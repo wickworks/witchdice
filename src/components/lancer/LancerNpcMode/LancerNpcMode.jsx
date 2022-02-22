@@ -60,12 +60,12 @@ const LancerNpcMode = ({
   const [npcLibrary, setNpcLibrary] = useState({})
 
   const [activeEncounterID, setActiveEncounterID] = useState(null)
-  const [activeNpcID, setActiveNpcID] = useState(null)
+  const [activeNpcFingerprint, setActiveNpcFingerprint] = useState(null)
 
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
 
   const activeEncounter = activeEncounterID && loadEncounterData(activeEncounterID);
-  const activeNpc = (activeEncounter && activeNpcID) && activeEncounter.allNpcs.find(npc => npc.id === activeNpcID);
+  const activeNpc = (activeEncounter && activeNpcFingerprint) && activeEncounter.allNpcs.find(npc => npc.id === activeNpcFingerprint);
 
 
   // =============== INITIALIZE ==================
@@ -136,11 +136,11 @@ const LancerNpcMode = ({
 
     if (npc) {
       let newNpc = deepCopy(npc)
-      newNpc.id = getRandomFingerprint() // need a new id so we can tell them apart
+      newNpc.fingerprint = getRandomFingerprint() // need a new id so we can tell them apart
 
       let newEncounter = deepCopy(activeEncounter)
-      newEncounter.reinforcements.push(newNpc.id)
-      newEncounter.allNpcs[newNpc.id] = newNpc
+      newEncounter.reinforcements.push(newNpc.fingerprint)
+      newEncounter.allNpcs[newNpc.fingerprint] = newNpc
 
       saveEncounterData(newEncounter)
       setTriggerRerender(!triggerRerender)
@@ -185,7 +185,7 @@ const LancerNpcMode = ({
     }
 
     setActiveEncounterID(null);
-    setActiveNpcID(null);
+    setActiveNpcFingerprint(null);
   }
 
   const setActiveEncounter = (encounterID) => {
@@ -197,23 +197,23 @@ const LancerNpcMode = ({
   }
 
 
-  const npcListActive = activeEncounter && activeEncounter.active.map(id => activeEncounter.allNpcs[id])
-  const npcListReinforcements = activeEncounter && activeEncounter.reinforcements.map(id => activeEncounter.allNpcs[id])
-  const npcListCasualties = activeEncounter && activeEncounter.casualties.map(id => activeEncounter.allNpcs[id])
+  const npcListActive = activeEncounter && activeEncounter.active.map(fingerprint => activeEncounter.allNpcs[fingerprint])
+  const npcListReinforcements = activeEncounter && activeEncounter.reinforcements.map(fingerprint => activeEncounter.allNpcs[fingerprint])
+  const npcListCasualties = activeEncounter && activeEncounter.casualties.map(fingerprint => activeEncounter.allNpcs[fingerprint])
 
 
-  const setNpcStatus = (npcId, status) => {
-    console.log('setNpcStatus', npcId, status);
+  const setNpcStatus = (npcFingerprint, status) => {
+    console.log('setNpcStatus', npcFingerprint, status);
 
     let newEncounter = {...activeEncounter}
 
     // remove it from all previous statuses
-    newEncounter.active = newEncounter.active.filter(id => id !== npcId)
-    newEncounter.reinforcements = newEncounter.reinforcements.filter(id => id !== npcId)
-    newEncounter.casualties = newEncounter.casualties.filter(id => id !== npcId)
+    newEncounter.active = newEncounter.active.filter(id => id !== npcFingerprint)
+    newEncounter.reinforcements = newEncounter.reinforcements.filter(id => id !== npcFingerprint)
+    newEncounter.casualties = newEncounter.casualties.filter(id => id !== npcFingerprint)
 
     // add it to the new list
-    newEncounter[status].push(npcId)
+    newEncounter[status].push(npcFingerprint)
 
     saveEncounterData(newEncounter)
     setTriggerRerender(!triggerRerender)
