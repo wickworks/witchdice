@@ -67,6 +67,7 @@ const LancerNpcMode = ({
   const activeEncounter = activeEncounterID && loadEncounterData(activeEncounterID);
   const activeNpc = (activeEncounter && activeNpcFingerprint) && activeEncounter.allNpcs[activeNpcFingerprint];
 
+  // console.log('activeEncounter',activeEncounter);
 
   // =============== INITIALIZE ==================
   useEffect(() => {
@@ -108,7 +109,6 @@ const LancerNpcMode = ({
 
   // =============== NPC ROSTER ==================
 
-
   const createNewNpc = (npc) => {
     // sanity-check the npc file
     if (!npc || !npc.id || !npc.class) return
@@ -149,7 +149,6 @@ const LancerNpcMode = ({
 
   // =============== ENCOUNTERS ==================
 
-
   function buildNewEncounter() {
     let newEncounter = deepCopy(emptyEncounter)
     newEncounter.id = `${getRandomFingerprint()}`
@@ -168,7 +167,6 @@ const LancerNpcMode = ({
 
     saveEncounterData(newEncounter)
   }
-
 
   const deleteActiveEncounter = () => {
     if (!activeEncounter) return
@@ -196,12 +194,6 @@ const LancerNpcMode = ({
     }
   }
 
-
-  const npcListActive = activeEncounter && activeEncounter.active.map(fingerprint => activeEncounter.allNpcs[fingerprint])
-  const npcListReinforcements = activeEncounter && activeEncounter.reinforcements.map(fingerprint => activeEncounter.allNpcs[fingerprint])
-  const npcListCasualties = activeEncounter && activeEncounter.casualties.map(fingerprint => activeEncounter.allNpcs[fingerprint])
-
-
   const setNpcStatus = (npcFingerprint, status) => {
     console.log('setNpcStatus', npcFingerprint, status);
 
@@ -223,9 +215,70 @@ const LancerNpcMode = ({
   }
 
 
-  console.log('activeEncounter',activeEncounter);
+  const npcListActive = activeEncounter && activeEncounter.active.map(fingerprint => activeEncounter.allNpcs[fingerprint])
+  const npcListReinforcements = activeEncounter && activeEncounter.reinforcements.map(fingerprint => activeEncounter.allNpcs[fingerprint])
+  const npcListCasualties = activeEncounter && activeEncounter.casualties.map(fingerprint => activeEncounter.allNpcs[fingerprint])
 
-  // --- JUMPLINKS --
+
+  const updateNpcState = (newMechData) => {
+    if (!activeNpcFingerprint) return
+
+    let newEncounterData = {...activeEncounter}
+    let newNpcData = deepCopy(newEncounterData.allNpcs[activeNpcFingerprint])
+
+    if (newNpcData) {
+      Object.keys(newMechData).forEach(statKey => {
+        console.log('statKey:',statKey);
+        switch (statKey) {
+          // attributes outside of the currentStats
+          case 'conditions':
+          case 'custom_counters':
+          case 'counter_data':
+          case 'overshield':
+          case 'burn':
+            newNpcData[statKey] = newMechData[statKey]
+            break;
+
+          // equipment features
+          case 'systemUses':
+          case 'systemDestroyed':
+          case 'weaponDestroyed':
+            console.log('     equipment features');
+            break;
+
+          // not relavant for npcs
+          case 'current_overcharge':
+          case 'current_core_energy':
+          case 'current_repairs':
+            console.log('    not relavant for npcs');
+            break;
+
+          default: // change something in currentStats
+            // remove the 'current_'
+            const keyConversion = {
+              'current_hp': 'hp',
+              'current_heat': 'heatcap',
+              'current_structure': 'structure',
+              'current_stress': 'stress',
+            }
+            const convertedKey = keyConversion[statKey] || statKey
+            newNpcData.currentStats[convertedKey] = newMechData[statKey]
+
+            break;
+        }
+      })
+
+      console.log('newNpcData',newNpcData);
+      newEncounterData.allNpcs[newNpcData.fingerprint] = newNpcData
+
+      saveEncounterData(newEncounterData)
+      setTriggerRerender(!triggerRerender)
+    }
+  }
+
+
+  // =============== JUMPLINKS ==================
+
   let jumplinks = []
   if (!activeEncounter) {
     jumplinks.push('roster')
@@ -318,6 +371,8 @@ const LancerNpcMode = ({
           setPartyLastAttackKey={setPartyLastAttackKey}
           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
           setRollSummaryData={setRollSummaryData}
+
+          updateNpcState={updateNpcState}
         />
       </>}
 

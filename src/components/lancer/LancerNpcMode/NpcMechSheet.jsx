@@ -20,12 +20,13 @@ const NpcMechSheet = ({
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
   setRollSummaryData,
-}) => {
-  console.log('activeNpc',activeNpc);
 
+  updateNpcState
+}) => {
   const npcClassData = findNpcClassData(activeNpc.class)
 
-  console.log('npcClassData',npcClassData);
+  // console.log('activeNpc',activeNpc);
+  // console.log('npcClassData',npcClassData);
 
   const robotState = {
     overshield: activeNpc.overshield,
@@ -90,10 +91,6 @@ const NpcMechSheet = ({
 
   // =============== MECH STATE ==================
 
-  const updateMechState = (newMechData) => {
-
-  }
-
 
 
   return (
@@ -102,7 +99,7 @@ const NpcMechSheet = ({
       robotStats={robotStats}
       robotInfo={robotInfo}
       robotLoadout={robotLoadout}
-      updateMechState={updateMechState}
+      updateMechState={updateNpcState}
 
       accuracyAndDamageSourceInputs={accuracyAndDamageSourceInputs}
 

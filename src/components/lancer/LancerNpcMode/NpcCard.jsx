@@ -126,7 +126,7 @@ const NpcCardFull = ({
       <div className='structure'>
         {[...Array(getStat('structure',npc))].map((undef, i) => {
           const filledClass = (i < npc.currentStats.structure) ? 'filled' : 'empty'
-          return (<div className={`asset structure ${filledClass}`} />)
+          return (<div className={`asset structure ${filledClass}`} key={i} />)
         })}
       </div>
 
