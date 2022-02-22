@@ -26,6 +26,8 @@ import {
   getRandomFingerprint,
 } from '../../../localstorage.js';
 
+import { findNpcFeatureData, } from '../lancerData.js';
+
 
 
 
@@ -245,8 +247,14 @@ const LancerNpcMode = ({
           case 'systemDestroyed':
             newNpcData.items[newMechData[statKey].index].destroyed = newMechData[statKey].destroyed
           case 'weaponUses':
-            break
           case 'weaponDestroyed':
+            // find the item that generates this weapon
+            const weaponItems = newNpcData.items.filter(item => findNpcFeatureData(item.itemID).type === 'Weapon')
+            let weaponItem = weaponItems[newMechData[statKey].mountIndex]
+            if (weaponItem) {
+              if ('destroyed' in newMechData[statKey]) weaponItem.destroyed = newMechData[statKey].destroyed
+              if ('uses' in newMechData[statKey]) weaponItem.uses = newMechData[statKey].uses
+            }
             break;
 
           // not relavant for npcs

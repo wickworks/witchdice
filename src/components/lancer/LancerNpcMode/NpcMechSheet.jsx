@@ -171,6 +171,8 @@ function getNpcWeaponAttacks(items) {
     const featureData = findNpcFeatureData(item.itemID)
 
     if (featureData.type === 'Weapon') {
+      const attackBonus = featureData.attack_bonus ? featureData.attack_bonus[item.tier-1] : 0
+      const accuracyBonus = featureData.accuracy ? featureData.accuracy[item.tier-1] : 0
 
       // make a fascimile of player mounts
       weaponAttacks.push({
@@ -181,7 +183,7 @@ function getNpcWeaponAttacks(items) {
              size: featureData.weapon_type,
              weapon: {
                 id: item.itemID,
-                destroyed: false,
+                destroyed: item.destroyed,
                 cascading: false,
                 loaded: true,
                 note: item.description,
@@ -192,8 +194,8 @@ function getNpcWeaponAttacks(items) {
                 selectedProfile: 0,
 
                 npcTier: item.tier,
-                npcAttackBonus: featureData.attack_bonus[item.tier-1],
-                npcAccuracyBonus: featureData.accuracy[item.tier-1],
+                npcAttackBonus: attackBonus,
+                npcAccuracyBonus: accuracyBonus,
              }
           }
         ],

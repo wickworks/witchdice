@@ -139,7 +139,7 @@ button.ClickToSelect {
 
 
 .NpcCardGrunt, .NpcCardFull {
-  padding: 6px 6px 2px;
+  padding: 6px 6px;
   height: fit-content;
 
   animation: .55s steps(8, end) 0s 1 flashIn;
@@ -184,6 +184,15 @@ button.ClickToSelect {
     grid-column: 2;
     grid-row: 2;
     text-align: right;
+  }
+
+  .conditions {
+    @include text_monospace;
+    font-size: 10px;
+    color: $grey_dark;
+    margin-top: 6px;
+    grid-column: 4;
+    grid-row: 1 / span 2;
   }
 
   .portrait.asset {
@@ -254,7 +263,6 @@ button.ClickToSelect {
     grid-column: 2 / span 2;
     grid-row: 1;
     text-align: right;
-    align-self: end;
   }
 
   .class {
@@ -264,6 +272,15 @@ button.ClickToSelect {
     grid-column: 2;
     grid-row: 2;
     text-align: right;
+  }
+
+  .conditions {
+    @include text_monospace;
+    font-size: 10px;
+    color: $grey_dark;
+    margin-top: 2px;
+    grid-column: 5 / span 2;
+    grid-row: 1 / span 2;
   }
 
   .portrait.asset {
