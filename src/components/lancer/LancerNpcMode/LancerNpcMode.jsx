@@ -101,6 +101,45 @@ const LancerNpcMode = ({
     }
   }, []);
 
+
+  // =============== NPC ROSTER ==================
+
+
+  const createNewNpc = (npc) => {
+    // sanity-check the npc file
+    if (!npc || !npc.id || !npc.class) return
+
+    let newData = {...npcLibrary}
+    newData[npc.id] = npc;
+
+    // save the whole library to state & localstorage
+    setNpcLibrary(newData)
+    localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newData));
+  }
+
+  const uploadNpcFile = e => {
+    console.log('uploadNpcFile',uploadNpcFile);
+    const fileReader = new FileReader();
+    fileReader.readAsText(e.target.files[0], "UTF-8");
+    fileReader.onload = e => {
+      createNewNpc( JSON.parse(e.target.result) )
+    };
+  }
+
+  const addNpcToEncounter = (npcId) => {
+    console.log('Adding npc to encounter', npcId);
+    const npcData = npcLibrary[npcId]
+
+    if (npcData) {
+      let newEncounter = deepCopy(activeEncounter)
+      newEncounter.reinforcements.push(npcId)
+      newEncounter.npcData[npcId] = npcData
+
+      saveEncounterData(newEncounter)
+      setTriggerRerender(!triggerRerender)
+    }
+  }
+
   // =============== ENCOUNTERS ==================
 
 
@@ -156,48 +195,12 @@ const LancerNpcMode = ({
   const npcListCasualties = activeEncounter && activeEncounter.casualties.map(id => activeEncounter.npcData[id])
 
 
-  const updateActiveNpcState = () => {
+  const setNpcStatus = () => {
 
   }
 
-  // =============== NPC ROSTER ==================
 
-
-  const createNewNpc = (npc) => {
-    // sanity-check the npc file
-    if (!npc || !npc.id || !npc.class) return
-
-    let newData = {...npcLibrary}
-    newData[npc.id] = npc;
-
-    // save the whole library to state & localstorage
-    setNpcLibrary(newData)
-    localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newData));
-  }
-
-  const uploadNpcFile = e => {
-    console.log('uploadNpcFile',uploadNpcFile);
-    const fileReader = new FileReader();
-    fileReader.readAsText(e.target.files[0], "UTF-8");
-    fileReader.onload = e => {
-      createNewNpc( JSON.parse(e.target.result) )
-    };
-  }
-
-  const addNpcToEncounter = (npcId) => {
-    console.log('Adding npc to encounter', npcId);
-    const npcData = npcLibrary[npcId]
-
-    if (npcData) {
-      let newEncounter = deepCopy(activeEncounter)
-      newEncounter.reinforcements.push(npcId)
-      newEncounter.npcData[npcId] = npcData
-
-      saveEncounterData(newEncounter)
-      setTriggerRerender(!triggerRerender)
-    }
-  }
-
+  console.log('activeEncounter',activeEncounter);
 
   // --- JUMPLINKS --
   let jumplinks = ['roster']
@@ -254,16 +257,19 @@ const LancerNpcMode = ({
             label={'Reinforcements'}
             condensed={true}
             npcList={npcListReinforcements}
+            setNpcStatus={setNpcStatus}
           />
           <ActiveNpcBox
             label={'Casualties'}
             condensed={true}
             npcList={npcListCasualties}
+            setNpcStatus={setNpcStatus}
           />
           <ActiveNpcBox
             label={'Active Combatants'}
             condensed={false}
             npcList={npcListActive}
+            setNpcStatus={setNpcStatus}
           />
         </div>
       }

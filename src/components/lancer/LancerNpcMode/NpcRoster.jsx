@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { capitalize } from '../../../utils.js';
 
 import {
   findNpcClassData,
@@ -14,15 +15,6 @@ const NpcRoster = ({
   addNpcToEncounter,
   setIsUploadingNewFile,
 }) => {
-  // const [activeNpcID, setActiveNpcID] = useState(null);
-
-  // const npcEntries = [
-  //   {name: 'THE WORMS', class: 'Hornet', role: 'Controller', tier: 1, id: '123'},
-  //   {name: 'THE EARLY', class: 'Ronin', role: 'Striker', tier: 1, id: '321'},
-  //   {name: 'THE BIRDS', class: 'Cataphract', role: 'Striker', tier: 1, id: '222'},
-  // ]
-
-  // console.log('npcLibrary',npcLibrary);
 
   return (
     <div className='NpcRoster'>
@@ -57,7 +49,7 @@ const NpcRoster = ({
                 <tr className='npc' key={`${npc.id}-${i}`}>
                   <td className='add'><button onClick={() => addNpcToEncounter(npc.id)}>+</button></td>
                   <td className='name'>{npc.name}</td>
-                  <td className='class'>{npcData.name}</td>
+                  <td className='class'>{capitalize(npcData.name.toLowerCase())}</td>
                   <td className='role'><div className={`asset ${npcData.role.toLowerCase()}`}/></td>
                   <td className='tier'>{npc.tier}</td>
                 </tr>
@@ -67,12 +59,9 @@ const NpcRoster = ({
         </table>
       </div>
 
-
     </div>
   );
 }
-
-
 
 
 export default NpcRoster;

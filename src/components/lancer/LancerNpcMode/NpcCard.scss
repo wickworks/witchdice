@@ -1,0 +1,90 @@
+@import '../../../fonts';
+
+
+
+button.NpcCardInactive {
+  display: grid;
+  grid-template-columns: 1fr 20px 20px;
+  column-gap: 4px;
+  row-gap: 4px;
+
+  box-sizing: border-box;
+  width: 100%;
+  padding: 6px 6px;
+
+  background-color: $grey_very_very_dark;
+  filter: brightness(110%);
+  transition: filter .1s;
+
+  &:hover {
+    filter: brightness(140%);
+  }
+
+  .name {
+    font-size: 16px;
+    color: $grey_mid;
+    grid-column: 1;
+    grid-row: 1;
+    text-align: right;
+    align-self: end;
+  }
+
+  .class {
+    font-size: 14px;
+    color: $grey_mid;
+    grid-column: 1;
+    grid-row: 2;
+    text-align: right;
+  }
+
+  .portrait.asset {
+    grid-column: 2 / span 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+
+    background-color: $grey_very_dark;
+    width: 42px;
+    height: 42px;
+
+    // float: left;
+    // shape-outside: polygon(50% 0,100% 50%,50% 100%,0 50%);
+    clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+
+  }
+
+  .role.asset {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: start;
+    justify-self: end;
+
+    margin-top: -4px;
+    margin-right: -4px;
+    width: 16px;
+    height: 16px;
+    filter: invert(30%);
+  }
+
+  .tier.asset {
+    grid-column: 3;
+    grid-row: 2;
+    align-self: end;
+    justify-self: end;
+
+    margin-bottom: -2px;
+    margin-right: -4px;
+    width: 16px;
+    height: 16px;
+    filter: invert(25%);
+  }
+}
+
+
+.NpcCardGrunt {
+
+}
+
+
+.NpcCardFull {
+
+}

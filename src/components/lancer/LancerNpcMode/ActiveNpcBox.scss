@@ -4,14 +4,24 @@
 .ActiveNpcBox {
   .panel {
     @include shadow;
-    @include parchment_background;
-    @include nouveau_border('nouveau_list_characters.svg');
+    // @include parchment_background;
+    // @include nouveau_border('nouveau_list_characters.svg');
 
     box-sizing: border-box;
     width: 100%;
     min-width: 320px;
     min-height: 178px;
     padding: 10px 11px;
+
+    &.condensed {
+      background-color: $grey_very_dark;
+    }
+
+    &.full {
+      @include parchment_background;
+      @include nouveau_border('nouveau_list_characters.svg');
+    }
+
 
     .title-bar {
       h2 {
@@ -22,6 +32,17 @@
     }
 
     .active-npc-container {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      // column-gap: 4px;
+      // row-gap: 4px;
+
+      &.condensed {
+        // background-color: $soft_black;
+      }
+
+      &.full {
+      }
 
     }
   }
