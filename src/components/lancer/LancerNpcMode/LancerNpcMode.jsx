@@ -223,10 +223,16 @@ const LancerNpcMode = ({
   console.log('activeEncounter',activeEncounter);
 
   // --- JUMPLINKS --
-  let jumplinks = ['roster']
-  if (activeNpc) {
-    jumplinks.push('npc')
-    jumplinks.push('weapons')
+  let jumplinks = []
+  if (!activeEncounter) {
+    jumplinks.push('roster')
+  } else {
+    jumplinks.push('encounter')
+
+    if (activeNpc) {
+      jumplinks.push('npc')
+      jumplinks.push('weapons')
+    }
   }
   jumplinks.push('dicebag')
 
@@ -236,10 +242,8 @@ const LancerNpcMode = ({
 
       <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />
 
+      <div className='jumplink-anchor' id='roster' />
       <div className='encounter-and-roster-container'>
-        <div className='jumplink-anchor' id='roster' />
-
-
         <FileList
           title='NPC'
           extraClass='npcs'
@@ -271,6 +275,7 @@ const LancerNpcMode = ({
         />
       </div>
 
+      <div className='jumplink-anchor' id='encounter' />
       { activeEncounter &&
         <div className='active-npc-boxes-container'>
           <ActiveNpcBox
