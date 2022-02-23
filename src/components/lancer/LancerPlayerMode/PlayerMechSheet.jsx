@@ -75,6 +75,8 @@ const PlayerMechSheet = ({
     maxHP: getMechMaxHP(activeMech, activePilot, frameData),
     maxHeat: getMechMaxHeatCap(activeMech, activePilot, frameData),
     maxRepairCap: getMechMaxRepairCap(activeMech, activePilot, frameData),
+    maxStructure: 4,
+    maxStress: 4,
 
     size: frameData.stats.size,
     armor: getMechArmor(activeMech, activePilot, frameData),

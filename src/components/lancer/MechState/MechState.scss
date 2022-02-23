@@ -26,12 +26,12 @@
   .hull-and-engineering {
     display: flex;
     justify-content: center;
-    align-items: flex-end;
+    padding-top: 46px;
     width: 100%;
-    height: 168px;
 
     @include below_max_width {
-      height: unset;
+      // height: unset;
+      padding-top: 12px;
       flex-direction: column;
     }
 

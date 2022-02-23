@@ -9,9 +9,11 @@ const MechCentralDiamond = ({
   mechPortraitCloud,
   mechPortraitDefault,
 
+  maxStress,
   currentStress,
   setCurrentStress,
 
+  maxStructure,
   currentStructure,
   setCurrentStructure,
 
@@ -51,7 +53,7 @@ const MechCentralDiamond = ({
             extraClass='condensed structure'
             dotIcon='structure'
             zeroIcon='x'
-            maxNumber={4}
+            maxNumber={maxStructure}
             currentNumber={currentStructure}
             setCurrentNumber={setCurrentStructure}
             leftToRight={true}
@@ -66,7 +68,7 @@ const MechCentralDiamond = ({
             extraClass='condensed stress'
             dotIcon='reactor'
             zeroIcon='x'
-            maxNumber={4}
+            maxNumber={maxStress}
             currentNumber={currentStress}
             setCurrentNumber={setCurrentStress}
             leftToRight={true}

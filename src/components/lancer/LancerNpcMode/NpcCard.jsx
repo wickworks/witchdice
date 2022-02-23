@@ -161,7 +161,7 @@ const NpcCardFull = ({
       <div className='stress'>
         {[...Array(getStat('stress',npc))].map((undef, i) => {
           const filledClass = (i < (npc.currentStats.stress || 1)) ? 'filled' : 'empty'
-          return (<div className={`asset reactor ${filledClass}`} />)
+          return (<div className={`asset reactor ${filledClass}`} key={i} />)
         })}
       </div>
 

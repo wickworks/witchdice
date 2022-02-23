@@ -28,12 +28,6 @@ import {
 
 import { findNpcFeatureData, } from '../lancerData.js';
 
-
-
-
-// import npcJson from './GRAVITYOFTHESITUATION.json';
-import npcJson from './THEWORMS.json';
-
 import './LancerNpcMode.scss';
 
 const emptyEncounter = {
@@ -306,10 +300,9 @@ const LancerNpcMode = ({
 
   return (
     <div className='LancerNpcMode'>
+      <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />
+
       <div className='encounter-management'>
-
-        <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />
-
         <div className='jumplink-anchor' id='roster' />
         <div className='encounter-and-roster-container'>
           <FileList

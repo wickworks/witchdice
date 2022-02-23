@@ -158,9 +158,11 @@ const MechState = ({
         mechPortraitDefault={defaultPortrait}
         mechSize={robotStats.size}
 
+        maxStress={robotStats.maxStress}
         currentStress={currentStress}
         setCurrentStress={setCurrentStress}
 
+        maxStructure={robotStats.maxStructure}
         currentStructure={currentStructure}
         setCurrentStructure={setCurrentStructure}
 
@@ -205,7 +207,7 @@ const MechState = ({
               leftToRight={false}
             />
 
-            <MechNumberIcon
+            {robotStats.maxHP > 1 && <MechNumberIcon
               extraClass={`burning ${parseInt(currentBurn) > 0 ? 'active' : ''}`}
               icon='burn'
               onIconClick={() => handleBurnIconClick(false)}
@@ -215,7 +217,7 @@ const MechState = ({
               currentNumber={parseInt(currentBurn)}
               setCurrentNumber={setCurrentBurn}
               leftToRight={false}
-            />
+            />}
           </div>
         </div>
 
@@ -243,7 +245,7 @@ const MechState = ({
           />
 
           <div className='overcharge-and-core'>
-            <MechNumberIcon
+            {robotState.core_energy >= 0 && <MechNumberIcon
               extraClass={`core-power ${currentCore ? 'active' : ''}`}
               icon='core-power'
               onIconClick={() => setCurrentCore(false)}
@@ -252,9 +254,9 @@ const MechState = ({
               maxNumber={null}
               leftToRight={true}
               buttonOnly={true}
-            />
+            />}
 
-            <MechNumberIcon
+            {overchargeDie >= 0 && <MechNumberIcon
               extraClass='overcharge'
               icon='heat'
               onIconClick={() => handleOverchargeClick(false)}
@@ -265,7 +267,7 @@ const MechState = ({
               setCurrentNumber={() => {}}
               leftToRight={true}
               buttonOnly={true}
-            />
+            />}
           </div>
         </div>
       </div>
