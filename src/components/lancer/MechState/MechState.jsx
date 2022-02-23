@@ -222,60 +222,65 @@ const MechState = ({
         </div>
 
         <div className='engineering-container'>
+          { robotStats.maxHeat > 0 && <>
 
-          <div className={`heat-label ${isInDangerZone ? 'danger-zone' : ''}`}>
+            <div className={`heat-label ${isInDangerZone ? 'danger-zone' : ''}`}>
+              <MechNumberLabel
+                label="Heat"
+                maxNumber={robotStats.maxHeat}
+                currentNumber={currentHeat}
+                setCurrentNumber={setCurrentHeat}
+                leftToRight={true}
+              />
 
-            <MechNumberLabel
-              label="Heat"
+              <div className='danger-zone-container'>
+                { isInDangerZone &&
+                  <>
+                    <span className='decor'>!</span>
+                    <span className='words'>Danger<br/>Zone</span>
+                    <span className='decor'>!</span>
+                  </>
+                }
+              </div>
+            </div>
+
+            <MechNumberBar
               maxNumber={robotStats.maxHeat}
               currentNumber={currentHeat}
               setCurrentNumber={setCurrentHeat}
               leftToRight={true}
             />
 
-            <div className='danger-zone-container'>
-              { isInDangerZone &&
-                <>
-                  <span className='decor'>!</span>
-                  <span className='words'>Danger<br/>Zone</span>
-                  <span className='decor'>!</span>
-                </>
+            <div className='overcharge-and-core'>
+              {robotState.core_energy >= 0 &&
+                <MechNumberIcon
+                  extraClass={`core-power ${currentCore ? 'active' : ''}`}
+                  icon='core-power'
+                  onIconClick={() => setCurrentCore(false)}
+                  onIconRightClick={() => setCurrentCore(true)}
+                  iconTooltipData={coreTooltip}
+                  maxNumber={null}
+                  leftToRight={true}
+                  buttonOnly={true}
+                />
+              }
+
+              {overchargeDie >= 0 &&
+                <MechNumberIcon
+                  extraClass='overcharge'
+                  icon='heat'
+                  onIconClick={() => handleOverchargeClick(false)}
+                  onIconRightClick={() => handleOverchargeClick(true)}
+                  iconTooltipData={overchargeTooltip}
+                  maxNumber={null}
+                  currentNumber={overchargeDie}
+                  setCurrentNumber={() => {}}
+                  leftToRight={true}
+                  buttonOnly={true}
+                />
               }
             </div>
-          </div>
-
-          <MechNumberBar
-            maxNumber={robotStats.maxHeat}
-            currentNumber={currentHeat}
-            setCurrentNumber={setCurrentHeat}
-            leftToRight={true}
-          />
-
-          <div className='overcharge-and-core'>
-            {robotState.core_energy >= 0 && <MechNumberIcon
-              extraClass={`core-power ${currentCore ? 'active' : ''}`}
-              icon='core-power'
-              onIconClick={() => setCurrentCore(false)}
-              onIconRightClick={() => setCurrentCore(true)}
-              iconTooltipData={coreTooltip}
-              maxNumber={null}
-              leftToRight={true}
-              buttonOnly={true}
-            />}
-
-            {overchargeDie >= 0 && <MechNumberIcon
-              extraClass='overcharge'
-              icon='heat'
-              onIconClick={() => handleOverchargeClick(false)}
-              onIconRightClick={() => handleOverchargeClick(true)}
-              iconTooltipData={overchargeTooltip}
-              maxNumber={null}
-              currentNumber={overchargeDie}
-              setCurrentNumber={() => {}}
-              leftToRight={true}
-              buttonOnly={true}
-            />}
-          </div>
+          </>}
         </div>
       </div>
 
