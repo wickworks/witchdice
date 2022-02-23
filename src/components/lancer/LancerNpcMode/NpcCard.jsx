@@ -24,6 +24,17 @@ function getClassNames(npc, npcData) {
   return classNames.join(' ')
 }
 
+const NpcPortrait = ({ npc, npcData }) => {
+  return ( npc.cloudImage ?
+    <div className='NpcPortrait'>
+      <img src={npc.cloudImage} alt={'mech portrait'} />
+    </div>
+  :
+    <div className={`NpcPortrait asset ${npcData.class} mf_standard_pattern_i_everest`} />
+  )
+}
+
+
 const NpcCardInactive = ({
   npc,
   count,
@@ -46,7 +57,7 @@ const NpcCardInactive = ({
         {getClassNames(npc, npcData)}
       </div>
 
-      <div className={`portrait asset ${npcData.class} mf_standard_pattern_i_everest`} />
+      <NpcPortrait npc={npc} npcData={npcData} />
 
       <div className={`role asset ${npcData.role.toLowerCase()}`} />
       <div className={`tier asset npc-tier-${npc.tier}`} />
@@ -83,7 +94,7 @@ const NpcCardGrunt = ({
         {getClassNames(npc, npcData)}
       </div>
 
-      <div className={`portrait asset ${npcData.class} mf_standard_pattern_i_everest`} />
+      <NpcPortrait npc={npc} npcData={npcData} />
 
       <div className='conditions'>
         {npc.conditions.join(', ')}
@@ -141,7 +152,7 @@ const NpcCardFull = ({
         <span className='label'>HP</span>
       </div>
 
-      <div className={`portrait asset ${npcData.class} mf_standard_pattern_i_everest`} />
+      <NpcPortrait npc={npc} npcData={npcData} />
 
       <div className='conditions'>
         {npc.conditions.join(', ')}

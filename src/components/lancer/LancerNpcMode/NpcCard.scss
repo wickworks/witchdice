@@ -48,6 +48,19 @@ $side_button: 24px;
   }
 }
 
+.NpcPortrait {
+  align-self: center;
+  justify-self: center;
+  background-color: $mud;
+  clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+
+  img {
+    height: 100%;
+    margin: auto;
+    display: block;
+  }
+}
+
 button.ClickToSelect {
   background-color: transparent;
   z-index: 2;
@@ -59,13 +72,13 @@ button.ClickToSelect {
 
 button.NpcCardInactive {
   display: grid;
-  grid-template-columns: 20px 1fr 20px 20px;
+  grid-template-columns: 28px 1fr 20px 20px;
   column-gap: 4px;
   row-gap: 4px;
 
   box-sizing: border-box;
   width: 100%;
-  padding: 6px 6px;
+  padding: 6px 6px 6px 2px;
   // border-radius: 4px;
 
   background-color: $mud;
@@ -90,9 +103,9 @@ button.NpcCardInactive {
   .name {
     font-size: 14px;
     color: $grey_very_very_dark;
-    grid-column: 2;
+    grid-column: 2 / span 2;
     grid-row: 1;
-    text-align: right;
+    text-align: left;
     align-self: end;
   }
 
@@ -100,24 +113,17 @@ button.NpcCardInactive {
     @include text_monospace;
     font-size: 12px;
     color: $grey_very_very_dark;
-    grid-column: 2;
+    grid-column: 2 / span 2;
     grid-row: 2;
-    text-align: right;
+    text-align: left;
   }
 
-  .portrait.asset {
+  .NpcPortrait {
     grid-column: 3 / span 2;
     grid-row: 1 / span 2;
-    align-self: center;
-
-    background-color: $grey_very_dark;
     width: 42px;
     height: 42px;
-
-    // float: left;
-    // shape-outside: polygon(50% 0,100% 50%,50% 100%,0 50%);
-    clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
-
+    background-color: $grey_very_dark;
   }
 
   .role.asset {
@@ -157,7 +163,7 @@ button.NpcCardInactive {
   &#selected-npc-card {
     background-color: $rust;
     * { color: white; }
-    .asset:not(.portrait) { filter: invert(100%); }
+    .asset:not(.NpcPortrait) { filter: invert(100%); }
   }
 }
 
@@ -211,17 +217,11 @@ button.NpcCardInactive {
     grid-row: 1 / span 2;
   }
 
-  .portrait.asset {
+  .NpcPortrait {
     grid-column: 3;
     grid-row: 1 / span 2;
-    align-self: center;
-    justify-self: center;
-
-    background-color: $mud;
     width: 42px;
     height: 42px;
-
-    clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
   }
 
   // .tier.asset {
@@ -303,17 +303,11 @@ button.NpcCardInactive {
     grid-row: 1 / span 2;
   }
 
-  .portrait.asset {
+  .NpcPortrait {
     grid-column: 3 / span 3;
     grid-row: 1 / span 4;
-    align-self: center;
-    justify-self: center;
-
-    background-color: $mud;
     width: 70px;
     height: 70px;
-
-    clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
   }
 
   .structure, .stress {
