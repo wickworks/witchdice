@@ -223,10 +223,7 @@ const MechState = ({
 
         <div className='engineering-container'>
 
-          <div className='heat-label'>
-            <div className='danger-zone-container'>
-              { isInDangerZone && '!! Danger Zone !!' }
-            </div>
+          <div className={`heat-label ${isInDangerZone ? 'danger-zone' : ''}`}>
 
             <MechNumberLabel
               label="Heat"
@@ -235,6 +232,16 @@ const MechState = ({
               setCurrentNumber={setCurrentHeat}
               leftToRight={true}
             />
+
+            <div className='danger-zone-container'>
+              { isInDangerZone &&
+                <>
+                  <span className='decor'>!</span>
+                  <span className='words'>Danger<br/>Zone</span>
+                  <span className='decor'>!</span>
+                </>
+              }
+            </div>
           </div>
 
           <MechNumberBar

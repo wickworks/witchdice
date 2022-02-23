@@ -225,7 +225,7 @@ const LancerNpcMode = ({
 
     if (newNpcData) {
       Object.keys(newMechData).forEach(statKey => {
-        console.log('statKey:',statKey);
+        // console.log('statKey:',statKey);
         switch (statKey) {
           // attributes outside of the currentStats
           case 'conditions':
@@ -274,7 +274,7 @@ const LancerNpcMode = ({
         }
       })
 
-      console.log('newNpcData',newNpcData);
+      // console.log('newNpcData',newNpcData);
       newEncounterData.allNpcs[newNpcData.fingerprint] = newNpcData
 
       saveEncounterData(newEncounterData)

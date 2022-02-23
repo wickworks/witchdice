@@ -83,13 +83,23 @@
         margin-left: 40px;
         display: flex;
         justify-content: space-between;
-        flex-direction: column;
+        align-items: center;
 
         .danger-zone-container {
           @include text_monospace;
-          font-size: 20px;
-          font-style: italic;
-          color: $rust_dark;
+          text-align: center;
+          color: $rust;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          .words { font-size: 14px; }
+          .decor { font-size: 32px; }
+        }
+
+        &.danger-zone .MechNumberLabel {
+          .label, .numerical-count { color: $rust; }
+          input { background-color: $pink; border-color: $rust; }
         }
 
         @include below_max_width {
