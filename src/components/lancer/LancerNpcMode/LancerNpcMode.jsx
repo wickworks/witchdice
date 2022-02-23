@@ -216,11 +216,12 @@ const LancerNpcMode = ({
   const npcListCasualties = activeEncounter && activeEncounter.casualties.map(fingerprint => activeEncounter.allNpcs[fingerprint])
 
 
-  const updateNpcState = (newMechData) => {
-    if (!activeNpcFingerprint) return
+  const updateNpcState = (newMechData, npcFingerprint = null) => {
+    // default to the current fingerprint if none is given
+    if (!npcFingerprint) npcFingerprint = activeNpcFingerprint
 
     let newEncounterData = {...activeEncounter}
-    let newNpcData = deepCopy(newEncounterData.allNpcs[activeNpcFingerprint])
+    let newNpcData = deepCopy(newEncounterData.allNpcs[npcFingerprint])
 
     if (newNpcData) {
       Object.keys(newMechData).forEach(statKey => {
@@ -259,7 +260,7 @@ const LancerNpcMode = ({
             break;
 
           default: // change something in currentStats
-            // remove the 'current_'
+            // remove the 'current_' for keys that have it
             const keyConversion = {
               'current_hp': 'hp',
               'current_heat': 'heatcap',
@@ -358,6 +359,7 @@ const LancerNpcMode = ({
               setNpcStatus={setNpcStatus}
               setActiveNpcFingerprint={setActiveNpcFingerprint}
               activeNpcFingerprint={activeNpcFingerprint}
+              updateNpcState={updateNpcState}
             />
           </div>
         }
@@ -367,15 +369,13 @@ const LancerNpcMode = ({
         <div className='jumplink-anchor' id='npc' />
         <NpcMechSheet
           activeNpc={activeNpc}
+          updateNpcState={updateNpcState}
 
           setTriggerRerender={setTriggerRerender}
           triggerRerender={triggerRerender}
-
           setPartyLastAttackKey={setPartyLastAttackKey}
           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
           setRollSummaryData={setRollSummaryData}
-
-          updateNpcState={updateNpcState}
         />
       </>}
     </div>

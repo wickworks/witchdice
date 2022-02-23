@@ -34,6 +34,27 @@ const NpcPortrait = ({ npc, npcData }) => {
   )
 }
 
+const ActivationsTracker = ({ npc, updateNpcState }) => {
+  const current = npc.currentStats.activations
+  const max = getStat('activations',npc)
+  return (
+    <div className='ActivationsTracker'>
+      {[...Array(max)].map((undef, i) => {
+        const isFilled = (i >= current)
+        const onClickSetActivations = current + (isFilled ? 1 : -1)
+        return (
+          <input
+            type='checkbox'
+            checked={isFilled}
+            onChange={() => updateNpcState({activations: onClickSetActivations}, npc.fingerprint)}
+            key={i}
+          />
+        )
+      })}
+    </div>
+  )
+}
+
 
 const NpcCardInactive = ({
   npc,
@@ -68,6 +89,7 @@ const NpcCardInactive = ({
 
 const NpcCardGrunt = ({
   npc,
+  updateNpcState,
   onClickDie,
   onClickReserve,
   onSelect,
@@ -80,9 +102,7 @@ const NpcCardGrunt = ({
 
       <button className='ClickToSelect' onClick={onSelect} disabled={isSelected}/>
 
-      <div className='ActivationsTracker'>
-        <input type='checkbox' />
-      </div>
+      <ActivationsTracker npc={npc} updateNpcState={updateNpcState} />
 
       {/*<div className={`tier asset npc-tier-${npc.tier}`} />*/}
 
@@ -115,6 +135,7 @@ const NpcCardGrunt = ({
 
 const NpcCardFull = ({
   npc,
+  updateNpcState,
   onClickDie,
   onClickReserve,
   onSelect,
@@ -126,9 +147,7 @@ const NpcCardFull = ({
     <div className='NpcCardFull' id={isSelected ? 'selected-npc-card' : ''}>
       <button className='ClickToSelect' onClick={onSelect} disabled={isSelected} />
 
-      <div className='ActivationsTracker'>
-        <input type='checkbox' />
-      </div>
+      <ActivationsTracker npc={npc} updateNpcState={updateNpcState} />
 
       <div className='name'>
         {npc.name}

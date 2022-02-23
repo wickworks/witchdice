@@ -10,6 +10,7 @@ const ActiveNpcBox = ({
   setNpcStatus,
   activeNpcFingerprint,
   setActiveNpcFingerprint,
+  updateNpcState,
 }) => {
 
 
@@ -26,6 +27,7 @@ const ActiveNpcBox = ({
               <NpcCardGrunt
                 key={npc.fingerprint}
                 npc={npc}
+                updateNpcState={updateNpcState}
                 onClickDie={() => setNpcStatus(npc.fingerprint, 'casualties')}
                 onClickReserve={() => setNpcStatus(npc.fingerprint, 'reinforcements')}
                 onSelect={() => setActiveNpcFingerprint(npc.fingerprint)}
@@ -37,6 +39,7 @@ const ActiveNpcBox = ({
               <NpcCardFull
                 key={npc.fingerprint}
                 npc={npc}
+                updateNpcState={updateNpcState}
                 onClickDie={() => setNpcStatus(npc.fingerprint, 'casualties')}
                 onClickReserve={() => setNpcStatus(npc.fingerprint, 'reinforcements')}
                 onSelect={() => setActiveNpcFingerprint(npc.fingerprint)}
