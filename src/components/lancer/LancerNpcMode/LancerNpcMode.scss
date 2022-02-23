@@ -3,54 +3,68 @@
 
 .LancerNpcMode {
 
-  .encounter-and-roster-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap-reverse;
-    max-width: 800px;
-    box-sizing: border-box;
-    width: 100%;
-    margin: 20px auto;
+  .encounter-management {
+    @include standard_side_margin;
 
-    .FileList.npcs {
+    .encounter-and-roster-container {
+      display: flex;
+
       box-sizing: border-box;
       width: 100%;
-      max-width: 390px;
-      margin: auto;
+      max-width: 800px;
+      margin: 20px auto;
 
-      .panel {
-        margin: 0;
-      }
-    }
-
-    .CharacterList {
-      box-sizing: border-box;
-      width: 100%;
-      max-width: 390px;
-      margin: auto;
-
-      .panel {
-        margin: 0;
-      }
-    }
-  }
-
-  .active-npc-boxes-container {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    max-width: 800px;
-    box-sizing: border-box;
-    width: 100%;
-    margin: 20px auto;
-
-    .ActiveNpcBox {
-      &.condensed {
-        width: 50%;
+      @include below_max_width {
+        flex-wrap: wrap-reverse;
       }
 
-      &.full {
+      .FileList.npcs {
+        box-sizing: border-box;
         width: 100%;
+        margin: auto;
+      }
+
+      .CharacterList {
+        box-sizing: border-box;
+        width: 100%;
+        margin: auto;
+
+        .panel {
+          margin: 0;
+        }
+      }
+    }
+
+    .active-npc-boxes-container {
+      // @include shadow;
+      // @include parchment_background;
+      // @include nouveau_border('nouveau_lancer_mech.svg');
+
+      // display: flex;
+      // justify-content: space-between;
+      // flex-wrap: wrap;
+
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(390px, 1fr));
+
+      grid-column-gap: 4px;
+      grid-row-gap: 12px;
+
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 20px;
+
+      .ActiveNpcBox {
+        // &.condensed {
+        //   width: 48%;
+        // }
+
+        &.full {
+          grid-column: 1 / span 2;
+
+          @include below_max_width { grid-column: 1; }
+        }
       }
     }
   }

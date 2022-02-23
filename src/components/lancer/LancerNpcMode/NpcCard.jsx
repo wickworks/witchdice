@@ -26,14 +26,18 @@ function getClassNames(npc, npcData) {
 
 const NpcCardInactive = ({
   npc,
+  count,
   onClick,
-  isSelected,
 }) => {
   const npcData = findNpcClassData(npc.class)
   // console.log('npcData',npcData);
 
   return (
     <button className='NpcCardInactive' onClick={onClick}>
+      <div className='count'>
+        {count}
+      </div>
+
       <div className='name'>
         {npc.name}
       </div>

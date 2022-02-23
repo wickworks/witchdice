@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FileList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
 import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
-import ActiveNpcBox from './ActiveNpcBox.jsx';
+import { ActiveNpcBox, CondensedNpcBox } from './ActiveNpcBox.jsx';
 import NpcMechSheet from './NpcMechSheet.jsx';
 import NpcRoster from './NpcRoster.jsx';
 import JumplinkPanel from '../JumplinkPanel.jsx';
@@ -306,70 +306,69 @@ const LancerNpcMode = ({
 
   return (
     <div className='LancerNpcMode'>
+      <div className='encounter-management'>
 
-      <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />
+        <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />
 
-      <div className='jumplink-anchor' id='roster' />
-      <div className='encounter-and-roster-container'>
-        <FileList
-          title='NPC'
-          extraClass='npcs'
-          onFileUpload={uploadNpcFile}
-          onFilePaste={parsedJson => createNewNpc(parsedJson)}
-          isUploadingNewFile={isUploadingNewFile}
-          setIsUploadingNewFile={setIsUploadingNewFile}
-          instructions={
-            <>
-              Upload a npc data file (.json) from
-              <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
-            </>
-          }
-        >
-          <NpcRoster
-            npcLibrary={npcLibrary}
-            addNpcToEncounter={addNpcToEncounter}
+        <div className='jumplink-anchor' id='roster' />
+        <div className='encounter-and-roster-container'>
+          <FileList
+            title='NPC'
+            extraClass='npcs'
+            onFileUpload={uploadNpcFile}
+            onFilePaste={parsedJson => createNewNpc(parsedJson)}
+            isUploadingNewFile={isUploadingNewFile}
             setIsUploadingNewFile={setIsUploadingNewFile}
-            hasActiveEncounter={!!activeEncounter}
-          />
-        </FileList>
+            instructions={
+              <>
+                Upload a npc data file (.json) from
+                <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
+              </>
+            }
+          >
+            <NpcRoster
+              npcLibrary={npcLibrary}
+              addNpcToEncounter={addNpcToEncounter}
+              setIsUploadingNewFile={setIsUploadingNewFile}
+              hasActiveEncounter={!!activeEncounter}
+            />
+          </FileList>
 
-        <CharacterList
-          title='Encounter'
-          characterEntries={allEncounterEntries}
-          handleEntryClick={setActiveEncounter}
-          activeCharacterID={activeEncounterID}
-          deleteActiveCharacter={deleteActiveEncounter}
-          createNewCharacter={createNewEncounter}
-        />
-      </div>
-
-      <div className='jumplink-anchor' id='encounter' />
-      { activeEncounter &&
-        <div className='active-npc-boxes-container'>
-          <ActiveNpcBox
-            label={'Reinforcements'}
-            condensed={true}
-            npcList={npcListReinforcements}
-            setNpcStatus={setNpcStatus}
-            activeNpcFingerprint={activeNpcFingerprint}
-          />
-          <ActiveNpcBox
-            label={'Casualties'}
-            condensed={true}
-            npcList={npcListCasualties}
-            setNpcStatus={setNpcStatus}
-            activeNpcFingerprint={activeNpcFingerprint}
-          />
-          <ActiveNpcBox
-            label={'Active Combatants'}
-            condensed={false}
-            npcList={npcListActive}
-            setNpcStatus={setNpcStatus}
-            setActiveNpcFingerprint={setActiveNpcFingerprint}
-            activeNpcFingerprint={activeNpcFingerprint}
+          <CharacterList
+            title='Encounter'
+            characterEntries={allEncounterEntries}
+            handleEntryClick={setActiveEncounter}
+            activeCharacterID={activeEncounterID}
+            deleteActiveCharacter={deleteActiveEncounter}
+            createNewCharacter={createNewEncounter}
           />
         </div>
-      }
+
+        <div className='jumplink-anchor' id='encounter' />
+        { activeEncounter &&
+          <div className='active-npc-boxes-container'>
+            <CondensedNpcBox
+              label={'~ Reinforcements ~'}
+              npcList={npcListReinforcements}
+              setNpcStatus={setNpcStatus}
+              activeNpcFingerprint={activeNpcFingerprint}
+            />
+            <CondensedNpcBox
+              label={'~ Casualties ~'}
+              npcList={npcListCasualties}
+              setNpcStatus={setNpcStatus}
+              activeNpcFingerprint={activeNpcFingerprint}
+            />
+            <ActiveNpcBox
+              label={'Active Combatants'}
+              npcList={npcListActive}
+              setNpcStatus={setNpcStatus}
+              setActiveNpcFingerprint={setActiveNpcFingerprint}
+              activeNpcFingerprint={activeNpcFingerprint}
+            />
+          </div>
+        }
+      </div>
 
       { activeNpc && <>
         <div className='jumplink-anchor' id='npc' />
@@ -386,7 +385,6 @@ const LancerNpcMode = ({
           updateNpcState={updateNpcState}
         />
       </>}
-
     </div>
   );
 }
