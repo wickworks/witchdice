@@ -11,13 +11,24 @@ const ActiveNpcBox = ({
   activeNpcFingerprint,
   setActiveNpcFingerprint,
   updateNpcState,
+  currentRound,
+  setCurrentRound,
 }) => {
 
 
   return (
     <div className='ActiveNpcBox full'>
       <div className='title-bar full'>
+        <div className='spacer' />
         <h2>{label}</h2>
+        <button
+          className='end-round'
+          onClick={() => setCurrentRound(currentRound+1)}
+          onContextMenu={(e) => { e.preventDefault(); setCurrentRound(Math.max(1,currentRound-1)); } }
+        >
+          <div className='finish'>Finish</div>
+          <div className='round-count'>Round {currentRound}</div>
+        </button>
       </div>
 
       <div className='npcs-container full'>

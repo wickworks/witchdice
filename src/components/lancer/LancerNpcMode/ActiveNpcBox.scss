@@ -22,10 +22,15 @@
   &.full {
     @include parchment_background;
     @include nouveau_border('nouveau_lancer_mech.svg');
-    padding: 18px 14px;
+    padding: 14px 12px 18px;
   }
 
   .title-bar {
+    h2 {
+      @include text_monospace;
+      text-align: center;
+    }
+
     &.condensed h2 {
       // color: $grey_dark;
       color: $grey_very_very_dark;
@@ -33,37 +38,59 @@
       margin: 10px 0;
     }
 
-    &.full h2 {
-      color: $rust;
-      font-size: 32px;
-      margin: 12px 0 8px;
-    }
+    &.full {
+      display: grid;
+      grid-template-columns: 1fr 5fr 1fr;
+      padding: 0 0 12px;
 
-    h2 {
-      @include text_monospace;
-      text-align: center;
+      h2 {
+        color: $rust;
+        font-size: 32px;
+        margin: 12px 0 8px;
+      }
+
+      button.end-round {
+        @include text_monospace;
+        background-color: $pink;
+        border-radius: 0 12px 0 12px;
+
+        &:hover {
+          background-color: $rust_light;
+        }
+
+        .finish {
+          font-size: 14px;
+        }
+
+        .round-count {
+          font-size: 18px;
+        }
+      }
     }
   }
 
   .npcs-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
     grid-auto-flow: dense;
 
     padding: 0 6px;
 
     &.condensed {
+      grid-template-columns: 1fr 1fr;
       column-gap: 6px;
       row-gap: 6px;
-      // padding: 3px;
     }
 
     &.full {
-      // padding-bottom: 40px;
-      // background-color: $parchment_mid;
+      grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
 
       >*:nth-child(4n), >*:nth-child(4n-3) {
         background-color: $parchment_dark;
+      }
+
+      @include below_max_width {
+        >*:nth-child(odd) { background-color: $parchment_dark; }
+        >*:nth-child(even) { background-color: transparent; }
       }
 
     }

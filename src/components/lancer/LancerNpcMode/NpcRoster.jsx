@@ -17,6 +17,8 @@ const NpcRoster = ({
   hasActiveEncounter,
 }) => {
 
+  const buttonsDisabled = !hasActiveEncounter
+
   return (
     <div className='NpcRoster'>
       <div className='roster-container'>
@@ -32,7 +34,6 @@ const NpcRoster = ({
         <table className="roster-table">
           <thead>
             <tr className='headers'>
-              <th className='add'></th>
               <th className='name'>Name</th>
               <th className='class'>Class</th>
               <th className='role'>Role</th>
@@ -46,8 +47,11 @@ const NpcRoster = ({
               const npcData = findNpcClassData(npc.class)
 
               return (
-                <tr className='npc' key={`${npc.id}-${i}`}>
-                  <td className='add'><button onClick={() => addNpcToEncounter(npc.id)} disabled={!hasActiveEncounter}>+</button></td>
+                <tr
+                  className={`npc ${buttonsDisabled ? 'disabled' : ''}`}
+                  onClick={() => !buttonsDisabled && addNpcToEncounter(npc.id)}
+                  key={`${npc.id}-${i}`}
+                >
                   <td className='name'>{npc.name}</td>
                   <td className='class'>{capitalize(npcData.name.toLowerCase())}</td>
                   <td className='role'><div className={`asset ${npcData.role.toLowerCase()}`}/></td>

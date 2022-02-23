@@ -27,6 +27,7 @@ import {
 } from '../../../localstorage.js';
 
 import { findNpcFeatureData, } from '../lancerData.js';
+import { getStat } from './npcUtils.js';
 
 import './LancerNpcMode.scss';
 
@@ -37,6 +38,7 @@ const emptyEncounter = {
   reinforcements: [],
   casualties: [],
   allNpcs: {},
+  roundCount: 1,
 }
 
 const SELECTED_ENCOUNTER_KEY = "lancer-selected-encounter"
@@ -81,13 +83,13 @@ const LancerNpcMode = ({
       if (key === NPC_LIBRARY_NAME) setNpcLibrary( JSON.parse(localStorage.getItem(NPC_LIBRARY_NAME)) )
     }
 
-    // If we have no encounters, make a new one
-    if (encounterEntries.length === 0) {
-      const newEncounter = buildNewEncounter()
-      encounterEntries.push(newEncounter)
-      setActiveEncounterID(newEncounter.id)
-      saveEncounterData(newEncounter)
-    }
+    // // If we have no encounters, make a new one
+    // if (encounterEntries.length === 0) {
+    //   const newEncounter = buildNewEncounter()
+    //   encounterEntries.push(newEncounter)
+    //   setActiveEncounterID(newEncounter.id)
+    //   saveEncounterData(newEncounter)
+    // }
 
     setAllEncounterEntries(encounterEntries.map(encounter => ({name: encounter.name, id: encounter.id})));
 
@@ -210,6 +212,21 @@ const LancerNpcMode = ({
     if (activeNpcFingerprint === npcFingerprint) setActiveNpcFingerprint(null)
   }
 
+  const setCurrentRound = (newRound) => {
+    let newEncounter = {...activeEncounter}
+    newEncounter.roundCount = newRound
+
+    // reset all npc activations
+    if (newRound > activeEncounter.roundCount) {
+      Object.keys(newEncounter.allNpcs).forEach(fingerprint => {
+        let npc = newEncounter.allNpcs[fingerprint]
+        npc.currentStats['activations'] = getStat('activations', npc)
+      })
+    }
+
+    saveEncounterData(newEncounter)
+    setTriggerRerender(!triggerRerender)
+  }
 
   const npcListActive = activeEncounter && activeEncounter.active.map(fingerprint => activeEncounter.allNpcs[fingerprint])
   const npcListReinforcements = activeEncounter && activeEncounter.reinforcements.map(fingerprint => activeEncounter.allNpcs[fingerprint])
@@ -360,6 +377,8 @@ const LancerNpcMode = ({
               setActiveNpcFingerprint={setActiveNpcFingerprint}
               activeNpcFingerprint={activeNpcFingerprint}
               updateNpcState={updateNpcState}
+              currentRound={activeEncounter.roundCount}
+              setCurrentRound={setCurrentRound}
             />
           </div>
         }

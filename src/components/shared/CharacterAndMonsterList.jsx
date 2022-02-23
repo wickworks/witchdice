@@ -57,14 +57,14 @@ const CharacterList = ({
         }
       </div>
 
-      <EntryList
-        entries={characterEntries}
-        handleEntryClick={handleEntryClick}
-        activeCharacterID={activeCharacterID}
-        deleteActiveCharacter={deleteActiveCharacter}
-      />
-
-      { characterEntries.length === 0 &&
+      { characterEntries.length > 0 ?
+        <EntryList
+          entries={characterEntries}
+          handleEntryClick={handleEntryClick}
+          activeCharacterID={activeCharacterID}
+          deleteActiveCharacter={deleteActiveCharacter}
+        />
+      :
         <button className="new-character first" onClick={createNewCharacter}>
           New {title}
           <div className="asset plus"/>
