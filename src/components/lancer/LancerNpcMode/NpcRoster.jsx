@@ -19,16 +19,11 @@ const NpcRoster = ({
 
   const buttonsDisabled = !hasActiveEncounter
 
-  console.log('npcLibrary',npcLibrary);
-  console.log('Object.values(npcLibrary)',Object.values(npcLibrary));
-
   let sortedLibrary = Object.values(npcLibrary).sort(function(a, b){
     if(a.name < b.name) { return -1; }
     if(a.name > b.name) { return 1; }
     return 0;
   })
-
-  console.log('sortedLibrary',sortedLibrary);
 
   return (
     <div className='NpcRoster'>
@@ -42,36 +37,38 @@ const NpcRoster = ({
           </button>
         </div>
 
-        <table className="roster-table">
-          <thead>
-            <tr className='headers'>
-              <th className='name'>Name</th>
-              <th className='class'>Class</th>
-              <th className='role'>Role</th>
-              <th className='tier'>Tier</th>
-            </tr>
-          </thead>
+        <div className='table-scrollable-area'>
+          <table className="roster-table">
+            <thead>
+              <tr className='headers'>
+                <th className='name'>Name</th>
+                <th className='class'>Class</th>
+                <th className='role'>Role</th>
+                <th className='tier'>Tier</th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {sortedLibrary.map((npc,i) => {
-              // const npc = sortedLibrary[npcID]
-              const npcData = findNpcClassData(npc.class)
+            <tbody>
+              {sortedLibrary.map((npc,i) => {
+                // const npc = sortedLibrary[npcID]
+                const npcData = findNpcClassData(npc.class)
 
-              return (
-                <tr
-                  className={`npc ${buttonsDisabled ? 'disabled' : ''}`}
-                  onClick={() => !buttonsDisabled && addNpcToEncounter(npc.id)}
-                  key={`${npc.id}-${i}`}
-                >
-                  <td className='name'>{npc.name}</td>
-                  <td className='class'>{capitalize(npcData.name.toLowerCase())}</td>
-                  <td className='role'><div className={`asset ${npcData.role.toLowerCase()}`}/></td>
-                  <td className='tier'>{npc.tier}</td>
-                </tr>
-              )
-            })}
-          </tbody>
-        </table>
+                return (
+                  <tr
+                    className={`npc ${buttonsDisabled ? 'disabled' : ''}`}
+                    onClick={() => !buttonsDisabled && addNpcToEncounter(npc.id)}
+                    key={`${npc.id}-${i}`}
+                  >
+                    <td className='name'>{npc.name}</td>
+                    <td className='class'>{capitalize(npcData.name.toLowerCase())}</td>
+                    <td className='role'><div className={`asset ${npcData.role.toLowerCase()}`}/></td>
+                    <td className='tier'>{npc.tier}</td>
+                  </tr>
+                )
+              })}
+            </tbody>
+          </table>
+        </div>
       </div>
 
     </div>

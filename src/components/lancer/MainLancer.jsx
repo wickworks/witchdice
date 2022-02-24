@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FileList } from './FileAndPlainList.jsx';
+import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 import LancerPlayerMode from './LancerPlayerMode/LancerPlayerMode.jsx';
 import LancerNpcMode from './LancerNpcMode/LancerNpcMode.jsx';
 
@@ -38,6 +39,7 @@ const MainLancer = ({
   const [allLcpEntries, setAllLcpEntries] = useState([coreLcpEntry]);
   const [activeLcpID, setActiveLcpID] = useState(coreLcpEntry.id);
   const [isShowingLcpList, setIsShowingLcpList] = useState(false);
+  const [isUploadingNewLcpFile, setIsUploadingNewLcpFile] = useState(false);
 
   const [triggerRerender, setTriggerRerender] = useState(false);
   const [gameMode, setGameMode] = useState(GAME_MODE_NPC);
@@ -161,14 +163,20 @@ const MainLancer = ({
             title='Lancer Content Pack'
             extraClass='content-packs'
             acceptFileType='.lcp'
-            allFileEntries={allLcpEntries}
-            setActiveFileID={setActiveLcpID}
-            activeFileID={activeLcpID}
-            deleteActiveFile={deleteActiveLcp}
             onFileUpload={uploadLcpFile}
-            onTitleClick={() => setIsShowingLcpList(false)}
+            isUploadingNewFile={isUploadingNewLcpFile}
+            setIsUploadingNewFile={setIsUploadingNewLcpFile}
+            instructions={<>Upload a Lancer content pack (.lcp)</>}
           >
-            Upload a Lancer content pack (.lcp)
+            <CharacterList
+              title='Lancer Content Pack'
+              characterEntries={allLcpEntries}
+              handleEntryClick={setActiveLcpID}
+              activeCharacterID={activeLcpID}
+              deleteActiveCharacter={deleteActiveLcp}
+              createNewCharacter={() => setIsUploadingNewLcpFile(true)}
+              onTitleClick={() => setIsShowingLcpList(false)}
+            />
           </FileList>
         :
           <button className='lcp-list-collapsed' onClick={() => setIsShowingLcpList(true)}>

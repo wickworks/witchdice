@@ -112,20 +112,46 @@ const LancerNpcMode = ({
     // sanity-check the npc file
     if (!npc || !npc.id || !npc.class) return
 
-    let newData = {...npcLibrary}
-    newData[npc.id] = npc;
+    let newNpcLibrary = {...npcLibrary}
+    newNpcLibrary[npc.id] = npc;
 
     // save the whole library to state & localstorage
-    setNpcLibrary(newData)
-    localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newData));
+    setNpcLibrary(newNpcLibrary)
+    localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
   }
 
   const uploadNpcFile = e => {
-    console.log('uploadNpcFile',uploadNpcFile);
+    const fileName = e.target.files[0].name
+
     const fileReader = new FileReader();
     fileReader.readAsText(e.target.files[0], "UTF-8");
     fileReader.onload = e => {
-      createNewNpc( JSON.parse(e.target.result) )
+
+      // compcon backups — have a lot of stuff we don't need
+      if (fileName.endsWith('.compcon')) {
+        console.log('loaded a compcon app!');
+        const compconBackup = JSON.parse(e.target.result)
+        console.log('compconBackup',compconBackup);
+        const npcFile = compconBackup.find(backupFile => backupFile.filename.startsWith('npcs'))
+        console.log('npcFile',npcFile);
+        const npcArray = JSON.parse(npcFile.data)
+        console.log('npcArray',npcArray);
+
+        // create ALL the new npcs & save them to localstorage
+        let newNpcLibrary = {...npcLibrary}
+        // npcArray.forEach(npc => newNpcLibrary[npc.id] = npc );
+        npcArray.forEach(npc => {
+          console.log('NPC:');
+          console.log(npc);
+          newNpcLibrary[npc.id] = npc
+        });
+        setNpcLibrary(newNpcLibrary)
+        localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
+
+      // single json npc; just create it
+      } else {
+        createNewNpc( JSON.parse(e.target.result) )
+      }
     };
   }
 
@@ -384,13 +410,13 @@ const LancerNpcMode = ({
           <FileList
             title='NPC'
             extraClass='npcs'
+            acceptFileType='application/JSON,.compcon'
             onFileUpload={uploadNpcFile}
-            onFilePaste={parsedJson => createNewNpc(parsedJson)}
             isUploadingNewFile={isUploadingNewFile}
             setIsUploadingNewFile={setIsUploadingNewFile}
             instructions={
               <>
-                Upload a npc data file (.json) from
+                Upload a npc data file (.json) - OR - a full data backup (.compcon) from
                 <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
               </>
             }

@@ -13,6 +13,7 @@
     min-height: 178px;
     padding: 10px 16px 40px;
 
+
     .title-bar {
       position: relative;
       display: flex;
@@ -80,66 +81,81 @@
       }
     }
 
-    table.roster-table {
-      box-sizing: border-box;
-      width: 100%;
-      padding: 8px 12px;
-      border-spacing: 0;
+    .table-scrollable-area {
+      max-height: 400px;
+      overflow: auto;
 
-      th {
-        padding: 0 4px;
+      table.roster-table {
+        position: relative;
+        box-sizing: border-box;
+        width: 100%;
+        padding: 0 10px 8px;
+        border-spacing: 0;
 
-        &.name, &.class {
-          text-align: left;
-          padding-left: 0;
+        tr.headers {
+          background-color: $parchment_dark;
+          position: sticky;
+          left: 0;
+          top: 0;
+
+          th {
+            padding: 4px;
+
+            &.name, &.class {
+              text-align: left;
+            }
+          }
         }
-      }
 
-      tr.npc {
-        cursor: pointer;
+        tr.npc {
+          cursor: pointer;
 
-        &:hover {
-          background-color: $pink;
+          &:hover {
+            background-color: $pink;
+          }
+
+          &.disabled {
+            cursor: auto;
+            background-color: transparent;
+          }
         }
 
-        &.disabled {
-          cursor: auto;
-          background-color: transparent;
+        td.name {
+          padding-left: 4px;
         }
+
+        td.role .asset {
+          margin: auto;
+          width: 24px;
+          height: 24px;
+        }
+
+        td.tier {
+          text-align: center;
+        }
+
+        // td.add {
+        //   text-align: center;
+        //
+        //   button {
+        //     width: 24px;
+        //     height: 24px;
+        //     color: $rust;
+        //     font-size: 20px;
+        //     font-weight: bold;
+        //
+        //     &:hover {
+        //       background-color: $rust;
+        //       color: white;
+        //     }
+        //
+        //     &:disabled {
+        //       background-color: transparent;
+        //       color: $grey_mid
+        //     }
+        //   }
+        // }
       }
-
-
-      td.role .asset {
-        margin: auto;
-        width: 24px;
-        height: 24px;
-      }
-
-      td.tier {
-        text-align: center;
-      }
-
-      // td.add {
-      //   text-align: center;
-      //
-      //   button {
-      //     width: 24px;
-      //     height: 24px;
-      //     color: $rust;
-      //     font-size: 20px;
-      //     font-weight: bold;
-      //
-      //     &:hover {
-      //       background-color: $rust;
-      //       color: white;
-      //     }
-      //
-      //     &:disabled {
-      //       background-color: transparent;
-      //       color: $grey_mid
-      //     }
-      //   }
-      // }
     }
   }
 }

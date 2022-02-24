@@ -20,6 +20,7 @@ const FileList = ({
   // Moved to parent so it can have flexible children
   // const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
 
+
   const [pastedFile, setPastedFile] = useState('');
   const [pastedError, setPastedError] = useState(false);
 

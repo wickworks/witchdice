@@ -26,6 +26,9 @@
         @include below_max_width {
           margin: 12px auto 0;
         }
+
+        // upload-file
+        .panel { margin: 0; }
       }
 
       .encounter-list-and-info {

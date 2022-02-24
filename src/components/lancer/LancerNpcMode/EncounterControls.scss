@@ -12,6 +12,8 @@
   .TextInput {
     margin: 8px 8px 0;
 
+    .display:hover { background-color: $pink; }
+
     .display, input {
       @include text_monospace;
       font-size: 22px;

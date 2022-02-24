@@ -11,7 +11,7 @@ $side_button: 24px;
   }
 }
 
-@keyframes flashIn {
+@keyframes changeCount {
   0% {
     filter: brightness(100%);
     transform: scale(100%);
@@ -125,7 +125,7 @@ button.NpcCardInactive {
     height: 100%;
     border-radius: 50%;
 
-    animation: .2s linear 0s 1 flashIn;
+    animation: .2s linear 0s 1 changeCount;
   }
 
   .name {
