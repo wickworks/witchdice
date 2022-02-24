@@ -95,6 +95,30 @@ button.ClickToSelect {
   align-items: center;
   justify-content: space-between;
 
+  &:hover button.delete { opacity: .5; }
+
+  button.delete {
+    padding: 4px;
+    border-radius: 50%;
+    margin-left: 4px;
+
+    transition: opacity .1s;
+    opacity: 0;
+
+    &:hover {
+      opacity: 1.0;
+      background-color: $concrete_violet;
+    }
+
+    .asset {
+      width: 26px;
+      height: 26px;
+
+      // black to $crushed_velvet_dark
+      filter: invert(9%) sepia(58%) saturate(2075%) hue-rotate(288deg) brightness(95%) contrast(104%);
+    }
+  }
+
   button.card {
     display: grid;
     grid-template-columns: 42px 1fr 20px 20px;
@@ -188,26 +212,6 @@ button.ClickToSelect {
       width: 16px;
       height: 16px;
       filter: invert(25%);
-    }
-  }
-
-  button.delete {
-    padding: 4px;
-    opacity: 0.5;
-    border-radius: 50%;
-    margin-left: 4px;
-
-    &:hover {
-      opacity: 1.0;
-      background-color: $concrete_violet;
-    }
-
-    .asset {
-      width: 26px;
-      height: 26px;
-
-      // black to $crushed_velvet_dark
-      filter: invert(9%) sepia(58%) saturate(2075%) hue-rotate(288deg) brightness(95%) contrast(104%);
     }
   }
 }
