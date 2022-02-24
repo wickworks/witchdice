@@ -10,7 +10,6 @@ $grid_count: 8;
 }
 
 .MechCentralDiamond {
-
   width: 220px;
   height: 220px;
 
@@ -21,11 +20,10 @@ $grid_count: 8;
   justify-content: center;
   align-items: center;
 
-
   @include max_width {
     position: absolute;
     left: 50%;
-    top: 80px;
+    top: 44px;
     transform: translateX(-50%) rotate(-45deg);
     z-index: 5;
   }

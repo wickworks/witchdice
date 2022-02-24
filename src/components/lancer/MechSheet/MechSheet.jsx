@@ -109,11 +109,6 @@ const MechSheet = ({
           <div className="frame">{robotInfo.frameName}</div>
         </div>
 
-        <MechTraits
-          sectionTitle='Frame Traits & Core System'
-          frameTraits={robotLoadout.frameTraits}
-        />
-
         <MechState
           robotState={robotState}
           robotStats={robotStats}
@@ -121,25 +116,35 @@ const MechSheet = ({
           updateMechState={updateMechState}
         />
 
+        {/*Frame Traits & Core System*/}
+        { robotLoadout.frameTraits.length > 0 &&
+          <MechTraits
+            sectionTitle='Frame Traits'
+            frameTraits={robotLoadout.frameTraits}
+          />
+        }
+
+        { robotLoadout.systems.length > 0 &&
+          <MechTraits
+            sectionTitle='Systems'
+            frameTraits={robotLoadout.systems}
+            setLimitedCountForSystem={(count, systemIndex) =>
+              updateMechState({
+                systemUses: {index: systemIndex, uses: count}
+              })
+            }
+            setDestroyedForSystem={(destroyed, systemIndex) =>
+              updateMechState({
+                systemDestroyed: {index: systemIndex, destroyed: destroyed}
+              })
+            }
+          />
+        }
+
         <ConditionsAndCounters
           activeConditions={robotState.conditions}
           activeCounters={robotState.counters}
           updateMechState={updateMechState}
-        />
-
-        <MechTraits
-          sectionTitle='Systems'
-          frameTraits={robotLoadout.systems}
-          setLimitedCountForSystem={(count, systemIndex) =>
-            updateMechState({
-              systemUses: {index: systemIndex, uses: count}
-            })
-          }
-          setDestroyedForSystem={(destroyed, systemIndex) =>
-            updateMechState({
-              systemDestroyed: {index: systemIndex, destroyed: destroyed}
-            })
-          }
         />
 
         <div className='jumplink-anchor' id='weapons' />

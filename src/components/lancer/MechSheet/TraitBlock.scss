@@ -19,6 +19,8 @@
     color: white;
     padding: 6px 12px;
 
+    border-radius: 0 14px 0 7px;
+
     &.title-case { text-transform: capitalize; }
     &.action, &.reaction { background-color: $crushed_velvet; }
     &.core-power { background-color: $rust_dark; }
@@ -86,6 +88,8 @@
     padding: 8px 12px 10px;
 
     background-color: #fff6db;
+
+    border-radius: 0 0 0 14px;
 
     p:first-child { margin-top: 0; }
 
