@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { NpcCardFull, NpcCardGrunt, NpcCardInactive } from './NpcCard.jsx';
 
 import './ActiveNpcBox.scss';

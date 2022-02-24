@@ -14,21 +14,30 @@ const DeleteButton = ({
 }
 
 const DeleteConfirmation = ({
-  name,
+  name = '',
+  fullConfirmMessage = '', // optional override for the confirm message
+  deleteWord = 'Delete',
+  deleteIcon = 'trash',
   handleCancel,
   handleDelete,
-  moreClasses = ''
+  moreClasses = '',
 }) => {
   return (
     <div className={`DeleteConfirmation ${moreClasses}`}>
       <div className='title-container'>
-        <div className='delete-title'>Delete {name}?</div>
+        <div className='delete-title'>
+          {fullConfirmMessage ?
+            fullConfirmMessage
+          :
+            `Delete ${name}?`
+          }
+        </div>
       </div>
 
       <div className='controls'>
         <button className='delete' onClick={handleDelete}>
-          <div className='asset trash' />
-          <div className='label'>Delete</div>
+          <div className={`asset ${deleteIcon}`} />
+          <div className='label'>{deleteWord}</div>
         </button>
         <button className='cancel' onClick={handleCancel}>
           <div className='asset x' />

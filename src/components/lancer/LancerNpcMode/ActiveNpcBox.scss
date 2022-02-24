@@ -54,17 +54,9 @@
         background-color: $pink;
         border-radius: 0 12px 0 12px;
 
-        &:hover {
-          background-color: $rust_light;
-        }
-
-        .finish {
-          font-size: 14px;
-        }
-
-        .round-count {
-          font-size: 18px;
-        }
+        &:hover { background-color: $rust_light; }
+        .finish { font-size: 14px; }
+        .round-count { font-size: 18px; }
       }
     }
   }

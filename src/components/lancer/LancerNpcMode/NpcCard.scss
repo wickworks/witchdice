@@ -159,6 +159,7 @@ button.NpcCardInactive {
 .NpcCardGrunt, .NpcCardFull {
   padding: 6px 6px;
   height: fit-content;
+  box-sizing: border-box;
 
   animation: .45s steps(8, end) 0s 1 flashIn;
 

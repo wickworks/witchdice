@@ -15,19 +15,13 @@
 }
 
 .DeleteConfirmation {
-  display: flex;
-  align-items: center;
+
   height: 100%;
   width: 100%;
   background-color: $parchment_dark;
 
-  @media screen and (max-width: 800px) {
-    flex-direction: column;
-
-    .controls {
-      width: 100%;
-    }
-  }
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 
   .title-container {
     display: flex;
@@ -55,12 +49,13 @@
       @include text_default;
       font-weight: bold;
       font-size: 16px;
-      // height: 100%;
-      // width: 100%;
-      width: 100px;
+      height: 100%;
+      width: 100%;
+      // width: 100px;
+      min-width: 100px;
       padding: 15px 0;
       border: 0;
-      opacity: .85;
+      opacity: .8;
 
       @media screen and (max-width: 800px) {
         width: 100%;

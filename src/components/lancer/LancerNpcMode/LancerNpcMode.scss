@@ -1,6 +1,5 @@
 @import '../../../fonts';
 
-
 .LancerNpcMode {
 
   .encounter-management {
@@ -22,24 +21,35 @@
       .FileList.npcs {
         box-sizing: border-box;
         width: 100%;
-        margin: auto;
+        margin: 0 12px 0 0;
+
+        @include below_max_width {
+          margin: 12px auto 0;
+        }
       }
 
-      // Encounters
-      .CharacterList {
-        box-sizing: border-box;
-        width: unset;
-        margin: auto;
+      .encounter-list-and-info {
+        margin: 0 auto;
 
-        .EntryList {
-          display: block;
+        // Encounters
+        .CharacterList {
+          box-sizing: border-box;
+          width: unset;
+          margin: 0;
 
-          li {
-            width: 100%;
-            font-size: 20px;
+          border-radius: 14px 14px 0 0;
+
+          .EntryList {
+            display: block;
+
+            li {
+              width: 100%;
+              font-size: 16px;
+            }
           }
         }
       }
+
     }
 
     .active-npc-boxes-container {

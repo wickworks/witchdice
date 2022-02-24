@@ -3,11 +3,12 @@ import { FileList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
 import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import { ActiveNpcBox, CondensedNpcBox } from './ActiveNpcBox.jsx';
+import EncounterControls from './EncounterControls.jsx';
 import NpcMechSheet from './NpcMechSheet.jsx';
 import NpcRoster from './NpcRoster.jsx';
 import JumplinkPanel from '../JumplinkPanel.jsx';
 
-import { deepCopy } from '../../../utils.js';
+import { deepCopy, capitalize } from '../../../utils.js';
 import { randomWords } from '../../../random_words.js';
 
 import {
@@ -150,7 +151,7 @@ const LancerNpcMode = ({
   function buildNewEncounter() {
     let newEncounter = deepCopy(emptyEncounter)
     newEncounter.id = `${getRandomFingerprint()}`
-    newEncounter.name = `${randomWords(1)}-${randomWords(1)}`
+    newEncounter.name = capitalize(`${randomWords({exactly: 1, maxLength: 5})} ${randomWords(1)}`)
 
     return newEncounter
   }
@@ -193,8 +194,6 @@ const LancerNpcMode = ({
   }
 
   const setNpcStatus = (npcFingerprint, status) => {
-    console.log('setNpcStatus', npcFingerprint, status);
-
     let newEncounter = {...activeEncounter}
 
     // remove it from all previous statuses
@@ -228,77 +227,136 @@ const LancerNpcMode = ({
     setTriggerRerender(!triggerRerender)
   }
 
-  const npcListActive = activeEncounter && activeEncounter.active.map(fingerprint => activeEncounter.allNpcs[fingerprint])
-  const npcListReinforcements = activeEncounter && activeEncounter.reinforcements.map(fingerprint => activeEncounter.allNpcs[fingerprint])
-  const npcListCasualties = activeEncounter && activeEncounter.casualties.map(fingerprint => activeEncounter.allNpcs[fingerprint])
+  const restartEncounter = () => {
+    let newEncounter = deepCopy(activeEncounter)
 
+    // Reset round counter
+    newEncounter.roundCount = 1
+
+    // Heal all NPCs
+    Object.keys(newEncounter.allNpcs).forEach(fingerprint => {
+      const npc = newEncounter.allNpcs[fingerprint]
+
+      const healedState = {
+        repairAllWeaponsAndSystems: true,
+        conditions: [],
+        custom_counters: [],
+        counter_data: [],
+        overshield: 0,
+        current_hp: getStat('hp', npc),
+        current_heat: 0,
+        burn: 0,
+        current_structure: getStat('structure', npc),
+        current_stress: getStat('stress', npc),
+      }
+      applyUpdatesToNpc(healedState, npc)
+    })
+
+    // Move them all back to "reinforcements"
+    newEncounter.reinforcements.push(...newEncounter.active)
+    newEncounter.reinforcements.push(...newEncounter.casualties)
+    newEncounter.active = []
+    newEncounter.casualties = []
+
+    saveEncounterData(newEncounter)
+    setTriggerRerender(!triggerRerender)
+  }
+
+  const setEncounterName = (newName) => {
+    let newEncounter = {...activeEncounter}
+    newEncounter.name = newName
+
+    saveEncounterData(newEncounter)
+    setTriggerRerender(!triggerRerender)
+  }
+
+  // applies the changes to an npc object ~ in place ~
+  function applyUpdatesToNpc(newMechData, newNpc) {
+
+    Object.keys(newMechData).forEach(statKey => {
+      // console.log('statKey:',statKey);
+      switch (statKey) {
+        // attributes outside of the currentStats
+        case 'conditions':
+        case 'custom_counters':
+        case 'counter_data':
+        case 'overshield':
+        case 'burn':
+          newNpc[statKey] = newMechData[statKey]
+          break;
+
+        // equipment features
+        case 'systemUses':
+          newNpc.items[newMechData[statKey].index].uses = newMechData[statKey].uses
+          break;
+        case 'systemDestroyed':
+          newNpc.items[newMechData[statKey].index].destroyed = newMechData[statKey].destroyed
+          break;
+        case 'weaponUses':
+        case 'weaponDestroyed':
+          // find the item that generates this weapon
+          const weaponItems = newNpc.items.filter(item => findNpcFeatureData(item.itemID).type === 'Weapon')
+          let weaponItem = weaponItems[newMechData[statKey].mountIndex]
+          if (weaponItem) {
+            if ('destroyed' in newMechData[statKey]) weaponItem.destroyed = newMechData[statKey].destroyed
+            if ('uses' in newMechData[statKey]) weaponItem.uses = newMechData[statKey].uses
+          }
+          break;
+        case 'repairAllWeaponsAndSystems':
+          newNpc.items.forEach(item => {
+            // item.uses = x // how are we doing npc system uses?
+            item.destroyed = false
+          });
+
+
+
+
+        // not relavant for npcs
+        case 'current_overcharge':
+        case 'current_core_energy':
+        case 'current_repairs':
+          console.log('    not relavant for npcs');
+          break;
+
+        default: // change something in currentStats
+          // remove the 'current_' for keys that have it
+          const keyConversion = {
+            'current_hp': 'hp',
+            'current_heat': 'heatcap',
+            'current_structure': 'structure',
+            'current_stress': 'stress',
+            'activations': 'activations'
+          }
+          const convertedKey = keyConversion[statKey] || statKey
+          newNpc.currentStats[convertedKey] = newMechData[statKey]
+
+          break;
+      }
+    })
+  }
 
   const updateNpcState = (newMechData, npcFingerprint = null) => {
     // default to the current fingerprint if none is given
     if (!npcFingerprint) npcFingerprint = activeNpcFingerprint
 
     let newEncounterData = {...activeEncounter}
-    let newNpcData = deepCopy(newEncounterData.allNpcs[npcFingerprint])
+    let newNpc = deepCopy(newEncounterData.allNpcs[npcFingerprint])
 
-    if (newNpcData) {
-      Object.keys(newMechData).forEach(statKey => {
-        // console.log('statKey:',statKey);
-        switch (statKey) {
-          // attributes outside of the currentStats
-          case 'conditions':
-          case 'custom_counters':
-          case 'counter_data':
-          case 'overshield':
-          case 'burn':
-            newNpcData[statKey] = newMechData[statKey]
-            break;
+    if (newNpc) {
+      applyUpdatesToNpc(newMechData, newNpc)
 
-          // equipment features
-          case 'systemUses':
-            newNpcData.items[newMechData[statKey].index].uses = newMechData[statKey].uses
-          case 'systemDestroyed':
-            newNpcData.items[newMechData[statKey].index].destroyed = newMechData[statKey].destroyed
-          case 'weaponUses':
-          case 'weaponDestroyed':
-            // find the item that generates this weapon
-            const weaponItems = newNpcData.items.filter(item => findNpcFeatureData(item.itemID).type === 'Weapon')
-            let weaponItem = weaponItems[newMechData[statKey].mountIndex]
-            if (weaponItem) {
-              if ('destroyed' in newMechData[statKey]) weaponItem.destroyed = newMechData[statKey].destroyed
-              if ('uses' in newMechData[statKey]) weaponItem.uses = newMechData[statKey].uses
-            }
-            break;
-
-          // not relavant for npcs
-          case 'current_overcharge':
-          case 'current_core_energy':
-          case 'current_repairs':
-            console.log('    not relavant for npcs');
-            break;
-
-          default: // change something in currentStats
-            // remove the 'current_' for keys that have it
-            const keyConversion = {
-              'current_hp': 'hp',
-              'current_heat': 'heatcap',
-              'current_structure': 'structure',
-              'current_stress': 'stress',
-            }
-            const convertedKey = keyConversion[statKey] || statKey
-            newNpcData.currentStats[convertedKey] = newMechData[statKey]
-
-            break;
-        }
-      })
-
-      // console.log('newNpcData',newNpcData);
-      newEncounterData.allNpcs[newNpcData.fingerprint] = newNpcData
+      // console.log('newNpc',newNpc);
+      newEncounterData.allNpcs[newNpc.fingerprint] = newNpc
 
       saveEncounterData(newEncounterData)
       setTriggerRerender(!triggerRerender)
     }
   }
 
+
+  const npcListActive = activeEncounter && activeEncounter.active.map(fingerprint => activeEncounter.allNpcs[fingerprint])
+  const npcListReinforcements = activeEncounter && activeEncounter.reinforcements.map(fingerprint => activeEncounter.allNpcs[fingerprint])
+  const npcListCasualties = activeEncounter && activeEncounter.casualties.map(fingerprint => activeEncounter.allNpcs[fingerprint])
 
   // =============== JUMPLINKS ==================
 
@@ -345,14 +403,24 @@ const LancerNpcMode = ({
             />
           </FileList>
 
-          <CharacterList
-            title='Encounter'
-            characterEntries={allEncounterEntries}
-            handleEntryClick={setActiveEncounter}
-            activeCharacterID={activeEncounterID}
-            deleteActiveCharacter={deleteActiveEncounter}
-            createNewCharacter={createNewEncounter}
-          />
+          <div className='encounter-list-and-info'>
+            <CharacterList
+              title='Encounter'
+              characterEntries={allEncounterEntries}
+              handleEntryClick={setActiveEncounter}
+              activeCharacterID={activeEncounterID}
+              deleteActiveCharacter={deleteActiveEncounter}
+              createNewCharacter={createNewEncounter}
+            />
+
+            { activeEncounter &&
+              <EncounterControls
+                activeEncounter={activeEncounter}
+                setEncounterName={setEncounterName}
+                restartEncounter={restartEncounter}
+              />
+            }
+          </div>
         </div>
 
         <div className='jumplink-anchor' id='encounter' />

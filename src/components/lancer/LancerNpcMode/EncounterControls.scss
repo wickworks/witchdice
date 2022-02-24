@@ -1,0 +1,50 @@
+@import '../../../fonts';
+
+.EncounterControls {
+  @include shadow;
+  // @include parchment_background;
+  // @include nouveau_border('nouveau_list_characters.svg');
+
+  background-color: $parchment_dark;
+  border-radius: 0 0 14px 14px;
+  padding: 4px 0 0 0;
+
+  .TextInput {
+    margin: 8px 8px 0;
+
+    .display, input {
+      @include text_monospace;
+      font-size: 22px;
+      font-weight: bold;
+      color: $rust;
+      // color: white;
+      text-align: center;
+    }
+  }
+
+  .buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+
+    button {
+      @include text_monospace;
+      background-color: $faded_grey;
+      padding: 12px;
+
+      &:hover { background-color: $pink; }
+
+      &.clear {
+        border-radius: 0 12px 0 12px;
+      }
+
+      &.restart {
+        border-radius: 12px 0 12px 0;
+      }
+    }
+  }
+
+  .DeleteConfirmation {
+    .controls button .asset { width: 30px; height: 30px; }
+  }
+}
