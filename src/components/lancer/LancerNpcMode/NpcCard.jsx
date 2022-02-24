@@ -111,6 +111,8 @@ const NpcCardGrunt = ({
 
       <ActivationsTracker npc={npc} updateNpcState={updateNpcState} />
 
+      <div className='name-banner' />
+
       <div className='marker'>
         {getMarkerFromFingerprint(npc.fingerprint)}
       </div>
@@ -162,6 +164,8 @@ const NpcCardFull = ({
       <button className='ClickToSelect' onClick={onSelect} disabled={isSelected} />
 
       <ActivationsTracker npc={npc} updateNpcState={updateNpcState} />
+
+      <div className='name-banner' />
 
       <div className='marker'>
         {getMarkerFromFingerprint(npc.fingerprint)}

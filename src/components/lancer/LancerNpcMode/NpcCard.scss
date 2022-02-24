@@ -240,7 +240,7 @@ button.ClickToSelect {
     @include text_monospace;
     // font-size: 14px;
     // color: $rust;
-    color: $rust_dark;
+    color: $grey_light;;
     // font-weight: bold;
     align-self: center;
     justify-self: center;
@@ -251,13 +251,29 @@ button.ClickToSelect {
     height: 20px;
     border-radius: 50%;
 
-    background-color: $parchment_dark;
+    // background-color: $parchment_dark;
+  }
+
+  .name-banner {
+    background-color: $rust;
+  }
+
+  .name {
+    // color: $rust;
+    color: white;
+    text-align: right;
+    align-self: end;
+    font-size: 20px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
 .NpcCardGrunt {
   display: grid;
-  grid-template-columns: $side_button 1.3fr 42px .7fr $side_button;
+  grid-template-columns: $side_button 1.3fr 22px 20px .7fr $side_button;
   grid-template-rows: 1fr 1fr;
 
   column-gap: 4px;
@@ -265,7 +281,7 @@ button.ClickToSelect {
 
 
   button.ClickToSelect {
-    grid-column: 2 / span 3;
+    grid-column: 2 / span 4;
     grid-row: 1 / span 2;
   }
 
@@ -274,6 +290,10 @@ button.ClickToSelect {
     grid-row: 2;
   }
 
+  .name-banner {
+    grid-column: 1 / span 3;
+    grid-row: 1;
+  }
 
   .marker {
     grid-column: 1;
@@ -283,15 +303,6 @@ button.ClickToSelect {
   .name {
     grid-column: 2;
     grid-row: 1;
-
-    font-size: 18px;
-    color: $rust;
-    text-align: right;
-    align-self: end;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .class {
@@ -305,16 +316,17 @@ button.ClickToSelect {
   }
 
   .conditions {
+    grid-column: 5;
+    grid-row: 1 / span 2;
+
     @include text_monospace;
     font-size: 12px;
     color: $grey_dark;
     margin-top: 6px;
-    grid-column: 4;
-    grid-row: 1 / span 2;
   }
 
   .NpcPortrait {
-    grid-column: 3;
+    grid-column: 3 / span 2;
     grid-row: 1 / span 2;
     width: 52px;
     height: 52px;
@@ -336,12 +348,12 @@ button.ClickToSelect {
 
   .DieOrReserveButton {
     &.die {
-      grid-column: 5;
+      grid-column: 6;
       grid-row: 1;
     }
 
     &.reserve {
-      grid-column: 5;
+      grid-column: 6;
       grid-row: 2;
     }
   }
@@ -350,7 +362,7 @@ button.ClickToSelect {
 
 .NpcCardFull {
   display: grid;
-  grid-template-columns: $side_button 1.4fr 20px 28px 32px .6fr $side_button;
+  grid-template-columns: $side_button 1.4fr 20px 20px 40px .6fr $side_button;
   grid-template-rows: 1.2fr .8fr .8fr 1.2fr;
 
   grid-row: span 2;
@@ -370,21 +382,19 @@ button.ClickToSelect {
     justify-content: flex-end;
   }
 
+  .name-banner {
+    grid-column: 1 / span 4;
+    grid-row: 1;
+  }
+
   .marker {
     grid-column: 1;
     grid-row: 1;
   }
 
   .name {
-    font-size: 20px;
-    color: $rust;
     grid-column: 2 / span 2;
     grid-row: 1;
-    text-align: right;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .class {
@@ -410,8 +420,8 @@ button.ClickToSelect {
   .NpcPortrait {
     grid-column: 3 / span 3;
     grid-row: 1 / span 4;
-    width: 86px;
-    height: 86px;
+    width: 91px;
+    height: 91px;
   }
 
 
