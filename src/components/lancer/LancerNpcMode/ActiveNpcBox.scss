@@ -13,10 +13,10 @@
 
   &.condensed {
     border-radius: 4px;
-    background-color: $mud;
+    background-color: $concrete_violet_dark;
     margin-bottom: 12px;
 
-    border: 2px solid $rust;
+    border: 2px solid $crushed_velvet_dark;
   }
 
   &.full {
@@ -33,7 +33,7 @@
 
     &.condensed h2 {
       // color: $grey_dark;
-      color: $grey_very_very_dark;
+      color: $crushed_velvet_dark;
       font-size: 18px;
       margin: 10px 0;
     }
@@ -46,19 +46,19 @@
       h2 {
         color: $rust;
         font-size: 32px;
-        margin: 12px 0 8px;
+        margin: 16px 0 8px;
       }
 
       button.end-round {
         @include text_monospace;
-        background-color: $faded_grey;
+        // background-color: $faded_grey;
         border-radius: 0 12px 0 12px;
 
         &:hover {
           background-color: $rust;
           color: white;
         }
-        .finish { font-size: 14px; }
+        // .finish { font-size: 14px; }
         .round-count { font-size: 18px; }
       }
     }
@@ -71,14 +71,14 @@
     padding: 0 6px;
 
     &.condensed {
-      grid-template-columns: 1fr 1fr;
-      column-gap: 6px;
+      grid-template-columns: 1fr;
       row-gap: 6px;
     }
 
     &.full {
       grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
-      row-gap: 16px;
+      column-gap: 16px;
+      row-gap: 8px;
 
 
       // >*:nth-child(4n), >*:nth-child(4n-3) {

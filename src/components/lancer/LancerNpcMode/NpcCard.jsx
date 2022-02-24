@@ -66,7 +66,7 @@ const NpcCardInactive = ({
 
   return (
     <button className='NpcCardInactive' onClick={onClick}>
-      <div className='count'>
+      <div className='count' key={count}>
         {count}
       </div>
 

@@ -86,9 +86,18 @@
       padding: 8px 12px;
       border-spacing: 0;
 
+      th {
+        padding: 0 4px;
+
+        &.name, &.class {
+          text-align: left;
+          padding-left: 0;
+        }
+      }
+
       tr.npc {
         cursor: pointer;
-        
+
         &:hover {
           background-color: $pink;
         }
@@ -99,9 +108,6 @@
         }
       }
 
-      th.name, th.class {
-        text-align: left;
-      }
 
       td.role .asset {
         margin: auto;

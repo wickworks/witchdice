@@ -26,7 +26,6 @@ const ActiveNpcBox = ({
           onClick={() => setCurrentRound(currentRound+1)}
           onContextMenu={(e) => { e.preventDefault(); setCurrentRound(Math.max(1,currentRound-1)); } }
         >
-          <div className='finish'>Finish</div>
           <div className='round-count'>Round {currentRound}</div>
         </button>
       </div>

@@ -19,6 +19,17 @@ const NpcRoster = ({
 
   const buttonsDisabled = !hasActiveEncounter
 
+  console.log('npcLibrary',npcLibrary);
+  console.log('Object.values(npcLibrary)',Object.values(npcLibrary));
+
+  let sortedLibrary = Object.values(npcLibrary).sort(function(a, b){
+    if(a.name < b.name) { return -1; }
+    if(a.name > b.name) { return 1; }
+    return 0;
+  })
+
+  console.log('sortedLibrary',sortedLibrary);
+
   return (
     <div className='NpcRoster'>
       <div className='roster-container'>
@@ -42,8 +53,8 @@ const NpcRoster = ({
           </thead>
 
           <tbody>
-            {Object.keys(npcLibrary).map((npcID,i) => {
-              const npc = npcLibrary[npcID]
+            {sortedLibrary.map((npc,i) => {
+              // const npc = sortedLibrary[npcID]
               const npcData = findNpcClassData(npc.class)
 
               return (
