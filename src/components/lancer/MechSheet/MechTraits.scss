@@ -11,15 +11,32 @@
   }
 
   .traits-container {
-    display: grid;
-    column-gap: 20px;
-    // grid-auto-flow: dense;
-    grid-template-columns: 1fr 1fr;
+    // display: grid;
+    display: flex;
+    // justify-content: space-between;
+    flex-wrap: wrap;
+    // column-gap: 20px;
+    // grid-template-columns: 1fr 1fr;
 
-    @include below_max_width { grid-template-columns: 1fr; }
+    // @include below_max_width { grid-template-columns: 1fr; }
   }
 
   .TraitBlock {
-    padding: 0 0 12px;
+    padding: 0 12px 12px 0;
+
+    // sort the open ones to the end
+    order: 1;
+    &.collapsed { order: 0; }
+
+    @include max_width {
+      &:not(.collapsed) {
+        width: 48%;
+        margin-left: auto;
+
+        &.wide, &:only-child {
+          width: 100%;
+        }
+      }
+    }
   }
 }

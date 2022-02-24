@@ -28,16 +28,18 @@ const TraitBlock = ({
 
   const systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : description
 
-	const sizeClass = systemDescription.length > 460 ?
-      'wide'
-    : systemDescription.length > 280 ?
-      'tall-3x'
-    : systemDescription.length > 200 ?
-      'tall-2x'
-    : systemDescription.length > 120 ?
-      'tall-1x'
-    :
-      ''
+	// const sizeClass = systemDescription.length > 460 ?
+  //     'wide'
+  //   : systemDescription.length > 280 ?
+  //     'tall-3x'
+  //   : systemDescription.length > 200 ?
+  //     'tall-2x'
+  //   : systemDescription.length > 120 ?
+  //     'tall-1x'
+  //   :
+  //     ''
+
+	const sizeClass =  (systemDescription.length > 200 || trigger) ? 'wide' : ''
 
 	const titleClass = isTitleCase ? 'title-case' : '';
 	const collapsedClass = isCollapsed ? 'collapsed' : '';
@@ -97,7 +99,11 @@ const TraitBlock = ({
               />
             }
 
-						{trigger && <p><strong>Trigger:</strong> {trigger}</p>}
+						{trigger &&
+							<p>
+								<strong>Trigger:</strong> {ReactHtmlParser(trigger)}
+							</p>
+						}
 
             {ReactHtmlParser(systemDescription)}
 

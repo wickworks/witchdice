@@ -2,14 +2,14 @@
 
 .TraitBlock {
 
-  @include max_width {
-    &:not(.collapsed) {
-      &.tall-1x { grid-row: span 2; }
-      &.tall-2x { grid-row: span 3; }
-      &.tall-3x { grid-row: span 4; }
-      &.wide, &:only-child { grid-column: span 2; }
-    }
-  }
+  // @include max_width {
+  //   &:not(.collapsed) {
+  //     &.tall-1x { grid-row: span 2; }
+  //     &.tall-2x { grid-row: span 3; }
+  //     &.tall-3x { grid-row: span 4; }
+  //     &.wide, &:only-child { grid-column: span 2; }
+  //   }
+  // }
 
   button.name {
     display: block;
@@ -17,7 +17,7 @@
     text-align: left;
     background-color: $rust;
     color: white;
-    padding: 6px 6px;
+    padding: 6px 12px;
 
     &.title-case { text-transform: capitalize; }
     &.action, &.reaction { background-color: $crushed_velvet; }
@@ -83,7 +83,9 @@
   }
 
   .description {
-    padding: 6px 6px;
+    padding: 8px 12px 10px;
+
+    background-color: #fff6db;
 
     p:first-child { margin-top: 0; }
 
