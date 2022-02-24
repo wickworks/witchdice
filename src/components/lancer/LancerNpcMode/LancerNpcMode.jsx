@@ -156,7 +156,6 @@ const LancerNpcMode = ({
   }
 
   const addNpcToEncounter = (npcId) => {
-    console.log('Adding npc to encounter', npcId);
     const npc = npcLibrary[npcId]
 
     if (npc) {
@@ -171,6 +170,22 @@ const LancerNpcMode = ({
       setTriggerRerender(!triggerRerender)
     }
   }
+
+  const removeNpcFromEncounter = (npcFingerprint) => {
+    let newEncounter = deepCopy(activeEncounter)
+
+    // drop the data
+    delete newEncounter.allNpcs[npcFingerprint]
+
+    // remove it from all statuses
+    newEncounter.active = newEncounter.active.filter(id => id !== npcFingerprint)
+    newEncounter.reinforcements = newEncounter.reinforcements.filter(id => id !== npcFingerprint)
+    newEncounter.casualties = newEncounter.casualties.filter(id => id !== npcFingerprint)
+
+    saveEncounterData(newEncounter)
+    setTriggerRerender(!triggerRerender)
+  }
+
 
   // =============== ENCOUNTERS ==================
 
@@ -462,12 +477,14 @@ const LancerNpcMode = ({
               npcList={npcListReinforcements}
               setNpcStatus={setNpcStatus}
               activeNpcFingerprint={activeNpcFingerprint}
+              removeNpcFromEncounter={removeNpcFromEncounter}
             />
             <CondensedNpcBox
               label={'~ Casualties ~'}
               npcList={npcListCasualties}
               setNpcStatus={setNpcStatus}
               activeNpcFingerprint={activeNpcFingerprint}
+              removeNpcFromEncounter={removeNpcFromEncounter}
             />
             <ActiveNpcBox
               label={'Active Combatants'}

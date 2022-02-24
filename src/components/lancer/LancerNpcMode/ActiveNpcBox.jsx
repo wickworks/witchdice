@@ -71,6 +71,7 @@ const CondensedNpcBox = ({
   setNpcStatus,
   activeNpcFingerprint,
   setActiveNpcFingerprint,
+  removeNpcFromEncounter,
 }) => {
 
   let npcCountByID = {}
@@ -103,6 +104,7 @@ const CondensedNpcBox = ({
             npc={npc}
             count={npcCountByID[npc.id]}
             onClick={() => setNpcStatus(npc.fingerprint, 'active')}
+            onDelete={() => removeNpcFromEncounter(npc.fingerprint)}
           />
         )}
 

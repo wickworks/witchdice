@@ -60,29 +60,35 @@ const NpcCardInactive = ({
   npc,
   count,
   onClick,
+  onDelete,
 }) => {
   const npcData = findNpcClassData(npc.class)
   // console.log('npcData',npcData);
 
   return (
-    <button className='NpcCardInactive' onClick={onClick}>
-      <div className='count' key={count}>
-        {count}
-      </div>
+    <div className='NpcCardInactive'>
+      <button className='card' onClick={onClick}>
+        <div className='count' key={count}>
+          {count}
+        </div>
 
-      <div className='name'>
-        {npc.name}
-      </div>
+        <div className='name'>
+          {npc.name}
+        </div>
 
-      <div className='class'>
-        {getClassNames(npc, npcData)}
-      </div>
+        <div className='class'>
+          {getClassNames(npc, npcData)}
+        </div>
 
-      <NpcPortrait npc={npc} npcData={npcData} />
+        <NpcPortrait npc={npc} npcData={npcData} />
 
-      <div className={`role asset ${npcData.role.toLowerCase()}`} />
-      <div className={`tier asset npc-tier-${npc.tier}`} />
-    </button>
+        <div className={`role asset ${npcData.role.toLowerCase()}`} />
+        <div className={`tier asset npc-tier-${npc.tier}`} />
+      </button>
+      <button className='delete' onClick={onDelete}>
+        <div className='asset trash' />
+      </button>
+    </div>
   );
 }
 
