@@ -138,6 +138,11 @@ const MechSheet = ({
                 systemDestroyed: {index: systemIndex, destroyed: destroyed}
               })
             }
+            setRechargedForSystem={(charged, systemIndex) =>
+              updateMechState({
+                systemCharged: {index: systemIndex, charged: charged}
+              })
+            }
           />
         }
 

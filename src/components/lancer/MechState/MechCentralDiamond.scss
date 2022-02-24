@@ -23,7 +23,7 @@ $grid_count: 8;
   @include max_width {
     position: absolute;
     left: 50%;
-    top: 44px;
+    top: 54px;
     transform: translateX(-50%) rotate(-45deg);
     z-index: 5;
   }

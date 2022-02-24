@@ -16,6 +16,9 @@ const TraitBlock = ({
   limited = null, // {current: X, max: Y, icon: 'generic-item'}
 	setLimitedCount = () => {},
 
+	recharge = null, // {charged: X, rollTarget: Y}
+	setRecharged = () => {},
+
   isDestructable = false,
   isDestroyed = false,
   onDestroy = null,
@@ -59,7 +62,7 @@ const TraitBlock = ({
 
 				{activation &&
 					<div className='detail'>
-						{activation}
+						<div className='activation'>{activation}</div>
 						{frequency && `, ${frequency}`}
 						{range && range.map((range, i) =>
 	            <div className='range-icon' key={`range-${i}`}>
@@ -70,6 +73,12 @@ const TraitBlock = ({
 						{limited &&
 							<div className='limited'>
 								Limited {limited.current}/{limited.max}
+							</div>
+						}
+						{recharge &&
+							<div className='recharge'>
+								{recharge.charged ? '〔Charged〕' : 'Recharge '}
+								{recharge.rollTarget}+
 							</div>
 						}
 					</div>
@@ -89,6 +98,17 @@ const TraitBlock = ({
 							setCurrentNumber={setLimitedCount}
 							leftToRight={true}
 						/>
+					}
+
+					{recharge && !isDestroyed &&
+						<div className='recharge-bar'>
+							<input type='checkbox'
+								checked={recharge.charged}
+								onChange={() => setRecharged(!recharge.charged)}
+							/>
+							Recharge {recharge.rollTarget}+
+							{recharge.charged ? ' 〔Charged〕' : ' 〔-------〕'}
+						</div>
 					}
 
 					<div className='description'>

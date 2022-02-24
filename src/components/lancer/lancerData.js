@@ -310,9 +310,9 @@ export const findTagOnWeapon = (weaponData, tagID) => {
   return null;
 }
 
-export const isSystemDestructable = (systemData) => {
-  const indestructableTag = (systemData.tags && systemData.tags.find(tag => tag.id === 'tg_indestructible'))
-  return !indestructableTag
+export const systemHasTag = (systemData, tagID) => {
+  const tagObj = (systemData.tags && systemData.tags.find(tag => tag.id === tagID))
+  return !!tagObj
 }
 
 export const getSystemLimited = (system, systemData) => {
@@ -327,6 +327,20 @@ export const getSystemLimited = (system, systemData) => {
     }
   }
   return limited
+}
+
+export const getSystemRecharge = (system, systemData) => {
+  const rechargeTag = systemData.tags && systemData.tags.find(tag => tag.id === 'tg_recharge')
+  let recharge = null
+
+  if (rechargeTag) {
+    recharge = {
+      charged: system.charged,
+      rollTarget: rechargeTag.val,
+    }
+  }
+
+  return recharge
 }
 
 

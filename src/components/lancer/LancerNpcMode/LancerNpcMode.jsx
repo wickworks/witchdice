@@ -323,7 +323,7 @@ const LancerNpcMode = ({
   function applyUpdatesToNpc(newMechData, newNpc) {
 
     Object.keys(newMechData).forEach(statKey => {
-      // console.log('statKey:',statKey);
+      // console.log('statKey:',statKey, ' : ', newMechData[statKey]);
       switch (statKey) {
         // attributes outside of the currentStats
         case 'conditions':
@@ -335,13 +335,13 @@ const LancerNpcMode = ({
           break;
 
         // equipment features
-        case 'systemUses':
-          newNpc.items[newMechData[statKey].index].uses = newMechData[statKey].uses
+        case 'systemCharged':
+          newNpc.items[newMechData[statKey].index].charged = newMechData[statKey].charged
           break;
         case 'systemDestroyed':
           newNpc.items[newMechData[statKey].index].destroyed = newMechData[statKey].destroyed
           break;
-        case 'weaponUses':
+        case 'weaponCharged':
         case 'weaponDestroyed':
           // find the item that generates this weapon
           const weaponItems = newNpc.items.filter(item => findNpcFeatureData(item.itemID).type === 'Weapon')
@@ -356,9 +356,6 @@ const LancerNpcMode = ({
             // item.uses = x // how are we doing npc system uses?
             item.destroyed = false
           });
-
-
-
 
         // not relavant for npcs
         case 'current_overcharge':

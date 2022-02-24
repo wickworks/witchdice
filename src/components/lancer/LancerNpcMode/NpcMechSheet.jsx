@@ -4,11 +4,14 @@ import MechSheet from '../MechSheet/MechSheet.jsx';
 import { getCountersFromPilot } from '../MechState/mechStateUtils.js';
 import { isNpcFeatureTechAttack } from '../MechSheet/MechMount.jsx';
 import { getStat, getMarkerFromFingerprint } from './npcUtils.js';
+import { capitalize } from '../../../utils.js';
 import {
   findNpcClassData,
   findNpcFeatureData,
   findNpcTemplateData,
   baselineMount,
+  systemHasTag,
+  getSystemRecharge,
 } from '../lancerData.js';
 
 const NpcMechSheet = ({
@@ -69,7 +72,11 @@ const NpcMechSheet = ({
     cloud_portrait: activeNpc.cloudImage,
     frameID: activeNpc.class,
     frameSourceIcon: npcClassData.role.toLowerCase(),
-    frameSourceText: activeNpc.templates.map(templateID => findNpcTemplateData(templateID).name).join(' '),
+    frameSourceText:
+      (activeNpc.tier ? `Tier ${activeNpc.tier} ` : '') +
+      activeNpc.templates.map(templateID =>
+        capitalize(findNpcTemplateData(templateID).name.toLowerCase())
+      ).join(' '),
     frameName: npcClassData.name.toLowerCase(),
   }
 
@@ -139,6 +146,7 @@ function getSystemTraits(items) {
 
   items.forEach((item, itemIndex) => {
     const featureData = findNpcFeatureData(item.itemID)
+    let recharge = getSystemRecharge(item, featureData)
 
     if (featureData.type === 'Tech' && !isNpcFeatureTechAttack(featureData)) {
       featureTraits.push({
@@ -149,16 +157,23 @@ function getSystemTraits(items) {
         isDestructable: true,
         isDestroyed: item.destroyed,
         isTitleCase: true,
+        recharge: recharge,
       })
 
     } else if (['System', 'Reaction'].includes(featureData.type)) {
+      let activation = ''
+      if (systemHasTag(featureData, 'tg_quick_action')) activation = 'Quick'
+      if (systemHasTag(featureData, 'tg_full_action')) activation = 'Full'
+
       featureTraits.push({
         systemIndex: itemIndex,
         name: (item.flavorName || featureData.name).toLowerCase(),
+        activation: activation,
         description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
         isDestructable: true,
         isDestroyed: item.destroyed,
         isTitleCase: true,
+        recharge: recharge,
       })
     }
   })

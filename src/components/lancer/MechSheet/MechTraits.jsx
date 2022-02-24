@@ -9,6 +9,7 @@ const MechTraits = ({
   sectionTitle,
   setLimitedCountForSystem = () => {},
   setDestroyedForSystem = () => {},
+	setRechargedForSystem = () => {},
 }) => {
   return (
 		<div className='MechTraits'>
@@ -29,6 +30,8 @@ const MechTraits = ({
             onDestroy={() => setDestroyedForSystem(!trait.isDestroyed, trait.systemIndex)}
             limited={trait.limited}
             setLimitedCount={(count) => setLimitedCountForSystem(count, trait.systemIndex)}
+						recharge={trait.recharge}
+						setRecharged={(charged) => setRechargedForSystem(charged, trait.systemIndex)}
             isTitleCase={trait.isTitleCase}
           />
 				)}

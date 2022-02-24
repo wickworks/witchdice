@@ -31,7 +31,7 @@ import {
   findSystemData,
   findTalentData,
   baselineMount,
-  isSystemDestructable,
+  systemHasTag,
   getSystemLimited,
 } from '../lancerData.js';
 
@@ -310,7 +310,7 @@ function getSystemTraits(systems) {
         systemIndex: systemIndex,
         name: systemData.name.toLowerCase(),
         description: systemData.effect,
-        isDestructable: isSystemDestructable(systemData),
+        isDestructable: !systemHasTag(systemData, 'tg_indestructible'),
         isDestroyed: system.destroyed,
         isTitleCase: true,
       })
@@ -328,7 +328,7 @@ function getSystemTraits(systems) {
         systemIndex: systemIndex,
         name: systemData.name.toLowerCase(),
         description: techDescription,
-        isDestructable: isSystemDestructable(systemData),
+        isDestructable: !systemHasTag(systemData, 'tg_indestructible'),
         isDestroyed: system.destroyed,
         isTitleCase: true,
       })
@@ -355,7 +355,7 @@ function getSystemTraits(systems) {
             trigger: action.trigger,
             range: action.range,
             description: action.detail,
-            isDestructable: isSystemDestructable(systemData),
+            isDestructable: !systemHasTag(systemData, 'tg_indestructible'),
             isDestroyed: system.destroyed,
             limited: limited,
             isTitleCase: true,
@@ -378,7 +378,7 @@ function getSystemTraits(systems) {
           trigger: deployable.trigger,
           range: deployable.range,
           description: deployable.detail,
-          isDestructable: isSystemDestructable(systemData),
+          isDestructable: !systemHasTag(systemData, 'tg_indestructible'),
           isDestroyed: system.destroyed,
           limited: limited,
           isTitleCase: true,
