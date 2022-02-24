@@ -52,7 +52,6 @@ $side_button: 24px;
 .NpcPortrait {
   align-self: center;
   justify-self: center;
-  background-color: $mud;
   clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
 
   img {
@@ -63,12 +62,12 @@ $side_button: 24px;
 }
 
 button.ClickToSelect {
-  background-color: transparent;
+  // background-color: transparent;
   z-index: 2;
 
-  &:hover:not(:disabled) {
-    background-color: rgba(1,1,1,.2);
-  }
+  // &:hover:not(:disabled) {
+  //   background-color: rgba(1,1,1,.2);
+  // }
 }
 
 button.NpcCardInactive {
@@ -157,16 +156,26 @@ button.NpcCardInactive {
 
 
 .NpcCardGrunt, .NpcCardFull {
-  padding: 6px 6px;
+  padding: 4px 6px;
   height: fit-content;
   box-sizing: border-box;
+  cursor: pointer;
 
   animation: .45s steps(8, end) 0s 1 flashIn;
 
+  &:hover {
+    background-color: $faded_grey;
+  }
+
   &#selected-npc-card {
-    background-color: $rust;
-    * { color: white; }
-    .asset:not(.NpcPortrait) { filter: invert(100%); }
+    cursor: auto;
+    background-color: $parchment_dark;
+    // * { color: white; }
+    // .asset:not(.NpcPortrait) { filter: invert(100%); }
+  }
+
+  .NpcPortrait {
+    background-color: white;
   }
 }
 
@@ -213,7 +222,7 @@ button.NpcCardInactive {
 
   .conditions {
     @include text_monospace;
-    font-size: 10px;
+    font-size: 12px;
     color: $grey_dark;
     margin-top: 6px;
     grid-column: 4;
@@ -223,8 +232,8 @@ button.NpcCardInactive {
   .NpcPortrait {
     grid-column: 3;
     grid-row: 1 / span 2;
-    width: 42px;
-    height: 42px;
+    width: 52px;
+    height: 52px;
   }
 
   // .tier.asset {
@@ -257,8 +266,8 @@ button.NpcCardInactive {
 
 .NpcCardFull {
   display: grid;
-  grid-template-columns: $side_button 1.3fr 20px 20px 20px .7fr $side_button;
-  grid-template-rows: 1fr 1fr .8fr 1.2fr;
+  grid-template-columns: $side_button 1.4fr 20px 28px 32px .6fr $side_button;
+  grid-template-rows: 1.2fr .8fr .8fr 1.2fr;
 
   grid-row: span 2;
 
@@ -277,7 +286,7 @@ button.NpcCardInactive {
   }
 
   .name {
-    font-size: 16px;
+    font-size: 20px;
     color: $rust;
     grid-column: 2 / span 2;
     grid-row: 1;
@@ -293,81 +302,102 @@ button.NpcCardInactive {
     font-size: 13px;
     color: $grey_dark;
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 2 / span 2;
     text-align: right;
   }
 
   .conditions {
     @include text_monospace;
-    font-size: 10px;
+    font-size: 12px;
     color: $grey_dark;
-    margin-top: 2px;
-    grid-column: 5 / span 2;
-    grid-row: 1 / span 2;
+    grid-column: 2 / span 2;
+    grid-row: 3 / span 2;
+    align-self: end;
+    text-align: right;
+    margin-bottom: 2px;
   }
 
   .NpcPortrait {
     grid-column: 3 / span 3;
     grid-row: 1 / span 4;
-    width: 70px;
-    height: 70px;
+    width: 86px;
+    height: 86px;
   }
 
-  .structure, .stress {
-    display: flex;
 
-    &.structure {
-      grid-column: 2;
-      grid-row: 3;
-      justify-self: end;
+  .hp-label, .heat-label {
+    @include text_monospace;
+    color: $rust;
+    text-align: right;
+    padding: 2px 0;
+
+    &.hp-label {
+      grid-column: 5;
+      grid-row: 1;
+      font-size: 14px;
     }
 
-    &.stress {
-      grid-column: 6;
-      grid-row: 3;
-    }
-
-    .asset {
-      width: 14px;
-      height: 14px;
-
-      // turns black to $rust
-      &.filled { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
-      &.empty { filter: invert(20%); }
+    &.heat-label {
+      grid-column: 5;
+      grid-row: 4;
+      align-self: end;
+      font-size: 12px;
     }
   }
 
   .hp, .heat {
     @include text_monospace;
     color: $rust;
+    font-size: 24px;
 
     &.hp {
-      grid-column: 2 / span 2;
-      grid-row: 4;
-      justify-self: end;
+      grid-column: 6;
+      grid-row: 1 / span 2;
     }
 
     &.heat {
-      grid-column: 5 / span 2;
-      grid-row: 4;
-    }
-
-    .label { font-size: 14px; }
-    .numbers {
-      font-size: 22px;
-      margin: 0 4px;
+      grid-column: 6;
+      grid-row: 3 / span 2;
+      align-self: end;
     }
   }
+
+  .structure-bar, .stress-bar {
+    display: flex;
+    align-self: center;
+    padding-left: 2px;
+
+    &.structure-bar {
+      grid-column: 6;
+      grid-row: 2;
+    }
+
+    &.stress-bar {
+      grid-column: 6;
+      grid-row: 3;
+    }
+
+    .asset {
+      width: 12px;
+      height: 12px;
+
+      // turns black to $rust
+      &.filled { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
+      &.empty { filter: invert(20%); opacity: 0.5; }
+    }
+  }
+
+
 
   .DieOrReserveButton {
     &.die {
       grid-column: 7;
-      grid-row: 1 / span 2;
+      grid-row: 1;
     }
 
     &.reserve {
       grid-column: 7;
-      grid-row: 3 / span 2;
+      grid-row: 4;
     }
   }
 }

@@ -41,7 +41,7 @@
     &.full {
       display: grid;
       grid-template-columns: 1fr 5fr 1fr;
-      padding: 0 0 12px;
+      padding: 0 0 20px;
 
       h2 {
         color: $rust;
@@ -51,10 +51,13 @@
 
       button.end-round {
         @include text_monospace;
-        background-color: $pink;
+        background-color: $faded_grey;
         border-radius: 0 12px 0 12px;
 
-        &:hover { background-color: $rust_light; }
+        &:hover {
+          background-color: $rust;
+          color: white;
+        }
         .finish { font-size: 14px; }
         .round-count { font-size: 18px; }
       }
@@ -75,15 +78,17 @@
 
     &.full {
       grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+      row-gap: 16px;
 
-      >*:nth-child(4n), >*:nth-child(4n-3) {
-        background-color: $parchment_dark;
-      }
 
-      @include below_max_width {
-        >*:nth-child(odd) { background-color: $parchment_dark; }
-        >*:nth-child(even) { background-color: transparent; }
-      }
+      // >*:nth-child(4n), >*:nth-child(4n-3) {
+      //   background-color: $parchment_dark;
+      // }
+      //
+      // @include below_max_width {
+      //   >*:nth-child(odd) { background-color: $parchment_dark; }
+      //   >*:nth-child(even) { background-color: transparent; }
+      // }
 
     }
 

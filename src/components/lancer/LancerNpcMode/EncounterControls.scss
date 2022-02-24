@@ -32,7 +32,10 @@
       background-color: $faded_grey;
       padding: 12px;
 
-      &:hover { background-color: $pink; }
+      &:hover {
+        background-color: $rust;
+        color: white;
+      }
 
       &.clear {
         border-radius: 0 12px 0 12px;

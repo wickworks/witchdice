@@ -143,6 +143,9 @@ const NpcCardFull = ({
 }) => {
   const npcData = findNpcClassData(npc.class)
 
+  const maxStress = getStat('stress',npc)
+  const maxStructure = getStat('structure',npc)
+
   return (
     <div className='NpcCardFull' id={isSelected ? 'selected-npc-card' : ''}>
       <button className='ClickToSelect' onClick={onSelect} disabled={isSelected} />
@@ -157,18 +160,17 @@ const NpcCardFull = ({
         {getClassNames(npc, npcData)}
       </div>
 
-      <div className='structure'>
-        {[...Array(getStat('structure',npc))].map((undef, i) => {
+      <div className='hp-label'>HP</div>
+
+      <div className='hp'>
+        {npc.currentStats.hp}/{getStat('hp',npc)}
+      </div>
+
+      <div className='structure-bar'>
+        {(maxStructure > 1) && [...Array(getStat('structure',npc))].map((undef, i) => {
           const filledClass = (i < npc.currentStats.structure) ? 'filled' : 'empty'
           return (<div className={`asset structure ${filledClass}`} key={i} />)
         })}
-      </div>
-
-      <div className='hp'>
-        <span className='numbers'>
-          {npc.currentStats.hp}/{getStat('hp',npc)}
-        </span>
-        <span className='label'>HP</span>
       </div>
 
       <NpcPortrait npc={npc} npcData={npcData} />
@@ -177,19 +179,17 @@ const NpcCardFull = ({
         {npc.conditions.join(', ')}
       </div>
 
-      <div className='stress'>
-        {[...Array(getStat('stress',npc))].map((undef, i) => {
+      <div className='stress-bar'>
+        {(maxStress > 1) && [...Array(getStat('stress',npc))].map((undef, i) => {
           const filledClass = (i < (npc.currentStats.stress || 1)) ? 'filled' : 'empty'
           return (<div className={`asset reactor ${filledClass}`} key={i} />)
         })}
       </div>
 
-      <div className='heat'>
-        <span className='label'>Heat</span>
-        <span className='numbers'>
-          {npc.currentStats.heatcap}/{getStat('heatcap',npc)}
-        </span>
+      <div className='heat-label'>Heat</div>
 
+      <div className='heat'>
+        {npc.currentStats.heatcap}/{getStat('heatcap',npc)}
       </div>
 
       <button className='DieOrReserveButton die' onClick={onClickDie}>
