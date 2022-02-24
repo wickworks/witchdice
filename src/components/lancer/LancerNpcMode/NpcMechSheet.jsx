@@ -3,7 +3,7 @@ import MechSheet from '../MechSheet/MechSheet.jsx';
 
 import { getCountersFromPilot } from '../MechState/mechStateUtils.js';
 import { isNpcFeatureTechAttack } from '../MechSheet/MechMount.jsx';
-import { getStat } from './npcUtils.js';
+import { getStat, getMarkerFromFingerprint } from './npcUtils.js';
 import {
   findNpcClassData,
   findNpcFeatureData,
@@ -64,7 +64,7 @@ const NpcMechSheet = ({
   }
 
   const robotInfo = {
-    name: activeNpc.name,
+    name: `${activeNpc.name}〔${getMarkerFromFingerprint(activeNpc.fingerprint)}〕`,
     id: activeNpc.id,
     cloud_portrait: activeNpc.cloudImage,
     frameID: activeNpc.class,
