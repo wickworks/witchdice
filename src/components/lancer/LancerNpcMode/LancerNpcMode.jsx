@@ -292,7 +292,12 @@ const LancerNpcMode = ({
     let newEncounter = {...activeEncounter}
     newEncounter.name = newName
 
+    let newEncounterEntries = deepCopy(allEncounterEntries)
+    let oldEntry = newEncounterEntries.find(entry => entry.id === newEncounter.id)
+    oldEntry.name = newEncounter.name
+
     saveEncounterData(newEncounter)
+    setAllEncounterEntries(newEncounterEntries)
     setTriggerRerender(!triggerRerender)
   }
 

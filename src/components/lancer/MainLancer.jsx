@@ -82,6 +82,8 @@ const MainLancer = ({
 
     // save to localstorage
     saveLcpData(contentPack)
+
+    setTriggerRerender(!triggerRerender)
   }
 
   const deleteActiveLcp = () => {

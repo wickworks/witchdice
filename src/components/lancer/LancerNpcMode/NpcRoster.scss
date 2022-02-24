@@ -5,13 +5,14 @@
   .roster-container {
     @include shadow;
     @include parchment_background;
-    @include nouveau_border('nouveau_list_characters.svg');
+    // @include nouveau_border('nouveau_list_characters.svg');
 
+    border-radius: 14px;
     box-sizing: border-box;
     width: 100%;
     min-width: 320px;
-    min-height: 178px;
-    padding: 10px 16px 40px;
+    min-height: 380px;
+    padding: 12px;
 
 
     .title-bar {
@@ -84,12 +85,13 @@
     .table-scrollable-area {
       max-height: 400px;
       overflow: auto;
+      border: 4px solid $parchment_dark;
+      border-radius: 0 0 14px 14px;
 
       table.roster-table {
         position: relative;
         box-sizing: border-box;
         width: 100%;
-        padding: 0 10px 8px;
         border-spacing: 0;
 
         tr.headers {
@@ -99,9 +101,12 @@
           top: 0;
 
           th {
-            padding: 4px;
+            &.name {
+              padding: 4px;
+              text-align: left;
+            }
 
-            &.name, &.class {
+            &.class {
               text-align: left;
             }
           }
