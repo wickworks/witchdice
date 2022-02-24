@@ -57,7 +57,7 @@ $side_button: 24px;
 
   height: 100%;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
   align-items: center;
   justify-content: flex-end;
 
@@ -235,6 +235,24 @@ button.ClickToSelect {
   .NpcPortrait {
     background-color: white;
   }
+
+  .marker {
+    @include text_monospace;
+    // font-size: 14px;
+    // color: $rust;
+    color: $rust_dark;
+    // font-weight: bold;
+    align-self: center;
+    justify-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+
+    background-color: $parchment_dark;
+  }
 }
 
 .NpcCardGrunt {
@@ -253,14 +271,21 @@ button.ClickToSelect {
 
   .ActivationsTracker {
     grid-column: 1;
-    grid-row: 1 / span 2;
+    grid-row: 2;
+  }
+
+
+  .marker {
+    grid-column: 1;
+    grid-row: 1;
   }
 
   .name {
-    font-size: 18px;
-    color: $rust;
     grid-column: 2;
     grid-row: 1;
+
+    font-size: 18px;
+    color: $rust;
     text-align: right;
     align-self: end;
 
@@ -270,11 +295,12 @@ button.ClickToSelect {
   }
 
   .class {
+    grid-column: 2;
+    grid-row: 2;
+
     @include text_monospace;
     font-size: 13px;
     color: $grey_dark;
-    grid-column: 2;
-    grid-row: 2;
     text-align: right;
   }
 
@@ -339,8 +365,14 @@ button.ClickToSelect {
 
   .ActivationsTracker {
     grid-column: 1;
-    grid-row: 1 / span 4;
-    align-items: flex-start;
+    grid-row: 2 / span 3;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .marker {
+    grid-column: 1;
+    grid-row: 1;
   }
 
   .name {

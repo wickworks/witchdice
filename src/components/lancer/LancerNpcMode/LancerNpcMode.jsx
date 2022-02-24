@@ -28,7 +28,7 @@ import {
 } from '../../../localstorage.js';
 
 import { findNpcFeatureData, } from '../lancerData.js';
-import { getStat } from './npcUtils.js';
+import { getStat, getMarkerForNpcID, } from './npcUtils.js';
 
 import './LancerNpcMode.scss';
 
@@ -155,12 +155,15 @@ const LancerNpcMode = ({
     };
   }
 
+
+
   const addNpcToEncounter = (npcId) => {
     const npc = npcLibrary[npcId]
 
     if (npc) {
       let newNpc = deepCopy(npc)
-      newNpc.fingerprint = getRandomFingerprint() // need a new id so we can tell them apart
+      // need a new id so we can tell instances apart
+      newNpc.fingerprint = `${getMarkerForNpcID(newNpc.id, activeEncounter.allNpcs)}-${getRandomFingerprint()}`
 
       let newEncounter = deepCopy(activeEncounter)
       newEncounter.reinforcements.push(newNpc.fingerprint)

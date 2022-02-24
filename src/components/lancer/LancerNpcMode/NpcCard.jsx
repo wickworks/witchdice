@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { capitalize } from '../../../utils.js';
 
-import { getStat } from './npcUtils.js';
+import { getStat, getMarkerFromFingerprint } from './npcUtils.js';
 
 import {
   findNpcClassData,
@@ -23,6 +23,7 @@ function getClassNames(npc, npcData) {
 
   return classNames.join(' ')
 }
+
 
 const NpcPortrait = ({ npc, npcData }) => {
   return ( npc.cloudImage ?
@@ -110,6 +111,10 @@ const NpcCardGrunt = ({
 
       <ActivationsTracker npc={npc} updateNpcState={updateNpcState} />
 
+      <div className='marker'>
+        {getMarkerFromFingerprint(npc.fingerprint)}
+      </div>
+
       {/*<div className={`tier asset npc-tier-${npc.tier}`} />*/}
 
       <div className='name'>
@@ -157,6 +162,10 @@ const NpcCardFull = ({
       <button className='ClickToSelect' onClick={onSelect} disabled={isSelected} />
 
       <ActivationsTracker npc={npc} updateNpcState={updateNpcState} />
+
+      <div className='marker'>
+        {getMarkerFromFingerprint(npc.fingerprint)}
+      </div>
 
       <div className='name'>
         {npc.name}
