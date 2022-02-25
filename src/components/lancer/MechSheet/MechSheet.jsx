@@ -116,6 +116,12 @@ const MechSheet = ({
           updateMechState={updateMechState}
         />
 
+        <ConditionsAndCounters
+          activeConditions={robotState.conditions}
+          activeCounters={robotState.counters}
+          updateMechState={updateMechState}
+        />
+
         {/*Frame Traits & Core System*/}
         { robotLoadout.frameTraits.length > 0 &&
           <MechTraits
@@ -145,12 +151,6 @@ const MechSheet = ({
             }
           />
         }
-
-        <ConditionsAndCounters
-          activeConditions={robotState.conditions}
-          activeCounters={robotState.counters}
-          updateMechState={updateMechState}
-        />
 
         <div className='jumplink-anchor' id='weapons' />
         <div className="mounts-label">Mounts & Attacks</div>

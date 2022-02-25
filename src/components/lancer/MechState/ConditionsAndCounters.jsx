@@ -66,9 +66,8 @@ const ConditionsAndCounters = ({
 
   return (
     <div className='ConditionsAndCounters'>
+      <div className='controls-container'>
 
-
-      <div className='condition-container'>
         <Select
           isMulti
           placeholder='Add Condition'
@@ -79,16 +78,18 @@ const ConditionsAndCounters = ({
           onChange={updateSelectedConditions}
         />
 
+        <button className='add-custom-counter' onClick={addCounter}>
+          Add Custom Counter
+          <div className='asset plus' />
+        </button>
+      </div>
 
-                <button className='add-custom-counter' onClick={addCounter}>
-                  Add Custom Counter
-                  <div className='asset plus' />
-                </button>
+
+      <div className='active-blocks'>
 
         { activeConditions && activeConditions.map(condition =>
           <Condition condition={condition} key={condition} />
         )}
-
 
         { activeCounters && activeCounters.map((counter, i) =>
           <CustomCounter
@@ -122,24 +123,26 @@ const CustomCounter = ({
 }) => {
   return (
     <div className='CustomCounter'>
-      <TextInput
-        textValue={counter.name}
-        setTextValue={text => updateCounter({...counter, name: text})}
-        placeholder={'Counter name'}
-        maxLength={22}
-      />
-      <input type='number'
-        min={0}
-        max={99}
-        value={parseInt(counter.val)}
-        onChange={e =>
-          updateCounter({...counter, val: parseInt(e.target.value) || 0})
-        }
-      />
+      <div className='blue-pill'>
+        <TextInput
+          textValue={counter.name}
+          setTextValue={text => updateCounter({...counter, name: text})}
+          placeholder={'Counter name'}
+          maxLength={22}
+        />
+        <input type='number'
+          min={0}
+          max={99}
+          value={parseInt(counter.val)}
+          onChange={e =>
+            updateCounter({...counter, val: parseInt(e.target.value) || 0})
+          }
+        />
 
-      <button className='delete' onClick={deleteCounter}>
-        <div className='asset x' />
-      </button>
+        <button className='delete' onClick={deleteCounter}>
+          <div className='asset x' />
+        </button>
+      </div>
     </div>
   );
 }
