@@ -469,12 +469,14 @@ function getInvadeAndTechAttacks(loadout, pilotTalents) {
   })
 
   pilotTalents.forEach(pilotTalent => {
-    const talentActions = findTalentData(pilotTalent.id).actions
-    if (talentActions) {
-      talentActions.forEach(action => {
-        if (action.activation === 'Invade') invades.push(action)
-      })
-    }
+    const talentData = findTalentData(pilotTalent.id)
+    talentData.ranks.forEach(rank => {
+      if (rank.actions) {
+        rank.actions.forEach(action => {
+          if (action.activation === 'Invade') invades.push(action)
+        })
+      }
+    });
   })
 
   invades.push({
