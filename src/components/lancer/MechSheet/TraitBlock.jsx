@@ -31,10 +31,8 @@ const TraitBlock = ({
 }) => {
 	const [isCollapsed, setIsCollapsed] = useState(true);
 
-  let systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : description
-	systemDescription = systemDescription.replace('Effect:', '<strong>Effect:</strong>')
-
-	const systemTrigger = trigger ? `<strong>Trigger:</strong> ${trigger}` : ''
+	const systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : description
+	const systemTrigger = trigger ? `Trigger: ${trigger}` : ''
 
 	let broadcastObject = {
 		// characterName: robotInfo.name, //injected upstream
@@ -53,6 +51,8 @@ const TraitBlock = ({
 		skipTotal: true,
 	}
 
+	const boldedDescription = systemDescription.replace('Effect:', '<strong>Effect:</strong>')
+	const boldedTrigger = systemTrigger.replace('Trigger:', '<strong>Trigger:</strong>')
 
 	const sizeClass =  (systemDescription.length > 200 || trigger) ? 'wide' : ''
 	const titleClass = isTitleCase ? 'title-case' : '';
@@ -124,11 +124,11 @@ const TraitBlock = ({
 						}
 
 						<div className='description'>
-							{systemTrigger &&
-								<p>{ReactHtmlParser(systemTrigger)}</p>
+							{boldedTrigger &&
+								<p>{ReactHtmlParser(boldedTrigger)}</p>
 							}
 
-	            {ReactHtmlParser(systemDescription)}
+	            {ReactHtmlParser(boldedDescription)}
 
 						</div>
 					</>
