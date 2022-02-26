@@ -242,7 +242,7 @@ const Main = ({
         if (snapshot) {
           // clean out old rolls?
           var now = Date.now()
-          var cutoff = now - 3 * 24 * 60 * 60 * 1000 // 3 days ago
+          var cutoff = now - 1 * 24 * 60 * 60 * 1000 // 1 day ago
           if (snapshot.val().createdAt < cutoff) {
             snapshot.ref.remove()
           } else {
