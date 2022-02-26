@@ -26,14 +26,6 @@
     position: absolute;
     left: calc(100% + 2px);
     top: -2px;
-
-    flex-direction: column-reverse;
-
-    .hover-text {
-      writing-mode: vertical-rl;
-      padding: 8px 0;
-      // font-size: 12px;
-    }
   }
 
   .MechWeapon {

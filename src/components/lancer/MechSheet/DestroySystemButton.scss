@@ -6,6 +6,8 @@ button.DestroySystemButton {
 
   padding: 0;
 
+  flex-direction: column-reverse;
+
   &:hover {
     background-color: $parchment_dark;
 
@@ -14,8 +16,10 @@ button.DestroySystemButton {
 
   .hover-text {
     display: none;
-    padding: 0 8px;
     color: $rust;
+    writing-mode: vertical-rl;
+    padding: 8px 0;
+    // font-size: 12px;
   }
 
   .asset {

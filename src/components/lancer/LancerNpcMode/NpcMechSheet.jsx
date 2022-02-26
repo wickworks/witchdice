@@ -153,7 +153,10 @@ function getSystemTraits(items) {
         systemIndex: itemIndex,
         name: (item.flavorName || featureData.name).toLowerCase(),
         activation: `${item.tech_type || 'Quick'} Tech`,
+        trigger: featureData.trigger,
         description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
+        frequency: featureData.frequency,
+        range: featureData.range,
         isDestructable: true,
         isDestroyed: item.destroyed,
         isTitleCase: true,
@@ -162,6 +165,7 @@ function getSystemTraits(items) {
 
     } else if (['System', 'Reaction'].includes(featureData.type)) {
       let activation = ''
+      if (featureData.type === 'Reaction') activation = 'Reaction'
       if (systemHasTag(featureData, 'tg_quick_action')) activation = 'Quick'
       if (systemHasTag(featureData, 'tg_full_action')) activation = 'Full'
 
@@ -169,7 +173,10 @@ function getSystemTraits(items) {
         systemIndex: itemIndex,
         name: (item.flavorName || featureData.name).toLowerCase(),
         activation: activation,
+        trigger: featureData.trigger,
         description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
+        frequency: featureData.frequency,
+        range: featureData.range,
         isDestructable: true,
         isDestroyed: item.destroyed,
         isTitleCase: true,

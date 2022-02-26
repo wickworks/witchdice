@@ -29,20 +29,12 @@ const TraitBlock = ({
 }) => {
 	const [isCollapsed, setIsCollapsed] = useState(true);
 
-  const systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : description
-
-	// const sizeClass = systemDescription.length > 460 ?
-  //     'wide'
-  //   : systemDescription.length > 280 ?
-  //     'tall-3x'
-  //   : systemDescription.length > 200 ?
-  //     'tall-2x'
-  //   : systemDescription.length > 120 ?
-  //     'tall-1x'
-  //   :
-  //     ''
+  let systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : description
+	systemDescription = systemDescription.replace('Effect:', '<strong>Effect:</strong>')
 
 	const sizeClass =  (systemDescription.length > 200 || trigger) ? 'wide' : ''
+
+
 
 	const titleClass = isTitleCase ? 'title-case' : '';
 	const collapsedClass = isCollapsed ? 'collapsed' : '';
@@ -51,84 +43,86 @@ const TraitBlock = ({
 
   return (
 		<div className={`TraitBlock ${sizeClass} ${collapsedClass} ${extraClass}`}>
-			<button
-				className={`name ${titleClass} ${activation.toLowerCase()} ${cpClass} ${collapsedClass}`}
-				onClick={() => setIsCollapsed(!isCollapsed)}
-			>
-				<div className={`title ${destroyedClass}`}>
-          {name}
-          {isDestroyed && ' [ DESTROYED ]'}
-        </div>
+			<div className='card-container'>
+				<button
+					className={`name ${titleClass} ${activation.toLowerCase()} ${cpClass} ${collapsedClass}`}
+					onClick={() => setIsCollapsed(!isCollapsed)}
+				>
+					<div className={`title ${destroyedClass}`}>
+	          {name}
+	          {isDestroyed && ' [ DESTROYED ]'}
+	        </div>
 
-				{activation &&
-					<div className='detail'>
-						<div className='activation'>{activation}</div>
-						{frequency && `, ${frequency}`}
-						{range && range.map((range, i) =>
-	            <div className='range-icon' key={`range-${i}`}>
-	              {range.val}
-	              <div className={`asset ${range.type.toLowerCase()}`} />
-	            </div>
-	          )}
-						{limited &&
-							<div className='limited'>
-								Limited {limited.current}/{limited.max}
-							</div>
-						}
-						{recharge &&
-							<div className='recharge'>
-								{recharge.charged ? '〔Charged〕' : 'Recharge '}
-								{recharge.rollTarget}+
-							</div>
-						}
-					</div>
-				}
-			</button>
-
-
-			{!isCollapsed &&
-				<>
-					{limited && !isDestroyed &&
-						<MechNumberBar
-							extraClass='condensed'
-							dotIcon={limited.icon || 'generic-item'}
-              zeroIcon='dot'
-							maxNumber={limited.max}
-							currentNumber={limited.current}
-							setCurrentNumber={setLimitedCount}
-							leftToRight={true}
-						/>
-					}
-
-					{recharge && !isDestroyed &&
-						<div className='recharge-bar'>
-							<input type='checkbox'
-								checked={recharge.charged}
-								onChange={() => setRecharged(!recharge.charged)}
-							/>
-							Recharge {recharge.rollTarget}+
-							{recharge.charged ? ' 〔Charged〕' : ' 〔-------〕'}
+					{activation &&
+						<div className='detail'>
+							<div className='activation'>{activation}</div>
+							{frequency && `, ${frequency}`}
+							{range && range.map((range, i) =>
+		            <div className='range-icon' key={`range-${i}`}>
+		              {range.val}
+		              <div className={`asset ${range.type.toLowerCase()}`} />
+		            </div>
+		          )}
+							{limited &&
+								<div className='limited'>
+									Limited {limited.current}/{limited.max}
+								</div>
+							}
+							{recharge &&
+								<div className='recharge'>
+									{recharge.charged ? '〔Charged〕' : 'Recharge '}
+									{recharge.rollTarget}+
+								</div>
+							}
 						</div>
 					}
+				</button>
 
-					<div className='description'>
-            {isDestructable &&
-              <DestroySystemButton
-                onDestroy={onDestroy}
-                isDestroyed={isDestroyed}
-              />
-            }
 
-						{trigger &&
-							<p>
-								<strong>Trigger:</strong> {ReactHtmlParser(trigger)}
-							</p>
+				{!isCollapsed &&
+					<>
+						{limited && !isDestroyed &&
+							<MechNumberBar
+								extraClass='condensed'
+								dotIcon={limited.icon || 'generic-item'}
+	              zeroIcon='dot'
+								maxNumber={limited.max}
+								currentNumber={limited.current}
+								setCurrentNumber={setLimitedCount}
+								leftToRight={true}
+							/>
 						}
 
-            {ReactHtmlParser(systemDescription)}
+						{recharge && !isDestroyed &&
+							<div className='recharge-bar'>
+								<input type='checkbox'
+									checked={recharge.charged}
+									onChange={() => setRecharged(!recharge.charged)}
+								/>
+								Recharge {recharge.rollTarget}+
+								{recharge.charged ? ' 〔Charged〕' : ' 〔-------〕'}
+							</div>
+						}
 
-					</div>
-				</>
+						<div className='description'>
+							{trigger &&
+								<p>
+									<strong>Trigger:</strong> {ReactHtmlParser(trigger)}
+								</p>
+							}
+
+	            {ReactHtmlParser(systemDescription)}
+
+						</div>
+					</>
+				}
+			</div>
+
+			{!isCollapsed && isDestructable &&
+				<DestroySystemButton
+					onDestroy={onDestroy}
+					isDestroyed={isDestroyed}
+				/>
 			}
 		</div>
   );

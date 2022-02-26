@@ -1,130 +1,128 @@
 @import '../../../fonts';
 
 .TraitBlock {
+  display: flex;
+  align-items: flex-start;
 
-  // @include max_width {
-  //   &:not(.collapsed) {
-  //     &.tall-1x { grid-row: span 2; }
-  //     &.tall-2x { grid-row: span 3; }
-  //     &.tall-3x { grid-row: span 4; }
-  //     &.wide, &:only-child { grid-column: span 2; }
-  //   }
-  // }
-
-  button.name {
-    display: block;
+  .card-container {
     width: 100%;
-    text-align: left;
-    background-color: $rust;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 0 14px 0 0;
+    
 
-    &.title-case { text-transform: capitalize; }
-    &.action, &.reaction { background-color: $crushed_velvet; }
-    &.core-power { background-color: $rust_dark; }
+    button.name {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background-color: $rust;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 0 14px 0 0;
 
-    &:hover { filter: brightness(115%); }
+      &.title-case { text-transform: capitalize; }
+      &.action, &.reaction { background-color: $crushed_velvet; }
+      &.core-power { background-color: $rust_dark; }
 
-    &.collapsed {
-      background-color: $parchment_dark;
-      color: $soft_black;
-      border-radius: 0 14px 0 7px;
+      &:hover { filter: brightness(115%); }
 
-      &:hover { filter: brightness(85%); }
+      &.collapsed {
+        background-color: $parchment_dark;
+        color: $soft_black;
+        border-radius: 0 14px 0 7px;
 
-      .detail .range-icon .asset { filter: none; }
-    }
+        &:hover { filter: brightness(85%); }
 
-    .title {
-      &.destroyed {
-        font-style: italic;
+        .detail .range-icon .asset { filter: none; }
       }
-    }
 
-    .detail {
-      @include text_monospace;
-      font-size: 12px;
-      margin-top: 4px;
-
-      display: flex;
-      align-items: center;
-
-      .range-icon {
-        display: flex;
-        align-items: center;
-        margin-left: 10px;
-
-        .asset {
-          width: 18px; height: 18px;
-          margin-top: -2px;
-          filter: invert(100%);
+      .title {
+        &.destroyed {
+          font-style: italic;
         }
       }
 
-      .limited {
-        margin-left: auto;
-        padding-left: 12px;
-      }
+      .detail {
+        @include text_monospace;
+        font-size: 12px;
+        margin-top: 4px;
 
-       .recharge {
-         margin-left: auto;
-         padding-left: 12px;
-         display: flex;
-         align-items: center;
-         min-height: 16.5px;
+        display: flex;
+        align-items: center;
 
-         input {
-           margin: 0;
+        .range-icon {
+          display: flex;
+          align-items: center;
+          margin-left: 10px;
+
+          .asset {
+            width: 18px; height: 18px;
+            margin-top: -2px;
+            filter: invert(100%);
+          }
+        }
+
+        .limited {
+          margin-left: auto;
+          padding-left: 12px;
+        }
+
+         .recharge {
+           margin-left: auto;
+           padding-left: 12px;
+           display: flex;
+           align-items: center;
+           min-height: 16.5px;
+
+           input {
+             margin: 0;
+           }
          }
-       }
-    }
-  }
-
-  .recharge-bar {
-    @include text_monospace;
-    background-color: $pink;
-    display: flex;
-    align-items: center;
-    padding: 2px 12px;
-
-    input {
-      width: 24px;
-      height: 24px;
-      margin: 4px 12px 4px 0;
-    }
-  }
-
-  .MechNumberBar {
-    .ticks-container button.tick {
-
-      &:hover {
-        background-color: $pink;
-        .number { color: $soft_black; }
-      }
-
-      .asset:not(.dot) {
-        width: 20px; height: 20px;
       }
     }
-  }
 
-  .description {
-    padding: 8px 12px 10px;
-    background-color: $parchment;
-    border-radius: 0 0 0 14px;
-    line-height: 1.4;
+    .recharge-bar {
+      @include text_monospace;
+      background-color: $pink;
+      display: flex;
+      align-items: center;
+      padding: 2px 12px;
 
-    p:first-child { margin-top: 0; }
+      input {
+        width: 24px;
+        height: 24px;
+        margin: 4px 12px 4px 0;
+      }
+    }
 
-    ul { margin: 4px 0; }
+    .MechNumberBar {
+      .ticks-container button.tick {
 
-    br { margin-top: 4px; }
+        &:hover {
+          background-color: $pink;
+          .number { color: $soft_black; }
+        }
 
-    .DestroySystemButton {
-      margin: -6px -6px 0 6px;
-      float: right;
+        .asset:not(.dot) {
+          width: 20px; height: 20px;
+        }
+      }
+    }
 
+    .description {
+      padding: 8px 12px 10px;
+      background-color: $parchment;
+      border-radius: 0 0 0 14px;
+      line-height: 1.4;
+
+      p:first-child { margin-top: 0; }
+
+      ul { margin: 4px 0; }
+
+      br { margin-top: 4px; }
+
+      .DestroySystemButton {
+        margin: -6px -6px 0 6px;
+        float: right;
+
+      }
     }
   }
 }
