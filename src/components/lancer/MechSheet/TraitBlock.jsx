@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import MechNumberBar from '../MechState/MechNumberBar.jsx'
-import DestroySystemButton from './DestroySystemButton.jsx'
+import { DestroySystemButton, BroadcastSystemButton } from './DestroySystemButton.jsx'
 import ReactHtmlParser from 'react-html-parser';
 
 import './TraitBlock.scss';
+
 
 const TraitBlock = ({
 	name,
   activation = '',
 	frequency = '',
-	trigger = '',
 	range = null,
+	trigger = '',
   description = '',
 
   limited = null, // {current: X, max: Y, icon: 'generic-item'}
@@ -26,16 +27,34 @@ const TraitBlock = ({
 	extraClass = '',
 	isTitleCase = false,
 	isCP = false,
+	setRollSummaryData = () => {},
 }) => {
 	const [isCollapsed, setIsCollapsed] = useState(true);
 
   let systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : description
 	systemDescription = systemDescription.replace('Effect:', '<strong>Effect:</strong>')
 
+	const systemTrigger = trigger ? `<strong>Trigger:</strong> ${trigger}` : ''
+
+	let broadcastObject = {
+		// characterName: robotInfo.name, //injected upstream
+		conditions: [name.toUpperCase()],
+		rolls: [{
+			name: [
+				activation,
+				frequency,
+				range,
+				recharge && `Recharge ${recharge.rollTarget}+`,
+				limited && `Limited ${limited.max}`
+			].filter(attr => !!attr).join(', '),
+			applies: [systemTrigger, systemDescription].filter(attr => !!attr).join('<br>'),
+			attack: -100, // it's an ability, I guess?
+		}],
+		skipTotal: true,
+	}
+
+
 	const sizeClass =  (systemDescription.length > 200 || trigger) ? 'wide' : ''
-
-
-
 	const titleClass = isTitleCase ? 'title-case' : '';
 	const collapsedClass = isCollapsed ? 'collapsed' : '';
   const cpClass = isCP ? 'core-power' : '';
@@ -105,10 +124,8 @@ const TraitBlock = ({
 						}
 
 						<div className='description'>
-							{trigger &&
-								<p>
-									<strong>Trigger:</strong> {ReactHtmlParser(trigger)}
-								</p>
+							{systemTrigger &&
+								<p>{ReactHtmlParser(systemTrigger)}</p>
 							}
 
 	            {ReactHtmlParser(systemDescription)}
@@ -118,11 +135,15 @@ const TraitBlock = ({
 				}
 			</div>
 
-			{!isCollapsed && isDestructable &&
-				<DestroySystemButton
-					onDestroy={onDestroy}
-					isDestroyed={isDestroyed}
-				/>
+			{!isCollapsed &&
+				<div className='sidebar-buttons'>
+					{isDestructable &&
+						<DestroySystemButton onDestroy={onDestroy} isDestroyed={isDestroyed}/>
+					}
+					<BroadcastSystemButton
+						onBroadcast={() => setRollSummaryData(broadcastObject)}
+					/>
+				</div>
 			}
 		</div>
   );

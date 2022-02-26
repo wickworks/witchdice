@@ -1,5 +1,5 @@
 import React from 'react';
-import DestroySystemButton from './DestroySystemButton.jsx'
+import { DestroySystemButton } from './DestroySystemButton.jsx'
 import {
   findWeaponData,
   findSystemData,

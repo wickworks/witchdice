@@ -169,7 +169,7 @@ const PartyRollAttack = ({actionRollData}) => {
   // const isAbility = ('attack' in actionRollData) && !isAttack;
   const isSave = ('save' in actionRollData) && true;
 
-  var nameText = name;
+  var nameText = name || '';
   var nameIcon = '';
   var nameIconCount = 0;
   if (nameText.includes('Accuracy')) {
@@ -184,49 +184,57 @@ const PartyRollAttack = ({actionRollData}) => {
 
   // console.log('rendering actionRollData', actionRollData);
 
-
   // prepare to harvest damage information
   const dataKeys = Object.keys(actionRollData);
+
+  // find what types of damage we're doing
+  let appliedDamageTypes = {};
+  [...allDamageTypes, ...LANCER_DAMAGE_TYPES].forEach(damageType => {
+    if ((dataKeys.indexOf(damageType) >= 0) && (actionRollData[damageType] > 0)) {
+      appliedDamageTypes[damageType] = actionRollData[damageType]
+    }
+  })
+
+  // some abilities only care about the effects, no attack roll nonsense
+  const showMainRow = isAttack || isSave || Object.keys(appliedDamageTypes).length > 0 || nameText.length > 0 || !!nameIcon
+
   return (
     <div className="PartyRollAttack">
 
-      <div className="main-row">
-        { isAttack && <>
-          <div className='asset d20' />
-          <div className="attack-roll">{attack}</div>
-        </> }
+      {showMainRow &&
+        <div className="main-row">
+          { isAttack && <>
+            <div className='asset d20' />
+            <div className="attack-roll">{attack}</div>
+          </> }
 
-        { isSave &&
-          <div className="save">
-            <div className={`asset ${didsave ? 'checkmark' : 'x'}`} />
-            {save}
-          </div>
-        }
-
-
-        <div className={(isAttack || isSave) ? "attack-name" : "ability-name"}>
-          {nameIcon ?
-            [...Array(nameIconCount).keys()].map(i =>
-              <span className={`asset ${nameIcon}`} key={i}/>
-            )
-          :
-            <span>{nameText}</span>
+          { isSave &&
+            <div className="save">
+              <div className={`asset ${didsave ? 'checkmark' : 'x'}`} />
+              {save}
+            </div>
           }
-        </div>
 
-        <div className="damage-container">
-          { [...allDamageTypes, ...LANCER_DAMAGE_TYPES].map((damageType, i) => {
-            if ((dataKeys.indexOf(damageType) >= 0) && (actionRollData[damageType] > 0)) {
-              return (
-                <div className="damage" key={i}>
-                  {Math.floor(actionRollData[damageType])}
-                  <div className={`asset ${damageType.toLowerCase()}`} />
-                </div>
+          <div className={(isAttack || isSave) ? "attack-name" : "ability-name"}>
+            {nameIcon ?
+              [...Array(nameIconCount).keys()].map(i =>
+                <span className={`asset ${nameIcon}`} key={i}/>
               )
-            } else { return null }
-          }) }
+            :
+              <span>{nameText}</span>
+            }
+          </div>
+
+          <div className="damage-container">
+            { Object.keys(appliedDamageTypes).map((damageType, i) =>
+              <div className="damage" key={i}>
+                {Math.floor(actionRollData[damageType])}
+                <div className={`asset ${damageType.toLowerCase()}`} />
+              </div>
+            )}
+          </div>
         </div>
-      </div>
+      }
 
       {applies &&
         <div className="applied-conditions">

@@ -1,6 +1,6 @@
 @import '../../../fonts';
 
-button.DestroySystemButton {
+button.DestroySystemButton, button.BroadcastSystemButton {
   display: flex;
   align-items: center;
 
@@ -8,7 +8,7 @@ button.DestroySystemButton {
 
   flex-direction: column-reverse;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: $parchment_dark;
 
     .hover-text { display: block; }
@@ -26,6 +26,10 @@ button.DestroySystemButton {
     width: 22px; height: 22px;
 
     // turns black to $rust
-    &.x { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
+    &.x, &.sensor { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
+  }
+
+  &:disabled {
+    .asset { filter: invert(50%); }
   }
 }

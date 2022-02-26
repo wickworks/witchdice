@@ -21,12 +21,14 @@
 
   .title {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     padding: 0 8px 5px 12px;
     margin-bottom: 2px;
 
     .name {
-      @include text_party_roll_name;
+      font-size: 16px;
+      font-weight: bold;
+      padding-right: 8px;
 
       overflow: hidden;
       text-overflow: ellipsis;
@@ -42,6 +44,7 @@
     .conditions {
       @include text_party_roll_condition;
       margin: 0 4px 1px auto;
+      text-align: right;
 
       // span { white-space: nowrap; }
     }

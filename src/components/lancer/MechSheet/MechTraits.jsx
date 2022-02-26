@@ -7,6 +7,7 @@ import './MechTraits.scss';
 const MechTraits = ({
 	frameTraits,
   sectionTitle,
+	setRollSummaryData,
   setLimitedCountForSystem = () => {},
   setDestroyedForSystem = () => {},
 	setRechargedForSystem = () => {},
@@ -33,6 +34,7 @@ const MechTraits = ({
 						recharge={trait.recharge}
 						setRecharged={(charged) => setRechargedForSystem(charged, trait.systemIndex)}
             isTitleCase={trait.isTitleCase}
+						setRollSummaryData={setRollSummaryData}
           />
 				)}
 			</div>

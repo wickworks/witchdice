@@ -127,6 +127,7 @@ const MechSheet = ({
           <MechTraits
             sectionTitle='Frame Traits'
             frameTraits={robotLoadout.frameTraits}
+            setRollSummaryData={(summaryData) => { setRollSummaryDataWithName(summaryData); newAttackSummary(); }}
           />
         }
 
@@ -134,6 +135,7 @@ const MechSheet = ({
           <MechTraits
             sectionTitle='Systems'
             frameTraits={robotLoadout.systems}
+            setRollSummaryData={(summaryData) => { setRollSummaryDataWithName(summaryData); newAttackSummary(); }}
             setLimitedCountForSystem={(count, systemIndex) =>
               updateMechState({
                 systemUses: {index: systemIndex, uses: count}
