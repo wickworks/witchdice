@@ -11,6 +11,7 @@ import {
 } from '../lancerData.js';
 
 import { deepCopy } from '../../../utils.js';
+import { getNumberByTier } from '../LancerNpcMode/npcUtils.js';
 
 import './MechMount.scss';
 
@@ -47,6 +48,12 @@ function getModdedWeaponData(weapon) {
       damageObject.val = damageObject.damage[weapon.npcTier-1]
     });
 
+    // modify any tag values by tier
+    weaponData.tags.forEach(tagObject => {
+      if ('val' in tagObject) {
+        tagObject.val = getNumberByTier(tagObject.val, weapon.npcTier)
+      }
+    });
     // Say what the effect will be ahead of time.
     weaponData.effect += weaponData.on_hit
 
