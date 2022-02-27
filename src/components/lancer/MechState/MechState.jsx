@@ -71,7 +71,7 @@ const MechState = ({
   const currentOverchargeIndex = robotState.overcharge;
   const setCurrentOverchargeIndex = (current_overcharge) => updateMechState({current_overcharge: current_overcharge})
 
-  const currentCore = !!robotState.core_energy;
+  const currentCore = !!robotState.coreEnergy;
   const setCurrentCore = (hasCoreEnergy) => updateMechState({current_core_energy: hasCoreEnergy ? 1 : 0})
 
   const currentRepairs = robotState.repairs;
@@ -252,7 +252,7 @@ const MechState = ({
             />
 
             <div className='overcharge-and-core'>
-              {robotState.core_energy >= 0 &&
+              {robotState.coreEnergy >= 0 &&
                 <MechNumberIcon
                   extraClass={`core-power ${currentCore ? 'active' : ''}`}
                   icon='core-power'
