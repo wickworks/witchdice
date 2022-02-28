@@ -172,80 +172,78 @@ const MechState = ({
         setCurrentRepairs={setCurrentRepairs}
       />
 
-      <div className='hull-and-engineering'>
-        <div className='hull-container'>
 
-          <div className='hp-label'>
-            <MechNumberLabel
-              label="HP"
-              maxNumber={robotStats.maxHP}
-              currentNumber={parseInt(currentHP)}
-              setCurrentNumber={setCurrentHP}
-              leftToRight={false}
-            />
-          </div>
+      <div className='hp-label'>
+        <MechNumberLabel
+          label="HP"
+          maxNumber={robotStats.maxHP}
+          currentNumber={parseInt(currentHP)}
+          setCurrentNumber={setCurrentHP}
+          leftToRight={false}
+        />
+      </div>
 
-          <MechNumberBar
-            maxNumber={overshieldPlusMaxHP}
-            currentNumber={overshieldPlusHP}
-            setCurrentNumber={handleHPBarClick}
-            overshield={parseInt(currentOvershield)}
-            armor={robotStats.armor}
-            burn={parseInt(currentBurn)}
+      <div className='hull-container'>
+        <MechNumberBar
+          maxNumber={overshieldPlusMaxHP}
+          currentNumber={overshieldPlusHP}
+          setCurrentNumber={handleHPBarClick}
+          overshield={parseInt(currentOvershield)}
+          armor={robotStats.armor}
+          burn={parseInt(currentBurn)}
+          leftToRight={false}
+        />
+
+        <div className='overshield-and-burn'>
+          <MechNumberIcon
+            extraClass={`overshield ${parseInt(currentOvershield) > 0 ? 'active' : ''}`}
+            icon={'overshield-outline'}
+            onIconClick={() => handleOvershieldIconClick(false)}
+            onIconRightClick={() => handleOvershieldIconClick(true)}
+            iconTooltipData={overshieldTooltip}
+            maxNumber={MAX_OVERSHIELD}
+            currentNumber={parseInt(currentOvershield)}
+            setCurrentNumber={setCurrentOvershield}
             leftToRight={false}
           />
 
+          {robotStats.maxHP > 1 && <MechNumberIcon
+            extraClass={`burning ${parseInt(currentBurn) > 0 ? 'active' : ''}`}
+            icon='burn'
+            onIconClick={() => handleBurnIconClick(false)}
+            onIconRightClick={() => handleBurnIconClick(true)}
+            iconTooltipData={burnTooltip}
+            maxNumber={MAX_BURN}
+            currentNumber={parseInt(currentBurn)}
+            setCurrentNumber={setCurrentBurn}
+            leftToRight={false}
+          />}
+        </div>
+      </div>
 
-          <div className='overshield-and-burn'>
-            <MechNumberIcon
-              extraClass={`overshield ${parseInt(currentOvershield) > 0 ? 'active' : ''}`}
-              icon={'overshield-outline'}
-              onIconClick={() => handleOvershieldIconClick(false)}
-              onIconRightClick={() => handleOvershieldIconClick(true)}
-              iconTooltipData={overshieldTooltip}
-              maxNumber={MAX_OVERSHIELD}
-              currentNumber={parseInt(currentOvershield)}
-              setCurrentNumber={setCurrentOvershield}
-              leftToRight={false}
+      { robotStats.maxHeat > 0 &&
+        <>
+          <div className={`heat-label ${isInDangerZone ? 'danger-zone' : ''}`}>
+            <MechNumberLabel
+              label="Heat"
+              maxNumber={robotStats.maxHeat}
+              currentNumber={currentHeat}
+              setCurrentNumber={setCurrentHeat}
+              leftToRight={true}
             />
 
-            {robotStats.maxHP > 1 && <MechNumberIcon
-              extraClass={`burning ${parseInt(currentBurn) > 0 ? 'active' : ''}`}
-              icon='burn'
-              onIconClick={() => handleBurnIconClick(false)}
-              onIconRightClick={() => handleBurnIconClick(true)}
-              iconTooltipData={burnTooltip}
-              maxNumber={MAX_BURN}
-              currentNumber={parseInt(currentBurn)}
-              setCurrentNumber={setCurrentBurn}
-              leftToRight={false}
-            />}
-          </div>
-        </div>
-
-        <div className='engineering-container'>
-          { robotStats.maxHeat > 0 && <>
-
-            <div className={`heat-label ${isInDangerZone ? 'danger-zone' : ''}`}>
-              <MechNumberLabel
-                label="Heat"
-                maxNumber={robotStats.maxHeat}
-                currentNumber={currentHeat}
-                setCurrentNumber={setCurrentHeat}
-                leftToRight={true}
-              />
-
-              <div className='danger-zone-container'>
-                { isInDangerZone &&
-                  <>
-                    <span className='decor'>!</span>
-                    <span className='words'>Danger<br/>Zone</span>
-                    <span className='decor'>!</span>
-                  </>
-                }
-              </div>
+            <div className='danger-zone-container'>
+              { isInDangerZone &&
+                <>
+                  <span className='decor'>!</span>
+                  <span className='words'>Danger<br/>Zone</span>
+                  <span className='decor'>!</span>
+                </>
+              }
             </div>
+          </div>
 
+          <div className='engineering-container'>
             <MechNumberBar
               maxNumber={robotStats.maxHeat}
               currentNumber={currentHeat}
@@ -282,43 +280,37 @@ const MechState = ({
                 />
               }
             </div>
-          </>}
-        </div>
-      </div>
+          </div>
+        </>
+      }
 
-      <div className='agility-and-systems'>
-        <div className='agility-container'>
-          <MechSingleStat
-            label="Evasion"
-            extraClass='evasion'
-            number={robotStats.evasion}
-            leftToRight={false}
-          />
+      <MechSingleStat
+        label="Evasion"
+        extraClass='evasion'
+        number={robotStats.evasion}
+        leftToRight={false}
+      />
 
-          <MechSingleStat
-            label="Move Speed"
-            extraClass='speed condensed'
-            number={robotStats.moveSpeed}
-            leftToRight={false}
-          />
-        </div>
+      <MechSingleStat
+        label="Move Speed"
+        extraClass='speed condensed'
+        number={robotStats.moveSpeed}
+        leftToRight={false}
+      />
 
-        <div className='systems-container'>
-          <MechSingleStat
-            label="E-Defense"
-            extraClass='e-def'
-            number={robotStats.eDef}
-            leftToRight={true}
-          />
+      <MechSingleStat
+        label="E-Defense"
+        extraClass='e-def'
+        number={robotStats.eDef}
+        leftToRight={true}
+      />
 
-          <MechSingleStat
-            label="Sensor Range"
-            extraClass='sensors condensed'
-            number={robotStats.sensorRange}
-            leftToRight={true}
-          />
-        </div>
-      </div>
+      <MechSingleStat
+        label="Sensor Range"
+        extraClass='sensors condensed'
+        number={robotStats.sensorRange}
+        leftToRight={true}
+      />
 
       <div className='save-target'>
         <div className='label'>

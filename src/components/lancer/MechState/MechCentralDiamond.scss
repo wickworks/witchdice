@@ -20,17 +20,21 @@ $grid_count: 8;
   justify-content: center;
   align-items: center;
 
+  margin: auto;
+  transform: rotate(-46deg); // I don't know why 45 deg is slightly off-kilter
+  z-index: 5;
+
   @include max_width {
-    position: absolute;
-    left: 50%;
-    top: 54px;
-    transform: translateX(-50%) rotate(-45deg);
-    z-index: 5;
+    // position: absolute;
+    // left: 50%;
+    // top: 54px;
+    // transform: translateX(-50%) rotate(-45deg);
+    // z-index: 5;
   }
 
   @include below_max_width {
-    transform: rotate(-45deg);
-    margin: 30px auto;
+    // transform: rotate(-45deg);
+    // margin: 30px auto;
   }
 
   .relative-container {

@@ -55,8 +55,7 @@
         button.tick {
           min-width: 8px;
 
-          &.zero { width: 90px; }
-          &:nth-child(28) { padding-right: 90px; }
+          &:nth-child(26) { padding-right: 90px; }
         }
       }
     }
@@ -147,7 +146,7 @@
       &.zero {
         flex-shrink: 0;
         flex-grow: 0;
-        width: 120px;
+        width: 80px;
 
         @include below_max_width {
           width: 30px;
