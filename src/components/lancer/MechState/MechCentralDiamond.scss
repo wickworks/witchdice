@@ -136,8 +136,15 @@ $grid_count: 8;
         }
 
         .label {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
           font-size: 18px;
           margin: 6px 0;
+
+          .reminder-text {
+            font-size: 12px;
+          }
         }
 
         .number {

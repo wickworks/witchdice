@@ -57,6 +57,10 @@ const PlayerMechSheet = ({
   const frameData = findFrameData(activeMech.frame);
   const loadout = activeMech.loadouts[0];
 
+  // weird special case looking for an un-used custom paint job
+  const customPaintJobSystem = loadout.systems.find(system => system.id === 'ms_custom_paint_job')
+  const hasIntactCustomPaintJob = customPaintJobSystem && (customPaintJobSystem.uses === 0)
+
   const robotState = {
     overshield: activeMech.overshield,
     hp: activeMech.current_hp,
@@ -70,6 +74,8 @@ const PlayerMechSheet = ({
 
     conditions: activeMech.conditions,
     counters: getCountersFromPilot(activePilot),
+
+    hasIntactCustomPaintJob: hasIntactCustomPaintJob,
   }
 
   const robotStats = {

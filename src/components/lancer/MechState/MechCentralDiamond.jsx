@@ -16,6 +16,7 @@ const MechCentralDiamond = ({
   maxStructure,
   currentStructure,
   setCurrentStructure,
+  hasIntactCustomPaintJob = false,
 
   currentRepairs,
   setCurrentRepairs,
@@ -60,7 +61,13 @@ const MechCentralDiamond = ({
             showAbsoluteValues={true}
           />
           <div className='mini-label structure'>
-            <span className='label'>Structure</span>
+            <span className='label'>
+              Structure
+              
+              { hasIntactCustomPaintJob &&
+                <span className='reminder-text'>(paint job intact)</span>
+              }
+            </span>
             <span className='number'>{currentStructure}</span>
           </div>
 

@@ -44,6 +44,8 @@ const NpcMechSheet = ({
 
     conditions: activeNpc.conditions,
     counters: getCountersFromPilot(activeNpc),
+
+    hasIntactCustomPaintJob: false,
   }
 
   const robotStats = {

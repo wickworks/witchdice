@@ -149,6 +149,7 @@ const MechState = ({
   // player mechs default to frame images, npcs have blank image
   const defaultPortrait = robotInfo.frameID.startsWith('mf_') ? robotInfo.frameID : 'mf_standard_pattern_i_everest'
 
+
   return (
     <div className='MechState asset butterfly-watermark'>
 
@@ -165,6 +166,7 @@ const MechState = ({
         maxStructure={robotStats.maxStructure}
         currentStructure={currentStructure}
         setCurrentStructure={setCurrentStructure}
+        hasIntactCustomPaintJob={robotState.hasIntactCustomPaintJob}
 
         currentRepairs={currentRepairs}
         setCurrentRepairs={setCurrentRepairs}
