@@ -265,7 +265,7 @@ const MechState = ({
                 />
               }
 
-              {overchargeDie >= 0 &&
+              {overchargeDie &&
                 <MechNumberIcon
                   extraClass='overcharge'
                   icon='heat'
