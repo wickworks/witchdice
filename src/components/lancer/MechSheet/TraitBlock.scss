@@ -6,7 +6,7 @@
 
   .card-container {
     width: 100%;
-    
+
 
     button.name {
       display: block;
@@ -42,10 +42,11 @@
       .detail {
         @include text_monospace;
         font-size: 12px;
-        margin-top: 4px;
 
         display: flex;
         align-items: center;
+
+        > * { margin-top: 4px; }
 
         .range-icon {
           display: flex;

@@ -5,6 +5,12 @@ import ReactHtmlParser from 'react-html-parser';
 
 import './TraitBlock.scss';
 
+function getRechargeString(recharge) {
+	if (recharge && recharge.rollTarget > 0) {
+		return `Recharge ${recharge.rollTarget}+`
+	}
+	return ''
+}
 
 const TraitBlock = ({
 	name,
@@ -17,7 +23,7 @@ const TraitBlock = ({
   limited = null, // {current: X, max: Y, icon: 'generic-item'}
 	setLimitedCount = () => {},
 
-	recharge = null, // {charged: X, rollTarget: Y}
+	recharge = null, // {charged: X, rollTarget: Y} >> rollTarget of 0 is just usable/unusable
 	setRecharged = () => {},
 
   isDestructable = false,
@@ -42,7 +48,7 @@ const TraitBlock = ({
 				activation,
 				frequency,
 				range,
-				recharge && `Recharge ${recharge.rollTarget}+`,
+				recharge && getRechargeString(recharge),
 				limited && `Limited ${limited.max}`
 			].filter(attr => !!attr).join(', '),
 			applies: [systemTrigger, systemDescription].filter(attr => !!attr).join('<br>'),
@@ -72,29 +78,37 @@ const TraitBlock = ({
 	          {isDestroyed && ' [ DESTROYED ]'}
 	        </div>
 
-					{activation &&
-						<div className='detail'>
-							<div className='activation'>{activation}</div>
-							{frequency && `, ${frequency}`}
-							{range && range.map((range, i) =>
-		            <div className='range-icon' key={`range-${i}`}>
-		              {range.val}
-		              <div className={`asset ${range.type.toLowerCase()}`} />
-		            </div>
-		          )}
-							{limited &&
-								<div className='limited'>
-									Limited {limited.current}/{limited.max}
-								</div>
-							}
-							{recharge &&
-								<div className='recharge'>
-									{recharge.charged ? '〔Charged〕' : 'Recharge '}
-									{recharge.rollTarget}+
-								</div>
-							}
-						</div>
-					}
+					<div className='detail'>
+						{activation && <div className='activation'>{activation}</div> }
+
+						{frequency && `, ${frequency}`}
+
+						{range && range.map((range, i) =>
+	            <div className='range-icon' key={`range-${i}`}>
+	              {range.val}
+	              <div className={`asset ${range.type.toLowerCase()}`} />
+	            </div>
+	          )}
+
+						{limited &&
+							<div className='limited'>
+								Limited {limited.current}/{limited.max}
+							</div>
+						}
+
+						{recharge &&
+							<div className='recharge'>
+								{ recharge.rollTarget > 0 ?
+									<>
+										{recharge.charged ? '〔Charged〕' : 'Recharge '}
+										{recharge.rollTarget}+
+									</>
+								:
+									(recharge.charged ? '〔 Used 〕' : '〔 Available 〕')
+								}
+							</div>
+						}
+					</div>
 				</button>
 
 
@@ -118,8 +132,14 @@ const TraitBlock = ({
 									checked={recharge.charged}
 									onChange={() => setRecharged(!recharge.charged)}
 								/>
-								Recharge {recharge.rollTarget}+
-								{recharge.charged ? ' 〔Charged〕' : ' 〔-------〕'}
+								{ recharge.rollTarget > 0 ?
+									<>
+										{getRechargeString(recharge)}
+										{recharge.charged ? ' 〔Charged〕' : ' 〔 ----- 〕'}
+									</>
+								:
+									(recharge.charged ? '〔 Used 〕' : '〔 Available 〕')
+								}
 							</div>
 						}
 

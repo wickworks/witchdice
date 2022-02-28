@@ -226,6 +226,9 @@ export const OVERCHARGE_SEQUENCE = ['1','1d3','1d6','1d6+4']
 // these should probably get rolled into damageModifiers system
 export const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier', 't_nuclear_cavalier']
 
+// special-case systems that should get a 'used' checkbox
+const EXPENDABLE_SYSTEM_IDS = ['ms_custom_paint_job']
+
 export const BASIC_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy', 'Variable']
 
 export const LANCER_DAMAGE_TYPES = [
@@ -337,6 +340,13 @@ export const getSystemRecharge = (system, systemData) => {
     recharge = {
       charged: system.charged,
       rollTarget: rechargeTag.val,
+    }
+  }
+
+  if (EXPENDABLE_SYSTEM_IDS.includes(systemData.id)) {
+    recharge = {
+      charged: !!system.uses,
+      rollTarget: 0,
     }
   }
 

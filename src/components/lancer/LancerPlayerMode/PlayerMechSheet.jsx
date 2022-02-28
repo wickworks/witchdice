@@ -33,6 +33,7 @@ import {
   baselineMount,
   systemHasTag,
   getSystemLimited,
+  getSystemRecharge,
 } from '../lancerData.js';
 
 import { deepCopy } from '../../../utils.js';
@@ -127,6 +128,7 @@ const PlayerMechSheet = ({
 
     if (mechIndex >= 0) {
       Object.keys(newMechData).forEach(statKey => {
+        // console.log('statKey',statKey, ':', newMechData[statKey]);
         // update something on the pilot, actually
         if (statKey === 'custom_counters' || statKey === 'counter_data') {
           newPilotData[statKey] = newMechData[statKey]
@@ -135,6 +137,9 @@ const PlayerMechSheet = ({
         } else if (statKey === 'systemUses') {
           const systemIndex = newMechData[statKey].index
           loadout.systems[systemIndex].uses = newMechData[statKey].uses
+        } else if (statKey === 'systemCharged') {
+          const systemIndex = newMechData[statKey].index
+          loadout.systems[systemIndex].uses = newMechData[statKey].charged ? 1 : 0
         } else if (statKey === 'systemDestroyed') {
           const systemIndex = newMechData[statKey].index
           loadout.systems[systemIndex].destroyed = newMechData[statKey].destroyed
@@ -306,12 +311,15 @@ function getSystemTraits(systems) {
 
     // passives
     if (systemData.effect) {
+      let recharge = getSystemRecharge(system, systemData)
+
       systemTraits.push({
         systemIndex: systemIndex,
         name: systemData.name.toLowerCase(),
         description: systemData.effect,
         isDestructable: !systemHasTag(systemData, 'tg_indestructible'),
         isDestroyed: system.destroyed,
+        recharge: recharge,
         isTitleCase: true,
       })
     }
