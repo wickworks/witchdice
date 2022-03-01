@@ -14,20 +14,33 @@
 
 .MechState { // .asset.butterfly-watermark
   display: grid;
-  grid-template-columns: .4fr .6fr .2fr .25fr .6fr .25fr .2fr .6fr .4fr;
-  grid-template-rows: auto 120px auto auto auto;
-
   width: 100%;
   height: 100%;
   background-size: contain;
   background-repeat: no-repeat;
+
+  grid-template-columns: .4fr .6fr .2fr .25fr .6fr .25fr .2fr .6fr .4fr;
+  grid-template-rows: auto 120px auto auto auto;
+  margin-top: 20px;
   margin-bottom: 20px;
+
+  @include below_max_width {
+    grid-template-columns: 40% 20% 40%;
+    grid-template-rows: 140px 140px; // then a buncha autos
+    margin-bottom: 40px;
+  }
 
   .MechCentralDiamond {
     grid-column: 3 / span 5;
     grid-row: 1 / span 3;
-
     margin-top: 20px;
+
+    @include below_max_width {
+      grid-column: 1 / span 3;
+      grid-row: 1 / span 2;
+      margin-top: auto;
+
+    }
   }
 
   .hp-label {
@@ -38,8 +51,11 @@
     justify-content: flex-end;
 
     @include below_max_width {
+      grid-column: 1 / span 3;
+      grid-row: 4 / span 1;
+
       justify-content: flex-start;
-      margin: 0 auto 0 0;
+      margin: 8px auto 0 0;
     }
   }
 
@@ -47,7 +63,14 @@
     grid-column: 1 / span 4;
     grid-row: 2 / span 1;
 
-    .MechNumberBar .zero { padding-right: 50px; }
+    @include below_max_width {
+      grid-column: 1 / span 3;
+      grid-row: 5 / span 1;
+    }
+
+    @include max_width {
+      .MechNumberBar .zero { padding-right: 50px; }
+    }
 
     .overshield-and-burn {
       display: flex;
@@ -67,8 +90,6 @@
     }
   }
 
-
-
   .heat-label {
     grid-column: 6 / span 3;
     grid-row: 1 / span 1;
@@ -76,6 +97,15 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    @include below_max_width {
+      grid-column: 1 / span 3;
+      grid-row: 6 / span 1;
+
+      margin: 12px auto 0 0;
+      justify-content: space-between;
+      align-items: center;
+    }
 
     .danger-zone-container {
       @include text_monospace;
@@ -93,20 +123,20 @@
       .label, .numerical-count { color: $rust; }
       input { background-color: $pink; border-color: $rust; }
     }
-
-    @include below_max_width {
-      margin: 0 auto 0 0;
-      justify-content: space-between;
-      flex-direction: row-reverse;
-      align-items: center;
-    }
   }
 
   .engineering-container {
     grid-column: 6 / span 4;
     grid-row: 2 / span 1;
 
-    .MechNumberBar .zero { padding-left: 50px; }
+    @include below_max_width {
+      grid-column: 1 / span 3;
+      grid-row: 7 / span 1;
+    }
+
+    @include max_width {
+      .MechNumberBar .zero { padding-left: 50px; }
+    }
 
     .overcharge-and-core {
       display: flex;
@@ -130,21 +160,41 @@
   .MechSingleStat.evasion {
     grid-column: 1 / span 3;
     grid-row: 3 / span 1;
+
+    @include below_max_width {
+      grid-column: 1 / span 1;
+      grid-row: 1 / span 1;
+    }
   }
 
   .MechSingleStat.speed {
     grid-column: 2 / span 3;
     grid-row: 4 / span 1;
+
+    @include below_max_width {
+      grid-column: 1 / span 1;
+      grid-row: 2 / span 1;
+    }
   }
 
   .MechSingleStat.e-def {
     grid-column: 7 / span 4;
     grid-row: 3 / span 1;
+
+    @include below_max_width {
+      grid-column: 3 / span 1;
+      grid-row: 1 / span 1;
+    }
   }
 
   .MechSingleStat.sensors {
     grid-column: 6 / span 3;
     grid-row: 4 / span 1;
+
+    @include below_max_width {
+      grid-column: 3 / span 1;
+      grid-row: 2 / span 1;
+    }
   }
 
 
@@ -170,13 +220,22 @@
     }
 
     @include below_max_width {
-      margin-top: 12px;
+      grid-column: 1 / span 3;
+      grid-row: 3 / span 1;
+
+      margin-top: 30px;
+      text-align: center;
       flex-direction: row;
       align-items: center;
 
-      .label { font-size: 20px; }
-      .number { font-size: 26px; margin: 0; }
+      .label {
+        font-size: 18px;
+      }
+
+      .number {
+        font-size: 30px;
+        margin-top: 0;
+      }
     }
   }
-
 }
