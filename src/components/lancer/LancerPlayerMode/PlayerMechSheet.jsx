@@ -52,6 +52,7 @@ const PlayerMechSheet = ({
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
   setRollSummaryData,
+  addNewDicebagPartyRoll,
 }) => {
 
   const frameData = findFrameData(activeMech.frame);
@@ -235,6 +236,7 @@ const PlayerMechSheet = ({
         setPartyLastAttackKey={setPartyLastAttackKey}
         setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
         setRollSummaryData={setRollSummaryData}
+        addNewDicebagPartyRoll={addNewDicebagPartyRoll}
       />
     </>
   );

@@ -360,6 +360,7 @@ const Main = ({
               setPartyLastAttackKey={setPartyLastAttackKey}
               setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
               setRollSummaryData={setRollSummaryData}
+              addNewDicebagPartyRoll={addNewDicebagPartyRoll}
               partyConnected={partyConnected}
               partyRoom={partyRoom}
             />

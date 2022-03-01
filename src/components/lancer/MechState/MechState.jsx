@@ -56,6 +56,7 @@ const MechState = ({
   robotInfo,
 
   updateMechState,
+  addNewDicebagPartyRoll,
 }) => {
   const currentOvershield = robotState.overshield;
   const setCurrentOvershield = (overshield) => updateMechState({overshield: overshield})
@@ -227,6 +228,7 @@ const MechState = ({
         extraClass='hull'
         flatBonus={2}
         accuracy={1}
+        addNewDicebagPartyRoll={addNewDicebagPartyRoll}
       />
 
       <AbilityRollButton
@@ -234,6 +236,7 @@ const MechState = ({
         extraClass='engineering'
         flatBonus={2}
         accuracy={0}
+        addNewDicebagPartyRoll={addNewDicebagPartyRoll}
       />
 
       <AbilityRollButton
@@ -241,6 +244,7 @@ const MechState = ({
         extraClass='agility'
         flatBonus={0}
         accuracy={1}
+        addNewDicebagPartyRoll={addNewDicebagPartyRoll}
       />
 
       <AbilityRollButton
@@ -248,6 +252,7 @@ const MechState = ({
         extraClass='systems'
         flatBonus={2}
         accuracy={-1}
+        addNewDicebagPartyRoll={addNewDicebagPartyRoll}
       />
 
       { robotStats.maxHeat > 0 &&

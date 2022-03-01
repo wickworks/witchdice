@@ -9,13 +9,33 @@ const AbilityRollButton = ({
 
   flatBonus = 0,
   accuracy = 0,
+
+  addNewDicebagPartyRoll,
 }) => {
   const [rolledNumber, setRolledNumber] = useState(null);
 
   const handleClick = () => {
     if (rolledNumber === null) {
-      const roll = getRandomInt(20)
-      setRolledNumber(roll)
+
+      let rollData = [];
+      rollData.push({dieType: 'd20', result: getRandomInt(20), sign: 1})
+
+      for (let rollID = 0; rollID < Math.abs(accuracy); rollID++) {
+        rollData.push({dieType: 'd6', result: getRandomInt(6), sign: Math.sign(accuracy)})
+      }
+
+      if (flatBonus !== 0) {
+        rollData.push({dieType: 'plus', result: Math.abs(flatBonus), sign: Math.sign(flatBonus)})
+      }
+
+      addNewDicebagPartyRoll(rollData, 'high', true);
+
+      const total = rollData.reduce((runningTotal, roll) =>
+        runningTotal + (roll.result * roll.sign)
+      , 0)
+      setRolledNumber(total)
+
+
     } else {
       setRolledNumber(null)
     }

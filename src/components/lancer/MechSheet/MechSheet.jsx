@@ -34,6 +34,7 @@ const MechSheet = ({
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
   setRollSummaryData,
+  addNewDicebagPartyRoll,
 }) => {
   const [activeMountIndex, setActiveMountIndex] = useState(null);
   const [activeWeaponIndex, setActiveWeaponIndex] = useState(0);
@@ -114,6 +115,7 @@ const MechSheet = ({
           robotStats={robotStats}
           robotInfo={robotInfo}
           updateMechState={updateMechState}
+          addNewDicebagPartyRoll={addNewDicebagPartyRoll}
         />
 
         <ConditionsAndCounters

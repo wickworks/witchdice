@@ -23,6 +23,7 @@ const NpcMechSheet = ({
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
   setRollSummaryData,
+  addNewDicebagPartyRoll,
 
   updateNpcState
 }) => {
@@ -117,6 +118,7 @@ const NpcMechSheet = ({
       setPartyLastAttackKey={setPartyLastAttackKey}
       setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
       setRollSummaryData={setRollSummaryData}
+      addNewDicebagPartyRoll={addNewDicebagPartyRoll}
     />
   );
 }

@@ -53,6 +53,7 @@ const LancerNpcMode = ({
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
   setRollSummaryData,
+  addNewDicebagPartyRoll,
 }) => {
   //
   const [allEncounterEntries, setAllEncounterEntries] = useState([])
@@ -511,6 +512,7 @@ const LancerNpcMode = ({
           setPartyLastAttackKey={setPartyLastAttackKey}
           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
           setRollSummaryData={setRollSummaryData}
+          addNewDicebagPartyRoll={addNewDicebagPartyRoll}
         />
       </>}
     </div>
