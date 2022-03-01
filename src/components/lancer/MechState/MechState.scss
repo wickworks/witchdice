@@ -33,13 +33,14 @@
   .MechCentralDiamond {
     grid-column: 3 / span 5;
     grid-row: 1 / span 3;
-    margin-top: 20px;
+    // margin-top: 20px;
+    margin-bottom: -10px;
 
     @include below_max_width {
       grid-column: 1 / span 3;
       grid-row: 1 / span 2;
-      margin-top: auto;
-
+      // margin-top: auto;
+      margin-bottom: auto;
     }
   }
 
@@ -157,6 +158,46 @@
     }
   }
 
+  .AbilityRollButton.hull {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+
+    @include below_max_width {
+      grid-column: 1 / span 1;
+      grid-row: 1 / span 1;
+    }
+  }
+
+  .AbilityRollButton.engineering {
+    grid-column: 9 / span 1;
+    grid-row: 1 / span 1;
+
+    @include below_max_width {
+      grid-column: 3 / span 1;
+      grid-row: 1 / span 1;
+    }
+  }
+
+  .AbilityRollButton.agility {
+    grid-column: 1 / span 1;
+    grid-row: 5 / span 1;
+
+    @include below_max_width {
+      grid-column: 1 / span 1;
+      grid-row: 2 / span 1;
+    }
+  }
+
+  .AbilityRollButton.systems {
+    grid-column: 9 / span 1;
+    grid-row: 5 / span 1;
+
+    @include below_max_width {
+      grid-column: 3 / span 1;
+      grid-row: 2 / span 1;
+    }
+  }
+
   .MechSingleStat.evasion {
     grid-column: 1 / span 3;
     grid-row: 3 / span 1;
@@ -197,14 +238,13 @@
     }
   }
 
-
   .save-target {
     grid-column: 4 / span 3;
     grid-row: 5 / span 1;
 
     @include text_monospace;
     text-align: center;
-    margin-top: 6px;
+    margin-top: 16px;
     display: flex;
     flex-direction: column;
     justify-content: center;

@@ -13,7 +13,7 @@ const MechNumberLabel = ({
   const maxNumberForInput = maxNumber ? maxNumber : 20
 
   return (
-    <div className={`MechNumberLabel ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}`}>
+    <div className={`MechNumberLabel ${extraClass} `}>
       <div className='label'>
         {label}
       </div>

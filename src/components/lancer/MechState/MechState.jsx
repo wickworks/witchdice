@@ -4,6 +4,7 @@ import MechNumberLabel from './MechNumberLabel.jsx';
 import MechNumberBar from './MechNumberBar.jsx';
 import MechNumberIcon from './MechNumberIcon.jsx';
 import MechSingleStat from './MechSingleStat.jsx';
+import AbilityRollButton from './AbilityRollButton.jsx';
 
 import {
   OVERCHARGE_SEQUENCE,
@@ -220,6 +221,34 @@ const MechState = ({
           />}
         </div>
       </div>
+
+      <AbilityRollButton
+        label='HULL'
+        extraClass='hull'
+        flatBonus={2}
+        accuracy={1}
+      />
+
+      <AbilityRollButton
+        label='ENGI'
+        extraClass='engineering'
+        flatBonus={2}
+        accuracy={0}
+      />
+
+      <AbilityRollButton
+        label='AGI'
+        extraClass='agility'
+        flatBonus={0}
+        accuracy={1}
+      />
+
+      <AbilityRollButton
+        label='SYS'
+        extraClass='systems'
+        flatBonus={2}
+        accuracy={-1}
+      />
 
       { robotStats.maxHeat > 0 &&
         <>

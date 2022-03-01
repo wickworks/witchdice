@@ -1,0 +1,58 @@
+@import '../../../fonts';
+
+@keyframes abilityRollIn {
+  from { transform: rotate(-360deg); }
+
+  to { transform: rotate(0deg); }
+}
+
+
+button.AbilityRollButton {
+  @include text_monospace;
+
+  // background-color: $parchment_dark;
+  // color: white;
+  color: $grey_dark;
+  border-radius: 4px;
+  padding: 8px 4px;
+  height: 36px;
+  align-self: center;
+
+  text-align: center;
+
+  &:hover {
+    background-color: $rust;
+    color: white;
+
+    &.rolled { background-color: $mud; }
+
+    &:active { background-color: $rust_light; }
+
+    .static-label { display: none; }
+    .hover-info { display: block; }
+  }
+
+  .hover-info {
+    display: none;
+
+    .result {
+      font-size: 20px;
+      margin-right: 6px;
+
+      animation-duration: .2s;
+      animation-name: abilityRollIn;
+    }
+
+    .to-roll-bonuses {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .asset {
+        filter: invert(100%);
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
