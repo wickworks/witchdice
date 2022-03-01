@@ -53,7 +53,7 @@
 
     @include below_max_width {
       grid-column: 1 / span 3;
-      grid-row: 4 / span 1;
+      grid-row: 5 / span 1;
 
       justify-content: flex-start;
       margin: 8px auto 0 0;
@@ -66,7 +66,7 @@
 
     @include below_max_width {
       grid-column: 1 / span 3;
-      grid-row: 5 / span 1;
+      grid-row: 6 / span 1;
     }
 
     @include max_width {
@@ -101,7 +101,7 @@
 
     @include below_max_width {
       grid-column: 1 / span 3;
-      grid-row: 6 / span 1;
+      grid-row: 7 / span 1;
 
       margin: 12px auto 0 0;
       justify-content: space-between;
@@ -132,7 +132,7 @@
 
     @include below_max_width {
       grid-column: 1 / span 3;
-      grid-row: 7 / span 1;
+      grid-row: 8 / span 1;
     }
 
     @include max_width {
@@ -164,7 +164,7 @@
 
     @include below_max_width {
       grid-column: 1 / span 1;
-      grid-row: 1 / span 1;
+      grid-row: 3 / span 1;
     }
   }
 
@@ -174,7 +174,8 @@
 
     @include below_max_width {
       grid-column: 3 / span 1;
-      grid-row: 1 / span 1;
+      grid-row: 3 / span 1;
+      margin-left: auto;
     }
   }
 
@@ -184,7 +185,7 @@
 
     @include below_max_width {
       grid-column: 1 / span 1;
-      grid-row: 2 / span 1;
+      grid-row: 4 / span 1;
     }
   }
 
@@ -194,7 +195,8 @@
 
     @include below_max_width {
       grid-column: 3 / span 1;
-      grid-row: 2 / span 1;
+      grid-row: 4 / span 1;
+      margin-left: auto;
     }
   }
 
@@ -261,12 +263,14 @@
 
     @include below_max_width {
       grid-column: 1 / span 3;
-      grid-row: 3 / span 1;
+      grid-row: 4 / span 1;
 
-      margin-top: 30px;
+      // margin: 30px auto 0;
+      margin: auto;
       text-align: center;
       flex-direction: row;
       align-items: center;
+      width: fit-content;
 
       .label {
         font-size: 18px;
