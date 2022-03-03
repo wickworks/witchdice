@@ -3,7 +3,7 @@
 .MechNumberLabel {
   @include text_monospace;
   font-size: 32px;
-  padding: 4px 0;
+  padding: 0 0 6px;
   color: $rust_dark;
 
   display: flex;

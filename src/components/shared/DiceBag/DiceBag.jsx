@@ -181,7 +181,6 @@ const DiceBag = ({
 
   return (
     <div className="bookmarks-and-bag">
-
       <DiceBookmarks
         currentDice={(rollDieType.length > 0) ? diceData : previousDiceData}
         summaryMode={summaryMode}
@@ -191,7 +190,8 @@ const DiceBag = ({
         setPercentileMode={setPercentileMode}
       />
 
-      <div className="DiceBag" ref={diceBagRef}>
+      <div className="DiceBag">
+        <div className='jumplink-anchor' id='dicebag' ref={diceBagRef} />
 
         <div className='bag-container'>
           <div className='rolling-surface'>

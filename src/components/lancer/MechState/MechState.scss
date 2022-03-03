@@ -56,7 +56,7 @@
       grid-row: 5 / span 1;
 
       justify-content: flex-start;
-      margin: 8px auto 0 0;
+      margin: 16px auto 0 0;
     }
   }
 
@@ -162,11 +162,6 @@
     grid-column: 1 / span 1;
     grid-row: 1 / span 1;
 
-    @include max_width {
-      border-bottom: none;
-      margin-bottom: -12px;
-    }
-
     @include below_max_width {
       grid-column: 1 / span 1;
       grid-row: 3 / span 1;
@@ -177,11 +172,6 @@
     grid-column: 9 / span 1;
     grid-row: 1 / span 1;
 
-    @include max_width {
-      border-bottom: none;
-      margin-bottom: -12px;
-    }
-
     @include below_max_width {
       grid-column: 3 / span 1;
       grid-row: 3 / span 1;
@@ -190,8 +180,10 @@
   }
 
   .AbilityRollButton.agility {
-    grid-column: 1 / span 1;
+    grid-column: 3 / span 2;
     grid-row: 5 / span 1;
+
+    @include max_width { justify-self: flex-end; }
 
     @include below_max_width {
       grid-column: 1 / span 1;
@@ -200,7 +192,7 @@
   }
 
   .AbilityRollButton.systems {
-    grid-column: 9 / span 1;
+    grid-column: 6 / span 2;
     grid-row: 5 / span 1;
 
     @include below_max_width {
@@ -258,7 +250,7 @@
     text-align: center;
     margin-top: 16px;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-content: center;
 
     .label {
@@ -273,9 +265,16 @@
 
     @include below_max_width {
       grid-column: 1 / span 3;
-      grid-row: 4 / span 1;
+      grid-row: 3 / span 2;
 
-      // margin: 30px auto 0;
+      @include constricted {
+        flex-direction: column;
+        justify-content: center;
+        margin-top: 26px;
+
+        .label { margin: auto; }
+      }
+
       margin: auto;
       text-align: center;
       flex-direction: row;
@@ -284,6 +283,7 @@
 
       .label {
         font-size: 18px;
+        white-space: nowrap;
       }
 
       .number {

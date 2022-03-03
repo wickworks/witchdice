@@ -235,8 +235,6 @@ const MainLancer = ({
         />
       }
 
-
-      <div className='jumplink-anchor' id='dicebag' />
     </div>
   )
 }

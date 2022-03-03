@@ -9,16 +9,17 @@
 
 button.AbilityRollButton {
   @include text_monospace;
-  color: $grey_dark;
-  border-radius: 4px;
-  border: 2px solid $grey_mid_light;
-
+  color: $grey_mid;
+  border: 1px solid $grey_mid_lighter;
   padding: 8px 4px;
+
+  align-self: flex-start;
+  text-align: center;
+
   height: 36px;
   width: 82px;
-  align-self: center;
 
-  text-align: center;
+  @include below_max_width { margin-top: 8px; }
 
   &:hover {
     background-color: $rust;
