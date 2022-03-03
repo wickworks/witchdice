@@ -1,5 +1,17 @@
 @import '../../../fonts';
 
+@keyframes annotation_flashin {
+  from {
+    background-color: $rust;
+    color: white;
+  }
+
+  to {
+    background-color: transparent;
+    color: $soft_black;
+  }
+}
+
 $bookmark_breakpoint: 575px;
 
 .bookmarks-and-bag {
@@ -39,9 +51,10 @@ $bookmark_breakpoint: 575px;
     .rolling-surface {
       position: relative;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 0 16px;
+      padding: 0 20px;
 
       .starting-roll {
         min-height: 200px;
@@ -157,6 +170,65 @@ $bookmark_breakpoint: 575px;
             filter: none;
           }
         }
+      }
+
+      .TextInput {
+        box-sizing: border-box;
+        width: 100%;
+        margin: 0 16px;
+        border-radius: 4px;
+        margin-top: -10px;
+
+        animation-duration: .6s;
+        animation-name: annotation_flashin;
+
+        .display, input {
+          @include text_dicebag_summary;
+          // color: $mud;
+          font-weight: bold;
+          text-align: center;
+        }
+      }
+    }
+
+    .annotation-and-summary-mode {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 22px;
+
+      label.activate-annotation {
+        position: relative;
+        border-radius: 2px;
+        padding: 2px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $rust_light;
+          .asset { filter: invert(100%); }
+        }
+
+        &.toggled {
+          background-color: $rust;
+          .asset { filter: invert(100%); }
+        }
+
+        &:active { background-color: $pink; }
+
+        input {
+          position: absolute;
+          left: -5000px;
+        }
+
+        .asset {
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      .placeholder {
+        width: 22px;
+        height: 22px;
       }
     }
   }

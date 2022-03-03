@@ -49,6 +49,9 @@ const Main = ({
   // List of all the rolls to display in the party panel.
   const [allPartyActionData, setAllPartyActionData] = useState([]);
 
+  // Allow other parts of the program to queue up dicebag rolls
+  const [distantDicebagData, setDistantDicebagData] = useState(null);
+
   // Store the key/timestamp of the last roll so we can update it.
   const [partyLastAttackKey, setPartyLastAttackKey] = useState('');
   const [partyLastAttackTimestamp, setPartyLastAttackTimestamp] = useState(0);
@@ -119,10 +122,12 @@ const Main = ({
   }
 
   // Push a dicebag roll to firebase
-  const addNewDicebagPartyRoll = (rolls, summaryMode, isNew) => {
+  const addNewDicebagPartyRoll = (rolls, summaryMode, annotation, isNew) => {
     if (rolls.length > 0) {
       let actionData = {};
       actionData.name = partyName || 'Me';
+      if (annotation) actionData.name += ` — ${annotation}`
+
       actionData.type = 'dicebag';
       actionData.conditions = rolls.length > 1 ? summaryMode : '';
 
@@ -281,6 +286,7 @@ const Main = ({
       <div className="dicebag-and-history">
         <DiceBag
           addNewDicebagPartyRoll={addNewDicebagPartyRoll}
+          distantDicebagData={distantDicebagData}
         />
 
         <div className="history-and-room">
@@ -360,7 +366,7 @@ const Main = ({
               setPartyLastAttackKey={setPartyLastAttackKey}
               setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
               setRollSummaryData={setRollSummaryData}
-              addNewDicebagPartyRoll={addNewDicebagPartyRoll}
+              setDistantDicebagData={setDistantDicebagData}
               partyConnected={partyConnected}
               partyRoom={partyRoom}
             />

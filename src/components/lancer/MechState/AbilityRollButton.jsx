@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { getRandomInt } from '../../../utils.js';
+
+import {
+  blankDice,
+} from '../../shared/DiceBag/DiceBagData.js';
 
 import './AbilityRollButton.scss';
 
@@ -10,45 +14,54 @@ const AbilityRollButton = ({
   flatBonus = 0,
   accuracy = 0,
 
-  addNewDicebagPartyRoll,
+  setDistantDicebagData,
 }) => {
-  const [rolledNumber, setRolledNumber] = useState(null);
+  // const [rolledNumber, setRolledNumber] = useState(null);
 
   const handleClick = () => {
-    if (rolledNumber === null) {
+    // if (rolledNumber === null) {
 
-      let rollData = [];
-      rollData.push({dieType: 'd20', result: getRandomInt(20), sign: 1})
+      // let rollData = [];
+      // rollData.push({dieType: 'd20', result: getRandomInt(20), sign: 1})
+      //
+      // for (let rollID = 0; rollID < Math.abs(accuracy); rollID++) {
+      //   rollData.push({dieType: 'd6', result: getRandomInt(6), sign: Math.sign(accuracy)})
+      // }
+      //
+      // if (flatBonus !== 0) {
+      //   rollData.push({dieType: 'plus', result: Math.abs(flatBonus), sign: Math.sign(flatBonus)})
+      // }
 
-      for (let rollID = 0; rollID < Math.abs(accuracy); rollID++) {
-        rollData.push({dieType: 'd6', result: getRandomInt(6), sign: Math.sign(accuracy)})
-      }
+      let diceData = {...blankDice}
+      diceData['20'] = 1
+      diceData['6'] = accuracy
+      diceData['plus'] = flatBonus
 
-      if (flatBonus !== 0) {
-        rollData.push({dieType: 'plus', result: Math.abs(flatBonus), sign: Math.sign(flatBonus)})
-      }
+      setDistantDicebagData({
+        diceData: diceData,
+        summaryMode: 'high',
+        annotation: `${extraClass.toUpperCase()} save`
+      });
 
-      addNewDicebagPartyRoll(rollData, 'high', true);
+      // const total = rollData.reduce((runningTotal, roll) =>
+      //   runningTotal + (roll.result * roll.sign)
+      // , 0)
+      // setRolledNumber(total)
 
-      const total = rollData.reduce((runningTotal, roll) =>
-        runningTotal + (roll.result * roll.sign)
-      , 0)
-      setRolledNumber(total)
-
-
-    } else {
-      setRolledNumber(null)
-    }
+    //
+    // } else {
+    //   setRolledNumber(null)
+    // }
   }
 
   return (
     <button
-      className={`AbilityRollButton ${extraClass} ${rolledNumber !== null ? 'rolled' : ''}`}
+      className={`AbilityRollButton ${extraClass}`}
       onClick={handleClick}
     >
       <div className='static-label'>{label}</div>
 
-      <div className='hover-info'>
+      {/*<div className='hover-info'>
         {rolledNumber !== null ? <>
           <div className='result'>
             {rolledNumber}
@@ -68,7 +81,7 @@ const AbilityRollButton = ({
             }
           </div>
         </>}
-      </div>
+      </div>*/}
     </button>
   );
 }

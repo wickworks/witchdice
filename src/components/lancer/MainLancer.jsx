@@ -32,7 +32,7 @@ const MainLancer = ({
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
   setRollSummaryData,
-  addNewDicebagPartyRoll,
+  setDistantDicebagData,
 
   partyConnected,
   partyRoom,
@@ -219,7 +219,7 @@ const MainLancer = ({
           setPartyLastAttackKey={setPartyLastAttackKey}
           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
           setRollSummaryData={setRollSummaryData}
-          addNewDicebagPartyRoll={addNewDicebagPartyRoll}
+          setDistantDicebagData={setDistantDicebagData}
         />
       : gameMode === GAME_MODE_NPC &&
         <LancerNpcMode
@@ -231,7 +231,7 @@ const MainLancer = ({
           setPartyLastAttackKey={setPartyLastAttackKey}
           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
           setRollSummaryData={setRollSummaryData}
-          addNewDicebagPartyRoll={addNewDicebagPartyRoll}
+          setDistantDicebagData={setDistantDicebagData}
         />
       }
 

@@ -32,7 +32,7 @@ const LancerPlayerMode = ({
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
   setRollSummaryData,
-  addNewDicebagPartyRoll,
+  setDistantDicebagData,
 }) => {
   const [allPilotEntries, setAllPilotEntries] = useState([]);
   const [activePilotID, setActivePilotID] = useState(null);
@@ -215,7 +215,7 @@ const LancerPlayerMode = ({
           setPartyLastAttackKey={setPartyLastAttackKey}
           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
           setRollSummaryData={setRollSummaryData}
-          addNewDicebagPartyRoll={addNewDicebagPartyRoll}
+          setDistantDicebagData={setDistantDicebagData}
         />
       }
 

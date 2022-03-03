@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import DiceBookmarks from './DiceBookmarks';
 import DieButton from './DieButton';
 import SummaryModeSwitcher from './SummaryModeSwitcher';
 import PercentileOption from './PercentileOption';
+import TextInput from '../TextInput.jsx';
 import { deepCopy, getRandomInt } from '../../../utils.js';
 import {
   blankDice,
@@ -14,7 +15,12 @@ import {
 } from './DiceBagData.js';
 import './DiceBag.scss';
 
-const DiceBag = ({addNewDicebagPartyRoll}) => {
+const DiceBag = ({
+  addNewDicebagPartyRoll,
+  distantDicebagData,
+}) => {
+  const diceBagRef = useRef(null)
+
   const [firstDieRolled, setFirstDieRolled] = useState('');     // for the rolled icon up top
   const [previousDiceData, setPreviousDiceData] = useState({}); // for re-rolling the last set
 
@@ -24,6 +30,9 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
   const [summaryMode, setSummaryMode] = useState('total');      // 'total' / 'low' / 'high'
   const [percentileMode, setPercentileMode] = useState(false);
   const [defaultVariableDieType, setDefaultVariableDieType] = useState('x')
+
+  const [isAnnotationActive, setIsAnnotationActive] = useState(false);
+  const [annotation, setAnnotation] = useState('');
 
   const percentileAvailable = (diceData['10'] === 2);
 
@@ -38,6 +47,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     setFirstDieRolled('')
     setRollData([])
     setPreviousDiceData({})
+    setAnnotation('')
   }
 
   const updateDiceDataCount = (dieType, newCount) => {
@@ -108,17 +118,43 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
     clearCurrentDiceData()
   }
 
+  const handleAnnotationToggle = () => {
+    if (isAnnotationActive) {
+      setIsAnnotationActive(false)
+      setAnnotation('')
+    } else {
+      setIsAnnotationActive(true)
+    }
+  }
+
   // add it to the party roll panel
   useEffect(() => {
-    addNewDicebagPartyRoll(rollData, summaryMode, true);
+    addNewDicebagPartyRoll(rollData, summaryMode, annotation, true);
   }, [rollData]);
 
   // update it on the party roll panel — IF we're not busy queueing up a new roll
   useEffect(() => {
     if (rollDieType.length === 0) {
-      addNewDicebagPartyRoll(rollData, summaryMode, false);
+      addNewDicebagPartyRoll(rollData, summaryMode, annotation, false);
     }
   }, [summaryMode]);
+
+  // If somewhere else has commanded us to queue up a dice roll, do so
+  useEffect(() => {
+    if (distantDicebagData) {
+      setDiceData(distantDicebagData.diceData)
+      setSummaryMode(distantDicebagData.summaryMode)
+
+      if (distantDicebagData.annotation) {
+        setAnnotation(distantDicebagData.annotation)
+        setIsAnnotationActive(true)
+      }
+
+      // scroll down to us
+      // diceBagRef.current.scrollIntoView({behavior: "smooth"})
+      diceBagRef.current.scrollIntoView()
+    }
+  }, [distantDicebagData]);
 
 
   // what is the highest type of die we're queueing up to roll?
@@ -155,7 +191,7 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
         setPercentileMode={setPercentileMode}
       />
 
-      <div className="DiceBag">
+      <div className="DiceBag" ref={diceBagRef}>
 
         <div className='bag-container'>
           <div className='rolling-surface'>
@@ -217,11 +253,25 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
                 }
               </div>
             :
-              <div className='starting-roll'>
-                <div className={`asset d6`} />
-              </div>
+              <>
+                <div className='starting-roll'>
+                  <div className={`asset d6`} />
+                </div>
+              </>
+            }
+
+            { isAnnotationActive &&
+              <TextInput
+                textValue={annotation}
+                setTextValue={setAnnotation}
+                placeholder='( roll annotation )'
+                maxLength={32}
+                key={annotation}
+              />
             }
           </div>
+
+
 
           <div className='die-button-container'>
             { sortedDice(diceData).map((dieType, i) => {
@@ -238,10 +288,22 @@ const DiceBag = ({addNewDicebagPartyRoll}) => {
             })}
           </div>
 
-          <SummaryModeSwitcher
-            summaryMode={summaryMode}
-            setSummaryMode={setSummaryMode}
-          />
+          <div className='annotation-and-summary-mode'>
+            <label className={`activate-annotation ${isAnnotationActive ? 'toggled' : ''}`}>
+              <input
+                type='checkbox'
+                onChange={handleAnnotationToggle}
+              />
+              <div className='asset edit' />
+            </label>
+
+            <SummaryModeSwitcher
+              summaryMode={summaryMode}
+              setSummaryMode={setSummaryMode}
+            />
+
+            <div className='placeholder' />
+          </div>
         </div>
       </div>
     </div>
