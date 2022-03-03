@@ -18,6 +18,7 @@ button.AbilityRollButton {
 
   height: 36px;
   width: 82px;
+  z-index: 2;
 
   @include below_max_width { margin-top: 8px; }
 
