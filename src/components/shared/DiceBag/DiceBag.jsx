@@ -137,7 +137,7 @@ const DiceBag = ({
     if (rollDieType.length === 0) {
       addNewDicebagPartyRoll(rollData, summaryMode, annotation, false);
     }
-  }, [summaryMode]);
+  }, [summaryMode, annotation]);
 
   // If somewhere else has commanded us to queue up a dice roll, do so
   useEffect(() => {
