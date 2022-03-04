@@ -13,6 +13,10 @@ import {
 } from './MechMount.jsx';
 
 import {
+  getSystemLimited,
+} from '../lancerData.js';
+
+import {
   getAvailableBonusDamageSources,
 } from '../WeaponRoller/bonusDamageSourceUtils.js';
 
@@ -83,9 +87,11 @@ const MechSheet = ({
   const activeMount = robotLoadout.mounts[activeMountIndex];
   const activeMountWeapons = getWeaponsOnMount(activeMount);
   const activeWeapon = activeMountWeapons && activeMountWeapons[activeWeaponIndex];
-  const activeWeaponData = getModdedWeaponData(activeWeapon)
 
+  const activeWeaponData = getModdedWeaponData(activeWeapon)
   const activeInvadeData = robotLoadout.invades[activeInvadeIndex]
+
+  const weaponLimited = activeWeaponData ? getSystemLimited(activeWeapon, activeWeaponData, robotStats.limitedBonus) : null
 
   const bonusDamageSources = getAvailableBonusDamageSources(accuracyAndDamageSourceInputs, activeMount, activeWeapon);
 
@@ -197,6 +203,17 @@ const MechSheet = ({
           weaponMod={activeWeapon.mod}
           weaponNpcAccuracy={activeWeapon.npcAccuracyBonus}
           gritBonus={totalAttackBonus}
+          weaponLimited={weaponLimited}
+          setLimitedCount={(count) =>
+            updateMechState({
+              weaponUses: {
+                mountSource: activeMount.source,
+                mountIndex: activeMountIndex,
+                weaponIndex: activeWeaponIndex,
+                uses: count
+              }
+            })
+          }
           availableBonusSources={bonusDamageSources}
           accuracyAndDamageSourceInputs={accuracyAndDamageSourceInputs}
           isPrimaryWeaponOnMount={activeWeaponIndex === 0}

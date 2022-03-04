@@ -342,6 +342,7 @@ const LancerNpcMode = ({
         case 'systemDestroyed':
           newNpc.items[newMechData[statKey].index].destroyed = newMechData[statKey].destroyed
           break;
+        case 'weaponUses':
         case 'weaponCharged':
         case 'weaponDestroyed':
           // find the item that generates this weapon

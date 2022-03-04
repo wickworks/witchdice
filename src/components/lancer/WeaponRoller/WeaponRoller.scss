@@ -48,6 +48,25 @@
       }
     }
 
+    .limited-container {
+      display: flex;
+      align-items: center;
+
+      @include constricted { flex-direction: column-reverse; }
+
+      .limited-label {
+        @include text_monospace;
+        padding: 4px 18px;
+        white-space: nowrap;
+      }
+
+      .MechNumberBar button.tick {
+        .asset:not(.dot) {
+          width: 20px; height: 20px;
+        }
+      }
+    }
+
     .TraitBlock {
       button.name {
         padding: 6px 18px;

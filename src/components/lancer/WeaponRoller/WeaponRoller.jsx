@@ -4,6 +4,7 @@ import WeaponRollerSetup from './WeaponRollerSetup.jsx';
 import BonusDamageBar from './BonusDamageBar.jsx';
 import DamageModifierBar from './DamageModifierBar.jsx';
 import BaseDamageBar from './BaseDamageBar.jsx';
+import MechNumberBar from '../MechState/MechNumberBar.jsx'
 import BrToParagraphs from '../../shared/BrToParagraphs.jsx';
 import TraitBlock from '../MechSheet/TraitBlock.jsx'
 import { deepCopy } from '../../../utils.js';
@@ -28,6 +29,9 @@ const WeaponRoller = ({
   weaponMod,
   weaponNpcAccuracy,
   gritBonus,
+
+  weaponLimited,
+  setLimitedCount = () => {},
 
   availableBonusSources = [],
   isPrimaryWeaponOnMount,
@@ -229,6 +233,25 @@ const WeaponRoller = ({
             key={`basedamage-${i}`}
           />
         )}
+
+        {weaponLimited &&
+
+          <div className='limited-container'>
+            <MechNumberBar
+              extraClass='condensed'
+              dotIcon='mine'
+              zeroIcon='dot'
+              maxNumber={weaponLimited.max}
+              currentNumber={weaponLimited.current}
+              setCurrentNumber={setLimitedCount}
+              leftToRight={true}
+            />
+
+            <div className='limited-label'>
+              Limited {weaponLimited.current}/{weaponLimited.max}
+            </div>
+          </div>
+        }
 
         {weaponData.effect &&
           <div className='effect-row'>

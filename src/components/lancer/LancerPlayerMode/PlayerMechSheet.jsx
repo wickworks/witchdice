@@ -138,76 +138,86 @@ const PlayerMechSheet = ({
     if (mechIndex >= 0) {
       Object.keys(newMechData).forEach(statKey => {
         // console.log('statKey',statKey, ':', newMechData[statKey]);
-        // update something on the pilot, actually
-        if (statKey === 'custom_counters' || statKey === 'counter_data') {
-          newPilotData[statKey] = newMechData[statKey]
+        switch (statKey) {
+          case 'custom_counters':
+          case 'counter_data':
+            newPilotData[statKey] = newMechData[statKey]
+            break;
 
-        // update the state of a system on the mech (modifying a value in a json tree is hell)
-        } else if (statKey === 'systemUses') {
-          const systemIndex = newMechData[statKey].index
-          loadout.systems[systemIndex].uses = newMechData[statKey].uses
-        } else if (statKey === 'systemCharged') {
-          const systemIndex = newMechData[statKey].index
-          loadout.systems[systemIndex].uses = newMechData[statKey].charged ? 1 : 0
-        } else if (statKey === 'systemDestroyed') {
-          const systemIndex = newMechData[statKey].index
-          loadout.systems[systemIndex].destroyed = newMechData[statKey].destroyed
-        } else if (statKey === 'weaponDestroyed') {
-          const mountSource = newMechData[statKey].mountSource
-          const mountIndex = newMechData[statKey].mountIndex
-          const weaponIndex = newMechData[statKey].weaponIndex
-          let slot
-          if (mountSource === 'mounts') {
-            slot = loadout.mounts[mountIndex].slots[weaponIndex]
-            if (!slot) slot = loadout.mounts[mountIndex].extra[0]
-          } else if (mountSource === 'improved_armament') {
-            slot = loadout.improved_armament.slots[weaponIndex]
-            if (!slot) slot = loadout.improved_armament.extra[0]
-          } else if (mountSource === 'integratedWeapon') {
-            slot = loadout.integratedWeapon.slots[weaponIndex]
-            if (!slot) slot = loadout.integratedWeapon.extra[0]
-          } else if (mountSource === 'integratedMounts') {
-            // integrated mounts can't be destroyed; only including here for thouroughness
-          }
-          slot.weapon.destroyed = newMechData[statKey].destroyed
-        } else if (statKey === 'repairAllWeaponsAndSystems') {
-          // - systems - //
-          [loadout.systems, loadout.integratedSystems].forEach(systemArray => {
-            systemArray.forEach(system => {
-              // Repair
-              system.destroyed = false
-              // Restore limited uses
-              const systemData = findSystemData(system.id)
-              if (systemData && systemData.tags) {
-                const limitedTag = systemData.tags.find(tag => tag.id === 'tg_limited')
-                if (limitedTag) system.uses = limitedTag.val + getLimitedBonus(activeMech, activePilot, frameData)
-              }
-            })
-          });
-          // - weapons - //
-          [loadout.mounts, [loadout.improved_armament], [loadout.integratedWeapon]].forEach(weaponMounts => {
-            weaponMounts.forEach(mount => {
-              mount.slots.forEach(slot => {
-                if (slot.weapon) {
-                  // Repair
-                  slot.weapon.destroyed = false
-                  // Restore limited uses
-                  const weaponData = findWeaponData(slot.weapon.id)
-                  if (weaponData && weaponData.tags) {
-                    const limitedTag = weaponData.tags.find(tag => tag.id === 'tg_limited')
-                    if (limitedTag) slot.weapon.uses = limitedTag.val
-                  }
+          case 'systemUses':
+            loadout.systems[ newMechData[statKey].index ].uses = newMechData[statKey].uses
+            break;
+          case 'systemCharged':
+            loadout.systems[ newMechData[statKey].index ].uses = newMechData[statKey].charged ? 1 : 0
+            break;
+          case 'systemDestroyed':
+            loadout.systems[ newMechData[statKey].index ].destroyed = newMechData[statKey].destroyed
+            break;
+          case 'weaponDestroyed':
+          case 'weaponUses':
+            const mountSource = newMechData[statKey].mountSource
+            const mountIndex = newMechData[statKey].mountIndex
+            const weaponIndex = newMechData[statKey].weaponIndex
+            let slot
+            if (mountSource === 'mounts') {
+              slot = loadout.mounts[mountIndex].slots[weaponIndex]
+              if (!slot) slot = loadout.mounts[mountIndex].extra[0]
+            } else if (mountSource === 'improved_armament') {
+              slot = loadout.improved_armament.slots[weaponIndex]
+              if (!slot) slot = loadout.improved_armament.extra[0]
+            } else if (mountSource === 'integratedWeapon') {
+              slot = loadout.integratedWeapon.slots[weaponIndex]
+              if (!slot) slot = loadout.integratedWeapon.extra[0]
+            } else if (mountSource === 'integratedMounts') {
+              // integrated mounts can't be destroyed; only including here for thouroughness
+            }
+            if ('destroyed' in newMechData[statKey])  slot.weapon.destroyed = newMechData[statKey].destroyed
+            if ('uses' in newMechData[statKey])       slot.weapon.uses = newMechData[statKey].uses
+            break;
+
+          case 'repairAllWeaponsAndSystems':
+            const limitedBonus = getLimitedBonus(activeMech, activePilot, frameData);
+
+            // - systems - //
+            [loadout.systems, loadout.integratedSystems].forEach(systemArray => {
+              systemArray.forEach(system => {
+                // Repair
+                system.destroyed = false
+                // Restore limited uses
+                const systemData = findSystemData(system.id)
+                if (systemData && systemData.tags) {
+                  const limitedTag = systemData.tags.find(tag => tag.id === 'tg_limited')
+                  if (limitedTag) system.uses = limitedTag.val + limitedBonus
                 }
               })
-            })
-          });
+            });
+            // - weapons - //
+            [loadout.mounts, [loadout.improved_armament], [loadout.integratedWeapon]].forEach(weaponMounts => {
+              weaponMounts.forEach(mount => {
+                mount.slots.forEach(slot => {
+                  if (slot.weapon) {
+                    // Repair
+                    slot.weapon.destroyed = false
+                    // Restore limited uses
+                    const weaponData = findWeaponData(slot.weapon.id)
+                    if (weaponData && weaponData.tags) {
+                      const limitedTag = weaponData.tags.find(tag => tag.id === 'tg_limited')
+                      if (limitedTag) slot.weapon.uses = limitedTag.val + limitedBonus
+                    }
+                  }
+                })
+              })
+            });
+            break;
 
-        // update a mech value
-        } else if (statKey === 'conditions') {
-          newPilotData.mechs[mechIndex][statKey] = newMechData[statKey]
-        } else {
-          newPilotData.mechs[mechIndex][statKey] = parseInt(newMechData[statKey])
-        }
+          // update a mech value
+          case 'conditions':
+            newPilotData.mechs[mechIndex][statKey] = newMechData[statKey]
+            break;
+          default:
+            newPilotData.mechs[mechIndex][statKey] = parseInt(newMechData[statKey])
+            break;
+          }
       });
 
       // update it in localstorage

@@ -132,10 +132,6 @@ const MechMount = ({
   return (
     <div className={`MechMount ${isEmpty ? 'empty' : ''} ${isBaseline ? 'baseline' : ''}`}>
       { mountedWeaponData.map(([weapon, weaponData], i) => {
-
-        console.log('weapon',weapon);
-        console.log('weaponData',weaponData);
-
         const limited = getSystemLimited(weapon, weaponData, limitedBonus)
 
         // GHOST BUG: if we log mount.slots[i], it'll print fine, but accessing its props crashes it.
