@@ -108,21 +108,42 @@
       align-items: center;
     }
 
-    .danger-zone-container {
-      @include text_monospace;
-      text-align: center;
-      color: $rust;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-
-      .words { font-size: 14px; }
-      .decor { font-size: 32px; }
-    }
-
     &.danger-zone .MechNumberLabel {
       .label, .numerical-count { color: $rust; }
       input { background-color: $pink; border-color: $rust; }
+    }
+  }
+
+  .danger-zone-container {
+    grid-column: 6 / span 4;
+    grid-row: 1 / span 1;
+
+    @include text_monospace;
+    color: $rust;
+    display: flex;
+
+    @include constricted { display: none; }
+
+    @include below_max_width {
+      grid-column: 2 / span 2;
+      grid-row: 7 / span 1;
+
+      justify-content: flex-end;
+      align-items: flex-end;
+      margin-bottom: 10px;
+
+      .words { font-size: 22px; }
+      .decor { font-size: 26px; }
+    }
+
+    @include max_width {
+      height: fit-content;
+      margin-top: -32px;
+      justify-content: center;
+      align-items: center;
+
+      .words { font-size: 18px; }
+      .decor { font-size: 24px; }
     }
   }
 

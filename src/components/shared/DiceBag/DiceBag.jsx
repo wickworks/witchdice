@@ -151,8 +151,8 @@ const DiceBag = ({
       }
 
       // scroll down to us
-      // diceBagRef.current.scrollIntoView({behavior: "smooth"})
-      diceBagRef.current.scrollIntoView()
+      diceBagRef.current.scrollIntoView({behavior: "smooth"})
+      // diceBagRef.current.scrollIntoView()
     }
   }, [distantDicebagData]);
 

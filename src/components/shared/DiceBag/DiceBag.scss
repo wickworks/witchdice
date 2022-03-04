@@ -181,6 +181,7 @@ $bookmark_breakpoint: 575px;
 
         animation-duration: 1.0s;
         animation-name: annotation_flashin;
+        animation-timing-function: ease-out;
 
         .display, input {
           @include text_dicebag_summary;
