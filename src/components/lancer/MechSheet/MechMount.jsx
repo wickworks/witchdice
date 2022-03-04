@@ -8,6 +8,7 @@ import {
   findTalentData,
   findNpcFeatureData,
   getSystemLimited,
+  findTagOnWeapon,
   baselineWeapons
 } from '../lancerData.js';
 
@@ -132,7 +133,9 @@ const MechMount = ({
   return (
     <div className={`MechMount ${isEmpty ? 'empty' : ''} ${isBaseline ? 'baseline' : ''}`}>
       { mountedWeaponData.map(([weapon, weaponData], i) => {
-        const limited = getSystemLimited(weapon, weaponData, limitedBonus)
+        const weaponProfileData = weaponData.profiles ? weaponData.profiles[0] : weaponData
+        const limited = getSystemLimited(weapon, weaponProfileData, limitedBonus)
+        const isLoaded = !!findTagOnWeapon(weaponProfileData, 'tg_loading') ? weapon.loaded : null
 
         // GHOST BUG: if we log mount.slots[i], it'll print fine, but accessing its props crashes it.
         const weaponMod = mount.slots[i] ? mount.slots[i].weapon.mod : null;
@@ -146,6 +149,7 @@ const MechMount = ({
             onClick={() => setActiveWeaponIndex(i)}
             isActive={activeWeaponIndex === i}
 
+            isLoaded={isLoaded}
             limited={limited}
             isDestructable={isDestructable}
             isDestroyed={mountedWeapons[i].destroyed}
@@ -197,6 +201,7 @@ const MechWeapon = ({
   onClick = () => {},
   isActive,
 
+  isLoaded = null,
   limited = null,
   isDestructable,
   isDestroyed,
@@ -234,6 +239,7 @@ const MechWeapon = ({
             {isDestroyed && <div className='destroyed-text'>[ DESTROYED ]</div>}
             {modData && <div className='mod'>{modData.name}</div>}
             {limited && <div className='mod'>Limited {limited.current}/{limited.max}</div>}
+            {isLoaded !== null && <div className='mod'>Loading {isLoaded ? '1' : '0'}/1</div>}
           </div>
         :
           <div className={'i-have-no-weapon'}>(empty mount)</div>

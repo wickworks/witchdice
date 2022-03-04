@@ -48,6 +48,27 @@
       }
     }
 
+    label.loading-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+
+      &:hover { background-color: $parchment_dark; }
+
+      input {
+        width: 24px;
+        height: 24px;
+        margin: 4px 0 4px 12px;
+      }
+
+      .loading-text {
+        @include text_monospace;
+        padding: 4px 18px;
+        white-space: nowrap;
+      }
+    }
+
     .limited-container {
       display: flex;
       align-items: center;

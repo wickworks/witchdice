@@ -153,6 +153,7 @@ const PlayerMechSheet = ({
           case 'systemDestroyed':
             loadout.systems[ newMechData[statKey].index ].destroyed = newMechData[statKey].destroyed
             break;
+          case 'weaponLoaded':
           case 'weaponDestroyed':
           case 'weaponUses':
             const mountSource = newMechData[statKey].mountSource
@@ -173,6 +174,7 @@ const PlayerMechSheet = ({
             }
             if ('destroyed' in newMechData[statKey])  slot.weapon.destroyed = newMechData[statKey].destroyed
             if ('uses' in newMechData[statKey])       slot.weapon.uses = newMechData[statKey].uses
+            if ('loaded' in newMechData[statKey])     slot.weapon.loaded = newMechData[statKey].loaded
             break;
 
           case 'repairAllWeaponsAndSystems':

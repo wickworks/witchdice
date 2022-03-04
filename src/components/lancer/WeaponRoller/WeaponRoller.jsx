@@ -30,6 +30,9 @@ const WeaponRoller = ({
   weaponNpcAccuracy,
   gritBonus,
 
+  isLoaded,
+  setIsLoaded = () => {},
+
   weaponLimited,
   setLimitedCount = () => {},
 
@@ -166,8 +169,10 @@ const WeaponRoller = ({
     }
   }
 
+  const isLoading = !!findTagOnWeapon(currentWeaponProfile, 'tg_loading')
+  const isOverkill = !!findTagOnWeapon(currentWeaponProfile, 'tg_overkill')
+
   // the actual data for all the currently active bonus damages
-  const isOverkill = !!findTagOnWeapon(currentWeaponProfile, 'tg_overkill');
   var activeBonusDamageData = getActiveBonusDamageData(
     bonusDamageData,
     activeBonusSources,
@@ -175,11 +180,6 @@ const WeaponRoller = ({
     genericBonusPlus,
     isOverkill
   );
-
-  // console.log('availableBonusSources',availableBonusSources);
-  // console.log('activeBonusDamageData',activeBonusDamageData);
-
-  const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
 
   // fold in any active damage modifiers from the active bonus sources (things can only get flipped to TRUE)
   // console.log('damageModifiers',damageModifiers);
@@ -193,6 +193,9 @@ const WeaponRoller = ({
       }
     });
   }
+
+  const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
+
   // console.log('totalDamageModifiers',totalDamageModifiers);
 
 
@@ -234,8 +237,7 @@ const WeaponRoller = ({
           />
         )}
 
-        {weaponLimited &&
-
+        { weaponLimited &&
           <div className='limited-container'>
             <MechNumberBar
               extraClass='condensed'
@@ -253,7 +255,20 @@ const WeaponRoller = ({
           </div>
         }
 
-        {weaponData.effect &&
+        { isLoading &&
+          <label className='loading-container'>
+            <input
+              type='checkbox'
+              checked={isLoaded}
+              onChange={() => setIsLoaded(!isLoaded)}
+            />
+            <div className='loading-text'>
+              {isLoaded ? '〔 - Loaded! - 〕' : '〔 - Reload! - 〕'}
+            </div>
+          </label>
+        }
+
+        { weaponData.effect &&
           <div className='effect-row'>
             <BrToParagraphs stringWithBrs={weaponData.effect}/>
           </div>

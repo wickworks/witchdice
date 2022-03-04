@@ -92,6 +92,8 @@ const MechSheet = ({
   const activeInvadeData = robotLoadout.invades[activeInvadeIndex]
 
   const weaponLimited = activeWeaponData ? getSystemLimited(activeWeapon, activeWeaponData, robotStats.limitedBonus) : null
+  // console.log('activeWeapon',activeWeapon);
+  // console.log('activeWeaponData',activeWeaponData);
 
   const bonusDamageSources = getAvailableBonusDamageSources(accuracyAndDamageSourceInputs, activeMount, activeWeapon);
 
@@ -211,6 +213,17 @@ const MechSheet = ({
                 mountIndex: activeMountIndex,
                 weaponIndex: activeWeaponIndex,
                 uses: count
+              }
+            })
+          }
+          isLoaded={activeWeapon.loaded}
+          setIsLoaded={(isLoaded) =>
+            updateMechState({
+              weaponLoaded: {
+                mountSource: activeMount.source,
+                mountIndex: activeMountIndex,
+                weaponIndex: activeWeaponIndex,
+                loaded: isLoaded
               }
             })
           }
