@@ -66,6 +66,7 @@ const WeaponRoller = ({
   useEffect(() => {
     clearAttacks()
     clearActiveBonusSources()
+    setActiveProfileIndex(0)
   }, [stringifiedWeaponData]);
 
   const clearAttacks = () => {
@@ -91,7 +92,7 @@ const WeaponRoller = ({
   } else {
     allWeaponProfiles.push(weaponData)
   }
-  const currentWeaponProfile = allWeaponProfiles[activeProfileIndex];
+  const currentWeaponProfile = allWeaponProfiles[activeProfileIndex] || allWeaponProfiles[0];
 
   // console.log('weaponData',weaponData);
   // console.log('allWeaponProfiles',allWeaponProfiles);

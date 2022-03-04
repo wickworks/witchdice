@@ -22,6 +22,8 @@ const BaseDamageBar = ({
 
   let weaponTags = weaponProfile.tags ? weaponProfile.tags.map(tagID => getTagName(tagID)) : []
 
+  // console.log('weaponProfile',weaponProfile);
+
   return (
     <button
       className={`BaseDamageBar ${isActive ? 'active' : ''}`}
@@ -47,12 +49,17 @@ const BaseDamageBar = ({
 
         <div className="base-range">
           <div className='bracket'>[</div>
-          { weaponProfile.range.map((range, i) =>
-            <div className='range' key={`range-${i}`}>
-              {range.val}
-              <div className={`asset ${range.type.toLowerCase()}`} />
-            </div>
-          )}
+          { weaponProfile.range.map((range, i) => {
+            const rangeVal = range.val || ''
+            const rangeType = range.type || ''
+
+            return (
+              <div className='range' key={`range-${i}`}>
+                {rangeVal}
+                {rangeType && <div className={`asset ${rangeType.toLowerCase()}`} />}
+              </div>
+            )
+          })}
           <div className='bracket'>]</div>
         </div>
       </div>
@@ -60,9 +67,8 @@ const BaseDamageBar = ({
       <div className="tags">
         {weaponTags.join(', ').toLowerCase()}
 
-        { mountType &&
-          <span className='size'>{mountType}</span>
-        }
+        { weaponProfile.name && <span className='size'>{weaponProfile.name}</span> }
+        { mountType && <span className='size'>{mountType}</span> }
       </div>
     </button>
   )
@@ -74,11 +80,13 @@ const DamageDice = ({
   setManualBaseDamage,
   manualBaseDamageDisabled,
 }) => {
+  const damageVal = damage.val || ''
+  const damageType = damage.type || ''
 
-  return ( !isDamageRange(damage.val) ?
+  return ( !isDamageRange(damageVal) ?
     <div className='damage-dice'>
-      {damage.val}
-      <div className={`asset ${damage.type.toLowerCase()}`} />
+      {damageVal}
+      {damageType && <div className={`asset ${damageType.toLowerCase()}`} />}
     </div>
   :
     <div className='manual-damage'>
@@ -90,7 +98,7 @@ const DamageDice = ({
         type='number'
         disabled={manualBaseDamageDisabled}
       />
-      <div className={`asset ${damage.type.toLowerCase()}`} />
+      <div className={`asset ${damageType.toLowerCase()}`} />
     </div>
   )
 }
