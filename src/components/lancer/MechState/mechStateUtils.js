@@ -36,7 +36,6 @@ export function getMechMaxHeatCap(activeMech, activePilot, frameData) {
   return parseInt(total);
 }
 
-
 export function getMechMoveSpeed(activeMech, activePilot, frameData) {
   var total = frameData.stats.speed
 
@@ -131,6 +130,17 @@ export function getMechArmor(activeMech, activePilot, frameData) {
   return parseInt(total);
 }
 
+export function getLimitedBonus(activeMech, activePilot, frameData) {
+  var total = 0
+
+  const engi = activePilot.mechSkills[3]
+  total += Math.floor(engi * .5)
+
+  // total += getBonusFromSystems('limited', activeMech.loadouts[0])
+  total += parseInt(getBonusFromCoreBonuses('limited_bonus', activePilot.core_bonuses))
+
+  return parseInt(total);
+}
 
 // look for systems that increase some stat
 function getBonusFromSystems(bonusType, loadout) {
@@ -140,7 +150,7 @@ function getBonusFromSystems(bonusType, loadout) {
     const systemBonuses = findSystemData(system.id).bonuses;
     if (systemBonuses && !system.destroyed) {
       systemBonuses.forEach(bonus => {
-        if (bonus.id === bonusType) systemTotal += bonus.val
+        if (bonus.id === bonusType) systemTotal += parseInt(bonus.val)
       })
     }
   })
@@ -156,7 +166,7 @@ function getBonusFromCoreBonuses(bonusType, coreBonusIDs) {
     const coreBonusBonuses = findCoreBonusData(coreBonusID).bonuses;
     if (coreBonusBonuses) {
       coreBonusBonuses.forEach(bonusBonus => {
-        if (bonusBonus.id === bonusType) coreTotal += bonusBonus.val
+        if (bonusBonus.id === bonusType) coreTotal += parseInt(bonusBonus.val)
       })
     }
   })
@@ -166,7 +176,7 @@ function getBonusFromCoreBonuses(bonusType, coreBonusIDs) {
 
 // Convert the custom counters stored in pilots (custom_counters and counter_data)
 // into a single array of objects.
-// This - ALSO - works for NPCs because they thankfully have the same keys. 
+// This - ALSO - works for NPCs because they thankfully have the same keys.
 export function getCountersFromPilot(pilotData) {
   let counters = [];
 

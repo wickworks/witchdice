@@ -15,6 +15,7 @@ import {
   getMechSaveTarget,
   getMechArmor,
   getMechMaxRepairCap,
+  getLimitedBonus,
 
   getMechTechAttack,
   getCountersFromPilot,
@@ -111,7 +112,7 @@ const PlayerMechSheet = ({
 
   const robotLoadout = {
     frameTraits: getFrameTraits(frameData.traits, frameData.core_system),
-    systems: getSystemTraits(loadout.systems),
+    systems: getSystemTraits(loadout.systems, getLimitedBonus(activeMech, activePilot, frameData)),
 
     mounts: [...getMountsFromLoadout(loadout), modifiedBaselineMount(activePilot, loadout)],
     invades: getInvadeAndTechAttacks(loadout, activePilot.talents),
@@ -178,7 +179,7 @@ const PlayerMechSheet = ({
               const systemData = findSystemData(system.id)
               if (systemData && systemData.tags) {
                 const limitedTag = systemData.tags.find(tag => tag.id === 'tg_limited')
-                if (limitedTag) system.uses = limitedTag.val
+                if (limitedTag) system.uses = limitedTag.val + getLimitedBonus(activeMech, activePilot, frameData)
               }
             })
           });
@@ -309,7 +310,7 @@ function getFrameTraits(traitList, coreSystem) {
 
 
 // Harvest the actions and whatnot from a mech's loadout
-function getSystemTraits(systems) {
+function getSystemTraits(systems, limitedBonus) {
   let systemTraits = []
 
   // PASSIVES and TECH first
@@ -357,7 +358,7 @@ function getSystemTraits(systems) {
 
     // actions
     if (systemData.actions) {
-      let limited = getSystemLimited(system, systemData)
+      let limited = getSystemLimited(system, systemData, limitedBonus)
 
       // (invades go into the mounts list, but quick tech is fine here)
       if (!isSystemTechAttack(systemData)) {
@@ -382,7 +383,7 @@ function getSystemTraits(systems) {
 
     // deployables
     if (systemData.deployables) {
-      let limited = getSystemLimited(system, systemData)
+      let limited = getSystemLimited(system, systemData, limitedBonus)
 
       systemData.deployables.forEach((deployable, i) => {
         if (deployable.type === 'Mine') limited.icon = 'mine'

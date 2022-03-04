@@ -318,14 +318,14 @@ export const systemHasTag = (systemData, tagID) => {
   return !!tagObj
 }
 
-export const getSystemLimited = (system, systemData) => {
+export const getSystemLimited = (system, systemData, limitedBonus) => {
   const limitedTag = systemData.tags && systemData.tags.find(tag => tag.id === 'tg_limited')
   let limited = null
 
   if (limitedTag) {
     limited = {
       current: system.uses || 0,
-      max: limitedTag.val,
+      max: limitedTag.val + limitedBonus,
       icon: 'generic-item'
     }
   }
