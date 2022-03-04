@@ -164,6 +164,7 @@ const MechSheet = ({
             <MechMount
               key={`mount-${i}`}
               mount={mount}
+              limitedBonus={robotStats.limitedBonus}
               setActiveWeaponIndex={(weaponIndex) => changeMountAndWeapon(i, weaponIndex)}
               activeWeaponIndex={activeMountIndex === i ? activeWeaponIndex : -1}
               setDestroyedForWeapon={(destroyed, weaponIndex) =>

@@ -95,6 +95,7 @@ const PlayerMechSheet = ({
     saveTarget: getMechSaveTarget(activeMech, activePilot, frameData),
     sensorRange: frameData.stats.sensor_range,
     techAttackBonus: getMechTechAttack(activeMech, activePilot, frameData),
+    limitedBonus: getLimitedBonus(activeMech, activePilot, frameData),
 
     attackBonus: getGrit(activePilot),
     attackBonusRanged: getToHitBonusFromMech(activeMech),
@@ -112,7 +113,7 @@ const PlayerMechSheet = ({
 
   const robotLoadout = {
     frameTraits: getFrameTraits(frameData.traits, frameData.core_system),
-    systems: getSystemTraits(loadout.systems, getLimitedBonus(activeMech, activePilot, frameData)),
+    systems: getSystemTraits(loadout.systems, robotStats.limitedBonus),
 
     mounts: [...getMountsFromLoadout(loadout), modifiedBaselineMount(activePilot, loadout)],
     invades: getInvadeAndTechAttacks(loadout, activePilot.talents),

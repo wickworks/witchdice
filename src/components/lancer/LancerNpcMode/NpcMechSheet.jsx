@@ -64,6 +64,7 @@ const NpcMechSheet = ({
     saveTarget: getStat('save', activeNpc),
     sensorRange: getStat('sensor', activeNpc),
     techAttackBonus: getStat('systems', activeNpc),
+    limitedBonus: 0,
 
     attackBonus: 0,
     attackBonusRanged: 0,

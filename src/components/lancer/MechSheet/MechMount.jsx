@@ -7,6 +7,7 @@ import {
   findModData,
   findTalentData,
   findNpcFeatureData,
+  getSystemLimited,
   baselineWeapons
 } from '../lancerData.js';
 
@@ -113,22 +114,29 @@ function isNpcFeatureTechAttack(featureData) {
 
 const MechMount = ({
   mount,
+  limitedBonus,
   setActiveWeaponIndex,
   activeWeaponIndex,
-
   setDestroyedForWeapon,
 }) => {
   const mountedWeapons = getWeaponsOnMount(mount)
-  const mountedWeaponData = mountedWeapons.map(weapon => getModdedWeaponData(weapon))
+
+  // Short arrays of each weapon and its data.
+  const mountedWeaponData = mountedWeapons.map(weapon => [weapon, getModdedWeaponData(weapon)])
+
   const isEmpty = mountedWeaponData.length === 0
   const isBaseline = mount.mount_type === 'Baseline'
   const isDestructable = mount.source !== 'integratedMounts' && !isBaseline
-
   const bonusEffects = mount.bonus_effects.map(effectID => findCoreBonusData(effectID).name);
 
   return (
     <div className={`MechMount ${isEmpty ? 'empty' : ''} ${isBaseline ? 'baseline' : ''}`}>
-      { mountedWeaponData.map((weaponData, i) => {
+      { mountedWeaponData.map(([weapon, weaponData], i) => {
+
+        console.log('weapon',weapon);
+        console.log('weaponData',weaponData);
+
+        const limited = getSystemLimited(weapon, weaponData, limitedBonus)
 
         // GHOST BUG: if we log mount.slots[i], it'll print fine, but accessing its props crashes it.
         const weaponMod = mount.slots[i] ? mount.slots[i].weapon.mod : null;
@@ -142,6 +150,7 @@ const MechMount = ({
             onClick={() => setActiveWeaponIndex(i)}
             isActive={activeWeaponIndex === i}
 
+            limited={limited}
             isDestructable={isDestructable}
             isDestroyed={mountedWeapons[i].destroyed}
             onDestroy={() => setDestroyedForWeapon(!mountedWeapons[i].destroyed, i)}
@@ -150,11 +159,9 @@ const MechMount = ({
         )
       })}
 
-      {mountedWeaponData.length === 0 &&
+      { mountedWeaponData.length === 0 &&
         <MechWeapon
           mountType={mount.mount_type}
-          weaponData={null}
-          onClick={() => {}}
           isActive={false}
         />
       }
@@ -189,11 +196,12 @@ const TechAttack = ({
 const MechWeapon = ({
   mountType = '',
   bonusEffects = [],
-  weaponData,
-  mod,
-  onClick,
+  weaponData = null,
+  mod = null,
+  onClick = () => {},
   isActive,
 
+  limited = null,
   isDestructable,
   isDestroyed,
   onDestroy,
@@ -202,6 +210,7 @@ const MechWeapon = ({
   var modData;
   if (mod) modData = findModData(mod.id);
 
+  // console.log('MechWeapon', weaponData);
   return (
     <div className='MechWeapon'>
       {isDestructable && isActive &&
@@ -228,6 +237,7 @@ const MechWeapon = ({
             <div className="name">{weaponData.name.toLowerCase()}</div>
             {isDestroyed && <div className='destroyed-text'>[ DESTROYED ]</div>}
             {modData && <div className='mod'>{modData.name}</div>}
+            {limited && <div className='mod'>Limited {limited.current}/{limited.max}</div>}
           </div>
         :
           <div className={'i-have-no-weapon'}>(empty mount)</div>
