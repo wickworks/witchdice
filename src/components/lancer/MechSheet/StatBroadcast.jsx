@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
+import { capitalize } from '../../../utils.js';
 
 import './StatBroadcast.scss';
 
 // Frame Traits & Core System        Systems
 const StatBroadcast = ({
+  robotInfo,
   robotStats,
   robotState,
   onBroadcast,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
+  const [disabledBroadcasts, setDisabledBroadcasts] = useState([])
 
   // [ STATS ]
   //   HULL:1 AGI:0 SYS:1 ENGI:2
@@ -37,17 +40,21 @@ const StatBroadcast = ({
     `SPD:${robotStats.moveSpeed} EVA:${robotStats.evasion} EDEF:${robotStats.eDef} SENSE:${robotStats.sensorRange} SAVE:${robotStats.saveTarget}<br>`
 
 
-  function getBroadcastObject(statBlock) {
-    return {
+  function broadcastStats(statBlock, disableType) {
+    let newDisabled = [...disabledBroadcasts]
+    newDisabled.push(disableType)
+    setDisabledBroadcasts(newDisabled)
+
+    onBroadcast({
     	// characterName: robotInfo.name, //injected upstream
-    	conditions: [],
+    	conditions: [robotInfo.frameSourceText, capitalize(robotInfo.frameName)],
     	rolls: [{
     		name: '',
     		applies: statBlock,
     		attack: -100, // it's an ability, I guess?
     	}],
     	skipTotal: true,
-    }
+    })
   }
 
   return (
@@ -63,7 +70,7 @@ const StatBroadcast = ({
       </button>
 
       <div className={`broadcast-options ${isExpanded ? 'expanded' : 'hidden'}`}>
-        <button onClick={() => onBroadcast(getBroadcastObject(statsBasic))}>
+        <button onClick={() => broadcastStats(statsBasic, 'basic')} disabled={disabledBroadcasts.includes('basic')}>
           <div className='desc'>
             <span className='asset evasion'/>,
             <span className='asset edef'/>,
@@ -71,7 +78,7 @@ const StatBroadcast = ({
           </div>
           <div className='asset npc-tier-1' />
         </button>
-        <button onClick={() => onBroadcast(getBroadcastObject(statsMedium))}>
+        <button onClick={() => broadcastStats(statsMedium, 'medium')} disabled={disabledBroadcasts.includes('medium')}>
           <div className='desc'>
             <span className='asset skill'/>,
             <span className='asset armor'/>,
@@ -82,7 +89,7 @@ const StatBroadcast = ({
           </div>
           <div className='asset npc-tier-2' />
         </button>
-        <button onClick={() => onBroadcast(getBroadcastObject(statsFull))}>
+        <button onClick={() => broadcastStats(statsFull, 'full')} disabled={disabledBroadcasts.includes('full')}>
           <div className='desc'>
             Everything —
           </div>

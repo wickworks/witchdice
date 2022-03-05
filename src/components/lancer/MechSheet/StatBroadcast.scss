@@ -50,7 +50,12 @@
       justify-content: flex-end;
       width: 100%;
 
-      &:hover { background-color: $parchment_dark; }
+      &:hover:not(:disabled) { background-color: $parchment_dark; }
+
+      &:disabled {
+        font-style: italic;
+        filter: invert(50%);
+      }
 
       .desc {
         display: flex;

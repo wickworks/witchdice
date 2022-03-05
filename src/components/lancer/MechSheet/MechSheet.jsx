@@ -122,9 +122,11 @@ const MechSheet = ({
 
           {robotInfo.frameID.startsWith('npcc_') &&
             <StatBroadcast
+              robotInfo={robotInfo}
               robotStats={robotStats}
               robotState={robotState}
               onBroadcast={(summaryData) => { setRollSummaryDataWithName(summaryData); newAttackSummary(); }}
+              key={robotInfo.id}
             />
           }
         </div>
