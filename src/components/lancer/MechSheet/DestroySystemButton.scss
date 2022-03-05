@@ -12,18 +12,13 @@ button.DestroySystemButton, button.BroadcastSystemButton {
 
   &:hover:not(:disabled) {
     background-color: $parchment_dark;
-
     max-height: 132px;
-
-    // .hover-text { display: block; }
   }
 
   .hover-text {
-    // display: none;
     color: $rust;
-    writing-mode: vertical-rl;
     padding: 8px 0;
-    // font-size: 12px;
+    writing-mode: vertical-rl;
   }
 
   .asset {

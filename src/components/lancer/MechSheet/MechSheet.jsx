@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MechTraits from './MechTraits.jsx';
+import StatBroadcast from './StatBroadcast.jsx';
 import MechState from '../MechState/MechState.jsx';
 import ConditionsAndCounters from '../MechState/ConditionsAndCounters.jsx';
 import WeaponRoller from '../WeaponRoller/WeaponRoller.jsx';
@@ -112,11 +113,22 @@ const MechSheet = ({
 
         <h2>{robotInfo.name}</h2>
 
-        <div className='frame-container'>
-          <div className={`asset ${robotInfo.frameSourceIcon}`} />
-          <div className='manufacturer'>{robotInfo.frameSourceText}</div>
-          <div className="frame">{robotInfo.frameName}</div>
+        <div className='frame-and-stat-broadcast'>
+          <div className='frame-container'>
+            <div className={`asset ${robotInfo.frameSourceIcon}`} />
+            <div className='manufacturer'>{robotInfo.frameSourceText}</div>
+            <div className="frame">{robotInfo.frameName}</div>
+          </div>
+
+          {robotInfo.frameID.startsWith('npcc_') &&
+            <StatBroadcast
+              robotStats={robotStats}
+              robotState={robotState}
+              onBroadcast={(summaryData) => { setRollSummaryDataWithName(summaryData); newAttackSummary(); }}
+            />
+          }
         </div>
+
 
         <MechState
           robotState={robotState}

@@ -242,7 +242,7 @@ const WeaponRoller = ({
           <div className='limited-container'>
             <MechNumberBar
               extraClass='condensed'
-              dotIcon='mine'
+              dotIcon='ammo'
               zeroIcon='dot'
               maxNumber={weaponLimited.max}
               currentNumber={weaponLimited.current}

@@ -25,10 +25,14 @@
   &.cone { background-image: url('./assets/lancer/aoe_cone.svg'); }
   &.line { background-image: url('./assets/lancer/aoe_line.svg'); }
 
+  &.skill { background-image: url('./assets/lancer/skill.svg'); }
   &.repair { background-image: url('./assets/lancer/repair.svg'); }
   &.structure { background-image: url('./assets/lancer/structure.svg'); }
   &.reactor { background-image: url('./assets/lancer/reactor.svg'); }
   &.sensor { background-image: url('./assets/lancer/sensor.svg'); }
+  &.evasion { background-image: url('./assets/lancer/evasion.svg'); }
+  &.edef { background-image: url('./assets/lancer/edef.svg'); }
+  &.movement { background-image: url('./assets/lancer/movement.svg'); }
 
   &.core-power { background-image: url('./assets/lancer/core_power.svg'); }
   &.core-power-empty { background-image: url('./assets/lancer/core_power_empty.svg'); }
@@ -42,6 +46,7 @@
   &.generic-item { background-image: url('./assets/lancer/generic_item.svg'); }
   &.mine { background-image: url('./assets/lancer/mine.svg'); }
   &.grenade { background-image: url('./assets/lancer/grenade.svg'); }
+  &.ammo { background-image: url('./assets/lancer/ammo.svg'); }
 
   &.size-half { background-image: url('./assets/lancer/size_half.svg'); }
   &.size-1 { background-image: url('./assets/lancer/size_1.svg'); }

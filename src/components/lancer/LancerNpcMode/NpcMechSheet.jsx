@@ -50,6 +50,10 @@ const NpcMechSheet = ({
   }
 
   const robotStats = {
+    hull: getStat('hull', activeNpc),
+    engineering: getStat('engineering', activeNpc),
+    agility: getStat('agility', activeNpc),
+    systems: getStat('systems', activeNpc),
     maxHP: getStat('hp', activeNpc),
     maxHeat: getStat('heatcap', activeNpc),
     maxRepairCap: 0,
