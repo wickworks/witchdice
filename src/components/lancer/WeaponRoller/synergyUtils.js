@@ -1,5 +1,4 @@
 
-
 export function getFailingWeaponSynergies(weaponData, synergies) {
   const failingSynergies = synergies.filter(synergy => {
     // Weapon type? (mimic gun counts as everything)
@@ -30,10 +29,28 @@ export function getFailingWeaponSynergies(weaponData, synergies) {
   return failingSynergies
 }
 
-// We only care about synergies that apply to weapons
-export function getWeaponSynergies(synergies) {
+// convience function to get synergies that include a single location
+export function getSynergiesFor(targetLocation, synergies) {
+  return getSynergiesForAll([targetLocation], synergies)
+}
+
+// get synergies that match ALL the given locations
+export function getSynergiesForAll(targetLocations, synergies) {
   if (synergies) {
-    return synergies.filter(synergy => synergy.locations.includes('weapon'))
+    return synergies.filter(synergy =>
+      targetLocations.every(location => synergy.locations.includes(location))
+    )
+  } else {
+    return []
+  }
+}
+
+// get synergies that match ANY of the given locations
+export function getSynergiesForAny(targetLocations, synergies) {
+  if (synergies) {
+    return synergies.filter(synergy =>
+      targetLocations.some(location => synergy.locations.includes(location))
+    )
   } else {
     return []
   }

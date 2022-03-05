@@ -226,32 +226,32 @@ const MechState = ({
       <AbilityRollButton
         label='HULL'
         extraClass='hull'
-        flatBonus={2}
-        accuracy={1}
+        flatBonus={robotStats.hull}
+        accuracy={robotStats.hullAccuracy}
         setDistantDicebagData={setDistantDicebagData}
       />
 
       <AbilityRollButton
         label='ENGI'
         extraClass='engineering'
-        flatBonus={2}
-        accuracy={0}
+        flatBonus={robotStats.engineering}
+        accuracy={robotStats.engineeringAccuracy}
         setDistantDicebagData={setDistantDicebagData}
       />
 
       <AbilityRollButton
         label='AGI'
         extraClass='agility'
-        flatBonus={0}
-        accuracy={1}
+        flatBonus={robotStats.agility}
+        accuracy={robotStats.agilityAccuracy}
         setDistantDicebagData={setDistantDicebagData}
       />
 
       <AbilityRollButton
         label='SYS'
         extraClass='systems'
-        flatBonus={2}
-        accuracy={-1}
+        flatBonus={robotStats.systems}
+        accuracy={robotStats.systemsAccuracy}
         setDistantDicebagData={setDistantDicebagData}
       />
 

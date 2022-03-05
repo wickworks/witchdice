@@ -7,7 +7,12 @@ import {
   getGrit,
   findSystemData,
   findCoreBonusData,
+  findTalentData,
 } from '../lancerData.js';
+
+import {
+  getSynergiesForAll,
+} from '../WeaponRoller/synergyUtils.js';
 
 
 export function getMechMaxHP(activeMech, activePilot, frameData) {
@@ -172,6 +177,39 @@ function getBonusFromCoreBonuses(bonusType, coreBonusIDs) {
   })
 
   return coreTotal
+}
+
+export function getSkillCheckAccuracy(skill, activeMech, activePilot, frameData) {
+
+  let synergies = []
+
+  // Frame trait synergies
+  frameData.traits.forEach(trait =>
+    synergies.push(...getSynergiesForAll(['skill_check', skill], trait.synergies))
+  )
+
+  // Pilot talent synergies
+  activePilot.talents.forEach(talent => {
+    const talentData = findTalentData(talent.id)
+    talentData.ranks.forEach(rank =>
+      synergies.push(...getSynergiesForAll(['skill_check', skill], rank.synergies))
+    )
+  })
+
+  // Loadout synergies
+  // ??? Stable structure, I guess?
+
+  // console.log('skill synergies ', skill, synergies);
+
+  let accuracy = 0
+  synergies.forEach(synergy => {
+    if (synergy.detail && synergy.detail.toLowerCase().includes('difficulty')) {
+      accuracy -= 1
+    } else {
+      accuracy += 1
+    }
+  })
+  return accuracy;
 }
 
 // Convert the custom counters stored in pilots (custom_counters and counter_data)

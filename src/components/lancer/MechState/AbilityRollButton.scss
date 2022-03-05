@@ -31,6 +31,23 @@ button.AbilityRollButton {
     &.rolled { background-color: $mud; }
 
     &:active { background-color: $rust_light; }
+
+    .static-label { display: none; }
+    .check-values { display: flex; }
+  }
+
+  .check-values {
+    display: none;
+    justify-content: center;
+
+    .asset {
+      width: 18px;
+      height: 18px;
+      display: block;
+      margin-right: 4px;
+
+      filter: invert(100%);
+    }
   }
 
 }

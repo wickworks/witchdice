@@ -1,10 +1,16 @@
 import React from 'react';
 import MechSheet from '../MechSheet/MechSheet.jsx';
 
+import { capitalize } from '../../../utils.js';
 import { getCountersFromPilot } from '../MechState/mechStateUtils.js';
 import { isNpcFeatureTechAttack } from '../MechSheet/MechMount.jsx';
-import { getStat, getMarkerFromFingerprint } from './npcUtils.js';
-import { capitalize } from '../../../utils.js';
+
+import {
+  getStat,
+  getMarkerFromFingerprint,
+  getNpcSkillCheckAccuracy
+} from './npcUtils.js';
+
 import {
   findNpcClassData,
   findNpcFeatureData,
@@ -51,9 +57,14 @@ const NpcMechSheet = ({
 
   const robotStats = {
     hull: getStat('hull', activeNpc),
+    hullAccuracy: getNpcSkillCheckAccuracy('hull', activeNpc),
     engineering: getStat('engineering', activeNpc),
+    engineeringAccuracy: getNpcSkillCheckAccuracy('engineering', activeNpc),
     agility: getStat('agility', activeNpc),
+    agilityAccuracy: getNpcSkillCheckAccuracy('agility', activeNpc),
     systems: getStat('systems', activeNpc),
+    systemsAccuracy: getNpcSkillCheckAccuracy('systems', activeNpc),
+
     maxHP: getStat('hp', activeNpc),
     maxHeat: getStat('heatcap', activeNpc),
     maxRepairCap: 0,

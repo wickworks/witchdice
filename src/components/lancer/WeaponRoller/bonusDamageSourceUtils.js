@@ -7,7 +7,7 @@ import {
 } from '../lancerData.js';
 
 import {
-  getWeaponSynergies,
+  getSynergiesFor,
   getFailingWeaponSynergies,
 } from './synergyUtils.js';
 
@@ -24,7 +24,7 @@ export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, 
     const weaponData = findWeaponData(activeWeapon.id)
 
     bonusDamageSources = bonusDamageSources.filter(source => {
-      const synergies = getWeaponSynergies(source.trait.synergies)
+      const synergies = getSynergiesFor('weapon', source.trait.synergies)
       const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
 
       // Only include sources without failing synergies

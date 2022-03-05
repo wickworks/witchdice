@@ -16,7 +16,7 @@ import {
   getMechArmor,
   getMechMaxRepairCap,
   getLimitedBonus,
-
+  getSkillCheckAccuracy,
   getMechTechAttack,
   getCountersFromPilot,
 } from '../MechState/mechStateUtils.js';
@@ -81,6 +81,15 @@ const PlayerMechSheet = ({
   }
 
   const robotStats = {
+    hull: activePilot.mechSkills[0],
+    hullAccuracy: getSkillCheckAccuracy('hull', activeMech, activePilot, frameData),
+    engineering: activePilot.mechSkills[3],
+    engineeringAccuracy: getSkillCheckAccuracy('engineering', activeMech, activePilot, frameData),
+    agility: activePilot.mechSkills[1],
+    agilityAccuracy: getSkillCheckAccuracy('agility', activeMech, activePilot, frameData),
+    systems: activePilot.mechSkills[2],
+    systemsAccuracy: getSkillCheckAccuracy('systems', activeMech, activePilot, frameData),
+
     maxHP: getMechMaxHP(activeMech, activePilot, frameData),
     maxHeat: getMechMaxHeatCap(activeMech, activePilot, frameData),
     maxRepairCap: getMechMaxRepairCap(activeMech, activePilot, frameData),

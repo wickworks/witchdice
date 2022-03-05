@@ -203,13 +203,11 @@ export const findNpcClassData = (npcClassID) => {
   return npcClassData ? npcClassData : blankNpcClass;
 }
 
-
 export const findNpcFeatureData = (npcFeatureID) => {
   var npcFeatureData = allNpcFeatures.find(npcFeature => npcFeature.id === npcFeatureID);
   if (!npcFeatureData) npcFeatureData = findGameDataFromLcp('npcFeatures', npcFeatureID)
   return npcFeatureData ? npcFeatureData : blankNpcFeature;
 }
-
 
 export const findNpcTemplateData = (npcTemplateID) => {
   var npcTemplateData = allNpcTemplates.find(npcTemplate => npcTemplate.id === npcTemplateID);

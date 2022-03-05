@@ -1,4 +1,7 @@
 
+import { findNpcFeatureData } from '../lancerData.js';
+
+
 export function getStat(key, npc) {
   let stat = npc.stats[key]
   if (npc.stats.overrides && npc.stats.overrides[key] > 0) {
@@ -7,6 +10,27 @@ export function getStat(key, npc) {
     stat += npc.stats.bonuses[key] || 0
   }
   return stat
+}
+
+export function getNpcSkillCheckAccuracy(skill, npc) {
+  let accuracy = 0
+  npc.items.forEach(feature => {
+    const setInCustomDescription = feature.description && feature.description.toLowerCase().includes(skill)
+
+    const featureData = findNpcFeatureData(feature.itemID)
+    const effect = featureData.effect.toLowerCase()
+
+    if (effect.includes(`${skill} save`) || setInCustomDescription) {
+      const value = parseInt(effect.charAt(effect.indexOf('+')+1))
+
+      if (effect.includes('accuracy')) {
+        accuracy += value
+      } else if (effect.includes('difficulty')) {
+        accuracy -= value
+      }
+    }
+  });
+  return accuracy
 }
 
 export function getMarkerFromFingerprint(fingerprint) {

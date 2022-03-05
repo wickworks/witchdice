@@ -36,6 +36,16 @@ const AbilityRollButton = ({
       onClick={handleClick}
     >
       <div className='static-label'>{label}</div>
+      <div className='check-values'>
+        {accuracy > 0 ?
+          <>{accuracy} <span className='asset accuracy' /></>
+        : accuracy < 0 ?
+          <>{Math.abs(accuracy)} <span className='asset difficulty' /></>
+        :
+          ''
+        }
+        {`+${flatBonus}`}
+      </div>
     </button>
   );
 }

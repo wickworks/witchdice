@@ -6,7 +6,7 @@ import {
 } from '../lancerData.js';
 
 import {
-  getWeaponSynergies,
+  getSynergiesFor,
   getFailingWeaponSynergies,
 } from './synergyUtils.js';
 
@@ -15,7 +15,7 @@ function addAccSourceFromTalent(sources, weaponData, talentData, rank, accBonus 
   const name = talentData.ranks[rank-1].name
   const desc = talentData.ranks[rank-1].description
 
-  const synergies = getWeaponSynergies(talentData.ranks[rank-1].synergies)
+  const synergies = getSynergiesFor('weapon', talentData.ranks[rank-1].synergies)
   const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
 
   if (failingSynergies.length === 0) {
