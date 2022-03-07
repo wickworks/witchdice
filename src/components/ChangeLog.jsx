@@ -15,7 +15,20 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-          <div className='version-label'>v0.10.7 — Feb 2021</div>
+          <div className='version-label'>v0.11.0 — Mar 2022</div>
+          <ul>
+            <li>!!Discord Bot!! — can subscribe to rolls in a channel.</li>
+            <li>Added Lancer GM mode to manage NPCs and encounters.</li>
+            <li>Can import NPCs via individual jsons or full COMPCON backups.</li>
+            <li>Broadcast mech or NPC systems/traits/stats to the room.</li>
+            <li>Can mark mech systems e.g. custom paint job as used.</li>
+            <li>Buttons to queue up HASE saves and checks.</li>
+            <li>Weapons can mark off limited uses & loading status.</li>
+            <li>Fix limited-system bonuses from ENG and CBs.</li>
+            <li>Can annotate rolls in the dicebag.</li>
+          </ul>
+
+          <div className='version-label'>v0.10.7 — Feb 2022</div>
           <ul>
             <li>Self-heat only shows up on first attack.</li>
             <li>Melee and ranged talents show up correctly in accuracy list.</li>
@@ -27,7 +40,7 @@ const ChangeLog = () => {
             <li>Improved 5e auto-hit system for 10+ attacks.</li>
           </ul>
 
-          <div className='version-label'>v0.10.1-6 — Jan 2021</div>
+          <div className='version-label'>v0.10.1-6 — Jan 2022</div>
           <ul>
             <li>Custom counters on lancer sheet.</li>
             <li>/simple/some-room-id will join a room (hi, Gather visitors!)</li>
