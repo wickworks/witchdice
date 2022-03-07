@@ -97,7 +97,7 @@ const LancerNpcMode = ({
 
     // if we were looking at a encounter, restore it
     const oldSelectedID = localStorage.getItem(SELECTED_ENCOUNTER_KEY);
-    console.log('sel id :',oldSelectedID);
+    // console.log('sel id :',oldSelectedID);
     if (oldSelectedID) {
       const newActiveEncounter = encounterEntries.find(encounter => encounter.id.startsWith(oldSelectedID));
       if (newActiveEncounter) {
@@ -111,7 +111,11 @@ const LancerNpcMode = ({
 
   const createNewNpc = (npc) => {
     // sanity-check the npc file
-    if (!npc || !npc.id || !npc.class) return
+    if (!npc || !npc.id || !npc.class) {
+      console.error("Uploaded file doesn't look like an NPC! ::")
+      console.log(npc);
+      return
+    }
 
     let newNpcLibrary = {...npcLibrary}
     newNpcLibrary[npc.id] = npc;
@@ -128,24 +132,17 @@ const LancerNpcMode = ({
     fileReader.readAsText(e.target.files[0], "UTF-8");
     fileReader.onload = e => {
 
+      console.log('fileName',fileName);
+
       // compcon backups — have a lot of stuff we don't need
       if (fileName.endsWith('.compcon')) {
-        console.log('loaded a compcon app!');
         const compconBackup = JSON.parse(e.target.result)
-        console.log('compconBackup',compconBackup);
         const npcFile = compconBackup.find(backupFile => backupFile.filename.startsWith('npcs'))
-        console.log('npcFile',npcFile);
         const npcArray = JSON.parse(npcFile.data)
-        console.log('npcArray',npcArray);
 
         // create ALL the new npcs & save them to localstorage
         let newNpcLibrary = {...npcLibrary}
-        // npcArray.forEach(npc => newNpcLibrary[npc.id] = npc );
-        npcArray.forEach(npc => {
-          console.log('NPC:');
-          console.log(npc);
-          newNpcLibrary[npc.id] = npc
-        });
+        npcArray.forEach(npc => newNpcLibrary[npc.id] = npc);
         setNpcLibrary(newNpcLibrary)
         localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
 
