@@ -11,6 +11,7 @@ import LoadinDots from './shared/LoadinDots.jsx';
 import DiceBag from './shared/DiceBag/DiceBag.jsx';
 import RollHistory from './shared/RollHistory/RollHistory.jsx';
 import RoomConnect from './shared/RoomConnect/RoomConnect.jsx';
+import DiscordBotNotice from './shared/DiscordBotNotice.jsx';
 import {XCard, XCardModal} from './shared/RoomConnect/XCard.jsx';
 
 import './Main.scss';
@@ -319,6 +320,10 @@ const Main = ({
                 handleClose={() => setXCardRaisedBy('')}
               />
             }
+
+            <DiscordBotNotice
+              partyRoom={partyRoom}
+            />
           </div>
         </div>
       </div>

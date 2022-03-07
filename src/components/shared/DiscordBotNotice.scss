@@ -1,0 +1,123 @@
+@import '../../fonts';
+
+.DiscordBotNotice {
+
+  .intro-container {
+    display: flex;
+    flex-direction: column;
+    margin: 20px auto;
+
+    button {
+      @include shadow;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      border: 2px solid $crushed_velvet;
+      border-radius: 12px;
+      color: $soft_black;
+      text-decoration: none;
+
+      padding: 12px;
+
+      &:hover {
+        background-color: $rust;
+        color: white;
+        .asset { filter: invert(95%); }
+      }
+
+      .asset.discord {
+        width: 150px;
+        height: 32px;
+        margin: 6px 0 0;
+      }
+
+      .text { @include text_monospace; }
+    }
+
+    .new-attention {
+      @include text_monospace;
+      // writing-mode: vertical-rl;
+      background-color: $rust;
+      color: white;
+      font-weight: bold;
+      border-radius: 4px 4px 0 0;
+      padding: 4px 8px 2px;
+      margin: 0 8px;
+      width: fit-content;
+    }
+  }
+
+  .instructions-container {
+    @include shadow;
+    @include parchment_background;
+    position: relative;
+    border-radius: 2px;
+    padding: 4px;
+    margin-top: 22px;
+    box-sizing: border-box;
+    width: 100%;
+
+    button.asset.x {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      right: 8px;
+      top: 8px;
+
+      &:hover {
+        // turns black to $rust
+        filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+      }
+    }
+
+    .border {
+      border: 4px double #eebf88;
+      padding: 16px 22px;
+
+      .asset.discord {
+        width: 150px;
+        height: 32px;
+        margin: 0 auto 16px;
+      }
+
+      p {
+        margin: 0 0 10px;
+      }
+
+      ol {
+        margin: 16px 0 10px;
+        padding-inline-start: 20px;
+
+        li {
+          margin: 16px 0 0;
+          font-weight: bold;
+
+          div {
+            font-weight: normal;
+            padding-left: 8px;
+          }
+        }
+      }
+
+      .code {
+        @include text_monospace;
+        background-color: $parchment_dark;
+        // background-color: $crushed_velvet_dark;
+        // font-size: 14px;
+        // color: white;
+        border-radius: 2px;
+        padding: 8px;
+        // font-weight: bold;
+        // margin: 4px 0;
+      }
+
+      .other-code {
+        display: flex;
+        justify-content: space-between;
+
+      }
+    }
+  }
+}

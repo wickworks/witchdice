@@ -271,8 +271,6 @@ const DiceBag = ({
             }
           </div>
 
-
-
           <div className='die-button-container'>
             { sortedDice(diceData).map((dieType, i) => {
 
