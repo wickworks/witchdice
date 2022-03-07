@@ -54,6 +54,12 @@ const DiceBag = ({
     let newData = {...diceData}
     newData[dieType] = newCount
     setDiceData(newData)
+
+    // if we've just started queueing up a new roll, clear the old annotation
+    if (JSON.stringify(diceData) === JSON.stringify(blankDice) && firstDieRolled !== '') {
+      setAnnotation('')
+    }
+
   }
 
   const updateDiceDataType = (dieType, newType) => {
@@ -132,7 +138,7 @@ const DiceBag = ({
     addNewDicebagPartyRoll(rollData, summaryMode, annotation, true);
   }, [rollData]);
 
-  // update it on the party roll panel — IF we're not busy queueing up a new roll
+  // update something about the last roll on the party roll panel — IF we're not busy queueing up a new roll
   useEffect(() => {
     if (rollDieType.length === 0) {
       addNewDicebagPartyRoll(rollData, summaryMode, annotation, false);

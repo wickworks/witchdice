@@ -185,9 +185,12 @@ $bookmark_breakpoint: 575px;
 
         .display, input {
           @include text_dicebag_summary;
-          // color: $mud;
           font-weight: bold;
           text-align: center;
+        }
+
+        .placeholder {
+          color: $mud;
         }
       }
     }
