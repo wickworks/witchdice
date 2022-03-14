@@ -1,6 +1,5 @@
 @import '../../../fonts';
 
-
 .NpcRoster {
   .roster-container {
     @include shadow;
@@ -89,6 +88,7 @@
       border-radius: 0 0 14px 14px;
 
       table.roster-table {
+        @include text_monospace;
         position: relative;
         box-sizing: border-box;
         width: 100%;
@@ -99,6 +99,7 @@
           position: sticky;
           left: 0;
           top: 0;
+          z-index: 5;
 
           th {
             &.name {
@@ -112,13 +113,51 @@
           }
         }
 
+        tr.group-label {
+          cursor: pointer;
+
+          &.closed {
+            background-color: $parchment_dark;
+            // color: white;
+            &:hover { background-color: $rust_light; }
+
+            // .asset { filter: invert(100%); }
+
+          }
+
+          &.open {
+            background-color: $rust;
+            color: white;
+            &:hover { background-color: $rust_light; }
+
+            .asset { filter: invert(100%); }
+          }
+
+          td {
+            padding: 6px 0;
+            font-size: 18px;
+
+            .label-container {
+              display: flex;
+              align-items: center;
+
+              .asset {
+                display: inline-block;
+                margin: 0 8px;
+                width: 14px;
+                height: 14px;
+
+
+                &.reversed { transform: rotate(180deg); }
+              }
+            }
+          }
+        }
+
         tr.npc {
           cursor: pointer;
 
-          &:hover {
-            background-color: $pink;
-          }
-
+          &:hover { background-color: $pink; }
           &.disabled {
             cursor: auto;
             background-color: transparent;
@@ -126,7 +165,7 @@
         }
 
         td.name {
-          padding-left: 4px;
+          padding: 8px 0 8px 4px;
         }
 
         td.role .asset {
@@ -138,28 +177,6 @@
         td.tier {
           text-align: center;
         }
-
-        // td.add {
-        //   text-align: center;
-        //
-        //   button {
-        //     width: 24px;
-        //     height: 24px;
-        //     color: $rust;
-        //     font-size: 20px;
-        //     font-weight: bold;
-        //
-        //     &:hover {
-        //       background-color: $rust;
-        //       color: white;
-        //     }
-        //
-        //     &:disabled {
-        //       background-color: transparent;
-        //       color: $grey_mid
-        //     }
-        //   }
-        // }
       }
     }
   }
