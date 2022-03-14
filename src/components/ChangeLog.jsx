@@ -15,6 +15,16 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
+        <div className='version-label'>v0.11.1 — Mar 2022</div>
+          <ul>
+            <li>NPC roster is sorted by collapsible labels.</li>
+            <li>Added Impaired to the list of difficulty toggles.</li>
+            <li>Last Arguement of Kings shows up properly.</li>
+            <li>Ability save and check bonuses from core bonuses come through.</li>
+            <li>NucCav and Hacker I bonuses come through for tech attacks.</li>
+            <li>Bugfixes: crash on multi-profile weapon, ability roll button text.</li>
+          </ul>
+
           <div className='version-label'>v0.11.0 — Mar 2022</div>
           <ul>
             <li>!!Discord Bot!! — can subscribe to rolls in a channel.</li>
