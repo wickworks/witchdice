@@ -11,6 +11,7 @@ import {
 } from '../lancerData.js';
 
 import {
+  getSynergiesFor,
   getSynergiesForAll,
 } from '../WeaponRoller/synergyUtils.js';
 
@@ -195,6 +196,13 @@ export function getSkillCheckAccuracy(skill, activeMech, activePilot, frameData)
       synergies.push(...getSynergiesForAll(['skill_check', skill], rank.synergies))
     )
   })
+
+  // Core bonus synergies (for some reason don't use 'skill_check' as a location)
+  activePilot.core_bonuses.forEach(coreBonus => {
+    const coreBonusData = findCoreBonusData(coreBonus)
+    synergies.push(...getSynergiesFor(skill, coreBonusData.synergies))
+  })
+
 
   // Loadout synergies
   // ??? Stable structure, I guess?
