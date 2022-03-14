@@ -512,7 +512,9 @@ function getInvadeAndTechAttacks(loadout, pilotTalents) {
     talentData.ranks.forEach(rank => {
       if (rank.actions) {
         rank.actions.forEach(action => {
-          if (action.activation === 'Invade') invades.push(action)
+          if (['Invade', 'Quick Tech', 'Full Tech'].includes(action.activation)) {
+            invades.push(action)
+          }
         })
       }
     });
