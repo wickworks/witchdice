@@ -48,11 +48,6 @@ export function getAvailableAccuracySources(frameID, mechSystems, pilotTalents, 
   addAccSource(sources, 'Consume Lock', 'lock_on', 'Any character making an attack against a character with LOCK ON may choose to gain +1 accuracy on that attack and then clear the LOCK ON condition after that attack resolves.')
   addAccSource(sources, 'Prone Target', 'prone', 'Attacks against PRONE targets receive +1 accuracy.')
 
-  if (isImpaired) {
-    const desc =  'IMPAIRED characters receive +1 difficulty on all attacks, saves, and skill checks.'
-    addAccSource(sources, 'Impaired', 'impaired', desc, false, true)
-  }
-
   if (frameID === 'mf_tortuga') {
     const desc = 'The Tortuga gains +1 accuracy on all attacks made as reactions (e.g. OVERWATCH).'
     addAccSource(sources, 'Sentinal', 'mf_tortuga', desc)
@@ -108,6 +103,11 @@ export function getAvailableAccuracySources(frameID, mechSystems, pilotTalents, 
           break;
       }
     });
+
+    // if (isImpaired) {
+      const desc =  'IMPAIRED characters receive +1 difficulty on all attacks, saves, and skill checks.'
+      addAccSource(sources, 'Impaired', 'impaired', desc, -1, isImpaired)
+    // }
 
     // -- ENGAGEMENT --
     if (weaponData.type !== 'Melee' && !ignoresEngaged) {

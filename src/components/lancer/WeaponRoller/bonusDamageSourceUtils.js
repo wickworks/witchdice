@@ -20,8 +20,6 @@ export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, 
     ...getBonusDamageSourcesFromMod(activeWeapon),
   ]
 
-  console.log('getAvailableBonusDamageSources start:',bonusDamageSources);
-
   // filter them out by synergy e.g. melee talents only apply to melee weapons
   if (activeWeapon) {
     const weaponData = findWeaponData(activeWeapon.id)
