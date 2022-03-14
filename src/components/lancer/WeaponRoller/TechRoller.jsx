@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
 import WeaponRollerSetup from './WeaponRollerSetup.jsx';
+import BonusDamageBar from './BonusDamageBar.jsx';
 import BrToParagraphs from '../../shared/BrToParagraphs.jsx';
 import './TechRoller.scss';
 import './WeaponRoller.scss';
 
 import {
+  rollBonusDamage,
+  getActiveBonusDamageData,
   createNewTechAttack,
 } from './weaponRollerUtils.js';
 
@@ -14,35 +17,54 @@ const TechRoller = ({
   techAttackBonus,
   sensorRange,
 
+  availableBonusSources,
+  accuracyAndDamageSourceInputs,
+
   setRollSummaryData,
   onClear,
-
-  accuracyAndDamageSourceInputs,
 }) => {
   const [techAttackRoll, setTechAttackRoll] = useState(null);
-  const [bonusDamageData, setBonusDamageData] = useState(null);
   const [isSettingUpAttack, setIsSettingUpAttack] = useState(true);
+
+  const [bonusDamageData, setBonusDamageData] = useState(null);
+  const [activeBonusSources, setActiveBonusSources] = useState([]);
 
   const isInvade = invadeData.activation === 'Invade'
 
   const createNewAttackRoll = (flatBonus, accuracyMod, consumedLock) => {
 
-    const newAttack = createNewTechAttack(invadeData, flatBonus, accuracyMod, isInvade)
+    const newAttack = createNewTechAttack(invadeData, flatBonus, accuracyMod, consumedLock, isInvade)
 
     var bonusDamage = {};
     bonusDamage.rolls = []
-    // bonusDamage.rolls = rollBonusDamage(
-    //   [...availableBonusSources, GENERIC_BONUS_SOURCE],
-    //   defaultWeaponDamageType(currentWeaponProfile),
-    //   newAttack.isOverkill
-    // );
-    bonusDamage.traits = [] // getBonusTraits(availableBonusSources)
 
-    setBonusDamageData(bonusDamage);
+    // do we need to roll bonus damage?
+    if (bonusDamageData === null) {
+      var bonusDamage = {};
+      bonusDamage.rolls = rollBonusDamage(availableBonusSources, 'Heat', false)
+      bonusDamage.traits = availableBonusSources.filter(source => source.trait).map(source => source.trait)
+      setBonusDamageData(bonusDamage);
+    }
+
     setTechAttackRoll(newAttack)
     setIsSettingUpAttack(false);
 
   }
+
+  // Add or remove the name of a bonus damage to the active list
+  const toggleBonusDamage = (sourceID) => {
+    let newBonusDamages = [...activeBonusSources];
+    const bonusIndex = newBonusDamages.indexOf(sourceID);
+    if (bonusIndex >= 0) {
+      newBonusDamages.splice(bonusIndex, 1) // REMOVE source
+    } else {
+      newBonusDamages.push(sourceID);          // ADD source
+    }
+    setActiveBonusSources(newBonusDamages);
+  }
+
+  // the actual data for all the currently active bonus damages
+  var activeBonusDamageData = getActiveBonusDamageData(bonusDamageData, activeBonusSources, 0,0,false);
 
   // =============== CHANGE WEAPON ==================
   const stringifiedInvadeData = JSON.stringify(invadeData)
@@ -70,6 +92,9 @@ const TechRoller = ({
     })
   }
 
+  // console.log('TECH availableBonusSources',availableBonusSources);
+  // console.log('TECH activeBonusDamageData',activeBonusDamageData);
+
   return (
     <div className='TechRoller WeaponRoller'>
       <h3 className='name'>{invadeData.name}</h3>
@@ -96,13 +121,21 @@ const TechRoller = ({
         <div className='effect-row'>
           <BrToParagraphs stringWithBrs={invadeData.detail}/>
         </div>
+
+        {availableBonusSources.length > 0 &&
+          <BonusDamageBar
+            availableBonusSources={availableBonusSources}
+            activeBonusSources={activeBonusSources}
+            toggleBonusDamage={toggleBonusDamage}
+          />
+        }
       </div>
 
       <div className="attacks-bar">
         { techAttackRoll &&
           <WeaponAttack
             attackData={techAttackRoll}
-            bonusDamageData={bonusDamageData}
+            bonusDamageData={activeBonusDamageData}
             halveBonusDamage={false}
             damageModifiers={[]}
             manualBaseDamage={0}

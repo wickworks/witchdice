@@ -15,9 +15,6 @@ const BonusDamageBar = ({
   availableBonusSources,
   activeBonusSources,
   toggleBonusDamage,
-
-  damageModifiers,
-  toggleDamageModifier,
 }) => {
   const [hoveringIndex, setHoveringIndex] = useState(null);
 
@@ -33,14 +30,17 @@ const BonusDamageBar = ({
   return (
     <div className="BonusDamageBar">
 
-      <BonusGenerics
-        genericBonusIsActive={genericBonusIsActive}
-        genericBonusDieCount={genericBonusDieCount}
-        genericBonusPlus={genericBonusPlus}
-        toggleGenericBonusDamage={toggleGenericBonusDamage}
-        setGenericBonusDieCount={setGenericBonusDieCount}
-        setGenericBonusPlus={setGenericBonusPlus}
-      />
+      {/* Only show the generics if we were given the functions to modify them i.e not for tech attacks */}
+      { setGenericBonusDieCount &&
+        <BonusGenerics
+          genericBonusIsActive={genericBonusIsActive}
+          genericBonusDieCount={genericBonusDieCount}
+          genericBonusPlus={genericBonusPlus}
+          toggleGenericBonusDamage={toggleGenericBonusDamage}
+          setGenericBonusDieCount={setGenericBonusDieCount}
+          setGenericBonusPlus={setGenericBonusPlus}
+        />
+      }
 
       { availableBonusSources.map((bonusSource, i) =>
         !bonusSource.trait.isPassive &&

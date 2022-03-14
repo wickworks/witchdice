@@ -4,6 +4,7 @@ import {
   findModData,
   findCoreBonusData,
   findWeaponData,
+  HARDCODED_TECH_TALENT_SYNERGIES,
 } from '../lancerData.js';
 
 import {
@@ -11,13 +12,15 @@ import {
   getFailingWeaponSynergies,
 } from './synergyUtils.js';
 
-export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, activeWeapon) {
+export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, activeWeapon, activeInvadeData) {
   let bonusDamageSources = [
     ...getBonusDamageSourcesFromMech(damageSourceInputs.frameID),
     ...getBonusDamageSourcesFromTalents(damageSourceInputs.pilotTalents),
     ...getBonusDamageSourcesFromCoreBonuses(activeMount),
     ...getBonusDamageSourcesFromMod(activeWeapon),
   ]
+
+  console.log('getAvailableBonusDamageSources start:',bonusDamageSources);
 
   // filter them out by synergy e.g. melee talents only apply to melee weapons
   if (activeWeapon) {
@@ -29,6 +32,22 @@ export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, 
 
       // Only include sources without failing synergies
       return failingSynergies.length === 0;
+    })
+  }
+
+  if (activeInvadeData) {
+    bonusDamageSources = bonusDamageSources.filter(source => {
+      const sourceSynergies = [...source.trait.synergies]
+
+      // nuc cav is missing its tech synergy, so we gotta add it dynamically
+      if (HARDCODED_TECH_TALENT_SYNERGIES.some(targetTalent => source.trait.id === targetTalent.id && parseInt(source.trait.rank) === targetTalent.rank)) {
+        sourceSynergies.push({detail: source.trait.description, locations: ['tech']})
+      }
+
+      const techSynergies = getSynergiesFor('tech', sourceSynergies)
+
+      // Only include sources with any tech synergies
+      return techSynergies.length > 0;
     })
   }
 
@@ -147,7 +166,7 @@ function addSourceFromTalent(sources, currentRank, talentData, rank, diceString,
 }
 
 function newTalentTrait(talentData, rank, attackEffects) {
-  return {...talentData.ranks[rank-1], ...blankTrait, ...attackEffects, talentData, name: talentData.name}
+  return {...talentData.ranks[rank-1], ...blankTrait, ...attackEffects, talentData, name: talentData.name, rank: rank}
 }
 
 function getBonusDamageSourcesFromTalents(pilotTalents) {
@@ -214,6 +233,11 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
         case 't_gunslinger':
           const heartEffect = { onHit: 'I Kill With My Heart: Armor Piercing (AP).' }
           addSourceFromTalent(sources,rank,talentData, 3, '2d6', '', heartEffect);
+          break;
+
+        case 't_hacker':
+          const snowCrashEffect = { onHit: 'SNOW_CRASH: Your target must choose to either take 2 Heat or be pushed 3 spaces in a direction of your choice.', requiresLockon: true, isPassive: true }
+          addSourceFromTalent(sources,rank,talentData, 1, '', '', snowCrashEffect);
           break;
 
         case 't_heavy_gunner':

@@ -36,13 +36,12 @@ const WeaponRoller = ({
   weaponLimited,
   setLimitedCount = () => {},
 
-  availableBonusSources = [],
   isPrimaryWeaponOnMount,
+  availableBonusSources = [],
+  accuracyAndDamageSourceInputs,
 
   setRollSummaryData,
   onClear,
-
-  accuracyAndDamageSourceInputs,
 }) => {
   const [allAttackSummaries, setAllAttackSummaries] = useState([]); // for the summary panel
 
@@ -316,9 +315,6 @@ const WeaponRoller = ({
           availableBonusSources={availableBonusSources}
           activeBonusSources={activeBonusSources}
           toggleBonusDamage={toggleBonusDamage}
-
-          damageModifiers={damageModifiers}
-          toggleDamageModifier={toggleDamageModifier}
         />
       </div>
 

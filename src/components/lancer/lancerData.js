@@ -222,7 +222,10 @@ export const findNpcTemplateData = (npcTemplateID) => {
 export const OVERCHARGE_SEQUENCE = ['1','1d3','1d6','1d6+4']
 
 // these should probably get rolled into damageModifiers system
-export const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier', 't_nuclear_cavalier']
+export const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier']
+
+// These should have the "tech" synergy but we gotta add it ourselves
+export const HARDCODED_TECH_TALENT_SYNERGIES = [{id: 't_nuclear_cavalier', rank: 1}]
 
 // special-case systems that should get a 'used' checkbox
 const EXPENDABLE_SYSTEM_IDS = ['ms_custom_paint_job']

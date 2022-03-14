@@ -11,7 +11,7 @@ import {
   GENERIC_BONUS_SOURCE
 } from '../lancerData.js';
 
-export function createNewTechAttack(invadeData, flatBonus, accuracyMod, isInvade = true) {
+export function createNewTechAttack(invadeData, flatBonus, accuracyMod, consumedLock, isInvade = true) {
   let newAttack = {};
 
   newAttack.isOverkill = false
@@ -19,6 +19,7 @@ export function createNewTechAttack(invadeData, flatBonus, accuracyMod, isInvade
   newAttack.reliable = { val: 0, type: 'Variable' }
   newAttack.knockback = 0
   newAttack.selfHeat = 0
+  newAttack.consumedLock = !!consumedLock
 
   newAttack.toHit = rollToHit(flatBonus, accuracyMod);
   newAttack.toHitReroll = rollToHit(flatBonus, accuracyMod);

@@ -96,7 +96,7 @@ const MechSheet = ({
   // console.log('activeWeapon',activeWeapon);
   // console.log('activeWeaponData',activeWeaponData);
 
-  const bonusDamageSources = getAvailableBonusDamageSources(accuracyAndDamageSourceInputs, activeMount, activeWeapon);
+  const bonusDamageSources = getAvailableBonusDamageSources(accuracyAndDamageSourceInputs, activeMount, activeWeapon, activeInvadeData);
 
   // console.log('activeWeapon',activeWeapon);
   let totalAttackBonus = robotStats.attackBonus
@@ -254,6 +254,7 @@ const MechSheet = ({
           invadeData={activeInvadeData}
           techAttackBonus={robotStats.techAttackBonus}
           sensorRange={robotStats.sensorRange}
+          availableBonusSources={bonusDamageSources}
           accuracyAndDamageSourceInputs={accuracyAndDamageSourceInputs}
           setRollSummaryData={setRollSummaryDataWithName}
           onClear={newAttackSummary}
