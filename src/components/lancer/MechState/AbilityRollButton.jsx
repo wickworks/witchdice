@@ -44,7 +44,7 @@ const AbilityRollButton = ({
         :
           ''
         }
-        {`+${flatBonus}`}
+        {flatBonus > 0 ? `+${flatBonus}` : flatBonus}
       </div>
     </button>
   );
