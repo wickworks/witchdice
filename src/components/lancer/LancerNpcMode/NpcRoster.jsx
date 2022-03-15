@@ -96,13 +96,12 @@ const NpcRoster = ({
               {Object.keys(libraryByLabel).map(label => {
                 const isOpen = openLabels.includes(label)
                 return (
-                  <>
+                  <React.Fragment key={label}>
                     <tr
                       className={`group-label ${isOpen ? 'open' : 'closed'}`}
                       onClick={() => toggleLabelOpen(label)}
-                      key={label}
                     >
-                      <td colspan={4}>
+                      <td colSpan={4}>
                         <div className='label-container'>
                           <span className={`asset arrow-sharp ${isOpen ? '' : 'reversed'}`} />
                           {label}
@@ -111,7 +110,7 @@ const NpcRoster = ({
                     </tr>
 
                     { isOpen && libraryByLabel[label].map(npc => renderNpcRow(npc)) }
-                  </>
+                  </React.Fragment>
                 )
               })}
 
