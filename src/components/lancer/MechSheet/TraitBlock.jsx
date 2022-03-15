@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MechNumberBar from '../MechState/MechNumberBar.jsx'
 import { DestroySystemButton, BroadcastSystemButton } from './DestroySystemButton.jsx'
 import ReactHtmlParser from 'react-html-parser';
@@ -34,11 +34,20 @@ const TraitBlock = ({
 	isTitleCase = false,
 	isCP = false,
 	setRollSummaryData = () => {},
+
+	defaultCollapsed = false,
 }) => {
-	const [isCollapsed, setIsCollapsed] = useState(true);
+	const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
+
+	// if MechTraits toggles what's open, set them all to that.
+	useEffect(() => {
+    setIsCollapsed(defaultCollapsed)
+  }, [defaultCollapsed]);
 
 	const systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : description
 	const systemTrigger = trigger ? `Trigger: ${trigger}` : ''
+
+
 
 	let broadcastObject = {
 		// characterName: robotInfo.name, //injected upstream

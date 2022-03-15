@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import TraitBlock from './TraitBlock.jsx'
 
 import './MechTraits.scss';
@@ -12,9 +12,13 @@ const MechTraits = ({
   setDestroyedForSystem = () => {},
 	setRechargedForSystem = () => {},
 }) => {
+	const [defaultCollapsed, setDefaultCollapsed] = useState(true)
+
   return (
 		<div className='MechTraits'>
-			<div className="label">{sectionTitle}</div>
+			<button className="label" onClick={() => setDefaultCollapsed(!defaultCollapsed)}>
+				{sectionTitle}
+			</button>
 
     	<div className='traits-container'>
 				{ frameTraits.map((trait, index) =>
@@ -35,6 +39,8 @@ const MechTraits = ({
 						setRecharged={(charged) => setRechargedForSystem(charged, trait.systemIndex)}
             isTitleCase={trait.isTitleCase}
 						setRollSummaryData={setRollSummaryData}
+
+						defaultCollapsed={defaultCollapsed}
           />
 				)}
 			</div>

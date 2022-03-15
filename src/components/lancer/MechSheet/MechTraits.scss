@@ -3,22 +3,23 @@
 .MechTraits, .MechCoreSystem, .MechSystemActions {
   margin-top: 0;
 
-  .label {
+  button.label {
     @include text_monospace;
     font-size: 20px;
     color: $grey_mid;
-    margin: 10px 0 10px;
+    margin: 8px 0;
+    padding: 2px 4px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: $parchment_dark;
+      color: $soft_black;
+    }
   }
 
   .traits-container {
-    // display: grid;
     display: flex;
-    // justify-content: space-between;
     flex-wrap: wrap;
-    // column-gap: 20px;
-    // grid-template-columns: 1fr 1fr;
-
-    // @include below_max_width { grid-template-columns: 1fr; }
   }
 
   .TraitBlock {
