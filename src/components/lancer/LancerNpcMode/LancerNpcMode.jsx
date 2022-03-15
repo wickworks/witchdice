@@ -412,12 +412,12 @@ const LancerNpcMode = ({
     jumplinks.push('roster')
   } else {
     jumplinks.push('encounter')
-
     if (activeNpc) {
       jumplinks.push('npc')
       jumplinks.push('weapons')
     }
   }
+  if (partyConnected) jumplinks.push('squad')
   jumplinks.push('dicebag')
 
 

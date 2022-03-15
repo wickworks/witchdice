@@ -1,24 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { SquadMech, AddSquadMechButton } from './SquadMech.jsx';
-import { deepCopy, capitalize } from '../../../utils.js';
+import { deepCopy } from '../../../utils.js';
 
-import {
-  getMechMaxHP,
-  getMechMaxHeatCap,
-  getMechMaxRepairCap,
-  getCountersFromPilot,
-} from '../MechState/mechStateUtils.js';
-
-import {
-  findFrameData,
-  findSystemData,
-	findWeaponData,
-  OVERCHARGE_SEQUENCE,
-} from '../lancerData.js';
-
-import { getWeaponsOnMount } from '../MechSheet/MechMount.jsx';
-
-import { getMountsFromLoadout } from '../LancerPlayerMode/PlayerMechSheet.jsx';
+import { LANCER_SQUAD_MECH_KEY } from '../lancerLocalStorage.js';
 
 import './SquadPanel.scss';
 
@@ -26,74 +10,9 @@ function getFirebaseDB() {
   return window.firebase.database().ref()
 }
 
-// makes a condensed form of mech + pilot to show to the rest of the squad
-function createSquadMech(mechData, pilotData) {
-  // console.log('mechData', mechData);
-
-	const frameData = findFrameData(mechData.frame);
-	let squadMech = {}
-	squadMech.id = mechData.id
-  squadMech.name = mechData.name
-
-	squadMech.hpCurrent = mechData.current_hp
-	squadMech.hpMax = getMechMaxHP(mechData, pilotData, frameData)
-	squadMech.heatCurrent = mechData.current_heat
-	squadMech.heatMax = getMechMaxHeatCap(mechData, pilotData, frameData)
-	squadMech.structure = mechData.current_structure
-	squadMech.stress = mechData.current_stress
-
-	// starts with 'mf_' if it's a default one
-	squadMech.portraitMech = mechData.cloud_portrait ? mechData.cloud_portrait : frameData.id
-	// TODO: should sanitize this on the receiving end
-	squadMech.portraitPilot = pilotData.cloud_portrait
-
-	let statuses;
-
-  // EXTERNAL statuses
-  statuses = []
-  if (mechData.conditions) statuses = mechData.conditions.map(condition => capitalize(condition.toLowerCase()))
-  if (mechData.burn) statuses.push(`Burn ${mechData.burn}`)
-	if (mechData.overshield) statuses.push(`Overshield ${mechData.overshield}`)
-	squadMech.statusExternal = statuses.join(',')
-
-  // INTERNAL statuses
-  statuses = []
-  if (pilotData.custom_counters) {
-    getCountersFromPilot(pilotData)
-      .filter(counter => counter.name.length > 0)
-      .forEach(counter => statuses.push(`${counter.name}: ${counter.val}`))
-  }
-  if (mechData.current_overcharge > 0) statuses.push(`Overcharge ${OVERCHARGE_SEQUENCE[mechData.current_overcharge]} heat`)
-  if (!mechData.current_core_energy) statuses.push('CP exhausted')
-	if (mechData.current_repairs < getMechMaxRepairCap(mechData, pilotData, frameData)) {
-    statuses.push(`${mechData.current_repairs} repairs left`)
-  }
-
-  let destroyedSystemNames = []
-  mechData.loadouts[0].systems.forEach(system => {
-    if (system.destroyed) {
-      const destroyedSystemData = findSystemData(system.id)
-      destroyedSystemNames.push( destroyedSystemData.name.toUpperCase() )
-    }
-  })
-  getMountsFromLoadout(mechData.loadouts[0]).forEach(mount => {
-    getWeaponsOnMount(mount).forEach(weapon => {
-      if (weapon.destroyed) destroyedSystemNames.push( findWeaponData(weapon.id).name )
-    })
-  })
-  if (destroyedSystemNames.length > 0) statuses.push(`DESTROYED:,${destroyedSystemNames.join(',')}`)
-
-	squadMech.statusInternal = statuses.join(',')
-
-	// console.log('squad mech', squadMech);
-	return squadMech;
-}
-
-
+// HIDDEN INPUT: a localstorage item under LANCER_SQUAD_MECH_KEY containing
+// the active mech's SquadMech summary data.
 const SquadPanel = ({
-	activeMech,
-	activePilot,
-
 	partyConnected,
   partyRoom,
 }) => {
@@ -108,12 +27,17 @@ const SquadPanel = ({
   const [allSquadMechs, setAllSquadMechs] = useState([]);
 
   // Is the current mech in the lineup?
-	const isCurrentMechInSquad = activeMech && allSquadMechs.find(squadMech => squadMech.id === activeMech.id)
-  const activeSquadMech = (activeMech && activePilot) ? createSquadMech(activeMech, activePilot) : null
+  const currentSquadMechJson = localStorage.getItem(LANCER_SQUAD_MECH_KEY);
+  const currentSquadMech = JSON.parse(currentSquadMechJson)
+	const isCurrentMechInSquad = currentSquadMech && allSquadMechs.some(squadMech => squadMech.id === currentSquadMech.id)
+
+  // console.log('currentSquadMech',currentSquadMech);
+  // console.log('allSquadMechs',allSquadMechs);
+  // console.log('isCurrentMechInSquad',isCurrentMechInSquad);
 
 	// we clicked "add mech" locally
 	const addCurrentMechToSquad = () => {
-    const newEntry = deepCopy(activeSquadMech)
+    const newEntry = deepCopy(currentSquadMech)
 
 		if (partyConnected) {
 			const dbSquadRef = getFirebaseDB().child('mechsquad').child(partyRoom)
@@ -152,18 +76,18 @@ const SquadPanel = ({
 
   // ~~ DETECT LOCAL CHANGE, TRIGGER A SERVER UPDATE  ~~
   useEffect(() => {
-    if (isCurrentMechInSquad && activeSquadMech) {
+    if (currentSquadMech && isCurrentMechInSquad) {
       // get the current firebase key for this mech
-      const oldEntry = allSquadMechs.find(entry => entry.id === activeSquadMech.id)
+      const oldEntry = allSquadMechs.find(entry => entry.id === currentSquadMech.id)
       if (oldEntry) {
-        const newEntry = {...activeSquadMech, firebaseKey: oldEntry.firebaseKey}
+        const newEntry = {...currentSquadMech, firebaseKey: oldEntry.firebaseKey}
         // update it locally
         setLastUpdatedSquadMech(newEntry)
         // update it on the server
         updateEntryInFirebase(newEntry)
       }
     }
-  }, [ JSON.stringify(activeSquadMech) ]);
+  }, [ currentSquadMechJson ]);
 
 
   // ~~ CREATE / UPDATE FROM SERVER OR LOCAL CHANGE ~~
@@ -255,8 +179,8 @@ const SquadPanel = ({
             </React.Fragment>
           )}
 
-					{activeMech && !isCurrentMechInSquad &&
-						<AddSquadMechButton squadMech={createSquadMech(activeMech, activePilot)} handleClick={addCurrentMechToSquad} />
+					{currentSquadMech && !isCurrentMechInSquad &&
+						<AddSquadMechButton squadMech={currentSquadMech} handleClick={addCurrentMechToSquad} />
 					}
 				</div>
 

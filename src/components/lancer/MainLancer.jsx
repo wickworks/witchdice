@@ -3,6 +3,7 @@ import { FileList } from './FileAndPlainList.jsx';
 import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 import LancerPlayerMode from './LancerPlayerMode/LancerPlayerMode.jsx';
 import LancerNpcMode from './LancerNpcMode/LancerNpcMode.jsx';
+import SquadPanel from './SquadPanel/SquadPanel.jsx';
 
 import PromisifyFileReader from 'promisify-file-reader'
 import { parseContentPack } from './contentPackParser.js';
@@ -13,7 +14,9 @@ import {
   deleteLcpData,
   LCP_PREFIX,
   STORAGE_ID_LENGTH,
+  LANCER_SQUAD_MECH_KEY,
 } from './lancerLocalStorage.js';
+
 
 import { deepCopy } from '../../utils.js';
 import { getIDFromStorageName } from '../../localstorage.js';
@@ -44,6 +47,13 @@ const MainLancer = ({
 
   const [triggerRerender, setTriggerRerender] = useState(false);
   const [gameMode, setGameMode] = useState(GAME_MODE_PLAYER);
+
+
+  const changeGameMode = (newGameMode) => {
+    setGameMode(newGameMode)
+    // when we switch to NPC mode, clear the squadpanel's ability to add a mech
+    if (newGameMode === GAME_MODE_NPC) localStorage.removeItem(LANCER_SQUAD_MECH_KEY);
+  }
 
   // =============== LCP FILES ==================
   async function parseLcpFile(e) {
@@ -194,13 +204,13 @@ const MainLancer = ({
       <div className='game-mode-switcher-container'>
         <div className='game-mode-switcher'>
           <button
-            onClick={() => setGameMode(GAME_MODE_PLAYER)}
+            onClick={() => changeGameMode(GAME_MODE_PLAYER)}
             className={gameMode === GAME_MODE_PLAYER ? 'active' : ''}
           >
             Player
           </button>
           <button
-            onClick={() => setGameMode(GAME_MODE_NPC)}
+            onClick={() => changeGameMode(GAME_MODE_NPC)}
             className={gameMode === GAME_MODE_NPC ? 'active' : ''}
           >
             GM
@@ -232,6 +242,14 @@ const MainLancer = ({
           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
           setRollSummaryData={setRollSummaryData}
           setDistantDicebagData={setDistantDicebagData}
+        />
+      }
+
+      <div className='jumplink-anchor' id='squad' />
+      { partyConnected &&
+        <SquadPanel
+          partyConnected={partyConnected}
+          partyRoom={partyRoom}
         />
       }
 

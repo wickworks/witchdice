@@ -4,7 +4,6 @@ import EntryList from '../../shared/EntryList.jsx';
 import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import PilotDossier from './PilotDossier.jsx';
 import PlayerMechSheet from './PlayerMechSheet.jsx';
-import SquadPanel from '../SquadPanel/SquadPanel.jsx';
 import JumplinkPanel from '../JumplinkPanel.jsx';
 
 import {
@@ -13,15 +12,17 @@ import {
   deletePilotData,
   PILOT_PREFIX,
   STORAGE_ID_LENGTH,
+  SELECTED_CHARACTER_KEY,
+  LANCER_SQUAD_MECH_KEY,
 } from '../lancerLocalStorage.js';
 
 import { getIDFromStorageName } from '../../../localstorage.js';
+
+import { createSquadMech } from '../SquadPanel/squadUtils.js';
+
 import compendiaJonesJson from './YOURGRACE.json';
 
 // import './LancerPlayerMode.scss';
-
-
-const SELECTED_CHARACTER_KEY = "lancer-selected-character"
 
 const LancerPlayerMode = ({
   setTriggerRerender,
@@ -29,6 +30,7 @@ const LancerPlayerMode = ({
 
   partyConnected,
   partyRoom,
+
   setPartyLastAttackKey,
   setPartyLastAttackTimestamp,
   setRollSummaryData,
@@ -39,6 +41,12 @@ const LancerPlayerMode = ({
   const [activeMechID, setActiveMechID] = useState(null);
 
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
+
+  // We trigger a full rerender when we change the mech so the squad panel can pick up changes to LANCER_SQUAD_MECH_KEY
+  const changeMech = (newMechID) => {
+    setActiveMechID(newMechID)
+    setTriggerRerender(!triggerRerender)
+  }
 
   // const activePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
   const activePilot = activePilotID && loadPilotData(activePilotID); // load the pilot data from local storage
@@ -77,13 +85,11 @@ const LancerPlayerMode = ({
     }
   }, []);
 
-  // always select the last mech from a pilot
-  // useEffect(() => {
-  //   if (activePilot && activePilot.mechs.length > 0) {
-  //     const lastMechIndex = activePilot.mechs.length - 1
-  //     setActiveMechID(activePilot.mechs[lastMechIndex].id);
-  //   }
-  // }, [activePilotID]);
+  // =============== MAINTAIN SQUAD MECH JSON ==================
+  if (partyConnected && activeMech && activePilot) {
+    const squadMech = createSquadMech(activeMech, activePilot)
+    localStorage.setItem(LANCER_SQUAD_MECH_KEY, JSON.stringify(squadMech));
+  }
 
   // =============== PILOT FILES ==================
   const uploadPilotFile = e => {
@@ -122,9 +128,9 @@ const LancerPlayerMode = ({
       // select the last mech
       if (newActivePilot && newActivePilot.mechs.length > 0) {
         const lastMechIndex = newActivePilot.mechs.length - 1
-        setActiveMechID(newActivePilot.mechs[lastMechIndex].id);
+        changeMech(newActivePilot.mechs[lastMechIndex].id);
       } else {
-        setActiveMechID(null)
+        changeMech(null)
       }
 
       localStorage.setItem(SELECTED_CHARACTER_KEY, pilotID.slice(0,STORAGE_ID_LENGTH));
@@ -146,8 +152,10 @@ const LancerPlayerMode = ({
     }
 
     setActivePilotID(null);
-    setActiveMechID(null);
+    changeMech(null);
   }
+
+
 
 
   let jumplinks = ['pilot','mech','weapons','dicebag']
@@ -195,7 +203,7 @@ const LancerPlayerMode = ({
           <PlainList title='Mech' extraClass='mechs'>
             <EntryList
               entries={allMechEntries}
-              handleEntryClick={setActiveMechID}
+              handleEntryClick={changeMech}
               activeCharacterID={activeMechID}
               deleteEnabled={false}
             />
@@ -218,18 +226,6 @@ const LancerPlayerMode = ({
           setDistantDicebagData={setDistantDicebagData}
         />
       }
-
-      <div className='jumplink-anchor' id='squad' />
-      { partyConnected &&
-        <SquadPanel
-          activeMech={activeMech}
-          activePilot={activePilot}
-
-          partyConnected={partyConnected}
-          partyRoom={partyRoom}
-        />
-      }
-
     </div>
   );
 }

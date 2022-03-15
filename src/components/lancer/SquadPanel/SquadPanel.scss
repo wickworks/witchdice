@@ -21,7 +21,7 @@
     box-sizing: border-box;
     padding: 110px 38px;
     width: 100%;
-    max-width: 800px;
+    max-width: 600px;
 
     @include below_max_width {
       padding: 110px 26px;
