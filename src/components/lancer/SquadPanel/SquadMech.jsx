@@ -1,5 +1,6 @@
 import React from 'react';
 import './SquadMech.scss';
+import './SquadMechAnimations.scss';
 
 function renderMechPortrait(squadMech) {
 	if (squadMech.portraitMech.startsWith('mf_')) {
@@ -34,7 +35,7 @@ const SquadMech = ({
 	const pointClass = pointsRight ? 'points-right' : 'points-left';
 
   return (
-    <div className='SquadMech extra-class' >
+    <div className={`SquadMech extra-class ${pointClass}`} >
 
 			<div className={`arrow-and-statuses ${pointClass}`}>
 				<div className={`arrow-container ${pointClass}`}>
@@ -67,12 +68,16 @@ const SquadMech = ({
 						extraClass='structure'
 					/>
 
-					<div className={`mech-frame ${pointClass}`} />
+					<div className='mech-frame-container'>
+						<div className={`mech-frame ${pointClass}`} />
+					</div>
 					<div className='mech-container'>
 						{ renderMechPortrait(squadMech) }
 					</div>
 
-					<div className={`pilot-frame ${pointClass}`} />
+					<div className='pilot-frame-container'>
+						<div className={`pilot-frame ${pointClass}`} />
+					</div>
 					<div className='pilot-container'>
 						{ renderPilotPortrait(squadMech) }
 					</div>
@@ -89,8 +94,8 @@ const SquadMech = ({
 						{squadMech.statusExternal.replace(/,/g, ', ') || ' '}
 					</div>
 
-					<div className='statuses internal'>
-						{squadMech.statusInternal.replace(/,/g, ', ') || ' '}
+					<div className={`statuses internal ${!!squadMech.statusInternal ? '' : 'systems-nominal'}`}>
+						{squadMech.statusInternal.replace(/,/g, ', ') || 'All systems nominal.'}
 					</div>
 				</div>
 			</div>
@@ -130,10 +135,12 @@ const IconTriangle = ({
 
   return (
     <div className={`IconTriangle ${extraClass}`}>
-			<div className='icon-container'>
-				{[...Array(4)].map((undef, i) =>
-					<div className={`asset ${icon} ${iconCountCurrent+i >= 4 ? '' : 'spent'}`} key={i} />
-				)}
+			<div className='rotated-container'>
+				<div className='icon-container'>
+					{[...Array(4)].map((undef, i) =>
+						<div className={`asset ${icon} ${iconCountCurrent+i >= 4 ? '' : 'spent'}`} key={i} />
+					)}
+				</div>
 			</div>
     </div>
   );

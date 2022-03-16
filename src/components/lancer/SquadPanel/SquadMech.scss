@@ -5,82 +5,11 @@ $diamond_edge_length: 80px; // the length of each edge of the diamond to make th
 $border_width: 2px;
 $pip_size: 13px; //structure/stress
 
-$boot_time: 1.5s;
-
-
-
-
-
-@keyframes anim_structure {
-	0% { transform: translate(50%, 50%); }
-	20% { transform: translate(0, 0); }
-}
-
-@keyframes anim_stress {
-	0% { transform: translate(50%, -50%); }
-  20% { transform: translate(50%, -50%); }
-	40% { transform: translate(0, 0); }
-}
-
-@keyframes anim_hp {
-	0% { transform: translate(-50%, 50%); }
-	40% { transform: translate(-50%, 50%); }
-	60% { transform: translate(0, 0); }
-}
-
-@keyframes anim_heat {
-	0% { transform: translate(-50%, -50%); }
-  60% { transform: translate(-50%, -50%); }
-	80% { transform: translate(0, 0); }
-}
-
-@keyframes anim_backdrop_rtl {
-	0% { clip-path: polygon(100% 0,100% 0,100% 100%,100% 100%); }
-	20% { clip-path: polygon(0 0,100% 0,100% 100%,0 100%); }
-}
-
-@keyframes anim_mech_rtl {
-	0% { transform: translate(100%, 0); }
-  20% { transform: translate(0, 0); }
-}
-
-@keyframes anim_status_container_rtl {
-	0% { clip-path: polygon(100% 0,100% 0,100% 20%,100% 20%); }
-	60% { clip-path: polygon(100% 0,100% 0,100% 20%,100% 20%); }
-	80% { clip-path: polygon(0 0,100% 0,100% 20%,0 20%); }
-	100% { clip-path: polygon(0 0,100% 0,100% 100%,0 100%); }
-}
-
-
-
-
-// @keyframes mech {
-// 	0% { transform: translate(100%, 0); }
-// 	20% { transform: translate(100%, 0); }
-// 	40% { transform: translate(0, 0); }
-// }
-
-
 
 .SquadMech {
 	margin-top: -50px;
 	&:first-of-type { margin-top: 0; }
 	@include below_max_width { margin-top: 20px; }
-
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-	// ~ animation ~ //
-	.status-container {
-		animation: anim_status_container_rtl $boot_time ease-out;
-	}
-
-	.arrow-container {
-		.backdrop { animation: anim_backdrop_rtl $boot_time ease-out; }
-		.mech-frame, .mech-container { animation: anim_mech_rtl $boot_time ease-out; }
-		.StatTriangle.hp { animation: anim_hp $boot_time ease-in; }
-		.StatTriangle.heat { animation: anim_heat $boot_time ease-in; }
-		.IconTriangle.structure { animation: anim_structure $boot_time ease-in; }
-		.IconTriangle.stress { animation: anim_stress $boot_time ease-in; }
-	}
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 	// ~ overall layout ~ //
@@ -144,12 +73,12 @@ $boot_time: 1.5s;
 				grid-row: 1 / span 2;
 			}
 
-			.pilot-container, .pilot-frame {
+			.pilot-container, .pilot-frame-container {
 				grid-column: 1 / span 2;
 				grid-row: 1 / span 2;
 			}
 
-			.mech-container, .mech-frame {
+			.mech-container, .mech-frame-container {
 				grid-column: 3 / span 2;
 				grid-row: 1 / span 2;
 			}
@@ -157,13 +86,13 @@ $boot_time: 1.5s;
 			.IconTriangle.structure {
 				grid-column: 4 / span 1;
 				grid-row: 1 / span 1;
-				transform: rotate(180deg);
+				.rotated-container { transform: rotate(180deg); }
 			}
 
 			.IconTriangle.stress {
 				grid-column: 4 / span 1;
 				grid-row: 2 / span 1;
-				transform: rotate(-90deg);
+				.rotated-container { transform: rotate(-90deg); }
 			}
 		}
 
@@ -173,12 +102,12 @@ $boot_time: 1.5s;
 				grid-row: 1 / span 2;
 			}
 
-			.pilot-container, .pilot-frame {
+			.pilot-container, .pilot-frame-container {
 				grid-column: 3 / span 2;
 				grid-row: 1 / span 2;
 			}
 
-			.mech-container, .mech-frame {
+			.mech-container, .mech-frame-container {
 				grid-column: 1 / span 2;
 				grid-row: 1 / span 2;
 			}
@@ -186,13 +115,13 @@ $boot_time: 1.5s;
 			.IconTriangle.structure {
 				grid-column: 1 / span 1;
 				grid-row: 1 / span 1;
-				transform: rotate(90deg);
+				.rotated-container { transform: rotate(90deg); }
 			}
 
 			.IconTriangle.stress {
 				grid-column: 1 / span 1;
 				grid-row: 2 / span 1;
-				// transform: rotate(0deg);
+				// .rotated-container { transform: rotate(0deg); }
 			}
 		}
 
@@ -227,6 +156,11 @@ $boot_time: 1.5s;
 		.internal {
 			padding: 6px;
 			margin-top: auto;
+
+			&.systems-nominal {
+				font-style: italic;
+				color: $concrete_violet_dark;
+			}
 		}
 
 		.callsign {
@@ -254,17 +188,17 @@ $boot_time: 1.5s;
 			border: $border_width solid $rust_dark;
 		}
 
-		.pilot-frame, .mech-frame {
-			width: $diamond_edge_length;
-			height: $diamond_edge_length;
-
-			background-color: $parchment_dark;
-			border: $border_width solid $rust_dark;
-
+		.pilot-frame-container, .mech-frame-container {
 			align-self: center;
 			justify-self: center;
 
-			transform: rotate(45deg);
+			.pilot-frame, .mech-frame {
+				width: $diamond_edge_length;
+				height: $diamond_edge_length;
+				background-color: $parchment_dark;
+				border: $border_width solid $rust_dark;
+				transform: rotate(45deg);
+			}
 		}
 
 		.pilot-frame {
@@ -312,30 +246,35 @@ $boot_time: 1.5s;
 		}
 
 		.IconTriangle {
-			display: flex;
-			justify-content: flex-start;
-			align-items: flex-end;
-
 			margin: $border_width;
 
-			.icon-container {
-				display: flex;
-				flex-wrap: wrap;
-				justify-content: center;
-				align-items: flex-end;
-				width: calc(#{$pip_size} * 3);
-				padding-top: $pip_size;
-				transform: rotate(45deg);
+			.rotated-container {
+				width: 100%;
+				height: 100%;
 
-				.asset {
-					width: $pip_size;
-					height: $pip_size;
+				display: flex;
+				justify-content: flex-start;
+				align-items: flex-end;
+
+				.icon-container {
+					display: flex;
+					flex-wrap: wrap;
+					justify-content: center;
+					align-items: flex-end;
+					width: calc(#{$pip_size} * 3);
+					padding-top: $pip_size;
 					transform: rotate(45deg);
 
-					// black to $pink
-				  filter: invert(80%) sepia(22%) saturate(398%) hue-rotate(324deg) brightness(90%) contrast(88%);
+					.asset {
+						width: $pip_size;
+						height: $pip_size;
+						transform: rotate(45deg);
 
-					&.spent { opacity: .2; }
+						// black to $pink
+					  filter: invert(80%) sepia(22%) saturate(398%) hue-rotate(324deg) brightness(90%) contrast(88%);
+
+						&.spent { opacity: .2; }
+					}
 				}
 			}
 		}
@@ -344,6 +283,10 @@ $boot_time: 1.5s;
 
 .AddSquadMechButton {
 	margin-top: -50px;
+
+	&:nth-child(2) { margin-top: 0; }
+
+
 	opacity: .5;
 	display: flex;
 	align-items: center;

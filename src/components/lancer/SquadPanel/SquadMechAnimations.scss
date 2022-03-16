@@ -1,0 +1,163 @@
+@import '../../../fonts';
+@import './SquadMech';
+
+$boot_time: 2s;
+
+@keyframes anim_backdrop_ltr {
+	0% { clip-path: polygon(0 0,0 0,0 100%,0 100%); }
+	20% { clip-path: polygon(0 0,100% 0,100% 100%,0 100%); }
+}
+@keyframes anim_backdrop_rtl {
+	0% { clip-path: polygon(100% 0,100% 0,100% 100%,100% 100%); }
+	20% { clip-path: polygon(0 0,100% 0,100% 100%,0 100%); }
+}
+
+@keyframes anim_mech_ltr {
+	0% { transform: translate(calc(#{$portrait_height} * -1), 0); }
+  20% { transform: translate(0, 0); }
+}
+@keyframes anim_mech_rtl {
+	0% { transform: translate($portrait_height, 0); }
+  20% { transform: translate(0, 0); }
+}
+
+@keyframes anim_structure_ltr {
+	0% { transform: translate(-50%, 50%); opacity: 0; }
+	20% { transform: translate(-50%, 50%); opacity: 0; }
+	21% { opacity: 1.0; }
+	40% { transform: translate(0, 0); }
+}
+@keyframes anim_structure_rtl {
+	0% { transform: translate(50%, 50%); opacity: 0; }
+	20% { transform: translate(50%, 50%); opacity: 0; }
+	21% { opacity: 1.0; }
+	40% { transform: translate(0, 0); }
+}
+
+@keyframes anim_stress_ltr {
+	0% { transform: translate(-50%, -50%); opacity: 0; }
+  40% { transform: translate(-50%, -50%); opacity: 0; }
+	41% { opacity: 1.0; }
+	60% { transform: translate(0, 0); }
+}
+@keyframes anim_stress_rtl {
+	0% { transform: translate(50%, -50%); opacity: 0; }
+  40% { transform: translate(50%, -50%); opacity: 0; }
+	41% { opacity: 1.0; }
+	60% { transform: translate(0, 0); }
+}
+
+@keyframes anim_hp_ltr {
+	0% { transform: translate(50%, 50%); opacity: 0; }
+	60% { transform: translate(50%, 50%); opacity: 0; }
+	61% { opacity: 1.0; }
+	80% { transform: translate(0, 0); }
+}
+@keyframes anim_hp_rtl {
+	0% { transform: translate(-50%, 50%); opacity: 0; }
+	60% { transform: translate(-50%, 50%); opacity: 0; }
+	61% { opacity: 1.0; }
+	80% { transform: translate(0, 0); }
+}
+
+@keyframes anim_heat_ltr {
+	0% { transform: translate(50%, -50%); opacity: 0; }
+  60% { transform: translate(50%, -50%); opacity: 0; }
+	61% { opacity: 1.0; }
+	80% { transform: translate(0, 0); }
+}
+@keyframes anim_heat_rtl {
+	0% { transform: translate(-50%, -50%); opacity: 0; }
+  60% { transform: translate(-50%, -50%); opacity: 0; }
+	61% { opacity: 1.0; }
+	80% { transform: translate(0, 0); }
+}
+
+@keyframes anim_status_container_ltr {
+	0% { clip-path: polygon(0 0,0 0,0 20%,0 20%); }
+	20% { clip-path: polygon(0 0,0 0,0 20%,0 20%); }
+	40% { clip-path: polygon(0 0,100% 0,100% 20%,0 20%); }
+	88% { clip-path: polygon(0 0,100% 0,100% 20%,0 20%); }
+	100% { clip-path: polygon(0 0,100% 0,100% 100%,0 100%); }
+}
+@keyframes anim_status_container_rtl {
+	0% { clip-path: polygon(100% 0,100% 0,100% 20%,100% 20%); }
+	20% { clip-path: polygon(100% 0,100% 0,100% 20%,100% 20%); }
+	40% { clip-path: polygon(0 0,100% 0,100% 20%,0 20%); }
+	88% { clip-path: polygon(0 0,100% 0,100% 20%,0 20%); }
+	100% { clip-path: polygon(0 0,100% 0,100% 100%,0 100%); }
+}
+
+
+
+@keyframes shakes_ltr {
+	20% { transform: scale(100%) translateX(0%); }
+	24% { transform: scale(102%) translateX(8%); }
+	40% { transform: scale(100%) translateX(0%); }
+}
+
+@keyframes shakes_rtl {
+	20% { transform: scale(100%) translateX(0%); }
+	24% { transform: scale(102%) translateX(-8%); }
+	40% { transform: scale(100%) translateX(0%); }
+}
+
+@keyframes flashes {
+	20% { filter: brightness(100%); }
+	24% { filter: brightness(125%); }
+
+	40% { filter: brightness(100%); }
+	44% { filter: brightness(125%); }
+
+	60% { filter: brightness(100%); }
+	64% { filter: brightness(125%); }
+
+	80% { filter: brightness(100%); }
+	84% { filter: brightness(175%); }
+
+	100% { filter: brightness(100%); }
+}
+
+.SquadMech {
+	&.points-left {
+		animation: shakes_ltr $boot_time ease-out, flashes $boot_time ease-out;;
+	}
+
+	&.points-right {
+		animation: shakes_rtl $boot_time ease-out, flashes $boot_time ease-out;;
+	}
+
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+	// ~ animation ~ //
+	.status-container {
+		&.points-left {
+			animation: anim_status_container_ltr $boot_time steps(6, end);
+		}
+		&.points-right {
+			animation: anim_status_container_rtl $boot_time steps(6, end);
+		}
+	}
+
+	.arrow-container {
+		&.points-left {
+			.backdrop { animation: anim_backdrop_ltr $boot_time ease-out; }
+			.mech-frame-container, .mech-container { animation: anim_mech_ltr $boot_time ease-in; }
+			.StatTriangle.hp { animation: anim_hp_ltr $boot_time ease-in; }
+			.StatTriangle.heat { animation: anim_heat_ltr $boot_time ease-in; }
+			.IconTriangle.structure { animation: anim_structure_ltr $boot_time ease-in; }
+			.IconTriangle.stress { animation: anim_stress_ltr $boot_time ease-in; }
+		}
+
+		&.points-right {
+			.backdrop { animation: anim_backdrop_rtl $boot_time ease-out; }
+			.mech-frame-container, .mech-container { animation: anim_mech_rtl $boot_time ease-in; }
+			.StatTriangle.hp { animation: anim_hp_rtl $boot_time ease-in; }
+			.StatTriangle.heat { animation: anim_heat_rtl $boot_time ease-in; }
+			.IconTriangle.structure { animation: anim_structure_rtl $boot_time ease-in; }
+			.IconTriangle.stress { animation: anim_stress_rtl $boot_time ease-in; }
+		}
+
+
+	}
+
+}
