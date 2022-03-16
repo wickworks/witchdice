@@ -122,23 +122,24 @@ $icon_height_rotated: 80px; 		// with trigonometry
 		@include text_monospace;
 		font-size: 12px;
 		padding: 6px 6px;
-		background-color: $parchment_dark;
+		background-color: $rust;
 		width: 100%;
+		color: $pink;
 
 		border: 2px solid $rust_dark;
 		border-right: none;
 		border-left: none;
 
 		.callsign {
-			font-size: 16px;
-			color: $rust_dark;
+			font-size: 20px;
+			color: $rust_light;
 		}
 	}
 
 	.arrow-container {
 
 		.backdrop {
-			background-color: $rust;
+			background-color: $parchment_dark;
 			border: 2px solid $rust_dark;
 		}
 
@@ -147,13 +148,17 @@ $icon_height_rotated: 80px; 		// with trigonometry
 			height: $icon_height_rotated;
 
 			background-color: $parchment_dark;
-			border: 2px solid $rust_dark;
+			border: 2px solid $mud;
 
 			align-self: center;
 			justify-self: center;
 
 			transform: rotate(45deg);
+		}
 
+		.pilot-frame {
+			&.points-right { border-top-color: $rust_dark; border-right-color: $rust_dark; }
+			&.points-left { border-bottom-color: $rust_dark; border-left-color: $rust_dark; }
 		}
 
 		.pilot-container, .mech-container {
@@ -182,7 +187,7 @@ $icon_height_rotated: 80px; 		// with trigonometry
 			@include text_monospace;
 			display: flex;
 			align-items: center;
-			color: $pink;
+			color: $soft_black;
 			justify-content: flex-start;
 
 			&.hp {

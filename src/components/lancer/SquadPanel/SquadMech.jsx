@@ -41,12 +41,12 @@ const SquadMech = ({
 
 					<div className='backdrop' />
 
-					<div className='pilot-frame' />
+					<div className={`pilot-frame ${pointClass}`} />
 					<div className='pilot-container'>
 						{ renderPilotPortrait(squadMech) }
 					</div>
 
-					<div className='mech-frame' />
+					<div className={`mech-frame ${pointClass}`} />
 					<div className='mech-container'>
 						{ renderMechPortrait(squadMech) }
 					</div>
