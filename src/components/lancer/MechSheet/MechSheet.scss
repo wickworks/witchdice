@@ -20,9 +20,7 @@
     width: 100%;
     max-width: 800px;
 
-    @include below_max_width {
-      padding: 12px 26px;
-    }
+    @include below_max_width { padding: 12px 26px; }
 
     h2 {
       @include text_monospace;
@@ -31,7 +29,6 @@
       color: $rust;
       font-weight: normal;
     }
-
 
     .frame-and-stat-broadcast {
       display: flex;
@@ -73,15 +70,15 @@
       @include text_monospace;
       font-size: 20px;
       color: $grey_mid;
-      margin: 14px 0 6px;
+      margin: 14px 4px 6px;
     }
 
     .mounts-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      column-gap: 22px;
+
       margin-bottom: 6px;
-      margin-right: 26px;
     }
   }
 }

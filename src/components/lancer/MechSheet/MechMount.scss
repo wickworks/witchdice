@@ -8,7 +8,7 @@
   text-align: left;
   border: 2px solid $rust;
 
-  width: 45%;
+  width: 100%;
   box-sizing: border-box;
   @include constricted { width: 100%; }
 
@@ -18,7 +18,7 @@
   &.baseline {
     .MechWeapon button.select-weapon .weapon-name-container {
       margin-top: 0;
-      @include max_width { font-size: 22px; }
+      @include max_width { font-size: 20px; }
     }
   }
 
@@ -41,7 +41,7 @@
     height: 100%;
     width: 100%;
     box-sizing: border-box;
-    padding: 8px 14px 10px;
+    padding: 6px 14px;
 
     &:hover {
       background-color: $parchment_dark;
@@ -65,26 +65,27 @@
 
     .mount-type {
       @include text_monospace;
-      font-size: 20px;
+      font-size: 16px;
 
-      @include below_max_width { font-size: 16px; }
+      @include below_max_width { font-size: 14px; }
       @include constricted { font-size: 12px; }
     }
 
     .bonus-effect, .mod {
       @include text_monospace;
       font-size: 12px;
+      margin-top: 2px;
     }
 
     .weapon-name-container {
-      margin-top: 12px;
+      margin-top: 6px;
       text-align: left;
-      font-size: 30px;
+      font-size: 22px;
       text-transform: capitalize;
 
       @include below_max_width {
         margin-top: 6px;
-        font-size: 22px;
+        font-size: 18px;
       }
 
       @include constricted {

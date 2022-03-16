@@ -130,7 +130,8 @@ const MechMount = ({
   const isDestructable = mount.source !== 'integratedMounts' && !isBaseline
   const bonusEffects = mount.bonus_effects.map(effectID => findCoreBonusData(effectID).name);
 
-  return (
+  // it's cleanest to just skip rendering empty mounts
+  return (mountedWeaponData.length > 0 ?
     <div className={`MechMount ${isEmpty ? 'empty' : ''} ${isBaseline ? 'baseline' : ''}`}>
       { mountedWeaponData.map(([weapon, weaponData], i) => {
         const weaponProfileData = weaponData.profiles ? weaponData.profiles[0] : weaponData
@@ -166,6 +167,8 @@ const MechMount = ({
         />
       }
     </div>
+  :
+    <></>
   )
 }
 
