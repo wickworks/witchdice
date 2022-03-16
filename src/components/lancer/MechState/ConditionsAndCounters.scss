@@ -22,7 +22,7 @@
 				background-color: $parchment_dark;
 				cursor: pointer;
 
-				&:hover { background-color: $pink; }
+				&:hover { background-color: $mud_light; } // light mud
 
 				.css-1wa3eu0-placeholder {
 					color: $soft_black;
@@ -60,8 +60,7 @@
 			justify-content: center;
 
 
-			&:hover { background-color: $pink; }
-			// &:hover { filter: brightness(95%); }
+			&:hover { background-color: $mud_light; }
 
 			.asset {
 				width: 28px; height: 28px;

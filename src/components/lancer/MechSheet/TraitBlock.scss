@@ -21,14 +21,14 @@
       &.action, &.reaction { background-color: $crushed_velvet; }
       &.core-power { background-color: $rust_dark; }
 
-      &:hover { filter: brightness(115%); }
+      &:hover { background-color: #9b371e; } // SLIGHTLY lighter rust
 
       &.collapsed {
         background-color: $parchment_dark;
         color: $soft_black;
         border-radius: 0 14px 0 7px;
 
-        &:hover { filter: brightness(85%); }
+        &:hover { background-color: $mud_light; }
 
         .detail .range-icon .asset { filter: none; }
       }
@@ -111,13 +111,17 @@
       padding: 8px 12px 10px;
       background-color: $parchment;
       border-radius: 0 0 0 14px;
-      line-height: 1.4;
+      line-height: 1.3;
 
       p:first-child { margin-top: 0; }
 
       ul { margin: 4px 0; }
 
-      br { margin-top: 4px; }
+      br {
+        content: "";
+        display: block;
+        margin: 10px 0;
+      }
 
       .DestroySystemButton {
         margin: -6px -6px 0 6px;
