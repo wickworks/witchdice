@@ -12,10 +12,10 @@
 
   .squad-container {
     @include shadow;
-    @include parchment_background;
+    // @include parchment_background;
     // @include nouveau_border("nouveau_lancer_squad.svg");
 		border-radius: 14px;
-		// background-color: $concrete_violet_dark;
+		background-color: $concrete_violet_dark;
 		// background-color: $parchment_dark;
 
 		position: relative;
