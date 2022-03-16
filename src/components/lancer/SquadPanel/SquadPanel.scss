@@ -12,11 +12,8 @@
 
   .squad-container {
     @include shadow;
-    // @include parchment_background;
-    // @include nouveau_border("nouveau_lancer_squad.svg");
 		border-radius: 14px;
 		background-color: $concrete_violet_dark;
-		// background-color: $parchment_dark;
 
 		border: 8px double $crushed_velvet;
 		border-left: none;
@@ -24,7 +21,7 @@
 
 		position: relative;
     box-sizing: border-box;
-    padding: 16px 0; // 38px;
+    padding: 16px 0;
     width: 100%;
     max-width: 800px;
 
@@ -35,12 +32,10 @@
 		.mechs-container {
 			display: grid;
 			grid-template-columns: 1fr 50px 1fr;
-			// grid-template-columns: 1fr 62px 1fr;
 
 			h3.squad-label {
 				font-size: 46px;
 				font-weight: normal;
-				// font-style: italic;
 
 				text-align: center;
 				color: $crushed_velvet;
@@ -50,12 +45,10 @@
 			.SquadMech {
 				&:nth-child(even) {
 					grid-column: 2 / span 2;
-					// margin-left: auto;
 				}
 
 				&:nth-child(odd) {
 					grid-column: 1 / span 2;
-					// margin-right: auto;
 				}
 			}
 		}

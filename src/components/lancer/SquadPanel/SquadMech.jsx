@@ -23,7 +23,7 @@ function renderPilotPortrait(squadMech) {
 
 // Gives all statuses internal non-breaking spaces && adds a space after each comma
 function statusesWithNonbreakingSpaces(statusString) {
-	return statusString.replace(/ /g, String.fromCharCode(160)).replace(/,/g, ', ')
+	return statusString.replace(/ /g, String.fromCharCode(160)).replace(/,/g, ' ')
 }
 
 const SquadMech = ({
@@ -41,6 +41,32 @@ const SquadMech = ({
 
 					<div className='backdrop' />
 
+					<StatTriangle
+						label='HP'
+						mainNumberCurrent={squadMech.hpCurrent}
+						mainNumberMax={squadMech.hpMax}
+						extraClass='hp'
+					/>
+
+					<StatTriangle
+						label='Heat'
+						mainNumberCurrent={squadMech.heatCurrent}
+						mainNumberMax={squadMech.heatMax}
+						extraClass='heat'
+					/>
+
+					<IconTriangle
+						icon='reactor'
+						iconCountCurrent={squadMech.stress}
+						extraClass='stress'
+					/>
+
+					<IconTriangle
+						icon='structure'
+						iconCountCurrent={squadMech.structure}
+						extraClass='structure'
+					/>
+
 					<div className={`pilot-frame ${pointClass}`} />
 					<div className='pilot-container'>
 						{ renderPilotPortrait(squadMech) }
@@ -50,24 +76,6 @@ const SquadMech = ({
 					<div className='mech-container'>
 						{ renderMechPortrait(squadMech) }
 					</div>
-
-					<StatTriangle
-						label='HP'
-						icon='structure'
-						iconCountCurrent={squadMech.structure}
-						mainNumberCurrent={squadMech.hpCurrent}
-						mainNumberMax={squadMech.hpMax}
-						extraClass='hp'
-					/>
-
-					<StatTriangle
-						label='Heat'
-						icon='reactor'
-						iconCountCurrent={squadMech.stress}
-						mainNumberCurrent={squadMech.heatCurrent}
-						mainNumberMax={squadMech.heatMax}
-						extraClass='heat'
-					/>
 				</div>
 
 				<div className={`status-container ${pointClass}`}>
@@ -76,11 +84,11 @@ const SquadMech = ({
 					</div>
 
 					<div className='statuses external'>
-						{statusesWithNonbreakingSpaces(squadMech.statusExternal || ' ')}
+						{squadMech.statusExternal.replace(/,/g, ' ') || ' '}
 					</div>
 
 					<div className='statuses internal'>
-						{statusesWithNonbreakingSpaces(squadMech.statusInternal || ' ')}
+						{squadMech.statusInternal.replace(/,/g, ' ') || ' '}
 					</div>
 				</div>
 			</div>

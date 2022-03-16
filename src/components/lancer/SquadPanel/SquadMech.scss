@@ -1,15 +1,15 @@
 @import '../../../fonts';
 
-$icon_radius: 60px;	// halved
-$icon_height: 120px;
-$icon_height_no_border: 114px;	// -6
-$icon_height_rotated: 80px; 		// with trigonometry
+$portrait_height: 120px; // SQUARE height of the portraites
+$diamond_edge_length: 80px; // the length of each edge of the diamond to make that height
+
+$border_width: 2px;
+
+$pip_size: 13px; //structure/stress
+
 
 .SquadMech {
-	// margin-top: -62px;
 	margin-top: -50px;
-
-	// &:first-of-type { margin-top: -20px; }
 	&:first-of-type { margin-top: 0; }
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
@@ -19,25 +19,21 @@ $icon_height_rotated: 80px; 		// with trigonometry
 
 		&.points-left {
 			flex-direction: row;
-			// margin-left: auto;
 		}
 
 		&.points-right {
 			flex-direction: row-reverse;
-			// margin-right: auto;
 		}
 
 		.status-container {
 			display: flex;
 			flex-direction: column;
-			justify-content: space-between;
-			// width: 10%;
 		}
 
 		.arrow-container {
 			display: grid;
-			grid-template-columns: repeat(4, $icon_radius);
-			grid-template-rows: repeat(2, $icon_radius);
+			grid-template-columns: repeat(4, calc(#{$portrait_height} * .5));
+			grid-template-rows: repeat(2, calc(#{$portrait_height} * .5));
 		}
 	}
 
@@ -69,11 +65,13 @@ $icon_height_rotated: 80px; 		// with trigonometry
 			.IconTriangle.structure {
 				grid-column: 4 / span 1;
 				grid-row: 1 / span 1;
+				transform: rotate(180deg);
 			}
 
 			.IconTriangle.stress {
 				grid-column: 4 / span 1;
 				grid-row: 2 / span 1;
+				transform: rotate(-90deg);
 			}
 		}
 
@@ -96,11 +94,13 @@ $icon_height_rotated: 80px; 		// with trigonometry
 			.IconTriangle.structure {
 				grid-column: 1 / span 1;
 				grid-row: 1 / span 1;
+				transform: rotate(90deg);
 			}
 
 			.IconTriangle.stress {
 				grid-column: 1 / span 1;
 				grid-row: 2 / span 1;
+				// transform: rotate(0deg);
 			}
 		}
 
@@ -121,34 +121,43 @@ $icon_height_rotated: 80px; 		// with trigonometry
 	.status-container {
 		@include text_monospace;
 		font-size: 12px;
-		padding: 6px 6px;
-		background-color: $rust;
 		width: 100%;
-		color: $pink;
 
-		border: 2px solid $rust_dark;
+		background-color: $parchment_dark;
+		color: $soft_black;
+
+		border: $border_width solid $rust_dark;
 		border-right: none;
 		border-left: none;
 
+		.external { padding: 6px; }
+
+		.internal {
+			padding: 6px;
+			margin-top: auto;
+		}
+
 		.callsign {
-			font-size: 20px;
-			color: $rust_light;
+			padding: 2px 6px;
+			font-size: 16px;
+			color: $pink;
+			background-color: $rust_dark;
 		}
 	}
 
 	.arrow-container {
 
 		.backdrop {
-			background-color: $parchment_dark;
-			border: 2px solid $rust_dark;
+			background-color: $rust;
+			border: $border_width solid $rust_dark;
 		}
 
 		.pilot-frame, .mech-frame {
-			width: $icon_height_rotated;
-			height: $icon_height_rotated;
+			width: $diamond_edge_length;
+			height: $diamond_edge_length;
 
 			background-color: $parchment_dark;
-			border: 2px solid $mud;
+			border: $border_width solid $rust_dark;
 
 			align-self: center;
 			justify-self: center;
@@ -162,16 +171,10 @@ $icon_height_rotated: 80px; 		// with trigonometry
 		}
 
 		.pilot-container, .mech-container {
-			width: $icon_height_no_border;
-			height: $icon_height_no_border;
-			//
-			// display: flex;
-			// justify-content: center;
-			// align-items: center;
-
+			width: calc(#{$portrait_height} - #{$border_width*3});
+			height: calc(#{$portrait_height} - #{$border_width*3});
 			align-self: center;
 			justify-self: center;
-
 			clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
 
 			div { width: 100%; }
@@ -187,27 +190,52 @@ $icon_height_rotated: 80px; 		// with trigonometry
 			@include text_monospace;
 			display: flex;
 			align-items: center;
-			color: $soft_black;
+			color: $pink;
 			justify-content: flex-start;
 
 			&.hp {
 				flex-direction: column;
-				margin-top: 3px;
+				margin-top: $border_width;
+				padding-top: 2px;
 			}
 
 			&.heat {
 				flex-direction: column-reverse;
-				margin-bottom: 3px;
+				margin-bottom: $border_width;
+				padding-bottom: 2px;
 			}
 
-			.label {
-				font-size: 14px;
-			}
+			.label { font-size: 14px; }
+			.numerical-count { font-size: 24px; }
+		}
 
-			.numerical-count {
-				font-size: 24px;
+		.IconTriangle {
+			display: flex;
+			justify-content: flex-start;
+			align-items: flex-end;
+
+			margin: $border_width;
+
+			.icon-container {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				align-items: flex-end;
+				width: calc(#{$pip_size} * 3);
+				padding-top: $pip_size;
+				transform: rotate(45deg);
+
+				.asset {
+					width: $pip_size;
+					height: $pip_size;
+					transform: rotate(45deg);
+
+					// black to $pink
+				  filter: invert(80%) sepia(22%) saturate(398%) hue-rotate(324deg) brightness(90%) contrast(88%);
+
+					&.spent { opacity: .2; }
+				}
 			}
 		}
 	}
-
 }
