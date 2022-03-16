@@ -27,6 +27,7 @@ export function createSquadMech(activeMech, activePilot) {
 	let squadMech = {}
 	squadMech.id = activeMech.id
   squadMech.name = activeMech.name
+  squadMech.callsign = activePilot.callsign
 
 	squadMech.hpCurrent = activeMech.current_hp
 	squadMech.hpMax = getMechMaxHP(activeMech, activePilot, frameData)

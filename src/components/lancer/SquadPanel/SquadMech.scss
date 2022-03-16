@@ -2,14 +2,15 @@
 
 $icon_radius: 60px;	// halved
 $icon_height: 120px;
-$icon_height_no_border: 108px;	// -12
-$icon_height_rotated: 76px; 		// with trigonometry
+$icon_height_no_border: 114px;	// -6
+$icon_height_rotated: 80px; 		// with trigonometry
 
 .SquadMech {
 	// margin-top: -62px;
 	margin-top: -50px;
 
-	&:first-child { margin-top: 0; }
+	// &:first-of-type { margin-top: -20px; }
+	&:first-of-type { margin-top: 0; }
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 	// ~ overall layout ~ //
@@ -121,13 +122,24 @@ $icon_height_rotated: 76px; 		// with trigonometry
 		@include text_monospace;
 		font-size: 12px;
 		padding: 6px 6px;
+		background-color: $parchment_dark;
+		width: 100%;
+
+		border: 2px solid $rust_dark;
+		border-right: none;
+		border-left: none;
+
+		.callsign {
+			font-size: 16px;
+			color: $rust_dark;
+		}
 	}
 
 	.arrow-container {
 
 		.backdrop {
 			background-color: $rust;
-			border: 4px solid $rust_dark;
+			border: 2px solid $rust_dark;
 		}
 
 		.pilot-frame, .mech-frame {
@@ -135,7 +147,7 @@ $icon_height_rotated: 76px; 		// with trigonometry
 			height: $icon_height_rotated;
 
 			background-color: $parchment_dark;
-			border: 4px solid $rust_dark;
+			border: 2px solid $rust_dark;
 
 			align-self: center;
 			justify-self: center;
@@ -175,12 +187,12 @@ $icon_height_rotated: 76px; 		// with trigonometry
 
 			&.hp {
 				flex-direction: column;
-				margin-top: 6px;
+				margin-top: 3px;
 			}
 
 			&.heat {
 				flex-direction: column-reverse;
-				margin-bottom: 6px;
+				margin-bottom: 3px;
 			}
 
 			.label {
@@ -188,7 +200,7 @@ $icon_height_rotated: 76px; 		// with trigonometry
 			}
 
 			.numerical-count {
-				font-size: 22px;
+				font-size: 24px;
 			}
 		}
 	}

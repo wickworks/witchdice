@@ -170,6 +170,10 @@ const SquadPanel = ({
         </div>*/}
 
 				<div className='mechs-container'>
+          <h3 className='squad-label'>
+            LANCERS
+          </h3>
+
 					{ allSquadMechs.map((squadMech, i) =>
             <SquadMech
               squadMech={squadMech}

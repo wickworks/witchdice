@@ -18,9 +18,13 @@
 		background-color: $concrete_violet_dark;
 		// background-color: $parchment_dark;
 
+		border: 8px double $crushed_velvet;
+		border-left: none;
+		border-right: none;
+
 		position: relative;
     box-sizing: border-box;
-    padding: 40px 38px;
+    padding: 16px 0; // 38px;
     width: 100%;
     max-width: 800px;
 
@@ -33,13 +37,23 @@
 			grid-template-columns: 1fr 50px 1fr;
 			// grid-template-columns: 1fr 62px 1fr;
 
+			h3.squad-label {
+				font-size: 46px;
+				font-weight: normal;
+				// font-style: italic;
+
+				text-align: center;
+				color: $crushed_velvet;
+				margin: 0;
+			}
+
 			.SquadMech {
-				&:nth-child(odd) {
+				&:nth-child(even) {
 					grid-column: 2 / span 2;
 					// margin-left: auto;
 				}
 
-				&:nth-child(even) {
+				&:nth-child(odd) {
 					grid-column: 1 / span 2;
 					// margin-right: auto;
 				}

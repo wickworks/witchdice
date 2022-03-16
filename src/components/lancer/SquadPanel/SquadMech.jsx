@@ -71,12 +71,16 @@ const SquadMech = ({
 				</div>
 
 				<div className={`status-container ${pointClass}`}>
-					<div className='statuses internal'>
-						{statusesWithNonbreakingSpaces(squadMech.statusInternal)}
+					<div className='statuses callsign'>
+						{squadMech.callsign || squadMech.name}
 					</div>
 
 					<div className='statuses external'>
-						{statusesWithNonbreakingSpaces(squadMech.statusExternal)}
+						{statusesWithNonbreakingSpaces(squadMech.statusExternal || ' ')}
+					</div>
+
+					<div className='statuses internal'>
+						{statusesWithNonbreakingSpaces(squadMech.statusInternal || ' ')}
 					</div>
 				</div>
 			</div>
