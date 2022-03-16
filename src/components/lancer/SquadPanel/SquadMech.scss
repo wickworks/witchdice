@@ -2,16 +2,85 @@
 
 $portrait_height: 120px; // SQUARE height of the portraites
 $diamond_edge_length: 80px; // the length of each edge of the diamond to make that height
-
 $border_width: 2px;
-
 $pip_size: 13px; //structure/stress
+
+$boot_time: 1.5s;
+
+
+
+
+
+@keyframes anim_structure {
+	0% { transform: translate(50%, 50%); }
+	20% { transform: translate(0, 0); }
+}
+
+@keyframes anim_stress {
+	0% { transform: translate(50%, -50%); }
+  20% { transform: translate(50%, -50%); }
+	40% { transform: translate(0, 0); }
+}
+
+@keyframes anim_hp {
+	0% { transform: translate(-50%, 50%); }
+	40% { transform: translate(-50%, 50%); }
+	60% { transform: translate(0, 0); }
+}
+
+@keyframes anim_heat {
+	0% { transform: translate(-50%, -50%); }
+  60% { transform: translate(-50%, -50%); }
+	80% { transform: translate(0, 0); }
+}
+
+@keyframes anim_backdrop_rtl {
+	0% { clip-path: polygon(100% 0,100% 0,100% 100%,100% 100%); }
+	20% { clip-path: polygon(0 0,100% 0,100% 100%,0 100%); }
+}
+
+@keyframes anim_mech_rtl {
+	0% { transform: translate(100%, 0); }
+  20% { transform: translate(0, 0); }
+}
+
+@keyframes anim_status_container_rtl {
+	0% { clip-path: polygon(100% 0,100% 0,100% 20%,100% 20%); }
+	60% { clip-path: polygon(100% 0,100% 0,100% 20%,100% 20%); }
+	80% { clip-path: polygon(0 0,100% 0,100% 20%,0 20%); }
+	100% { clip-path: polygon(0 0,100% 0,100% 100%,0 100%); }
+}
+
+
+
+
+// @keyframes mech {
+// 	0% { transform: translate(100%, 0); }
+// 	20% { transform: translate(100%, 0); }
+// 	40% { transform: translate(0, 0); }
+// }
+
 
 
 .SquadMech {
 	margin-top: -50px;
 	&:first-of-type { margin-top: 0; }
 	@include below_max_width { margin-top: 20px; }
+
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+	// ~ animation ~ //
+	.status-container {
+		animation: anim_status_container_rtl $boot_time ease-out;
+	}
+
+	.arrow-container {
+		.backdrop { animation: anim_backdrop_rtl $boot_time ease-out; }
+		.mech-frame, .mech-container { animation: anim_mech_rtl $boot_time ease-out; }
+		.StatTriangle.hp { animation: anim_hp $boot_time ease-in; }
+		.StatTriangle.heat { animation: anim_heat $boot_time ease-in; }
+		.IconTriangle.structure { animation: anim_structure $boot_time ease-in; }
+		.IconTriangle.stress { animation: anim_stress $boot_time ease-in; }
+	}
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 	// ~ overall layout ~ //
@@ -140,7 +209,6 @@ $pip_size: 13px; //structure/stress
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 	// ~ base styling of the components ~ //
-
 	.status-container {
 		@include text_monospace;
 		font-size: 12px;
@@ -181,7 +249,6 @@ $pip_size: 13px; //structure/stress
 	}
 
 	.arrow-container {
-
 		.backdrop {
 			background-color: $rust;
 			border: $border_width solid $rust_dark;
@@ -324,10 +391,6 @@ $pip_size: 13px; //structure/stress
 
 			// black to $crushed_velvet_dark
       filter: invert(9%) sepia(58%) saturate(2075%) hue-rotate(288deg) brightness(95%) contrast(104%);
-
-
-		  // // turns black to $rust
-		  // filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
 		}
 	}
 

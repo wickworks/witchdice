@@ -67,19 +67,20 @@ const SquadMech = ({
 						extraClass='structure'
 					/>
 
+					<div className={`mech-frame ${pointClass}`} />
+					<div className='mech-container'>
+						{ renderMechPortrait(squadMech) }
+					</div>
+
 					<div className={`pilot-frame ${pointClass}`} />
 					<div className='pilot-container'>
 						{ renderPilotPortrait(squadMech) }
 					</div>
 
-					<div className={`mech-frame ${pointClass}`} />
-					<div className='mech-container'>
-						{ renderMechPortrait(squadMech) }
-					</div>
 				</div>
 
 				<div className={`status-container ${pointClass}`}>
-					<div className='statuses callsign'>
+					<div className='callsign'>
 						<div>{squadMech.callsign || squadMech.name}</div>
 						<button className='remove-mech asset x' onClick={onRemove} />
 					</div>
