@@ -25,13 +25,18 @@
     width: 100%;
     max-width: 800px;
 
-    @include below_max_width {
-      padding: 110px 26px;
-    }
+    // @include below_max_width {
+    //   padding: 110px 26px;
+    // }
 
 		.mechs-container {
 			display: grid;
 			grid-template-columns: 1fr 50px 1fr;
+
+			@include below_max_width {
+				grid-template-columns: 1fr;
+			}
+
 
 			h3.squad-label {
 				font-size: 46px;
@@ -39,16 +44,14 @@
 
 				text-align: center;
 				color: $crushed_velvet;
-				margin: 0;
+				margin: 0 0 12px;
 			}
 
 			.SquadMech {
-				&:nth-child(even) {
-					grid-column: 2 / span 2;
-				}
-
-				&:nth-child(odd) {
-					grid-column: 1 / span 2;
+				&:nth-child(even) { grid-column: 2 / span 2; }
+				&:nth-child(odd) { grid-column: 1 / span 2; }
+				@include below_max_width {
+					&.extra-class { grid-column: 1 / span 1; }
 				}
 			}
 		}

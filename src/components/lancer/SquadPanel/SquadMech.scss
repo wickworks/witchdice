@@ -11,6 +11,7 @@ $pip_size: 13px; //structure/stress
 .SquadMech {
 	margin-top: -50px;
 	&:first-of-type { margin-top: 0; }
+	@include below_max_width { margin-top: 20px; }
 
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 	// ~ overall layout ~ //
@@ -19,21 +20,30 @@ $pip_size: 13px; //structure/stress
 
 		&.points-left {
 			flex-direction: row;
+
+			@include constricted {
+				flex-direction: column;
+				.arrow-container { margin-left: auto; }
+			}
 		}
 
 		&.points-right {
 			flex-direction: row-reverse;
+			@include constricted { flex-direction: column; }
 		}
 
 		.status-container {
 			display: flex;
 			flex-direction: column;
+
+			@include constricted { margin-top: -24px; }
 		}
 
 		.arrow-container {
 			display: grid;
 			grid-template-columns: repeat(4, calc(#{$portrait_height} * .5));
 			grid-template-rows: repeat(2, calc(#{$portrait_height} * .5));
+			z-index: 1;
 		}
 	}
 
@@ -122,6 +132,7 @@ $pip_size: 13px; //structure/stress
 		@include text_monospace;
 		font-size: 12px;
 		width: 100%;
+		box-sizing: border-box;
 
 		background-color: $parchment_dark;
 		color: $soft_black;

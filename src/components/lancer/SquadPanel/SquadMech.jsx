@@ -34,7 +34,7 @@ const SquadMech = ({
 	const pointClass = pointsRight ? 'points-right' : 'points-left';
 
   return (
-    <div className='SquadMech' >
+    <div className='SquadMech extra-class' >
 
 			<div className={`arrow-and-statuses ${pointClass}`}>
 				<div className={`arrow-container ${pointClass}`}>
@@ -84,11 +84,11 @@ const SquadMech = ({
 					</div>
 
 					<div className='statuses external'>
-						{squadMech.statusExternal.replace(/,/g, ' ') || ' '}
+						{squadMech.statusExternal.replace(/,/g, ', ') || ' '}
 					</div>
 
 					<div className='statuses internal'>
-						{squadMech.statusInternal.replace(/,/g, ' ') || ' '}
+						{squadMech.statusInternal.replace(/,/g, ', ') || ' '}
 					</div>
 				</div>
 			</div>
