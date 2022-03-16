@@ -29,18 +29,38 @@ function statusesWithNonbreakingSpaces(statusString) {
 const SquadMech = ({
 	squadMech,
 	onRemove,
+	pointsRight = false,
 }) => {
+	const pointClass = pointsRight ? 'points-right' : 'points-left';
+
   return (
     <div className='SquadMech' >
 
-			<div className='diamond-and-statuses'>
-				<div className='summary-diamond'>
-					<div className='portrait-container'>
+			<div className={`arrow-and-statuses ${pointClass}`}>
+				<div className={`arrow-container ${pointClass}`}>
+
+					<div className='backdrop' />
+
+					<div className='pilot-frame' />
+					<div className='pilot-container'>
+						{ renderPilotPortrait(squadMech) }
+					</div>
+
+					<div className='mech-frame' />
+					<div className='mech-container'>
 						{ renderMechPortrait(squadMech) }
 					</div>
 
+					<StatTriangle
+						label='HP'
+						icon='structure'
+						iconCountCurrent={squadMech.structure}
+						mainNumberCurrent={squadMech.hpCurrent}
+						mainNumberMax={squadMech.hpMax}
+						extraClass='hp'
+					/>
 
-					<SmallStatDiamond
+					<StatTriangle
 						label='Heat'
 						icon='reactor'
 						iconCountCurrent={squadMech.stress}
@@ -48,63 +68,59 @@ const SquadMech = ({
 						mainNumberMax={squadMech.heatMax}
 						extraClass='heat'
 					/>
+				</div>
 
-					<SmallStatDiamond
-						label='HP'
-						icon='structure'
-						iconCountCurrent={squadMech.structure}
-					  mainNumberCurrent={squadMech.hpCurrent}
-					  mainNumberMax={squadMech.hpMax}
-						extraClass='hp'
-					/>
+				<div className={`status-container ${pointClass}`}>
+					<div className='statuses internal'>
+						{statusesWithNonbreakingSpaces(squadMech.statusInternal)}
+					</div>
 
-
-					<div className='portrait-container'>
-						{ renderPilotPortrait(squadMech) }
+					<div className='statuses external'>
+						{statusesWithNonbreakingSpaces(squadMech.statusExternal)}
 					</div>
 				</div>
-
-
-				<div className='statuses internal'>
-					{statusesWithNonbreakingSpaces(squadMech.statusInternal)}
-				</div>
-
-				<div className='statuses external'>
-					{statusesWithNonbreakingSpaces(squadMech.statusExternal)}
-				</div>
-
-				<button className='remove-mech asset x' onClick={onRemove} />
 			</div>
     </div>
   );
 }
+// <button className='remove-mech asset x' onClick={onRemove} />
 
 
-const SmallStatDiamond = ({
+
+
+const StatTriangle = ({
   label = '',
-	icon,	// "structure" || "reactor"
-	iconCountCurrent, // iconCountMax is 4 : stress/structure
   mainNumberCurrent,
   mainNumberMax,
 	extraClass,
 }) => {
 
   return (
-    <div className={`SmallStatDiamond ${extraClass}`}>
-			<div className='stats-container'>
-				<div className='label'>
-					{label}
-				</div>
+    <div className={`StatTriangle ${extraClass}`}>
+			<div className='numerical-count'>
+				{mainNumberCurrent}/{mainNumberMax}
+			</div>
 
-	      <div className='numerical-count'>
-	        {mainNumberCurrent}/{mainNumberMax}
-	      </div>
+			<div className='label'>
+				{label}
+			</div>
+    </div>
+  );
+}
 
-				<div className='icon-container'>
-					{[...Array(4)].map((undef, i) =>
-						<div className={`asset ${icon} ${iconCountCurrent+i >= 4 ? '' : 'spent'}`} key={i} />
-					)}
-				</div>
+
+const IconTriangle = ({
+	icon,	// "structure" || "reactor"
+	iconCountCurrent, // iconCountMax is 4 : stress/structure
+	extraClass,
+}) => {
+
+  return (
+    <div className={`IconTriangle ${extraClass}`}>
+			<div className='icon-container'>
+				{[...Array(4)].map((undef, i) =>
+					<div className={`asset ${icon} ${iconCountCurrent+i >= 4 ? '' : 'spent'}`} key={i} />
+				)}
 			</div>
     </div>
   );

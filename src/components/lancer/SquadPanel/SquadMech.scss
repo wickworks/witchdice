@@ -1,357 +1,196 @@
 @import '../../../fonts';
 
-$diamond_size: 210px; // 150px square "core"
-$border_external: 4px;
-$border_internal: 4px;
-$icon_size: 15px;
-
-$boot_time: 1.5s;
-
-@mixin portrait_container {
-	clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-
-	box-sizing: border-box;
-	width: 100%;
-	height: 100%;
-	background-color: $parchment_dark;
-
-	.mech-portrait, .pilot-portrait {
-		transform: rotate(-45deg) scale(140%);
-
-		box-sizing: border-box;
-		width: 100%;
-		height: 100%;
-
-		object-fit: cover;
-		background-size: cover;
-		background-position: top;
-		object-position: top;
-		background-repeat: no-repeat;
-	}
-
-	.mech-portrait { background-color: $grey_very_light; }
-
-	.empty-portrait {
-		transform: rotate(-45deg) scale(140%);
-		background-size: 50px;
-		width: 100%;
-		height: 100%;
-	}
-}
-
-
-button.AddSquadMechButton {
-	display: block;
-	position: relative;
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	width: 100%;
-	height: 100%;
-	opacity: .7;
-	&:hover { opacity: 1.0; }
-
-	.add-mech-container {
-		position: absolute;
-		left: 50%;
-		right: 50%;
-		transform: translate(-50%, -50%) rotate(45deg);
-		border: 4px solid transparent;
-
-		box-sizing: border-box;
-		width: $diamond_size;
-		height: $diamond_size;
-		padding-right: 4px;
-		padding-bottom: 4px;
-
-		display: grid;
-		grid-template-columns: 50% 50%;
-		grid-template-rows: 50% 50%;
-		column-gap: $border_internal;
-		row-gap: $border_internal;
-
-		.portrait-container {
-			@include portrait_container;
-		}
-
-		.icon-container {
-			@include text_monospace;
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			align-items: center;
-
-			transform: rotate(-45deg);
-			color: $rust;
-
-			.asset {
-				width: 64px;
-				height: 64px;
-				margin-bottom: 8px;
-
-				// turns black to $rust
-				filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
-			}
-		}
-
-		.name-container {
-			@include text_monospace;
-			color: $rust_dark;
-			writing-mode: vertical-rl;
-			transform: rotate(180deg);
-			grid-row: span 2;
-			padding-left: 4px;
-
-			.name { font-size: 20px; text-align: right; }
-			.add { font-size: 16px; text-align: right; }
-		}
-	}
-}
-
+$icon_radius: 60px;	// halved
+$icon_height: 120px;
+$icon_height_no_border: 108px;	// -12
+$icon_height_rotated: 76px; 		// with trigonometry
 
 .SquadMech {
-	// animation: boot_up .5s linear;
-	animation: shakes $boot_time linear;
+	// margin-top: -62px;
+	margin-top: -50px;
 
+	&:first-child { margin-top: 0; }
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+	// ~ overall layout ~ //
+	.arrow-and-statuses {
+		display: flex;
 
-	&:nth-child(odd) {
-		.diamond-and-statuses {
-			grid-template-columns: 80px $diamond_size;
-			grid-template-rows: $diamond_size 80px;
-			padding: 86px 86px 0 0;
+		&.points-left {
+			flex-direction: row;
+			// margin-left: auto;
+		}
 
-			.summary-diamond {
-				grid-column: 2; grid-row: 1;
-			}
+		&.points-right {
+			flex-direction: row-reverse;
+			// margin-right: auto;
+		}
 
-			.statuses.external {
-				animation: statuses_vert $boot_time linear;
-				grid-column: 1; grid-row: 1;
-				writing-mode: vertical-rl;
-				transform: rotate(180deg);
-				max-height: 100%;
-				margin-left: auto;
-				padding-bottom: 20px;
-			}
+		.status-container {
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			// width: 10%;
+		}
 
-			.statuses.internal {
-				animation: statuses_horiz $boot_time linear;
-				grid-column: 2; grid-row: 2;
-				padding-right: 20px;
-			}
-
-			button.remove-mech { margin-left: auto; }
+		.arrow-container {
+			display: grid;
+			grid-template-columns: repeat(4, $icon_radius);
+			grid-template-rows: repeat(2, $icon_radius);
 		}
 	}
 
-	&:nth-child(even) {
-		.diamond-and-statuses {
-			grid-template-columns: $diamond_size 80px;
-			grid-template-rows: 80px $diamond_size;
-			padding: 0 0 86px 86px;
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+	// ~ placement of things within the arrow/status containers ~ //
+	.status-container {
+		&.points-left { text-align: left; }
 
-			.summary-diamond {
-				grid-column: 1; grid-row: 2;
+		&.points-right { text-align: right; }
+	}
+
+	.arrow-container {
+		&.points-left {
+			.backdrop {
+				grid-column: 2 / span 3;
+				grid-row: 1 / span 2;
 			}
 
-			.statuses.external {
-				animation: statuses_horiz $boot_time linear;
-				grid-column: 1; grid-row: 1;
-				text-align: right;
-				align-self: end;
-				padding-left: 20px;
+			.pilot-container, .pilot-frame {
+				grid-column: 1 / span 2;
+				grid-row: 1 / span 2;
 			}
 
-			.statuses.internal {
-				animation: statuses_vert $boot_time linear;
-				grid-column: 2; grid-row: 2;
-				writing-mode: vertical-rl;
-				transform: rotate(180deg);
-				max-height: 100%;
-				text-align: right;
-				padding-top: 20px;
+			.mech-container, .mech-frame {
+				grid-column: 3 / span 2;
+				grid-row: 1 / span 2;
 			}
 
-			button.remove-mech { margin-top: auto; }
+			.IconTriangle.structure {
+				grid-column: 4 / span 1;
+				grid-row: 1 / span 1;
+			}
+
+			.IconTriangle.stress {
+				grid-column: 4 / span 1;
+				grid-row: 2 / span 1;
+			}
+		}
+
+		&.points-right {
+			.backdrop {
+				grid-column: 1 / span 3;
+				grid-row: 1 / span 2;
+			}
+
+			.pilot-container, .pilot-frame {
+				grid-column: 3 / span 2;
+				grid-row: 1 / span 2;
+			}
+
+			.mech-container, .mech-frame {
+				grid-column: 1 / span 2;
+				grid-row: 1 / span 2;
+			}
+
+			.IconTriangle.structure {
+				grid-column: 1 / span 1;
+				grid-row: 1 / span 1;
+			}
+
+			.IconTriangle.stress {
+				grid-column: 1 / span 1;
+				grid-row: 2 / span 1;
+			}
+		}
+
+		.StatTriangle.hp {
+			grid-column: 2 / span 2;
+			grid-row: 1 / span 1;
+		}
+
+		.StatTriangle.heat {
+			grid-column: 2 / span 2;
+			grid-row: 2 / span 1;
 		}
 	}
 
-	.diamond-and-statuses {
-		display: grid;
-		column-gap: 6px;
-		row-gap: 6px;
+	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+	// ~ base styling of the components ~ //
 
-		width: fit-content;
-		transform: rotate(45deg);
+	.status-container {
+		@include text_monospace;
+		font-size: 12px;
+		padding: 6px 6px;
+	}
 
-		.statuses {
-			@include text_monospace;
-			font-size: 14px;
-			color: $rust_dark;
+	.arrow-container {
+
+		.backdrop {
+			background-color: $rust;
+			border: 4px solid $rust_dark;
 		}
 
-		button.remove-mech {
-			animation: remove_mech $boot_time ease-out;
-			width: 26px;
-			height: 26px;
+		.pilot-frame, .mech-frame {
+			width: $icon_height_rotated;
+			height: $icon_height_rotated;
+
+			background-color: $parchment_dark;
+			border: 4px solid $rust_dark;
+
+			align-self: center;
+			justify-self: center;
+
 			transform: rotate(45deg);
 
-			// turns black to $rust
-			filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
-
-			opacity: .7;
-			&:hover { opacity: 1.0; }
 		}
 
-		.summary-diamond {
-			animation: summary_diamond $boot_time ease-out;
+		.pilot-container, .mech-container {
+			width: $icon_height_no_border;
+			height: $icon_height_no_border;
+			//
+			// display: flex;
+			// justify-content: center;
+			// align-items: center;
 
-			display: grid;
-			grid-template-columns: 50% 50%;
-			grid-template-rows: 50% 50%;
-			column-gap: $border_internal;
-			row-gap: $border_internal;
+			align-self: center;
+			justify-self: center;
 
-			box-sizing: border-box;
-			width: $diamond_size;
-			height: $diamond_size;
+			clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
 
-			background-color: $rust_dark;
-			border: $border_external solid $rust_dark;
-			padding-right: $border_internal;
-			padding-bottom: $border_internal;
+			div { width: 100%; }
 
-			> *:nth-child(1) { position: relative; z-index: 20; }
-			> *:nth-child(2) { animation: heat $boot_time ease-in; }
-			> *:nth-child(3) { animation: hp $boot_time ease-in; }
-			> *:nth-child(4) { animation: pilot $boot_time ease-in; }
-
-
-			.portrait-container { @include portrait_container; }
-
-			.SmallStatDiamond {
-				@include text_monospace;
-				color: $faded_pink;
-				background-color: $rust;
-
-				box-sizing: border-box;
-				width: 100%;
+			img, div {
 				height: 100%;
+				margin: auto;
+				display: block;
+			}
+		}
 
-				.stats-container {
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					flex-direction: column;
+		.StatTriangle {
+			@include text_monospace;
+			display: flex;
+			align-items: center;
+			color: $pink;
+			justify-content: flex-start;
 
-					box-sizing: border-box;
-					width: 100%;
-					height: 100%;
-					padding-top: 16px;
+			&.hp {
+				flex-direction: column;
+				margin-top: 6px;
+			}
 
-					transform: rotate(-45deg);
+			&.heat {
+				flex-direction: column-reverse;
+				margin-bottom: 6px;
+			}
 
-					.label {
-						font-size: 16px;
-					}
+			.label {
+				font-size: 14px;
+			}
 
-					.numerical-count {
-						font-size: 32px;
-						margin: 6px 0 2px;
-					}
-
-					.icon-container {
-						display: flex;
-						flex-wrap: wrap;
-						justify-content: center;
-						align-items: center;
-						max-width: 80px;
-
-						.asset {
-							width: $icon_size; height: $icon_size;
-							margin: 4px;
-
-							// turns black to $rust
-							// filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
-							filter: invert(70%);
-
-							// turns black to a light grey
-							&.spent { filter: invert(10%); }
-						}
-					}
-				}
+			.numerical-count {
+				font-size: 22px;
 			}
 		}
 	}
-}
 
-@keyframes shakes {
-	24% { transform: scale(100%) translateX(0%); filter: brightness(100%); }
-	25% { transform: scale(102%) translateX(7%); filter: brightness(175%); }
-	30% { transform: scale(100%) translateX(0%); filter: brightness(100%); }
-
-	49% { transform: scale(100%) translateY(0%); filter: brightness(100%); }
-	50% { transform: scale(102%) translateY(7%); filter: brightness(175%); }
-	55% { transform: scale(100%) translateY(1%); filter: brightness(100%); }
-
-	73% { transform: scale(100%) translateX(0%); filter: brightness(100%); }
-	75% { transform: scale(95%) translateX(-5%); filter: brightness(250%); }
-	80% { transform: scale(95%) translateX(-2%); filter: brightness(100%); }
-
-	95% { transform: scale(100%) translate(2%, -.5%); filter: brightness(100%); }
-  100% { filter: none; transform: scale(100%); }
-}
-
-@keyframes summary_diamond {
-	0% {
-		background-color: $rust;border-color: $rust;
-		clip-path: polygon(0 0, 50% 0, 50% 51%, 0 51%);
-	}
-	25% { clip-path: polygon(0 0, 100% 0, 100% 51%, 0 51%); }
-	50% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-  100% {
-		background-color: $rust_dark; border-color: $rust_dark;
-	}
-}
-
-@keyframes heat {
-  0% { transform: translate(-100%, 0); }
-	25% { transform: translate(0, 0); }
-}
-
-@keyframes pilot {
-	0% { transform: translate(-100%, calc(-100% - 4px)); }
-	25% { transform: translate(0, calc(-100% - 4px)); }
-	50% { transform: translate(0, 0); }
-}
-
-@keyframes hp {
-	0% { transform: translate(0, -100%); }
-	25% { transform: translate(calc(100% + 4px), -100%); }
-	50% { transform: translate(calc(100% + 4px), 0); }
-	75% { transform: translate(0, 0); }
-}
-
-@keyframes statuses_horiz {
-	0% { clip-path: polygon(0 0, 0 0, 0 55%, 0 55%); }
-	25% { clip-path: polygon(0 0, 0 0, 0 55%, 0 55%); }
-	75% { clip-path: polygon(0 0, 100% 0, 100% 55%, 0 55%); }
-	85% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
-}
-
-@keyframes statuses_vert {
-	0% { clip-path: polygon(0 0, 0 0, 55% 0, 55% 0); }
-	25% { clip-path: polygon(0 0, 0 0, 55% 0, 55% 0); }
-	75% { clip-path: polygon(0 0, 0 100%, 55% 100%, 55% 0); }
-	85% { clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 0); }
-}
-
-@keyframes remove_mech {
-	0% { transform: rotate(-360deg) scale(0%); }
-	15% { transform: rotate(-360deg) scale(0%); }
-	65% { transform: rotate(45deg) scale(100%); }
 }

@@ -165,18 +165,18 @@ const SquadPanel = ({
 		<div className='SquadPanel'>
     	<div className='squad-container'>
 
-        <div className='squad-label'>
+        {/* <div className='squad-label'>
           LANCERS
-        </div>
+        </div>*/}
 
 				<div className='mechs-container'>
 					{ allSquadMechs.map((squadMech, i) =>
-            <React.Fragment key={squadMech.id}>
-              <SquadMech squadMech={squadMech} onRemove={() => deleteEntry(i)} />
-              {i % 2 === 0 &&
-                <> <div className='filler' /> <div className='filler' /> </>
-              }
-            </React.Fragment>
+            <SquadMech
+              squadMech={squadMech}
+              onRemove={() => deleteEntry(i)}
+              pointsRight={(i % 2 == 1)}
+              key={squadMech.id}
+            />
           )}
 
 					{currentSquadMech && !isCurrentMechInSquad &&

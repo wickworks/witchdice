@@ -12,51 +12,37 @@
 
   .squad-container {
     @include shadow;
-    // @include parchment_background;
-    @include nouveau_border("nouveau_lancer_squad.svg");
+    @include parchment_background;
+    // @include nouveau_border("nouveau_lancer_squad.svg");
 		border-radius: 14px;
-		background-color: $parchment_dark;
+		// background-color: $concrete_violet_dark;
+		// background-color: $parchment_dark;
 
 		position: relative;
     box-sizing: border-box;
-    padding: 110px 38px;
+    padding: 40px 38px;
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
 
     @include below_max_width {
       padding: 110px 26px;
     }
 
-		.squad-label {
-			font-size: 70px;
-			color: #B49A8A; // special darker-parchment
-			position: absolute;
-			right: -6px;
-			top: 115px;
-			transform: rotate(45deg);
-
-			@include constricted { display: none; }
-		}
-
 		.mechs-container {
-			margin: auto;
-			width: fit-content;
-
 			display: grid;
-			grid-template-columns: 150px 150px;
-			grid-auto-rows: 150px;
-			column-gap: 15px;
-			row-gap: 15px;
+			grid-template-columns: 1fr 50px 1fr;
+			// grid-template-columns: 1fr 62px 1fr;
 
-			.filler {
-				&:last-child { display: none; }
-			}
+			.SquadMech {
+				&:nth-child(odd) {
+					grid-column: 2 / span 2;
+					// margin-left: auto;
+				}
 
-			@include constricted {
-				grid-template-columns: 150px;
-				row-gap: 150px;
-
-				.filler { display: none; }
+				&:nth-child(even) {
+					grid-column: 1 / span 2;
+					// margin-right: auto;
+				}
 			}
 		}
 	}
