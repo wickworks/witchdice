@@ -35,7 +35,7 @@ const TraitBlock = ({
 	isCP = false,
 	setRollSummaryData = () => {},
 
-	defaultCollapsed = false,
+	defaultCollapsed = true,
 }) => {
 	const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
 
