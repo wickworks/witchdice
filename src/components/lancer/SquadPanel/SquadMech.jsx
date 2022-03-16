@@ -80,7 +80,8 @@ const SquadMech = ({
 
 				<div className={`status-container ${pointClass}`}>
 					<div className='statuses callsign'>
-						{squadMech.callsign || squadMech.name}
+						<div>{squadMech.callsign || squadMech.name}</div>
+						<button className='remove-mech asset x' onClick={onRemove} />
 					</div>
 
 					<div className='statuses external'>
@@ -95,7 +96,6 @@ const SquadMech = ({
     </div>
   );
 }
-// <button className='remove-mech asset x' onClick={onRemove} />
 
 
 
@@ -141,22 +141,22 @@ const IconTriangle = ({
 const AddSquadMechButton = ({
   squadMech,
 	handleClick,
+	pointsRight = false,
 }) => {
+	const pointClass = pointsRight ? 'points-right' : 'points-left';
 
   return (
-		<button className='AddSquadMechButton' onClick={handleClick}>
-			<div className='add-mech-container'>
-				<div className='portrait-container'>
-					{ renderMechPortrait(squadMech) }
-				</div>
+		<button className={`AddSquadMechButton ${pointClass}`} onClick={handleClick}>
+			<div className='portrait-container'>
+				{ renderPilotPortrait(squadMech) }
+			</div>
 
-				<div className='name-container'>
-					<div className='name'>{squadMech.name.toUpperCase()}</div>
-				</div>
+			<div className='icon-container'>
+				<div className='asset plus' />
+			</div>
 
-				<div className='icon-container'>
-					<div className='asset plus' />
-				</div>
+			<div className='name-container'>
+				<div className='name'>{(squadMech.callsign || squadMech.name).toUpperCase()}</div>
 			</div>
 		</button>
   );

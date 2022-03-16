@@ -184,7 +184,11 @@ const SquadPanel = ({
           )}
 
 					{currentSquadMech && !isCurrentMechInSquad &&
-						<AddSquadMechButton squadMech={currentSquadMech} handleClick={addCurrentMechToSquad} />
+						<AddSquadMechButton
+              squadMech={currentSquadMech}
+              handleClick={addCurrentMechToSquad}
+              pointsRight={(allSquadMechs.length % 2 == 1)}
+            />
 					}
 				</div>
 

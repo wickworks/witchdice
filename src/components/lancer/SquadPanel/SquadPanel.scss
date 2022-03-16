@@ -25,10 +25,6 @@
     width: 100%;
     max-width: 800px;
 
-    // @include below_max_width {
-    //   padding: 110px 26px;
-    // }
-
 		.mechs-container {
 			display: grid;
 			grid-template-columns: 1fr 50px 1fr;
@@ -47,7 +43,7 @@
 				margin: 0 0 12px;
 			}
 
-			.SquadMech {
+			.SquadMech, .AddSquadMechButton {
 				&:nth-child(even) { grid-column: 2 / span 2; }
 				&:nth-child(odd) { grid-column: 1 / span 2; }
 				@include below_max_width {

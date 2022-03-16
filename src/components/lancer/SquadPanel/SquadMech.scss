@@ -50,9 +50,22 @@ $pip_size: 13px; //structure/stress
 	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 	// ~ placement of things within the arrow/status containers ~ //
 	.status-container {
-		&.points-left { text-align: left; }
+		.callsign {
+			display: flex;
+			justify-content: space-between;
+		}
 
-		&.points-right { text-align: right; }
+		&.points-left {
+			text-align: left;
+
+			.callsign { flex-direction: row; }
+		}
+
+		&.points-right {
+			text-align: right;
+
+			.callsign { flex-direction: row-reverse; }
+		}
 	}
 
 	.arrow-container {
@@ -153,6 +166,17 @@ $pip_size: 13px; //structure/stress
 			font-size: 16px;
 			color: $pink;
 			background-color: $rust_dark;
+
+			button.remove-mech {
+				width: 16px;
+				height: 16px;
+
+				// black to $pink
+				filter: invert(80%) sepia(22%) saturate(398%) hue-rotate(324deg) brightness(90%) contrast(88%);
+
+				opacity: .7;
+				&:hover { opacity: 1.0; }
+			}
 		}
 	}
 
@@ -248,5 +272,68 @@ $pip_size: 13px; //structure/stress
 				}
 			}
 		}
+	}
+}
+
+.AddSquadMechButton {
+	margin-top: -50px;
+	opacity: .5;
+	display: flex;
+	align-items: center;
+	width: fit-content;
+
+	&.points-left {
+		flex-direction: row;
+		margin-right: auto;
+	}
+
+	&.points-right {
+		flex-direction: row-reverse;
+		margin-left: auto;
+	}
+
+	&:hover {
+		opacity: 1.0;
+	}
+
+	.portrait-container {
+		width: calc(#{$portrait_height} - #{$border_width*3});
+		height: calc(#{$portrait_height} - #{$border_width*3});
+		align-self: center;
+		justify-self: center;
+		clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+
+		margin: calc(#{$border_width} + 1px);
+		background-color: $parchment_dark;
+
+		div { width: 100%; }
+
+		img, div {
+			height: 100%;
+			margin: auto;
+			display: block;
+		}
+	}
+
+	.icon-container {
+		margin: 0 12px;
+
+		.asset {
+			width: 42px;
+			height: 42px;
+
+			// black to $crushed_velvet_dark
+      filter: invert(9%) sepia(58%) saturate(2075%) hue-rotate(288deg) brightness(95%) contrast(104%);
+
+
+		  // // turns black to $rust
+		  // filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+		}
+	}
+
+	.name-container {
+		@include text_monospace;
+		color: $crushed_velvet_dark;
+		font-size: 22px;
 	}
 }
