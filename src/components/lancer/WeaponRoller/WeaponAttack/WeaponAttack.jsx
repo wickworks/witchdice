@@ -106,6 +106,14 @@ const WeaponAttack = ({
 
   const reliableDamage = getReliableDamage(attackData, damageModifiers);
 
+  // Apply if-you-hit-and-rolled-less reliable damage
+  Object.keys(reliableDamage).forEach(type => {
+    if (!(type in totalsByType) || totalsByType[type] < reliableDamage[type]) {
+      totalsByType[type] = reliableDamage[type]
+      summary.push('Reliable.')
+    }
+  });
+
   // separate normal bonus damage and sources that only apply to the first roll (aka NucCav)
   const [trimmedBonusDamageRolls, firstBonusDamageRolls] = pullOutFirstRollBonusDamage(bonusDamageData);
 
