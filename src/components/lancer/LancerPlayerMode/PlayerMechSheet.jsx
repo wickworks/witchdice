@@ -35,6 +35,7 @@ import {
   systemHasTag,
   getSystemLimited,
   getSystemRecharge,
+  blankSystem,
 } from '../lancerData.js';
 
 import { deepCopy } from '../../../utils.js';
@@ -122,7 +123,7 @@ const PlayerMechSheet = ({
 
   const robotLoadout = {
     frameTraits: getFrameTraits(frameData.traits, frameData.core_system),
-    systems: getSystemTraits(loadout.systems, robotStats.limitedBonus),
+    systems: getSystemTraits([...loadout.systems, ...loadout.integratedSystems], robotStats.limitedBonus),
 
     mounts: [...getMountsFromLoadout(loadout), modifiedBaselineMount(activePilot, loadout)],
     invades: getInvadeAndTechAttacks(loadout, activePilot.talents),
@@ -154,14 +155,21 @@ const PlayerMechSheet = ({
             break;
 
           case 'systemUses':
-            loadout.systems[ newMechData[statKey].index ].uses = newMechData[statKey].uses
-            break;
           case 'systemCharged':
-            loadout.systems[ newMechData[statKey].index ].uses = newMechData[statKey].charged ? 1 : 0
-            break;
           case 'systemDestroyed':
-            loadout.systems[ newMechData[statKey].index ].destroyed = newMechData[statKey].destroyed
+            let systemIndex = newMechData[statKey].index
+            let system
+            if (systemIndex < loadout.systems.length) {
+              system = loadout.systems[systemIndex]
+            } else {
+              systemIndex = systemIndex - loadout.systems.length
+              system = loadout.integratedSystems[systemIndex]
+            }
+            if ('uses' in newMechData[statKey])  system.uses = newMechData[statKey].uses
+            if ('charged' in newMechData[statKey])       system.uses = newMechData[statKey].charged ? 1 : 0
+            if ('destroyed' in newMechData[statKey])     system.destroyed = newMechData[statKey].destroyed
             break;
+
           case 'weaponLoaded':
           case 'weaponDestroyed':
           case 'weaponUses':
@@ -343,6 +351,7 @@ function getSystemTraits(systems, limitedBonus) {
     // passives
     if (systemData.effect) {
       let recharge = getSystemRecharge(system, systemData)
+      let limited = getSystemLimited(system, systemData, limitedBonus)
 
       systemTraits.push({
         systemIndex: systemIndex,
@@ -351,6 +360,7 @@ function getSystemTraits(systems, limitedBonus) {
         isDestructable: !systemHasTag(systemData, 'tg_indestructible'),
         isDestroyed: system.destroyed,
         recharge: recharge,
+        limited: limited,
         isTitleCase: true,
       })
     }
@@ -491,7 +501,6 @@ export function getMountsFromLoadout(loadout) {
 
   return mounts;
 }
-
 
 function getInvadeAndTechAttacks(loadout, pilotTalents) {
   let invades = [];
