@@ -2,7 +2,13 @@
 import { getAllWeaponRanges } from '../lancerData.js'
 
 export function getFailingWeaponSynergies(weaponData, synergies) {
+
   const failingSynergies = synergies.filter(synergy => {
+    // Weapon size?
+    if (synergy.weapon_sizes && synergy.weapon_sizes[0] !== 'any') {
+      if (!synergy.weapon_sizes.includes(weaponData.mount)) return true // failed
+    }
+
     // Weapon type? (mimic gun counts as everything)
     if (synergy.weapon_types && synergy.weapon_types[0] !== 'any') {
 
@@ -11,24 +17,19 @@ export function getFailingWeaponSynergies(weaponData, synergies) {
 
       // All ranged weapons
       if (synergy.weapon_types.includes('Ranged')) {
-        if (weaponRanges.find(range => range.type === 'Range')) return false // this didn't fail
+        if (!weaponRanges.some(range => range.type === 'Range')) return true // failed
       }
 
       // All melee weapons
       if (synergy.weapon_types.includes('Melee')) {
-        if (weaponRanges.find(range => range.type === 'Threat')) return false // this didn't fail
+        if (!weaponRanges.some(range => range.type === 'Threat')) return true // failed
       }
 
       // Rifle, CQB, etc
-      if (!synergy.weapon_types.includes(weaponData.type) && weaponData.type !== '???') return true
+      if (!synergy.weapon_types.includes(weaponData.type) && weaponData.type !== '???') return true // failed
     }
 
-    // Weapon size?
-    if (synergy.weapon_sizes && synergy.weapon_sizes[0] !== 'any') {
-      if (!synergy.weapon_sizes.includes(weaponData.mount)) return true
-    }
-
-    return false
+    return false // this didn't fail
   })
 
   return failingSynergies
