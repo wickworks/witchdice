@@ -179,7 +179,7 @@ const PlayerMechSheet = ({
               slot = loadout.integratedWeapon.slots[weaponIndex]
               if (!slot) slot = loadout.integratedWeapon.extra[0]
             } else if (mountSource === 'integratedMounts') {
-              // integrated mounts can't be destroyed; only including here for thouroughness
+              slot = loadout.integratedMounts[weaponIndex]
             }
             if ('destroyed' in newMechData[statKey])  slot.weapon.destroyed = newMechData[statKey].destroyed
             if ('uses' in newMechData[statKey])       slot.weapon.uses = newMechData[statKey].uses
