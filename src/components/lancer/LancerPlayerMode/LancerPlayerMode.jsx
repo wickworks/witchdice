@@ -113,10 +113,13 @@ const LancerPlayerMode = ({
     // store the entry & set it to active
     newData.push({name: pilot.name, id: pilot.id});
     setAllPilotEntries(newData);
-    setActivePilot(pilot.id)
 
     // save to localstorage
     savePilotData(pilot)
+
+    // we have to set the active pilot **after** saving it to localstorage
+    setActivePilot(pilot.id)
+    setTriggerRerender(!triggerRerender)
   }
 
   const setActivePilot = (pilotID) => {
