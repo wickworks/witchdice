@@ -35,7 +35,6 @@ import {
   systemHasTag,
   getSystemLimited,
   getSystemRecharge,
-  blankSystem,
 } from '../lancerData.js';
 
 import { deepCopy } from '../../../utils.js';

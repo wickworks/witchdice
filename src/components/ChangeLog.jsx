@@ -15,14 +15,23 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-        <div className='version-label'>v0.11.1 — Mar 2022</div>
+        <div className='version-label'>v0.11.1-2 — Mar 2022</div>
           <ul>
+            <li>Integrated systems show up (e.g. Walking Armory).</li>
+            <li>Accuracy/Difficulty labels can be clicked to bump it up/down.</li>
+            <li>Fixed improper range/type synergies both being applied.</li>
+            <li>Death's Head applies its +1 to all ranged attacks.</li>
+            <li>Reliable kicks in on hits to ensure a minimum damage.</li>
+            <li>Redesigned the squad panel to be more condensed (but still stylish).</li>
+            <li>Smaller attack buttons so they don't take up the whole screen.</li>
+            <li>Can mass-expand/collapse all trait and system blocks.</li>
+            <li>Player squad shows up in GM view.</li>
             <li>NPC roster is sorted by collapsible labels.</li>
             <li>Added Impaired to the list of difficulty toggles.</li>
             <li>Last Arguement of Kings shows up properly.</li>
             <li>Ability save and check bonuses from core bonuses come through.</li>
             <li>NucCav and Hacker I bonuses come through for tech attacks.</li>
-            <li>Bugfixes: crash on multi-profile weapon, ability roll button text.</li>
+            <li>Bugfixes: crash on multi-profile weapon, setting limited uses.</li>
           </ul>
 
           <div className='version-label'>v0.11.0 — Mar 2022</div>
