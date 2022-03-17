@@ -99,6 +99,10 @@ const WeaponRollerSetup = ({
     setManualMod( manualMod + shiftInManualMod )
   }
 
+  const shiftManualMod = (shift) => {
+    setManualMod( Math.max(Math.min(manualMod + shift, 9), -9) )
+  }
+
   const difficultyArray = Array.from({length: 9}, (x, i) => i - 9);
   const accuracyArray = Array.from({length: 9}, (x, i) => i + 1);
 
@@ -118,10 +122,10 @@ const WeaponRollerSetup = ({
 
       <div className="column-container">
         <div className="column difficulty">
-          <div className='column-label difficulty'>
+          <button className='column-label difficulty' onClick={() => shiftManualMod(-1)}>
             <span className='asset difficulty' />
             Difficulty
-          </div>
+          </button>
 
           <NumberLine
             modArray={difficultyArray}
@@ -137,10 +141,10 @@ const WeaponRollerSetup = ({
         </div>
 
         <div className="column accuracy">
-          <div className='column-label accuracy'>
+          <button className='column-label accuracy' onClick={() => shiftManualMod(1)}>
             Accuracy
             <span className='asset accuracy' />
-          </div>
+          </button>
 
           <NumberLine
             modArray={accuracyArray}

@@ -61,16 +61,21 @@ $number_speed: 0.25s;
         button { color: $soft_black; }
       }
 
-      .column-label {
+      button.column-label {
         @include text_monospace;
         font-size: 24px;
         display: flex;
         align-items: center;
         margin: 0 40px 6px;
+        border-radius: 4px;
 
-        @include condensed_setup {
-          margin: 12px auto 6px;
-        }
+        @include condensed_setup { margin: 12px auto 6px;}
+
+        &.accuracy { padding: 4px 0 4px 8px; }
+        &.difficulty { padding: 4px 8px 4px 0; }
+
+        &:hover { background-color: $parchment_dark; }
+        &:active { background-color: $pink; }
 
         .asset {
           display: inline-block;
