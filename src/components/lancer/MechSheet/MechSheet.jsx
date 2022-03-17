@@ -15,6 +15,7 @@ import {
 
 import {
   getSystemLimited,
+  getAllWeaponRanges,
 } from '../lancerData.js';
 
 import {
@@ -99,9 +100,18 @@ const MechSheet = ({
   const bonusDamageSources = getAvailableBonusDamageSources(accuracyAndDamageSourceInputs, activeMount, activeWeapon, activeInvadeData);
 
   // console.log('activeWeapon',activeWeapon);
+
+
   let totalAttackBonus = robotStats.attackBonus
-  if (robotStats.attackBonusRanged) totalAttackBonus += robotStats.attackBonusRanged
+
+  if (robotStats.attackBonusRanged) {
+    const weaponRanges = getAllWeaponRanges(activeWeaponData)
+    const isActiveWeaponRanged = weaponRanges.some(range => range.type === 'Range')
+    if (isActiveWeaponRanged) totalAttackBonus += robotStats.attackBonusRanged
+  }
   if (activeWeapon && activeWeapon.npcAttackBonus) totalAttackBonus += activeWeapon.npcAttackBonus
+
+
 
   return (
     <div className="MechSheet">

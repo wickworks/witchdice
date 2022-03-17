@@ -368,6 +368,14 @@ export const getTagName = (tag) => {
   }
 }
 
+export function getAllWeaponRanges(weaponData) {
+  if (!weaponData) return []
+  return [
+    weaponData.range,
+    weaponData.profiles && weaponData.profiles.map(profile => profile.range)
+  ].filter(range => !!range).flat(2)
+}
+
 // Gets the type of damage dealt by the weapon, or Variable if multiple or none.
 export const defaultWeaponDamageType = (weaponData) => {
 

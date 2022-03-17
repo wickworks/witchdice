@@ -107,7 +107,7 @@ const PlayerMechSheet = ({
     limitedBonus: getLimitedBonus(activeMech, activePilot, frameData),
 
     attackBonus: getGrit(activePilot),
-    attackBonusRanged: getToHitBonusFromMech(activeMech),
+    attackBonusRanged: getToHitBonusFromMech(activeMech.frame),
   }
 
   const robotInfo = {

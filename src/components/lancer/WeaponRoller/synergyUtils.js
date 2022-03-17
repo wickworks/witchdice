@@ -1,14 +1,13 @@
 
+import { getAllWeaponRanges } from '../lancerData.js'
+
 export function getFailingWeaponSynergies(weaponData, synergies) {
   const failingSynergies = synergies.filter(synergy => {
     // Weapon type? (mimic gun counts as everything)
     if (synergy.weapon_types && synergy.weapon_types[0] !== 'any') {
 
       // get all the possible ranges from the base and/or profiles
-      const weaponRanges = [
-        weaponData.range,
-        weaponData.profiles
-      ].filter(range => !!range).flat()
+      const weaponRanges = getAllWeaponRanges(weaponData)
 
       // All ranged weapons
       if (synergy.weapon_types.includes('Ranged')) {
