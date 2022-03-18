@@ -28,7 +28,7 @@ const ChangeLog = () => {
             <li>Player squad shows up in GM view.</li>
             <li>NPC roster is sorted by collapsible labels.</li>
             <li>Added Impaired to the list of difficulty toggles.</li>
-            <li>Last Arguement of Kings shows up properly.</li>
+            <li>Last Argument of Kings shows up properly.</li>
             <li>Ability save and check bonuses from core bonuses come through.</li>
             <li>NucCav and Hacker I bonuses come through for tech attacks.</li>
             <li>Bugfixes: crash on multi-profile weapon, setting limited uses.</li>

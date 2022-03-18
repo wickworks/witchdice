@@ -51,6 +51,7 @@ const RoomConnect = ({
     <div className={`RoomConnect ${partyConnected ? 'connected' : 'disconnected'}`}>
       { (!partyConnected) ?
         <>
+
           <div className='party-name-container disconnected'>
             <label htmlFor='party-name'>Name</label>
             <input type='text' id='party-name' value={partyName} onChange={(e) => updatePartyName(e.target.value)} />

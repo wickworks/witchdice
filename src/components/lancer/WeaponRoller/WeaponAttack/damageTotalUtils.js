@@ -99,10 +99,12 @@ function getReliableDamage(attackData, damageModifiers) {
   if ('reliable' in attackData) {
     var reliableDamage = attackData.reliable.val;
     reliableDamage = applyDamageMultiplier(reliableDamage, attackData.reliable.type, damageModifiers)
-    return {[attackData.reliable.type]: Math.ceil(reliableDamage)}
-  } else {
-    return {}
+
+    // some reliable amount?
+    if (reliableDamage > 0) return {[attackData.reliable.type]: Math.ceil(reliableDamage)}
   }
+
+  return {}
 }
 
 function summateRollsByType(damageDataRolls, isCrit, damageModifiers) {
