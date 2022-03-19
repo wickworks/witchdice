@@ -35,17 +35,22 @@ export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, 
 
   if (activeInvadeData) {
     bonusDamageSources = bonusDamageSources.filter(source => {
-      const sourceSynergies = [...source.trait.synergies]
+      if (source.trait && source.trait.synergies) {
+        const sourceSynergies = [...source.trait.synergies]
 
-      // nuc cav is missing its tech synergy, so we gotta add it dynamically
-      if (HARDCODED_TECH_TALENT_SYNERGIES.some(targetTalent => source.trait.id === targetTalent.id && parseInt(source.trait.rank) === targetTalent.rank)) {
-        sourceSynergies.push({detail: source.trait.description, locations: ['tech']})
+        // nuc cav is missing its tech synergy, so we gotta add it dynamically
+        if (HARDCODED_TECH_TALENT_SYNERGIES.some(targetTalent => source.trait.id === targetTalent.id && parseInt(source.trait.rank) === targetTalent.rank)) {
+          sourceSynergies.push({detail: source.trait.description, locations: ['tech']})
+        }
+
+        const techSynergies = getSynergiesFor('tech', sourceSynergies)
+
+        // Only include sources with any tech synergies
+        return techSynergies.length > 0;
       }
 
-      const techSynergies = getSynergiesFor('tech', sourceSynergies)
-
-      // Only include sources with any tech synergies
-      return techSynergies.length > 0;
+      // no synergies
+      return false;
     })
   }
 
