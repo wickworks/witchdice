@@ -45,7 +45,7 @@ const DieButton = ({
   return (
     <button className={`DieButton ${dieClass}`}
       onClick={(e) => handleClick(e, true)}
-      onContextMenu={(e) => handleClick(e, false)}
+      onContextMenu={(e) => (!buttonDisabled && handleClick(e, false))}
       onKeyDown={e => {
         if (dieType !== 'plus' && !isVariableDie) {
           if (parseInt(e.key)) setDieCount(parseInt(e.key))
