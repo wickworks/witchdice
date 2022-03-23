@@ -67,7 +67,7 @@ const BaseDamageBar = ({
       <div className="tags">
         {weaponTags.join(', ').toLowerCase()}
 
-        { weaponProfile.name && <span className='size'>{weaponProfile.name}</span> }
+        { weaponProfile.profileName && <span className='size'>{weaponProfile.profileName}</span> }
         { mountType && <span className='size'>{mountType}</span> }
       </div>
     </button>

@@ -88,6 +88,8 @@ const WeaponRoller = ({
   var allWeaponProfiles = [];
   if ('profiles' in weaponData) {
     allWeaponProfiles.push(...weaponData.profiles)
+    // make a special note to label each of these profiles in the BaseDamageBar
+    allWeaponProfiles = allWeaponProfiles.map(profile => {return {...profile, profileName: profile.name}})
   } else {
     allWeaponProfiles.push(weaponData)
   }
