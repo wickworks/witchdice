@@ -35,8 +35,8 @@ export function loadPilotData(pilotID) {
   return loadLocalData(PILOT_PREFIX, pilotID.slice(0,STORAGE_ID_LENGTH));
 }
 
-export function deletePilotData(pilot) {
-  const storageName = getStorageName(PILOT_PREFIX, pilot.id.slice(0,STORAGE_ID_LENGTH), pilot.name);
+export function deletePilotData(pilotID, pilotName) {
+  const storageName = getStorageName(PILOT_PREFIX, pilotID.slice(0,STORAGE_ID_LENGTH), pilotName);
   localStorage.removeItem(storageName);
 }
 

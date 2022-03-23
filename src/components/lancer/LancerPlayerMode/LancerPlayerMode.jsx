@@ -108,7 +108,10 @@ const LancerPlayerMode = ({
 
     // remove any existing pilots of this ID
     let pilotIndex = allPilotEntries.findIndex(entry => entry.id === pilot.id);
-    if (pilotIndex >= 0) newData.splice(pilotIndex, 1)
+    if (pilotIndex >= 0) {
+      deletePilotData(allPilotEntries[pilotIndex].id, allPilotEntries[pilotIndex].name)
+      newData.splice(pilotIndex, 1)
+    }
 
     // store the entry & set it to active
     newData.push({name: pilot.name, id: pilot.id});
@@ -143,7 +146,7 @@ const LancerPlayerMode = ({
   const deleteActivePilot = () => {
     if (!activePilot) return
 
-    deletePilotData(activePilot)
+    deletePilotData(activePilot.id, activePilot.name)
     localStorage.setItem(SELECTED_CHARACTER_KEY, '');
 
     // remove from the current list of pilot entries
