@@ -161,6 +161,17 @@ const LancerPlayerMode = ({
     changeMech(null);
   }
 
+  const exportActivePilot = () => {
+    if (!activePilot) return
+
+    var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(activePilot));
+    var downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href",     dataStr);
+    downloadAnchorNode.setAttribute("download", activePilot.callsign.toUpperCase() + ".json");
+    document.body.appendChild(downloadAnchorNode); // required for firefox
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
 
 
 
@@ -194,6 +205,7 @@ const LancerPlayerMode = ({
           handleEntryClick={setActivePilot}
           activeCharacterID={activePilotID}
           deleteActiveCharacter={deleteActivePilot}
+          exportActiveCharacter={exportActivePilot}
           createNewCharacter={() => setIsUploadingNewFile(true)}
         />
 

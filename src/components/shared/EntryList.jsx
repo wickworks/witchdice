@@ -9,14 +9,17 @@ const EntryList = ({
   handleEntryClick,
   activeCharacterID,
   deleteActiveCharacter,
+  deleteEnabled = true,
+  exportActiveCharacter,
   highlightIDs = [],
-  deleteEnabled = true
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
 
   const activeCharacter = entries.find(entry => {
     return entry.id === activeCharacterID
   })
+
+  const exportEnabled = !!exportActiveCharacter
 
   return (
     <ul className="EntryList">
@@ -41,6 +44,13 @@ const EntryList = ({
               <span className='name'>
                 {name}
               </span>
+
+              {exportEnabled && (id === activeCharacterID) &&
+                <button
+                  className='ExportButton asset export'
+                  onClick={exportActiveCharacter}
+                />
+              }
 
               {deleteEnabled && (id === activeCharacterID) &&
                 <DeleteButton handleClick={() => setIsDeleting(true)} />

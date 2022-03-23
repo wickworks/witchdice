@@ -37,6 +37,7 @@ const CharacterList = ({
   handleEntryClick,
   activeCharacterID,
   deleteActiveCharacter,
+  exportActiveCharacter = null,
   createNewCharacter,
   title = 'Character',
   onTitleClick = null,
@@ -63,6 +64,7 @@ const CharacterList = ({
           handleEntryClick={handleEntryClick}
           activeCharacterID={activeCharacterID}
           deleteActiveCharacter={deleteActiveCharacter}
+          exportActiveCharacter={exportActiveCharacter}
         />
       :
         <button className="new-character first" onClick={createNewCharacter}>

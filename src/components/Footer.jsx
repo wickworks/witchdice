@@ -104,6 +104,7 @@ const Footer = () => {
               <li>Refresh by i cons</li>
               <li>Battery by Adrien Coquet</li>
               <li>DNA by Tresnatiq</li>
+              <li>export by Landan Lloyd</li>
             </ul>
 
             <p>
