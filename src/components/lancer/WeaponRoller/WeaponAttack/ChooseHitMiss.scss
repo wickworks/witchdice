@@ -6,6 +6,8 @@
   &.WeaponRollerSetup { margin-bottom: 6px; }
 
   .BigRollButton {
+    pointer-events: none;
+
     button.new-roll {
       background-color: $rust;
 
