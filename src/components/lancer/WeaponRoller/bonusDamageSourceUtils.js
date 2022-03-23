@@ -3,7 +3,10 @@ import {
   findTalentData,
   findModData,
   findCoreBonusData,
+  findSystemData,
   findWeaponData,
+  findTagOnWeapon,
+  defaultWeaponDamageType,
   HARDCODED_TECH_TALENT_SYNERGIES,
 } from '../lancerData.js';
 
@@ -18,6 +21,7 @@ export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, 
     ...getBonusDamageSourcesFromTalents(damageSourceInputs.pilotTalents),
     ...getBonusDamageSourcesFromCoreBonuses(activeMount),
     ...getBonusDamageSourcesFromMod(activeWeapon),
+    ...getBonusDamageSourcesFromSystems(damageSourceInputs.mechSystems, activeWeapon),
   ]
 
   // filter them out by synergy e.g. melee talents only apply to melee weapons
@@ -417,6 +421,41 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
 
   return sources;
 }
+
+//  ============================================    SYSTEMS    =================================================
+function newSystemTrait(systemData, systemEffect = {}) {
+  return {...blankTrait, ...systemData, ...systemEffect}
+}
+
+function getBonusDamageSourcesFromSystems(systems, activeWeapon) {
+  var sources = [];
+  if (!systems) return sources;
+
+  systems.forEach(system => {
+    const systemData = findSystemData(system.id);
+    if (systemData) {
+      switch (systemData.id) {
+        case 'ms_roland_chamber':
+          // is the current weapon loading?
+          if (activeWeapon) {
+            const activeWeaponData = findWeaponData(activeWeapon.id)
+            const loadingTag = findTagOnWeapon(activeWeaponData, 'tg_loading')
+            if (loadingTag) sources.push( newSource(systemData.name, systemData.id, '1d6', defaultWeaponDamageType(activeWeaponData), newSystemTrait(systemData)) );
+          }
+          break;
+
+        default:
+          // sources.push( newSource(systemData.name, systemData.id, '', '', newModTrait(modData)) )
+          break;
+      }
+    }
+  })
+
+  // console.log('system sources:', sources);
+
+  return sources;
+}
+
 
 
 //  ============================================    CORE BONUSeS    =================================================
