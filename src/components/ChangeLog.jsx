@@ -15,8 +15,13 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-        <div className='version-label'>v0.11.1-3 — Mar 2022</div>
+        <div className='version-label'>v0.11.1-4 — Mar 2022</div>
           <ul>
+            <li>Range bonuses from systems and CBs now come through.</li>
+            <li>Added bonus damage from roland chamber.</li>
+            <li>Added button to re-export pilot data.</li>
+            <li>Full repair reloads & repairs secondary aux weapons correctly.</li>
+            <li>Uploading a new version of a pilot correctly replaces the old one.</li>
             <li>Integrated systems show up (e.g. Walking Armory).</li>
             <li>Accuracy/Difficulty labels can be clicked to bump it up/down.</li>
             <li>Fixed improper range/type synergies both being applied.</li>
@@ -31,8 +36,7 @@ const ChangeLog = () => {
             <li>Last Argument of Kings shows up properly.</li>
             <li>Ability save and check bonuses from core bonuses come through.</li>
             <li>NucCav and Hacker I bonuses come through for tech attacks.</li>
-            <li>Bugfixes: crash on multi-profile weapon, setting limited uses.</li>
-            <li>Bugfixes: crash invade w/ the heavy gunner talent.</li>
+            <li>Fix a few crash edge cases.</li>
           </ul>
 
           <div className='version-label'>v0.11.0 — Mar 2022</div>
