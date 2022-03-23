@@ -1,5 +1,10 @@
 
-import { getAllWeaponRanges } from '../lancerData.js'
+import { getAllWeaponRanges, getAllWeaponDamageTypes } from '../lancerData.js'
+
+export function getPassingWeaponSynergies(weaponData, synergies) {
+  const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
+  return synergies.filter(synergy => !failingSynergies.includes(synergy))
+}
 
 export function getFailingWeaponSynergies(weaponData, synergies) {
 
@@ -7,6 +12,11 @@ export function getFailingWeaponSynergies(weaponData, synergies) {
     // Weapon size?
     if (synergy.weapon_sizes && synergy.weapon_sizes[0] !== 'any') {
       if (!synergy.weapon_sizes.includes(weaponData.mount)) return true // failed
+    }
+
+    // Damage type?
+    if (synergy.damage_types && synergy.damage_types[0] !== 'any') {
+      if (!getAllWeaponDamageTypes(weaponData).some(damageType => synergy.damage_types.includes(damageType))) return true // failed
     }
 
     // Weapon type? (mimic gun counts as everything)

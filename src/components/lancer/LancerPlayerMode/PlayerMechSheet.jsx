@@ -15,6 +15,7 @@ import {
   getMechSaveTarget,
   getMechArmor,
   getMechMaxRepairCap,
+  getRangeSynergies,
   getLimitedBonus,
   getSkillCheckAccuracy,
   getMechTechAttack,
@@ -105,6 +106,7 @@ const PlayerMechSheet = ({
     sensorRange: frameData.stats.sensor_range,
     techAttackBonus: getMechTechAttack(activeMech, activePilot, frameData),
     limitedBonus: getLimitedBonus(activeMech, activePilot, frameData),
+    rangeSynergies: getRangeSynergies(activeMech, activePilot, frameData),
 
     attackBonus: getGrit(activePilot),
     attackBonusRanged: getToHitBonusFromMech(activeMech.frame),

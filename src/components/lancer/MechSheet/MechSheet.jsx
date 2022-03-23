@@ -229,6 +229,7 @@ const MechSheet = ({
           weaponMod={activeWeapon.mod}
           weaponNpcAccuracy={activeWeapon.npcAccuracyBonus}
           gritBonus={totalAttackBonus}
+          allRangeSynergies={robotStats.rangeSynergies}
           weaponLimited={weaponLimited}
           setLimitedCount={(count) =>
             updateMechState({

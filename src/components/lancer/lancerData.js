@@ -377,7 +377,7 @@ export function getAllWeaponRanges(weaponData) {
 }
 
 // Gets the type of damage dealt by the weapon, or Variable if multiple or none.
-export const defaultWeaponDamageType = (weaponData) => {
+export const getDefaultWeaponDamageType = (weaponData) => {
 
   var damageType = '';
   if (weaponData.damage) {
@@ -397,6 +397,15 @@ export const defaultWeaponDamageType = (weaponData) => {
   }
 
   return damageType || 'Variable';
+}
+
+// Get a list of ALL damage types dealt by the weapon
+export const getAllWeaponDamageTypes = (weaponData) => {
+  var damageTypes = [];
+  if (weaponData.damage) {
+    damageTypes = weaponData.damage.map(damageValAndType => damageValAndType.type)
+  }
+  return damageTypes;
 }
 
 export const baselineWeapons = [

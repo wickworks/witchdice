@@ -24,8 +24,8 @@ export function getMechMaxHP(activeMech, activePilot, frameData) {
   const hull = activePilot.mechSkills[0]
   total += hull * 2
 
-  total += getBonusFromSystems('hp', activeMech.loadouts[0])
-  total += getBonusFromCoreBonuses('hp', activePilot.core_bonuses)
+  total += getValueFromSystems('hp', activeMech.loadouts[0])
+  total += getValueFromCoreBonuses('hp', activePilot.core_bonuses)
 
   return parseInt(total);
 }
@@ -36,8 +36,8 @@ export function getMechMaxHeatCap(activeMech, activePilot, frameData) {
   const engi = activePilot.mechSkills[3]
   total += engi
 
-  // total += getBonusFromSystems('heatcap', activeMech.loadouts[0])
-  total += getBonusFromCoreBonuses('heatcap', activePilot.core_bonuses)
+  // total += getValueFromSystems('heatcap', activeMech.loadouts[0])
+  total += getValueFromCoreBonuses('heatcap', activePilot.core_bonuses)
 
   return parseInt(total);
 }
@@ -48,8 +48,8 @@ export function getMechMoveSpeed(activeMech, activePilot, frameData) {
   const agi = activePilot.mechSkills[1]
   total += Math.floor(agi * .5)
 
-  // total += getBonusFromSystems('speed', activeMech.loadouts[0])
-  // total += getBonusFromCoreBonuses('speed', activePilot.core_bonuses)
+  // total += getValueFromSystems('speed', activeMech.loadouts[0])
+  // total += getValueFromCoreBonuses('speed', activePilot.core_bonuses)
 
   return parseInt(total);
 }
@@ -60,8 +60,8 @@ export function getMechEvasion(activeMech, activePilot, frameData) {
   const agi = activePilot.mechSkills[1]
   total += agi
 
-  // total += getBonusFromSystems('evasion', activeMech.loadouts[0])
-  total += getBonusFromCoreBonuses('evasion', activePilot.core_bonuses)
+  // total += getValueFromSystems('evasion', activeMech.loadouts[0])
+  total += getValueFromCoreBonuses('evasion', activePilot.core_bonuses)
 
   return parseInt(total);
 }
@@ -72,8 +72,8 @@ export function getMechEDef(activeMech, activePilot, frameData) {
   const sys = activePilot.mechSkills[2]
   total += sys
 
-  // total += getBonusFromSystems('edef', activeMech.loadouts[0])
-  total += getBonusFromCoreBonuses('edef', activePilot.core_bonuses)
+  // total += getValueFromSystems('edef', activeMech.loadouts[0])
+  total += getValueFromCoreBonuses('edef', activePilot.core_bonuses)
 
   return parseInt(total);
 }
@@ -83,8 +83,8 @@ export function getMechSaveTarget(activeMech, activePilot, frameData) {
 
   total += getGrit(activePilot)
 
-  // total += getBonusFromSystems('save', activeMech.loadouts[0])
-  total += getBonusFromCoreBonuses('save', activePilot.core_bonuses)
+  // total += getValueFromSystems('save', activeMech.loadouts[0])
+  total += getValueFromCoreBonuses('save', activePilot.core_bonuses)
 
   return parseInt(total);
 }
@@ -95,8 +95,8 @@ export function getMechMaxRepairCap(activeMech, activePilot, frameData) {
   const hull = activePilot.mechSkills[0]
   total += Math.floor(hull * .5)
 
-  // total += getBonusFromSystems('repcap', activeMech.loadouts[0])
-  // total += getBonusFromCoreBonuses('repcap', activePilot.core_bonuses)
+  // total += getValueFromSystems('repcap', activeMech.loadouts[0])
+  // total += getValueFromCoreBonuses('repcap', activePilot.core_bonuses)
 
   return parseInt(total);
 }
@@ -107,10 +107,19 @@ export function getMechTechAttack(activeMech, activePilot, frameData) {
   const sys = activePilot.mechSkills[2]
   total += sys
 
-  // total += getBonusFromSystems('sp', activeMech.loadouts[0])
-  // total += getBonusFromCoreBonuses('sp', activePilot.core_bonuses)
+  // total += getValueFromSystems('sp', activeMech.loadouts[0])
+  // total += getValueFromCoreBonuses('sp', activePilot.core_bonuses)
 
   return parseInt(total);
+}
+
+export function getRangeSynergies(activeMech, activePilot, frameData) {
+  var bonuses = []
+
+  bonuses.push(...getBonusesFromSystems('range', activeMech.loadouts[0]))
+  bonuses.push(...getBonusesFromCoreBonuses('range', activePilot.core_bonuses))
+
+  return bonuses;
 }
 
 export function getMechSP(activeMech, activePilot, frameData) {
@@ -121,8 +130,8 @@ export function getMechSP(activeMech, activePilot, frameData) {
   const sys = activePilot.mechSkills[2]
   total += Math.floor(sys * .5)
 
-  // total += getBonusFromSystems('sp', activeMech.loadouts[0])
-  // total += getBonusFromCoreBonuses('sp', activePilot.core_bonuses)
+  // total += getValueFromSystems('sp', activeMech.loadouts[0])
+  // total += getValueFromCoreBonuses('sp', activePilot.core_bonuses)
 
   return parseInt(total);
 }
@@ -130,8 +139,8 @@ export function getMechSP(activeMech, activePilot, frameData) {
 export function getMechArmor(activeMech, activePilot, frameData) {
   var total = frameData.stats.armor
 
-  // total += getBonusFromSystems('save', activeMech.loadouts[0])
-  total += getBonusFromCoreBonuses('armor', activePilot.core_bonuses)
+  // total += getValueFromSystems('save', activeMech.loadouts[0])
+  total += getValueFromCoreBonuses('armor', activePilot.core_bonuses)
 
   return parseInt(total);
 }
@@ -142,42 +151,56 @@ export function getLimitedBonus(activeMech, activePilot, frameData) {
   const engi = activePilot.mechSkills[3]
   total += Math.floor(engi * .5)
 
-  // total += getBonusFromSystems('limited', activeMech.loadouts[0])
-  total += parseInt(getBonusFromCoreBonuses('limited_bonus', activePilot.core_bonuses))
+  // total += getValueFromSystems('limited', activeMech.loadouts[0])
+  total += parseInt(getValueFromCoreBonuses('limited_bonus', activePilot.core_bonuses))
 
   return parseInt(total);
 }
 
 // look for systems that increase some stat
-function getBonusFromSystems(bonusType, loadout) {
-  var systemTotal = 0
+function getValueFromSystems(bonusType, loadout) {
+  return getBonusesFromSystems(bonusType, loadout).reduce(
+    (previousValue, bonus) => previousValue + parseInt(bonus.val),
+    0
+  )
+}
+
+function getBonusesFromSystems(bonusType, loadout) {
+  var bonuses = []
 
   loadout.systems.forEach(system => {
     const systemBonuses = findSystemData(system.id).bonuses;
     if (systemBonuses && !system.destroyed) {
-      systemBonuses.forEach(bonus => {
-        if (bonus.id === bonusType) systemTotal += parseInt(bonus.val)
-      })
+      bonuses.push(
+        ...systemBonuses.filter(bonus => bonus.id === bonusType)
+      )
     }
   })
 
-  return systemTotal
+  return bonuses
 }
 
 // look for core bonuses that increase some stat
-function getBonusFromCoreBonuses(bonusType, coreBonusIDs) {
-  var coreTotal = 0
+function getValueFromCoreBonuses(bonusType, coreBonusIDs) {
+  return getBonusesFromCoreBonuses(bonusType, coreBonusIDs).reduce(
+    (previousValue, bonus) => previousValue + parseInt(bonus.val),
+    0
+  )
+}
+
+function getBonusesFromCoreBonuses(bonusType, coreBonusIDs) {
+  var bonuses = []
 
   coreBonusIDs.forEach(coreBonusID => {
     const coreBonusBonuses = findCoreBonusData(coreBonusID).bonuses;
     if (coreBonusBonuses) {
-      coreBonusBonuses.forEach(bonusBonus => {
-        if (bonusBonus.id === bonusType) coreTotal += parseInt(bonusBonus.val)
-      })
+      bonuses.push(
+        ...coreBonusBonuses.filter(bonusBonus => bonusBonus.id === bonusType)
+      )
     }
   })
 
-  return coreTotal
+  return bonuses
 }
 
 export function getSkillCheckAccuracy(skill, activeMech, activePilot, frameData) {

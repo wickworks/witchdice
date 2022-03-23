@@ -80,6 +80,7 @@ const NpcMechSheet = ({
     sensorRange: getStat('sensor', activeNpc),
     techAttackBonus: getStat('systems', activeNpc),
     limitedBonus: 0,
+    rangeSynergies: [],
 
     attackBonus: 0,
     attackBonusRanged: 0,

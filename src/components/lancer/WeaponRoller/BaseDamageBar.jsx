@@ -11,6 +11,7 @@ import {
 const BaseDamageBar = ({
   weaponProfile,
   mountType,
+  rangeSynergies,
   isActive,
   isClickable,
   onClick,
@@ -21,8 +22,6 @@ const BaseDamageBar = ({
 }) => {
 
   let weaponTags = weaponProfile.tags ? weaponProfile.tags.map(tagID => getTagName(tagID)) : []
-
-  // console.log('weaponProfile',weaponProfile);
 
   return (
     <button
@@ -50,8 +49,14 @@ const BaseDamageBar = ({
         <div className="base-range">
           <div className='bracket'>[</div>
           { weaponProfile.range.map((range, i) => {
-            const rangeVal = range.val || ''
+            var rangeVal = parseInt(range.val) || ''
             const rangeType = range.type || ''
+
+            // apply any range synergies
+            rangeSynergies.forEach(synergy => {
+              if (synergy.range_types.includes(rangeType)) rangeVal += parseInt(synergy.val)
+            });
+
 
             return (
               <div className='range' key={`range-${i}`}>

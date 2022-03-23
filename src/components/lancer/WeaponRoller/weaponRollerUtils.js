@@ -6,7 +6,7 @@ import {
 import {
   findTagOnWeapon,
   processDiceString,
-  defaultWeaponDamageType,
+  getDefaultWeaponDamageType,
   isDamageRange,
   GENERIC_BONUS_SOURCE
 } from '../lancerData.js';
@@ -61,7 +61,7 @@ export function createNewAttack(weaponData, flatBonus, accuracyMod, consumedLock
   const reliableTag = findTagOnWeapon(weaponData, 'tg_reliable')
   if (reliableTag) {
     newAttack.reliable.val = reliableTag.val;
-    newAttack.reliable.type = defaultWeaponDamageType(weaponData)
+    newAttack.reliable.type = getDefaultWeaponDamageType(weaponData)
   }
 
   // Knockback?

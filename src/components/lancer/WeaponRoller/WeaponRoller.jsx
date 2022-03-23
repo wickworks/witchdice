@@ -10,7 +10,7 @@ import TraitBlock from '../MechSheet/TraitBlock.jsx'
 import { deepCopy } from '../../../utils.js';
 
 import {
-  defaultWeaponDamageType,
+  getDefaultWeaponDamageType,
   findTagOnWeapon,
   GENERIC_BONUS_SOURCE,
   DAMAGE_MODIFIERS,
@@ -22,6 +22,11 @@ import {
   createNewAttack,
 } from './weaponRollerUtils.js';
 
+import {
+  getPassingWeaponSynergies,
+} from './synergyUtils.js';
+
+
 import './WeaponRoller.scss';
 
 const WeaponRoller = ({
@@ -29,6 +34,7 @@ const WeaponRoller = ({
   weaponMod,
   weaponNpcAccuracy,
   gritBonus,
+  allRangeSynergies,
 
   isLoaded,
   setIsLoaded = () => {},
@@ -59,6 +65,25 @@ const WeaponRoller = ({
   const [genericBonusPlus, setGenericBonusPlus] = useState(0);
 
   const [manualBaseDamage, setManualBaseDamage] = useState(1);
+
+  // ====== ROLL SUMMARY PANEL ======
+  // inject the weapon name to summary data before sending it up
+  const setRollSummaryDataWithWeaponName = (attackSummaryData, attackIndex) => {
+    var attackSummaries = deepCopy(allAttackSummaries);
+
+    if ((allAttackSummaries.length-1) < attackIndex) {
+      attackSummaries.push(attackSummaryData)
+    } else {
+      attackSummaries[attackIndex] = attackSummaryData;
+    }
+
+    setAllAttackSummaries(attackSummaries);
+    setRollSummaryData({
+      conditions: [weaponData.name],
+      rolls: attackSummaries,
+      skipTotal: true,
+    })
+  }
 
   // =============== CHANGE WEAPON ==================
   const stringifiedWeaponData = JSON.stringify(weaponData)
@@ -95,8 +120,9 @@ const WeaponRoller = ({
   }
   const currentWeaponProfile = allWeaponProfiles[activeProfileIndex] || allWeaponProfiles[0];
 
-  // console.log('weaponData',weaponData);
   // console.log('allWeaponProfiles',allWeaponProfiles);
+  // console.log('currentWeaponProfile',currentWeaponProfile);
+  // console.log('weaponData',weaponData);
 
   // Add or remove the name of a bonus damage to the active list
   const toggleBonusDamage = (sourceID) => {
@@ -160,7 +186,7 @@ const WeaponRoller = ({
 
       bonusDamage.rolls = rollBonusDamage(
         [...availableBonusSources, GENERIC_BONUS_SOURCE],
-        defaultWeaponDamageType(currentWeaponProfile),
+        getDefaultWeaponDamageType(currentWeaponProfile),
         newAttack.isOverkill
       );
 
@@ -184,7 +210,6 @@ const WeaponRoller = ({
   );
 
   // fold in any active damage modifiers from the active bonus sources (things can only get flipped to TRUE)
-  // console.log('damageModifiers',damageModifiers);
   var totalDamageModifiers = {...damageModifiers}
   if (activeBonusDamageData.traits) {
     activeBonusDamageData.traits.forEach(bonusTrait => {
@@ -198,29 +223,9 @@ const WeaponRoller = ({
 
   const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
 
-  // console.log('totalDamageModifiers',totalDamageModifiers);
-
-
-  // ====== ROLL SUMMARY PANEL ======
-  // inject the weapon name to summary data before sending it up
-  const setRollSummaryDataWithWeaponName = (attackSummaryData, attackIndex) => {
-    var attackSummaries = deepCopy(allAttackSummaries);
-
-    if ((allAttackSummaries.length-1) < attackIndex) {
-      attackSummaries.push(attackSummaryData)
-    } else {
-      attackSummaries[attackIndex] = attackSummaryData;
-    }
-
-    setAllAttackSummaries(attackSummaries);
-    setRollSummaryData({
-      conditions: [weaponData.name],
-      rolls: attackSummaries,
-      skipTotal: true,
-    })
-  }
-
   const mountType = weaponData.mount ? `${weaponData.mount} ${weaponData.type}` : weaponData.weapon_type
+
+  const rangeSynergies = getPassingWeaponSynergies(weaponData, allRangeSynergies)
 
   return (
     <div className='WeaponRoller'>
@@ -231,6 +236,7 @@ const WeaponRoller = ({
           <BaseDamageBar
             weaponProfile={weaponProfile}
             mountType={mountType}
+            rangeSynergies={rangeSynergies}
             onClick={() => setActiveProfileIndex(i)}
             isClickable={allWeaponProfiles.length > 1 && allAttackRolls.length === 0 && activeProfileIndex !== i}
             isActive={allWeaponProfiles.length > 1 && activeProfileIndex === i}
