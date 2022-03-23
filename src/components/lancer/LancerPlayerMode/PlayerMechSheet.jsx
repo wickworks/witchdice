@@ -216,6 +216,7 @@ const PlayerMechSheet = ({
                   if (slot.weapon) {
                     // Repair
                     slot.weapon.destroyed = false
+                    slot.weapon.loaded = true
                     // Restore limited uses
                     const weaponData = findWeaponData(slot.weapon.id)
                     if (weaponData && weaponData.tags) {
