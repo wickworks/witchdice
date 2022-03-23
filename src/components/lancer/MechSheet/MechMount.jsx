@@ -67,7 +67,7 @@ function getModdedWeaponData(weapon) {
     // Much easier than doing it dynamically later.
     if (weapon.mod) {
       const modData = findModData(weapon.mod.id)
-      if (modData.added_tags) weaponData.tags = [...weaponData.tags, ...modData.added_tags]
+      if (modData.added_tags) weaponData.tags = [...(weaponData.tags || []), ...modData.added_tags]
     }
   }
 
