@@ -220,6 +220,8 @@ const WeaponRoller = ({
     })
   }
 
+  const mountType = weaponData.mount ? `${weaponData.mount} ${weaponData.type}` : weaponData.weapon_type
+
   return (
     <div className='WeaponRoller'>
       <h3 className='name'>{weaponData.name}</h3>
@@ -228,7 +230,7 @@ const WeaponRoller = ({
         { allWeaponProfiles.map((weaponProfile, i) =>
           <BaseDamageBar
             weaponProfile={weaponProfile}
-            mountType={weaponData.mount || weaponData.weapon_type}
+            mountType={mountType}
             onClick={() => setActiveProfileIndex(i)}
             isClickable={allWeaponProfiles.length > 1 && allAttackRolls.length === 0 && activeProfileIndex !== i}
             isActive={allWeaponProfiles.length > 1 && activeProfileIndex === i}
