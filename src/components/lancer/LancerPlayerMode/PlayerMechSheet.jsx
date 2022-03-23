@@ -212,7 +212,7 @@ const PlayerMechSheet = ({
             // - weapons - //
             [loadout.mounts, [loadout.improved_armament], [loadout.integratedWeapon]].forEach(weaponMounts => {
               weaponMounts.forEach(mount => {
-                mount.slots.forEach(slot => {
+                [...mount.slots, ...(mount.extra || [])].forEach(slot => {
                   if (slot.weapon) {
                     // Repair
                     slot.weapon.destroyed = false
