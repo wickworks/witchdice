@@ -84,6 +84,7 @@ $grid_count: 8;
         object-fit: contain;
         background-size: contain;
         background-repeat: no-repeat;
+        image-rendering: crisp-edges;
 
         transform: rotate(45deg) scale(143%);
       }
