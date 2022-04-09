@@ -156,14 +156,14 @@ export function getToHitBonusFromMech(frameID) {
 
 //  ============================================    TALENTS    =======================================================
 
-function addSourceFromTalent(sources, currentRank, talentData, rank, diceString, damageType = '', attackEffects = {}, customID = '') {
+function addSourceFromTalent(sources, currentRank, talentData, rank, diceString, damageType = '', attackEffects = {}, customID = '', customName = '') {
   if (currentRank >= rank) {
     const rankData = talentData.ranks[rank-1];
 
     // console.log(rankData.name, ' :::: ', rankData);
 
     sources.push(newSource(
-      rankData.name,
+      customName || rankData.name,
       customID || `${talentData.id}_${rank}`,
       diceString,
       damageType,
@@ -292,12 +292,11 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
           }
           addSourceFromTalent(sources,rank,talentData, 1, '', '', delugeEffect);
 
-          const bendingEffect = { onHit:
-            '1/round, when you hit a character or object with a LAUNCHER, you can choose one of the following effects:<br>' +
-            '- LIGHTNING: You fire a concentrated blast of missiles at that character. They must succeed on a HULL save or be knocked away from you by 3 spaces; the force of firing then knocks you back by 3 spaces, away from the direction of fire.<br>' +
-            '- THUNDER: You fire a spray of missiles at a Burst 2 area around that target. Characters in the area must succeed on an AGILITY save or be knocked back by 1 space, away from the target. The primary target is unaffected.<br>'
-          }
-          addSourceFromTalent(sources,rank,talentData, 2, '', '', bendingEffect);
+          const lightningEffect = { onHit: 'LIGHTNING: You fire a concentrated blast of missiles at that character. They must succeed on a HULL save or be knocked away from you by 3 spaces; the force of firing then knocks you back by 3 spaces, away from the direction of fire.' }
+          addSourceFromTalent(sources,rank,talentData, 2, '', '', lightningEffect, 't_stormbringer_2_lightning', 'Lightning');
+
+          const thunderEffect = { onHit: 'THUNDER: You fire a spray of missiles at a Burst 2 area around that target. Characters in the area must succeed on an AGILITY save or be knocked back by 1 space, away from the target. The primary target is unaffected.' }
+          addSourceFromTalent(sources,rank,talentData, 2, '', '', thunderEffect, 't_stormbringer_2_thunder', 'Thunder');
           break;
 
         case 't_walking_armory':
