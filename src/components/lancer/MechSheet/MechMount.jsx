@@ -39,7 +39,7 @@ function getModdedWeaponData(weapon) {
     }
 
   // NPC weapons
-  } else if (weapon.id.startsWith('npcf_')) {
+  } else if (weapon.id.includes('npcf_')) {
     let featureData = findNpcFeatureData(weapon.id)
 
     weaponData = deepCopy(featureData)

@@ -111,6 +111,8 @@ const MechSheet = ({
   }
   if (activeWeapon && activeWeapon.npcAttackBonus) totalAttackBonus += activeWeapon.npcAttackBonus
 
+  // I try not to discriminate, but in some cases it's convenient to.
+  const looksLikeAnNPC = robotState.coreEnergy < 0
 
 
   return (
@@ -130,7 +132,7 @@ const MechSheet = ({
             <div className="frame">{robotInfo.frameName}</div>
           </div>
 
-          {robotInfo.frameID.startsWith('npcc_') &&
+          { looksLikeAnNPC &&
             <StatBroadcast
               robotInfo={robotInfo}
               robotStats={robotStats}
