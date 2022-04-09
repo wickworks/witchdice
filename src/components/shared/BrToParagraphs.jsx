@@ -1,7 +1,8 @@
 import React from 'react';
 
 import TurndownService from 'turndown';
-const turndownService = new TurndownService()
+// const turndownService = new TurndownService()
+import ReactHtmlParser from 'react-html-parser';
 
 
 const BrToParagraphs = ({
@@ -14,10 +15,11 @@ const BrToParagraphs = ({
 
   if (limitToFirstParagraph) splits = [splits[0]]
 
+  // {turndownService.turndown(paragraph)}
   return (
     splits.map((paragraph, i) =>
       <p className={extraClass} key={`paragraph-${i}`}>
-        {turndownService.turndown(paragraph)}
+        {ReactHtmlParser(paragraph)}
       </p>
     )
   );

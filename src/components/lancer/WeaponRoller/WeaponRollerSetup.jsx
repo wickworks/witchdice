@@ -210,7 +210,7 @@ const SourcesContainer = ({
         source={source}
         onSourceClick={onSourceClick}
         isCurrent={currentSourceIDs.includes(source.id)}
-        key={source.id}
+        key={`${source.id}-${source.name}`}
       />
     )}
   </div>
