@@ -2,7 +2,18 @@ import { getIDFromStorageName } from '../../localstorage.js';
 
 import { loadLcpData, LCP_PREFIX, STORAGE_ID_LENGTH } from './lancerLocalStorage.js';
 
-const data = require('lancer-data');
+// converts the lcp's data array into a hash by the data's ID
+function hashLcpData(lcpData) {
+  const hashedLcpData = {}
+  Object.keys(lcpData).forEach(dataType => {
+    if (Array.isArray(lcpData[dataType])) {
+      hashedLcpData[dataType] = Object.fromEntries(lcpData[dataType].map(data => [data.id, data]))
+    }
+  })
+  return hashedLcpData
+}
+
+const data = hashLcpData(require('lancer-data'));
 const allActions = data.actions;
 const allWeapons = data.weapons;
 const allSkills = data.skills;
@@ -117,7 +128,6 @@ const blankNpcTemplate = {
   "power": 0
 }
 
-
 var loadedLcpData = {};
 function findGameDataFromLcp(gameDataType, gameDataID) {
   var lcpGameData;
@@ -128,93 +138,98 @@ function findGameDataFromLcp(gameDataType, gameDataID) {
     if (key.startsWith(`${LCP_PREFIX}-`)) {
       const lcpID = getIDFromStorageName(LCP_PREFIX, key, STORAGE_ID_LENGTH);
       if (!loadedLcpData[lcpID]) {
-        const lcpData = loadLcpData(lcpID);
-        loadedLcpData[lcpID] = lcpData;
+        const lcp = loadLcpData(lcpID)
+        const hashedLcp = {...lcp, data: hashLcpData(lcp.data)}
+        loadedLcpData[lcpID] = hashedLcp
       }
     }
   }
 
   // Then look through the loaded lcp content
   Object.keys(loadedLcpData).forEach(lcpID => {
-    const lcpAllDataForDataType = loadedLcpData[lcpID].data[gameDataType];
-    if (lcpAllDataForDataType) lcpGameData = lcpAllDataForDataType.find(gamedata => gamedata.id === gameDataID) || lcpGameData;
+    const lcp = loadedLcpData[lcpID]
+    const lcpAllDataForDataType = lcp.data[gameDataType];
+    if (lcpAllDataForDataType) lcpGameData = lcpAllDataForDataType[gameDataID] || lcpGameData;
   });
 
   return lcpGameData;
 }
 
 export const findFrameData = (frameID) => {
-  var frameData = allFrames.find(frame => frame.id === frameID);
+  var frameData = allFrames[frameID]
   if (!frameData) frameData = findGameDataFromLcp('frames', frameID)
-  return frameData ? frameData : findFrameData('missing_frame');
+  return frameData ? frameData : findFrameData('missing_frame')
 }
 
 export const findWeaponData = (weaponID) => {
-  var weaponData = allWeapons.find(weapon => weapon.id === weaponID);
+  var weaponData = allWeapons[weaponID]
   if (!weaponData) weaponData = findGameDataFromLcp('weapons', weaponID)
-  return weaponData ? weaponData : findWeaponData('missing_mechweapon');
+  return weaponData ? weaponData : findWeaponData('missing_mechweapon')
 }
 
 export const findTalentData = (talentID) => {
-  var talentData = allTalents.find(talent => talent.id === talentID);
+  var talentData = allTalents[talentID]
   if (!talentData) talentData = findGameDataFromLcp('talents', talentID)
-  return talentData ? talentData : blankTalent;
+  return talentData ? talentData : blankTalent
 }
 
 export const findSkillData = (skillID) => {
-  var skillData = allSkills.find(skill => skill.id === skillID);
+  var skillData = allSkills[skillID]
   if (!skillData) skillData = findGameDataFromLcp('skills', skillID)
-  return skillData ? skillData : blankSkill;
+  return skillData ? skillData : blankSkill
 }
 
 export const findCoreBonusData = (coreBonusID) => {
-  var coreBonusData = allCoreBonuses.find(coreBonus => coreBonus.id === coreBonusID);
+  var coreBonusData = allCoreBonuses[coreBonusID]
   if (!coreBonusData) coreBonusData = findGameDataFromLcp('core_bonuses', coreBonusID)
-  return coreBonusData ? coreBonusData : findWeaponData('missing_corebonus');
+  return coreBonusData ? coreBonusData : findWeaponData('missing_corebonus')
 }
 
 export const findSystemData = (systemID) => {
-  var systemData = allSystems.find(system => system.id === systemID);
+  var systemData = allSystems[systemID]
   if (!systemData) systemData = findGameDataFromLcp('systems', systemID)
-  return systemData ? systemData : findWeaponData('missing_mechsystem');
+  return systemData ? systemData : findWeaponData('missing_mechsystem')
 }
 
 export const findModData = (modID) => {
-  var modData = allMods.find(mod => mod.id === modID);
+  var modData = allMods[modID]
   if (!modData) modData = findGameDataFromLcp('mods', modID)
-  return modData ? modData : findModData('missing_weaponmod');
+  return modData ? modData : findModData('missing_weaponmod')
 }
 
 export const findStatusData = (statusName) => {
-  var statusData = allStatuses.find(status => status.name === statusName);
+  var statusData = allStatuses[statusName]
   // if (!statusData) statusData = findGameDataFromLcp('statuses', statusName) // new lcps can't really add new statuses
-  return statusData ? statusData : blankStatus;
+  return statusData ? statusData : blankStatus
 }
 
 export const findActionData = (actionID) => {
-  var actionData = allActions.find(action => action.id === actionID);
+  var actionData = allActions[actionID]
   // if (!actionData) actionData = findGameDataFromLcp('actions', actionID) // new lcps can't really add new actions
-  return actionData ? actionData : blankAction;
+  return actionData ? actionData : blankAction
 }
 
 export const findNpcClassData = (npcClassID) => {
-  var npcClassData = allNpcClasses.find(npcClass => npcClass.id === npcClassID);
+  var npcClassData = allNpcClasses[npcClassID]
   if (!npcClassData) npcClassData = findGameDataFromLcp('npcClasses', npcClassID)
-  return npcClassData ? npcClassData : blankNpcClass;
+  return npcClassData ? npcClassData : blankNpcClass
 }
 
 export const findNpcFeatureData = (npcFeatureID) => {
-  var npcFeatureData = allNpcFeatures.find(npcFeature => npcFeature.id === npcFeatureID);
+  var npcFeatureData = allNpcFeatures[npcFeatureID]
   if (!npcFeatureData) npcFeatureData = findGameDataFromLcp('npcFeatures', npcFeatureID)
-  return npcFeatureData ? npcFeatureData : blankNpcFeature;
+  return npcFeatureData ? npcFeatureData : blankNpcFeature
 }
 
 export const findNpcTemplateData = (npcTemplateID) => {
-  var npcTemplateData = allNpcTemplates.find(npcTemplate => npcTemplate.id === npcTemplateID);
+  var npcTemplateData = allNpcTemplates[npcTemplateID]
   if (!npcTemplateData) npcTemplateData = findGameDataFromLcp('npcTemplates', npcTemplateID)
-  return npcTemplateData ? npcTemplateData : blankNpcTemplate;
+  return npcTemplateData ? npcTemplateData : blankNpcTemplate
 }
 
+export const findTagData = (tagID) => {
+  return allTags[tagID]
+}
 
 
 
@@ -299,11 +314,6 @@ export const processDiceString = (diceString) => {
 
 export function isDamageRange(dieType) {
   return String(dieType).includes('-')
-}
-
-export const findTagData = (tagID) => {
-  const tagData = allTags.find(tag => tag.id === tagID);
-  return tagData;
 }
 
 export const findTagOnWeapon = (weaponData, tagID) => {
