@@ -132,6 +132,12 @@ export function getAvailableAccuracySources(frameID, mechSystems, pilotTalents, 
       }
     }
 
+    // -- MECH SYSTEMS --
+    if (mechSystems && mechSystems.find(system => system.id === 'ms_core_siphon')) {
+      addAccSource(sources, 'Core Siphon (First)', 'ms_core_siphon_first', 'When you activate this protocol, you gain +1 accuracy on your first attack roll this turn...', 1)
+      addAccSource(sources, 'Core Siphon (Other)', 'ms_core_siphon_other', '...but receive +1 difficulty on all other attack rolls until the end of the turn.', -1)
+    }
+
     // NPC sources
     if (!!weaponNpcAccuracy) {
       addAccSource(sources, weaponData.name, weaponData.id, '', weaponNpcAccuracy, true)
