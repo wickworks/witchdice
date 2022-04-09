@@ -324,9 +324,13 @@ export const getSystemLimited = (system, systemData, limitedBonus) => {
   let limited = null
 
   if (limitedTag) {
+    // if the value is a die, take the highest possible value of that. people can roll and set accordingly
+    const limitedDice = processDiceString(limitedTag.val)
+    const limitedMaxValue = limitedDice.count * parseInt(limitedDice.dietype || 0) + limitedDice.bonus
+
     limited = {
       current: system.uses || 0,
-      max: limitedTag.val + limitedBonus,
+      max: limitedMaxValue + limitedBonus,
       icon: 'generic-item'
     }
   }
