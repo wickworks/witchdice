@@ -53,6 +53,11 @@ export function getAvailableAccuracySources(frameID, mechSystems, pilotTalents, 
     addAccSource(sources, 'Sentinal', 'mf_tortuga', desc)
   }
 
+  if (frameID === 'mf_standard_pattern_i_everest') {
+    const desc = 'You gain +1 Accuracy on all attacks, checks, and saves; additionally, 1/turn, you can BOOST as a free action.'
+    addAccSource(sources, 'Core Power: Hyperspec Fuel Injector', 'mf_standard_pattern_i_everest', desc)
+  }
+
   if (weaponData) {
     // -- COVER --
     addAccSource(sources, 'Hard Cover', 'cover_hard', 'Hard cover is solid enough to block shots and hide behind, and adds +2 difficulty to any ranged attacks.', -2)
