@@ -13,31 +13,32 @@ function getRechargeString(recharge) {
 }
 
 const TraitBlock = ({
-	name,
-  activation = '',
-	frequency = '',
-	range = null,
-	trigger = '',
-  description = '',
-	statblock = null,
+	trait,
+	onDestroy = null,
+	setLimitedCount = null,
+	setRecharged = null,
+	setRollSummaryData = null,
 
-  limited = null, // {current: X, max: Y, icon: 'generic-item'}
-	setLimitedCount = () => {},
-
-	recharge = null, // {charged: X, rollTarget: Y} >> rollTarget of 0 is just usable/unusable
-	setRecharged = () => {},
-
-  isDestructable = false,
-  isDestroyed = false,
-  onDestroy = null,
-
-	extraClass = '',
-	isTitleCase = false,
-	isCP = false,
-	setRollSummaryData = () => {},
-
+	isSubtrait = false,
 	defaultCollapsed = true,
 }) => {
+	const {
+		name,
+		activation,
+		trigger,
+		frequency,
+		range,
+		description,
+		statblock,
+		isCP,
+		isDestructable,
+		isDestroyed,
+		limited,	// {current: X, max: Y, icon: 'generic-item'}
+		recharge,	// {charged: X, rollTarget: Y} >> rollTarget of 0 is just usable/unusable
+		isTitleCase,
+		subTraits
+	} = trait
+
 	const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
 
 	// if MechTraits toggles what's open, set them all to that.
@@ -69,17 +70,18 @@ const TraitBlock = ({
 	const boldedDescription = systemDescription.replace('Effect:', '<strong>Effect:</strong>')
 	const boldedTrigger = systemTrigger.replace('Trigger:', '<strong>Trigger:</strong>')
 
-	const sizeClass =  (systemDescription.length > 200 || trigger) ? 'wide' : ''
 	const titleClass = isTitleCase ? 'title-case' : '';
 	const collapsedClass = isCollapsed ? 'collapsed' : '';
   const cpClass = isCP ? 'core-power' : '';
 	const destroyedClass = isDestroyed ? 'destroyed' : '';
+	const activationClass = activation && activation.toLowerCase();
+	const subtraitClass = isSubtrait && 'subtrait'
 
   return (
-		<div className={`TraitBlock ${sizeClass} ${collapsedClass} ${extraClass}`}>
+		<div className={`TraitBlock ${collapsedClass} ${subtraitClass}`}>
 			<div className='card-container'>
 				<button
-					className={`name ${titleClass} ${activation.toLowerCase()} ${cpClass} ${collapsedClass}`}
+					className={`name ${titleClass} ${activationClass} ${cpClass} ${collapsedClass}`}
 					onClick={() => setIsCollapsed(!isCollapsed)}
 				>
 					<div className={`title ${destroyedClass}`}>
@@ -123,7 +125,7 @@ const TraitBlock = ({
 
 				{!isCollapsed &&
 					<>
-						{limited && !isDestroyed &&
+						{limited && setLimitedCount && !isDestroyed &&
 							<MechNumberBar
 								extraClass='condensed'
 								dotIcon={limited.icon || 'generic-item'}
@@ -135,7 +137,7 @@ const TraitBlock = ({
 							/>
 						}
 
-						{recharge && !isDestroyed &&
+						{recharge && setRecharged && !isDestroyed &&
 							<div className='recharge-bar'>
 								<input type='checkbox'
 									checked={recharge.charged}
@@ -173,12 +175,22 @@ const TraitBlock = ({
 							</div>
 						}
 
-						<div className='description'>
+						<div className={`description ${subtraitClass}`}>
 							{boldedTrigger &&
 								<p>{ReactHtmlParser(boldedTrigger)}</p>
 							}
 
 	            {ReactHtmlParser(boldedDescription)}
+
+							{subTraits && !isDestroyed && subTraits.map((subTrait,index) =>
+
+								<TraitBlock
+									key={`${subTrait.name}-${index}`}
+									trait={subTrait}
+									isSubtrait={true}
+									defaultCollapsed={false}
+								/>
+							)}
 
 						</div>
 					</>
@@ -190,9 +202,11 @@ const TraitBlock = ({
 					{isDestructable &&
 						<DestroySystemButton onDestroy={onDestroy} isDestroyed={isDestroyed}/>
 					}
-					<BroadcastSystemButton
-						onBroadcast={() => setRollSummaryData(broadcastObject)}
-					/>
+					{setRollSummaryData &&
+						<BroadcastSystemButton
+							onBroadcast={() => setRollSummaryData(broadcastObject)}
+						/>
+					}
 				</div>
 			}
 		</div>

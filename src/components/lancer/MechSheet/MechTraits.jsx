@@ -24,21 +24,10 @@ const MechTraits = ({
 				{ frameTraits.map((trait, index) =>
           <TraitBlock
             key={`${trait.name}-${index}`}
-            name={trait.name}
-            activation={trait.activation}
-            trigger={trait.trigger}
-            frequency={trait.frequency}
-            description={trait.description}
-						statblock={trait.statblock}
-            isCP={trait.isCP}
-            isDestructable={trait.isDestructable}
-            isDestroyed={trait.isDestroyed}
+						trait={trait}
             onDestroy={() => setDestroyedForSystem(!trait.isDestroyed, trait.systemIndex)}
-            limited={trait.limited}
             setLimitedCount={(count) => setLimitedCountForSystem(count, trait.systemIndex)}
-						recharge={trait.recharge}
 						setRecharged={(charged) => setRechargedForSystem(charged, trait.systemIndex)}
-            isTitleCase={trait.isTitleCase}
 						setRollSummaryData={setRollSummaryData}
 
 						defaultCollapsed={defaultCollapsed}

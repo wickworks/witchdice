@@ -4,9 +4,10 @@
   display: flex;
   align-items: flex-start;
 
+  &.subtrait { margin-top: 8px; }
+
   .card-container {
     width: 100%;
-
 
     button.name {
       display: block;
@@ -142,10 +143,14 @@
         margin: 10px 0;
       }
 
+      &.subtrait {
+        border: 2px solid $rust;
+        border-top: none;
+      }
+
       .DestroySystemButton {
         margin: -6px -6px 0 6px;
         float: right;
-
       }
     }
   }

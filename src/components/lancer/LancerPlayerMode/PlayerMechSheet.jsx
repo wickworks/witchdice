@@ -390,7 +390,47 @@ function getSystemTraits(systems, limitedBonus) {
   systems.forEach((system,systemIndex) => {
     const systemData = findSystemData(system.id)
 
-    // actions
+    // deployables
+    if (systemData.deployables) {
+      let limited = getSystemLimited(system, systemData, limitedBonus)
+
+      systemData.deployables.forEach((deployable, i) => {
+        if (deployable.type === 'Mine') limited.icon = 'mine'
+
+        let subTraits = null;
+        if (deployable.actions) {
+          subTraits = []
+          deployable.actions.forEach(action => {
+            subTraits.push({
+              systemIndex: systemIndex,
+              name: action.name,
+              activation: action.activation || 'Quick',
+              trigger: action.trigger,
+              range: action.range,
+              description: action.detail,
+              isTitleCase: true,
+            })
+          })
+        }
+
+        systemTraits.push({
+          systemIndex: systemIndex,
+          name: deployable.name,
+          activation: deployable.activation || 'Deployable',
+          trigger: deployable.trigger,
+          range: deployable.range,
+          description: deployable.detail,
+          isDestructable: !systemHasTag(systemData, 'tg_indestructible'),
+          isDestroyed: system.destroyed,
+          limited: limited,
+          statblock: {edef: deployable.edef, evasion: deployable.evasion, hp: deployable.hp, size: deployable.size},
+          subTraits: subTraits,
+          isTitleCase: true,
+        })
+      })
+    }
+
+    // system actions & actions from deployables
     if (systemData.actions) {
       let limited = getSystemLimited(system, systemData, limitedBonus)
 
@@ -413,29 +453,6 @@ function getSystemTraits(systems, limitedBonus) {
           })
         })
       }
-    }
-
-    // deployables
-    if (systemData.deployables) {
-      let limited = getSystemLimited(system, systemData, limitedBonus)
-
-      systemData.deployables.forEach((deployable, i) => {
-        if (deployable.type === 'Mine') limited.icon = 'mine'
-
-        systemTraits.push({
-          systemIndex: systemIndex,
-          name: deployable.name,
-          activation: deployable.activation || 'Quick',
-          trigger: deployable.trigger,
-          range: deployable.range,
-          description: deployable.detail,
-          isDestructable: !systemHasTag(systemData, 'tg_indestructible'),
-          isDestroyed: system.destroyed,
-          limited: limited,
-          statblock: {edef: deployable.edef, evasion: deployable.evasion, hp: deployable.hp, size: deployable.size},
-          isTitleCase: true,
-        })
-      })
     }
   })
 
