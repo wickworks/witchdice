@@ -287,11 +287,7 @@ const WeaponRoller = ({
         { weaponData.actions && weaponData.actions.map((action, i) =>
           <TraitBlock
             key={action.name}
-            name={action.name}
-            activation={action.activation}
-            trigger={action.trigger}
-            frequency={action.frequency}
-            description={action.detail}
+            trait={action}
           />
         )}
 

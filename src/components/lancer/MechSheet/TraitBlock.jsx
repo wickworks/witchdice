@@ -46,7 +46,7 @@ const TraitBlock = ({
     setIsCollapsed(defaultCollapsed)
   }, [defaultCollapsed]);
 
-	const systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : description
+	const systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : (description || '')
 	const systemTrigger = trigger ? `Trigger: ${trigger}` : ''
 
 	let broadcastStats = statblock && ('〔 ' + Object.keys(statblock).map(stat => `${stat}: ${statblock[stat]}`).join(' — ') + ' 〕')
