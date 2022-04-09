@@ -21,22 +21,22 @@ export function getFailingWeaponSynergies(weaponData, synergies) {
 
     // Weapon type? (mimic gun counts as everything)
     if (synergy.weapon_types && synergy.weapon_types[0] !== 'any') {
-
       // get all the possible ranges from the base and/or profiles
       const weaponRanges = getAllWeaponRanges(weaponData)
+      const isRanged = weaponRanges.some(range => range.type === 'Range')
+      const isMelee = weaponRanges.some(range => range.type === 'Threat')
 
-      // All ranged weapons
-      if (synergy.weapon_types.includes('Ranged')) {
-        if (!weaponRanges.some(range => range.type === 'Range')) return true // failed
-      }
+      // needs to have at least one thing that matches this type
+      const hasMatchedType = synergy.weapon_types.some(checkForType => {
+        // All ranged weapons
+        if (checkForType === 'Ranged' && isRanged) return true
+        // All melee weapons
+        if (checkForType === 'Melee' && isMelee) return true
+        // Rifle, CQB, etc
+        if (checkForType === weaponData.type || weaponData.type === '???') return true
+      })
 
-      // All melee weapons
-      if (synergy.weapon_types.includes('Melee')) {
-        if (!weaponRanges.some(range => range.type === 'Threat')) return true // failed
-      }
-
-      // Rifle, CQB, etc
-      if (!synergy.weapon_types.includes(weaponData.type) && weaponData.type !== '???') return true // failed
+      if (!hasMatchedType) return true // failed
     }
 
     return false // this didn't fail
