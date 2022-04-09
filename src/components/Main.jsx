@@ -298,7 +298,7 @@ const Main = ({
           <div className="room-and-xcard">
             <RoomConnect
               partyName={partyName}
-              setPartyName={setPartyName}
+              setPartyName={(name) => { setPartyName(name); localStorage.setItem("party_name", name); } }
               partyRoom={partyRoom}
               setPartyRoom={setPartyRoom}
               generateRoomName={generateRoomName}
