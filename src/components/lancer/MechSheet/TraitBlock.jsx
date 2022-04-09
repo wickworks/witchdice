@@ -19,6 +19,7 @@ const TraitBlock = ({
 	range = null,
 	trigger = '',
   description = '',
+	statblock = null,
 
   limited = null, // {current: X, max: Y, icon: 'generic-item'}
 	setLimitedCount = () => {},
@@ -47,8 +48,7 @@ const TraitBlock = ({
 	const systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : description
 	const systemTrigger = trigger ? `Trigger: ${trigger}` : ''
 
-
-
+	let broadcastStats = statblock && ('〔 ' + Object.keys(statblock).map(stat => `${stat}: ${statblock[stat]}`).join(' — ') + ' 〕')
 	let broadcastObject = {
 		// characterName: robotInfo.name, //injected upstream
 		conditions: [name.toUpperCase()],
@@ -60,7 +60,7 @@ const TraitBlock = ({
 				recharge && getRechargeString(recharge),
 				limited && `Limited ${limited.max}`
 			].filter(attr => !!attr).join(', '),
-			applies: [systemTrigger, systemDescription].filter(attr => !!attr).join('<br>'),
+			applies: [systemTrigger, systemDescription, broadcastStats].filter(attr => !!attr).join('<br>'),
 			attack: -100, // it's an ability, I guess?
 		}],
 		skipTotal: true,
@@ -149,6 +149,27 @@ const TraitBlock = ({
 								:
 									(recharge.charged ? '〔 Used 〕' : '〔 Available 〕')
 								}
+							</div>
+						}
+
+						{statblock && !isDestroyed &&
+							<div className='statblock-bar'>
+								<div className='stat'>
+									<span className='asset edef'/>
+									<span>{statblock.edef || 10}</span>
+								</div>
+								<div className='stat'>
+								<span className='asset evasion'/>
+									<span>{statblock.evasion || 5}</span>
+								</div>
+								<div className='stat'>
+									<span className='asset heart'/>
+									<span>{statblock.hp || 10*(statblock.size || 1)}</span>
+								</div>
+								<div className='stat'>
+									<span className='asset hex'/>
+									<span>{statblock.size || 1}</span>
+								</div>
 							</div>
 						}
 

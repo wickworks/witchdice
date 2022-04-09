@@ -432,6 +432,7 @@ function getSystemTraits(systems, limitedBonus) {
           isDestructable: !systemHasTag(systemData, 'tg_indestructible'),
           isDestroyed: system.destroyed,
           limited: limited,
+          statblock: {edef: deployable.edef, evasion: deployable.evasion, hp: deployable.hp, size: deployable.size},
           isTitleCase: true,
         })
       })

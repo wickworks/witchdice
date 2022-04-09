@@ -107,6 +107,25 @@
       }
     }
 
+    .statblock-bar {
+      @include text_monospace;
+      padding: 0 12px;
+      display: flex;
+      justify-content: space-between;
+      background-color: $parchment_dark;
+
+      .stat {
+        display: flex;
+        align-items: center;
+
+        span.asset {
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+        }
+      }
+    }
+
     .description {
       padding: 8px 12px 10px;
       background-color: $parchment;

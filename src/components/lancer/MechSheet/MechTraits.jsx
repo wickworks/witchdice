@@ -29,6 +29,7 @@ const MechTraits = ({
             trigger={trait.trigger}
             frequency={trait.frequency}
             description={trait.description}
+						statblock={trait.statblock}
             isCP={trait.isCP}
             isDestructable={trait.isDestructable}
             isDestroyed={trait.isDestroyed}
