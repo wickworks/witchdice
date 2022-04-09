@@ -208,7 +208,7 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
           break;
 
         case 't_centimane':
-          const teethEffect = { onCrit: 'Your target must pass a SYSTEMS save or become IMPAIRED and SLOWED until the end of their next turn.' }
+          const teethEffect = { onCrit: '1/round on a critical hit, your target must pass a SYSTEMS save or become IMPAIRED and SLOWED until the end of their next turn.', isPassive: true }
           addSourceFromTalent(sources,rank,talentData, 1, '', '', teethEffect);
 
           const exposeEffect = { onCrit: 'When you consume LOCK ON as part of an attack with a NEXUS or DRONE and perform a critical hit, your target becomes SHREDDED until the start of your next turn.' }
