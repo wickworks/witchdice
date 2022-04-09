@@ -119,7 +119,7 @@ const NpcMechSheet = ({
   }
 
   // =============== MECH STATE ==================
- 
+
 
 
   return (
@@ -230,7 +230,7 @@ function getNpcWeaponAttacks(items) {
                 id: item.itemID,
                 destroyed: item.destroyed,
                 cascading: false,
-                loaded: true,
+                loaded: item.loaded || false,
                 note: item.description,
                 mod: null,
                 customDamageType: null,
