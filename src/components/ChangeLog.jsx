@@ -15,8 +15,13 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-        <div className='version-label'>v0.11.1-4 — Mar 2022</div>
+        <div className='version-label'>v0.11.1-5 — Mar 2022</div>
           <ul>
+            <li>Fixed your name in rooms not saving after you update it.</li>
+            <li>NPCs from non-core LCPs should show up correctly.</li>
+            <li>Fixed Engineer weapon; shows max number of uses.</li>
+            <li>Deployables show their stats and granted actions.</li>
+            <li>Fixed and added several accuracy options.</li>
             <li>Range bonuses from systems and CBs now come through.</li>
             <li>Added bonus damage from roland chamber.</li>
             <li>Added button to re-export pilot data.</li>
