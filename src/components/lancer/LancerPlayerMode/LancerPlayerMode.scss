@@ -4,11 +4,13 @@
 
   .mechlist-or-bonds {
     @include standard_side_margin;
-    
     display: flex;
+    max-width: 800px;
+    margin: auto;
 
     .PlainList .panel {
       margin: 0;
+      max-width: unset;
     }
   }
 }

@@ -3,10 +3,11 @@
 .BondButton {
   @include shadow;
   @include parchment_background;
-  @include nouveau_border("nouveau_character.svg");
+  @include nouveau_border("nouveau_lancer_mech.svg");
   @include text_monospace;
 
   padding: 30px;
+  min-width: 180px;
 
   button {
     width: 100%;
@@ -20,6 +21,7 @@
 
     &:disabled {
       background-color: $rust;
+      color: white;
     }
   }
 }

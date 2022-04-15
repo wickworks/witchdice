@@ -96,6 +96,7 @@ const parseContentPack = async function (binString) {
     const environments = (await readZipJSON(zip, 'environments.json')) || [];
     const sitreps = (await readZipJSON(zip, 'sitreps.json')) || [];
     const tables = (await readZipJSON(zip, 'tables.json')) || [];
+    const bonds = (await readZipJSON(zip, 'bonds.json')) || [];
     const id = await getPackID(manifest);
 
     return {
@@ -122,6 +123,7 @@ const parseContentPack = async function (binString) {
             environments,
             sitreps,
             tables,
+            bonds,
         },
     };
 };

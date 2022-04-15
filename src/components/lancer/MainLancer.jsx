@@ -115,6 +115,8 @@ const MainLancer = ({
     setActiveLcpID(coreLcpEntry.id);
   }
 
+  const bondsEnabled = allLcpEntries.some(entry => entry.name === "Lancer KTB Data");
+
   // =============== INITIALIZE ==================
   useEffect(() => {
     let lcpEntries = [coreLcpEntry];
@@ -223,6 +225,8 @@ const MainLancer = ({
         <LancerPlayerMode
           setTriggerRerender={setTriggerRerender}
           triggerRerender={triggerRerender}
+
+          bondsEnabled={bondsEnabled}
 
           partyConnected={partyConnected}
           partyRoom={partyRoom}

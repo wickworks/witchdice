@@ -128,15 +128,26 @@ const blankNpcTemplate = {
   "power": 0
 }
 
+const blankBond = {
+  "id": "bond-unknown",
+  "name": "UNKNOWN BOND",
+  "major_ideals": [],
+  "minor_ideals": [],
+  "questions": [],
+  "powers": [],
+}
+
+
 var loadedLcpData = {};
 function findGameDataFromLcp(gameDataType, gameDataID) {
   var lcpGameData;
 
-  // First, load up any LCPs from localstorage that we haven't gotten yet
+  // First, load into memory any LCPs from localstorage that we haven't gotten yet
   for ( var i = 0, len = localStorage.length; i < len; ++i ) {
-    const key = localStorage.key(i);
+    const key = localStorage.key(i)
     if (key.startsWith(`${LCP_PREFIX}-`)) {
       const lcpID = getIDFromStorageName(LCP_PREFIX, key, STORAGE_ID_LENGTH);
+
       if (!loadedLcpData[lcpID]) {
         const lcp = loadLcpData(lcpID)
         const hashedLcp = {...lcp, data: hashLcpData(lcp.data)}
@@ -199,7 +210,7 @@ export const findModData = (modID) => {
 
 export const findStatusData = (statusName) => {
   var statusData = allStatuses[statusName]
-  // if (!statusData) statusData = findGameDataFromLcp('statuses', statusName) // new lcps can't really add new statuses
+  if (!statusData) statusData = findGameDataFromLcp('statuses', statusName) // new lcps can't really add new statuses
   return statusData ? statusData : blankStatus
 }
 
@@ -228,10 +239,16 @@ export const findNpcTemplateData = (npcTemplateID) => {
 }
 
 export const findTagData = (tagID) => {
-  return allTags[tagID]
+  var tagData = allTags[tagID]
+  if (!tagData) tagData = findGameDataFromLcp('tags', tagID)
+  return tagData ? tagData : null
 }
 
-
+export const findBondData = (bondID) => {
+  // no core bonds
+  var bondData = findGameDataFromLcp('bonds', bondID)
+  return bondData ? bondData : blankBond
+}
 
 
 export const OVERCHARGE_SEQUENCE = ['1','1d3','1d6','1d6+4']
