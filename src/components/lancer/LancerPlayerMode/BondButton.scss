@@ -1,0 +1,25 @@
+@import '../../../fonts';
+
+.BondButton {
+  @include shadow;
+  @include parchment_background;
+  @include nouveau_border("nouveau_character.svg");
+  @include text_monospace;
+
+  padding: 30px;
+
+  button {
+    width: 100%;
+    height: 100%;
+    background-color: $parchment_dark;
+    font-size: 24px;
+
+    &:hover {
+      background-color: $rust_light;
+    }
+
+    &:disabled {
+      background-color: $rust;
+    }
+  }
+}

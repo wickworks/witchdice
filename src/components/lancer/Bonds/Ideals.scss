@@ -1,0 +1,15 @@
+@import '../../../fonts';
+
+.Ideals {
+  color: $rust;
+  margin-bottom: 12px;
+
+  input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px;
+
+    background-color: $parchment_dark;
+    border: none;
+  }
+}

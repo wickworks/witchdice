@@ -1,0 +1,14 @@
+@import '../../../fonts';
+
+.LancerPlayerMode {
+
+  .mechlist-or-bonds {
+    @include standard_side_margin;
+    
+    display: flex;
+
+    .PlainList .panel {
+      margin: 0;
+    }
+  }
+}

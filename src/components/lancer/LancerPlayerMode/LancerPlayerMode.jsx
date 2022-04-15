@@ -3,6 +3,8 @@ import { FileList, PlainList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
 import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import PilotDossier from './PilotDossier.jsx';
+import Bonds from '../Bonds/Bonds.jsx';
+import BondButton from './BondButton.jsx';
 import PlayerMechSheet from './PlayerMechSheet.jsx';
 import JumplinkPanel from '../JumplinkPanel.jsx';
 
@@ -22,7 +24,7 @@ import { createSquadMech } from '../SquadPanel/squadUtils.js';
 
 import compendiaJonesJson from './YOURGRACE.json';
 
-// import './LancerPlayerMode.scss';
+import './LancerPlayerMode.scss';
 
 const LancerPlayerMode = ({
   setTriggerRerender,
@@ -40,19 +42,26 @@ const LancerPlayerMode = ({
   const [activePilotID, setActivePilotID] = useState(null);
   const [activeMechID, setActiveMechID] = useState(null);
 
+  const [isViewingBond, setIsViewingBond] = useState(false);
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
 
-  // We trigger a full rerender when we change the mech so the squad panel can pick up changes to LANCER_SQUAD_MECH_KEY
   const changeMech = (newMechID) => {
     setActiveMechID(newMechID)
+    setIsViewingBond(false)
+
+    // We trigger a full rerender when we change the mech so the squad panel can pick up changes to LANCER_SQUAD_MECH_KEY
     setTriggerRerender(!triggerRerender)
+  }
+
+  const onBondButtonClick = () => {
+    setIsViewingBond(true)
+    setActiveMechID(null)
   }
 
   // const activePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
   const activePilot = activePilotID && loadPilotData(activePilotID); // load the pilot data from local storage
   const allMechEntries = activePilot ? activePilot.mechs : [];
   const activeMech = allMechEntries.find(mech => mech.id === activeMechID);
-
 
   // =============== INITIALIZE ==================
   useEffect(() => {
@@ -174,7 +183,6 @@ const LancerPlayerMode = ({
   }
 
 
-
   let jumplinks = ['pilot','mech','weapons','dicebag']
   if (partyConnected) jumplinks.splice(-1, 0, 'squad')
 
@@ -218,15 +226,25 @@ const LancerPlayerMode = ({
             activePilot={activePilot}
           />
 
-          <PlainList title='Mech' extraClass='mechs'>
-            <EntryList
-              entries={allMechEntries}
-              handleEntryClick={changeMech}
-              activeCharacterID={activeMechID}
-              deleteEnabled={false}
-            />
-          </PlainList>
+          <div className='mechlist-or-bonds'>
+            <PlainList title='Mech' extraClass='mechs'>
+              <EntryList
+                entries={allMechEntries}
+                handleEntryClick={changeMech}
+                activeCharacterID={activeMechID}
+                deleteEnabled={false}
+              />
+            </PlainList>
+            <BondButton onClick={onBondButtonClick} isViewingBond={isViewingBond} />
+          </div>
+
         </>
+      }
+
+      { isViewingBond &&
+        <Bonds
+          activePilot={activePilot}
+        />
       }
 
       <div className='jumplink-anchor' id='mech' />

@@ -1,0 +1,47 @@
+@import '../../../fonts';
+
+.Clock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 24px;
+  padding: 0 18px;
+
+  .segment-container {
+    border-radius: 100%;
+    background-color: $rust;
+    width: 128px;
+    height: 128px;
+
+    &.disabled {
+      opacity: .5;
+    }
+  }
+
+  input {
+    width: 100%;
+    box-sizing: border-box;
+
+    margin-top: 10px;
+    padding: 4px;
+
+    text-align: center;
+
+    background-color: $parchment_dark;
+    color: $parchment;
+    border: none;
+  }
+
+  .type-label {
+    color: $rust;
+    font-size: 28px;
+    text-align: center;
+    margin-top: 10px;
+
+    &.small {
+      font-size: 16px;
+    }
+  }
+}

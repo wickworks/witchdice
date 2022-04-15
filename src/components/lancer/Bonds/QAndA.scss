@@ -1,0 +1,16 @@
+@import '../../../fonts';
+
+.QAndA {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: $rust;
+
+  .question {
+    font-style: italic;
+  }
+
+  .answer {
+    font-weight: bold;
+  }
+}
