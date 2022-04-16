@@ -71,16 +71,21 @@ const Bonds = ({
           const burdenIndex = newBondData[statKey].burdenIndex
           const burdenToUpdate = newLocalBurdens[burdenIndex]
 
-          // is this a new burden?
-          if (!burdenToUpdate.id) {
-            burdenToUpdate.id = `${getRandomFingerprint()}-${getRandomFingerprint()}`
-            burdenToUpdate.segments = burdenIndex < 2 ? 4 : 8 // major or minor?
+          // clear it?
+          if ('clearBurden' in newBondData[statKey]) {
+            newLocalBurdens[burdenIndex] = deepCopy(emptyBurden)
+            
+          } else {
+            // is this a new burden?
+            if (!burdenToUpdate.id) {
+              burdenToUpdate.id = `${getRandomFingerprint()}-${getRandomFingerprint()}`
+              burdenToUpdate.segments = burdenIndex < 2 ? 4 : 8 // major or minor?
+            }
+            // update the stuff we want to about it
+            if ('progress' in newBondData[statKey]) burdenToUpdate.progress = newBondData[statKey].progress
+            if ('segments' in newBondData[statKey]) burdenToUpdate.segments = newBondData[statKey].segments
+            if ('title' in newBondData[statKey])    burdenToUpdate.title = newBondData[statKey].title
           }
-
-          // update the stuff we want to about it
-          if ('progress' in newBondData[statKey]) burdenToUpdate.progress = newBondData[statKey].progress
-          if ('segments' in newBondData[statKey]) burdenToUpdate.segments = newBondData[statKey].segments
-          if ('title' in newBondData[statKey])    burdenToUpdate.title = newBondData[statKey].title
 
           // save both the local and pilot copies of the burdens
           setLocalBurdens(newLocalBurdens)
@@ -118,6 +123,7 @@ const Bonds = ({
                 setProgress={progress => updateBondState({ burdens: {burdenIndex: i, progress: progress} }) }
                 maxSegments={localBurdens[i].segments}
                 setMaxSegments={maxSegments => updateBondState({ burdens: {burdenIndex: i, segments: maxSegments} }) }
+                onFinish={() => updateBondState({ burdens: {burdenIndex: i, clearBurden: true} }) }
                 typeLabel={i < 2 ? 'Minor Burden' : 'Major Burden'}
                 userLabel={localBurdens[i].title}
                 setUserLabel={title => updateBondState({ burdens: {burdenIndex: i, title: title} }) }

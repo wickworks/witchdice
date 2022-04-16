@@ -8,6 +8,7 @@ const Clock = ({
   setProgress,
   maxSegments = 6,
   setMaxSegments,
+  onFinish,
   typeLabel,
   userLabel,
   setUserLabel,
@@ -39,6 +40,9 @@ const Clock = ({
             <>
               <SetSizeButton text={'-'} highlight={true} onClick={() => setProgress(Math.max(progress-1, 0))} key='-' />
               <SetSizeButton text={'+'} highlight={true} onClick={() => setProgress(Math.min(progress+1, maxSegments))} key='+' />
+              {progress === maxSegments && !!onFinish &&
+                <SetSizeButton text={'✓'} highlight={true} onClick={onFinish} key='checkmark' />
+              }
             </>
           }
 
