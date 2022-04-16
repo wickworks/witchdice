@@ -11,7 +11,7 @@
     @include shadow;
     @include parchment_background;
     @include nouveau_border("nouveau_character.svg");
-    @include text_monospace;
+    // @include text_monospace;
 
     position: relative;
     box-sizing: border-box;

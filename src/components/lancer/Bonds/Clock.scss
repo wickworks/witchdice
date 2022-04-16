@@ -1,5 +1,10 @@
 @import '../../../fonts';
 
+@keyframes flashSegmentIn {
+  0% { filter: brightness(150%); }
+  100% { filter: brightness(100%); }
+}
+
 .Clock {
   display: flex;
   flex-direction: column;
@@ -10,103 +15,244 @@
   padding: 0 18px;
 
   .controls-container {
-    width: 128px;
-    height: 128px;
+    width: 164px;
+    height: 164px;
 
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
 
     &.disabled {
-      opacity: .5;
+      opacity: .3;
+      pointer-events: none;
     }
 
-    button.SetSizeButton {
+    button.center-peg {
       @include text_monospace;
-      display: flex;
-      width: 100%;
-      height: 100%;
-      font-size: 18px;
-      padding: 6px;
+      grid-column: 1 / span 2;
+      grid-row: 1 / span 2;
+      align-self: center;
+      justify-self: center;
 
-      &.current {
-        background-color: $rust;
-        color: white;
-        font-weight: bold;
-      }
+      border-radius: 100%;
+      background-color: $rust_dark;
+      border: 4px solid $rust_dark;
+
+      width: 30%;
+      height: 30%;
+      z-index: 5;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      color: white;
+      font-weight: bold;
+      font-size: 20px;
 
       &:hover {
-        background-color: $rust_light;
-      }
-
-      &.size-4 {
-        grid-column: 1;
-        grid-row: 1;
-        justify-content: flex-start;
-        align-items: flex-start;
-      }
-
-      &.size-6 {
-        grid-column: 2;
-        grid-row: 1;
-        justify-content: flex-end;
-        align-items: flex-start;
-      }
-
-      &.size-8 {
-        grid-column: 1;
-        grid-row: 2;
-        justify-content: flex-start;
-        align-items: flex-end;
-      }
-
-      &.size-10 {
-        grid-column: 2;
-        grid-row: 2;
-        justify-content: flex-end;
-        align-items: flex-end;
-      }
-
-      > div {
-
-
+        background-color: $rust;
+        border-color: $rust_light;
       }
     }
 
     .segments-container {
       grid-column: 1 / span 2;
       grid-row: 1 / span 2;
-
-      border-radius: 100%;
-      background-color: $rust;
+      position: relative;
 
       margin: 16px;
+
+      border-radius: 100%;
+      background-color: $rust_dark;
+
+
+      .Segment {
+        display: block;
+        position: absolute;
+        top: 8px; left: 8px; bottom: 8px; right: 8px;
+        border-radius: 100%;
+        background-color: $grey_mid;
+
+        &:hover { background-color: $grey_mid_light; }
+
+        &.filled {
+          background-color: $rust;
+          animation: .2s ease-in 0s 1 flashSegmentIn;
+
+          &:hover { background-color: $rust_light; }
+        }
+      }
+
+
+      // Lots of bad trigonometry magic numbers, here. A little bad math then manual tweaking.
+      &.max-size-4 .Segment {
+        clip-path: polygon(50% 0, 100% 0, 100% 50%, 50% 50%);
+        --explode-x: 2px;
+        --explode-y: -2px;
+
+        &:nth-child(1) { transform:rotate(0deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(2) { transform:rotate(90deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(3) { transform:rotate(180deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(4) { transform:rotate(270deg) translate(var(--explode-x),var(--explode-y)); }
+      }
+
+      &.max-size-6 .Segment {
+        clip-path: polygon(50% 0, 136.6% 0, 50% 50%, 50% 50%);
+        --explode-x: 1.73px;
+        --explode-y: -3.73px;
+
+        &:nth-child(1) { transform:rotate(0deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(2) { transform:rotate(60deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(3) { transform:rotate(120deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(4) { transform:rotate(180deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(5) { transform:rotate(240deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(6) { transform:rotate(300deg) translate(var(--explode-x),var(--explode-y)); }
+      }
+
+      &.max-size-8 .Segment {
+        clip-path: polygon(50% 0, 100% 0, 50% 50%, 50% 50%);
+        --explode-x: 1.41px;
+        --explode-y: -3.41px;
+
+        &:nth-child(1) { transform:rotate(0deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(2) { transform:rotate(45deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(3) { transform:rotate(90deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(4) { transform:rotate(135deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(5) { transform:rotate(180deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(6) { transform:rotate(225deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(7) { transform:rotate(270deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(8) { transform:rotate(315deg) translate(var(--explode-x),var(--explode-y)); }
+      }
+
+      &.max-size-10 .Segment {
+        clip-path: polygon(50% 0, 86.32% 0, 50% 50%, 50% 50%);
+        --explode-x: 1.61px;
+        --explode-y: -3.61px;
+
+        &:nth-child(1) { transform:rotate(0deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(2) { transform:rotate(36deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(3) { transform:rotate(72deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(4) { transform:rotate(108deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(5) { transform:rotate(144deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(6) { transform:rotate(180deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(7) { transform:rotate(216deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(8) { transform:rotate(252deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(9) { transform:rotate(288deg) translate(var(--explode-x),var(--explode-y)); }
+        &:nth-child(10) { transform:rotate(324deg) translate(var(--explode-x),var(--explode-y)); }
+      }
     }
 
   }
 
-  input {
+  input.user-input {
     width: 100%;
     box-sizing: border-box;
-
-    margin-top: 10px;
     padding: 4px;
 
     text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
 
     background-color: $parchment_dark;
-    color: $parchment;
+    color: $soft_black;
     border: none;
+
+    &::placeholder {
+      font-weight: normal;
+    }
   }
 
   .type-label {
+    @include text_monospace;
     color: $rust;
     font-size: 28px;
     text-align: center;
-    margin-top: 10px;
-
-    &.small {
-      font-size: 16px;
-    }
+    margin-top: -2px;
   }
+}
+
+
+button.SetSizeButton {
+  @include text_monospace;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 6px;
+  font-size: 18px;
+
+  &.highlight {
+    background-color: $parchment_dark;
+    font-weight: bold;
+    color: $rust;
+    font-size: 24px;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: $rust_light;
+  }
+
+  &:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: 6px 0 0 0;
+    animation: .5s ease-out 0s 1 slideInUpLeft;
+  }
+
+  &:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+    justify-content: flex-end;
+    align-items: flex-start;
+    border-radius: 0 6px 0 0;
+    animation: .5s ease-out 0s 1 slideInUpRight;
+  }
+
+  &:nth-child(3) {
+    grid-column: 1;
+    grid-row: 2;
+    justify-content: flex-start;
+    align-items: flex-end;
+    border-radius: 0 0 0 6px;
+    animation: .5s ease-out 0s 1 slideInDownLeft;
+  }
+
+  &:nth-child(4) {
+    grid-column: 2;
+    grid-row: 2;
+    justify-content: flex-end;
+    align-items: flex-end;
+    border-radius: 0 0 6px 0;
+    animation: .5s ease-out 0s 1 slideInDownRight;
+  }
+}
+
+@keyframes slideInUpLeft {
+  0% { transform: translate(50%, 50%); }
+  35% { transform: translate(0%, 0%); }
+  70% { transform: none; }
+}
+
+@keyframes slideInUpRight {
+  0% { transform: translate(-50%, 50%); }
+  10% { transform: translate(-50%, 50%); }
+  45% { transform: translate(0%, 0%); }
+  80% { transform: none; }
+}
+
+@keyframes slideInDownLeft {
+  0% { transform: translate(50%, -50%); }
+  20% { transform: translate(50%, -50%); }
+  55% { transform: translate(0%, 0%); }
+  90% { transform: none; }
+}
+
+@keyframes slideInDownRight {
+  0% { transform: translate(-50%, -50%); }
+  30% { transform: translate(-50%, -50%); }
+  65% { transform: translate(0%, 0%); }
+  100% { transform: none; }
 }

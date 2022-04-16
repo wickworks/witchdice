@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Clock from './Clock.jsx';
 import QAndA from './QAndA.jsx';
 import Ideals from './Ideals.jsx';
@@ -9,6 +9,7 @@ import './Bonds.scss';
 const Bonds = ({
   activePilot
 }) => {
+  const [userLabel, setUserLabel] = useState('')
 
   const bondData = findBondData(activePilot.bondId)
 
@@ -18,11 +19,11 @@ const Bonds = ({
         <h2>{bondData.name}</h2>
         <div className='columns'>
           <div className='clocks-column'>
-            <Clock typeLabel='XP' />
-            <Clock typeLabel='Stress' />
-            <Clock typeLabel='Minor Burden' inputEnabled={true} />
-            <Clock typeLabel='Minor Burden' inputEnabled={true} />
-            <Clock typeLabel='Major Burden' inputEnabled={true} />
+            <Clock typeLabel='XP' defaultSize={8} />
+            <Clock typeLabel='Stress' defaultSize={8} />
+            <Clock typeLabel='Minor Burden' defaultSize={4} inputEnabled={true} userLabel={userLabel} setUserLabel={setUserLabel} />
+            <Clock typeLabel='Minor Burden' defaultSize={4} inputEnabled={true} userLabel={userLabel} setUserLabel={setUserLabel} />
+            <Clock typeLabel='Major Burden' defaultSize={8} inputEnabled={true} userLabel={userLabel} setUserLabel={setUserLabel} />
           </div>
 
           <div className='text-column'>

@@ -5,53 +5,108 @@ const Clock = ({
   typeLabel,
   defaultSize = 6,
   inputEnabled = false,
-  inputLabel,
+  userLabel,
+  setUserLabel,
 }) => {
+  const [current, setCurrent] = useState(0)
   const [maxSize, setMaxSize] = useState(defaultSize)
+  const [isEditingMaxSize, setIsEditingMaxSize] = useState(false)
 
-  const isDisabled = (inputEnabled && !inputLabel)
+  const isDisabled = (inputEnabled && !userLabel)
 
   const setSize = (size) => {
-
+    if (current > size) setCurrent(size)
+    setMaxSize(size)
   }
 
   return (
     <div className='Clock'>
       <div className={`controls-container ${isDisabled ? 'disabled' : ''}`}>
-        <SetSizeButton setToSize={4} current={maxSize} setSize={setMaxSize} />
-        <SetSizeButton setToSize={6} current={maxSize} setSize={setMaxSize} />
-        <SetSizeButton setToSize={8} current={maxSize} setSize={setMaxSize} />
-        <SetSizeButton setToSize={10} current={maxSize} setSize={setMaxSize} />
 
-        <div className={`segments-container`}>
+        {isEditingMaxSize ?
+          <>
+            <SetSizeButton text={4} onClick={() => setSize(4)} highlight={maxSize === 4} key={4}/>
+            <SetSizeButton text={6} onClick={() => setSize(6)} highlight={maxSize === 6} key={6}/>
+            <SetSizeButton text={8} onClick={() => setSize(8)} highlight={maxSize === 8} key={8}/>
+            <SetSizeButton text={10} onClick={() => setSize(10)} highlight={maxSize === 10} key={410}/>
+          </>
+        : !isDisabled &&
+          <>
+            <SetSizeButton text={'-'} highlight={true} onClick={() => setCurrent(Math.max(current-1, 0))} key='-' />
+            <SetSizeButton text={'+'} highlight={true} onClick={() => setCurrent(Math.min(current+1, maxSize))} key='+' />
+          </>
+        }
+
+        <div className={`segments-container max-size-${maxSize}`}>
+
+          {[...Array(maxSize)].map((_, i) =>
+            <Segment
+              current={current}
+              segmentIndex={i}
+              setCurrent={setCurrent}
+              maxSize={maxSize}
+              key={i}
+            />
+          )}
 
         </div>
+
+        <button className='center-peg' onClick={() => setIsEditingMaxSize(!isEditingMaxSize)}>
+          {current}
+        </button>
 
       </div>
 
       {inputEnabled &&
-        <input type='text' />
+        <input
+          className='user-input'
+          type='text'
+          value={userLabel}
+          onChange={e => setUserLabel(e.target.value)}
+          placeholder={typeLabel}
+        />
       }
 
-      <div className={`type-label ${inputEnabled ? 'small' : ''}`}>
-        {typeLabel}
-      </div>
+      {!inputEnabled &&
+        <div className='type-label'>
+          {typeLabel}
+        </div>
+      }
     </div>
   );
 }
 
-const SetSizeButton = ({
+const Segment = ({
   current,
-  setToSize,
-  setSize
+  setCurrent,
+  segmentIndex,
+  maxSize,
 }) => {
-  const currentClass = current === setToSize ? 'current' : ''
+  const isFilled = current >= (segmentIndex+1)
+  const filledClass = isFilled ? 'filled' : ''
+  const setToOnClick = isFilled ? segmentIndex : segmentIndex + 1
   return (
     <button
-      className={`SetSizeButton size-${setToSize} ${currentClass}`}
-      onClick={() => setSize(setToSize)}
+      className={`Segment seg-${segmentIndex} ${filledClass}`}
+      onClick={() => setCurrent(setToOnClick)}
+    />
+  );
+}
+
+const SetSizeButton = ({
+  text,
+  onClick,
+  highlight = false,
+  disabled = false,
+}) => {
+  const highlightClass = highlight ? 'highlight' : ''
+  return (
+    <button
+      className={`SetSizeButton ${highlightClass}`}
+      onClick={onClick}
+      disabled={disabled}
     >
-      <div>{setToSize}</div>
+      <div>{text}</div>
     </button>
   );
 }
