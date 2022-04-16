@@ -27,56 +27,63 @@ const SquadClockPanel = ({
   triggerRerender,
   setTriggerRerender,
 }) => {
-	// When we see a new entry in firebase or locally, we put it here.
-  // This triggers triggering it getting added/updated in allSquadClocks.
-  const [lastUpdatedSquadClock, setLastUpdatedSquadClock] = useState(null);
-
-  // Similar logic, but for targeted destruction of keys
-  const [lastDestroyedKey, setLastDestroyedKey] = useState('');
-
-  // List of all the entries to display.
-  // const [allSquadClocks, setAllSquadClocks] = useState([]);
+	// Local and remote changes to clocks set this to get processed.
+  // (This roundabout system is necessary because we can't check current
+  // state in firebase event listeners)
+  const [clockChange, setClockChange] = useState(null)
 
   const allSquadClocksJson = localStorage.getItem(LANCER_SQUAD_CLOCK_KEY);
   const allSquadClocks = JSON.parse(allSquadClocksJson) || []
+  console.log('render allSquadClocks', allSquadClocks);
 
-  // process a remote or local change to the clock data
-  const updateAllClockData = (change, isLocal) => {
+  useEffect(() => {
+    if (!clockChange) return
     let newData = [...allSquadClocks] // no need for a deep copy
 
-    if ('newClock' in change) {
-      newData.push(deepCopy(change.newClock))
-      if (isLocal) updateClockInFirebase(change.newClock)
+    console.log('========= UPDATE CLOCK =======');
+    console.log('current allSquadClocks', allSquadClocks);
+    console.log('updateAllClockData', clockChange, '   local ', clockChange.isLocal);
 
-    } else if ('updateClock' in change) {
-      const updateIndex = allSquadClocks.findIndex(clock => clock.id === change.updateClock.id)
-      if (updateIndex >= 0) {
-        newData[updateIndex] = deepCopy(change.updateClock)
-        if (isLocal) updateClockInFirebase(change.updateClock)
+    // NEW
+    if (clockChange.newClock) {
+      const alreadyHave = allSquadClocks.some(clock => clock.id === clockChange.newClock.id)
+      if (!alreadyHave) {
+        if (clockChange.isLocal) updateClockInFirebase(clockChange.newClock)
+        newData.push(deepCopy(clockChange.newClock))
       }
-
-
-    } else if ('deleteClock' in change) {
-      const deleteIndex = allSquadClocks.findIndex(clock => clock.id === change.deleteClock.id)
-      console.log('deleting clock ', change.deleteClock, ' index ', deleteIndex);
+    // UPDATE
+    } else if (clockChange.updateClock) {
+      const updateIndex = allSquadClocks.findIndex(clock => clock.id === clockChange.updateClock.id)
+      console.log('updateIndex', updateIndex);
+      if (updateIndex >= 0) {
+        if (clockChange.isLocal) updateClockInFirebase(clockChange.updateClock)
+        newData[updateIndex] = deepCopy(clockChange.updateClock)
+      }
+    // DELETE
+  } else if (clockChange.deleteClockId) {
+      const deleteIndex = allSquadClocks.findIndex(clock => clock.id === clockChange.deleteClockId)
+      console.log('deleting  index ', deleteIndex);
       if (deleteIndex >= 0) {
-    		newData.splice(change.deleteClock, 1);
-        if (isLocal) deleteClockFromFirebase(change.deleteClock)
+        const firebaseKey = newData[deleteIndex].firebaseKey
+        if (clockChange.isLocal && firebaseKey) deleteClockFromFirebase(firebaseKey)
+        newData.splice(deleteIndex, 1);
       }
     }
 
     saveSquadClockData(newData)
     setTriggerRerender(!triggerRerender)
-  }
+  }, [ JSON.stringify(clockChange) ]);
 
   // we clicked modified a clock locally
   const localUpdateToClock = (clock, change) => {
     const updateClock = {...deepCopy(clock), ...change}
-    updateAllClockData({updateClock: updateClock}, true)
+    setClockChange({updateClock: updateClock, isLocal: true})
   }
 
 	// we clicked "add clock" locally
 	const localAdditionOfNewClock = (title) => {
+    if (!title) return
+
     const newClock = deepCopy(blankClock)
     newClock.title = title
     newClock.id = `${getRandomFingerprint()}-${getRandomFingerprint()}`
@@ -92,15 +99,15 @@ const SquadClockPanel = ({
     // missing this tag will be deleted since they came from afar in the first place.
     newClock.iMadeThis = true
 
-    updateAllClockData({newClock: newClock}, true)
+    setClockChange({newClock: newClock, isLocal: true})
 	}
 
   // push a deletion of a clock to firebase
-	function deleteClockFromFirebase(clock) {
+	function deleteClockFromFirebase(firebaseKey) {
 		if (partyConnected) {
-			const firebaseKey = clock.firebaseKey
 			getFirebaseDB().child(FIREBASE_SQUAD_CLOCK_KEY).child(partyRoom).child(firebaseKey).remove()
-		}
+      console.log('deleting clock from firebase');
+    }
 	}
 
   // push an update of a clock to firebase
@@ -111,6 +118,7 @@ const SquadClockPanel = ({
   		delete firebaseEntry.firebaseKey // keep the key itself out of the firebase object
       delete firebaseEntry.iMadeThis // also do not push this local ownership data
       getFirebaseDB().child(FIREBASE_SQUAD_CLOCK_KEY).child(partyRoom).child(firebaseKey).set(firebaseEntry)
+      console.log('setting clock in firebase');
     }
 	}
 
@@ -125,7 +133,9 @@ const SquadClockPanel = ({
 					if (snapshot) {
 						let newEntry = snapshot.val() // restore the firebase key to the entry's object
 						newEntry.firebaseKey = snapshot.key
-						updateAllClockData({updateClock: newEntry}, false)
+
+            console.log('update from firebase:', newEntry);
+						setClockChange({updateClock: newEntry, isLocal: false})
 					}
 				});
 
@@ -133,14 +143,15 @@ const SquadClockPanel = ({
 					if (snapshot) {
 						let newEntry = snapshot.val() // restore the firebase key to the entry's object
 						newEntry.firebaseKey = snapshot.key
-            updateAllClockData({newClock: newEntry}, false)
+            setClockChange({newClock: newEntry, isLocal: false})
 					}
 				});
 
 				dbInitiativeRef.on('child_removed', (snapshot) => {
 					if (snapshot) {
-            let oldEntry = allSquadClocks.find(clock => clock.firebaseKey === snapshot.key)
-            updateAllClockData({deleteClock: oldEntry}, false)
+            let oldEntry = snapshot.val() // restore the firebase key to the entry's object
+            console.log('deleting firebase clock, oldEntry',oldEntry);
+            setClockChange({deleteClockId: oldEntry.id, isLocal: false})
 					}
 				});
 
@@ -166,10 +177,16 @@ const SquadClockPanel = ({
               maxSegments={clock.segments}
               setMaxSegments={maxSegments => localUpdateToClock(clock, {segments: maxSegments}) }
               onReset={() => localUpdateToClock(clock, {progress: 0}) }
-              onFinish={() => updateAllClockData({deleteClock: clock}, true) }
+              onFinish={() => setClockChange({deleteClockId: clock.id, isLocal: true}) }
               typeLabel='Campaign clock'
               userLabel={clock.title}
-              setUserLabel={title => localUpdateToClock(clock, {title: title}) }
+              setUserLabel={title => {
+                if (title) {
+                  localUpdateToClock(clock, {title: title})
+                } else {
+                  setClockChange({deleteClockId: clock.id, isLocal: true})
+                }
+              }}
               inputEnabled={true}
               key={clock.id}
             />
