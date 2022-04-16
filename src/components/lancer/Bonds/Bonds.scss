@@ -35,10 +35,11 @@
     }
 
     h4 {
-      @include text_monospace;
+      // @include text_monospace;
       color: $rust;
-      font-size: 24px;
-      margin: 36px 0 12px;
+      font-size: 28px;
+      margin: 12px 0;
+      // margin: 26px 0 12px;
       font-weight: normal;
     }
 

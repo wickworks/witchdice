@@ -251,6 +251,8 @@ const LancerPlayerMode = ({
       { isViewingBond &&
         <Bonds
           activePilot={activePilot}
+          setTriggerRerender={setTriggerRerender}
+          triggerRerender={triggerRerender}
         />
       }
 

@@ -51,7 +51,7 @@
       font-weight: bold;
       font-size: 20px;
 
-      &:hover {
+      &:hover:not(:disabled) {
         background-color: $rust;
         border-color: $rust_light;
       }

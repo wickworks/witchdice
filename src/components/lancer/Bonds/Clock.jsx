@@ -16,6 +16,7 @@ const Clock = ({
   const [isEditingMaxSize, setIsEditingMaxSize] = useState(false)
 
   const isDisabled = (inputEnabled && !userLabel)
+  const canSetMaxSegments = !!setMaxSegments
 
   const updateMaxSegments = (maxSegments) => {
     if (progress > maxSegments) setProgress(maxSegments)
@@ -58,6 +59,7 @@ const Clock = ({
           <button
             className='center-peg'
             onClick={() => setIsEditingMaxSize(!isEditingMaxSize)}
+            disabled={!canSetMaxSegments}
           >
             {progress}
           </button>
