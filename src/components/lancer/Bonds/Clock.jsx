@@ -1,76 +1,80 @@
 import React, { useState } from 'react';
+import SetSizeButton from './SetSizeButton.jsx'
+import TextInput from '../../shared/TextInput.jsx'
 import './Clock.scss';
 
 const Clock = ({
+  progress = 0,
+  setProgress,
+  maxSegments = 6,
+  setMaxSegments,
   typeLabel,
-  defaultSize = 6,
-  inputEnabled = false,
   userLabel,
   setUserLabel,
+  inputEnabled = false,
 }) => {
-  const [current, setCurrent] = useState(0)
-  const [maxSize, setMaxSize] = useState(defaultSize)
   const [isEditingMaxSize, setIsEditingMaxSize] = useState(false)
 
   const isDisabled = (inputEnabled && !userLabel)
 
-  const setSize = (size) => {
-    if (current > size) setCurrent(size)
-    setMaxSize(size)
+  const updateMaxSegments = (maxSegments) => {
+    if (progress > maxSegments) setProgress(maxSegments)
+    setMaxSegments(maxSegments)
   }
 
   return (
     <div className='Clock'>
-      <div className={`controls-container ${isDisabled ? 'disabled' : ''}`}>
+      {!isDisabled &&
+        <div className={`controls-container ${isDisabled ? 'disabled' : ''}`}>
 
-        {isEditingMaxSize ?
-          <>
-            <SetSizeButton text={4} onClick={() => setSize(4)} highlight={maxSize === 4} key={4}/>
-            <SetSizeButton text={6} onClick={() => setSize(6)} highlight={maxSize === 6} key={6}/>
-            <SetSizeButton text={8} onClick={() => setSize(8)} highlight={maxSize === 8} key={8}/>
-            <SetSizeButton text={10} onClick={() => setSize(10)} highlight={maxSize === 10} key={410}/>
-          </>
-        : !isDisabled &&
-          <>
-            <SetSizeButton text={'-'} highlight={true} onClick={() => setCurrent(Math.max(current-1, 0))} key='-' />
-            <SetSizeButton text={'+'} highlight={true} onClick={() => setCurrent(Math.min(current+1, maxSize))} key='+' />
-          </>
-        }
+          {isEditingMaxSize ?
+            <>
+              <SetSizeButton text={4} onClick={() => updateMaxSegments(4)} highlight={maxSegments === 4} key={4}/>
+              <SetSizeButton text={6} onClick={() => updateMaxSegments(6)} highlight={maxSegments === 6} key={6}/>
+              <SetSizeButton text={8} onClick={() => updateMaxSegments(8)} highlight={maxSegments === 8} key={8}/>
+              <SetSizeButton text={10} onClick={() => updateMaxSegments(10)} highlight={maxSegments === 10} key={410}/>
+            </>
+          : !isDisabled &&
+            <>
+              <SetSizeButton text={'-'} highlight={true} onClick={() => setProgress(Math.max(progress-1, 0))} key='-' />
+              <SetSizeButton text={'+'} highlight={true} onClick={() => setProgress(Math.min(progress+1, maxSegments))} key='+' />
+            </>
+          }
 
-        <div className={`segments-container max-size-${maxSize}`}>
+          <div className={`segments-container max-size-${maxSegments}`}>
 
-          {[...Array(maxSize)].map((_, i) =>
-            <Segment
-              current={current}
-              segmentIndex={i}
-              setCurrent={setCurrent}
-              maxSize={maxSize}
-              key={i}
-            />
-          )}
+            {[...Array(maxSegments)].map((_, i) =>
+              <Segment
+                progress={progress}
+                segmentIndex={i}
+                setProgress={setProgress}
+                maxSegments={maxSegments}
+                key={i}
+              />
+            )}
+
+          </div>
+
+          <button
+            className='center-peg'
+            onClick={() => setIsEditingMaxSize(!isEditingMaxSize)}
+          >
+            {progress}
+          </button>
 
         </div>
-
-        <button
-          className='center-peg'
-          onClick={() => setIsEditingMaxSize(!isEditingMaxSize)}
-        >
-          {current}
-        </button>
-
-      </div>
-
-      {inputEnabled &&
-        <input
-          className='user-input'
-          type='text'
-          value={userLabel}
-          onChange={e => setUserLabel(e.target.value)}
-          placeholder={typeLabel}
-        />
       }
 
-      {!inputEnabled &&
+      {inputEnabled ?
+        <div className='user-label-container'>
+          <TextInput
+            textValue={userLabel}
+            setTextValue={setUserLabel}
+            placeholder={typeLabel}
+            maxLength={32}
+          />
+        </div>
+      :
         <div className='type-label'>
           {typeLabel}
         </div>
@@ -80,39 +84,20 @@ const Clock = ({
 }
 
 const Segment = ({
-  current,
-  setCurrent,
+  progress,
+  setProgress,
   segmentIndex,
-  maxSize,
+  maxSegments,
 }) => {
-  const isFilled = current >= (segmentIndex+1)
+  const isFilled = progress >= (segmentIndex+1)
   const filledClass = isFilled ? 'filled' : ''
   const setToOnClick = isFilled ? segmentIndex : segmentIndex + 1
   return (
     <button
       className={`Segment seg-${segmentIndex} ${filledClass}`}
-      onClick={() => setCurrent(setToOnClick)}
+      onClick={() => setProgress(setToOnClick)}
     />
   );
 }
-
-const SetSizeButton = ({
-  text,
-  onClick,
-  highlight = false,
-  disabled = false,
-}) => {
-  const highlightClass = highlight ? 'highlight' : ''
-  return (
-    <button
-      className={`SetSizeButton ${highlightClass}`}
-      onClick={onClick}
-      disabled={disabled}
-    >
-      <div>{text}</div>
-    </button>
-  );
-}
-
 
 export default Clock ;

@@ -1,0 +1,84 @@
+@import '../../../fonts';
+
+button.SetSizeButton {
+  @include text_monospace;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 6px;
+  font-size: 18px;
+
+  &.highlight {
+    background-color: $parchment_dark;
+    font-weight: bold;
+    color: $rust;
+    font-size: 24px;
+  }
+
+  &:hover:not(:disabled) {
+    background-color: $rust_light;
+  }
+
+  &:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-radius: 6px 0 0 0;
+    animation: .5s ease-out 0s 1 slideInUpLeft;
+  }
+
+  &:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+    justify-content: flex-end;
+    align-items: flex-start;
+    border-radius: 0 6px 0 0;
+    animation: .5s ease-out 0s 1 slideInUpRight;
+  }
+
+  &:nth-child(3) {
+    grid-column: 1;
+    grid-row: 2;
+    justify-content: flex-start;
+    align-items: flex-end;
+    border-radius: 0 0 0 6px;
+    animation: .5s ease-out 0s 1 slideInDownLeft;
+  }
+
+  &:nth-child(4) {
+    grid-column: 2;
+    grid-row: 2;
+    justify-content: flex-end;
+    align-items: flex-end;
+    border-radius: 0 0 6px 0;
+    animation: .5s ease-out 0s 1 slideInDownRight;
+  }
+}
+
+@keyframes slideInUpLeft {
+  0% { transform: translate(50%, 50%); }
+  35% { transform: translate(0%, 0%); }
+  70% { transform: none; }
+}
+
+@keyframes slideInUpRight {
+  0% { transform: translate(-50%, 50%); }
+  10% { transform: translate(-50%, 50%); }
+  45% { transform: translate(0%, 0%); }
+  80% { transform: none; }
+}
+
+@keyframes slideInDownLeft {
+  0% { transform: translate(50%, -50%); }
+  20% { transform: translate(50%, -50%); }
+  55% { transform: translate(0%, 0%); }
+  90% { transform: none; }
+}
+
+@keyframes slideInDownRight {
+  0% { transform: translate(-50%, -50%); }
+  30% { transform: translate(-50%, -50%); }
+  65% { transform: translate(0%, 0%); }
+  100% { transform: none; }
+}

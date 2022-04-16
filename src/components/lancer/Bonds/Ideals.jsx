@@ -10,8 +10,8 @@ const Ideals = ({
     <div className='Ideals'>
       <h4>Ideals</h4>
       <ul>
-        {bondData.major_ideals.map(ideal =>
-          <li className='major-ideal'>
+        {bondData.major_ideals.map((ideal,i) =>
+          <li className='major-ideal' key={i}>
             {ideal}
           </li>
         )}

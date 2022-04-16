@@ -8,8 +8,8 @@ const TextInput = ({
   setTextValue,
   placeholder,
   prefix,suffix,
-  isTextbox,
-  isMarkdown,
+  isTextbox = false,
+  isMarkdown = false,
   startsOpen = false,
   maxLength = -1,
 }) => {

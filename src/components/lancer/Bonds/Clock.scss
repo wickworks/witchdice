@@ -11,8 +11,9 @@
   justify-content: center;
   align-items: center;
 
-  margin-bottom: 24px;
-  padding: 0 18px;
+  margin: 0 18px 24px;
+  border-radius: 6px;
+  background-color: $parchment_dark;
 
   .controls-container {
     width: 164px;
@@ -164,95 +165,42 @@
     }
   }
 
+  .user-label-container {
+    width: 100%;
+
+    .TextInput {
+      padding: 0;
+
+      .display, input {
+        // @include text_monospace;
+        padding: 4px;
+        font-size: 20px;
+        text-align: center;
+        border: 2px solid $rust;
+        border-radius: 0 0 6px 6px;
+
+        &.placeholder {
+          color: $grey_mid;
+          border-color: $parchment_dark;
+          &:hover { background-color: $parchment_mid; }
+        }
+
+        &.not-placeholder {
+          color: white;
+          background-color: $rust;
+          &:hover { background-color: $rust_light; }
+        }
+
+      }
+    }
+  }
+
   .type-label {
-    @include text_monospace;
+    // @include text_monospace;
     color: $rust;
     font-size: 28px;
     text-align: center;
-    margin-top: -2px;
+    margin-top: -6px;
+    margin-bottom: 4px;
   }
-}
-
-
-button.SetSizeButton {
-  @include text_monospace;
-  display: flex;
-  width: 100%;
-  height: 100%;
-  padding: 6px;
-  font-size: 18px;
-
-  &.highlight {
-    background-color: $parchment_dark;
-    font-weight: bold;
-    color: $rust;
-    font-size: 24px;
-  }
-
-  &:hover:not(:disabled) {
-    background-color: $rust_light;
-  }
-
-  &:nth-child(1) {
-    grid-column: 1;
-    grid-row: 1;
-    justify-content: flex-start;
-    align-items: flex-start;
-    border-radius: 6px 0 0 0;
-    animation: .5s ease-out 0s 1 slideInUpLeft;
-  }
-
-  &:nth-child(2) {
-    grid-column: 2;
-    grid-row: 1;
-    justify-content: flex-end;
-    align-items: flex-start;
-    border-radius: 0 6px 0 0;
-    animation: .5s ease-out 0s 1 slideInUpRight;
-  }
-
-  &:nth-child(3) {
-    grid-column: 1;
-    grid-row: 2;
-    justify-content: flex-start;
-    align-items: flex-end;
-    border-radius: 0 0 0 6px;
-    animation: .5s ease-out 0s 1 slideInDownLeft;
-  }
-
-  &:nth-child(4) {
-    grid-column: 2;
-    grid-row: 2;
-    justify-content: flex-end;
-    align-items: flex-end;
-    border-radius: 0 0 6px 0;
-    animation: .5s ease-out 0s 1 slideInDownRight;
-  }
-}
-
-@keyframes slideInUpLeft {
-  0% { transform: translate(50%, 50%); }
-  35% { transform: translate(0%, 0%); }
-  70% { transform: none; }
-}
-
-@keyframes slideInUpRight {
-  0% { transform: translate(-50%, 50%); }
-  10% { transform: translate(-50%, 50%); }
-  45% { transform: translate(0%, 0%); }
-  80% { transform: none; }
-}
-
-@keyframes slideInDownLeft {
-  0% { transform: translate(50%, -50%); }
-  20% { transform: translate(50%, -50%); }
-  55% { transform: translate(0%, 0%); }
-  90% { transform: none; }
-}
-
-@keyframes slideInDownRight {
-  0% { transform: translate(-50%, -50%); }
-  30% { transform: translate(-50%, -50%); }
-  65% { transform: translate(0%, 0%); }
-  100% { transform: none; }
 }
