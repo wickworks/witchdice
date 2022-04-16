@@ -16,7 +16,7 @@ const Bonds = ({
   return (
     <div className='Bonds'>
       <div className='bonds-page'>
-        <h2>{bondData.name}</h2>
+        <h2><span className='pilot-name'>{activePilot.name},</span> {bondData.name}</h2>
         <div className='columns'>
           <div className='clocks-column'>
             <Clock typeLabel='XP' defaultSize={8} />

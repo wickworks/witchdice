@@ -24,8 +24,14 @@
 
     h2 {
       text-align: center;
-      font-size: 32px;
+      font-size: 42px;
       color: $rust;
+      margin: 12px 0 24px;
+
+      .pilot-name {
+        color: $soft_black;
+        font-weight: normal;
+      }
     }
 
     h4 {

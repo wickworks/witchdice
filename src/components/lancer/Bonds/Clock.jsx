@@ -51,7 +51,10 @@ const Clock = ({
 
         </div>
 
-        <button className='center-peg' onClick={() => setIsEditingMaxSize(!isEditingMaxSize)}>
+        <button
+          className='center-peg'
+          onClick={() => setIsEditingMaxSize(!isEditingMaxSize)}
+        >
           {current}
         </button>
 
