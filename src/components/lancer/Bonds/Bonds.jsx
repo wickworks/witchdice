@@ -74,7 +74,7 @@ const Bonds = ({
           // clear it?
           if ('clearBurden' in newBondData[statKey]) {
             newLocalBurdens[burdenIndex] = deepCopy(emptyBurden)
-            
+
           } else {
             // is this a new burden?
             if (!burdenToUpdate.id) {
@@ -108,12 +108,14 @@ const Bonds = ({
               progress={activePilot.xp}
               setProgress={progress => updateBondState({ xp: progress }) }
               maxSegments={8}
+              onReset={() => updateBondState({ xp: 0 }) }
               typeLabel='XP'
             />
             <Clock
               progress={activePilot.stress}
               setProgress={progress => updateBondState({ stress: progress }) }
               maxSegments={8}
+              onReset={() => updateBondState({ stress: 0 }) }
               typeLabel='Stress'
             />
 
@@ -123,6 +125,7 @@ const Bonds = ({
                 setProgress={progress => updateBondState({ burdens: {burdenIndex: i, progress: progress} }) }
                 maxSegments={localBurdens[i].segments}
                 setMaxSegments={maxSegments => updateBondState({ burdens: {burdenIndex: i, segments: maxSegments} }) }
+                onReset={() => updateBondState({ burdens: {burdenIndex: i, progress: 0} }) }
                 onFinish={() => updateBondState({ burdens: {burdenIndex: i, clearBurden: true} }) }
                 typeLabel={i < 2 ? 'Minor Burden' : 'Major Burden'}
                 userLabel={localBurdens[i].title}
