@@ -27,9 +27,9 @@ const Bonds = ({
           </div>
 
           <div className='text-column'>
-            <QAndA question='What gives you your powers?' answer={'Deep-seated trauma'}/>
-            <QAndA question='What do you speak with?' answer={'My clothes'} />
-            <Ideals activePilot={activePilot} />
+            <QAndA question='What gives you your powers?' answer={activePilot.bondAnswers[0]}/>
+            <QAndA question='What do you speak with?' answer={activePilot.bondAnswers[1]} />
+            <Ideals activePilot={activePilot} bondData={bondData} />
             <BondPowers activePilot={activePilot} />
           </div>
         </div>

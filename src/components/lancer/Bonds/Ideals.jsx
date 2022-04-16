@@ -3,20 +3,24 @@ import './Ideals.scss';
 
 const Ideals = ({
   activePilot,
+  bondData,
 }) => {
 
   return (
     <div className='Ideals'>
-      <p className='major-ideal'>
-        I addressed challenges with strength, leadership, or force.
-      </p>
-      <p className='major-ideal'>
-        I addressed challenges with strength, leadership, or force.
-      </p>
-      <p className='major-ideal'>
-        I addressed challenges with strength, leadership, or force.
-      </p>
-      <input type='text' placeholder='Select a minor ideal' />
+      <h4>Ideals</h4>
+      <ul>
+        {bondData.major_ideals.map(ideal =>
+          <li className='major-ideal'>
+            {ideal}
+          </li>
+        )}
+
+        <li className='minor-ideal'>
+          {activePilot.minorIdeal ? activePilot.minorIdeal : '[ Minor ideal ]'}
+          {/*<input type='text' placeholder='Select a minor ideal' />*/}
+        </li>
+      </ul>
     </div>
   );
 }

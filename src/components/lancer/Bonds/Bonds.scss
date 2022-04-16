@@ -28,8 +28,24 @@
       color: $rust;
     }
 
+    h4 {
+      @include text_monospace;
+      color: $rust;
+      font-size: 24px;
+      margin: 36px 0 12px;
+      font-weight: normal;
+    }
+
     .columns {
       display: flex;
+
+      .clocks-column {
+        width: 200px;
+      }
+
+      .text-column {
+        padding: 0 20px;
+      }
     }
 
     //

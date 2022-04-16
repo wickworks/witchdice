@@ -6,18 +6,14 @@ const BondPowers = ({
   activePilot,
 }) => {
 
-  const bondTraits = [
-    {
-      name: 'Absolute Meat',
+  const bondTraits = activePilot.bondPowers.map(power => {
+    return {
+      name: power.name,
       // activation: deployable.activation || 'Deployable',
       // trigger: deployable.trigger,
-      description: 'If you concentrate and grit your teet, get stronk.',
-      isTitleCase: true,
+      description: power.description,
     }
-  ]
-
-  // make it so this is broadcastable!
-  // setRollSummaryData={setRollSummaryData}
+  })
 
   return (
     <div className='BondPowers'>

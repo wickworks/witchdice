@@ -4,13 +4,16 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  color: $rust;
+  margin-bottom: 14px;
 
   .question {
+    color: $rust;
     font-style: italic;
+    margin-bottom: 4px;
   }
 
   .answer {
-    font-weight: bold;
+    // font-weight: bold;
+    font-size: 18px;
   }
 }
