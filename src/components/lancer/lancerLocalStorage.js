@@ -11,6 +11,7 @@ export const STORAGE_ID_LENGTH = 6;
 export const NPC_LIBRARY_NAME = 'lancer-npcs'
 export const SELECTED_CHARACTER_KEY = "lancer-selected-character"
 export const LANCER_SQUAD_MECH_KEY = 'lancer-squad-mech' // a summary for the squad data
+export const LANCER_SQUAD_CLOCK_KEY = 'lancer-squad-clock' // a summary for the squad data
 
 export function saveLcpData(contentPack) {
   saveLocalData(LCP_PREFIX, contentPack.id.slice(0,STORAGE_ID_LENGTH), contentPack.manifest.name, contentPack);
@@ -80,4 +81,13 @@ export const saveNpcStateToLocalStorage = (mechState, activePilot, activeMech) =
   } else {
     console.error('Could not find mech ', activeMech.id, ' for pilot!')
   }
+}
+
+
+export function saveSquadClockData(allSquadClocks) {
+  localStorage.setItem(LANCER_SQUAD_CLOCK_KEY, JSON.stringify(allSquadClocks));
+}
+
+export function loadSquadClockData(encounterID) {
+  return localStorage.getItem(LANCER_SQUAD_CLOCK_KEY);
 }

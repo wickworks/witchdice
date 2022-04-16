@@ -137,6 +137,14 @@ const blankBond = {
   "powers": [],
 }
 
+export const blankClock = {
+  id: '',
+  title: '',
+  description: '',
+  resolution: '',
+  segments: 8,
+  progress: 0,
+}
 
 var loadedLcpData = {};
 function findGameDataFromLcp(gameDataType, gameDataID) {

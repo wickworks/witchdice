@@ -3,6 +3,7 @@ import { FileList, PlainList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
 import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import PilotDossier from './PilotDossier.jsx';
+import SquadClockPanel from '../Bonds/SquadClockPanel.jsx';
 import Bonds from '../Bonds/Bonds.jsx';
 import BondButton from './BondButton.jsx';
 import PlayerMechSheet from './PlayerMechSheet.jsx';
@@ -249,11 +250,20 @@ const LancerPlayerMode = ({
       }
 
       { isViewingBond &&
-        <Bonds
-          activePilot={activePilot}
-          setTriggerRerender={setTriggerRerender}
-          triggerRerender={triggerRerender}
-        />
+        <>
+          <Bonds
+            activePilot={activePilot}
+            setTriggerRerender={setTriggerRerender}
+            triggerRerender={triggerRerender}
+          />
+
+          <SquadClockPanel
+            partyConnected={partyConnected}
+            partyRoom={partyRoom}
+            setTriggerRerender={setTriggerRerender}
+            triggerRerender={triggerRerender}
+          />
+        </>
       }
 
       <div className='jumplink-anchor' id='mech' />

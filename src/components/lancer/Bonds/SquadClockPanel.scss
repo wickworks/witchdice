@@ -1,0 +1,43 @@
+@import '../../../fonts';
+
+.SquadClockPanel {
+	@include standard_side_margin;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  box-sizing: border-box;
+  align-items: center;
+	overflow: hidden;
+
+  .panel {
+    @include shadow;
+		border-radius: 14px;
+		background-color: $concrete_violet_dark;
+
+		border: 8px double $crushed_velvet;
+		border-left: none;
+		border-right: none;
+
+		position: relative;
+    box-sizing: border-box;
+    padding: 16px 0;
+    width: 100%;
+    max-width: 800px;
+
+		.clocks-container {
+			display: flex;
+      flex-wrap: wrap;
+
+			h3.squad-label {
+				font-size: 46px;
+				font-weight: normal;
+
+				text-align: center;
+				color: $crushed_velvet;
+				margin: 0 0 12px;
+			}
+
+		}
+	}
+}

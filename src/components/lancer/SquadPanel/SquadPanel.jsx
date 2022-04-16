@@ -6,6 +6,8 @@ import { LANCER_SQUAD_MECH_KEY } from '../lancerLocalStorage.js';
 
 import './SquadPanel.scss';
 
+const FIREBASE_SQUAD_MECH_KEY = 'mechsquad'
+
 function getFirebaseDB() {
   return window.firebase.database().ref()
 }
@@ -40,7 +42,7 @@ const SquadPanel = ({
     const newEntry = deepCopy(currentSquadMech)
 
 		if (partyConnected) {
-			const dbSquadRef = getFirebaseDB().child('mechsquad').child(partyRoom)
+			const dbSquadRef = getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom)
 			const newKey = dbSquadRef.push(newEntry).key
 
       // add the firebase key to the locally-saved entry
@@ -59,7 +61,7 @@ const SquadPanel = ({
 
 		if (partyConnected) {
 			const firebaseKey = allSquadMechs[index].firebaseKey
-			getFirebaseDB().child('mechsquad').child(partyRoom).child(firebaseKey).remove()
+			getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom).child(firebaseKey).remove()
 		}
 
 		let newData = [...allSquadMechs]
@@ -71,7 +73,7 @@ const SquadPanel = ({
 		let firebaseEntry = {...entry}
 		const firebaseKey = firebaseEntry.firebaseKey
 		delete firebaseEntry.firebaseKey // keep the key itself out of the firebase object
-    getFirebaseDB().child('mechsquad').child(partyRoom).child(firebaseKey).set(firebaseEntry)
+    getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom).child(firebaseKey).set(firebaseEntry)
 	}
 
   // ~~ DETECT LOCAL CHANGE, TRIGGER A SERVER UPDATE  ~~
@@ -130,7 +132,7 @@ const SquadPanel = ({
 	useEffect(() => {
 		if (partyConnected) {
 			try {
-				const dbInitiativeRef = getFirebaseDB().child('mechsquad').child(partyRoom)
+				const dbInitiativeRef = getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom)
 
 				dbInitiativeRef.on('child_changed', (snapshot) => {
 					if (snapshot) {

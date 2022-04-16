@@ -3,20 +3,11 @@ import Clock from './Clock.jsx';
 import QAndA from './QAndA.jsx';
 import Ideals from './Ideals.jsx';
 import BondPowers from './BondPowers.jsx';
-import { findBondData } from '../lancerData.js';
+import { findBondData, blankClock } from '../lancerData.js';
 import { savePilotData } from '../lancerLocalStorage.js';
 import { deepCopy } from '../../../utils.js';
 import { getRandomFingerprint } from '../../../localstorage.js';
 import './Bonds.scss';
-
-const emptyBurden = {
-  id: '',
-  title: '',
-  description: '',
-  resolution: '',
-  segments: 8,
-  progress: 0,
-}
 
 // COMP/CON is ambivalent about the ordering or number of burdens; we want there to be three slots
 function initializeLocalBurdens(pilot) {
@@ -29,10 +20,10 @@ function initializeLocalBurdens(pilot) {
     // add the minor burdens, any empty burdens as padding to bring it up to 3, then major burdens
     initialBurdens.push(...minorBurdens)
     let emptyBurdenCount = 3 - minorBurdens.length - majorBurdens.length
-    let emptyBurdens = [...Array(emptyBurdenCount)].forEach(i => initialBurdens.push(emptyBurden))
+    let emptyBurdens = [...Array(emptyBurdenCount)].forEach(i => initialBurdens.push(blankClock))
     initialBurdens.push(...majorBurdens)
   } else {
-    initialBurdens = [emptyBurden, emptyBurden, emptyBurden]
+    initialBurdens = [blankClock, blankClock, blankClock]
   }
 
   return initialBurdens
@@ -73,7 +64,7 @@ const Bonds = ({
 
           // clear it?
           if ('clearBurden' in newBondData[statKey]) {
-            newLocalBurdens[burdenIndex] = deepCopy(emptyBurden)
+            newLocalBurdens[burdenIndex] = deepCopy(blankClock)
 
           } else {
             // is this a new burden?
