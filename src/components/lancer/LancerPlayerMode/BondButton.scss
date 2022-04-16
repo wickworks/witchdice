@@ -14,6 +14,7 @@
     height: 100%;
     background-color: $parchment_dark;
     font-size: 24px;
+    border-radius: 8px;
 
     &:hover {
       background-color: $rust_light;
@@ -22,6 +23,10 @@
     &:disabled {
       background-color: $rust;
       color: white;
+    }
+
+    .no-bond {
+      font-style: italic;
     }
   }
 }

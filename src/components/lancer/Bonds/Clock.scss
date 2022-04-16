@@ -9,15 +9,80 @@
   margin-bottom: 24px;
   padding: 0 18px;
 
-  .segment-container {
-    border-radius: 100%;
-    background-color: $rust;
+  .controls-container {
     width: 128px;
     height: 128px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 
     &.disabled {
       opacity: .5;
     }
+
+    button.SetSizeButton {
+      @include text_monospace;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      font-size: 18px;
+      padding: 6px;
+
+      &.current {
+        background-color: $rust;
+        color: white;
+        font-weight: bold;
+      }
+
+      &:hover {
+        background-color: $rust_light;
+      }
+
+      &.size-4 {
+        grid-column: 1;
+        grid-row: 1;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+
+      &.size-6 {
+        grid-column: 2;
+        grid-row: 1;
+        justify-content: flex-end;
+        align-items: flex-start;
+      }
+
+      &.size-8 {
+        grid-column: 1;
+        grid-row: 2;
+        justify-content: flex-start;
+        align-items: flex-end;
+      }
+
+      &.size-10 {
+        grid-column: 2;
+        grid-row: 2;
+        justify-content: flex-end;
+        align-items: flex-end;
+      }
+
+      > div {
+
+
+      }
+    }
+
+    .segments-container {
+      grid-column: 1 / span 2;
+      grid-row: 1 / span 2;
+
+      border-radius: 100%;
+      background-color: $rust;
+
+      margin: 16px;
+    }
+
   }
 
   input {

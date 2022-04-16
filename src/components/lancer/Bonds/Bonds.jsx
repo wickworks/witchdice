@@ -3,15 +3,19 @@ import Clock from './Clock.jsx';
 import QAndA from './QAndA.jsx';
 import Ideals from './Ideals.jsx';
 import BondPowers from './BondPowers.jsx';
+import { findBondData } from '../lancerData.js';
 import './Bonds.scss';
 
 const Bonds = ({
   activePilot
 }) => {
+
+  const bondData = findBondData(activePilot.bondId)
+
   return (
     <div className='Bonds'>
       <div className='bonds-page'>
-        <h2>The Broker</h2>
+        <h2>{bondData.name}</h2>
         <div className='columns'>
           <div className='clocks-column'>
             <Clock typeLabel='XP' />

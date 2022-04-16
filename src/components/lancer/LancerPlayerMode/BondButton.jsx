@@ -15,7 +15,7 @@ const BondButton = ({
         {!!bondID ?
           findBondData(bondID).name
         :
-          'No bond chosen.'
+          <span className='no-bond'>No bond.</span>
         }
       </button>
     </div>
