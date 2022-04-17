@@ -17,6 +17,7 @@ const data = hashLcpData(require('lancer-data'));
 const allActions = data.actions;
 const allWeapons = data.weapons;
 const allSkills = data.skills;
+const allPilotGear = data.pilot_gear;
 const allTags = data.tags;
 const allFrames = data.frames;
 const allTalents = data.talents;
@@ -60,6 +61,13 @@ const blankSkill = {
   "description": "",
   "detail": "",
   "family": ""
+}
+
+const blankPilotGear = {
+  "id": "unknown_pilot_gear",
+  "name": "UNKNOWN PILOT GEAR",
+  "type": "Gear",
+  "description": "",
 }
 
 const blankStatus = {
@@ -199,6 +207,12 @@ export const findSkillData = (skillID) => {
   var skillData = allSkills[skillID]
   if (!skillData) skillData = findGameDataFromLcp('skills', skillID)
   return skillData ? skillData : blankSkill
+}
+
+export const findPilotGearData = (pilotGearID) => {
+  var pilotGearData = allPilotGear[pilotGearID]
+  if (!pilotGearData) pilotGearData = findGameDataFromLcp('pilot_gear', pilotGearID)
+  return pilotGearData ? pilotGearData : blankPilotGear
 }
 
 export const findCoreBonusData = (coreBonusID) => {

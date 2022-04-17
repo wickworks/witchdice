@@ -20,6 +20,7 @@ const ChangeLog = () => {
             <li>New clocks panel for Lancer + Dicebag, synced to the room.</li>
             <li>New Bond character sheet with clocks, powers, etc.</li>
             <li>Can upload and re-sync pilots via their COMPCON share code.</li>
+            <li>Added pilot gear to the dossier card.</li>
           </ul>
 
           <div className='version-label'>v0.11.1-5 — Mar 2022</div>

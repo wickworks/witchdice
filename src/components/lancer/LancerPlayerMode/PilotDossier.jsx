@@ -1,6 +1,6 @@
 import React from 'react';
 import MechanicsList from '../MechanicsList.jsx';
-import { findSkillData, findFrameData, findTalentData, findCoreBonusData } from '../lancerData.js';
+import { findSkillData, findPilotGearData, findFrameData, findTalentData, findCoreBonusData } from '../lancerData.js';
 import './PilotDossier.scss';
 
 function hashCode(s){
@@ -83,6 +83,15 @@ const PilotDossier = ({
               tooltipHref='https://compcon.app/#/compendium/talents'
               mechanicIDList={activePilot.talents}
               containerClass={'talents'}
+            />
+
+            <MechanicsList
+              label='Pilot Gear'
+              findData={findPilotGearData}
+              tooltipContentKey='description'
+              tooltipHref='https://compcon.app/#/compendium/pilot_gear'
+              mechanicIDList={activePilot.loadout.gear}
+              containerClass={'gear'}
             />
 
             <MechanicsList
