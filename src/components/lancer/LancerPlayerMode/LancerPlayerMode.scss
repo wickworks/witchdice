@@ -2,6 +2,10 @@
 
 .LancerPlayerMode {
 
+  > .LoadinDots {
+    margin: 80px auto;
+  }
+
   .mechlist-or-bonds {
     @include standard_side_margin;
     display: flex;

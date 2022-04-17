@@ -38,6 +38,7 @@ const CharacterList = ({
   activeCharacterID,
   deleteActiveCharacter,
   exportActiveCharacter = null,
+  refreshActiveCharacter = null,
   createNewCharacter,
   title = 'Character',
   onTitleClick = null,
@@ -65,6 +66,7 @@ const CharacterList = ({
           activeCharacterID={activeCharacterID}
           deleteActiveCharacter={deleteActiveCharacter}
           exportActiveCharacter={exportActiveCharacter}
+          refreshActiveCharacter={refreshActiveCharacter}
         />
       :
         <button className="new-character first" onClick={createNewCharacter}>

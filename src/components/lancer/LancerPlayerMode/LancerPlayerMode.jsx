@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FileList, PlainList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
+import LoadinDots from '../../shared/LoadinDots.jsx';
 import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import PilotDossier from './PilotDossier.jsx';
 import Bonds from '../Bonds/Bonds.jsx';
@@ -26,6 +27,9 @@ import compendiaJonesJson from './YOURGRACE.json';
 
 import './LancerPlayerMode.scss';
 
+const PILOT_SHARE_CODE_URL = 'https://api.compcon.app/share?code='
+
+
 const LancerPlayerMode = ({
   setTriggerRerender,
   triggerRerender,
@@ -45,6 +49,7 @@ const LancerPlayerMode = ({
 
   const [isViewingBond, setIsViewingBond] = useState(false);
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
+  const [isWaitingOnSharecodeResponse, setIsWaitingOnSharecodeResponse] = useState(false);
 
   const changeMech = (newMechID) => {
     setActiveMechID(newMechID)
@@ -110,7 +115,35 @@ const LancerPlayerMode = ({
     };
   }
 
-  const createNewPilot = (pilot) => {
+  const fetchShareCode = (shareCode) => {
+    if (!shareCode) return
+    console.log('Fetching pilot via share code:', shareCode);
+
+    const fetchHeader = { 'x-api-key': process.env.REACT_APP_COMPCON_API_KEY }
+    fetch(PILOT_SHARE_CODE_URL+shareCode, { headers: fetchHeader } )
+    .then(
+      response => response.json()
+    ).then(data => {
+      console.log('DATA FROM COMPCON::');
+      console.log(data)
+      const pilotFetchUrl = data.presigned
+      return fetch(pilotFetchUrl)
+    }).then(
+      response => response.json()
+    ).then(pilotData => {
+      console.log('DATA FROM S3::');
+      console.log(pilotData)
+      createNewPilot(pilotData, shareCode)
+      setIsWaitingOnSharecodeResponse(false)
+    }).catch(() => {
+      console.log('Failed to fetch pilot via share code.');
+      setIsWaitingOnSharecodeResponse(false)
+    });
+
+    setIsWaitingOnSharecodeResponse(true)
+  }
+
+  const createNewPilot = (pilot, shareCode = null) => {
     // sanity-check the pilot file
     if (!pilot || !pilot.id || !pilot.mechs) return
 
@@ -122,6 +155,9 @@ const LancerPlayerMode = ({
       deletePilotData(allPilotEntries[pilotIndex].id, allPilotEntries[pilotIndex].name)
       newData.splice(pilotIndex, 1)
     }
+
+    // add the sharecode to this pilot if we have one
+    if (shareCode) pilot.shareCode = shareCode
 
     // store the entry & set it to active
     newData.push({name: pilot.name, id: pilot.id});
@@ -183,7 +219,6 @@ const LancerPlayerMode = ({
     downloadAnchorNode.remove();
   }
 
-
   let jumplinks = ['pilot']
   if (activeMechID) {
     jumplinks.push('mech','weapons')
@@ -200,31 +235,43 @@ const LancerPlayerMode = ({
         <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />
       }
 
-      <FileList
-        title='Pilot'
-        extraClass='pilots'
-        onFileUpload={uploadPilotFile}
-        onFilePaste={parsedJson => createNewPilot(parsedJson)}
-        isUploadingNewFile={isUploadingNewFile}
-        setIsUploadingNewFile={setIsUploadingNewFile}
-        instructions={
-          <>
-            Upload a pilot data file (.json) from
-            <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
-          </>
-        }
-      >
-        <CharacterList
-          title={'Pilot'}
-          characterEntries={allPilotEntries}
-          handleEntryClick={setActivePilot}
-          activeCharacterID={activePilotID}
-          deleteActiveCharacter={deleteActivePilot}
-          exportActiveCharacter={exportActivePilot}
-          createNewCharacter={() => setIsUploadingNewFile(true)}
-        />
+      {isWaitingOnSharecodeResponse ?
+        <LoadinDots />
+      :
+        <FileList
+          title='Pilot'
+          extraClass='pilots'
+          onFileUpload={uploadPilotFile}
+          onFilePaste={parsedJson => createNewPilot(parsedJson)}
+          onShareCodePaste={fetchShareCode}
+          shareCodeLength={6}
+          isUploadingNewFile={isUploadingNewFile}
+          setIsUploadingNewFile={setIsUploadingNewFile}
+          instructions={
+            <>
+              Upload a pilot data file (.json) from
+              <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
+            </>
+          }
+        >
+          <CharacterList
+            title={'Pilot'}
+            characterEntries={allPilotEntries}
+            handleEntryClick={setActivePilot}
+            activeCharacterID={activePilotID}
+            deleteActiveCharacter={deleteActivePilot}
+            exportActiveCharacter={exportActivePilot}
+            refreshActiveCharacter={
+              (activePilot && activePilot.shareCode) ?
+                (() => fetchShareCode(activePilot.shareCode))
+              :
+                null
+            }
+            createNewCharacter={() => setIsUploadingNewFile(true)}
+          />
 
-      </FileList>
+        </FileList>
+      }
 
       <div className='jumplink-anchor' id='pilot' />
       { activePilot &&

@@ -26,3 +26,9 @@ firebase hosting:channel:deploy eye-of-newt
 firebase deploy
 make a version commit
 move deployed branch up to main
+
+
+### NEW ENVIRONMENT ###
+create a .env file in the root directory:
+
+REACT_APP_COMPCON_API_KEY=xxxxx

@@ -6,10 +6,13 @@ import './FileAndPlainList.scss';
 const FileList = ({
   title,
   extraClass,
+  onTitleClick = null,
+
   onFileUpload,
   onFilePaste,
+  onShareCodePaste,
+  shareCodeLength,
   acceptFileType = 'application/JSON',
-  onTitleClick = null,
 
   isUploadingNewFile,
   setIsUploadingNewFile,
@@ -36,23 +39,31 @@ const FileList = ({
   }
 
   const onPastedFileChange = e => {
-    var jsonString = String(e.target.value)
+    var pastedString = String(e.target.value)
 
-    try {
-      const pilot = JSON.parse(jsonString)
-
-      // sanity-check the pilot file
-      if (!pilot || !pilot.id || !pilot.mechs) throw new Error('Pilot looks handwritten! :(')
-
-      onFilePaste(pilot)
+    // is this a share code?
+    if (shareCodeLength && pastedString.length === shareCodeLength) {
+      onShareCodePaste(pastedString)
       reset()
-      return
 
-    } catch(err) {
-      console.log('Json error:', err);
-      setPastedError(true)
-      setPastedFile(jsonString)
+    } else {
+      try {
+        const pilot = JSON.parse(pastedString)
+        // sanity-check the pilot file
+        if (!pilot || !pilot.id || !pilot.mechs) throw new Error('Invalid pilot file!')
+
+        onFilePaste(pilot)
+        reset()
+        return
+
+      } catch(err) {
+        console.log('Json error:', err);
+        setPastedError(true)
+        setPastedFile(pastedString)
+      }
     }
+
+
   }
 
   return (
@@ -74,13 +85,14 @@ const FileList = ({
                 </label>
               }
 
+              or
 
               {onFilePaste &&
                 <div className="paste-container">
                   <input
                     type="text"
                     value={pastedFile}
-                    placeholder='Or paste json here'
+                    placeholder={!!onShareCodePaste ? '.json or share code' : '.json'}
                     onChange={onPastedFileChange}
                   />
                 </div>

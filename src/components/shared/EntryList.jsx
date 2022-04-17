@@ -11,6 +11,7 @@ const EntryList = ({
   deleteActiveCharacter,
   deleteEnabled = true,
   exportActiveCharacter,
+  refreshActiveCharacter,
   highlightIDs = [],
 }) => {
   const [isDeleting, setIsDeleting] = useState(false);
@@ -18,8 +19,6 @@ const EntryList = ({
   const activeCharacter = entries.find(entry => {
     return entry.id === activeCharacterID
   })
-
-  const exportEnabled = !!exportActiveCharacter
 
   return (
     <ul className="EntryList">
@@ -45,7 +44,14 @@ const EntryList = ({
                 {name}
               </span>
 
-              {exportEnabled && (id === activeCharacterID) &&
+              {!!refreshActiveCharacter && (id === activeCharacterID) &&
+                <button
+                  className='RefreshButton asset refresh'
+                  onClick={refreshActiveCharacter}
+                />
+              }
+
+              {!!exportActiveCharacter && (id === activeCharacterID) &&
                 <button
                   className='ExportButton asset export'
                   onClick={exportActiveCharacter}
