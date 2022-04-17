@@ -252,14 +252,6 @@ const MainLancer = ({
 
       { partyConnected &&
         <>
-          <div className='jumplink-anchor' id='clocks' />
-          <SquadClockPanel
-            partyConnected={partyConnected}
-            partyRoom={partyRoom}
-            setTriggerRerender={setTriggerRerender}
-            triggerRerender={triggerRerender}
-          />
-
           <div className='jumplink-anchor' id='squad' />
           <SquadPanel
             partyConnected={partyConnected}
@@ -267,6 +259,14 @@ const MainLancer = ({
           />
         </>
       }
+
+      <div className='jumplink-anchor' id='clocks' />
+      <SquadClockPanel
+        partyConnected={partyConnected}
+        partyRoom={partyRoom}
+        setTriggerRerender={setTriggerRerender}
+        triggerRerender={triggerRerender}
+      />
 
     </div>
   )
