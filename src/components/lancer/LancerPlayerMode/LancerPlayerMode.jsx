@@ -8,6 +8,7 @@ import Bonds from '../Bonds/Bonds.jsx';
 import BondButton from './BondButton.jsx';
 import PlayerMechSheet from './PlayerMechSheet.jsx';
 import JumplinkPanel from '../JumplinkPanel.jsx';
+import { deepCopy } from '../../../utils.js';
 
 import {
   savePilotData,
@@ -143,25 +144,35 @@ const LancerPlayerMode = ({
     setIsWaitingOnSharecodeResponse(true)
   }
 
-  const createNewPilot = (pilot, shareCode = null) => {
-    // sanity-check the pilot file
-    if (!pilot || !pilot.id || !pilot.mechs) return
+  const createNewPilot = (pilot, viaShareCode = null) => {
+    if (!pilot || !pilot.id || !pilot.mechs) return // sanity-check the pilot file
+    const newPilot = deepCopy(pilot)
 
-    let newData = [...allPilotEntries]
+    let newPilotEntries = [...allPilotEntries]
 
     // remove any existing pilots of this ID
+    let preserveBondData = null
     let pilotIndex = allPilotEntries.findIndex(entry => entry.id === pilot.id);
     if (pilotIndex >= 0) {
+      // PRESERVE bond data; players should be able to use COMPCON to update mechs without clearing thier local bond stuff
+      if (viaShareCode) {
+        const old = loadPilotData(activePilotID)
+        preserveBondData = {
+          bondId:old.bondId, xp:old.xp, stress:old.stress, burdens:old.burdens, bondPowers:old.bondPowers, bondAnswers:old.bondAnswers, minorIdeal:old.minorIdeal
+        }
+      }
       deletePilotData(allPilotEntries[pilotIndex].id, allPilotEntries[pilotIndex].name)
-      newData.splice(pilotIndex, 1)
+      newPilotEntries.splice(pilotIndex, 1)
     }
 
     // add the sharecode to this pilot if we have one
-    if (shareCode) pilot.shareCode = shareCode
+    if (viaShareCode) pilot.shareCode = viaShareCode
+    // preserve bond data
+    if (preserveBondData) pilot = {...pilot, ...preserveBondData}
 
     // store the entry & set it to active
-    newData.push({name: pilot.name, id: pilot.id});
-    setAllPilotEntries(newData);
+    newPilotEntries.push({name: pilot.name, id: pilot.id});
+    setAllPilotEntries(newPilotEntries);
 
     // save to localstorage
     savePilotData(pilot)
