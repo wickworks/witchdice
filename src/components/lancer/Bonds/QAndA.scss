@@ -6,6 +6,8 @@
   align-items: flex-end;
   margin-bottom: 14px;
 
+  @include below_max_width { align-items: flex-start; }
+
   .question {
     color: $rust;
     font-style: italic;
@@ -26,10 +28,11 @@
 
     .TextInput {
       .display, input {
-        font-size: 18px;
-        text-align: right;
-        font-style: normal;
         width: 100%;
+        font-size: 18px;
+        font-style: normal;
+        text-align: right;
+        @include below_max_width { text-align: left; }
 
         &.placeholder {
           color: $rust;

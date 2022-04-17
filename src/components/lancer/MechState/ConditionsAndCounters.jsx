@@ -12,7 +12,6 @@ import {
 
 
 // =============== ADD / REMOVE TAG CRAP =============
-
 const conditionOptions = Object.values(allStatuses).map(condition => ({
   "value" : condition.name,
   "label" : condition.name

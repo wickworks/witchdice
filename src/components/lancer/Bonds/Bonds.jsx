@@ -57,12 +57,13 @@ const Bonds = ({
     let newPilotData = deepCopy(activePilot);
 
     Object.keys(newBondData).forEach(statKey => {
-      console.log('statKey',statKey, ':', newBondData[statKey]);
+      // console.log('statKey',statKey, ':', newBondData[statKey]);
       switch (statKey) {
         case 'xp':
         case 'stress':
         case 'bondAnswers':
         case 'minorIdeal':
+        case 'bondPowers':
           newPilotData[statKey] = newBondData[statKey]
           break;
 
@@ -152,7 +153,11 @@ const Bonds = ({
               minorIdeal={activePilot.minorIdeal || ''}
               setMinorIdeal={minorIdeal => updateBondState({ minorIdeal: minorIdeal}) }
             />
-            <BondPowers activePilot={activePilot} />
+            <BondPowers
+              bondData={bondData}
+              pilotBondPowers={activePilot.bondPowers || []}
+              setPilotBondPowers={bondPowers => updateBondState({ bondPowers: bondPowers}) }
+            />
           </div>
         </div>
       </div>

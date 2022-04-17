@@ -46,8 +46,21 @@
     .columns {
       display: flex;
 
+      @include below_max_width {
+        flex-direction: column;
+      }
+
       .clocks-column {
+        display: flex;
+        flex-direction: column;
         width: 200px;
+
+        @include below_max_width {
+          width: 100%;
+          justify-content: center;
+          flex-direction: row;
+          flex-wrap: wrap;
+        }
 
         > * { margin-bottom: 24px; }
       }

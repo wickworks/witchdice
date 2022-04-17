@@ -38,6 +38,10 @@
 			display: flex;
 			// align-items: center;
 			flex-wrap: wrap;
+
+			@include below_max_width {
+				justify-content: center;
+			}
 		}
 	}
 }

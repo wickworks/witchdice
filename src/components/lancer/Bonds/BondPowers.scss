@@ -2,4 +2,29 @@
 
 .BondPowers {
 
+  h4 {
+    button {
+      display: inline-block;
+      position: relative;
+      bottom: -5px;
+
+      margin-left: 4px;
+      width: 28px;
+      height: 28px;
+      opacity: .5;
+
+      // turns black to $rust
+      filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+
+      &:hover {
+        opacity: 1.0;
+      }
+    }
+  }
+
+  .powers-container {
+    > * {
+      margin-bottom: 12px;
+    }
+  }
 }
