@@ -15,7 +15,14 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-        <div className='version-label'>v0.11.1-5 — Mar 2022</div>
+          <div className='version-label'>v0.12.0 — Apr 2022</div>
+          <ul>
+            <li>New clocks panel for Lancer + Dicebag, synced to the room.</li>
+            <li>New Bond character sheet with clocks, powers, etc.</li>
+            <li>Can upload and re-sync pilots via their COMPCON share code.</li>
+          </ul>
+
+          <div className='version-label'>v0.11.1-5 — Mar 2022</div>
           <ul>
             <li>Fixed your name in rooms not saving after you update it.</li>
             <li>NPCs from non-core LCPs should show up correctly.</li>
@@ -41,7 +48,6 @@ const ChangeLog = () => {
             <li>Last Argument of Kings shows up properly.</li>
             <li>Ability save and check bonuses from core bonuses come through.</li>
             <li>NucCav and Hacker I bonuses come through for tech attacks.</li>
-            <li>Fix a few crash edge cases.</li>
           </ul>
 
           <div className='version-label'>v0.11.0 — Mar 2022</div>

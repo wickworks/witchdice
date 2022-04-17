@@ -3,10 +3,11 @@
 .BondPowers {
 
   h4 {
+    display: flex;
+
     button {
-      display: inline-block;
       position: relative;
-      bottom: -5px;
+      bottom: -4px;
 
       margin-left: 4px;
       width: 28px;

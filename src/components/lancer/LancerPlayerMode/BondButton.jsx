@@ -9,13 +9,13 @@ const BondButton = ({
   bondID,
 }) => {
   const bondData = findBondData(bondID)
-  const needToReuploadLcp = bondData.id === 'bond-unknown';
-  const hasBond = !!bondData.id;
+  const hasBond = !!bondID;
+  const needToReuploadLcp = hasBond && (bondData.id === 'bond-unknown');
 
   return (
     <div className='BondButton'>
       <button onClick={onClick} disabled={isViewingBond || needToReuploadLcp}>
-        { needToReuploadLcp ?
+        { hasBond && needToReuploadLcp ?
           <span className='no-bond'>Please reupload the KTB lcp, then refresh.</span>
         : !hasBond ?
           <span className='no-bond'>Bondless</span>

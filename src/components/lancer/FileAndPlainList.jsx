@@ -85,17 +85,19 @@ const FileList = ({
                 </label>
               }
 
-              or
-
               {onFilePaste &&
-                <div className="paste-container">
-                  <input
-                    type="text"
-                    value={pastedFile}
-                    placeholder={!!onShareCodePaste ? '.json or share code' : '.json'}
-                    onChange={onPastedFileChange}
-                  />
-                </div>
+                <>
+                  or
+
+                  <div className="paste-container">
+                    <input
+                      type="text"
+                      value={pastedFile}
+                      placeholder={!!onShareCodePaste ? '.json or share code' : '.json'}
+                      onChange={onPastedFileChange}
+                    />
+                  </div>
+                </>
               }
             </div>
 
