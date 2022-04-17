@@ -8,6 +8,10 @@
     max-width: 800px;
     margin: auto;
 
+    @include below_max_width {
+      flex-direction: column-reverse;
+    }
+
     .PlainList .panel {
       margin: 0;
       max-width: unset;

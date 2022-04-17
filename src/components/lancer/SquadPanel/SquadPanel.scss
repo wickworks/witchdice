@@ -30,7 +30,10 @@
 			grid-template-columns: 1fr 50px 1fr;
 
 			@include below_max_width {
-				grid-template-columns: 1fr;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				// grid-template-columns: 1fr;
 			}
 
 
