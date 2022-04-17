@@ -189,8 +189,9 @@ const LancerPlayerMode = ({
     jumplinks.push('mech','weapons')
   }
   if (isViewingBond) jumplinks.push('bond')
-  if (partyConnected) jumplinks.push('clocks','squad')
-  jumplinks.push('clocks','dicebag')
+  if (partyConnected) jumplinks.push('squad')
+  // jumplinks.push('clocks')
+  jumplinks.push('dicebag')
 
   return (
     <div className='LancerPlayerMode'>
