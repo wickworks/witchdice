@@ -3,6 +3,15 @@ import SetSizeButton from './SetSizeButton.jsx'
 import TextInput from '../../shared/TextInput.jsx'
 import './Clock.scss';
 
+export const blankClock = {
+  id: '',
+  title: '',
+  description: '',
+  resolution: '',
+  segments: 8,
+  progress: 0,
+}
+
 const Clock = ({
   progress = 0,
   setProgress,

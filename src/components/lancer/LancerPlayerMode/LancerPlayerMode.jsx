@@ -3,7 +3,6 @@ import { FileList, PlainList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
 import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import PilotDossier from './PilotDossier.jsx';
-import SquadClockPanel from '../Bonds/SquadClockPanel.jsx';
 import Bonds from '../Bonds/Bonds.jsx';
 import BondButton from './BondButton.jsx';
 import PlayerMechSheet from './PlayerMechSheet.jsx';

@@ -337,8 +337,11 @@ const Main = ({
         <Route path="/simple">
           <HelmetForPage pageID='simple' />
           <Suspense fallback={<LoadinDots />}>
-            <MainSimple />
             {renderDicebag()}
+            <MainSimple
+              partyConnected={partyConnected}
+              partyRoom={partyRoom}
+            />
           </Suspense>
         </Route>
 

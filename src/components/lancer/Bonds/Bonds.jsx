@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Clock from './Clock.jsx';
+import Clock, { blankClock } from '../../shared/SquadClockPanel/Clock.jsx';
 import QAndA from './QAndA.jsx';
 import Ideals from './Ideals.jsx';
 import BondPowers from './BondPowers.jsx';
-import { findBondData, blankClock } from '../lancerData.js';
+import { findBondData } from '../lancerData.js';
 import { savePilotData } from '../lancerLocalStorage.js';
 import { deepCopy } from '../../../utils.js';
 import { getRandomFingerprint } from '../../../localstorage.js';

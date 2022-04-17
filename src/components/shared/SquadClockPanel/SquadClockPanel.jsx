@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import Clock from './Clock.jsx';
-import TextInput from '../../shared/TextInput.jsx'
+import Clock, { blankClock } from './Clock.jsx';
+import TextInput from '..//TextInput.jsx'
 import { deepCopy } from '../../../utils.js';
-import { blankClock } from '../lancerData.js';
 import { getRandomFingerprint } from '../../../localstorage.js';
 
 import {
-  LANCER_SQUAD_CLOCK_KEY,
+  SQUAD_CLOCK_KEY,
   saveSquadClockData,
   loadSquadClockData
-} from '../lancerLocalStorage.js';
+} from './clockLocalStorage.js';
 
 import './SquadClockPanel.scss';
 
@@ -18,7 +17,6 @@ const FIREBASE_SQUAD_CLOCK_KEY = 'clocksquad'
 function getFirebaseDB() {
   return window.firebase.database().ref()
 }
-
 // HIDDEN INPUT: a localstorage item under FIREBASE_SQUAD_CLOCK_KEY containing
 // the active mech's SquadClock summary data.
 const SquadClockPanel = ({
@@ -32,9 +30,8 @@ const SquadClockPanel = ({
   // state in firebase event listeners)
   const [clockChange, setClockChange] = useState(null)
 
-  const allSquadClocksJson = localStorage.getItem(LANCER_SQUAD_CLOCK_KEY);
+  const allSquadClocksJson = localStorage.getItem(SQUAD_CLOCK_KEY);
   const allSquadClocks = JSON.parse(allSquadClocksJson) || []
-  console.log('render allSquadClocks', allSquadClocks);
 
   useEffect(() => {
     if (!clockChange) return
@@ -166,7 +163,7 @@ const SquadClockPanel = ({
           saveSquadClockData(controlledClocks)
           setTriggerRerender(!triggerRerender)
         }
-        
+
 			} catch (error) {
 				console.log('ERROR: ',error.message);
 			}

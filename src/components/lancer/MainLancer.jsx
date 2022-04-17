@@ -4,7 +4,7 @@ import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 import LancerPlayerMode from './LancerPlayerMode/LancerPlayerMode.jsx';
 import LancerNpcMode from './LancerNpcMode/LancerNpcMode.jsx';
 import SquadPanel from './SquadPanel/SquadPanel.jsx';
-import SquadClockPanel from './Bonds/SquadClockPanel.jsx';
+import SquadClockPanel from '../shared/SquadClockPanel/SquadClockPanel.jsx';
 
 import PromisifyFileReader from 'promisify-file-reader'
 import { parseContentPack } from './contentPackParser.js';
