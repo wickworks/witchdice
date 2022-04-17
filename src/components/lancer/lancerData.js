@@ -138,9 +138,7 @@ const blankBond = {
 }
 
 var loadedLcpData = {};
-function findGameDataFromLcp(gameDataType, gameDataID) {
-  var lcpGameData;
-
+export function findAllGameDataFromLcp(gameDataType) {
   // First, load into memory any LCPs from localstorage that we haven't gotten yet
   for ( var i = 0, len = localStorage.length; i < len; ++i ) {
     const key = localStorage.key(i)
@@ -155,14 +153,28 @@ function findGameDataFromLcp(gameDataType, gameDataID) {
     }
   }
 
-  // Then look through the loaded lcp content
-  Object.keys(loadedLcpData).forEach(lcpID => {
-    const lcp = loadedLcpData[lcpID]
-    const lcpAllDataForDataType = lcp.data[gameDataType];
-    if (lcpAllDataForDataType) lcpGameData = lcpAllDataForDataType[gameDataID] || lcpGameData;
-  });
+  // then collect data from all the lcps which have data of this type
+  let allGameDataOfType = {}
+  Object.keys(loadedLcpData).map(lcpID =>
+    loadedLcpData[lcpID].data[gameDataType]
+  ).filter(
+    gameData => gameData && Object.keys(gameData).length > 0
+  ).forEach(gameData =>
+    Object.assign(allGameDataOfType, gameData)
+  )
 
-  return lcpGameData;
+  return allGameDataOfType;
+}
+
+function findGameDataFromLcp(gameDataType, gameDataID) {
+  const allGameDataOfType = findAllGameDataFromLcp(gameDataType)
+
+  // var lcpGameData
+  // allGameDataOfType.forEach(gameDataOfType =>
+  //   lcpGameData = gameDataOfType[gameDataID] || lcpGameData
+  // )
+
+  return allGameDataOfType[gameDataID]
 }
 
 export const findFrameData = (frameID) => {

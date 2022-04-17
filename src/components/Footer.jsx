@@ -105,6 +105,14 @@ const Footer = () => {
               <li>Battery by Adrien Coquet</li>
               <li>DNA by Tresnatiq</li>
               <li>export by Landan Lloyd</li>
+              <li>mask by Karla Design</li>
+              <li>sword and shield by Rifai</li>
+              <li>landscape by Yu luck</li>
+              <li>Village by Yu luck</li>
+              <li>sun by Marco Livolsi</li>
+              <li>Wolf by IronSV</li>
+              <li>Hobo Stick by Griffin Mullins</li>
+              <li>quill pen by Kangrif</li>
             </ul>
 
             <p>

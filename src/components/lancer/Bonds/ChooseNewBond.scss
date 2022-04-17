@@ -1,0 +1,40 @@
+@import '../../../fonts';
+
+.ChooseNewBond {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+
+  button.select-bond {
+    display: flex;
+    align-items: center;
+    height: 80px;
+    width: 80%;
+    // margin-bottom: 20px;
+
+    &:hover {
+      background-color: $rust;
+
+      .asset { display: block; }
+      .bond-name { display: none; }
+    }
+
+    .asset {
+      width: 60px;
+      height: 60px;
+      margin: auto;
+      display: none;
+
+      filter: invert(100%);
+    }
+
+    .bond-name {
+      margin: auto;
+      text-align: center;
+      font-size: 30px;
+      color: $rust;
+    }
+  }
+}
