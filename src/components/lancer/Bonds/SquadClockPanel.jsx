@@ -207,10 +207,11 @@ const AddSquadClockButton = ({
 }) => {
   return (
     <div className='AddSquadClockButton'>
+      <div className='asset plus' />
       <TextInput
         textValue={''}
         setTextValue={title => onClockAdd(title)}
-        placeholder={'Add new clock'}
+        placeholder={'ADD CLOCK'}
         maxLength={32}
       />
     </div>

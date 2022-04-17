@@ -185,8 +185,13 @@ const LancerPlayerMode = ({
   }
 
 
-  let jumplinks = ['pilot','mech','weapons','dicebag']
-  if (partyConnected) jumplinks.splice(-1, 0, 'squad')
+  let jumplinks = ['pilot']
+  if (activeMechID) {
+    jumplinks.push('mech','weapons')
+  }
+  if (isViewingBond) jumplinks.push('bond', 'clocks')
+  if (partyConnected) jumplinks.push('squad')
+  jumplinks.push('dicebag')
 
   return (
     <div className='LancerPlayerMode'>
@@ -251,12 +256,14 @@ const LancerPlayerMode = ({
 
       { isViewingBond &&
         <>
+          <div className='jumplink-anchor' id='bond' />
           <Bonds
             activePilot={activePilot}
             setTriggerRerender={setTriggerRerender}
             triggerRerender={triggerRerender}
           />
 
+          <div className='jumplink-anchor' id='clocks' />
           <SquadClockPanel
             partyConnected={partyConnected}
             partyRoom={partyRoom}
@@ -266,20 +273,22 @@ const LancerPlayerMode = ({
         </>
       }
 
-      <div className='jumplink-anchor' id='mech' />
       { activeMech &&
-        <PlayerMechSheet
-          activePilot={activePilot}
-          activeMech={activeMech}
+        <>
+          <div className='jumplink-anchor' id='mech' />
+          <PlayerMechSheet
+            activePilot={activePilot}
+            activeMech={activeMech}
 
-          setTriggerRerender={setTriggerRerender}
-          triggerRerender={triggerRerender}
+            setTriggerRerender={setTriggerRerender}
+            triggerRerender={triggerRerender}
 
-          setPartyLastAttackKey={setPartyLastAttackKey}
-          setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-          setRollSummaryData={setRollSummaryData}
-          setDistantDicebagData={setDistantDicebagData}
-        />
+            setPartyLastAttackKey={setPartyLastAttackKey}
+            setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+            setRollSummaryData={setRollSummaryData}
+            setDistantDicebagData={setDistantDicebagData}
+          />
+        </>
       }
     </div>
   );

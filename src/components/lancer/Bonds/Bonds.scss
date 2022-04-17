@@ -48,6 +48,8 @@
 
       .clocks-column {
         width: 200px;
+
+        > * { margin-bottom: 24px; }
       }
 
       .text-column {
