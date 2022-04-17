@@ -417,7 +417,7 @@ const LancerNpcMode = ({
       jumplinks.push('weapons')
     }
   }
-  if (partyConnected) jumplinks.push('squad')
+  if (partyConnected) jumplinks.push('clocks','squad')
   jumplinks.push('dicebag')
 
 

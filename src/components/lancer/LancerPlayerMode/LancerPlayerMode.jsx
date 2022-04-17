@@ -189,8 +189,8 @@ const LancerPlayerMode = ({
   if (activeMechID) {
     jumplinks.push('mech','weapons')
   }
-  if (isViewingBond) jumplinks.push('bond', 'clocks')
-  if (partyConnected) jumplinks.push('squad')
+  if (isViewingBond) jumplinks.push('bond')
+  if (partyConnected) jumplinks.push('clocks','squad')
   jumplinks.push('dicebag')
 
   return (
@@ -259,14 +259,6 @@ const LancerPlayerMode = ({
           <div className='jumplink-anchor' id='bond' />
           <Bonds
             activePilot={activePilot}
-            setTriggerRerender={setTriggerRerender}
-            triggerRerender={triggerRerender}
-          />
-
-          <div className='jumplink-anchor' id='clocks' />
-          <SquadClockPanel
-            partyConnected={partyConnected}
-            partyRoom={partyRoom}
             setTriggerRerender={setTriggerRerender}
             triggerRerender={triggerRerender}
           />

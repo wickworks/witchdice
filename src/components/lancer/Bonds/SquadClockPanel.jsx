@@ -161,9 +161,9 @@ const SquadClockPanel = ({
   return (
 		<div className='SquadClockPanel'>
     	<div className='panel'>
-        <h3 className='squad-label'>
+        {/*<h3 className='squad-label'>
           CLOCKS
-        </h3>
+        </h3>*/}
 
 				<div className='clocks-container'>
 					{ allSquadClocks.map((clock, i) =>

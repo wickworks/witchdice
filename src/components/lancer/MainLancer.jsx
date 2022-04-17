@@ -4,6 +4,7 @@ import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 import LancerPlayerMode from './LancerPlayerMode/LancerPlayerMode.jsx';
 import LancerNpcMode from './LancerNpcMode/LancerNpcMode.jsx';
 import SquadPanel from './SquadPanel/SquadPanel.jsx';
+import SquadClockPanel from './Bonds/SquadClockPanel.jsx';
 
 import PromisifyFileReader from 'promisify-file-reader'
 import { parseContentPack } from './contentPackParser.js';
@@ -249,12 +250,22 @@ const MainLancer = ({
         />
       }
 
-      <div className='jumplink-anchor' id='squad' />
       { partyConnected &&
-        <SquadPanel
-          partyConnected={partyConnected}
-          partyRoom={partyRoom}
-        />
+        <>
+          <div className='jumplink-anchor' id='clocks' />
+          <SquadClockPanel
+            partyConnected={partyConnected}
+            partyRoom={partyRoom}
+            setTriggerRerender={setTriggerRerender}
+            triggerRerender={triggerRerender}
+          />
+
+          <div className='jumplink-anchor' id='squad' />
+          <SquadPanel
+            partyConnected={partyConnected}
+            partyRoom={partyRoom}
+          />
+        </>
       }
 
     </div>
