@@ -6,8 +6,9 @@ import './TextInput.scss';
 const TextInput = ({
   textValue,
   setTextValue,
-  placeholder,
-  prefix,suffix,
+  placeholder = 'Enter text.',
+  prefix = '',
+  suffix = '',
   isTextbox = false,
   isMarkdown = false,
   startsOpen = false,

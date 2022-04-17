@@ -10,10 +10,32 @@
     color: $rust;
     font-style: italic;
     margin-bottom: 4px;
+
+    button {
+      color: $rust;
+      margin-left: 4px;
+      padding: 0 4px;
+      border-radius: 2px;
+
+      &:hover { background-color: $parchment_dark; }
+    }
   }
 
   .answer {
-    // font-weight: bold;
-    font-size: 18px;
+    width: 100%;
+
+    .TextInput {
+      .display, input {
+        font-size: 18px;
+        text-align: right;
+        font-style: normal;
+        width: 100%;
+
+        &.placeholder {
+          color: $rust;
+          font-style: italic;
+        }
+      }
+    }
   }
 }

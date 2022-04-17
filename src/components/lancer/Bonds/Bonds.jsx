@@ -44,17 +44,26 @@ const Bonds = ({
 
   const bondData = findBondData(activePilot.bondId)
 
+  // Ensure that the bondanswers array is always 2 entries
+  const bondAnswers =
+    activePilot.bondAnswers ?
+      [activePilot.bondAnswers[0] || '', activePilot.bondAnswers[1] || '']
+    :
+      ['','']
+
   // =============== PILOT STATE ==================
 
   const updateBondState = (newBondData) => {
     let newPilotData = deepCopy(activePilot);
 
     Object.keys(newBondData).forEach(statKey => {
-      // console.log('statKey',statKey, ':', newMechData[statKey]);
+      console.log('statKey',statKey, ':', newBondData[statKey]);
       switch (statKey) {
         case 'xp':
         case 'stress':
-          newPilotData[statKey] = parseInt(newBondData[statKey])
+        case 'bondAnswers':
+        case 'minorIdeal':
+          newPilotData[statKey] = newBondData[statKey]
           break;
 
         case 'burdens':
@@ -128,9 +137,21 @@ const Bonds = ({
           </div>
 
           <div className='text-column'>
-            <QAndA question='What gives you your powers?' answer={activePilot.bondAnswers[0]}/>
-            <QAndA question='What do you speak with?' answer={activePilot.bondAnswers[1]} />
-            <Ideals activePilot={activePilot} bondData={bondData} />
+            <QAndA
+              questionData={bondData.questions[0]}
+              answer={bondAnswers[0]}
+              setAnswer={answer => updateBondState({ bondAnswers: [answer, bondAnswers[1]]}) }
+            />
+            <QAndA
+              questionData={bondData.questions[1]}
+              answer={bondAnswers[1]}
+              setAnswer={answer => updateBondState({ bondAnswers: [bondAnswers[0], answer]}) }
+            />
+            <Ideals
+              bondData={bondData}
+              minorIdeal={activePilot.minorIdeal || ''}
+              setMinorIdeal={minorIdeal => updateBondState({ minorIdeal: minorIdeal}) }
+            />
             <BondPowers activePilot={activePilot} />
           </div>
         </div>

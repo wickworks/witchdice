@@ -34,15 +34,15 @@ const SquadClockPanel = ({
 
   const allSquadClocksJson = localStorage.getItem(LANCER_SQUAD_CLOCK_KEY);
   const allSquadClocks = JSON.parse(allSquadClocksJson) || []
-  console.log('render allSquadClocks', allSquadClocks);
+  // console.log('render allSquadClocks', allSquadClocks);
 
   useEffect(() => {
     if (!clockChange) return
     let newData = [...allSquadClocks] // no need for a deep copy
 
-    console.log('========= UPDATE CLOCK =======');
-    console.log('current allSquadClocks', allSquadClocks);
-    console.log('updateAllClockData', clockChange, '   local ', clockChange.isLocal);
+    // console.log('========= UPDATE CLOCK =======');
+    // console.log('current allSquadClocks', allSquadClocks);
+    // console.log('updateAllClockData', clockChange, '   local ', clockChange.isLocal);
 
     // NEW
     if (clockChange.newClock) {
@@ -106,7 +106,6 @@ const SquadClockPanel = ({
 	function deleteClockFromFirebase(firebaseKey) {
 		if (partyConnected) {
 			getFirebaseDB().child(FIREBASE_SQUAD_CLOCK_KEY).child(partyRoom).child(firebaseKey).remove()
-      console.log('deleting clock from firebase');
     }
 	}
 
@@ -118,7 +117,6 @@ const SquadClockPanel = ({
   		delete firebaseEntry.firebaseKey // keep the key itself out of the firebase object
       delete firebaseEntry.iMadeThis // also do not push this local ownership data
       getFirebaseDB().child(FIREBASE_SQUAD_CLOCK_KEY).child(partyRoom).child(firebaseKey).set(firebaseEntry)
-      console.log('setting clock in firebase');
     }
 	}
 
@@ -133,8 +131,6 @@ const SquadClockPanel = ({
 					if (snapshot) {
 						let newEntry = snapshot.val() // restore the firebase key to the entry's object
 						newEntry.firebaseKey = snapshot.key
-
-            console.log('update from firebase:', newEntry);
 						setClockChange({updateClock: newEntry, isLocal: false})
 					}
 				});
