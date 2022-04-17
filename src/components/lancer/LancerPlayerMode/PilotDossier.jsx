@@ -24,6 +24,8 @@ const PilotDossier = ({
 
   const geneStatus = pilotIDToGeneStatus(activePilot.id);
 
+  const showPilotGear = activePilot.loadout.gear.filter(gear => gear)
+
   return (
     <div className="PilotDossier">
       <div className="dossier-container">
@@ -85,14 +87,16 @@ const PilotDossier = ({
               containerClass={'talents'}
             />
 
-            <MechanicsList
-              label='Pilot Gear'
-              findData={findPilotGearData}
-              tooltipContentKey='description'
-              tooltipHref='https://compcon.app/#/compendium/pilot_gear'
-              mechanicIDList={activePilot.loadout.gear}
-              containerClass={'gear'}
-            />
+            {showPilotGear.length > 0 &&
+              <MechanicsList
+                label='Pilot Gear'
+                findData={findPilotGearData}
+                tooltipContentKey='description'
+                tooltipHref='https://compcon.app/#/compendium/pilot_gear'
+                mechanicIDList={showPilotGear}
+                containerClass={'gear'}
+              />
+            }
 
             <MechanicsList
               label='Skills'

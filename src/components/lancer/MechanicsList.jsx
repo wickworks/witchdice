@@ -37,9 +37,9 @@ const MechanicsList = ({
     <div className={`MechanicsList ${containerClass}`}>
       <div className="label">{label}</div>
       <div className="list">
-        { mechanicIDList.map((mechanic, i) => {
+        { mechanicIDList.filter(mechanic => mechanic).map((mechanic, i) => {
           // sometimes the mechanic is the ID, sometimes it's an object _with_ an ID
-          const dataID = mechanic.id || mechanic
+          const dataID = (mechanic && mechanic.id) || mechanic
           const data = findData(dataID)
           const tooltipData = getTooltipData(data, mechanic)
           // and sometimes they come with ranks
