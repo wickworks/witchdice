@@ -26,7 +26,7 @@ const BondPowers = ({
   const bondTraits = pilotBondPowers.map(power => {
     return {
       name: power.name,
-      activation: power.freqency || '',
+      activation: power.frequency || '',
       // trigger: deployable.freqency || '',
       description: power.description,
       isDestructable: true,
