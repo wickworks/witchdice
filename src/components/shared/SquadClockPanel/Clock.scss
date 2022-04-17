@@ -73,7 +73,9 @@
       .Segment {
         display: block;
         position: absolute;
-        top: 8px; left: 8px; bottom: 8px; right: 8px;
+        top: 6px; left: 6px; bottom: 6px; right: 6px;
+        width: 91%;
+        height: 91%;
         border-radius: 100%;
         background-color: $grey_mid;
 
