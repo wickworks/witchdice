@@ -36,12 +36,8 @@
 
 		.clocks-container {
 			display: flex;
-			// align-items: center;
 			flex-wrap: wrap;
-
-			@include below_max_width {
-				justify-content: center;
-			}
+			justify-content: center;
 
 			.Clock { margin-bottom: 16px; }
 		}

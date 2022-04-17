@@ -34,7 +34,7 @@ const SquadClockPanel = ({
 
   const allSquadClocksJson = localStorage.getItem(LANCER_SQUAD_CLOCK_KEY);
   const allSquadClocks = JSON.parse(allSquadClocksJson) || []
-  // console.log('render allSquadClocks', allSquadClocks);
+  console.log('render allSquadClocks', allSquadClocks);
 
   useEffect(() => {
     if (!clockChange) return
@@ -51,16 +51,18 @@ const SquadClockPanel = ({
         if (clockChange.isLocal) updateClockInFirebase(clockChange.newClock)
         newData.push(deepCopy(clockChange.newClock))
       }
+
     // UPDATE
     } else if (clockChange.updateClock) {
       const updateIndex = allSquadClocks.findIndex(clock => clock.id === clockChange.updateClock.id)
       console.log('updateIndex', updateIndex);
       if (updateIndex >= 0) {
         if (clockChange.isLocal) updateClockInFirebase(clockChange.updateClock)
-        newData[updateIndex] = deepCopy(clockChange.updateClock)
+        newData[updateIndex] = {...deepCopy(newData[updateIndex]), ...deepCopy(clockChange.updateClock)} // retain "iMadeThis" if we have it
       }
+
     // DELETE
-  } else if (clockChange.deleteClockId) {
+    } else if (clockChange.deleteClockId) {
       const deleteIndex = allSquadClocks.findIndex(clock => clock.id === clockChange.deleteClockId)
       console.log('deleting  index ', deleteIndex);
       if (deleteIndex >= 0) {
@@ -112,6 +114,7 @@ const SquadClockPanel = ({
   // push an update of a clock to firebase
 	function updateClockInFirebase(clock) {
     if (partyConnected) {
+      console.log('PUSHING CLOCK TO FIREBASE',clock);
   		let firebaseEntry = {...clock}
   		const firebaseKey = firebaseEntry.firebaseKey
   		delete firebaseEntry.firebaseKey // keep the key itself out of the firebase object
@@ -151,6 +154,19 @@ const SquadClockPanel = ({
 					}
 				});
 
+        // Go through all the clocks that we have stored that WE made and add them,
+        // overriding anything that people have done to them in the meantime.
+        const controlledClocks = allSquadClocks.filter(clock => clock.iMadeThis)
+        controlledClocks.forEach(clock => updateClockInFirebase(clock))
+
+        // And THEN drop any clocks that we have local copies of but didn't make;
+        // If they're still on the server, we'll re-add them.
+        // If they're not, then they must have been deleted.
+        if (controlledClocks.length !== allSquadClocks.length) {
+          saveSquadClockData(controlledClocks)
+          setTriggerRerender(!triggerRerender)
+        }
+        
 			} catch (error) {
 				console.log('ERROR: ',error.message);
 			}
@@ -188,9 +204,11 @@ const SquadClockPanel = ({
             />
           )}
 
-					<AddSquadClockButton
-            onClockAdd={localAdditionOfNewClock}
-          />
+          {allSquadClocks.length < 12 &&
+  					<AddSquadClockButton
+              onClockAdd={localAdditionOfNewClock}
+            />
+          }
 				</div>
 
 			</div>
