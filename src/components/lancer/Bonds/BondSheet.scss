@@ -2,10 +2,21 @@
 
 .BondSheet {
   h2 {
-    text-align: center;
-    font-size: 42px;
-    color: $rust;
-    margin: 12px 0 24px;
+    display: flex;
+    justify-content: center;
+
+    .pilot-name, button {
+      text-align: center;
+      font-size: 42px;
+      color: $rust;
+      margin: 12px 0 24px;
+      padding: 0 4px;
+    }
+
+    button:hover {
+      background-color: $parchment_dark;
+      border-radius: 4px;
+    }
 
     .pilot-name {
       color: $soft_black;
@@ -14,11 +25,9 @@
   }
 
   h4 {
-    // @include text_monospace;
     color: $rust;
     font-size: 28px;
     margin: 12px 0;
-    // margin: 26px 0 12px;
     font-weight: normal;
   }
 

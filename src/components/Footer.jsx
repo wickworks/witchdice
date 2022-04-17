@@ -105,6 +105,7 @@ const Footer = () => {
               <li>Battery by Adrien Coquet</li>
               <li>DNA by Tresnatiq</li>
               <li>export by Landan Lloyd</li>
+              <li>card by Marek Polakovic</li>
               <li>mask by Karla Design</li>
               <li>sword and shield by Rifai</li>
               <li>landscape by Yu luck</li>

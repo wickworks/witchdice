@@ -9,13 +9,13 @@ const BondButton = ({
   bondID,
 }) => {
 
-  const isDisabled = !bondID;
+  const hasBond = !bondID;
 
   return (
     <div className='BondButton'>
-      <button onClick={onClick} disabled={isViewingBond || isDisabled}>
-        {isDisabled ?
-          <span className='no-bond'>No bond.</span>
+      <button onClick={onClick} disabled={isViewingBond}>
+        {hasBond ?
+          <span className='no-bond'>Bondless</span>
         :
           findBondData(bondID).name
         }

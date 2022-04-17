@@ -7,23 +7,20 @@ function getIconForBond(bondId) {
 }
 
 const ChooseNewBond = ({
+  currentBondId,
   setPilotBond,
 }) => {
   const allBonds = findAllGameDataFromLcp('bonds')
 
-  console.log('allBonds',allBonds);
-
-
-
   return (
     <div className='ChooseNewBond'>
-      {Object.keys(allBonds).map(bondID =>
+      {Object.keys(allBonds).map(bondId =>
         <button
-          className='select-bond'
-          onClick={() => setPilotBond(bondID)}
+          className={`select-bond ${currentBondId === bondId ? 'selected' : ''}`}
+          onClick={() => setPilotBond(bondId)}
         >
-          <div className='bond-name'>{allBonds[bondID].name}</div>
-          <div className={`asset ${getIconForBond(bondID)}`} />
+          <div className='bond-name'>{allBonds[bondId].name}</div>
+          <div className={`asset ${bondId in allBonds ? bondId : 'card'}`} />
         </button>
       )}
     </div>

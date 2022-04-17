@@ -14,6 +14,8 @@
     width: 80%;
     // margin-bottom: 20px;
 
+    &.selected { background-color: $parchment_dark; }
+
     &:hover {
       background-color: $rust;
 

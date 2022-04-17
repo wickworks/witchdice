@@ -7,7 +7,7 @@ import { findBondData } from '../lancerData.js';
 import { savePilotData } from '../lancerLocalStorage.js';
 import { deepCopy } from '../../../utils.js';
 import { getRandomFingerprint } from '../../../localstorage.js';
-import './Bonds.scss';
+import './BondSheet.scss';
 
 // COMP/CON is ambivalent about the ordering or number of burdens; we want there to be three slots
 function initializeLocalBurdens(pilot) {
@@ -36,6 +36,7 @@ function convertLocalBurdensToPilotFormat(newBurdensData) {
 
 const Bonds = ({
   activePilot,
+  setIsChoosingNewBond,
   triggerRerender,
   setTriggerRerender,
 }) => {
@@ -100,65 +101,68 @@ const Bonds = ({
   }
 
   return (
-    <div className='Bonds'>
-      <div className='bonds-page'>
-        <h2><span className='pilot-name'>{activePilot.name},</span> {bondData.name}</h2>
-        <div className='columns'>
-          <div className='clocks-column'>
-            <Clock
-              progress={activePilot.xp}
-              setProgress={progress => updateBondState({ xp: progress }) }
-              maxSegments={8}
-              onReset={() => updateBondState({ xp: 0 }) }
-              typeLabel='XP'
-            />
-            <Clock
-              progress={activePilot.stress}
-              setProgress={progress => updateBondState({ stress: progress }) }
-              maxSegments={8}
-              onReset={() => updateBondState({ stress: 0 }) }
-              typeLabel='Stress'
-            />
+    <div className='BondSheet'>
+      <h2>
+        <span className='pilot-name'>{activePilot.name},</span>
+        <button onClick={() => setIsChoosingNewBond(true)}>
+          {bondData.name}
+        </button>
+      </h2>
+      <div className='columns'>
+        <div className='clocks-column'>
+          <Clock
+            progress={activePilot.xp}
+            setProgress={progress => updateBondState({ xp: progress }) }
+            maxSegments={8}
+            onReset={() => updateBondState({ xp: 0 }) }
+            typeLabel='XP'
+          />
+          <Clock
+            progress={activePilot.stress}
+            setProgress={progress => updateBondState({ stress: progress }) }
+            maxSegments={8}
+            onReset={() => updateBondState({ stress: 0 }) }
+            typeLabel='Stress'
+          />
 
-            {[...Array(3)].map((_, i) =>
-              <Clock
-                progress={localBurdens[i].progress}
-                setProgress={progress => updateBondState({ burdens: {burdenIndex: i, progress: progress} }) }
-                maxSegments={localBurdens[i].segments}
-                setMaxSegments={maxSegments => updateBondState({ burdens: {burdenIndex: i, segments: maxSegments} }) }
-                onReset={() => updateBondState({ burdens: {burdenIndex: i, progress: 0} }) }
-                onFinish={() => updateBondState({ burdens: {burdenIndex: i, clearBurden: true} }) }
-                typeLabel={i < 2 ? 'Minor Burden' : 'Major Burden'}
-                userLabel={localBurdens[i].title}
-                setUserLabel={title => updateBondState({ burdens: {burdenIndex: i, title: title} }) }
-                inputEnabled={true}
-                key={`burden-${i}`}
-              />
-            )}
-          </div>
+          {[...Array(3)].map((_, i) =>
+            <Clock
+              progress={localBurdens[i].progress}
+              setProgress={progress => updateBondState({ burdens: {burdenIndex: i, progress: progress} }) }
+              maxSegments={localBurdens[i].segments}
+              setMaxSegments={maxSegments => updateBondState({ burdens: {burdenIndex: i, segments: maxSegments} }) }
+              onReset={() => updateBondState({ burdens: {burdenIndex: i, progress: 0} }) }
+              onFinish={() => updateBondState({ burdens: {burdenIndex: i, clearBurden: true} }) }
+              typeLabel={i < 2 ? 'Minor Burden' : 'Major Burden'}
+              userLabel={localBurdens[i].title}
+              setUserLabel={title => updateBondState({ burdens: {burdenIndex: i, title: title} }) }
+              inputEnabled={true}
+              key={`burden-${i}`}
+            />
+          )}
+        </div>
 
-          <div className='text-column'>
-            <QAndA
-              questionData={bondData.questions[0]}
-              answer={bondAnswers[0]}
-              setAnswer={answer => updateBondState({ bondAnswers: [answer, bondAnswers[1]]}) }
-            />
-            <QAndA
-              questionData={bondData.questions[1]}
-              answer={bondAnswers[1]}
-              setAnswer={answer => updateBondState({ bondAnswers: [bondAnswers[0], answer]}) }
-            />
-            <Ideals
-              bondData={bondData}
-              minorIdeal={activePilot.minorIdeal || ''}
-              setMinorIdeal={minorIdeal => updateBondState({ minorIdeal: minorIdeal}) }
-            />
-            <BondPowers
-              bondData={bondData}
-              pilotBondPowers={activePilot.bondPowers || []}
-              setPilotBondPowers={bondPowers => updateBondState({ bondPowers: bondPowers}) }
-            />
-          </div>
+        <div className='text-column'>
+          <QAndA
+            questionData={bondData.questions[0]}
+            answer={bondAnswers[0]}
+            setAnswer={answer => updateBondState({ bondAnswers: [answer, bondAnswers[1]]}) }
+          />
+          <QAndA
+            questionData={bondData.questions[1]}
+            answer={bondAnswers[1]}
+            setAnswer={answer => updateBondState({ bondAnswers: [bondAnswers[0], answer]}) }
+          />
+          <Ideals
+            bondData={bondData}
+            minorIdeal={activePilot.minorIdeal || ''}
+            setMinorIdeal={minorIdeal => updateBondState({ minorIdeal: minorIdeal}) }
+          />
+          <BondPowers
+            bondData={bondData}
+            pilotBondPowers={activePilot.bondPowers || []}
+            setPilotBondPowers={bondPowers => updateBondState({ bondPowers: bondPowers}) }
+          />
         </div>
       </div>
     </div>
