@@ -2,14 +2,14 @@
 
 .BondSheet {
   h2 {
-    display: flex;
-    justify-content: center;
+    width: fit-content;
+    text-align: center;
+    margin: 26px auto 44px;
 
     .pilot-name, button {
       text-align: center;
       font-size: 42px;
       color: $rust;
-      margin: 12px 0 24px;
       padding: 0 4px;
     }
 
