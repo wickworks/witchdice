@@ -130,7 +130,7 @@ const Bonds = ({
               progress={localBurdens[i].progress}
               setProgress={progress => updateBondState({ burdens: {burdenIndex: i, progress: progress} }) }
               maxSegments={localBurdens[i].segments}
-              setMaxSegments={maxSegments => updateBondState({ burdens: {burdenIndex: i, segments: maxSegments} }) }
+              setMaxSegments={maxSegments => updateBondState({ burdens: {burdenIndex: i, segments: maxSegments, progress: Math.min(maxSegments, localBurdens[i].progress)} }) }
               onReset={() => updateBondState({ burdens: {burdenIndex: i, progress: 0} }) }
               onFinish={() => updateBondState({ burdens: {burdenIndex: i, clearBurden: true} }) }
               typeLabel={i < 2 ? 'Minor Burden' : 'Major Burden'}

@@ -184,7 +184,7 @@ const SquadClockPanel = ({
               progress={clock.progress}
               setProgress={progress => localUpdateToClock(clock, {progress: progress}) }
               maxSegments={clock.segments}
-              setMaxSegments={maxSegments => localUpdateToClock(clock, {segments: maxSegments}) }
+              setMaxSegments={maxSegments => localUpdateToClock(clock, {segments: maxSegments, progress: Math.min(maxSegments, clock.progress)}) }
               onReset={() => localUpdateToClock(clock, {progress: 0}) }
               onFinish={() => setClockChange({deleteClockId: clock.id, isLocal: true}) }
               typeLabel='Campaign clock'

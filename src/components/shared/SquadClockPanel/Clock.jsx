@@ -16,7 +16,7 @@ const Clock = ({
   progress = 0,
   setProgress,
   maxSegments = 6,
-  setMaxSegments,
+  setMaxSegments, // also needs to handle setting progress if it's invalid
   onReset,
   onFinish,
   typeLabel,
@@ -29,11 +29,6 @@ const Clock = ({
   const isDisabled = (inputEnabled && !userLabel)
   const canSetMaxSegments = !!setMaxSegments
 
-  const updateMaxSegments = (maxSegments) => {
-    if (progress > maxSegments) setProgress(maxSegments)
-    setMaxSegments(maxSegments)
-  }
-
   return (
     <div className='Clock'>
       {!isDisabled &&
@@ -41,10 +36,10 @@ const Clock = ({
 
           {isEditingMaxSize ?
             <>
-              <SetSizeButton text={4} onClick={() => updateMaxSegments(4)} highlight={maxSegments === 4} key={4}/>
-              <SetSizeButton text={6} onClick={() => updateMaxSegments(6)} highlight={maxSegments === 6} key={6}/>
-              <SetSizeButton text={8} onClick={() => updateMaxSegments(8)} highlight={maxSegments === 8} key={8}/>
-              <SetSizeButton text={10} onClick={() => updateMaxSegments(10)} highlight={maxSegments === 10} key={410}/>
+              <SetSizeButton text={4} onClick={() => setMaxSegments(4)} highlight={maxSegments === 4} key={4}/>
+              <SetSizeButton text={6} onClick={() => setMaxSegments(6)} highlight={maxSegments === 6} key={6}/>
+              <SetSizeButton text={8} onClick={() => setMaxSegments(8)} highlight={maxSegments === 8} key={8}/>
+              <SetSizeButton text={10} onClick={() => setMaxSegments(10)} highlight={maxSegments === 10} key={410}/>
             </>
           : !isDisabled &&
             <>
