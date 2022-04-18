@@ -221,8 +221,8 @@ $pip_size: 13px; //structure/stress
 				display: block;
 			}
 		}
-		
-		.mech-container { image-rendering: crisp-edges; }
+
+		// .mech-container { image-rendering: crisp-edges; }
 
 		.StatTriangle {
 			@include text_monospace;
