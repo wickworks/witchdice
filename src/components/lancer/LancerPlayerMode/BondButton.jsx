@@ -16,7 +16,7 @@ const BondButton = ({
     <div className='BondButton'>
       <button onClick={onClick} disabled={isViewingBond || needToReuploadLcp}>
         { hasBond && needToReuploadLcp ?
-          <span className='no-bond'>Please reupload the KTB lcp, then refresh.</span>
+          <span className='no-bond'>Please reupload the KTB lcp & refresh.</span>
         : !hasBond ?
           <span className='no-bond'>Bondless</span>
         :

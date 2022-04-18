@@ -14,15 +14,19 @@ const ChooseNewBond = ({
 
   return (
     <div className='ChooseNewBond'>
-      {Object.keys(allBonds).map(bondId =>
-        <button
-          className={`select-bond ${currentBondId === bondId ? 'selected' : ''}`}
-          onClick={() => setPilotBond(bondId)}
-        >
-          <div className='bond-name'>{allBonds[bondId].name}</div>
-          <div className={`asset ${bondId in allBonds ? bondId : 'card'}`} />
-        </button>
-      )}
+      {allBonds.length === 0 ?
+        <p>Please reupload the KTB lcp & refresh.</p>
+      :
+        Object.keys(allBonds).map(bondId =>
+          <button
+            className={`select-bond ${currentBondId === bondId ? 'selected' : ''}`}
+            onClick={() => setPilotBond(bondId)}
+          >
+            <div className='bond-name'>{allBonds[bondId].name}</div>
+            <div className={`asset ${bondId in allBonds ? bondId : 'card'}`} />
+          </button>
+        )
+      }
     </div>
   );
 }
