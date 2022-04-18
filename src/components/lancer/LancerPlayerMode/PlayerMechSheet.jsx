@@ -538,8 +538,8 @@ function getInvadeAndTechAttacks(loadout, pilotTalents) {
 
   pilotTalents.forEach(pilotTalent => {
     const talentData = findTalentData(pilotTalent.id)
-    talentData.ranks.forEach(rank => {
-      if (rank.actions) {
+    talentData.ranks.forEach((rank,i) => {
+      if (pilotTalent.rank > i &&  rank.actions) {
         rank.actions.forEach(action => {
           if (['Invade', 'Quick Tech', 'Full Tech'].includes(action.activation)) {
             invades.push(action)
