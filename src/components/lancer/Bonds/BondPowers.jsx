@@ -1,10 +1,45 @@
 import React, { useState } from 'react';
 import Select from 'react-select'
 import TraitBlock from '../MechSheet/TraitBlock.jsx';
+import { findAllGameDataFromLcp } from '../lancerData.js'
 import { deepCopy } from '../../../utils.js';
 import './BondPowers.scss';
 
 // =============== ADD / REMOVE TAG CRAP =============
+
+function getOptionForPower(power) {
+  return {
+    "label" : power.name,
+    "value" : power,
+  }
+}
+
+function getOptionsForBond(pilotBondPowers, bondData) {
+  return bondData.powers
+    .filter(power => !pilotBondPowers.some(pilotPower => pilotPower.name === power.name))
+    .map(power => getOptionForPower(power))
+}
+
+function getBondPowersGroupedByClass(activeBondID, pilotBondPowers) {
+  const allBondData = findAllGameDataFromLcp('bonds')
+  const allOptions = []
+  // start with the powers for the current class
+  allOptions.push({
+    label: allBondData[activeBondID].name,
+    options: getOptionsForBond(pilotBondPowers, allBondData[activeBondID])
+  })
+
+  // then all the other ones
+  Object.keys(allBondData).forEach(bondID => {
+    if (bondID !== activeBondID) {
+      allOptions.push({
+        label: allBondData[bondID].name,
+        options: getOptionsForBond(pilotBondPowers, allBondData[bondID])
+      })
+    }
+  })
+  return allOptions
+}
 
 
 const BondPowers = ({
@@ -14,14 +49,8 @@ const BondPowers = ({
 }) => {
   const [isAddingPower, setIsAddingPower] = useState(pilotBondPowers.length === 0)
 
-  const powerOptions =
-    Object.values(bondData.powers)
-    .filter(power =>
-      !pilotBondPowers.some(pilotPower => pilotPower.name === power.name)
-    ).map(power => ({
-      "value" : power.name,
-      "label" : power.name
-    }))
+  const powerOptions = getBondPowersGroupedByClass(bondData.id, pilotBondPowers)
+
 
   const bondTraits = pilotBondPowers.map(power => {
     return {
@@ -35,12 +64,10 @@ const BondPowers = ({
 
   const addPower = (option) => {
     const newData = deepCopy(pilotBondPowers)
-    const newPower = bondData.powers.find(power => power.name === option.value)
-    if (newPower) {
-      newData.push(newPower)
+    if (option.value) {
+      newData.push(option.value)
       setPilotBondPowers(newData)
     }
-    // setIsAddingPower(false)
   }
 
   const removePower = (index) => {
