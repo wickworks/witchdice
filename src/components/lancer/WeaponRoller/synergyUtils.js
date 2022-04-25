@@ -24,7 +24,7 @@ export function getFailingWeaponSynergies(weaponData, synergies) {
       // get all the possible ranges from the base and/or profiles
       const weaponRanges = getAllWeaponRanges(weaponData)
       const isRanged = weaponRanges.some(range => range.type === 'Range')
-      const isMelee = weaponRanges.some(range => range.type === 'Threat')
+      const isMelee = weaponData.type === 'Melee' // weaponRanges.some(range => range.type === 'Threat')
 
       // needs to have at least one thing that matches this type
       const hasMatchedType = synergy.weapon_types.some(checkForType => {
