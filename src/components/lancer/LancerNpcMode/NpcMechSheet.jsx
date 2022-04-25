@@ -140,6 +140,14 @@ const NpcMechSheet = ({
   );
 }
 
+function getActivationType(featureData) {
+  let activation = ''
+  if (featureData.type === 'Reaction') activation = 'Reaction'
+  if (systemHasTag(featureData, 'tg_quick_action')) activation = 'Quick'
+  if (systemHasTag(featureData, 'tg_full_action')) activation = 'Full'
+  return activation
+}
+
 function getNpcTraits(items) {
   let featureTraits = []
 
@@ -150,6 +158,7 @@ function getNpcTraits(items) {
       featureTraits.push({
         systemIndex: itemIndex,
         name: (item.flavorName || featureData.name).toLowerCase(),
+        activation: getActivationType(featureData),
         description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
         isDestructable: false,
         isDestroyed: false,
@@ -185,15 +194,10 @@ function getSystemTraits(items) {
       })
 
     } else if (['System', 'Reaction'].includes(featureData.type)) {
-      let activation = ''
-      if (featureData.type === 'Reaction') activation = 'Reaction'
-      if (systemHasTag(featureData, 'tg_quick_action')) activation = 'Quick'
-      if (systemHasTag(featureData, 'tg_full_action')) activation = 'Full'
-
       featureTraits.push({
         systemIndex: itemIndex,
         name: (item.flavorName || featureData.name).toLowerCase(),
-        activation: activation,
+        activation: getActivationType(featureData),
         trigger: featureData.trigger,
         description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
         frequency: featureData.frequency,
