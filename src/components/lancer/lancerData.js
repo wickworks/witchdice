@@ -287,13 +287,19 @@ export const HARDCODED_TECH_TALENT_SYNERGIES = [{id: 't_nuclear_cavalier', rank:
 // special-case systems that should get a 'used' checkbox
 const EXPENDABLE_SYSTEM_IDS = ['ms_custom_paint_job']
 
-export const BASIC_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy', 'Variable']
+const BASIC_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy', 'Variable']
 
 export const LANCER_DAMAGE_TYPES = [
   ...BASIC_DAMAGE_TYPES,
   'Burn',
   'Heat',
 ]
+
+export function isBasicDamageType(type) {
+  const lowerType = type.toLowerCase()
+  return BASIC_DAMAGE_TYPES.some(basicType => basicType.toLowerCase() === lowerType)
+}
+
 
 export const DAMAGE_MODIFIERS = {
   double: false,
@@ -305,7 +311,7 @@ export const DAMAGE_MODIFIERS = {
 
 export function applyDamageMultiplier(damage, damageType, damageModifiers) {
   var multiplier = 1.0;
-  if (damageModifiers.double && BASIC_DAMAGE_TYPES.includes(damageType)) multiplier *= 2.0;
+  if (damageModifiers.double && isBasicDamageType(damageType)) multiplier *= 2.0;
   if (damageModifiers.half) multiplier *= .5;
   return damage * multiplier;
 }
@@ -439,7 +445,7 @@ export const getDefaultWeaponDamageType = (weaponData) => {
   if (weaponData.damage) {
     weaponData.damage.forEach(damageValAndType => {
       // is this one of the types that bonus damage can normally become?
-      if (BASIC_DAMAGE_TYPES.includes(damageValAndType.type)) {
+      if (isBasicDamageType(damageValAndType.type)) {
         // assign it to the first one we see
         if (damageType === '') {
           damageType = damageValAndType.type

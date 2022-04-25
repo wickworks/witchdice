@@ -2,7 +2,7 @@ import {
   applyDamageMultiplier,
   isDamageRange,
   FIRST_ROLL_ONLY_TAGS,
-  BASIC_DAMAGE_TYPES,
+  isBasicDamageType,
 } from '../../lancerData.js';
 
 function getSortedTotalPool(rollData, isCrit, damageModifiers) {
@@ -56,7 +56,7 @@ function pullOutFirstRollBonusDamage(bonusDamageData) {
 // modifies given baseTotalsByType by adding the bonus totals to it
 function addBonusDamageToBaseDamage(baseTotalsByType, bonusTotalsByType, convertToBurn = false) {
   Object.keys(bonusTotalsByType).forEach(type => {
-    const convertedType = convertToBurn && BASIC_DAMAGE_TYPES.includes(type) ? 'Burn' : type
+    const convertedType = convertToBurn && isBasicDamageType(type) ? 'Burn' : type
     const prevTypeTotal = baseTotalsByType[convertedType] || 0;
     baseTotalsByType[convertedType] = prevTypeTotal + bonusTotalsByType[type];
   });

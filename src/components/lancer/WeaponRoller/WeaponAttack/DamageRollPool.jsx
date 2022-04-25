@@ -9,7 +9,7 @@ import {
 
 import {
   applyDamageMultiplier,
-  BASIC_DAMAGE_TYPES,
+  isBasicDamageType,
 } from '../../lancerData.js';
 
 const DamageRollPool = ({
@@ -27,7 +27,7 @@ const DamageRollPool = ({
   highest.forEach(highroll => totalPool.splice(totalPool.indexOf(highroll), 1))
 
 
-  const convertToBurn = isBonusDamage && damageModifiers.bonusToBurn && BASIC_DAMAGE_TYPES.includes(rollData.type)
+  const convertToBurn = isBonusDamage && damageModifiers.bonusToBurn && isBasicDamageType(rollData.type)
   const damageType = convertToBurn ? 'Burn' : rollData.type
 
   // Bonus damage gets halved once it targets multiple characters
