@@ -15,6 +15,13 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
+          <div className='version-label'>v0.12.1 — Apr 2022</div>
+          <ul>
+            <li>Bugfixes for melee synergies, reliable, statuses, npc invades.</li>
+            <li>NPC abilities replace scaling numbers by tier.</li>
+            <li>Can select bond powers from any class.</li>
+          </ul>
+
           <div className='version-label'>v0.12.0 — Apr 2022</div>
           <ul>
             <li>New clocks panel for Lancer + Dicebag, synced to the room.</li>
