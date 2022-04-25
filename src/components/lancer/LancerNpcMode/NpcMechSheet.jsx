@@ -148,6 +148,22 @@ function getActivationType(featureData) {
   return activation
 }
 
+function setNumbersByTier(effectString, tier) {
+  let returnString = effectString
+  if (!tier) return returnString
+
+  const matches = effectString.match(/{\d*\/\d*\/\d*}/g)
+  if (matches) {
+    matches.forEach(tierNumbers => {
+      const justNumbers = tierNumbers.slice(1, -1)
+      const numberArray = justNumbers.split('/')
+      const finalNumber = numberArray[tier-1]
+      returnString = returnString.replace(tierNumbers, `<b>${finalNumber}</b>`)
+    })
+  }
+  return returnString
+}
+
 function getNpcTraits(items) {
   let featureTraits = []
 
@@ -199,7 +215,7 @@ function getSystemTraits(items) {
         name: (item.flavorName || featureData.name).toLowerCase(),
         activation: getActivationType(featureData),
         trigger: featureData.trigger,
-        description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
+        description: setNumbersByTier([item.flavorName, featureData.effect].filter(str => str).join('<br>'), item.tier),
         frequency: featureData.frequency,
         range: featureData.range,
         isDestructable: true,
@@ -235,7 +251,7 @@ function getNpcWeaponAttacks(items) {
                 destroyed: item.destroyed,
                 cascading: false,
                 loaded: item.loaded || false,
-                note: item.description,
+                note: setNumbersByTier(item.description),
                 mod: null,
                 customDamageType: null,
                 maxUseOverride: 0,
@@ -271,7 +287,7 @@ function getNpcTechAttacks(items) {
       techAttacks.push({
         "name": featureData.name,
         "activation": featureData.tech_type ? `${featureData.tech_type} Tech` : "Quick Tech",
-        "detail": featureData.effect,
+        "detail": setNumbersByTier(featureData.effect, item.tier),
       })
     }
 
