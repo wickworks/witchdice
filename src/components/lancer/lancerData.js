@@ -7,7 +7,7 @@ function hashLcpData(lcpData) {
   const hashedLcpData = {}
   Object.keys(lcpData).forEach(dataType => {
     if (Array.isArray(lcpData[dataType])) {
-      hashedLcpData[dataType] = Object.fromEntries(lcpData[dataType].map(data => [data.id, data]))
+      hashedLcpData[dataType] = Object.fromEntries(lcpData[dataType].map(data => [data.id || data.name, data]))
     }
   })
   return hashedLcpData
@@ -27,7 +27,8 @@ const allMods = data.mods;
 const allNpcClasses = data.npc_classes;
 const allNpcFeatures = data.npc_features;
 const allNpcTemplates = data.npc_templates;
-export const allStatuses = data.statuses;
+// const allStatuses = data.statuses; // for some reason this was returning junk??
+const allStatuses = require('lancer-data/lib/statuses.json')
 
 const blankTalent = {
   "id": "missing_talent",
@@ -233,9 +234,13 @@ export const findModData = (modID) => {
   return modData ? modData : findModData('missing_weaponmod')
 }
 
+export const findAllStatusData = () => {
+  return [...allStatuses, ...Object.values(findAllGameDataFromLcp('statuses'))]
+}
+
 export const findStatusData = (statusName) => {
-  var statusData = allStatuses[statusName]
-  if (!statusData) statusData = findGameDataFromLcp('statuses', statusName) // new lcps can't really add new statuses
+  var statusData = allStatuses.find(status => status.name.toUpperCase() === statusName.toUpperCase())
+  if (!statusData) statusData = findAllGameDataFromLcp('statuses')[statusName.toUpperCase()]
   return statusData ? statusData : blankStatus
 }
 

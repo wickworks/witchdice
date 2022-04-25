@@ -7824,9 +7824,9 @@
   "version" "2.0.5"
 
 "lancer-data@^3.0.40":
-  "integrity" "sha512-K2L8PEWDbqx1imsbnVSI8uiFtt8G/rX9pi278llfJhsHTS3GDXCgexCOjDD3Fzd461QUhwMfmAu9LRtGP+31/g=="
-  "resolved" "https://registry.npmjs.org/lancer-data/-/lancer-data-3.0.40.tgz"
-  "version" "3.0.40"
+  "integrity" "sha512-DLbF+V3WuoNg5GvrA3A+cQCGwKmRE8qKINBqdegVF61eO6sswIwmWoHzkQhU/PEMQ99wNuFnfao0UUpCz6P0Fw=="
+  "resolved" "https://registry.npmjs.org/lancer-data/-/lancer-data-3.0.43.tgz"
+  "version" "3.0.43"
 
 "language-subtag-registry@~0.3.2":
   "integrity" "sha512-L0IqwlIXjilBVVYKFT37X9Ih11Um5NEl9cbJIuU/SwP/zEEAbBPOnEeeuxVMf45ydWQRDQN3Nqc96OgbH1K+Pg=="

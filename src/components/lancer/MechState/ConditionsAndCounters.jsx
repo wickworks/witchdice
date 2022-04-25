@@ -6,16 +6,9 @@ import { getOptionFromValue, deepCopy } from '../../../utils.js';
 import './ConditionsAndCounters.scss';
 
 import {
-  allStatuses,
+  findAllStatusData,
   findStatusData,
 } from '../lancerData.js';
-
-
-// =============== ADD / REMOVE TAG CRAP =============
-const conditionOptions = Object.values(allStatuses).map(condition => ({
-  "value" : condition.name,
-  "label" : condition.name
-}))
 
 
 const ConditionsAndCounters = ({
@@ -23,8 +16,14 @@ const ConditionsAndCounters = ({
   activeCounters,
 	updateMechState
 }) => {
-  const setActiveConditions = (conditions) => updateMechState({conditions: conditions})
+  const allStatuses = findAllStatusData()
+  const conditionOptions = Object.values(allStatuses).map(condition => ({
+    "value" : condition.name,
+    "label" : condition.name
+  }))
 
+
+  const setActiveConditions = (conditions) => updateMechState({conditions: conditions})
   const setCustomCounters = (custom_counters) => updateMechState(
     {
       custom_counters: custom_counters.map(counter => {return {name: counter.name, id: counter.id, custom: true}}),
@@ -85,7 +84,6 @@ const ConditionsAndCounters = ({
 
 
       <div className='active-blocks'>
-
         { activeConditions && activeConditions.map(condition =>
           <Condition condition={condition} key={condition} />
         )}
