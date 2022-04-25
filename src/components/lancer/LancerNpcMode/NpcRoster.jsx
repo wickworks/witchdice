@@ -13,6 +13,8 @@ import './NpcRoster.scss';
 const NpcRoster = ({
   npcLibrary,
   addNpcToEncounter,
+  deleteNpc,
+  deleteAllNpcsWithLabel,
   setIsUploadingNewFile,
   hasActiveEncounter,
 }) => {
@@ -55,16 +57,30 @@ const NpcRoster = ({
   function renderNpcRow(npc) {
     const npcData = findNpcClassData(npc.class)
 
+    const onClickNpc = () => {
+      if (!buttonsDisabled) addNpcToEncounter(npc.id)
+    }
+
     return (
       <tr
         className={`npc ${buttonsDisabled ? 'disabled' : ''}`}
-        onClick={() => !buttonsDisabled && addNpcToEncounter(npc.id)}
         key={npc.id}
       >
-        <td className='name'>{npc.name}</td>
-        <td className='class'>{capitalize(npcData.name.toLowerCase())}</td>
-        <td className='role'><div className={`asset ${npcData.role.toLowerCase()}`}/></td>
-        <td className='tier'>{npc.tier}</td>
+        <td className='name' onClick={onClickNpc}>
+          {npc.name}
+        </td>
+        <td className='class' onClick={onClickNpc}>
+          {capitalize(npcData.name.toLowerCase())}
+        </td>
+        <td className='role' onClick={onClickNpc}>
+          <div className={`asset ${npcData.role.toLowerCase()}`}/>
+        </td>
+        <td className='tier' onClick={onClickNpc}>
+          {npc.tier}
+        </td>
+        <td className='delete' onClick={() => deleteNpc(npc)}>
+          <button className='asset trash' />
+        </td>
       </tr>
     )
   }
@@ -89,6 +105,7 @@ const NpcRoster = ({
                 <th className='class'>Class</th>
                 <th className='role'>Role</th>
                 <th className='tier'>Tier</th>
+                <th className='delete'></th>
               </tr>
             </thead>
 
@@ -99,13 +116,18 @@ const NpcRoster = ({
                   <React.Fragment key={label}>
                     <tr
                       className={`group-label ${isOpen ? 'open' : 'closed'}`}
-                      onClick={() => toggleLabelOpen(label)}
                     >
-                      <td colSpan={4}>
+                      <td
+                        colSpan={4}
+                        onClick={() => toggleLabelOpen(label)}
+                      >
                         <div className='label-container'>
                           <span className={`asset arrow-sharp ${isOpen ? '' : 'reversed'}`} />
                           {label}
                         </div>
+                      </td>
+                      <td className='delete' onClick={() => deleteAllNpcsWithLabel(label)}>
+                        <button className='asset trash' />
                       </td>
                     </tr>
 

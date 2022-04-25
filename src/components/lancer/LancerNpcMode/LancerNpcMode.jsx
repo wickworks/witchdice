@@ -125,6 +125,25 @@ const LancerNpcMode = ({
     localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
   }
 
+  const deleteNpc = (npc) => {
+    let newNpcLibrary = {...npcLibrary}
+    delete newNpcLibrary[npc.id]
+
+    // save the whole library to state & localstorage
+    setNpcLibrary(newNpcLibrary)
+    localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
+  }
+
+  const deleteAllNpcsWithLabel = (label) => {
+    let newNpcLibrary = {...npcLibrary}
+    const idsToDelete = Object.values(newNpcLibrary).filter(npc => npc.labels.includes(label)).map(npc => npc.id)
+    idsToDelete.forEach(npcID => delete newNpcLibrary[npcID])
+
+    // save the whole library to state & localstorage
+    setNpcLibrary(newNpcLibrary)
+    localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
+  }
+
   const uploadNpcFile = e => {
     const fileName = e.target.files[0].name
 
@@ -141,10 +160,12 @@ const LancerNpcMode = ({
         const npcArray = JSON.parse(npcFile.data)
 
         // create ALL the new npcs & save them to localstorage
-        let newNpcLibrary = {...npcLibrary}
-        npcArray.forEach(npc => newNpcLibrary[npc.id] = npc);
-        setNpcLibrary(newNpcLibrary)
-        localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
+        if (npcArray && npcArray.length > 0) {
+          let newNpcLibrary = {...npcLibrary}
+          npcArray.forEach(npc => newNpcLibrary[npc.id] = npc);
+          setNpcLibrary(newNpcLibrary)
+          localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
+        }
 
       // single json npc; just create it
       } else {
@@ -445,6 +466,8 @@ const LancerNpcMode = ({
             <NpcRoster
               npcLibrary={npcLibrary}
               addNpcToEncounter={addNpcToEncounter}
+              deleteNpc={deleteNpc}
+              deleteAllNpcsWithLabel={deleteAllNpcsWithLabel}
               setIsUploadingNewFile={setIsUploadingNewFile}
               hasActiveEncounter={!!activeEncounter}
             />
