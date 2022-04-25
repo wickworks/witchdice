@@ -413,6 +413,14 @@ function getSystemTraits(systems, limitedBonus) {
           })
         }
 
+        const deployableStatblock = deployable.hp ? {
+          edef: deployable.edef || 10,
+          evasion: deployable.evasion || 10,
+          hp: deployable.hp,
+          size: deployable.size || 1
+        } : null
+
+
         systemTraits.push({
           systemIndex: systemIndex,
           name: deployable.name,
@@ -423,7 +431,7 @@ function getSystemTraits(systems, limitedBonus) {
           isDestructable: !systemHasTag(systemData, 'tg_indestructible'),
           isDestroyed: system.destroyed,
           limited: limited,
-          statblock: {edef: deployable.edef, evasion: deployable.evasion, hp: deployable.hp, size: deployable.size},
+          statblock: deployableStatblock,
           subTraits: subTraits,
           isTitleCase: true,
         })

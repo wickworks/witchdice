@@ -57,7 +57,7 @@ const TraitBlock = ({
 			name: [
 				activation,
 				frequency,
-				range,
+				range && range.map(rangeEntry => `${rangeEntry.type} ${rangeEntry.val}`).join(', '),
 				recharge && getRechargeString(recharge),
 				limited && `Limited ${limited.max}`
 			].filter(attr => !!attr).join(', '),
