@@ -12,6 +12,8 @@ const FileList = ({
   onFilePaste,
   onShareCodePaste,
   shareCodeLength,
+  shareCodeName = 'share code',
+
   acceptFileType = 'application/JSON',
 
   isUploadingNewFile,
@@ -22,7 +24,6 @@ const FileList = ({
 }) => {
   // Moved to parent so it can have flexible children
   // const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
-
 
   const [pastedFile, setPastedFile] = useState('');
   const [pastedError, setPastedError] = useState(false);
@@ -62,9 +63,12 @@ const FileList = ({
         setPastedFile(pastedString)
       }
     }
-
-
   }
+
+  const pastePlaceholder = [
+    !!onFilePaste ? '.json' : null,
+    !!onShareCodePaste ? shareCodeName : null
+  ].filter(string => string).join(' or ')
 
   return (
     <div className={`FileList ${extraClass}`}>
@@ -85,7 +89,7 @@ const FileList = ({
                 </label>
               }
 
-              {onFilePaste &&
+              {(onFilePaste || onShareCodePaste) &&
                 <>
                   or
 
@@ -93,7 +97,7 @@ const FileList = ({
                     <input
                       type="text"
                       value={pastedFile}
-                      placeholder={!!onShareCodePaste ? '.json or share code' : '.json'}
+                      placeholder={pastePlaceholder}
                       onChange={onPastedFileChange}
                     />
                   </div>
