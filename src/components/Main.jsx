@@ -177,6 +177,7 @@ const Main = ({
     const characterName = rollSummaryData.characterName;
     const rolls = rollSummaryData.rolls;
     const skipTotal = !!rollSummaryData.skipTotal;
+    const forceNewEntry = !!rollSummaryData.forceNewEntry
 
     if (rolls && rolls.length > 0) {
       // traverse rollData to pull it out in a format that we want.
@@ -188,7 +189,7 @@ const Main = ({
       actionData.skipTotal = skipTotal
 
       // ~~ new attack roll ~~ //
-      if (partyLastAttackTimestamp === 0) {
+      if (partyLastAttackTimestamp === 0 || forceNewEntry) {
         actionData.createdAt = Date.now();
         actionData.updatedAt = actionData.createdAt;
         setPartyLastAttackTimestamp(actionData.createdAt);

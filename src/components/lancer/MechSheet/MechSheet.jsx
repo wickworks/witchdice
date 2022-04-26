@@ -73,8 +73,9 @@ const MechSheet = ({
 
   // =============== SUMMARY DATA ==================
   // inject the mech name to summary data before sending it up
-  const setRollSummaryDataWithName = (rollSummaryData) => {
+  const setRollSummaryDataWithName = (rollSummaryData, forceNewEntry = false) => {
     rollSummaryData.characterName = robotInfo.name
+    rollSummaryData.forceNewEntry = forceNewEntry
     setRollSummaryData(rollSummaryData)
   }
 
@@ -137,7 +138,7 @@ const MechSheet = ({
               robotInfo={robotInfo}
               robotStats={robotStats}
               robotState={robotState}
-              onBroadcast={(summaryData) => { setRollSummaryDataWithName(summaryData); newAttackSummary(); }}
+              onBroadcast={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
               key={robotInfo.id}
             />
           }
@@ -163,7 +164,7 @@ const MechSheet = ({
           <MechTraits
             sectionTitle='Frame Traits'
             frameTraits={robotLoadout.frameTraits}
-            setRollSummaryData={(summaryData) => { setRollSummaryDataWithName(summaryData); newAttackSummary(); }}
+            setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
           />
         }
 
@@ -171,7 +172,7 @@ const MechSheet = ({
           <MechTraits
             sectionTitle='Systems'
             frameTraits={robotLoadout.systems}
-            setRollSummaryData={(summaryData) => { setRollSummaryDataWithName(summaryData); newAttackSummary(); }}
+            setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
             setLimitedCountForSystem={(count, systemIndex) =>
               updateMechState({
                 systemUses: {index: systemIndex, uses: count}

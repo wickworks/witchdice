@@ -12,6 +12,37 @@ function getRechargeString(recharge) {
 	return ''
 }
 
+function getSystemDescription(description, isDestroyed) {
+	return isDestroyed ? '[ SYSTEM DESTROYED ]' : (description || '')
+}
+
+function getSystemTrigger(trigger) {
+	return trigger ? `Trigger: ${trigger}` : ''
+}
+
+function getBroadcastObjectForTrait(trait) {
+	return {
+		// characterName: robotInfo.name, //injected upstream
+		conditions: [trait.name.toUpperCase()],
+		rolls: [{
+			name: [
+				trait.activation,
+				trait.frequency,
+				trait.range && trait.range.map(rangeEntry => `${rangeEntry.type} ${rangeEntry.val}`).join(', '),
+				trait.recharge && getRechargeString(trait.recharge),
+				trait.limited && `Limited ${trait.limited.max}`
+			].filter(attr => !!attr).join(', '),
+			applies: [
+				getSystemTrigger(trait.trigger),
+				getSystemDescription(trait.description, trait.isDestroyed),
+				trait.statblock && ('〔 ' + Object.keys(trait.statblock).map(stat => `${stat}: ${trait.statblock[stat]}`).join(' — ') + ' 〕')
+			].filter(attr => !!attr).join('<br>'),
+			attack: -100, // it's an ability, I guess?
+		}],
+		skipTotal: true,
+	}
+}
+
 const TraitBlock = ({
 	trait,
 	onDestroy = null,
@@ -40,35 +71,34 @@ const TraitBlock = ({
 	} = trait
 
 	const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
-
 	// if MechTraits toggles what's open, set them all to that.
+	useEffect(() => setIsCollapsed(defaultCollapsed), [defaultCollapsed]);
+
+ 	// Stack of broadcast objects to... broadcast. Only used when subtraits are present.
+	// Can only do one at a time so we have to space them out like this.
+	const [broadcastStack, setBroadcastStack] = useState([]);
 	useEffect(() => {
-    setIsCollapsed(defaultCollapsed)
-  }, [defaultCollapsed]);
+		const nextBroadcastObject = broadcastStack[0]
+		if (nextBroadcastObject) {
+			setRollSummaryData(nextBroadcastObject)
+			setBroadcastStack(broadcastStack.slice(1))
+		}
+	}, [broadcastStack.length]);
+
+	const onBroadcast = () => {
+		setRollSummaryData(getBroadcastObjectForTrait(trait))
+		if (trait.subTraits) {
+			const newBroadcastStack = trait.subTraits.map(subTrait => getBroadcastObjectForTrait(subTrait))
+			setBroadcastStack(newBroadcastStack)
+		}
+	}
 
 	const systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : (description || '')
 	const systemTrigger = trigger ? `Trigger: ${trigger}` : ''
 
-	let broadcastStats = statblock && ('〔 ' + Object.keys(statblock).map(stat => `${stat}: ${statblock[stat]}`).join(' — ') + ' 〕')
-	let broadcastObject = {
-		// characterName: robotInfo.name, //injected upstream
-		conditions: [name.toUpperCase()],
-		rolls: [{
-			name: [
-				activation,
-				frequency,
-				range && range.map(rangeEntry => `${rangeEntry.type} ${rangeEntry.val}`).join(', '),
-				recharge && getRechargeString(recharge),
-				limited && `Limited ${limited.max}`
-			].filter(attr => !!attr).join(', '),
-			applies: [systemTrigger, systemDescription, broadcastStats].filter(attr => !!attr).join('<br>'),
-			attack: -100, // it's an ability, I guess?
-		}],
-		skipTotal: true,
-	}
 
-	const boldedDescription = systemDescription.replace('Effect:', '<strong>Effect:</strong>')
-	const boldedTrigger = systemTrigger.replace('Trigger:', '<strong>Trigger:</strong>')
+	const boldedDescription = getSystemDescription(trait.description, trait.isDestroyed).replace('Effect:', '<strong>Effect:</strong>')
+	const boldedTrigger = getSystemTrigger(trait.trigger).replace('Trigger:', '<strong>Trigger:</strong>')
 
 	const titleClass = isTitleCase ? 'title-case' : '';
 	const collapsedClass = isCollapsed ? 'collapsed' : '';
@@ -204,7 +234,7 @@ const TraitBlock = ({
 					}
 					{setRollSummaryData &&
 						<BroadcastSystemButton
-							onBroadcast={() => setRollSummaryData(broadcastObject)}
+							onBroadcast={onBroadcast}
 						/>
 					}
 				</div>
