@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import LoadinDots from '../../shared/LoadinDots.jsx';
 import { capitalize } from '../../../utils.js';
 
 import {
@@ -17,6 +18,7 @@ const NpcRoster = ({
   deleteAllNpcsWithLabel,
   setIsUploadingNewFile,
   hasActiveEncounter,
+  isWaitingOnSharecodeResponse,
 }) => {
   const [openLabels, setOpenLabels] = useState([])
 
@@ -89,59 +91,63 @@ const NpcRoster = ({
     <div className='NpcRoster'>
       <div className='roster-container'>
 
-        <div className="title-bar">
-          <h2>NPCs</h2>
-          <button className="new-character" onClick={() => setIsUploadingNewFile(true)}>
-            New
-            <div className="asset plus"/>
-          </button>
-        </div>
+        { isWaitingOnSharecodeResponse ?
+          <LoadinDots />
+        : <>
 
-        <div className='table-scrollable-area'>
-          <table className="roster-table">
-            <thead>
-              <tr className='headers'>
-                <th className='name'>Name</th>
-                <th className='class'>Class</th>
-                <th className='role'>Role</th>
-                <th className='tier'>Tier</th>
-                <th className='delete'></th>
-              </tr>
-            </thead>
+          <div className="title-bar">
+            <h2>NPCs</h2>
+            <button className="new-character" onClick={() => setIsUploadingNewFile(true)}>
+              New
+              <div className="asset plus"/>
+            </button>
+          </div>
 
-            <tbody>
-              {Object.keys(libraryByLabel).map(label => {
-                const isOpen = openLabels.includes(label)
-                return (
-                  <React.Fragment key={label}>
-                    <tr
-                      className={`group-label ${isOpen ? 'open' : 'closed'}`}
-                    >
-                      <td
-                        colSpan={4}
-                        onClick={() => toggleLabelOpen(label)}
+          <div className='table-scrollable-area'>
+            <table className="roster-table">
+              <thead>
+                <tr className='headers'>
+                  <th className='name'>Name</th>
+                  <th className='class'>Class</th>
+                  <th className='role'>Role</th>
+                  <th className='tier'>Tier</th>
+                  <th className='delete'></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {Object.keys(libraryByLabel).map(label => {
+                  const isOpen = openLabels.includes(label)
+                  return (
+                    <React.Fragment key={label}>
+                      <tr
+                        className={`group-label ${isOpen ? 'open' : 'closed'}`}
                       >
-                        <div className='label-container'>
-                          <span className={`asset arrow-sharp ${isOpen ? '' : 'reversed'}`} />
-                          {label}
-                        </div>
-                      </td>
-                      <td className='delete' onClick={() => deleteAllNpcsWithLabel(label)}>
-                        <button className='asset trash' />
-                      </td>
-                    </tr>
+                        <td
+                          colSpan={4}
+                          onClick={() => toggleLabelOpen(label)}
+                        >
+                          <div className='label-container'>
+                            <span className={`asset arrow-sharp ${isOpen ? '' : 'reversed'}`} />
+                            {label}
+                          </div>
+                        </td>
+                        <td className='delete' onClick={() => deleteAllNpcsWithLabel(label)}>
+                          <button className='asset trash' />
+                        </td>
+                      </tr>
 
-                    { isOpen && libraryByLabel[label].map(npc => renderNpcRow(npc)) }
-                  </React.Fragment>
-                )
-              })}
+                      { isOpen && libraryByLabel[label].map(npc => renderNpcRow(npc)) }
+                    </React.Fragment>
+                  )
+                })}
 
-              {noLabelNpcs.map(npc => renderNpcRow(npc))}
-            </tbody>
-          </table>
-        </div>
+                {noLabelNpcs.map(npc => renderNpcRow(npc))}
+              </tbody>
+            </table>
+          </div>
+        </>}
       </div>
-
     </div>
   );
 }

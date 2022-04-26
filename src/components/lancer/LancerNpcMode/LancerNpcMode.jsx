@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FileList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
-import LoadinDots from '../../shared/LoadinDots.jsx';
 import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import { ActiveNpcBox, CondensedNpcBox } from './ActiveNpcBox.jsx';
 import EncounterControls from './EncounterControls.jsx';
 import NpcMechSheet from './NpcMechSheet.jsx';
 import NpcRoster from './NpcRoster.jsx';
 import JumplinkPanel from '../JumplinkPanel.jsx';
+import identityid from './identityid.png';
 
 import { deepCopy, capitalize } from '../../../utils.js';
 import { randomWords } from '../../../random_words.js';
@@ -47,6 +47,7 @@ const SELECTED_ENCOUNTER_KEY = "lancer-selected-encounter"
 
 const NPC_CLOUD_URL = 'https://api.compcon.app/cloud-resources'
 const EXAMPLE_IDENTITYID = 'us-east-1:xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+const IDENTITYID_KEY = 'lancer-user-identityid'
 
 const LancerNpcMode = ({
   setTriggerRerender,
@@ -68,6 +69,7 @@ const LancerNpcMode = ({
 
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
   const [isWaitingOnSharecodeResponse, setIsWaitingOnSharecodeResponse] = useState(false);
+  const [lastIdentityID, setLastIdentityID] = useState(localStorage.getItem(IDENTITYID_KEY))
 
   const activeEncounter = activeEncounterID && loadEncounterData(activeEncounterID);
   const activeNpc = (activeEncounter && activeNpcFingerprint) && activeEncounter.allNpcs[activeNpcFingerprint];
@@ -207,7 +209,10 @@ const LancerNpcMode = ({
       setIsWaitingOnSharecodeResponse(false)
     });
 
+    localStorage.setItem(IDENTITYID_KEY, userID);
+    setLastIdentityID(userID)
     setIsWaitingOnSharecodeResponse(true)
+    setIsUploadingNewFile(false)
   }
 
   const addNpcToEncounter = (npcId) => {
@@ -483,37 +488,49 @@ const LancerNpcMode = ({
         <div className='jumplink-anchor' id='roster' />
         <div className='encounter-and-roster-container'>
 
-          {isWaitingOnSharecodeResponse ?
-            <LoadinDots />
-          :
-            <FileList
-              title='NPC'
-              extraClass='npcs'
-              acceptFileType='application/JSON,.compcon'
-              onFileUpload={uploadNpcFile}
-              onShareCodePaste={importAllNpcsFromUserID}
-              shareCodeLength={EXAMPLE_IDENTITYID.length}
-              shareCodeName={'comp/con identityid'}
-              isUploadingNewFile={isUploadingNewFile}
+          <FileList
+            title='NPC'
+            extraClass='npcs'
+            acceptFileType='application/JSON,.compcon'
+            onFileUpload={uploadNpcFile}
+            onShareCodePaste={importAllNpcsFromUserID}
+            shareCodeLength={EXAMPLE_IDENTITYID.length}
+            shareCodeName={'comp/con identityid'}
+            isUploadingNewFile={isUploadingNewFile}
+            setIsUploadingNewFile={setIsUploadingNewFile}
+            instructions={
+              <>
+                Options for importing NPCs:
+                <ul>
+                  <li>Upload a single npc data file (.json)</li>
+                  <li>Upload a full data backup (.compcon)</li>
+                  <li>
+                    Enter your <span className='hover-help'>COMP/CON
+                    IDENTITYID<img src={identityid}/></span> to import
+                    all npcs saved in your cloud account.
+                  </li>
+                  {lastIdentityID &&
+                    <li>
+                      <button className='reimport' onClick={() => importAllNpcsFromUserID(lastIdentityID)}>
+                        <span>Reimport from your cloud account.</span>
+                        <span className='asset refresh' />
+                      </button>
+                    </li>
+                  }
+                </ul>
+              </>
+            }
+          >
+            <NpcRoster
+              npcLibrary={npcLibrary}
+              addNpcToEncounter={addNpcToEncounter}
+              deleteNpc={deleteNpc}
+              deleteAllNpcsWithLabel={deleteAllNpcsWithLabel}
               setIsUploadingNewFile={setIsUploadingNewFile}
-              instructions={
-                <>
-                  <p>Upload an npc data file (.json) - OR - a full data backup (.compcon) from
-                  <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.</p>
-                  Alternatively, enter your COMP/CON IDENTITYID to import all npcs saved to your cloud.
-                </>
-              }
-            >
-              <NpcRoster
-                npcLibrary={npcLibrary}
-                addNpcToEncounter={addNpcToEncounter}
-                deleteNpc={deleteNpc}
-                deleteAllNpcsWithLabel={deleteAllNpcsWithLabel}
-                setIsUploadingNewFile={setIsUploadingNewFile}
-                hasActiveEncounter={!!activeEncounter}
-              />
-            </FileList>
-          }
+              hasActiveEncounter={!!activeEncounter}
+              isWaitingOnSharecodeResponse={isWaitingOnSharecodeResponse}
+            />
+          </FileList>
 
           <div className='encounter-list-and-info'>
             <CharacterList

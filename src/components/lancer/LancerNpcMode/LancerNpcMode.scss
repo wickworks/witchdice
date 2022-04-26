@@ -29,6 +29,58 @@
 
         // upload-file
         .panel { margin: 0; }
+
+        .instructions {
+
+          ul {
+            text-align: left;
+            margin: 6px 0 0;
+
+            li { padding-top: 6px; }
+          }
+
+          span.hover-help {
+            position: relative;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            white-space: nowrap;
+            color: $periwinkle_dark;
+            cursor: help;
+
+            &:hover img {
+              display: block;
+            }
+
+            img {
+              display: none;
+              position: absolute;
+              top: -50%;
+              left: -50%;
+            }
+          }
+
+          button.reimport {
+            font-size: 18px;
+            border-radius: 4px;
+            padding: 6px 8px;
+            background-color: $parchment_dark;
+
+            &:hover {
+              background-color: $rust;
+              span { filter: invert(100%); }
+            }
+
+            .asset.refresh {
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              margin-left: 4px;
+              position: relative;
+              top: 1px;
+
+            }
+          }
+        }
       }
 
       .encounter-list-and-info {
