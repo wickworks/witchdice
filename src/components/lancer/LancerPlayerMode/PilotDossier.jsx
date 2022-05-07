@@ -1,6 +1,13 @@
 import React from 'react';
 import MechanicsList from '../MechanicsList.jsx';
-import { findSkillData, findPilotGearData, findFrameData, findTalentData, findCoreBonusData } from '../lancerData.js';
+import {
+  findSkillData,
+  findPilotGearData,
+  findFrameData,
+  findTalentData,
+  findCoreBonusData,
+} from '../lancerData.js';
+import { blankDice } from '../../shared/DiceBag/DiceBagData.js';
 import './PilotDossier.scss';
 
 function hashCode(s){
@@ -19,12 +26,31 @@ function pilotIDToGeneStatus(pilotID) {
 }
 
 const PilotDossier = ({
-  activePilot
+  activePilot,
+  setDistantDicebagData
 }) => {
 
   const geneStatus = pilotIDToGeneStatus(activePilot.id);
 
   const showPilotGear = activePilot.loadout.gear.filter(gear => gear)
+
+  const queueUpSkillCheck = (skillIndex) => {
+    const skill = activePilot.skills[skillIndex]
+    if (skill) {
+      // is this a custom skill?
+      const skillName = skill.id.includes('_') ? findSkillData(skill.id).name : skill.id.toUpperCase()
+
+      let diceData = {...blankDice}
+      diceData['20'] = 1
+      diceData['plus'] = skill.rank * 2
+
+      setDistantDicebagData({
+        diceData: diceData,
+        summaryMode: 'total',
+        annotation: skillName
+      });
+    }
+  }
 
   return (
     <div className="PilotDossier">
@@ -105,6 +131,7 @@ const PilotDossier = ({
               tooltipHref='https://compcon.app/#/compendium/skills'
               mechanicIDList={activePilot.skills}
               containerClass={'skills'}
+              onItemClick={queueUpSkillCheck}
               getRankDisplay={ (number) => { return `+${number * 2}`} }
             />
 

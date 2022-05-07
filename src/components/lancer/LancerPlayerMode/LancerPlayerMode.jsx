@@ -289,6 +289,7 @@ const LancerPlayerMode = ({
         <>
           <PilotDossier
             activePilot={activePilot}
+            setDistantDicebagData={setDistantDicebagData}
           />
 
           <div className='mechlist-or-bonds'>

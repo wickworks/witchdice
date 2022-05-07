@@ -14,6 +14,7 @@
     position: relative;
     display: inline-block;
     white-space: nowrap;
+    margin: 0 4px;
 
     cursor: help;
 
@@ -21,9 +22,25 @@
       color: $rust;
     }
 
+    &.clickable {
+      border-radius: 2px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $rust;
+        color: white;
+
+        .bracket { color: white; }
+      }
+    }
+
     .bracket {
-      margin: 0 4px;
+      top: -1px;
+      position: relative;
       color: $grey_mid;
+
+      &.left { margin-right: 4px; }
+      &.right { margin-left: 4px; }
     }
 
     .name {

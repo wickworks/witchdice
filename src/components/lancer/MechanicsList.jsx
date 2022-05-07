@@ -11,6 +11,7 @@ const MechanicsList = ({
   tooltipHref,
   mechanicIDList,
   containerClass,
+  onItemClick = null,
   getRankDisplay = (number) => { return number; },
   namesToLowercase = true,
 }) => {
@@ -47,19 +48,22 @@ const MechanicsList = ({
           let name = tooltipData.title
           name = namesToLowercase ? name.toLowerCase() : name
 
+          const isClickable = !!onItemClick
+
           return (
             <span
-              className="entry"
+              className={`entry ${isClickable ? 'clickable' :''}`}
               onMouseEnter={() => setHoveringIndex(i)}
               onMouseLeave={() => setHoveringIndex(null)}
+              onClick={isClickable ? (e) => onItemClick(i) : null}
               key={`${dataID}-${i}`}
             >
-              <span className="bracket">[</span>
+              <span className="bracket left">[</span>
               <span className="name">{name}</span>
               { rank !== undefined && rank !== null &&
                 <span className="number">{getRankDisplay(rank)}</span>
               }
-              <span className="bracket">]</span>
+              <span className="bracket right">]</span>
 
               {hoveringIndex === i &&
                 <Tooltip
