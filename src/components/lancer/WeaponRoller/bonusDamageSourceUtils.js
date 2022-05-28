@@ -99,13 +99,13 @@ function newSourceFromFrame(frameData, diceString, damageType = '', traitName = 
   )
 }
 
-function getBonusDamageSourcesFromMech(mechData) {
+function getBonusDamageSourcesFromMech(frameID) {
   var sources = [];
 
-  const frameData = findFrameData(mechData.frame);
+  const frameData = findFrameData(frameID);
   if (!frameData) return sources;
 
-  switch (frameData.id) {
+  switch (frameID) {
     case 'mf_nelson':
       sources.push( newSourceFromFrame(frameData, '1d6', '', 'Momentum') );
       break;
