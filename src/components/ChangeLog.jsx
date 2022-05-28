@@ -15,8 +15,13 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-          <div className='version-label'>v0.12.1 — Apr 2022</div>
+          <div className='version-label'>v0.12.1-2 — Apr 2022</div>
           <ul>
+            <li>Click overcharge to queue it to roll.</li>
+            <li>Click structure/stress to queue them to roll.</li>
+            <li>Click pilot skills to queue them to roll.</li>
+            <li>Can import all NPCs saved on compcon account via API.</li>
+            <li>Can delete NPCs from the GM roster.</li>
             <li>Bugfixes for melee synergies, reliable, statuses, npc invades.</li>
             <li>NPC abilities replace scaling numbers by tier.</li>
             <li>Can select bond powers from any class.</li>
