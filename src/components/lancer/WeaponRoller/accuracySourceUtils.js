@@ -20,7 +20,7 @@ function addAccSourceFromTalent(sources, weaponData, talentData, rank, accBonus 
   const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
 
   if (failingSynergies.length === 0) {
-    addAccSource(sources, name, talentData.id, desc, accBonus, defaultOn )
+    addAccSource(sources, name, `${talentData.id}-${rank}`, desc, accBonus, defaultOn )
   }
 }
 
