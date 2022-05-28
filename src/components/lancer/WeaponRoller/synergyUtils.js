@@ -7,7 +7,6 @@ export function getPassingWeaponSynergies(weaponData, synergies) {
 }
 
 export function getFailingWeaponSynergies(weaponData, synergies) {
-
   const failingSynergies = synergies.filter(synergy => {
     // Weapon size?
     if (synergy.weapon_sizes && synergy.weapon_sizes[0] !== 'any') {

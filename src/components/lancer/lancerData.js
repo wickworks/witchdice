@@ -195,6 +195,7 @@ export const findFrameData = (frameID) => {
 export const findWeaponData = (weaponID) => {
   var weaponData = allWeapons[weaponID]
   if (!weaponData) weaponData = findGameDataFromLcp('weapons', weaponID)
+  if (!weaponData) weaponData = baselineWeapons.find(baselineWeapon => baselineWeapon.id === weaponID)
   return weaponData ? weaponData : findWeaponData('missing_mechweapon')
 }
 
