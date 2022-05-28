@@ -172,6 +172,8 @@ const MechState = ({
 
         currentRepairs={currentRepairs}
         setCurrentRepairs={setCurrentRepairs}
+
+        setDistantDicebagData={setDistantDicebagData}
       />
 
 

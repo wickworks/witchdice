@@ -1,5 +1,6 @@
 import React from 'react';
 import MechNumberBar from './MechNumberBar.jsx';
+import { blankDice } from '../../shared/DiceBag/DiceBagData.js';
 
 import './MechCentralDiamond.scss';
 
@@ -20,6 +21,8 @@ const MechCentralDiamond = ({
 
   currentRepairs,
   setCurrentRepairs,
+
+  setDistantDicebagData,
 }) => {
 
   const mechSizeClass = mechSize === 0.5 ? 'size-half' : `size-${mechSize}`
@@ -33,6 +36,57 @@ const MechCentralDiamond = ({
       setCurrentRepairs(currentRepairs+1)
     }
   }
+
+  const handleStructureClick = () => {
+    if (currentStructure > 1) {
+      let diceData = {...blankDice}
+      diceData['6'] = (5-currentStructure)
+
+      const postRollMessage = (result) => {
+        if (result >= 5) {
+          return 'Glancing Blow: Mech is IMPAIRED until the end of its next turn.'
+        } else if (result >= 2 && result <= 4) {
+          return 'System Trauma: Roll 1d6.<br>'+
+            'On 1-3, all weapons on one mount (of choice) are destroyed.<br>'+
+            'On 4-6, one system (of choice) is destroyed. (Weapons or systems with no LIMITED charges are not valid choices.)<br>'+
+            'If there are no valid weapons, destroy a system; if there are no valid systems, destroy a weapon. '+
+            'If there are no valid weapons or systems, this becomes a Direct Hit instead.'
+        } else if (result === 1) {
+          return "Direct Hit: The result depends on the mech's remaining structure:<br>" +
+            '3+ Structure: Mech is STUNNED until the end of its next turn.<br>'+
+            '2 Structure: Roll a HULL Check. On success, mech is STUNNED until the end of its next turn. On failure, mech is destroyed.<br>'+
+            '1 Structure: Mech is destroyed.'
+        } else { // need to check for multiple 1s somehow
+          return 'Crushing Hit: Mech is destroyed.'
+        }
+      }
+
+      setDistantDicebagData({
+        diceData: diceData,
+        summaryMode: 'low',
+        annotation: 'STRUCTURE check',
+        postRollMessage: postRollMessage,
+      });
+    }
+
+    setCurrentStructure(Math.max(currentStructure-1, 0))
+  }
+
+  const handleStressClick = () => {
+    if (currentStress > 1) {
+      let diceData = {...blankDice}
+      diceData['6'] = (5-currentStress)
+
+      setDistantDicebagData({
+        diceData: diceData,
+        summaryMode: 'low',
+        annotation: 'STRESS check'
+      });
+    }
+
+    setCurrentStress(Math.max(currentStress-1, 0))
+  }
+
 
   // <div className="MechCentralDiamond asset ssc-watermark">
   return (
@@ -60,16 +114,16 @@ const MechCentralDiamond = ({
             leftToRight={true}
             showAbsoluteValues={true}
           />
-          <div className='mini-label structure'>
+          <button className='mini-label structure' onClick={handleStructureClick}>
             <span className='label'>
               Structure
-              
+
               { hasIntactCustomPaintJob &&
                 <span className='reminder-text'>(paint job intact)</span>
               }
             </span>
             <span className='number'>{currentStructure}</span>
-          </div>
+          </button>
 
           <MechNumberBar
             extraClass='condensed stress'
@@ -81,10 +135,10 @@ const MechCentralDiamond = ({
             leftToRight={true}
             showAbsoluteValues={true}
           />
-          <div className='mini-label stress'>
+          <button className='mini-label stress' onClick={handleStressClick}>
             <span className='number'>{currentStress}</span>
             <span className='label'>Stress</span>
-          </div>
+          </button>
 
           <div className='repairs-container-container'>
             <div className={`repairs-container ${smallRepairsClass}`}>

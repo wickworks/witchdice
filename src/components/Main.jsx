@@ -123,11 +123,12 @@ const Main = ({
   }
 
   // Push a dicebag roll to firebase
-  const addNewDicebagPartyRoll = (rolls, summaryMode, annotation, isNew) => {
+  const addNewDicebagPartyRoll = (rolls, summaryMode, annotation, message, isNew) => {
     if (rolls.length > 0) {
       let actionData = {};
       actionData.name = partyName || 'Me';
       if (annotation) actionData.name += ` — ${annotation}`
+      actionData.message = message
 
       actionData.type = 'dicebag';
       actionData.conditions = rolls.length > 1 ? summaryMode : '';

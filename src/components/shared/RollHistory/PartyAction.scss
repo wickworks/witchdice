@@ -6,105 +6,113 @@
   padding: 18px 0;
   border-bottom: 2px solid $faded_gold;
 
-  &.one-liner {
-    display: flex;
-    justify-content: space-between;
-  }
+  .action-container {
 
-  // for LANCER rolls
-  &.skipping-total .PartyRollAttack .damage-container .damage {
-    font-weight: bold;
-    font-size: 18px;
-
-    .asset { margin-left: -2px; }
-  }
-
-  .title {
-    display: flex;
-    align-items: flex-start;
-    padding: 0 8px 5px 12px;
-    margin-bottom: 2px;
-
-    .name {
-      font-size: 16px;
-      font-weight: bold;
-      padding-right: 8px;
-
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2; /* number of lines to show */
-              line-clamp: 2;
-    }
-    .party-name {
-      @include text_party_roll_attackname;
-      margin: 0 12px 1px 6px;
-    }
-    .conditions {
-      @include text_party_roll_condition;
-      margin: 0 4px 1px auto;
-      text-align: right;
-
-      // span { white-space: nowrap; }
-    }
-  }
-
-  .dicebag-container {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 12px 0 12px;
-
-    .dicebag-single {
-      @include text_party_roll_sum;
+    &.one-liner {
       display: flex;
-      align-items: center;
-      margin-left: auto;
-      margin-top: -6px;
+      justify-content: space-between;
+    }
 
-      .asset {
-        width: 28px;
-        height: 28px;
-        margin-right: 3px;
+    // for LANCER rolls
+    &.skipping-total .PartyRollAttack .damage-container .damage {
+      font-weight: bold;
+      font-size: 18px;
+
+      .asset { margin-left: -2px; }
+    }
+
+    .title {
+      display: flex;
+      align-items: flex-start;
+      padding: 0 8px 5px 12px;
+      margin-bottom: 2px;
+
+      .name {
+        font-size: 16px;
+        font-weight: bold;
+        padding-right: 8px;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2; /* number of lines to show */
+                line-clamp: 2;
+      }
+      .party-name {
+        @include text_party_roll_attackname;
+        margin: 0 12px 1px 6px;
+      }
+      .conditions {
+        @include text_party_roll_condition;
+        margin: 0 4px 1px auto;
+        text-align: right;
+
+        // span { white-space: nowrap; }
       }
     }
 
-    .dicebag-rolls {
+    .dicebag-container {
       display: flex;
-      flex-wrap: wrap;
+      justify-content: space-between;
+      padding: 0 12px;
 
-      .PartyRollDicebag {
-        @include text_party_roll_number;
+      .dicebag-single {
+        @include text_party_roll_sum;
         display: flex;
         align-items: center;
-        margin-right: 8px;
+        margin-left: auto;
+        margin-top: -6px;
 
         .asset {
-          width: 24px;
-          height: 24px;
+          width: 28px;
+          height: 28px;
           margin-right: 3px;
         }
+      }
 
-        .result { width: 18px; }
+      .dicebag-rolls {
+        display: flex;
+        flex-wrap: wrap;
+
+        .PartyRollDicebag {
+          @include text_party_roll_number;
+          display: flex;
+          align-items: center;
+          margin-right: 8px;
+
+          .asset {
+            width: 24px;
+            height: 24px;
+            margin-right: 3px;
+          }
+
+          .result { width: 18px; }
+        }
+      }
+
+      .dicebag-sum {
+        @include text_party_roll_sum;
+        margin-left: 12px;
       }
     }
 
-    .dicebag-sum {
-      @include text_party_roll_sum;
-      margin-left: 12px;
+    .attack-container {
+      display: flex;
+      flex-direction: column;
+      padding: 0 8px 0 12px;
+
+      .total-damage {
+        @include text_party_roll_sum;
+        text-align: right;
+        margin: 6px 4px 2px;
+      }
     }
   }
 
-  .attack-container {
-    display: flex;
-    flex-direction: column;
-    padding: 0 8px 0 12px;
-
-    .total-damage {
-      @include text_party_roll_sum;
-      text-align: right;
-      margin: 6px 4px 2px;
-    }
+  .message {
+    padding: 4px 12px 0;
+    text-align: right;
   }
 }
 

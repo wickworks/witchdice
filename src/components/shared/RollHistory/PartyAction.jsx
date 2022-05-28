@@ -10,6 +10,8 @@ import './PartyAction.scss';
 //
 // const defaultPartyActionData_dicebag = {
 //   'name': 'Olive',
+//   'annotation': 'Structure Check',
+//   'message': '1: the player is stunned.',
 //   'type': 'dicebag',
 //   'createdAt': XXXXXX,
 //   'updatedAt': XXXXXX,
@@ -40,37 +42,44 @@ const PartyActionDicebag = ({actionData, showName}) => {
   const oneLineClass = (rollData.length === 1) ? 'one-liner' : '';
 
   return (
-    <div className={`PartyAction ${oneLineClass}`}>
+    <div className='PartyAction'>
 
-      <ActionTitle
-        actionData={actionData}
-        showName={showName}
-      />
+      <div className={`action-container ${oneLineClass}`}>
+        <ActionTitle
+          actionData={actionData}
+          showName={showName}
+        />
 
-      <div className="dicebag-container">
-        { oneLineClass ?
-          <div className='dicebag-single'>
-            <div className={`asset ${rollData[0].dieType}`} />
-            {rollData[0].result * rollData[0].sign}
-          </div>
-        : <>
-          <div className="dicebag-rolls">
-            { rollData.map((roll, i) => {
-              return (
-                <PartyRollDicebag
-                  dieType={roll.dieType}
-                  result={roll.result * roll.sign}
-                  key={`${updatedAt}-${i}`}
-                />
-              )
-            })}
-          </div>
-          <div className="dicebag-sum">
-            {resultTotal}
-          </div>
-        </> }
+        <div className="dicebag-container">
+          { oneLineClass ?
+            <div className='dicebag-single'>
+              <div className={`asset ${rollData[0].dieType}`} />
+              {rollData[0].result * rollData[0].sign}
+            </div>
+          : <>
+            <div className="dicebag-rolls">
+              { rollData.map((roll, i) => {
+                return (
+                  <PartyRollDicebag
+                    dieType={roll.dieType}
+                    result={roll.result * roll.sign}
+                    key={`${updatedAt}-${i}`}
+                  />
+                )
+              })}
+            </div>
+            <div className="dicebag-sum">
+              {resultTotal}
+            </div>
+          </> }
+        </div>
       </div>
 
+      {actionData.message &&
+        <div className='message'>
+          <BrToParagraphs stringWithBrs={actionData.message}/>
+        </div>
+      }
     </div>
   );
 }
@@ -133,29 +142,32 @@ const PartyActionAttack = ({actionData, showName}) => {
 
   // console.log('rendering actionData', actionData);
 
+  const skippingTotalClass = skipTotal ? 'skipping-total' : ''
+
   return (
-    <div className={`PartyAction ${skipTotal ? 'skipping-total' : ''}`}>
+    <div className='PartyAction'>
 
-      <ActionTitle
-        actionData={actionData}
-        showName={showName}
-      />
+      <div className={`action-container ${skippingTotalClass}`}>
+        <ActionTitle
+          actionData={actionData}
+          showName={showName}
+        />
 
-      <div className="attack-container">
-        { actionRolls.map((actionRollData, i) =>
-          <PartyRollAttack
-            actionRollData={actionRollData}
-            key={`${updatedAt}-${i}`}
-          />
-        )}
+        <div className="attack-container">
+          { actionRolls.map((actionRollData, i) =>
+            <PartyRollAttack
+              actionRollData={actionRollData}
+              key={`${updatedAt}-${i}`}
+            />
+          )}
 
-        {!skipTotal &&
-          <div className="total-damage">
-            {`${damageSum} damage`}
-          </div>
-        }
+          {!skipTotal &&
+            <div className="total-damage">
+              {`${damageSum} damage`}
+            </div>
+          }
+        </div>
       </div>
-
     </div>
   );
 }

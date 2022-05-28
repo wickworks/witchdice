@@ -124,9 +124,14 @@ $grid_count: 8;
         .number { transform: rotate(45deg); }
       }
 
-      .mini-label {
+      button.mini-label {
         @include text_monospace;
         display: flex;
+
+        &:hover {
+          background-color: $rust;
+          color: white;
+        }
 
         &.structure {
           grid-column: 1 / span $grid_count;

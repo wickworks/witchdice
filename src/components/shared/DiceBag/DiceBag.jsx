@@ -34,6 +34,8 @@ const DiceBag = ({
   const [isAnnotationActive, setIsAnnotationActive] = useState(false);
   const [annotation, setAnnotation] = useState('');
 
+  const [postRollMessage, setPostRollMessage] = useState(null);
+
   const percentileAvailable = (diceData['10'] === 2);
 
   const clearCurrentDiceData = () => {
@@ -47,7 +49,12 @@ const DiceBag = ({
     setFirstDieRolled('')
     setRollData([])
     setPreviousDiceData({})
+    clearCurrentMetadata()
+  }
+
+  const clearCurrentMetadata = () => {
     setAnnotation('')
+    setPostRollMessage(null)
   }
 
   const updateDiceDataCount = (dieType, newCount) => {
@@ -57,7 +64,7 @@ const DiceBag = ({
 
     // if we've just started queueing up a new roll, clear the old annotation
     if (JSON.stringify(diceData) === JSON.stringify(blankDice) && firstDieRolled !== '') {
-      setAnnotation('')
+      clearCurrentMetadata()
     }
 
   }
@@ -133,35 +140,6 @@ const DiceBag = ({
     }
   }
 
-  // add it to the party roll panel
-  useEffect(() => {
-    addNewDicebagPartyRoll(rollData, summaryMode, annotation, true);
-  }, [rollData]);
-
-  // update something about the last roll on the party roll panel — IF we're not busy queueing up a new roll
-  useEffect(() => {
-    if (rollDieType.length === 0) {
-      addNewDicebagPartyRoll(rollData, summaryMode, annotation, false);
-    }
-  }, [summaryMode, annotation]);
-
-  // If somewhere else has commanded us to queue up a dice roll, do so
-  useEffect(() => {
-    if (distantDicebagData) {
-      setDiceData(distantDicebagData.diceData)
-      setSummaryMode(distantDicebagData.summaryMode)
-
-      if (distantDicebagData.annotation) {
-        setAnnotation(distantDicebagData.annotation)
-        setIsAnnotationActive(true)
-      }
-
-      // scroll down to us
-      diceBagRef.current.scrollIntoView({behavior: "smooth"})
-      // diceBagRef.current.scrollIntoView()
-    }
-  }, [distantDicebagData]);
-
 
   // what is the highest type of die we're queueing up to roll?
   let rollDieType = '';
@@ -181,6 +159,45 @@ const DiceBag = ({
   // summarize the results
   const resultTotal = processRollData(rollData, summaryMode)
   const resultSummary = getRollDescription(rollData, summaryMode)
+
+
+  // add it to the party roll panel
+  useEffect(() => {
+    const rollMessage = postRollMessage ? postRollMessage(resultTotal) : ''
+    console.log('rollMessage',rollMessage);
+    addNewDicebagPartyRoll(rollData, summaryMode, annotation, rollMessage, true);
+  }, [rollData]);
+
+  // update something about the last roll on the party roll panel — IF we're not busy queueing up a new roll
+  useEffect(() => {
+    if (rollDieType.length === 0) {
+      const rollMessage = postRollMessage ? postRollMessage(resultTotal) : ''
+      console.log('rollMessage',rollMessage);
+      addNewDicebagPartyRoll(rollData, summaryMode, annotation, rollMessage, false);
+    }
+  }, [summaryMode, annotation]);
+
+  // If somewhere else has commanded us to queue up a dice roll, do so
+  useEffect(() => {
+    if (distantDicebagData) {
+      setDiceData(distantDicebagData.diceData)
+      setSummaryMode(distantDicebagData.summaryMode)
+
+      if (distantDicebagData.annotation) {
+        setAnnotation(distantDicebagData.annotation)
+        setIsAnnotationActive(true)
+      }
+
+      if (distantDicebagData.postRollMessage) {
+        console.log('distantDicebagData.postRollMessage',distantDicebagData.postRollMessage);
+        setPostRollMessage(() => distantDicebagData.postRollMessage)
+      }
+
+      // scroll down to us
+      diceBagRef.current.scrollIntoView({behavior: "smooth"})
+      // diceBagRef.current.scrollIntoView()
+    }
+  }, [distantDicebagData]);
 
   // have we queued up something complicated?
   const isComplexRoll = toRollString.length > 14
