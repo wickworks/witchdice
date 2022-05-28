@@ -169,6 +169,7 @@ function getNpcTraits(items) {
 
   items.forEach((item, itemIndex) => {
     const featureData = findNpcFeatureData(item.itemID)
+    let recharge = getSystemRecharge(item, featureData)
 
     if (featureData.type === 'Trait') {
       featureTraits.push({
@@ -179,6 +180,7 @@ function getNpcTraits(items) {
         isDestructable: false,
         isDestroyed: false,
         isTitleCase: true,
+        recharge: recharge,
       })
     }
 
