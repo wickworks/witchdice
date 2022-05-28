@@ -113,6 +113,14 @@ const TechRoller = ({
             <div className='value'>{sensorRange}</div>
             <div className='bracket'>]</div>
           </div>
+          {isInvade &&
+            <div className="tech-stat">
+              <div className='bracket'>[</div>
+              <div className='value'>2</div>
+              <div className='asset heat' />
+              <div className='bracket'>]</div>
+            </div>
+          }
           <div className="tags">
             <span className='size'>{invadeData.activation}</span>
           </div>
