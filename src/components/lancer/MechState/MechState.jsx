@@ -6,8 +6,10 @@ import MechNumberIcon from './MechNumberIcon.jsx';
 import MechSingleStat from './MechSingleStat.jsx';
 import AbilityRollButton from './AbilityRollButton.jsx';
 
+import { blankDice } from '../../shared/DiceBag/DiceBagData.js';
 import {
   OVERCHARGE_SEQUENCE,
+  processDiceString,
 } from '../lancerData.js';
 
 
@@ -145,6 +147,29 @@ const MechState = ({
   const handleOverchargeClick = (rightClick) => {
     var direction = rightClick ? -1 : 1
     var newIndex = Math.max(Math.min(currentOverchargeIndex + direction, OVERCHARGE_SEQUENCE.length-1), 0);
+
+    // if counting up, queue up a roll
+    if (direction > 0 && currentOverchargeIndex > 0) {
+      const currentOvercharge = OVERCHARGE_SEQUENCE[currentOverchargeIndex]
+      const overchargeDice = processDiceString(currentOvercharge)
+      let diceData = {...blankDice}
+
+      // have to handle the custom d3 die format
+      if (overchargeDice.dietype in diceData) {
+        diceData[overchargeDice.dietype] = overchargeDice.count
+      } else {
+        delete diceData['x']
+        diceData['x3'] = overchargeDice.count
+      }
+      diceData['plus'] = overchargeDice.bonus
+
+      setDistantDicebagData({
+        diceData: diceData,
+        summaryMode: 'total',
+        annotation: 'Overcharge'
+      });
+    }
+
     setCurrentOverchargeIndex( newIndex );
   }
 
