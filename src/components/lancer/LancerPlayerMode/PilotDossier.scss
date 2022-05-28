@@ -206,6 +206,10 @@ $right_column_wid: 370px;
       }
 
       &.secondary {
+        padding-bottom: 8px;
+      }
+
+      &.tertiary {
         @include max_width {
           display: flex;
           justify-content: space-between;
@@ -231,7 +235,7 @@ $right_column_wid: 370px;
           .label { margin-top: 0; }
         }
 
-        &.skills {
+        &.gear {
           flex-shrink: 0;
           margin-left: 8px;
 

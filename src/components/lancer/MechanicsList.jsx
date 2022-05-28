@@ -59,7 +59,7 @@ const MechanicsList = ({
               key={`${dataID}-${i}`}
             >
               <span className="bracket left">[</span>
-              <span className="name">{name}</span>
+              <span className="name">{name.substring(0, 33)}</span>
               { rank !== undefined && rank !== null &&
                 <span className="number">{getRankDisplay(rank)}</span>
               }

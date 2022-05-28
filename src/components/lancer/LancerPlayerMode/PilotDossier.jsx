@@ -102,7 +102,6 @@ const PilotDossier = ({
           </div>
 
           <div className="lists-of-things secondary">
-
             <MechanicsList
               label='Talents'
               findData={findTalentData}
@@ -112,18 +111,9 @@ const PilotDossier = ({
               mechanicIDList={activePilot.talents}
               containerClass={'talents'}
             />
+          </div>
 
-            {showPilotGear.length > 0 &&
-              <MechanicsList
-                label='Pilot Gear'
-                findData={findPilotGearData}
-                tooltipContentKey='description'
-                tooltipHref='https://compcon.app/#/compendium/pilot_gear'
-                mechanicIDList={showPilotGear}
-                containerClass={'gear'}
-              />
-            }
-
+          <div className="lists-of-things tertiary">
             <MechanicsList
               label='Skills'
               findData={findSkillData}
@@ -135,6 +125,14 @@ const PilotDossier = ({
               getRankDisplay={ (number) => { return `+${number * 2}`} }
             />
 
+            <MechanicsList
+              label='Pilot Gear'
+              findData={findPilotGearData}
+              tooltipContentKey='description'
+              tooltipHref='https://compcon.app/#/compendium/pilot_gear'
+              mechanicIDList={showPilotGear}
+              containerClass={'gear'}
+            />
           </div>
         </div>
       </div>
