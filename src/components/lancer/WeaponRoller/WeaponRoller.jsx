@@ -33,6 +33,7 @@ const WeaponRoller = ({
   weaponData,
   weaponMod,
   weaponNpcAccuracy,
+  mountBonusEffects,
   gritBonus,
   allRangeSynergies,
 
@@ -344,6 +345,7 @@ const WeaponRoller = ({
             weaponData={currentWeaponProfile}
             weaponMod={weaponMod}
             weaponNpcAccuracy={weaponNpcAccuracy}
+            mountBonusEffects={mountBonusEffects}
             rollBonus={gritBonus}
             rollBonusLabel={weaponNpcAccuracy === undefined ? 'Grit' : 'Flat'}
             createNewAttackRoll={createNewAttackRoll}

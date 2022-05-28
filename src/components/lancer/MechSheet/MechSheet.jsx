@@ -231,6 +231,7 @@ const MechSheet = ({
           weaponData={activeWeaponData}
           weaponMod={activeWeapon.mod}
           weaponNpcAccuracy={activeWeapon.npcAccuracyBonus}
+          mountBonusEffects={activeMount.bonus_effects}
           gritBonus={totalAttackBonus}
           allRangeSynergies={robotStats.rangeSynergies}
           weaponLimited={weaponLimited}

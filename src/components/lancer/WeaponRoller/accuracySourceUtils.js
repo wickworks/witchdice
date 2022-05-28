@@ -2,6 +2,7 @@
 import {
   findTagOnWeapon,
   findTalentData,
+  findCoreBonusData,
   findModData,
 } from '../lancerData.js';
 
@@ -41,7 +42,17 @@ export function newAccSource(name, id, desc, accBonus = 1, defaultOn = false) {
 // activeMech.loadouts[0].systems
 // if (activeMech.conditions.includes('IMPAIRED')) {
 // activePilot.talents
-export function getAvailableAccuracySources(frameID, mechSystems, pilotTalents, isImpaired, weaponData, invadeData, weaponMod, weaponNpcAccuracy) {
+export function getAvailableAccuracySources(
+  frameID,
+  mechSystems,
+  pilotTalents,
+  isImpaired,
+  weaponData,
+  invadeData,
+  weaponMod,
+  weaponNpcAccuracy,
+  mountBonusEffects
+) {
   let sources = []
 
   // WEAPON/INVADE-AGNOSTIC
@@ -119,6 +130,18 @@ export function getAvailableAccuracySources(frameID, mechSystems, pilotTalents, 
       const desc = 'If a character moves adjacent to a hostile character, they both gain the ENGAGED status for as long as they remain adjacent to one another. Ranged attacks made by an ENGAGED character receive +1 difficulty.'
       addAccSource(sources, 'Engaged', 'engaged', desc, -1)
     }
+
+    // -- MOUNT BONUS EFFECTS I.E. CORE BONUSES --
+    mountBonusEffects && mountBonusEffects.forEach(effectID => {
+      const cbData = findCoreBonusData(effectID)
+      switch (effectID) {
+        case 'cb_auto_stabilizing_hardpoints':
+          addAccSource(sources, cbData.name, cbData.id, 'Weapons attached to this mount gain +1 Accuracy.', 1, true)
+          break;
+        default:
+          break;
+      }
+    })
 
     // -- WEAPON MODS --
     if (weaponMod) {

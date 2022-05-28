@@ -14,6 +14,7 @@ const WeaponRollerSetup = ({
   weaponData,
   weaponMod,
   weaponNpcAccuracy,
+  mountBonusEffects,
   invadeData,
 
   rollBonus,
@@ -32,6 +33,7 @@ const WeaponRollerSetup = ({
     invadeData,
     weaponMod,
     weaponNpcAccuracy,
+    mountBonusEffects,
   )
 
   // IDs of available accuracy sources
