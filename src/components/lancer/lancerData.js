@@ -367,7 +367,7 @@ export const processDiceString = (diceString) => {
 }
 
 export function isDamageRange(dieType) {
-  return String(dieType).includes('-')
+  return String(dieType).includes('-') || String(dieType).includes('???')
 }
 
 export const findTagOnWeapon = (weaponData, tagID) => {

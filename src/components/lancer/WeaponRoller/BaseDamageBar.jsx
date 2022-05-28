@@ -98,8 +98,8 @@ const DamageDice = ({
       <input
         value={manualBaseDamage}
         onChange={e => setManualBaseDamage(parseInt(e.target.value))}
-        min="1" // these are probably fine, what else could it be
-        max="6"
+        min="1" // these are probably fine, what else could it be (fusion rifle OR mimic gun)
+        max="10"
         type='number'
         disabled={manualBaseDamageDisabled}
       />
