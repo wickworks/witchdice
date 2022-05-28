@@ -208,18 +208,27 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
           break;
 
         case 't_centimane':
-          const teethEffect = { onCrit: '1/round on a critical hit, your target must pass a SYSTEMS save or become IMPAIRED and SLOWED until the end of their next turn.', isPassive: true }
+          const teethEffect = {
+            onCrit: '1/round on a critical hit, your target must pass a SYSTEMS save or become IMPAIRED and SLOWED until the end of their next turn.',
+            isPassive: true
+          }
           addSourceFromTalent(sources,rank,talentData, 1, '', '', teethEffect);
 
-          const exposeEffect = { onCrit: 'When you consume LOCK ON as part of an attack with a NEXUS or DRONE and perform a critical hit, your target becomes SHREDDED until the start of your next turn.' }
+          const exposeEffect = {
+            onCrit: 'When you consume LOCK ON as part of an attack with a NEXUS or DRONE and perform a critical hit, your target becomes SHREDDED until the start of your next turn.',
+            requiresLockon: true,
+            isPassive: true
+          }
           addSourceFromTalent(sources,rank,talentData, 2, '', '', exposeEffect);
 
-          const tidalEffect = { onCrit:
-            '1/round, when you perform a critical hit with a NEXUS, your target must succeed on a SYSTEMS save or you may choose an additional effect for your attack that lasts until the end of their next turn:<br>' +
-            '- HARRYING SWARM: They become IMPAIRED and SLOWED.<br>' +
-            '- BLINDING SWARM: They only have line of sight to adjacent squares.<br>'+
-            '- VIRULENT SWARM: They become SHREDDED. Any adjacent characters of your choice must also make a SYSTEMS save or become SHREDDED.' +
-            '- RESTRICTING SWARM: They take 1 burn each time they take an action or reaction.'
+          const tidalEffect = {
+            onCrit:
+              '1/round, when you perform a critical hit with a NEXUS, your target must succeed on a SYSTEMS save or you may choose an additional effect for your attack that lasts until the end of their next turn:<br>' +
+              '- HARRYING SWARM: They become IMPAIRED and SLOWED.<br>' +
+              '- BLINDING SWARM: They only have line of sight to adjacent squares.<br>'+
+              '- VIRULENT SWARM: They become SHREDDED. Any adjacent characters of your choice must also make a SYSTEMS save or become SHREDDED.' +
+              '- RESTRICTING SWARM: They take 1 burn each time they take an action or reaction.',
+            isPassive: true
           }
           addSourceFromTalent(sources,rank,talentData, 3, '', '', tidalEffect);
           break;
@@ -243,7 +252,11 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
           break;
 
         case 't_hacker':
-          const snowCrashEffect = { onHit: 'SNOW_CRASH: Your target must choose to either take 2 Heat or be pushed 3 spaces in a direction of your choice.', requiresLockon: true, isPassive: true }
+          const snowCrashEffect = {
+            onHit: 'SNOW_CRASH: Your target must choose to either take 2 Heat or be pushed 3 spaces in a direction of your choice.',
+            requiresLockon: true,
+            isPassive: true
+          }
           addSourceFromTalent(sources,rank,talentData, 1, '', '', snowCrashEffect);
           break;
 
