@@ -163,10 +163,23 @@ const MechState = ({
       }
       diceData['plus'] = overchargeDice.bonus
 
+      const postRollMessage = (result) => {
+        let finalHeat = (currentHeat + result)
+        let stressCount = 0
+        while ((finalHeat > robotStats.maxHeat) && (stressCount < 4)) {
+          finalHeat -= robotStats.maxHeat;
+          stressCount += 1
+        }
+        let message = `Take ${result} heat; you have <b>${finalHeat}</b> heat total.`
+        if (stressCount > 0) message += `<br>Take <b>${stressCount}</b> Stress damage.`
+        return message
+      }
+
       setDistantDicebagData({
         diceData: diceData,
         summaryMode: 'total',
-        annotation: 'Overcharge'
+        annotation: 'OVERCHARGE',
+        postRollMessage: postRollMessage,
       });
     }
 
