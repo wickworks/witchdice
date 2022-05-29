@@ -52,6 +52,8 @@ const TraitBlock = ({
 	isSubtrait = false,
 	defaultCollapsed = true,
 }) => {
+	// Sanitize trait props; SOME lcps are sloppy with making sure this an array
+	if ('range' in trait) trait.range = trait.range && [trait.range].flat()
 	const {
 		name,
 		activation,
@@ -123,10 +125,10 @@ const TraitBlock = ({
 
 						{frequency && `, ${frequency}`}
 
-						{range && range.map((range, i) =>
+						{range && range.map((rangeType, i) =>
 	            <div className='range-icon' key={`range-${i}`}>
-	              {range.val}
-	              <div className={`asset ${range.type.toLowerCase()}`} />
+	              {rangeType.val}
+	              <div className={`asset ${rangeType.type.toLowerCase()}`} />
 	            </div>
 	          )}
 
