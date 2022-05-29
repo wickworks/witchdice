@@ -15,8 +15,10 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-          <div className='version-label'>v0.12.1-2 — Apr 2022</div>
+          <div className='version-label'>v0.12.1-3 — May 2022</div>
           <ul>
+            <li>Compendia Jones stays deleted when you delete her.</li>
+            <li>Fix crash when using some systems from Liminal Space.</li>
             <li>Click overcharge to queue it to roll.</li>
             <li>Click structure/stress to queue them to roll.</li>
             <li>Click pilot skills to queue them to roll.</li>
