@@ -135,14 +135,14 @@ $grid_count: 8;
 
         &.structure {
           grid-column: 1 / span $grid_count;
-          grid-row: 2 / span 2;
+          grid-row: 2 / span 1;
           align-items: flex-start;
           justify-content: flex-end;
         }
 
         &.stress {
           grid-column: 1 / span $grid_count;
-          grid-row: -4 / span 2;
+          grid-row: -3 / span 1;
           align-items: flex-end;
         }
 
@@ -169,20 +169,20 @@ $grid_count: 8;
       .repairs-container-container {
         // display: none;
         grid-column: 1 / span $grid_count;
-        grid-row: 4 / span 2;
+        grid-row: 3 / span 4;
 
         .repairs-container {
           display: flex;
           flex-direction: column;
           flex-wrap: wrap;
           justify-content: flex-end;
-          margin-top: -10px;
+          // margin-top: -10px;
           height: 70px;
           width: fit-content;
 
           &.small-repairs {
-            height: 100%;
-            button { width: 24px; height: 24px; }
+            margin-top: -10px;
+            button { width: 25px; height: 25px; }
           }
 
           button {
