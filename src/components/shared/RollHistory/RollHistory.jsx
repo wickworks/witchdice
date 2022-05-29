@@ -1,5 +1,5 @@
 import React from 'react';
-import { PartyActionDicebag, PartyActionAttack } from './PartyAction.jsx';
+import { PartyActionDicebag, PartyActionAttack, PartyActionBroadcastText } from './PartyAction.jsx';
 import './RollHistory.scss';
 
 const RollHistory = ({
@@ -27,13 +27,19 @@ const RollHistory = ({
             key={actionData.updatedAt}
           />
 
-        : actionData.type === 'attack' &&
+        : actionData.type === 'attack' ?
           <PartyActionAttack
             actionData={actionData}
             showName={showName}
             key={actionData.updatedAt}
           />
 
+        : actionData.type === 'text' &&
+          <PartyActionBroadcastText
+            actionData={actionData}
+            showName={showName}
+            key={actionData.updatedAt}
+          />
       )
     })
 

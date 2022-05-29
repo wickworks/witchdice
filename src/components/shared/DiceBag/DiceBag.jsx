@@ -164,7 +164,7 @@ const DiceBag = ({
   // add it to the party roll panel
   useEffect(() => {
     const rollMessage = postRollMessage ? postRollMessage(resultTotal) : ''
-    console.log('rollMessage',rollMessage);
+    // console.log('rollMessage',rollMessage);
     addNewDicebagPartyRoll(rollData, summaryMode, annotation, rollMessage, true);
   }, [rollData]);
 
@@ -172,7 +172,7 @@ const DiceBag = ({
   useEffect(() => {
     if (rollDieType.length === 0) {
       const rollMessage = postRollMessage ? postRollMessage(resultTotal) : ''
-      console.log('rollMessage',rollMessage);
+      // console.log('rollMessage',rollMessage);
       addNewDicebagPartyRoll(rollData, summaryMode, annotation, rollMessage, false);
     }
   }, [summaryMode, annotation]);
@@ -189,7 +189,7 @@ const DiceBag = ({
       }
 
       if (distantDicebagData.postRollMessage) {
-        console.log('distantDicebagData.postRollMessage',distantDicebagData.postRollMessage);
+        // console.log('distantDicebagData.postRollMessage',distantDicebagData.postRollMessage);
         setPostRollMessage(() => distantDicebagData.postRollMessage)
       }
 

@@ -8,6 +8,35 @@ import './PartyAction.scss';
 
 
 //
+// const defaultPartyActionData_broadcast = {
+//   'name': 'Olive',
+//   'title': 'Kai Bioplating',
+//   'message': 'Jump really good.',
+//   'type': 'text',
+//   'createdAt': XXXXXX,
+//   'updatedAt': XXXXXX,
+// }
+
+const PartyActionBroadcastText = ({actionData, showName}) => {
+  const {name, char, title, message} = actionData;
+
+  return (
+    <div className='PartyAction'>
+      <div className={'action-container'}>
+        <div className="title">
+          {showName && <div className="name">{char || name}</div>}
+          <div className="conditions">{title}</div>
+        </div>
+
+        <div className='broadcast-message'>
+          <BrToParagraphs stringWithBrs={message}/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+//
 // const defaultPartyActionData_dicebag = {
 //   'name': 'Olive',
 //   'annotation': 'Structure Check',
@@ -93,6 +122,8 @@ const PartyRollDicebag = ({dieType, result}) => {
     </div>
   );
 }
+
+
 
 
 
@@ -282,4 +313,4 @@ const ActionTitle = ({actionData, showName}) => {
   )
 }
 
-export { PartyActionDicebag, PartyActionAttack };
+export { PartyActionDicebag, PartyActionAttack, PartyActionBroadcastText };

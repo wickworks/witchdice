@@ -46,15 +46,10 @@ const StatBroadcast = ({
     setDisabledBroadcasts(newDisabled)
 
     onBroadcast({
-    	// characterName: robotInfo.name, //injected upstream
-    	conditions: [robotInfo.frameSourceText, capitalize(robotInfo.frameName)],
-    	rolls: [{
-    		name: '',
-    		applies: statBlock,
-    		attack: -100, // it's an ability, I guess?
-    	}],
-    	skipTotal: true,
-    })
+  		type: 'text',
+  		title: [robotInfo.frameSourceText, capitalize(robotInfo.frameName)].join(', '),
+  		message: statBlock
+  	})
   }
 
   return (

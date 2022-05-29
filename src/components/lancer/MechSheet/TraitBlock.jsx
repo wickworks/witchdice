@@ -21,25 +21,24 @@ function getSystemTrigger(trigger) {
 }
 
 function getBroadcastObjectForTrait(trait) {
+	const stats = [
+		trait.activation,
+		trait.frequency,
+		trait.range && trait.range.map(rangeEntry => `${rangeEntry.type} ${rangeEntry.val}`).join(', '),
+		trait.recharge && getRechargeString(trait.recharge),
+		trait.limited && `Limited ${trait.limited.max}`
+	].filter(attr => !!attr).join(', ')
+
+	const description = [
+		getSystemTrigger(trait.trigger),
+		getSystemDescription(trait.description, trait.isDestroyed),
+		trait.statblock && ('〔 ' + Object.keys(trait.statblock).map(stat => `${stat}: ${trait.statblock[stat]}`).join(' — ') + ' 〕')
+	].filter(attr => !!attr).join('<br>')
+
 	return {
-		// characterName: robotInfo.name, //injected upstream
-		conditions: [trait.name.toUpperCase()],
-		rolls: [{
-			name: [
-				trait.activation,
-				trait.frequency,
-				trait.range && trait.range.map(rangeEntry => `${rangeEntry.type} ${rangeEntry.val}`).join(', '),
-				trait.recharge && getRechargeString(trait.recharge),
-				trait.limited && `Limited ${trait.limited.max}`
-			].filter(attr => !!attr).join(', '),
-			applies: [
-				getSystemTrigger(trait.trigger),
-				getSystemDescription(trait.description, trait.isDestroyed),
-				trait.statblock && ('〔 ' + Object.keys(trait.statblock).map(stat => `${stat}: ${trait.statblock[stat]}`).join(' — ') + ' 〕')
-			].filter(attr => !!attr).join('<br>'),
-			attack: -100, // it's an ability, I guess?
-		}],
-		skipTotal: true,
+		type: 'text',
+		title: trait.name.toUpperCase(),
+		message: [stats, description].join('<br>')
 	}
 }
 

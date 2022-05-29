@@ -172,42 +172,76 @@ const Main = ({
     }
   }
 
+  // Push a general text-broadcast to firebase
+  const addNewBroadcastText = (actionData) => {
+    if (partyConnected) {
+      const dbRollsRef = getFirebaseDB().child('rolls').child(partyRoom);
+
+      // ~~ new text broadcast ~~ //
+      if (partyLastAttackTimestamp === 0) {
+        dbRollsRef.push(actionData) // we don't track the key because we can't update broadcasts
+        // console.log('       pushed  new text broadcast to firebase', message);
+      }
+    } else {
+      // add it to the single-player roll history
+      console.log('setting single-player text broadcast history ',actionData);
+      setLatestAction(actionData)
+    }
+  }
+
   // We created or updated our 5e/lancer damage roll data — prepare it to push to firebase.
   useEffect(() => {
-    const conditions = rollSummaryData.conditions;
-    const characterName = rollSummaryData.characterName;
-    const rolls = rollSummaryData.rolls;
-    const skipTotal = !!rollSummaryData.skipTotal;
-    const forceNewEntry = !!rollSummaryData.forceNewEntry
+    // console.log('new rollSummaryData',rollSummaryData);
 
-    if (rolls && rolls.length > 0) {
-      // traverse rollData to pull it out in a format that we want.
+    // if it's a broadcast
+    if (rollSummaryData.type === 'text') {
       let actionData = {};
-      actionData.name = partyName;
-      actionData.char = characterName;
-      actionData.type = 'attack';
-      actionData.conditions = conditions.join(', ')
-      actionData.skipTotal = skipTotal
+      actionData.name = rollSummaryData.characterName || partyName || 'Me';
+      actionData.type = 'text'
+      actionData.title = rollSummaryData.title
+      actionData.message = rollSummaryData.message
+      actionData.createdAt = Date.now();
+      actionData.updatedAt = actionData.createdAt;
 
-      // ~~ new attack roll ~~ //
-      if (partyLastAttackTimestamp === 0 || forceNewEntry) {
-        actionData.createdAt = Date.now();
-        actionData.updatedAt = actionData.createdAt;
-        setPartyLastAttackTimestamp(actionData.createdAt);
+      addNewBroadcastText(actionData)
 
-      // ~~ update attack roll ~~ //
-      } else {
-        actionData.createdAt = partyLastAttackTimestamp
-        actionData.updatedAt = Date.now();
+    // default to an attack
+    } else {
+      const conditions = rollSummaryData.conditions;
+      const characterName = rollSummaryData.characterName;
+      const rolls = rollSummaryData.rolls;
+      const skipTotal = !!rollSummaryData.skipTotal;
+      const forceNewEntry = !!rollSummaryData.forceNewEntry
+
+      if (rolls && rolls.length > 0) {
+        // traverse rollData to pull it out in a format that we want.
+        let actionData = {};
+        actionData.name = partyName;
+        actionData.char = characterName;
+        actionData.type = 'attack';
+        actionData.conditions = conditions.join(', ')
+        actionData.skipTotal = skipTotal
+
+        // ~~ new attack roll ~~ //
+        if (partyLastAttackTimestamp === 0 || forceNewEntry) {
+          actionData.createdAt = Date.now();
+          actionData.updatedAt = actionData.createdAt;
+          setPartyLastAttackTimestamp(actionData.createdAt);
+
+        // ~~ update attack roll ~~ //
+        } else {
+          actionData.createdAt = partyLastAttackTimestamp
+          actionData.updatedAt = Date.now();
+        }
+
+        // rollSummaryData = [ {attack: 20, name: 'Longsword', 'slashing': 13, 'necrotic': 4}, ... ]
+        // (replaces "attack" with "save" for saving throws)
+        rolls.forEach((roll, i) => {
+          actionData[`roll-${i}`] = { ...roll }
+        });
+
+        addNewAttackPartyRoll(actionData);
       }
-
-      // rollSummaryData = [ {attack: 20, name: 'Longsword', 'slashing': 13, 'necrotic': 4}, ... ]
-      // (replaces "attack" with "save" for saving throws)
-      rolls.forEach((roll, i) => {
-        actionData[`roll-${i}`] = { ...roll }
-      });
-
-      addNewAttackPartyRoll(actionData);
     }
   }, [rollSummaryData]);
 
