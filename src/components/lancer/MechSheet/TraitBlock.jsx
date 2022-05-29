@@ -31,8 +31,8 @@ function getBroadcastObjectForTrait(trait) {
 
 	const description = [
 		getSystemTrigger(trait.trigger),
+		trait.statblock && ('〔 ' + Object.keys(trait.statblock).map(stat => `${stat}: ${trait.statblock[stat]}`).join(' | ') + ' 〕'),
 		getSystemDescription(trait.description, trait.isDestroyed),
-		trait.statblock && ('〔 ' + Object.keys(trait.statblock).map(stat => `${stat}: ${trait.statblock[stat]}`).join(' — ') + ' 〕')
 	].filter(attr => !!attr).join('<br>')
 
 	return {

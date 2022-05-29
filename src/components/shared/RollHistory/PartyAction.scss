@@ -122,6 +122,15 @@
       width: fit-content;
       font-size: 14px;
     }
+
+    ul {
+      margin: 10px 0;
+      padding-inline-start: 14px;
+
+      li {
+        margin: 10px 0;
+      }
+    }
   }
 
   .broadcast-message {

@@ -20,24 +20,24 @@
   .traits-container {
     display: flex;
     flex-wrap: wrap;
-  }
 
-  .TraitBlock {
-    padding: 0 12px 12px 0;
+    > .TraitBlock {
+      // sort the open ones to the end
+      order: 1;
+      &.collapsed { order: 0; }
 
-    // sort the open ones to the end
-    order: 1;
-    &.collapsed { order: 0; }
+      @include max_width {
+        &:not(.collapsed) {
+          width: 48%;
+          margin-left: auto;
 
-    @include max_width {
-      &:not(.collapsed) {
-        width: 48%;
-        margin-left: auto;
-
-        &.wide, &:only-child {
-          width: 100%;
+          &.wide, &:only-child {
+            width: 100%;
+          }
         }
       }
     }
   }
+
+  .TraitBlock { padding: 0 12px 12px 0; }
 }
