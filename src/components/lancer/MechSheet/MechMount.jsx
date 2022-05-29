@@ -57,7 +57,7 @@ function getModdedWeaponData(weapon) {
       }
     });
     // Say what the effect will be ahead of time.
-    weaponData.effect += weaponData.on_hit
+    if (weaponData.on_hit) weaponData.effect += weaponData.on_hit
 
   // Normal weapon
   } else {
