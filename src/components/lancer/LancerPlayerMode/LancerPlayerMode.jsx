@@ -72,8 +72,6 @@ const LancerPlayerMode = ({
 
   // =============== INITIALIZE ==================
   useEffect(() => {
-    // Save some dummy data (it's my OC, okay? I can have this)
-    savePilotData(compendiaJonesJson)
 
     let pilotEntries = [];
 
@@ -87,6 +85,12 @@ const LancerPlayerMode = ({
         const pilotData = loadPilotData(pilotID);
         if (pilotData) pilotEntries.push(pilotData);
       }
+    }
+
+    // Save some dummy data (it's my OC, okay? I can have this)
+    if (pilotEntries.length === 0) {
+      savePilotData(compendiaJonesJson)
+      pilotEntries.push({name: 'Compendia Jones', id: compendiaJonesJson.id})
     }
 
     setAllPilotEntries(pilotEntries.map(pilot => ({name: pilot.name, id: pilot.id})));
