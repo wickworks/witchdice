@@ -1,96 +1,37 @@
 @import '../../../../fonts';
 
 .AttackRollOutput {
+  display: flex;
+  align-items: center;
 
-  .final-result-container {
+  .result-container {
     display: flex;
     align-items: center;
 
-    button.die-and-result {
+    .die-icon.asset {
+      width: 36px;
+      height: 36px;
+      margin: 6px;
+
+      // for crits
+      .necrotic {
+        width: 20px;
+        height: 20px;
+        margin: 9px auto;
+
+        // turn black to white
+        filter: invert(100%);
+      }
+    }
+
+    .result {
+      // width: 76px;
+      min-width: 50px;
+      padding: 0 4px;
       position: relative;
-      padding: 0;
-
-      > * { transition: opacity .1s .5s; }
-
-      &:disabled {
-        pointer-events: none;
-      }
-
-      &:hover { background-color: $parchment_dark; }
-
-      &.expanded {
-        > * { transition: opacity 0s 0s; }
-
-        background-color: $parchment_dark;
-        &:hover { background-color: $rust_light; }
-      }
-
-      // SWAP TO SOURCE ROLLS ON HOVER
-      &.condensed:not(.manual) {
-
-        &:hover {
-          .current-result-container { opacity: 0.0; }
-          .to-hit-container { opacity: 1.0; }
-        }
-      }
-
-      .current-result-container {
-        display: flex;
-        align-items: center;
-
-        .die-icon.asset {
-          width: 36px;
-          height: 36px;
-          margin: 6px;
-
-          // for crits
-          .necrotic {
-            width: 20px;
-            height: 20px;
-            margin: 9px auto;
-
-            // turn black to white
-            filter: invert(100%);
-          }
-        }
-
-        .result {
-          width: 76px;
-          padding: 0 4px;
-          position: relative;
-          display: inline-block;
-          font-size: 40px;
-          text-align: left;
-        }
-      }
-
-      .to-hit-container {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 22px;
-
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        opacity: 0.0;
-
-        span {
-          display: inline-block;
-
-          &.asset {
-            width: 20px;
-            height: 20px;
-            margin-right: 1px;
-          }
-
-          &.plus {
-            padding: 0 2px;
-          }
-
-        }
-      }
+      display: inline-block;
+      font-size: 40px;
+      text-align: left;
     }
 
     input.manual-result {
@@ -101,35 +42,69 @@
       background-color: $parchment_mid;
       text-align: center;
       font-size: 30px;
-
     }
+  }
+}
+
+.DetailedRollResults {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+
+  // position: absolute;
+  // top: 50%;
+  // left: 50%;
+  // transform: translate(-50%, -50%);
+  // opacity: 0.0;
+
+  span {
+    display: inline-block;
+
+    &.asset {
+      width: 20px;
+      height: 20px;
+      margin-right: 1px;
+    }
+
+    &.plus {
+      padding: 0 2px;
+    }
+
+  }
+}
+
+.ExpandedMenu {
+  display: flex;
+
+  button {
+    &.active {
+      background-color: $rust;
+      color: white;
+
+      // turn black to white
+      .asset { filter: invert(100%); }
+    }
+
+    &:hover {
+      background-color: $rust_light;
+    }
+  }
+
+  button.kebab {
+    font-size: 36px;
+    padding: 0 3px 0 2px;
   }
 
   .expanded-container {
     display: flex;
     justify-content: space-between;
-
-    > * {
-      padding: 4px 0;
-    }
+    flex-direction: column;
+    background-color: $parchment_dark;
 
     button {
       width: 100%;
-      background-color: $parchment_dark;
-      // &:first-child { margin-right: 6px; }
-
-      &.active {
-        background-color: $rust;
-
-        .asset {
-          // turn black to white
-          filter: invert(100%);
-        }
-      }
-
-      &:hover {
-        background-color: $rust_light;
-      }
+      padding: 4px;
 
       .asset {
         width: 18px;
@@ -137,15 +112,5 @@
         margin: auto;
       }
     }
-
-    // input {
-    //   width: 106px;
-    //   border: 0;
-    //   padding-top: 7px;
-    //   text-align: center;
-    //   font-size: 16px;
-    //   box-sizing: border-box;
-    // }
   }
-
 }

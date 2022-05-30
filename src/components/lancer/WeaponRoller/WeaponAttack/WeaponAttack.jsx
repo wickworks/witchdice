@@ -230,5 +230,4 @@ const WeaponAttack = ({
   )
 }
 
-
 export default WeaponAttack;
