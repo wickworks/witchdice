@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MechNumberBar from './MechNumberBar.jsx';
 import { blankDice } from '../../shared/DiceBag/DiceBagData.js';
 
 import './MechCentralDiamond.scss';
+import './MechCentralDiamondAnimations.scss';
+
+const DAMAGE_SHAKE_TIME = 200;
 
 const MechCentralDiamond = ({
   maxRepairCap,
@@ -24,9 +27,9 @@ const MechCentralDiamond = ({
 
   setDistantDicebagData,
 }) => {
+  const [damageWarningClass, setDamageWarningClass] = useState('')
 
   const mechSizeClass = mechSize === 0.5 ? 'size-half' : `size-${mechSize}`
-
   const smallRepairsClass = maxRepairCap > 12 ? 'small-repairs' : '';
 
   function handleRepairClick(repairIndex) {
@@ -42,34 +45,44 @@ const MechCentralDiamond = ({
       let diceData = {...blankDice}
       diceData['6'] = (5-currentStructure)
 
-      const postRollMessage = (result) => {
-        if (result >= 5) {
-          return 'Glancing Blow: Mech is IMPAIRED until the end of its next turn.'
+      const postRollMessage = (result, rollData) => {
+        const multipleOnes = (rollData.filter(roll => roll.result === 1).length > 1)
+        if (multipleOnes) {
+          return '<b>Multiple 1s — Crushing Hit</b>: Mech is destroyed.'
+
+        } else if (result === 1) {
+          let message = "<b>Direct Hit</b>: The result depends on the mech's remaining structure:<br>"
+          if (currentStructure === 4) message += '<b>3 Structure remaining.</b> Mech is STUNNED until the end of its next turn.'
+          if (currentStructure === 3) message += "<b>2 Structure remaining.</b> Roll a HULL Check. On success, mech is STUNNED until the end of its next turn. On failure, mech is destroyed."
+          if (currentStructure === 2) message += '<b>1 Structure remaining.</b> Mech is destroyed.'
+          return message
+
         } else if (result >= 2 && result <= 4) {
-          return 'System Trauma: Roll 1d6.<br>'+
-            'On 1-3, all weapons on one mount (of choice) are destroyed.<br>'+
-            'On 4-6, one system (of choice) is destroyed. (Weapons or systems with no LIMITED charges are not valid choices.)<br>'+
+          return '<b>System Trauma: Roll 1d6.</b><br>'+
+            '<b>1-3</b>: All weapons on one mount (of choice) are destroyed.<br>'+
+            '<b>4-6</b>: One system (of choice) is destroyed. (Weapons or systems with no LIMITED charges are not valid choices.)<br>'+
             'If there are no valid weapons, destroy a system; if there are no valid systems, destroy a weapon. '+
             'If there are no valid weapons or systems, this becomes a Direct Hit instead.'
-        } else if (result === 1) {
-          return "Direct Hit: The result depends on the mech's remaining structure:<br>" +
-            '3+ Structure: Mech is STUNNED until the end of its next turn.<br>'+
-            '2 Structure: Roll a HULL Check. On success, mech is STUNNED until the end of its next turn. On failure, mech is destroyed.<br>'+
-            '1 Structure: Mech is destroyed.'
-        } else { // need to check for multiple 1s somehow
-          return 'Crushing Hit: Mech is destroyed.'
+
+        } else if (result >= 5) {
+          return '<b>Glancing Blow</b>: Mech is IMPAIRED until the end of its next turn.'
         }
       }
 
-      setDistantDicebagData({
-        diceData: diceData,
-        summaryMode: 'low',
-        annotation: 'STRUCTURE check',
-        postRollMessage: postRollMessage,
-      });
+      // don't do it immediately to give the animation a chance to play
+      setTimeout(
+        () => setDistantDicebagData({
+          diceData: diceData,
+          summaryMode: 'low',
+          annotation: 'STRUCTURE check',
+          postRollMessage: postRollMessage,
+        }), DAMAGE_SHAKE_TIME
+      )
     }
 
-    setCurrentStructure(Math.max(currentStructure-1, 0))
+    const newStructure = Math.max(currentStructure-1, 0)
+    setCurrentStructure(newStructure)
+    setDamageWarningClass(`damage-anim-${newStructure}`)
   }
 
   const handleStressClick = () => {
@@ -77,20 +90,45 @@ const MechCentralDiamond = ({
       let diceData = {...blankDice}
       diceData['6'] = (5-currentStress)
 
-      setDistantDicebagData({
-        diceData: diceData,
-        summaryMode: 'low',
-        annotation: 'STRESS check'
-      });
+      const postRollMessage = (result, rollData) => {
+        const multipleOnes = (rollData.filter(roll => roll.result === 1).length > 1)
+        if (multipleOnes) {
+          return '<b>Multiple 1s — Irreversible Meltdown</b>: Mech suffers Reactor Meltdown at end of its next turn.'
+
+        } else if (result === 1) {
+          let message = "<b>Meltdown</b>: The result depends on the mech's remaining stress:<br>"
+          if (currentStress === 4) message += '<b>3 Stress remaining.</b> Mech becomes EXPOSED.'
+          if (currentStress === 3) message += "<b>2 Stress remaining.</b> Roll an ENGINEERING Check. On success, mech is EXPOSED. On failure, mech suffers Reactor Meltdown after 1d6 of the mech's turns. Reactor Meltdown can be prevented by retrying the ENGINEERING check as a free action."
+          if (currentStress === 2) message += '<b>1 Stress remaining.</b> Mech suffers a Reactor Meltdown at end of its next turn.'
+          return message
+
+        } else if (result >= 2 && result <= 4) {
+          return '<b>Destabilized Power Plant</b>: Mech becomes EXPOSED until the status is cleared.'
+
+        } else if (result >= 5) {
+          return '<b>Emergency Shunt</b>: Mech becomes IMPAIRED until end of its next turn.'
+        }
+      }
+
+      setTimeout(
+        () => setDistantDicebagData({
+          diceData: diceData,
+          summaryMode: 'low',
+          annotation: 'STRESS check',
+          postRollMessage: postRollMessage,
+        }), DAMAGE_SHAKE_TIME
+      )
     }
 
-    setCurrentStress(Math.max(currentStress-1, 0))
+    const newStress = Math.max(currentStress-1, 0)
+    setCurrentStress(newStress)
+    setDamageWarningClass(`stress-anim-${newStress}`)
   }
 
 
   // <div className="MechCentralDiamond asset ssc-watermark">
   return (
-    <div className="MechCentralDiamond">
+    <div className={`MechCentralDiamond ${damageWarningClass}`}>
       <div className='relative-container'>
 
 

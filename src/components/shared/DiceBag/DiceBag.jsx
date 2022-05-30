@@ -33,8 +33,10 @@ const DiceBag = ({
 
   const [isAnnotationActive, setIsAnnotationActive] = useState(false);
   const [annotation, setAnnotation] = useState('');
-
   const [postRollMessage, setPostRollMessage] = useState(null);
+
+  const [lastAnnotation, setLastAnnotation] = useState(''); // cache the last annotation & message for any updates
+  const [lastPostRollMessage, setLastPostRollMessage] = useState(null);
 
   const percentileAvailable = (diceData['10'] === 2);
 
@@ -52,6 +54,11 @@ const DiceBag = ({
     clearCurrentMetadata()
   }
 
+  const cacheCurrentMetadata = () => {
+    setLastAnnotation(annotation)
+    setLastPostRollMessage(() => postRollMessage)
+  }
+
   const clearCurrentMetadata = () => {
     setAnnotation('')
     setPostRollMessage(null)
@@ -66,7 +73,6 @@ const DiceBag = ({
     if (JSON.stringify(diceData) === JSON.stringify(blankDice) && firstDieRolled !== '') {
       clearCurrentMetadata()
     }
-
   }
 
   const updateDiceDataType = (dieType, newType) => {
@@ -129,6 +135,10 @@ const DiceBag = ({
     setPreviousDiceData({...diceData})
     // reset current to-roll dice
     clearCurrentDiceData()
+    // cache the current annotation so we can use it for updates
+    cacheCurrentMetadata()
+    // clear the that annotation and post-roll message function
+    clearCurrentMetadata()
   }
 
   const handleAnnotationToggle = () => {
@@ -139,7 +149,6 @@ const DiceBag = ({
       setIsAnnotationActive(true)
     }
   }
-
 
   // what is the highest type of die we're queueing up to roll?
   let rollDieType = '';
@@ -160,22 +169,21 @@ const DiceBag = ({
   const resultTotal = processRollData(rollData, summaryMode)
   const resultSummary = getRollDescription(rollData, summaryMode)
 
-
   // add it to the party roll panel
   useEffect(() => {
-    const rollMessage = postRollMessage ? postRollMessage(resultTotal) : ''
+    const rollMessage = lastPostRollMessage ? lastPostRollMessage(resultTotal, rollData) : ''
     // console.log('rollMessage',rollMessage);
-    addNewDicebagPartyRoll(rollData, summaryMode, annotation, rollMessage, true);
+    addNewDicebagPartyRoll(rollData, summaryMode, lastAnnotation, rollMessage, true);
   }, [rollData]);
 
   // update something about the last roll on the party roll panel — IF we're not busy queueing up a new roll
   useEffect(() => {
     if (rollDieType.length === 0) {
-      const rollMessage = postRollMessage ? postRollMessage(resultTotal) : ''
+      const rollMessage = lastPostRollMessage ? lastPostRollMessage(resultTotal, rollData) : ''
       // console.log('rollMessage',rollMessage);
-      addNewDicebagPartyRoll(rollData, summaryMode, annotation, rollMessage, false);
+      addNewDicebagPartyRoll(rollData, summaryMode, lastAnnotation, rollMessage, false);
     }
-  }, [summaryMode, annotation]);
+  }, [summaryMode]);
 
   // If somewhere else has commanded us to queue up a dice roll, do so
   useEffect(() => {

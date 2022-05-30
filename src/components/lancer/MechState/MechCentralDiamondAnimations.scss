@@ -1,0 +1,70 @@
+@import '../../../fonts';
+
+$damage_shake_time: .2s;
+
+// Steps for stress/structure are slightly different in order to get them to trigger again
+.MechCentralDiamond {
+  &.damage-anim-3 {
+    .relative-container { animation: anim_shake_3 $damage_shake_time steps(6, end); }
+  }
+
+  &.damage-anim-2 {
+    .relative-container { animation: anim_shake_2 $damage_shake_time steps(5, end); }
+  }
+
+  &.damage-anim-1 {
+    .relative-container { animation: anim_shake_1 $damage_shake_time steps(4, end); }
+  }
+
+  &.damage-anim-0 {
+    .relative-container { animation: anim_shake_0 $damage_shake_time steps(3, end); }
+  }
+
+  &.stress-anim-3 {
+    .relative-container { animation: anim_shake_3 $damage_shake_time steps(5, end); }
+  }
+
+  &.stress-anim-2 {
+    .relative-container { animation: anim_shake_2 $damage_shake_time steps(4, end); }
+  }
+
+  &.stress-anim-1 {
+    .relative-container { animation: anim_shake_1 $damage_shake_time steps(3, end); }
+  }
+
+  &.stress-anim-0 {
+    .relative-container { animation: anim_shake_0 $damage_shake_time steps(2, end); }
+  }
+}
+
+@keyframes anim_shake_3 {
+  0% { transform: translate(-4px, -2px); }
+  25% { transform: translate(0px, -4px); filter: brightness(150%) hue-rotate(25deg); }
+  50% { transform: translate(-6px, 4px); filter: brightness(200%) hue-rotate(45deg); }
+  75% { transform: translate(2px, 8px); filter: brightness(150%) hue-rotate(25deg); }
+  100% { transform: translate(-2px, 2px); }
+}
+
+@keyframes anim_shake_2 {
+  0% { transform: translate(-3px, -3px); }
+  25% { transform: translate(3px, 12px); filter: brightness(150%) hue-rotate(10deg); }
+  50% { transform: translate(-9px, 6px); filter: brightness(200%) hue-rotate(20deg); }
+  75% { transform: translate(0px, -6px); filter: brightness(150%) hue-rotate(10deg); }
+  100% { transform: translate(-6px, -3px); }
+}
+
+@keyframes anim_shake_1 {
+  0% { transform: translate(-8px, -4px); }
+  25% { transform: translate(0px, -8px); filter: brightness(150%) hue-rotate(-10deg); }
+  50% { transform: translate(-12px, 8px); filter: brightness(200%) hue-rotate(-20deg); }
+  75% { transform: translate(4px, 16px); filter: brightness(150%) hue-rotate(-10deg); }
+  100% { transform: translate(-4px, 4px); }
+}
+
+@keyframes anim_shake_0 {
+  0% { transform: translate(-6px, -6px); }
+  25% { transform: translate(6px, 14px); filter: brightness(150%) hue-rotate(-25deg); }
+  50% { transform: translate(-18px, 12px); filter: brightness(200%) hue-rotate(-45deg); }
+  75% { transform: translate(0px, -12px); filter: brightness(150%) hue-rotate(-25deg); }
+  100% { transform: translate(-12px, -6px); }
+}
