@@ -293,7 +293,7 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
           break;
 
         case 't_skirmisher':
-          const lockEffect = { onAttack: '1Before or after you SKIRMISH, you may move 2 spaces. This movement ignores engagement and doesn’t provoke reactions.' }
+          const lockEffect = { onAttack: 'Before or after you SKIRMISH, you may move 2 spaces. This movement ignores engagement and doesn’t provoke reactions.' }
           addSourceFromTalent(sources,rank,talentData, 2, '', '', lockEffect);
           break;
 
