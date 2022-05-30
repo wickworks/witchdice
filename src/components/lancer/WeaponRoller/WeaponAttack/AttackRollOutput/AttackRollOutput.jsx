@@ -6,6 +6,7 @@ import './AttackRollOutput.scss';
 
 const AttackRollOutput = ({
   toHitData,
+  changeAccuracyMod,
   manualRoll,
   setManualRoll,
   isCrit,
@@ -66,6 +67,7 @@ const AttackRollOutput = ({
 
       <DetailedRollResults
         toHitData={toHitData}
+        changeAccuracyMod={changeAccuracyMod}
       />
     </div>
   )

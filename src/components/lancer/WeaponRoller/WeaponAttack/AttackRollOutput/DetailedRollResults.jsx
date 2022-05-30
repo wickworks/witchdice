@@ -4,24 +4,28 @@ import './DetailedRollResults.scss';
 
 const DetailedRollResults = ({
   toHitData,
+  changeAccuracyMod,
 }) => {
 
-  console.log('toHitData',toHitData);
-  // console.log('accuracyPool',accuracyPool);
+  // console.log('toHitData',toHitData);
 
   // find the index of the highest accuracy roll
+  const usedAccuracyRolls = toHitData.accuracyRolls.slice(0, Math.abs(toHitData.accuracyMod))
   let highestAccuracyIndex = -1
   let highestAccuracy = 0
-  toHitData.accuracyRolls.forEach((roll, i) => {
+  usedAccuracyRolls.forEach((roll, i) => {
     if (roll > highestAccuracy) {
       highestAccuracy = roll
       highestAccuracyIndex = i
     }
   })
 
+  const accuracyRollColor = toHitData.accuracyMod > 0 ? 'black' : 'rust'
 
   return (
     <div className="DetailedRollResults">
+      <AccuracyDifficultyButtons changeAccuracyMod={changeAccuracyMod}/>
+
       <span className='asset d20' />
       <span className='amount'>{toHitData.baseRoll}</span>
       {parseInt(toHitData.flatBonus) !== 0 &&
@@ -32,16 +36,16 @@ const DetailedRollResults = ({
           </span>
         </>
       }
-      {toHitData.accuracyRolls.length > 0 &&
+      {highestAccuracy > 0 &&
         <>
-          <span className='plus'>{parseInt(toHitData.accuracyBonus) > 0 ? '+' : '-'}</span>
-          <span className='asset d6' />
+          <span className={`plus ${accuracyRollColor}`}>{parseInt(toHitData.accuracyBonus) > 0 ? '+' : '-'}</span>
+          <span className={`asset d6 ${accuracyRollColor}`} />
           <span className='amount grey'>
             (
-            {toHitData.accuracyRolls.map((roll,i) =>
+            {usedAccuracyRolls.map((roll,i) =>
               <span key={`accuracy-roll-${i}`}>
                 {i > 0 && ','}
-                <span className={i === highestAccuracyIndex ? 'black' : ''}>
+                <span className={i === highestAccuracyIndex ? accuracyRollColor : ''}>
                   {roll}
                 </span>
               </span>
@@ -50,26 +54,25 @@ const DetailedRollResults = ({
           </span>
         </>
       }
-      <AccuracyDifficultyButtons changeAccuracy={()=>{}}/>
     </div>
   )
 }
 
 
 const AccuracyDifficultyButtons = ({
-  changeAccuracy,
+  changeAccuracyMod,
 }) => {
 
   return (
     <div className='AccuracyDifficultyButtons'>
       <button
         className='asset accuracy'
-        onClick={() => changeAccuracy(1)}
+        onClick={() => changeAccuracyMod(1)}
         disabled={false}
       />
       <button
         className='asset difficulty'
-        onClick={() => changeAccuracy(-1)}
+        onClick={() => changeAccuracyMod(-1)}
         disabled={false}
       />
     </div>

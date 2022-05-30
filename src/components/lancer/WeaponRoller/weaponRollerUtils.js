@@ -95,24 +95,41 @@ export function createNewAttack(weaponData, flatBonus, accuracyMod, consumedLock
   return newAttack;
 }
 
-
 // Fills out the to-hit roll for the attack data.
 export function rollToHit(flatBonus, accuracyMod) {
   var toHit = {};
 
   toHit.baseRoll = getRandomInt(20);
 
-  toHit.accuracyRolls = [...Array(Math.abs(accuracyMod))];
+  toHit.accuracyMod = accuracyMod
+  // toHit.accuracyRolls = [...Array(Math.abs(accuracyMod))];
+  toHit.accuracyRolls = [...Array(9)] // roll all 9
   toHit.accuracyRolls.forEach((accuracy, i) => {
     toHit.accuracyRolls[i] = getRandomInt(6)
-  });
-  toHit.accuracyBonus = Math.max(0, ...toHit.accuracyRolls) * Math.sign(accuracyMod)
+  })
 
   toHit.flatBonus = flatBonus
 
-  toHit.finalResult = toHit.baseRoll + toHit.flatBonus + toHit.accuracyBonus
+  toHit.accuracyBonus = getTotalAccuracyBonus(toHit)
+  toHit.finalResult = getFinalResult(toHit)
 
   return toHit;
+}
+
+function getTotalAccuracyBonus(toHit) {
+  const usedRolls = toHit.accuracyRolls.slice(0, Math.abs(toHit.accuracyMod))
+  return Math.max(0, ...usedRolls) * Math.sign(toHit.accuracyMod)
+}
+
+function getFinalResult(toHit) {
+  return toHit.baseRoll + toHit.flatBonus + toHit.accuracyBonus
+}
+
+// whatever calls this is responsible for making sure it's mutable and the change is persisted
+export function setAccuracyMod(toHit, newMod) {
+  toHit.accuracyMod = Math.min(Math.max(-9, newMod), 9)
+  toHit.accuracyBonus = getTotalAccuracyBonus(toHit)
+  toHit.finalResult = getFinalResult(toHit)
 }
 
 // Fills out the damage rolls for the attack data.

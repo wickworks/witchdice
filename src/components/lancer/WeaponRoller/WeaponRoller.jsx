@@ -20,6 +20,7 @@ import {
   rollBonusDamage,
   getActiveBonusDamageData,
   createNewAttack,
+  setAccuracyMod,
 } from './weaponRollerUtils.js';
 
 import {
@@ -198,6 +199,16 @@ const WeaponRoller = ({
     }
   }
 
+  const changeAccuracyModForIndex = (change, attackRollIndex) => {
+    let newData = deepCopy(allAttackRolls)
+
+    let newAttackData = newData[attackRollIndex]
+    setAccuracyMod(newAttackData.toHit, newAttackData.toHit.accuracyMod + change)
+    setAccuracyMod(newAttackData.toHitReroll, newAttackData.toHitReroll.accuracyMod + change)
+
+    setAllAttackRolls(newData)
+  }
+
   const isLoading = !!findTagOnWeapon(currentWeaponProfile, 'tg_loading')
   const isOverkill = !!findTagOnWeapon(currentWeaponProfile, 'tg_overkill')
 
@@ -329,6 +340,7 @@ const WeaponRoller = ({
         { allAttackRolls.map((attackData, i) =>
           <WeaponAttack
             attackData={attackData}
+            changeAccuracyMod={(change) => changeAccuracyModForIndex(change, i)}
             bonusDamageData={activeBonusDamageData}
             halveBonusDamage={allAttackRolls.length >= 2}
             damageModifiers={totalDamageModifiers}

@@ -26,8 +26,20 @@
       padding: 0 2px;
     }
 
+    &.amount {
+      max-width: 80px; // for really long accuracy rolls
+    }
+
     &.grey { color: #999; } // between mid and mid_light
+
     &.black { color: $soft_black; }
+
+    &.rust {
+      color: $rust;
+
+      // turns black to $rust
+      &.asset { filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%); }
+    }
   }
 }
 
@@ -43,5 +55,11 @@
     opacity: .5;
 
     &:hover { opacity: 1.0; }
+
+    &:active {
+      // turns black to $rust
+      filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+      transform: scale(115%);
+    }
   }
 }

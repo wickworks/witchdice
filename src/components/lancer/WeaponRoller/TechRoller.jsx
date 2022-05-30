@@ -3,6 +3,8 @@ import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
 import WeaponRollerSetup from './WeaponRollerSetup.jsx';
 import BonusDamageBar from './BonusDamageBar.jsx';
 import BrToParagraphs from '../../shared/BrToParagraphs.jsx';
+import { deepCopy } from '../../../utils.js';
+
 import './TechRoller.scss';
 import './WeaponRoller.scss';
 
@@ -10,6 +12,7 @@ import {
   rollBonusDamage,
   getActiveBonusDamageData,
   createNewTechAttack,
+  setAccuracyMod,
 } from './weaponRollerUtils.js';
 
 const TechRoller = ({
@@ -49,6 +52,14 @@ const TechRoller = ({
     setTechAttackRoll(newAttack)
     setIsSettingUpAttack(false);
 
+  }
+
+  const changeAccuracyMod = (change) => {
+    let newAttackData = deepCopy(techAttackRoll)
+    setAccuracyMod(newAttackData.toHit, newAttackData.toHit.accuracyMod + change)
+    setAccuracyMod(newAttackData.toHitReroll, newAttackData.toHitReroll.accuracyMod + change)
+
+    setTechAttackRoll(newAttackData)
   }
 
   // Add or remove the name of a bonus damage to the active list
@@ -143,6 +154,7 @@ const TechRoller = ({
         { techAttackRoll &&
           <WeaponAttack
             attackData={techAttackRoll}
+            changeAccuracyMod={changeAccuracyMod}
             bonusDamageData={activeBonusDamageData}
             halveBonusDamage={false}
             damageModifiers={[]}

@@ -17,6 +17,7 @@ import './WeaponAttack.scss';
 
 const WeaponAttack = ({
   attackData,
+  changeAccuracyMod,
   bonusDamageData,
   halveBonusDamage,
   damageModifiers,
@@ -123,14 +124,23 @@ const WeaponAttack = ({
   const stringifiedDamageModifiers = JSON.stringify(damageModifiers)
   useEffect(() => {
     sendAttackToRollSummary(attackData);
-  }, [isHit, invertCrit, isRerolled, manualRoll, summary.length, bonusDamageData.rolls.length, stringifiedDamageModifiers]);
+  }, [
+    isHit,
+    invertCrit,
+    isRerolled,
+    manualRoll,
+    summary.length,
+    bonusDamageData.rolls.length,
+    attackData.toHit.accuracyMod,
+    stringifiedDamageModifiers
+  ]);
 
   function sendAttackToRollSummary(newAttack) {
     let rollConditions = [];
     if (toHitData.accuracyBonus > 0) {
-      rollConditions.push(`${toHitData.accuracyRolls.length} Accuracy`)
+      rollConditions.push(`${Math.abs(toHitData.accuracyMod)} Accuracy`)
     } else if (toHitData.accuracyBonus < 0) {
-      rollConditions.push(`${toHitData.accuracyRolls.length} Difficulty`)
+      rollConditions.push(`${Math.abs(toHitData.accuracyMod)} Difficulty`)
     }
 
     let attackRollSummary = {
@@ -173,6 +183,7 @@ const WeaponAttack = ({
 
         <AttackRollOutput
           toHitData={toHitData}
+          changeAccuracyMod={changeAccuracyMod}
           manualRoll={manualRoll}
           setManualRoll={setManualRoll}
           isCrit={isCrit}
