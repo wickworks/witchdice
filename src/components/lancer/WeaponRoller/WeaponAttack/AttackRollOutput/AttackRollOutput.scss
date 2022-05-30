@@ -1,0 +1,48 @@
+@import '../../../../../fonts';
+
+.AttackRollOutput {
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+
+  .result-container {
+    display: flex;
+    align-items: center;
+
+    .die-icon.asset {
+      width: 36px;
+      height: 36px;
+      margin: 6px;
+
+      // for crits
+      .necrotic {
+        width: 20px;
+        height: 20px;
+        margin: 9px auto;
+
+        // turn black to white
+        filter: invert(100%);
+      }
+    }
+
+    .result {
+      // width: 76px;
+      min-width: 50px;
+      padding: 0 4px;
+      position: relative;
+      display: inline-block;
+      font-size: 40px;
+      text-align: left;
+    }
+
+    input.manual-result {
+      font-family: 'Bitter';
+      padding: 2px 0;
+      width: 76px;
+      border: 4px solid $parchment_dark;
+      background-color: $parchment_mid;
+      text-align: center;
+      font-size: 30px;
+    }
+  }
+}

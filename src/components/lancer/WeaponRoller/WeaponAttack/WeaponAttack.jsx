@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ChooseHitMiss from './ChooseHitMiss.jsx';
 import HitCheckbox from '../../../shared/HitCheckbox.jsx';
-import AttackRollOutput from './AttackRollOutput.jsx';
+import AttackRollOutput from './AttackRollOutput/AttackRollOutput.jsx';
 import DamageRollPool from './DamageRollPool.jsx';
 import DamageSubtotal from './DamageSubtotal.jsx';
 import BrToParagraphs from '../../../shared/BrToParagraphs.jsx';
@@ -148,6 +148,11 @@ const WeaponAttack = ({
     setAttackSummary(attackRollSummary)
   }
 
+  const damageRollCount =
+    attackData.damage.rolls.length +
+    trimmedBonusDamageRolls.length +
+    (isFirstRoll ? firstBonusDamageRolls.length : 0)
+
   return ( isChoosingHitMiss ?
     <ChooseHitMiss
       rollBonusLabel={isTechAttack ? 'Tech' : 'Grit'}
@@ -179,38 +184,40 @@ const WeaponAttack = ({
 
         { isHit ?
           <>
-            <div className="damage-line">
-              { attackData.damage.rolls.map((rollData, i) =>
-                <DamageRollPool
-                  rollData={rollData}
-                  isCrit={isCrit}
-                  damageModifiers={damageModifiers}
-                  key={i}
-                />
-              )}
+            { damageRollCount > 1 &&
+              <div className="damage-line">
+                { attackData.damage.rolls.map((rollData, i) =>
+                  <DamageRollPool
+                    rollData={rollData}
+                    isCrit={isCrit}
+                    damageModifiers={damageModifiers}
+                    key={i}
+                  />
+                )}
 
-              { trimmedBonusDamageRolls.map((rollData, i) =>
-                <DamageRollPool
-                  rollData={rollData}
-                  isCrit={isCrit}
-                  isBonusDamage={true}
-                  halveBonusDamage={halveBonusDamage}
-                  damageModifiers={damageModifiers}
-                  key={i}
-                />
-              )}
+                { trimmedBonusDamageRolls.map((rollData, i) =>
+                  <DamageRollPool
+                    rollData={rollData}
+                    isCrit={isCrit}
+                    isBonusDamage={true}
+                    halveBonusDamage={halveBonusDamage}
+                    damageModifiers={damageModifiers}
+                    key={i}
+                  />
+                )}
 
-              { isFirstRoll && firstBonusDamageRolls.map((rollData, i) =>
-                <DamageRollPool
-                  rollData={rollData}
-                  isCrit={isCrit}
-                  isBonusDamage={true}
-                  halveBonusDamage={false}
-                  damageModifiers={damageModifiers}
-                  key={i}
-                />
-              )}
-            </div>
+                { isFirstRoll && firstBonusDamageRolls.map((rollData, i) =>
+                  <DamageRollPool
+                    rollData={rollData}
+                    isCrit={isCrit}
+                    isBonusDamage={true}
+                    halveBonusDamage={false}
+                    damageModifiers={damageModifiers}
+                    key={i}
+                  />
+                )}
+              </div>
+            }
 
             { Object.keys(totalsByType).length > 0 && <DamageSubtotal totalsByType={totalsByType} /> }
           </>

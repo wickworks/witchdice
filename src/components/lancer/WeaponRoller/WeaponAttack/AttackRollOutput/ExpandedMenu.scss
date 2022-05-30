@@ -1,0 +1,43 @@
+@import '../../../../../fonts';
+
+
+.ExpandedMenu {
+  display: flex;
+
+  button {
+    &.active {
+      background-color: $rust;
+      color: white;
+
+      // turn black to white
+      .asset { filter: invert(100%); }
+    }
+
+    &:hover {
+      background-color: $rust_light;
+    }
+  }
+
+  button.kebab {
+    font-size: 36px;
+    padding: 0 3px 0 2px;
+  }
+
+  .expanded-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    background-color: $parchment_dark;
+
+    button {
+      width: 100%;
+      padding: 4px;
+
+      .asset {
+        width: 18px;
+        height: 18px;
+        margin: auto;
+      }
+    }
+  }
+}
