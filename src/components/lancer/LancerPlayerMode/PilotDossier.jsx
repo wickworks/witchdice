@@ -125,14 +125,21 @@ const PilotDossier = ({
               getRankDisplay={ (number) => { return `+${number * 2}`} }
             />
 
-            <MechanicsList
-              label='Pilot Gear'
-              findData={findPilotGearData}
-              tooltipContentKey='description'
-              tooltipHref='https://compcon.app/#/compendium/pilot_gear'
-              mechanicIDList={showPilotGear}
-              containerClass={'gear'}
-            />
+            <div className='gear-and-sharecode'>
+              <MechanicsList
+                label='Pilot Gear'
+                findData={findPilotGearData}
+                tooltipContentKey='description'
+                tooltipHref='https://compcon.app/#/compendium/pilot_gear'
+                mechanicIDList={showPilotGear}
+                containerClass={'gear'}
+              />
+
+
+              {activePilot.shareCode &&
+                <div className="share-code">Share Code: {activePilot.shareCode}</div>
+              }
+            </div>
           </div>
         </div>
       </div>
@@ -156,6 +163,7 @@ const NameAndCallsign = ({
       <div className={`callsign ${activePilot.callsign.length > MAX_CALLSIGN ? 'sliced' : ''}`}>
           {slicedCallsign}
       </div>
+
       <div className="name">{activePilot.name}</div>
 
       <div className="hase">

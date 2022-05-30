@@ -20,7 +20,7 @@ $right_column_wid: 370px;
     width: 100%;
     max-width: 800px;
 
-    padding: 12px;
+    padding: 16px;
     @include below_max_width { padding: 18px 12px 30px; }
 
 
@@ -217,6 +217,18 @@ $right_column_wid: 370px;
           box-sizing: border-box;
           padding: 6px 0px 16px 12px;
           border-top: 3px solid $faded_gold;
+        }
+
+        .gear-and-sharecode {
+          display: flex;
+          flex-direction: column;
+
+          .share-code {
+            // text-align: right;
+            font-size: 14px;
+            color: $grey_mid;
+            margin: 4px 12px 0;
+          }
         }
       }
 
