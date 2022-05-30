@@ -15,8 +15,9 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-          <div className='version-label'>v0.12.1-3 — May 2022</div>
+          <div className='version-label'>v0.12.1-4 — May 2022</div>
           <ul>
+            <li>Can change accuracy/difficulty after attack rolls.</li>
             <li>Compendia Jones stays deleted when you delete her.</li>
             <li>Fix crash when using some systems from Liminal Space.</li>
             <li>Click overcharge to queue it to roll.</li>
