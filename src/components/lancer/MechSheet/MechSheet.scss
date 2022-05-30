@@ -7,7 +7,7 @@
   flex-direction: column;
   box-sizing: border-box;
   align-items: center;
-  overflow: hidden;
+  // overflow: hidden; // this breaks firefox mech title for some reason
 
   .mech-container {
     @include shadow;
