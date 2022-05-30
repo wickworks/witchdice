@@ -27,7 +27,7 @@
 
     .result {
       // width: 76px;
-      // min-width: 50px;
+      min-width: 50px;
       padding: 0 4px;
       position: relative;
       display: inline-block;
@@ -44,5 +44,10 @@
       text-align: center;
       font-size: 30px;
     }
+  }
+
+  .ExpandedMenu, .DetailedRollResults { opacity: .5; }
+  &:hover {
+    .ExpandedMenu, .DetailedRollResults { opacity: 1.0; }
   }
 }
