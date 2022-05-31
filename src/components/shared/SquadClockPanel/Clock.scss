@@ -45,7 +45,7 @@
       height: 30%;
       z-index: 5;
 
-      display: flex;
+      display: grid;
       justify-content: center;
       align-items: center;
 
@@ -56,6 +56,28 @@
       &:hover:not(:disabled) {
         background-color: $rust;
         border-color: $rust_light;
+
+        .number { opacity: 0; }
+        .asset { opacity: 0; }
+        .hover-only.asset { opacity: 1; }
+      }
+
+      .number {
+        grid-column: 1;
+        grid-row: 1;
+
+        &.hidden { opacity: 0; }
+      }
+
+      .asset {
+        grid-column: 1;
+        grid-row: 1;
+        width: 24px;
+        height: 24px;
+        filter: invert(100%);
+
+        &:hover { opacity: 0; }
+        &.hover-only { opacity: 0; }
       }
     }
 

@@ -69,7 +69,12 @@ const Clock = ({
             onClick={() => setIsEditingMaxSize(!isEditingMaxSize)}
             disabled={!canSetMaxSegments}
           >
-            {progress}
+            {isEditingMaxSize ?
+              <div className='asset edit' />
+            :
+              <div className={`number ${isEditingMaxSize ? 'hidden' : ''}`}>{progress}</div>
+            }
+            <div className={`hover-only asset ${isEditingMaxSize ? 'checkmark' : 'edit'}`} />
           </button>
 
         </div>
