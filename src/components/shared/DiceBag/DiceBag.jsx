@@ -276,7 +276,7 @@ const DiceBag = ({
 
                 <button className='result-total' onClick={() => setDiceData(previousDiceData)} key='reroll'>
                   <div className={`asset ${firstDieRolled}`} />
-                  {resultTotal}
+                  <div>{resultTotal}</div>
                 </button>
 
                 { (resultSummary.length > 3) &&
