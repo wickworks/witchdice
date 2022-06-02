@@ -1,4 +1,5 @@
 import { getIDFromStorageName } from '../../localstorage.js';
+import { capitalize } from '../../utils.js';
 
 import { loadLcpData, LCP_PREFIX, STORAGE_ID_LENGTH } from './lancerLocalStorage.js';
 
@@ -423,17 +424,19 @@ export const getSystemRecharge = (system, systemData) => {
 }
 
 
-export const getTagName = (tag) => {
+export const getTagName = (tag, forceCapitalize = false) => {
   const tagData = findTagData(tag.id)
+  let tagString = ''
 
   if (tagData) {
     const tagVal = tag.val || 0;
-    const tagString = tagData.name.replace('{VAL}', tagVal)
-    return tagString;
-
+    tagString = tagData.name.replace('{VAL}', tagVal)
   } else {
-    return tag.id
+    tagString = tag.id
   }
+
+  if (forceCapitalize) tagString = capitalize(tagString, true)
+  return tagString
 }
 
 export function getAllWeaponRanges(weaponData) {

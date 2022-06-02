@@ -21,6 +21,7 @@ import {
   getActiveBonusDamageData,
   createNewAttack,
   setAccuracyMod,
+  getAllWeaponProfiles,
 } from './weaponRollerUtils.js';
 
 import {
@@ -112,14 +113,7 @@ const WeaponRoller = ({
 
   // =============== MAKE ATTACK ROLLS ==================
 
-  var allWeaponProfiles = [];
-  if ('profiles' in weaponData) {
-    allWeaponProfiles.push(...weaponData.profiles)
-    // make a special note to label each of these profiles in the BaseDamageBar
-    allWeaponProfiles = allWeaponProfiles.map(profile => {return {...profile, profileName: profile.name}})
-  } else {
-    allWeaponProfiles.push(weaponData)
-  }
+  const allWeaponProfiles = getAllWeaponProfiles(weaponData);
   const currentWeaponProfile = allWeaponProfiles[activeProfileIndex] || allWeaponProfiles[0];
 
   // console.log('allWeaponProfiles',allWeaponProfiles);

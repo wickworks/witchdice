@@ -231,14 +231,8 @@ const TraitBlock = ({
 
 			{!isCollapsed &&
 				<div className='sidebar-buttons'>
-					{isDestructable &&
-						<DestroySystemButton onDestroy={onDestroy} isDestroyed={isDestroyed}/>
-					}
-					{setRollSummaryData &&
-						<BroadcastSystemButton
-							onBroadcast={onBroadcast}
-						/>
-					}
+					{isDestructable && <DestroySystemButton onDestroy={onDestroy} isDestroyed={isDestroyed}/>}
+					{setRollSummaryData && <BroadcastSystemButton onBroadcast={onBroadcast}/>}
 				</div>
 			}
 		</div>

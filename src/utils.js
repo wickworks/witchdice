@@ -25,8 +25,11 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max)) + 1;
 }
 
-function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+function capitalize(string, preLowerCase = false) {
+  let capString = string
+  if (preLowerCase) capString = capString.toLowerCase()
+  capString = capString.charAt(0).toUpperCase() + capString.slice(1);
+  return capString
 }
 
 // The react-select wants us to pass in the ENTIRE option from above to be selected, not just the value.

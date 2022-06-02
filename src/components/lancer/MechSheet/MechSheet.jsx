@@ -220,6 +220,7 @@ const MechSheet = ({
                   }
                 })
               }
+              setRollSummaryData={setRollSummaryDataWithName}
             />
           )}
 

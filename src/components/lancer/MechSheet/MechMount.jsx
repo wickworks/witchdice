@@ -1,5 +1,5 @@
 import React from 'react';
-import { DestroySystemButton } from './DestroySystemButton.jsx'
+import { DestroySystemButton, BroadcastSystemButton } from './DestroySystemButton.jsx'
 import {
   findWeaponData,
   findSystemData,
@@ -9,8 +9,13 @@ import {
   findNpcFeatureData,
   getSystemLimited,
   findTagOnWeapon,
+  getTagName,
   baselineWeapons
 } from '../lancerData.js';
+
+import {
+  getAllWeaponProfiles,
+} from '../WeaponRoller/weaponRollerUtils.js';
 
 import { deepCopy } from '../../../utils.js';
 import { getNumberByTier } from '../LancerNpcMode/npcUtils.js';
@@ -111,14 +116,13 @@ function isNpcFeatureTechAttack(featureData) {
   return !!featureData.effect.indexOf('makes a tech attack')
 }
 
-
-
 const MechMount = ({
   mount,
   limitedBonus,
   setActiveWeaponIndex,
   activeWeaponIndex,
   setDestroyedForWeapon,
+  setRollSummaryData,
 }) => {
   const mountedWeapons = getWeaponsOnMount(mount)
 
@@ -155,6 +159,7 @@ const MechMount = ({
             isDestructable={isDestructable}
             isDestroyed={mountedWeapons[i].destroyed}
             onDestroy={() => setDestroyedForWeapon(!mountedWeapons[i].destroyed, i)}
+            setRollSummaryData={setRollSummaryData}
             key={i}
           />
         )
@@ -209,10 +214,57 @@ const MechWeapon = ({
   isDestructable,
   isDestroyed,
   onDestroy,
+  setRollSummaryData,
 }) => {
 
   var modData;
   if (mod) modData = findModData(mod.id);
+
+  // all profiles
+  // weapon tags
+  // type
+  // modified
+  // loading state
+  // limited state
+  // destroyed state
+  // mods
+
+  const mountString = mountType && `${mountType} Mount`
+
+  const stats = getAllWeaponProfiles(weaponData)
+    .map(profile => {
+      let profileName =
+        profile.profileName &&
+        `— ${profile.profileName} —`
+
+      let damage =
+        profile.damage &&
+        profile.damage.map(damage => `${damage.val} ${damage.type}`).join(' + ')
+      if (damage) damage = `[ ${damage} ]`
+
+      let range =
+        profile.range &&
+        profile.range.map(range => `${range.val} ${range.type}`).join(', ')
+      if (range) range = `[ ${range} ]`
+
+      let tags =
+        profile.tags &&
+        profile.tags.map(tagID => getTagName(tagID, true)).join(', ')
+      if (tags) tags = `<br>${tags}`
+
+      return [
+        profileName,
+        [damage,range].join(' '),
+        tags,
+      ]
+    }).flat().filter(str => str).join('<br>')
+
+  const broadcastObject = {
+    type: 'text',
+		title: weaponData.name.toUpperCase(),
+		message: [mountString, stats].filter(str => str).join('<br>')
+  }
+
 
   // console.log('MechWeapon', weaponData);
   return (
@@ -223,6 +275,13 @@ const MechWeapon = ({
           onDestroy={onDestroy}
         />
       }
+
+      {setRollSummaryData &&
+        <BroadcastSystemButton
+          onBroadcast={() => setRollSummaryData(broadcastObject)}
+        />
+      }
+
 
       <button
         className={`select-weapon ${isActive ? 'active' : ''}`}
