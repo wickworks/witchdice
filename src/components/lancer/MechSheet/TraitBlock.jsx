@@ -101,15 +101,16 @@ const TraitBlock = ({
 	const boldedDescription = getSystemDescription(trait.description, trait.isDestroyed).replace('Effect:', '<strong>Effect:</strong>')
 	const boldedTrigger = getSystemTrigger(trait.trigger).replace('Trigger:', '<strong>Trigger:</strong>')
 
-	const titleClass = isTitleCase ? 'title-case' : '';
-	const collapsedClass = isCollapsed ? 'collapsed' : '';
-  const cpClass = isCP ? 'core-power' : '';
-	const destroyedClass = isDestroyed ? 'destroyed' : '';
-	const activationClass = activation && activation.toLowerCase();
-	const subtraitClass = isSubtrait && 'subtrait'
+	const titleClass = isTitleCase ? 'title-case' : ''
+	const collapsedClass = isCollapsed ? 'collapsed' : ''
+  const cpClass = isCP ? 'core-power' : ''
+	const destroyedClass = isDestroyed ? 'destroyed' : ''
+	const activationClass = activation ? activation.toLowerCase() : ''
+	const subtraitClass = isSubtrait ? 'subtrait' : ''
+	const wideClass = systemDescription.length > 128 ? 'wide' : ''
 
   return (
-		<div className={`TraitBlock ${collapsedClass} ${subtraitClass}`}>
+		<div className={`TraitBlock ${collapsedClass} ${subtraitClass} ${wideClass}`}>
 			<div className='card-container'>
 				<button
 					className={`name ${titleClass} ${activationClass} ${cpClass} ${collapsedClass}`}

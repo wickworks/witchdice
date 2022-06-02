@@ -191,6 +191,14 @@ const MechSheet = ({
           />
         }
 
+        { robotLoadout.pilotTalents.length > 0 &&
+          <MechTraits
+            sectionTitle='Talents'
+            frameTraits={robotLoadout.pilotTalents}
+            setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
+          />
+        }
+
         <div className='jumplink-anchor' id='weapons' />
         <div className="mounts-label">Mounts & Attacks</div>
 

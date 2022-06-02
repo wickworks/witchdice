@@ -125,6 +125,7 @@ const PlayerMechSheet = ({
   const robotLoadout = {
     frameTraits: getFrameTraits(frameData.traits, frameData.core_system),
     systems: getSystemTraits([...loadout.systems, ...loadout.integratedSystems], robotStats.limitedBonus),
+    pilotTalents: getPilotTraits(activePilot.talents),
 
     mounts: [...getMountsFromLoadout(loadout), modifiedBaselineMount(activePilot, loadout)],
     invades: getInvadeAndTechAttacks(loadout, activePilot.talents),
@@ -469,6 +470,43 @@ function getSystemTraits(systems, limitedBonus) {
   return systemTraits
 }
 
+
+// Harvest the traits for each pilot talent
+function getPilotTraits(pilotTalents) {
+  let pilotTraits = []
+
+  pilotTalents.forEach(pilotTalent => {
+    const talentData = findTalentData(pilotTalent.id)
+    talentData.ranks.forEach((rankData,i) => {
+      if (pilotTalent.rank > i) {
+        const talentTrait = {
+          name: rankData.name.toLowerCase(),
+          isTitleCase: true,
+          description: rankData.description,
+        }
+
+        // add any sub-actions from this trait
+        if (rankData.actions) {
+          talentTrait.subTraits = []
+
+          rankData.actions.forEach(action =>
+            talentTrait.subTraits.push({
+              name: action.name,
+              activation: action.activation,
+              trigger: action.trigger,
+              frequency: action.frequency,
+              description: action.detail,
+            })
+          )
+        }
+
+        pilotTraits.push(talentTrait)
+      }
+    });
+  })
+
+  return pilotTraits
+}
 
 
 // Special case: modify RAM and IMPROVISED ATTACKS due to systems or talents
