@@ -20,7 +20,7 @@ function getSystemTrigger(trigger) {
 	return trigger ? `Trigger: ${trigger}` : ''
 }
 
-function getBroadcastObjectForTrait(trait) {
+export function getBroadcastObjectForTrait(trait) {
 	const stats = [
 		trait.activation,
 		trait.frequency,
@@ -107,7 +107,7 @@ const TraitBlock = ({
 	const destroyedClass = isDestroyed ? 'destroyed' : ''
 	const activationClass = activation ? activation.toLowerCase() : ''
 	const subtraitClass = isSubtrait ? 'subtrait' : ''
-	const wideClass = systemDescription.length > 128 ? 'wide' : ''
+	const wideClass = systemDescription.length > 220 ? 'wide' : ''
 
   return (
 		<div className={`TraitBlock ${collapsedClass} ${subtraitClass} ${wideClass}`}>

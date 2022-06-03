@@ -297,7 +297,7 @@ function getNpcTechAttacks(items) {
   techAttacks.push({
     "name": "Fragment Signal",
     "activation": "Invade",
-    "detail": "Target character takes 2 Heat and is Impaired until the end of their next turn.",
+    "detail": "Target player takes 2 Heat and is Impaired until the end of their next turn.",
   })
 
   return techAttacks

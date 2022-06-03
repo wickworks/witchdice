@@ -319,3 +319,9 @@ export function getAllWeaponProfiles(weaponData) {
   }
   return allWeaponProfiles
 }
+
+// e.g. Heavy CQB
+export function getMountName(weaponData) {
+  // difference in npc / player type names
+  return weaponData.mount ? `${weaponData.mount} ${weaponData.type}` : weaponData.weapon_type
+}

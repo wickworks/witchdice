@@ -22,6 +22,7 @@ import {
   createNewAttack,
   setAccuracyMod,
   getAllWeaponProfiles,
+  getMountName,
 } from './weaponRollerUtils.js';
 
 import {
@@ -228,9 +229,6 @@ const WeaponRoller = ({
   }
 
   const genericBonusIsActive = genericBonusPlus || genericBonusDieCount;
-
-  const mountType = weaponData.mount ? `${weaponData.mount} ${weaponData.type}` : weaponData.weapon_type
-
   const rangeSynergies = getPassingWeaponSynergies(weaponData, allRangeSynergies)
 
   return (
@@ -241,7 +239,7 @@ const WeaponRoller = ({
         { allWeaponProfiles.map((weaponProfile, i) =>
           <BaseDamageBar
             weaponProfile={weaponProfile}
-            mountType={mountType}
+            mountType={getMountName(weaponData)}
             rangeSynergies={rangeSynergies}
             onClick={() => setActiveProfileIndex(i)}
             isClickable={allWeaponProfiles.length > 1 && allAttackRolls.length === 0 && activeProfileIndex !== i}
@@ -306,7 +304,7 @@ const WeaponRoller = ({
           )
         )}
 
-        {weaponData.on_attack &&
+        { weaponData.on_attack &&
           <div className='effect-row'>
             <p><strong>On attack:</strong> {weaponData.on_attack}</p>
           </div>

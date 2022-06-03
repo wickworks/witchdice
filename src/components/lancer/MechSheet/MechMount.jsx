@@ -15,10 +15,12 @@ import {
 
 import {
   getAllWeaponProfiles,
+  getMountName,
 } from '../WeaponRoller/weaponRollerUtils.js';
 
-import { deepCopy } from '../../../utils.js';
+import { deepCopy, capitalize } from '../../../utils.js';
 import { getNumberByTier } from '../LancerNpcMode/npcUtils.js';
+import { getBroadcastObjectForTrait } from './TraitBlock.jsx';
 
 import './MechMount.scss';
 
@@ -116,6 +118,82 @@ function isNpcFeatureTechAttack(featureData) {
   return !!featureData.effect.indexOf('makes a tech attack')
 }
 
+function getBroadcastObjectForWeapon(weaponData, bonusEffects, modData) {
+  const mountString = [
+    getMountName(weaponData),
+    bonusEffects && bonusEffects.map(effect => capitalize(effect, true)),
+    modData && `(${modData.name})`,
+  ].flat().filter(str => str).join(' | ')
+
+  const statString = getAllWeaponProfiles(weaponData)
+    .map(profile => {
+      let profileName =
+        profile.profileName &&
+        `— ${profile.profileName} —`
+
+      let damage =
+        profile.damage &&
+        profile.damage.map(damage => `${damage.val} ${damage.type}`).join(' + ')
+      if (damage) damage = `[ ${damage} ]`
+
+      let range =
+        profile.range &&
+        profile.range.map(range => `${range.val} ${range.type}`).join(', ')
+      if (range) range = `[ ${range} ]`
+
+      let tags =
+        profile.tags &&
+        profile.tags.map(tagID => getTagName(tagID, true)).join(', ')
+      if (tags) tags = `<br>${tags}`
+
+      return [
+        profileName,
+        [damage,range].join(' '),
+        tags,
+      ]
+    }).flat().filter(str => str).join('<br>')
+
+  const effectString = [
+    weaponData.effect,
+    weaponData.on_attack && `On attack: ${weaponData.on_attack}`,
+  ].filter(str => str).join('<br>')
+
+  const actionString =
+    weaponData.actions &&
+    weaponData.actions.map(action => {
+      const actionBroadcast = getBroadcastObjectForTrait(action)
+      return `${actionBroadcast.title}: ${actionBroadcast.message}`
+    })
+
+  return {
+    type: 'text',
+		title: weaponData.name.toUpperCase(),
+		message: [
+      mountString,
+      statString,
+      effectString,
+      actionString
+    ].filter(str => str).join('<br>')
+  }
+}
+
+function getBroadcastObjectForTechAttack(invadeData, techAttackBonus, sensorRange) {
+
+  let statString = `[ Tech Attack ${techAttackBonus > 0 ? '+' : ''}${techAttackBonus} ]`
+  statString += ` [ Sensors ${sensorRange} ]`
+  if (invadeData.activation === 'Invade') statString += ' [ 2 Heat ] '
+
+  return {
+    type: 'text',
+		title: invadeData.name.toUpperCase(),
+		message: [
+      invadeData.activation,
+      statString,
+      invadeData.detail
+    ].join('<br>')
+  }
+}
+
 const MechMount = ({
   mount,
   limitedBonus,
@@ -147,7 +225,7 @@ const MechMount = ({
 
         return (
           <MechWeapon
-            mountType={(i === 0 && !isBaseline) ? mount.mount_type : ''}
+            mountType={(i === 0 && !isBaseline) ? getMountName(weaponData) : ''}
             bonusEffects={i === 0 ? bonusEffects : []}
             weaponData={weaponData}
             mod={weaponMod}
@@ -179,13 +257,27 @@ const MechMount = ({
 
 const TechAttack = ({
   invadeData,
+  techAttackBonus,
+  sensorRange,
+
   onClick,
   isActive,
+  setRollSummaryData,
 }) => {
   const mountType = invadeData.activation
 
   return (
     <div className='TechAttack'>
+      { isActive &&
+        <div className='sidebar-buttons'>
+          { setRollSummaryData &&
+            <BroadcastSystemButton onBroadcast={() =>
+              setRollSummaryData(getBroadcastObjectForTechAttack(invadeData, techAttackBonus, sensorRange))}
+            />
+          }
+        </div>
+      }
+
       <button
         className={`select-tech ${isActive ? 'active' : ''}`}
         onClick={onClick}
@@ -220,68 +312,25 @@ const MechWeapon = ({
   var modData;
   if (mod) modData = findModData(mod.id);
 
-  // all profiles
-  // weapon tags
-  // type
-  // modified
-  // loading state
-  // limited state
-  // destroyed state
-  // mods
-
-  const mountString = mountType && `${mountType} Mount`
-
-  const stats = getAllWeaponProfiles(weaponData)
-    .map(profile => {
-      let profileName =
-        profile.profileName &&
-        `— ${profile.profileName} —`
-
-      let damage =
-        profile.damage &&
-        profile.damage.map(damage => `${damage.val} ${damage.type}`).join(' + ')
-      if (damage) damage = `[ ${damage} ]`
-
-      let range =
-        profile.range &&
-        profile.range.map(range => `${range.val} ${range.type}`).join(', ')
-      if (range) range = `[ ${range} ]`
-
-      let tags =
-        profile.tags &&
-        profile.tags.map(tagID => getTagName(tagID, true)).join(', ')
-      if (tags) tags = `<br>${tags}`
-
-      return [
-        profileName,
-        [damage,range].join(' '),
-        tags,
-      ]
-    }).flat().filter(str => str).join('<br>')
-
-  const broadcastObject = {
-    type: 'text',
-		title: weaponData.name.toUpperCase(),
-		message: [mountString, stats].filter(str => str).join('<br>')
-  }
-
-
   // console.log('MechWeapon', weaponData);
   return (
     <div className='MechWeapon'>
-      {isDestructable && isActive &&
-        <DestroySystemButton
-          isDestroyed={isDestroyed}
-          onDestroy={onDestroy}
-        />
-      }
 
-      {setRollSummaryData &&
-        <BroadcastSystemButton
-          onBroadcast={() => setRollSummaryData(broadcastObject)}
-        />
+      { isActive &&
+        <div className='sidebar-buttons'>
+          { isDestructable &&
+            <DestroySystemButton
+              isDestroyed={isDestroyed}
+              onDestroy={onDestroy}
+            />
+          }
+          { setRollSummaryData &&
+            <BroadcastSystemButton onBroadcast={() =>
+              setRollSummaryData(getBroadcastObjectForWeapon(weaponData, bonusEffects, modData))}
+            />
+          }
+        </div>
       }
-
 
       <button
         className={`select-weapon ${isActive ? 'active' : ''}`}

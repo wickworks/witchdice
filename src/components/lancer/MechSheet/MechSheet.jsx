@@ -205,7 +205,7 @@ const MechSheet = ({
         <div className="mounts-list">
           { robotLoadout.mounts.map((mount, i) =>
             <MechMount
-              key={`mount-${i}`}
+              key={`${robotInfo.name}-mount-${i}`}
               mount={mount}
               limitedBonus={robotStats.limitedBonus}
               setActiveWeaponIndex={(weaponIndex) => changeMountAndWeapon(i, weaponIndex)}
@@ -228,8 +228,11 @@ const MechSheet = ({
             <TechAttack
               key={`invade-${i}`}
               invadeData={invade}
+              techAttackBonus={robotStats.techAttackBonus}
+              sensorRange={robotStats.sensorRange}
               onClick={() => activateInvade(i)}
               isActive={activeInvadeIndex === i}
+              setRollSummaryData={setRollSummaryDataWithName}
             />
           )}
         </div>
