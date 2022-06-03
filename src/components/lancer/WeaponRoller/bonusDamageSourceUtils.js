@@ -126,6 +126,23 @@ function getBonusDamageSourcesFromMech(frameID) {
       sources.push( newSource('Mark for Death', 'mf_deaths_head_heavy', '3d6', '', heavyEffect) );
       break;
 
+    case 'mf_monarch':
+      const silosEffect = {
+        ...newFrameTrait(frameData, 'Avenger Silos'),
+        onCrit: '1/round, on a critical hit with any ranged weapon, the Monarch may deal 3 explosive to a different character of your choice within range 15 and line of sight.',
+        isPassive: true,
+      }
+      sources.push( newSource('Avenger Silos', 'mf_monarch_silo', '', 'Explosive', silosEffect) );
+
+      const payloadEffect = {
+        ...newFrameTrait(frameData, 'Seeking Payload'),
+        onAttack: 'Consumed lock: Seeking & the attack’s damage cannot be reduced in any way.',
+      }
+      sources.push( newSource('Seeking Payload', 'mf_monarch_payload', '', '', payloadEffect) );
+
+      break;
+
+
     case 'mf_mourning_cloak':
       sources.push( newSourceFromFrame(frameData, '1d6', '', 'Hunter') );
       break;
