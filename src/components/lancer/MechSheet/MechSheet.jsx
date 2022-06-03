@@ -159,6 +159,14 @@ const MechSheet = ({
           updateMechState={updateMechState}
         />
 
+        { robotLoadout.pilotTalents.length > 0 &&
+          <MechTraits
+            sectionTitle='Talents'
+            frameTraits={robotLoadout.pilotTalents}
+            setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
+          />
+        }
+
         {/*Frame Traits & Core System*/}
         { robotLoadout.frameTraits.length > 0 &&
           <MechTraits
@@ -188,14 +196,6 @@ const MechSheet = ({
                 systemCharged: {index: systemIndex, charged: charged}
               })
             }
-          />
-        }
-
-        { robotLoadout.pilotTalents.length > 0 &&
-          <MechTraits
-            sectionTitle='Talents'
-            frameTraits={robotLoadout.pilotTalents}
-            setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
           />
         }
 

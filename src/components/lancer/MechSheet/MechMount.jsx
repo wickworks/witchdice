@@ -144,7 +144,6 @@ function getBroadcastObjectForWeapon(weaponData, bonusEffects, modData) {
       let tags =
         profile.tags &&
         profile.tags.map(tagID => getTagName(tagID, true)).join(', ')
-      if (tags) tags = `<br>${tags}`
 
       return [
         profileName,
