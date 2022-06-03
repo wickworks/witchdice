@@ -12,9 +12,9 @@
   }
 }
 
-@keyframes rollin {
+@keyframes dicebag_rollin {
   from {
-    transform: rotate(-180deg);
+    transform: rotate(-360deg);
   }
 
   to {
@@ -157,7 +157,7 @@ $bookmark_breakpoint: 575px;
 
           > * {
             animation-duration: .2s;
-            animation-name: rollin;
+            animation-name: dicebag_rollin;
           }
 
           .asset { margin-right: 6px;}
