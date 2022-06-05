@@ -22,11 +22,6 @@ function renderPilotPortrait(squadMech) {
 	}
 }
 
-// Gives all statuses internal non-breaking spaces && adds a space after each comma
-function statusesWithNonbreakingSpaces(statusString) {
-	return statusString.replace(/ /g, String.fromCharCode(160)).replace(/,/g, ' ')
-}
-
 const SquadMech = ({
 	squadMech,
 	onRemove,

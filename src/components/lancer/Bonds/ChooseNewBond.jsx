@@ -2,10 +2,6 @@ import React from 'react';
 import { findAllGameDataFromLcp } from '../lancerData.js';
 import './ChooseNewBond.scss';
 
-function getIconForBond(bondId) {
-  return 'plus'
-}
-
 const ChooseNewBond = ({
   currentBondId,
   setPilotBond,

@@ -19,8 +19,10 @@ function initializeLocalBurdens(pilot) {
 
     // add the minor burdens, any empty burdens as padding to bring it up to 3, then major burdens
     initialBurdens.push(...minorBurdens)
-    let emptyBurdenCount = 3 - minorBurdens.length - majorBurdens.length
-    let emptyBurdens = [...Array(emptyBurdenCount)].forEach(i => initialBurdens.push(blankClock))
+    let emptyBurdenCount = 3 - minorBurdens.length - majorBurdens.length;
+
+    [...Array(emptyBurdenCount)].forEach(i => initialBurdens.push(blankClock))
+    
     initialBurdens.push(...majorBurdens)
   } else {
     initialBurdens = [blankClock, blankClock, blankClock]
@@ -92,7 +94,11 @@ const Bonds = ({
           // save both the local and pilot copies of the burdens
           setLocalBurdens(newLocalBurdens)
           newPilotData.burdens = convertLocalBurdensToPilotFormat(newLocalBurdens)
+          break;
+        default:
+          break;
         }
+
     });
 
     // update it in localstorage

@@ -7,7 +7,6 @@ import { getRandomFingerprint } from '../../../localstorage.js';
 import {
   SQUAD_CLOCK_KEY,
   saveSquadClockData,
-  loadSquadClockData
 } from './clockLocalStorage.js';
 
 import './SquadClockPanel.scss';

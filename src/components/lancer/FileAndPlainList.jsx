@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 
 import './FileAndPlainList.scss';
 

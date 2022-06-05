@@ -43,7 +43,6 @@ const TechRoller = ({
 
     // do we need to roll bonus damage?
     if (bonusDamageData === null) {
-      var bonusDamage = {};
       bonusDamage.rolls = rollBonusDamage(availableBonusSources, 'Heat', false)
       bonusDamage.traits = availableBonusSources.filter(source => source.trait).map(source => source.trait)
       setBonusDamageData(bonusDamage);

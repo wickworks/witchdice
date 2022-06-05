@@ -2,10 +2,8 @@ import React from 'react';
 import { DestroySystemButton, BroadcastSystemButton } from './DestroySystemButton.jsx'
 import {
   findWeaponData,
-  findSystemData,
   findCoreBonusData,
   findModData,
-  findTalentData,
   findNpcFeatureData,
   getSystemLimited,
   findTagOnWeapon,

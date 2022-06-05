@@ -33,6 +33,8 @@ export function getFailingWeaponSynergies(weaponData, synergies) {
         if (checkForType === 'Melee' && isMelee) return true
         // Rifle, CQB, etc
         if (checkForType === weaponData.type || weaponData.type === '???') return true
+
+        return false;
       })
 
       if (!hasMatchedType) return true // failed

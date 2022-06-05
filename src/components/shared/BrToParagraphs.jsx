@@ -1,6 +1,5 @@
 import React from 'react';
 
-import TurndownService from 'turndown';
 // const turndownService = new TurndownService()
 import ReactHtmlParser from 'react-html-parser';
 
