@@ -8,7 +8,9 @@ import { isNpcFeatureTechAttack } from '../MechSheet/MechMount.jsx';
 import {
   getStat,
   getMarkerFromFingerprint,
-  getNpcSkillCheckAccuracy
+  getNpcSkillCheckAccuracy,
+  setNumbersByTier,
+  getActivationType
 } from './npcUtils.js';
 
 import {
@@ -16,7 +18,6 @@ import {
   findNpcFeatureData,
   findNpcTemplateData,
   baselineMount,
-  systemHasTag,
   getSystemRecharge,
 } from '../lancerData.js';
 
@@ -139,29 +140,6 @@ const NpcMechSheet = ({
   );
 }
 
-function getActivationType(featureData) {
-  let activation = ''
-  if (featureData.type === 'Reaction') activation = 'Reaction'
-  if (systemHasTag(featureData, 'tg_quick_action')) activation = 'Quick'
-  if (systemHasTag(featureData, 'tg_full_action')) activation = 'Full'
-  return activation
-}
-
-function setNumbersByTier(effectString, tier) {
-  let returnString = effectString
-  if (!tier) return returnString
-
-  const matches = effectString.match(/{\d*\/\d*\/\d*}/g)
-  if (matches) {
-    matches.forEach(tierNumbers => {
-      const justNumbers = tierNumbers.slice(1, -1)
-      const numberArray = justNumbers.split('/')
-      const finalNumber = numberArray[tier-1]
-      returnString = returnString.replace(tierNumbers, `<b>${finalNumber}</b>`)
-    })
-  }
-  return returnString
-}
 
 function getNpcTraits(items) {
   let featureTraits = []
@@ -175,7 +153,7 @@ function getNpcTraits(items) {
         systemIndex: itemIndex,
         name: (item.flavorName || featureData.name).toLowerCase(),
         activation: getActivationType(featureData),
-        description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
+        description: setNumbersByTier([item.flavorName, featureData.effect].filter(str => str).join('<br>'), item.tier),
         isDestructable: false,
         isDestroyed: false,
         isTitleCase: true,

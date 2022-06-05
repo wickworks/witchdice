@@ -49,7 +49,6 @@ const MainLancer = ({
   const [triggerRerender, setTriggerRerender] = useState(false);
   const [gameMode, setGameMode] = useState(GAME_MODE_PLAYER);
 
-
   const changeGameMode = (newGameMode) => {
     setGameMode(newGameMode)
     // when we switch to NPC mode, clear the squadpanel's ability to add a mech
