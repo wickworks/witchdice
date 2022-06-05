@@ -18,7 +18,7 @@ export function getNpcSkillCheckAccuracy(skill, npc) {
     const setInCustomDescription = feature.description && feature.description.toLowerCase().includes(skill)
 
     const featureData = findNpcFeatureData(feature.itemID)
-    const effect = featureData.effect.toLowerCase()
+    const effect = featureData.effect ? featureData.effect.toLowerCase() : ''
 
     if (effect.includes(`${skill} save`) || setInCustomDescription) {
       const value = parseInt(effect.charAt(effect.indexOf('+')+1))
