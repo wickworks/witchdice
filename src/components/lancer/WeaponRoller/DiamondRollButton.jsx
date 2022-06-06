@@ -11,29 +11,31 @@ const DiamondRollButton = ({
   createNewAttackRoll,
   rollResult = null,
 }) => {
-
   const isShowingResult = rollResult !== null;
+  let accuracyMod = currentMod || 0
 
   return (
     <div className="DiamondRollButton">
-      <div className='grit'>
-        {rollBonus >= 0 ? '+' : ''}{rollBonus}
-        <span className='label'>{rollBonusLabel}</span>
-      </div>
+      { rollBonus &&
+        <div className='grit'>
+          {rollBonus >= 0 ? '+' : ''}{rollBonus}
+          <span className='label'>{rollBonusLabel}</span>
+        </div>
+      }
 
-      { currentMod !== 0 &&
-        <div className={`accuracy ${currentMod < 0 ? 'actually-difficulty' : ''}`}>
-          {currentMod > 0 ? '+' : ''}
+      { accuracyMod !== 0 &&
+        <div className={`accuracy ${accuracyMod < 0 ? 'actually-difficulty' : ''}`}>
+          {accuracyMod > 0 ? '+' : ''}
 
-          {!isShowingResult && currentMod}
+          {!isShowingResult && accuracyMod}
 
           <span className='asset d6' />
 
-          {isShowingResult && <strong>{currentMod}</strong>}
+          {isShowingResult && <strong>{accuracyMod}</strong>}
 
           <span className='label'>
             {!isShowingResult ?
-              currentMod < 0 ? 'Diff' : 'Acc'
+              accuracyMod < 0 ? 'Diff' : 'Acc'
             :
               ''
             }

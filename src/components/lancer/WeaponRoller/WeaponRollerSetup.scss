@@ -9,25 +9,63 @@ $number_speed: 0.25s;
 }
 
 .WeaponRollerSetup {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 90px 90px 1fr;
+  grid-template-rows: 114px 36px 1fr;
+
+  @include condensed_setup {
+    display: flex;
+    flex-direction: column;
+  }
 
   margin: 0 10px 50px;
   padding-top: 20px;
 
-  &:not(:first-child) {
-    border-top: 4px solid $parchment_dark;
+  // If we've added a few targets, add a divider between them
+  &:not(:first-child) { border-top: 4px solid $parchment_dark; }
+
+  .DiamondRollButton {
+    grid-column: 2 / span 2;
+    grid-row: 1 / span 2;
+    margin: unset;
+
+    @include condensed_setup {
+      margin: auto;
+      // grid-column: 1 / span 1;
+      // grid-row: 1 / span 1;
+    }
+  }
+
+  .DetailedRollResults {
+    grid-column: 4 / span 1;
+    grid-row: 1 / span 1;
+    justify-content: flex-start;
+    margin-top: 36px;
+
+    @include condensed_setup {
+      justify-content: center;
+      margin: 16px 0;
+    //   grid-column: 2 / span 1;
+    //   grid-row: 1 / span 1;
+    //   justify-content: flex-start;
+    }
   }
 
   .column-container {
+    grid-column: 1 / span 4;
+    grid-row: 2 / span 2;
+
     display: flex;
     justify-content: center;
 
+
     @include condensed_setup {
+      // grid-column: 1 / span 2;
+      // grid-row: 2 / span 1;
+
       flex-wrap: wrap;
       justify-content: flex-start;
     }
-
 
     .column {
       display: flex;

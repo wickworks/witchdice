@@ -1,5 +1,6 @@
 import React from 'react';
 import DiamondRollButton from '../DiamondRollButton.jsx';
+import DetailedRollResults from './AttackRollOutput/DetailedRollResults.jsx';
 
 import './ChooseHitMiss.scss';
 
@@ -9,7 +10,8 @@ const ChooseHitMiss = ({
   isRerolled,
   setIsRerolled,
   setIsHit,
-  setIsChoosingHitMiss
+  setIsChoosingHitMiss,
+  changeAccuracyMod,
 }) => {
 
   const toHitData = isRerolled ? attackData.toHitReroll : attackData.toHit;
@@ -19,14 +21,19 @@ const ChooseHitMiss = ({
     setIsChoosingHitMiss(false);
   }
 
+  // rollBonus={toHitData.flatBonus}
+  // rollBonusLabel={rollBonusLabel}
+  // currentMod={toHitData.accuracyBonus}
   return (
     <div className="ChooseHitMiss WeaponRollerSetup">
       <DiamondRollButton
-        rollBonus={toHitData.flatBonus}
-        rollBonusLabel={rollBonusLabel}
-        currentMod={toHitData.accuracyBonus}
         createNewAttackRoll={() => setIsRerolled(!isRerolled)}
         rollResult={toHitData.finalResult}
+      />
+
+      <DetailedRollResults
+        toHitData={toHitData}
+        changeAccuracyMod={changeAccuracyMod}
       />
 
       <div className="column-container">
