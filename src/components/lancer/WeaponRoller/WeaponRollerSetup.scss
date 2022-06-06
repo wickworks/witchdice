@@ -12,14 +12,13 @@ $number_speed: 0.25s;
   display: grid;
   grid-template-columns: 1fr 90px 90px 1fr;
   grid-template-rows: 114px 36px 1fr;
+  margin: 0 10px 50px;
+  padding-top: 20px;
 
   @include condensed_setup {
     display: flex;
     flex-direction: column;
   }
-
-  margin: 0 10px 50px;
-  padding-top: 20px;
 
   // If we've added a few targets, add a divider between them
   &:not(:first-child) { border-top: 4px solid $parchment_dark; }
@@ -31,8 +30,6 @@ $number_speed: 0.25s;
 
     @include condensed_setup {
       margin: auto;
-      // grid-column: 1 / span 1;
-      // grid-row: 1 / span 1;
     }
   }
 
@@ -41,13 +38,13 @@ $number_speed: 0.25s;
     grid-row: 1 / span 1;
     justify-content: flex-start;
     margin-top: 36px;
+    opacity: .5;
+
+    &:hover { opacity: 1; }
 
     @include condensed_setup {
       justify-content: center;
       margin: 16px 0;
-    //   grid-column: 2 / span 1;
-    //   grid-row: 1 / span 1;
-    //   justify-content: flex-start;
     }
   }
 
@@ -58,11 +55,7 @@ $number_speed: 0.25s;
     display: flex;
     justify-content: center;
 
-
     @include condensed_setup {
-      // grid-column: 1 / span 2;
-      // grid-row: 2 / span 1;
-
       flex-wrap: wrap;
       justify-content: flex-start;
     }
