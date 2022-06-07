@@ -51,12 +51,12 @@ function getModdedWeaponData(weapon) {
 
     // select the correct tier of damage
     // npcs only ever have one kind of damage
-    weaponData.damage.forEach(damageObject => {
+    weaponData.damage && weaponData.damage.forEach(damageObject => {
       damageObject.val = damageObject.damage[weapon.npcTier-1]
     });
 
     // modify any tag values by tier
-    weaponData.tags.forEach(tagObject => {
+    weaponData.tags && weaponData.tags.forEach(tagObject => {
       if ('val' in tagObject) {
         tagObject.val = getNumberByTier(tagObject.val, weapon.npcTier)
       }

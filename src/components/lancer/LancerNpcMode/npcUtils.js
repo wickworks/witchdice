@@ -1,5 +1,5 @@
 
-import { findNpcFeatureData } from '../lancerData.js';
+import { findNpcFeatureData, systemHasTag } from '../lancerData.js';
 
 
 export function getStat(key, npc) {
@@ -18,7 +18,7 @@ export function getNpcSkillCheckAccuracy(skill, npc) {
     const setInCustomDescription = feature.description && feature.description.toLowerCase().includes(skill)
 
     const featureData = findNpcFeatureData(feature.itemID)
-    const effect = featureData.effect.toLowerCase()
+    const effect = featureData.effect ? featureData.effect.toLowerCase() : ''
 
     if (effect.includes(`${skill} save`) || setInCustomDescription) {
       const value = parseInt(effect.charAt(effect.indexOf('+')+1))
@@ -56,4 +56,28 @@ export function getNumberByTier(bracketedNumbers, npcTier) {
   if (bracketedNumbers[0] !== '{' || bracketedNumbers.slice(-1) !== '}') return bracketedNumbers
   const tierNumbers = bracketedNumbers.substr(1, bracketedNumbers.length-2).slice('/')
   return parseInt(tierNumbers[npcTier-1]) || 0
+}
+
+export function setNumbersByTier(effectString, tier) {
+  let returnString = effectString
+  if (!tier) return returnString
+
+  const matches = effectString.match(/{\d*\/\d*\/\d*}/g)
+  if (matches) {
+    matches.forEach(tierNumbers => {
+      const justNumbers = tierNumbers.slice(1, -1)
+      const numberArray = justNumbers.split('/')
+      const finalNumber = numberArray[tier-1]
+      returnString = returnString.replace(tierNumbers, `<b>${finalNumber}</b>`)
+    })
+  }
+  return returnString
+}
+
+export function getActivationType(featureData) {
+  let activation = ''
+  if (featureData.type === 'Reaction') activation = 'Reaction'
+  if (systemHasTag(featureData, 'tg_quick_action')) activation = 'Quick'
+  if (systemHasTag(featureData, 'tg_full_action')) activation = 'Full'
+  return activation
 }

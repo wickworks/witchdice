@@ -171,6 +171,7 @@ const WeaponAttack = ({
       setIsRerolled={setIsRerolled}
       setIsHit={setIsHit}
       setIsChoosingHitMiss={setIsChoosingHitMiss}
+      changeAccuracyMod={changeAccuracyMod}
     />
   :
     <div className="WeaponAttack">
