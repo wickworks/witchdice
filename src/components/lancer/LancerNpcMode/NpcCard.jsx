@@ -26,9 +26,9 @@ function getClassNames(npc, npcData) {
 
 
 const NpcPortrait = ({ npc, npcData }) => {
-  return ( npc.cloudImage ?
+  return ( npc.cloud_portrait ?
     <div className='NpcPortrait'>
-      <img src={npc.cloudImage} alt={'mech portrait'} />
+      <img src={npc.cloud_portrait} alt={'mech portrait'} />
     </div>
   :
     <div className={`NpcPortrait asset ${npcData.class} mf_standard_pattern_i_everest`} />

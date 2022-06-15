@@ -90,7 +90,7 @@ const NpcMechSheet = ({
   const robotInfo = {
     name: `${activeNpc.name}〔${getMarkerFromFingerprint(activeNpc.fingerprint)}〕`,
     id: activeNpc.id,
-    cloud_portrait: activeNpc.cloudImage,
+    cloud_portrait: activeNpc.cloud_portrait,
     frameID: activeNpc.class,
     frameSourceIcon: npcClassData.role.toLowerCase(),
     frameSourceText:
