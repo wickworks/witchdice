@@ -15,8 +15,9 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-          <div className='version-label'>v0.12.1-5 — May, June 2022</div>
+          <div className='version-label'>v0.12.1-6 — May, June 2022</div>
           <ul>
+            <li>Fixed NPC custom mech images not showing up.</li>
             <li>Added monarch frame traits to weapon roller.</li>
             <li>Can broadcast summaries for weapons and tech attacks.</li>
             <li>Pilot talents show up on the mech sheet.</li>
