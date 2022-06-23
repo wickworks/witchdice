@@ -86,6 +86,24 @@ const MechSheet = ({
   }
 
 
+  // functions to update mech system states
+  const setLimitedCountForSystem = (count, systemIndex) => {
+    updateMechState({
+      systemUses: {index: systemIndex, uses: count}
+    })
+  }
+  const setDestroyedForSystem = (destroyed, systemIndex) => {
+    updateMechState({
+      systemDestroyed: {index: systemIndex, destroyed: destroyed}
+    })
+  }
+  const setRechargedForSystem = (charged, systemIndex) => {
+    console.log('setting recharge for system ', systemIndex);
+    updateMechState({
+      systemCharged: {index: systemIndex, charged: charged}
+    })
+  }
+
   // =============== GET THE DATA FOR THE SHEET ==================
   const activeMount = robotLoadout.mounts[activeMountIndex];
   const activeMountWeapons = getWeaponsOnMount(activeMount);
@@ -167,12 +185,14 @@ const MechSheet = ({
           />
         }
 
-        {/*Frame Traits & Core System*/}
+        {/* Frame Traits & Core Systems -- not destructable! */}
         { robotLoadout.frameTraits.length > 0 &&
           <MechTraits
             sectionTitle='Frame Traits'
             frameTraits={robotLoadout.frameTraits}
             setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
+            setLimitedCountForSystem={setLimitedCountForSystem}
+            setRechargedForSystem={setRechargedForSystem}
           />
         }
 
@@ -181,21 +201,9 @@ const MechSheet = ({
             sectionTitle='Systems'
             frameTraits={robotLoadout.systems}
             setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
-            setLimitedCountForSystem={(count, systemIndex) =>
-              updateMechState({
-                systemUses: {index: systemIndex, uses: count}
-              })
-            }
-            setDestroyedForSystem={(destroyed, systemIndex) =>
-              updateMechState({
-                systemDestroyed: {index: systemIndex, destroyed: destroyed}
-              })
-            }
-            setRechargedForSystem={(charged, systemIndex) =>
-              updateMechState({
-                systemCharged: {index: systemIndex, charged: charged}
-              })
-            }
+            setLimitedCountForSystem={setLimitedCountForSystem}
+            setDestroyedForSystem={setDestroyedForSystem}
+            setRechargedForSystem={setRechargedForSystem}
           />
         }
 

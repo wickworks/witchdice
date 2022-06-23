@@ -19,6 +19,7 @@ import {
   findNpcTemplateData,
   baselineMount,
   getSystemRecharge,
+  systemHasTag,
 } from '../lancerData.js';
 
 const NpcMechSheet = ({
@@ -154,7 +155,7 @@ function getNpcTraits(items) {
         name: (item.flavorName || featureData.name).toLowerCase(),
         activation: getActivationType(featureData),
         description: setNumbersByTier([item.flavorName, featureData.effect].filter(str => str).join('<br>'), item.tier),
-        isDestructable: false,
+        isDestructable: false, // traits aren't destructable; only systems are
         isDestroyed: false,
         isTitleCase: true,
         recharge: recharge,
@@ -182,7 +183,7 @@ function getSystemTraits(items) {
         description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
         frequency: featureData.frequency,
         range: featureData.range,
-        isDestructable: true,
+        isDestructable: !systemHasTag(featureData, 'tg_indestructible'),
         isDestroyed: item.destroyed,
         isTitleCase: true,
         recharge: recharge,
@@ -197,7 +198,7 @@ function getSystemTraits(items) {
         description: setNumbersByTier([item.flavorName, featureData.effect].filter(str => str).join('<br>'), item.tier),
         frequency: featureData.frequency,
         range: featureData.range,
-        isDestructable: true,
+        isDestructable: !systemHasTag(featureData, 'tg_indestructible'),
         isDestroyed: item.destroyed,
         isTitleCase: true,
         recharge: recharge,
