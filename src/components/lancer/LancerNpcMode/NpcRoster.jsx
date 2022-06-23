@@ -4,9 +4,6 @@ import { capitalize } from '../../../utils.js';
 
 import {
   findNpcClassData,
-  findNpcFeatureData,
-  findNpcTemplateData,
-  baselineMount,
 } from '../lancerData.js';
 
 import './NpcRoster.scss';

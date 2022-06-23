@@ -57,7 +57,6 @@ const TraitBlock = ({
 	const {
 		name,
 		activation,
-		trigger,
 		frequency,
 		range,
 		description,
@@ -95,8 +94,6 @@ const TraitBlock = ({
 	}
 
 	const systemDescription = isDestroyed ? '[ SYSTEM DESTROYED ]' : (description || '')
-	const systemTrigger = trigger ? `Trigger: ${trigger}` : ''
-
 
 	const boldedDescription = getSystemDescription(trait.description, trait.isDestroyed).replace('Effect:', '<strong>Effect:</strong>')
 	const boldedTrigger = getSystemTrigger(trait.trigger).replace('Trigger:', '<strong>Trigger:</strong>')

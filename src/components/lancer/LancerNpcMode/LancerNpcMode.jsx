@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { FileList } from '../FileAndPlainList.jsx';
-import EntryList from '../../shared/EntryList.jsx';
 import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import { ActiveNpcBox, CondensedNpcBox } from './ActiveNpcBox.jsx';
 import EncounterControls from './EncounterControls.jsx';
@@ -22,8 +21,6 @@ import {
 } from '../lancerLocalStorage.js';
 
 import {
-  loadLocalData,
-  saveLocalData,
   getIDFromStorageName,
   getRandomFingerprint,
 } from '../../../localstorage.js';
@@ -417,7 +414,7 @@ const LancerNpcMode = ({
             // item.uses = x // how are we doing npc system uses?
             item.destroyed = false
           });
-
+          break;
         // not relavant for npcs
         case 'current_overcharge':
         case 'current_core_energy':
@@ -506,7 +503,7 @@ const LancerNpcMode = ({
                   <li>Upload a full data backup (.compcon)</li>
                   <li>
                     Enter your <span className='hover-help'>COMP/CON
-                    IDENTITYID<img src={identityid}/></span> to import
+                    IDENTITYID<img alt="Location on COMP/CON Account for identity ID" src={identityid}/></span> to import
                     all npcs saved in your cloud account.
                   </li>
                   {lastIdentityID &&

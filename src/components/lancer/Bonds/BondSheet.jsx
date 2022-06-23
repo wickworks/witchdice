@@ -93,7 +93,11 @@ const Bonds = ({
           // save both the local and pilot copies of the burdens
           setLocalBurdens(newLocalBurdens)
           newPilotData.burdens = convertLocalBurdensToPilotFormat(newLocalBurdens)
+          break;
+        default:
+          break;
         }
+
     });
 
     // update it in localstorage

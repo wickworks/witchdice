@@ -352,7 +352,6 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
             const shockEffect = {onAttack: 'SHOCK: '+shockString, description: 'The attack deals Energy damage. '+shockString, synergies}
             sources.push( newSource('SHOCK', 't_walking_armory_1_shock', '', 'Energy', newTalentTrait(talentData,1,shockEffect)) );
 
-            const magString = ''
             const magEffect = {onAttack: 'MAG: Arcing.', description: 'The attack gains Arcing and deals Kinetic damage.', synergies}
             sources.push( newSource('MAG', 't_walking_armory_1_mag', '', 'Kinetic', newTalentTrait(talentData,1,magEffect)) );
           }

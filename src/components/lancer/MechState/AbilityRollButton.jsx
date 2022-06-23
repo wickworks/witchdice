@@ -1,5 +1,4 @@
 import React from 'react';
-import { getRandomInt } from '../../../utils.js';
 
 import {
   blankDice,

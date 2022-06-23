@@ -180,7 +180,7 @@ const SquadPanel = ({
             <SquadMech
               squadMech={squadMech}
               onRemove={() => deleteEntry(i)}
-              pointsRight={(i % 2 == 1)}
+              pointsRight={(i % 2 === 1)}
               key={squadMech.id}
             />
           )}
@@ -189,7 +189,7 @@ const SquadPanel = ({
 						<AddSquadMechButton
               squadMech={currentSquadMech}
               handleClick={addCurrentMechToSquad}
-              pointsRight={(allSquadMechs.length % 2 == 1)}
+              pointsRight={(allSquadMechs.length % 2 === 1)}
             />
 					}
 				</div>

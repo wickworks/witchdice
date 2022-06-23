@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { capitalize } from '../../../utils.js';
 
 import { getStat, getMarkerFromFingerprint } from './npcUtils.js';
 
 import {
   findNpcClassData,
-  findNpcFeatureData,
   findNpcTemplateData,
-  baselineMount,
 } from '../lancerData.js';
 
 import './NpcCard.scss';

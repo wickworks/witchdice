@@ -8,7 +8,6 @@ import Bonds from '../Bonds/Bonds.jsx';
 import BondButton from './BondButton.jsx';
 import PlayerMechSheet from './PlayerMechSheet.jsx';
 import JumplinkPanel from '../JumplinkPanel.jsx';
-import { deepCopy } from '../../../utils.js';
 
 import {
   savePilotData,
@@ -150,7 +149,6 @@ const LancerPlayerMode = ({
 
   const createNewPilot = (pilot, viaShareCode = null) => {
     if (!pilot || !pilot.id || !pilot.mechs) return // sanity-check the pilot file
-    const newPilot = deepCopy(pilot)
 
     let newPilotEntries = [...allPilotEntries]
 

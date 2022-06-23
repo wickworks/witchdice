@@ -34,7 +34,7 @@ export function getNpcSkillCheckAccuracy(skill, npc) {
 }
 
 export function getMarkerFromFingerprint(fingerprint) {
-  const [marker, number] = fingerprint.indexOf('-') >= 0 ? fingerprint.split('-') : ['X','']
+  const [ marker ] = fingerprint.indexOf('-') >= 0 ? fingerprint.split('-') : ['X','']
   return marker || 'X'
 }
 
