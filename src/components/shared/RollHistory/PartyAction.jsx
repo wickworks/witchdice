@@ -225,18 +225,16 @@ const PartyRollAttack = ({actionRollData}) => {
     nameIcon = 'difficulty'
   }
 
-  // console.log('rendering actionRollData', actionRollData);
-
-  // prepare to harvest damage information
-  const dataKeys = Object.keys(actionRollData);
-
   // find what types of damage we're doing
   let appliedDamageTypes = {};
-  [...allDamageTypes, ...LANCER_DAMAGE_TYPES].forEach(damageType => {
-    if ((dataKeys.indexOf(damageType) >= 0) && (actionRollData[damageType] > 0)) {
-      appliedDamageTypes[damageType] = actionRollData[damageType]
-    }
-  })
+
+  // harvest damage information — the fact that we can't rely on matching capitalization makes this ~convoluted~
+  const dndAndLancerDamageTypes = [...allDamageTypes, ...LANCER_DAMAGE_TYPES]
+  Object.keys(actionRollData).forEach(key => {
+    const lowercaseKey = key.toLowerCase()
+    const damageType = dndAndLancerDamageTypes.find(damageType => damageType.toLowerCase() === lowercaseKey)
+    if (damageType) appliedDamageTypes[damageType] = actionRollData[key]
+  });
 
   // some abilities only care about the effects, no attack roll nonsense
   const showMainRow = isAttack || isSave || Object.keys(appliedDamageTypes).length > 0 || nameText.length > 0 || !!nameIcon
@@ -271,7 +269,7 @@ const PartyRollAttack = ({actionRollData}) => {
           <div className="damage-container">
             { Object.keys(appliedDamageTypes).map((damageType, i) =>
               <div className="damage" key={i}>
-                {Math.floor(actionRollData[damageType])}
+                {Math.floor(appliedDamageTypes[damageType])}
                 <div className={`asset ${damageType.toLowerCase()}`} />
               </div>
             )}
