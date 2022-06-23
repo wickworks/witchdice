@@ -5,7 +5,7 @@ import './DiamondRollButton.scss';
 
 
 const DiamondRollButton = ({
-  rollBonus,
+  rollBonus = null,
   rollBonusLabel,
   currentMod,
   createNewAttackRoll,
@@ -16,7 +16,7 @@ const DiamondRollButton = ({
 
   return (
     <div className="DiamondRollButton">
-      { rollBonus &&
+      { rollBonus !== null &&
         <div className='grit'>
           {rollBonus >= 0 ? '+' : ''}{rollBonus}
           <span className='label'>{rollBonusLabel}</span>
