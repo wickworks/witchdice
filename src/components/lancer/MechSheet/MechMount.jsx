@@ -61,8 +61,9 @@ function getModdedWeaponData(weapon) {
         tagObject.val = getNumberByTier(tagObject.val, weapon.npcTier)
       }
     });
+
     // Say what the effect will be ahead of time.
-    if (weaponData.on_hit) weaponData.effect += weaponData.on_hit
+    weaponData.effect = [weaponData.effect, weaponData.on_hit].filter(effect => effect).join(' ')
 
   // Normal weapon
   } else {
