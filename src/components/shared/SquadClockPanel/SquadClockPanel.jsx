@@ -113,9 +113,13 @@ const SquadClockPanel = ({
       console.log('PUSHING CLOCK TO FIREBASE',clock);
   		let firebaseEntry = {...clock}
   		const firebaseKey = firebaseEntry.firebaseKey
-  		delete firebaseEntry.firebaseKey // keep the key itself out of the firebase object
-      delete firebaseEntry.iMadeThis // also do not push this local ownership data
-      getFirebaseDB().child(FIREBASE_SQUAD_CLOCK_KEY).child(partyRoom).child(firebaseKey).set(firebaseEntry)
+      if (firebaseKey) {
+        delete firebaseEntry.firebaseKey // keep the key itself out of the firebase object
+        delete firebaseEntry.iMadeThis // also do not push this local ownership data
+        getFirebaseDB().child(FIREBASE_SQUAD_CLOCK_KEY).child(partyRoom).child(firebaseKey).set(firebaseEntry)
+      } else {
+        console.error('Could not find firebase key for clock:', clock);
+      }
     }
 	}
 
