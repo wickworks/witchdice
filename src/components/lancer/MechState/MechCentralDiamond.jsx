@@ -43,7 +43,7 @@ const MechCentralDiamond = ({
   const handleStructureClick = () => {
     if (currentStructure > 1) {
       let diceData = {...blankDice}
-      diceData['6'] = (5-currentStructure)
+      diceData['6'] = ((maxStructure+1)-currentStructure)
 
       const postRollMessage = (result, rollData) => {
         const multipleOnes = (rollData.filter(roll => roll.result === 1).length > 1)
@@ -88,7 +88,7 @@ const MechCentralDiamond = ({
   const handleStressClick = () => {
     if (currentStress > 1) {
       let diceData = {...blankDice}
-      diceData['6'] = (5-currentStress)
+      diceData['6'] = ((maxStress+1)-currentStress)
 
       const postRollMessage = (result, rollData) => {
         const multipleOnes = (rollData.filter(roll => roll.result === 1).length > 1)
