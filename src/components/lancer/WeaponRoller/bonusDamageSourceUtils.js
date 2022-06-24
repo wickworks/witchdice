@@ -216,7 +216,9 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
           break;
 
         case 't_crack_shot':
-          addSourceFromTalent(sources,rank,talentData, 2, '1d6', '');
+          const zeroEffect = { requiresCrit: true }
+          addSourceFromTalent(sources,rank,talentData, 2, '1d6', '', zeroEffect);
+
           if (rank >= 3) {
             const watchEffect = { onCrit:
               'Your target must pass a Hull save or you may choose and additional effect for your attack:<br>' +
@@ -257,6 +259,9 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
         case 't_duelist':
           const blademasterEffect = { onHit: '1/round, when you hit with a MAIN MELEE weapon, you gain 1 BLADEMASTER DIE.' }
           addSourceFromTalent(sources,rank,talentData, 2, '', '', blademasterEffect);
+
+          // const unstoppableEffect = { onHit: '1/round, when you hit with a melee attack on your turn, you may spend a BLADEMASTER DIE to immediately GRAPPLE or RAM your target as a free action after the attack has been resolved.' }
+          // addSourceFromTalent(sources,rank,talentData, 3, '', '', unstoppableEffect);
           break;
 
         case 't_executioner':
