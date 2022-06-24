@@ -106,7 +106,12 @@ const WeaponRoller = ({
   }
 
   const clearActiveBonusSources = () => {
-    setActiveBonusSources([]);
+    // re-add anything that's on by default
+    const clearedBonusSources = availableBonusSources
+      .filter(source => source.trait.defaultEnabled)
+      .map(source => source.id)
+
+    setActiveBonusSources(clearedBonusSources);
     setDamageModifiers({...DAMAGE_MODIFIERS})
     setGenericBonusDieCount(0);
     setGenericBonusPlus(0);
@@ -129,7 +134,6 @@ const WeaponRoller = ({
     if (sourceID.startsWith('t_walking_armory')) {
       newBonusDamages = newBonusDamages.filter(bonusID => !bonusID.startsWith('t_walking_armory') || bonusID === sourceID)
     }
-
 
     const bonusIndex = newBonusDamages.indexOf(sourceID);
     if (bonusIndex >= 0) {

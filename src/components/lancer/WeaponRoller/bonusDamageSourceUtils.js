@@ -69,9 +69,11 @@ const blankTrait = {
   onHit: '',
   onCrit: '',
   onMiss: '',
-  requiresLockon: false,
-  damageModifiers: {},
-  isPassive: false,
+  requiresLockon: false,  // only show text & junk if we locked on
+  requiresCrit: false,    // only apply damage if we crit
+  damageModifiers: {},    // half, double, or average
+  isPassive: false,       // doesn't show up in the list, always enabled
+  defaultEnabled: false,  // starts enabled
 }
 
 function newSource(name, id, diceString, damageType = '', traitData = {} ) {
@@ -566,7 +568,11 @@ function getBonusDamageSourcesFromNpcFeatures(npcFeatures, activeWeapon) {
         case 'npcf_deadly_ultra':
           const activeWeaponData = activeWeapon ? findNpcFeatureData(activeWeapon.id) : null
           const defaultDamageType = getDefaultWeaponDamageType(activeWeaponData)
-          const deadlyEffect = { requiresCrit: true }
+          const deadlyEffect = {
+            requiresCrit: true,
+            onCrit: featureData.effect,
+            defaultEnabled: true,
+          }
           sources.push( newSource(featureData.name, featureData.id, '1d6', defaultDamageType, newNpcFeatureTrait(featureData, deadlyEffect)) )
           break;
 

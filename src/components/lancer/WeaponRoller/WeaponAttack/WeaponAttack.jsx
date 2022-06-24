@@ -10,6 +10,7 @@ import {
   summateAllDamageByType,
   getReliableDamage,
   countOverkillTriggers,
+  pullOutCritGatedBonusDamage,
   pullOutFirstRollBonusDamage,
 } from './damageTotalUtils.js';
 
@@ -116,7 +117,10 @@ const WeaponAttack = ({
   });
 
   // separate normal bonus damage and sources that only apply to the first roll (aka NucCav)
-  const [trimmedBonusDamageRolls, firstBonusDamageRolls] = pullOutFirstRollBonusDamage(bonusDamageData);
+  const [trimmedBonusDamageRolls, firstBonusDamageRolls] =
+    pullOutFirstRollBonusDamage(
+      pullOutCritGatedBonusDamage(bonusDamageData, isCrit)
+    );
 
   const toHitData = isRerolled ? attackData.toHitReroll : attackData.toHit;
 

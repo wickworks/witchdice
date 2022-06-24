@@ -37,8 +37,32 @@ function getHighestRolls(sortedTotalPool, highestCount) {
   return highest;
 }
 
-function pullOutFirstRollBonusDamage(bonusDamageData) {
+function pullOutCritGatedBonusDamage(bonusDamageData, isCrit) {
+  if (isCrit) return bonusDamageData // we crit, don't have to do any gating.
 
+  console.log('is not crit, pulling out gated bonus damage....');
+
+  // pull out all rolls which required crits
+  let critlessRolls = []
+  let critlessTraits = []
+  bonusDamageData.rolls.forEach((roll, i) => {
+    const trait = bonusDamageData.traits[i]
+    if (trait && !trait.requiresCrit) {
+      critlessRolls.push(roll)
+      critlessTraits.push(trait)
+    }
+  })
+
+  const critGatedBonusDamageRolls = {
+    rolls: critlessRolls,
+    traits: critlessTraits
+  }
+
+  console.log('critGatedBonusDamageRolls',critGatedBonusDamageRolls);
+  return critGatedBonusDamageRolls
+}
+
+function pullOutFirstRollBonusDamage(bonusDamageData) {
   var trimmedBonusDamageRolls = [];
   var firstBonusDamageRolls = [];
 
@@ -67,10 +91,13 @@ function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusD
   // BASE damage rolls
   var totalsByType = summateRollsByType(damageData.rolls, isCrit, damageModifiers);
 
-  // separate normal bonus damage and sources that only apply to the first roll (aka NucCav)
-  const [trimmedBonusDamageRolls, firstBonusDamageRolls] = pullOutFirstRollBonusDamage(bonusDamageData);
+  // if any of these bonus damage sources require crits and we didn't get one, pull it out
+  const critGatedBonusDamageRolls =  pullOutCritGatedBonusDamage(bonusDamageData, isCrit);
 
-  // BONUS damage rolls (have to tally these separately so we can optionally halve just bonus damage)
+  // separate normal bonus damage and sources that only apply to the first roll (aka NucCav)
+  const [trimmedBonusDamageRolls, firstBonusDamageRolls] = pullOutFirstRollBonusDamage(critGatedBonusDamageRolls);
+
+  // BONUS damage rolls (have to tally these separately so we can optionally halve non-first-roll bonus damage)
   var bonusTotalsByType = summateRollsByType(trimmedBonusDamageRolls, isCrit, damageModifiers);
   var firstBonusTotalsByType = summateRollsByType(firstBonusDamageRolls, isCrit, damageModifiers);
 
@@ -147,5 +174,6 @@ export {
   summateAllDamageByType,
   getReliableDamage,
   countOverkillTriggers,
+  pullOutCritGatedBonusDamage,
   pullOutFirstRollBonusDamage,
 }
