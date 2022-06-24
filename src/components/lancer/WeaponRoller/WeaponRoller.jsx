@@ -70,6 +70,7 @@ const WeaponRoller = ({
 
   const [manualBaseDamage, setManualBaseDamage] = useState(1);
 
+
   // ====== ROLL SUMMARY PANEL ======
   // inject the weapon name to summary data before sending it up
   const setRollSummaryDataWithWeaponName = (attackSummaryData, attackIndex) => {
@@ -98,11 +99,13 @@ const WeaponRoller = ({
   }, [stringifiedWeaponData]);
 
   const clearAttacks = () => {
-    setAllAttackSummaries([]);
-    setAllAttackRolls([]);
-    setIsSettingUpAttack(true);
-    setBonusDamageData(null);
-    onClear();
+    setAllAttackSummaries([])
+    setAllAttackRolls([])
+    setIsSettingUpAttack(true)
+    setBonusDamageData(null)
+    setGenericBonusDieCount(0)
+    setGenericBonusPlus(0)
+    onClear()
   }
 
   const clearActiveBonusSources = () => {
@@ -118,7 +121,6 @@ const WeaponRoller = ({
   }
 
   // =============== MAKE ATTACK ROLLS ==================
-
   const allWeaponProfiles = getAllWeaponProfiles(weaponData);
   const currentWeaponProfile = allWeaponProfiles[activeProfileIndex] || allWeaponProfiles[0];
 
@@ -307,7 +309,7 @@ const WeaponRoller = ({
         )}
 
         { availableBonusSources.map((availableBonusSource, i) =>
-          ( availableBonusSource.trait.effect &&
+          ( availableBonusSource.trait.effect && (availableBonusSource.trait.effect !== weaponData.effect) &&
             <div className='effect-row' key={`bonus-source-effect-${i}`}>
               <strong>{availableBonusSource.trait.name}</strong>
               <BrToParagraphs stringWithBrs={availableBonusSource.trait.effect}/>
@@ -350,6 +352,7 @@ const WeaponRoller = ({
             manualBaseDamage={manualBaseDamage}
             isFirstRoll={i === 0}
             isTechAttack={false}
+            setGenericBonusDieCount={setGenericBonusDieCount}
             setAttackSummary={(attackSummaryData) => setRollSummaryDataWithWeaponName(attackSummaryData, i)}
             key={i}
           />

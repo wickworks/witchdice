@@ -24,6 +24,7 @@ const WeaponAttack = ({
   damageModifiers,
   isFirstRoll,
   isTechAttack,
+  setGenericBonusDieCount,
   setAttackSummary,
 }) => {
   const [isChoosingHitMiss, setIsChoosingHitMiss] = useState(true);
@@ -60,7 +61,8 @@ const WeaponAttack = ({
     });
   }
 
-  var summary = [];
+  var summary = []
+  let overkillCount = 0
   if (consumedLock)                     summary.push('Consumed lock.')
   if (isFirstRoll) {
     if (attackData.onAttack)              summary.push(attackData.onAttack)
@@ -85,8 +87,9 @@ const WeaponAttack = ({
     if (attackData.isArmorPiercing)     summary.push('Armor piercing.')
     if (attackData.knockback > 0)       summary.push(`Knockback ${attackData.knockback}.`)
     if (attackData.isOverkill) {
-      const overkillCount = countOverkillTriggers(attackData.damage, bonusDamageData, isCrit, damageModifiers)
+      overkillCount = countOverkillTriggers(attackData.damage, bonusDamageData, isCrit, damageModifiers)
       if (overkillCount > 0)            summary.push(`Overkill x${overkillCount}.`)
+      if (damageModifiers.overkillBonusDamage) summary.push('+1d6 damage per overkill.')
       selfHeat += overkillCount;
     }
 
@@ -123,6 +126,11 @@ const WeaponAttack = ({
     );
 
   const toHitData = isRerolled ? attackData.toHitReroll : attackData.toHit;
+
+  // for the express purpose of the freaking combat drill
+  useEffect(() => {
+    if (damageModifiers.overkillBonusDamage) setGenericBonusDieCount(overkillCount)
+  }, [overkillCount, damageModifiers.overkillBonusDamage]);
 
   // ====== ROLL SUMMARY PANEL ======
   const stringifiedDamageModifiers = JSON.stringify(damageModifiers)

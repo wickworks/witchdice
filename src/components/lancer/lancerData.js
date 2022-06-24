@@ -314,6 +314,7 @@ export const DAMAGE_MODIFIERS = {
   average: false,
   bonusToBurn: false,
   maximized: false, // Only used by the brutal talent & works on nat 20s
+  overkillBonusDamage: false, // Only used by combat drill; overkills set generic die count
 }
 
 export function applyDamageMultiplier(damage, damageType, damageModifiers) {

@@ -32,7 +32,7 @@
       flex-wrap: wrap;
       flex-shrink: 1;
 
-      @include max_width { max-width: 200px; }
+      // @include max_width { max-width: 200px; }
     }
   }
 
