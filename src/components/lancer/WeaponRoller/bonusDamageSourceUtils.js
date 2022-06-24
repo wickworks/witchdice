@@ -293,7 +293,13 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
           break;
 
         case 't_heavy_gunner':
-          const coveringEffect = { damageModifiers: { half: true } }
+          const gunnerSynergies = [{
+            "locations": ["weapon"],
+            "weapon_types": ["Rifle","Cannon","Launcher","CQB","Nexus"],
+            "weapon_sizes": ["Heavy"],
+          }]
+
+          const coveringEffect = { damageModifiers: { half: true }, synergies: gunnerSynergies }
           addSourceFromTalent(sources,rank,talentData, 1, '', '', coveringEffect);
           const hammerEffect = { onHit: 'Your target is IMMOBILIZED until the end of their next turn.' }
           addSourceFromTalent(sources,rank,talentData, 2, '', '', hammerEffect);
@@ -549,7 +555,8 @@ function getBonusDamageSourcesFromWeapons(activeWeapon) {
         break;
 
       case 'mw_combat_drill':
-        sources.push( newSource('Combat Drill Overkill', 'mw_combat_drill', '20d6', 'Variable') );
+        const drillEffect = { damageModifiers: { overkillBonusDamage: true } }
+        sources.push( newSource('+1d6 Per overkill', 'mw_combat_drill', '', '', newStandardTrait(weaponData, drillEffect)) );
         break;
 
       default: break;
