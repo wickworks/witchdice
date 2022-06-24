@@ -23,6 +23,7 @@ export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, 
     ...getBonusDamageSourcesFromCoreBonuses(activeMount),
     ...getBonusDamageSourcesFromMod(activeWeapon),
     ...getBonusDamageSourcesFromSystems(damageSourceInputs.mechSystems, activeWeapon),
+    ...getBonusDamageSourcesFromWeapons(activeWeapon),
     ...getBonusDamageSourcesFromNpcFeatures(damageSourceInputs.npcFeatures, activeWeapon)
   ]
 
@@ -85,6 +86,11 @@ function newSource(name, id, diceString, damageType = '', traitData = {} ) {
     trait: traitData,
   }
 }
+
+function newStandardTrait(sourceData, additionalEffect = {}) {
+  return {...blankTrait, ...sourceData, ...additionalEffect}
+}
+
 
 //  ============================================    FRAMES    =======================================================
 function newFrameTrait(frameData, traitName) {
@@ -391,9 +397,6 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
 }
 
 //  ============================================    MODS ARE ASLEEP    =================================================
-function newModTrait(modData, modEffect = {}) {
-  return {...blankTrait, ...modData, ...modEffect}
-}
 
 function getBonusDamageSourcesFromMod(activeWeapon) {
   var sources = [];
@@ -408,18 +411,18 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
       case 'wm_thermal_charge':
         const thermalEffect = { onHit: 'Expended a thermal charge.' }
         // addSourceFromMod(sources, modData, thermalEffect)
-        sources.push( newSource(modData.name, modData.id, modData.added_damage[0].val, modData.added_damage[0].type, newModTrait(modData, thermalEffect)) );
+        sources.push( newSource(modData.name, modData.id, modData.added_damage[0].val, modData.added_damage[0].type, newStandardTrait(modData, thermalEffect)) );
         break;
 
       case 'wm_uncle_class_comp_con':
         // TWO DIFFICULTY
         const uncleEffect = { isPassive: true }
-        sources.push( newSource(modData.name, modData.id, '', '', newModTrait(modData, uncleEffect)) );
+        sources.push( newSource(modData.name, modData.id, '', '', newStandardTrait(modData, uncleEffect)) );
         break;
 
       case 'wm_shock_wreath':
         const shockEffect = { onHit: 'If target already is suffering from burn, it can additionally only draw line of sight to adjacent spaces until the end of its next turn.' }
-        sources.push( newSource(modData.name, modData.id, '1d6', 'Burn', newModTrait(modData, shockEffect)) );
+        sources.push( newSource(modData.name, modData.id, '1d6', 'Burn', newStandardTrait(modData, shockEffect)) );
         break;
 
       // case 'wm_stabilizer_mod':
@@ -431,23 +434,23 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
       case 'wm_phase_ready_mod':
         // No line of sight needed, but counts as invisible
         const phaseEffect = { isPassive: true }
-        sources.push( newSource(modData.name, modData.id, '', '', newModTrait(modData, phaseEffect)) );
+        sources.push( newSource(modData.name, modData.id, '', '', newStandardTrait(modData, phaseEffect)) );
         break;
 
       case 'wm_paracausal_mod':
         // Overkill, and its damage can’t be reduced in any way. No toggleable effect.
         const paraEffect = { isPassive: true }
-        sources.push( newSource(modData.name, modData.id, '', '', newModTrait(modData, paraEffect)) );
+        sources.push( newSource(modData.name, modData.id, '', '', newStandardTrait(modData, paraEffect)) );
         break;
 
       // wm_thermal_charge
       default:
         if (modData.added_damage) {
           modData.added_damage.forEach(addedDamage =>
-            sources.push( newSource(modData.name, modData.id, addedDamage.val, addedDamage.type, newModTrait(modData)) )
+            sources.push( newSource(modData.name, modData.id, addedDamage.val, addedDamage.type, newStandardTrait(modData)) )
           );
         } else {
-          sources.push( newSource(modData.name, modData.id, '', '', newModTrait(modData)) )
+          sources.push( newSource(modData.name, modData.id, '', '', newStandardTrait(modData)) )
         }
 
       break;
@@ -460,9 +463,6 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
 }
 
 //  =======================================    SYSTEMS (PC MECHS)  =================================================
-function newSystemTrait(systemData, systemEffect = {}) {
-  return {...blankTrait, ...systemData, ...systemEffect}
-}
 
 function getBonusDamageSourcesFromSystems(systems, activeWeapon) {
   var sources = [];
@@ -479,13 +479,13 @@ function getBonusDamageSourcesFromSystems(systems, activeWeapon) {
             const loadingTag = findTagOnWeapon(activeWeaponData, 'tg_loading')
             if (loadingTag) {
               const defaultDamageType = getDefaultWeaponDamageType(activeWeaponData)
-              sources.push( newSource(systemData.name, systemData.id, '1d6', defaultDamageType, newSystemTrait(systemData)) )
+              sources.push( newSource(systemData.name, systemData.id, '1d6', defaultDamageType, newStandardTrait(systemData)) )
             }
           }
           break;
 
         default:
-          // sources.push( newSource(systemData.name, systemData.id, '', '', newModTrait(modData)) )
+          // sources.push( newSource(systemData.name, systemData.id, '', '', newStandardTrait(modData)) )
           break;
       }
     }
@@ -532,33 +532,35 @@ function getBonusDamageSourcesFromCoreBonuses(activeMount) {
 //  ============================================    WEAPONS    =======================================================
 
 // Honestly, people can just add stuff manually using the generic dice. The on hit // effects will prompt them to.
-// function getBonusDamageSourcesFromWeapons(mountedWeaponData) {
-//   var sources = [];
-//   if (!mountedWeaponData) return sources;
-//
-//   const weaponData = findWeaponData(mountedWeaponData.id);
-//
-//   // console.log('mountedWeaponData',mountedWeaponData);
-//   // console.log('weaponData',weaponData);
-//
-//   if (weaponData) {
-//     switch (weaponData.id) {
-//       // case 'mw_combat_drill':
-//       //   sources.push( newSource('Combat Drill Overkill', 'mw_combat_drill', '20d6', 'Variable') );
-//       //   break;
-//
-//       default: break;
-//     }
-//   }
-//
-//   return sources;
-// }
+function getBonusDamageSourcesFromWeapons(activeWeapon) {
+  var sources = [];
+  if (!activeWeapon) return sources;
+
+  const weaponData = findWeaponData(activeWeapon.id);
+
+  // console.log('mountedWeaponData',mountedWeaponData);
+  // console.log('weaponData',weaponData);
+
+  if (weaponData) {
+    switch (weaponData.id) {
+      case 'mw_variable_sword':
+        const variableEffect = {requiresCrit: true, isPassive: true }
+        sources.push( newSource('Variable Sword', 'mw_variable_sword', '1d6', 'Kinetic', newStandardTrait(weaponData, variableEffect)) )
+        break;
+
+      case 'mw_combat_drill':
+        sources.push( newSource('Combat Drill Overkill', 'mw_combat_drill', '20d6', 'Variable') );
+        break;
+
+      default: break;
+    }
+  }
+
+  return sources;
+}
 
 
 //  =======================================    ITEMS (NPC TRAITS)  =================================================
-function newNpcFeatureTrait(featureData, featureEffect = {}) {
-  return {...blankTrait, ...featureData, ...featureEffect}
-}
 
 function getBonusDamageSourcesFromNpcFeatures(npcFeatures, activeWeapon) {
   var sources = [];
@@ -578,14 +580,14 @@ function getBonusDamageSourcesFromNpcFeatures(npcFeatures, activeWeapon) {
             onCrit: featureData.effect,
             defaultEnabled: true,
           }
-          sources.push( newSource(featureData.name, featureData.id, '1d6', defaultDamageType, newNpcFeatureTrait(featureData, deadlyEffect)) )
+          sources.push( newSource(featureData.name, featureData.id, '1d6', defaultDamageType, newStandardTrait(featureData, deadlyEffect)) )
           break;
 
         case 'npcf_extra_deadly_ultra':
           break
 
         default:
-          // sources.push( newSource(systemData.name, systemData.id, '', '', newModTrait(modData)) )
+          // sources.push( newSource(systemData.name, systemData.id, '', '', newStandardTrait(modData)) )
           break;
       }
     }

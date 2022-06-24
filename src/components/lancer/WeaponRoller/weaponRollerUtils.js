@@ -244,17 +244,28 @@ export function getBonusTraits(bonusSourceData) {
 }
 
 export function getActiveBonusDamageData(bonusDamageData, activeBonusSources, genericBonusDieCount, genericBonusPlus, isOverkill) {
-  var activeBonusDamageData = {};
+  var activeBonusDamageData = {
+    rolls: [],
+    traits: []
+  }
 
   if (bonusDamageData) {
-    activeBonusDamageData = deepCopy(bonusDamageData);
+    // pull out all active (or passive) TRAITS
+    bonusDamageData.traits.forEach((trait, i) => {
+      if (activeBonusSources.indexOf(trait.id) >= 0 || trait.isPassive) {
+        activeBonusDamageData.traits.push( deepCopy(trait) )
+      }
+    })
 
-    // Add all toggled non-generic sources
-    activeBonusDamageData.rolls = bonusDamageData.rolls.filter(bonusRoll =>
-      activeBonusSources.indexOf(bonusRoll.id) >= 0
-    );
+    // pull out all active (or passive) ROLLS
+    bonusDamageData.rolls.forEach(roll => {
+      const trait = bonusDamageData.traits.find(trait => trait.id === roll.id) || {}
+      if (activeBonusSources.indexOf(roll.id) >= 0 || (trait && trait.isPassive)) {
+        activeBonusDamageData.rolls.push( deepCopy(roll) )
+      }
+    })
 
-    // Take only the first X rolls from the generic bonus damage (we can tell it's the roll from the presence of a critpool)
+    // Take only the first X rolls from the generic bonus damage (we can tell it's the bonus-roll from the presence of a critpool)
     if (genericBonusDieCount) {
       const genericData = deepCopy(
         bonusDamageData.rolls.find(bonusRoll => (bonusRoll.id === GENERIC_BONUS_SOURCE.id) && bonusRoll.critPool.length > 0)
@@ -288,7 +299,7 @@ export function getActiveBonusDamageData(bonusDamageData, activeBonusSources, ge
       activeBonusDamageData.rolls.push(genericData);
     }
 
-    // Adjust the flat bonus similarly (we can tell it's the plus from the lack of a critpool)
+    // Adjust the flat bonus similarly (we can tell it's the bonus-plus from the lack of a critpool)
     if (genericBonusPlus) {
       const genericData = deepCopy(
         bonusDamageData.rolls.find(bonusRoll => (bonusRoll.id === GENERIC_BONUS_SOURCE.id) && bonusRoll.critPool.length === 0)
@@ -296,13 +307,6 @@ export function getActiveBonusDamageData(bonusDamageData, activeBonusSources, ge
       genericData.rollPool[0] = genericBonusPlus;
       activeBonusDamageData.rolls.push(genericData);
     }
-
-    //  -- EFFECTS ---
-
-    // Add all non-generic sources that are either TOGGLED or PASSIVE
-    activeBonusDamageData.traits = bonusDamageData.traits.filter(bonusTrait =>
-      activeBonusSources.indexOf(bonusTrait.id) >= 0 || bonusTrait.isPassive
-    );
   }
 
   return activeBonusDamageData
