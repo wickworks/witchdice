@@ -292,6 +292,13 @@ const WeaponRoller = ({
           </div>
         }
 
+        { weaponData.on_crit &&
+          <div className='effect-row'>
+            <div><strong>On critical hit:</strong></div>
+            <BrToParagraphs stringWithBrs={weaponData.on_crit}/>
+          </div>
+        }
+
         { weaponData.actions && weaponData.actions.map((action, i) =>
           <TraitBlock
             key={action.name}
@@ -361,7 +368,6 @@ const WeaponRoller = ({
           />
         }
       </div>
-
 
       <div className='status-bar'>
 
