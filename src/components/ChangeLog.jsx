@@ -15,8 +15,12 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-          <div className='version-label'>v0.12.1-6 — May, June 2022</div>
+          <div className='version-label'>v0.12.1-7 — May, June 2022</div>
           <ul>
+            <li>Combat drill can calculate its runaway overkill damage.</li>
+            <li>Deadly trait & variable sword get bonus damage on crits.</li>
+            <li>Correct math for stress/structure rolls for NPCs.</li>
+            <li>Fixed NPC base traits not able to be recharged.</li>
             <li>Fixed NPC custom mech images not showing up.</li>
             <li>Added monarch frame traits to weapon roller.</li>
             <li>Can broadcast summaries for weapons and tech attacks.</li>
