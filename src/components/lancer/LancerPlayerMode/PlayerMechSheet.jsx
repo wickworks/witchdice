@@ -136,6 +136,7 @@ const PlayerMechSheet = ({
   const accuracyAndDamageSourceInputs = {
     frameID: activeMech.frame,
     mechSystems: loadout.systems,
+    npcFeatures: [],
     pilotTalents: activePilot.talents,
     isImpaired: activeMech.conditions.includes('IMPAIRED'),
   }

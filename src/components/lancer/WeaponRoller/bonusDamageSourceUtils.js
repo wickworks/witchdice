@@ -5,6 +5,7 @@ import {
   findCoreBonusData,
   findSystemData,
   findWeaponData,
+  findNpcFeatureData,
   findTagOnWeapon,
   getDefaultWeaponDamageType,
   HARDCODED_TECH_TALENT_SYNERGIES,
@@ -22,6 +23,7 @@ export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, 
     ...getBonusDamageSourcesFromCoreBonuses(activeMount),
     ...getBonusDamageSourcesFromMod(activeWeapon),
     ...getBonusDamageSourcesFromSystems(damageSourceInputs.mechSystems, activeWeapon),
+    ...getBonusDamageSourcesFromNpcFeatures(damageSourceInputs.npcFeatures, activeWeapon)
   ]
 
   // filter them out by synergy e.g. melee talents only apply to melee weapons
@@ -450,7 +452,7 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
   return sources;
 }
 
-//  ============================================    SYSTEMS    =================================================
+//  =======================================    SYSTEMS (PC MECHS)  =================================================
 function newSystemTrait(systemData, systemEffect = {}) {
   return {...blankTrait, ...systemData, ...systemEffect}
 }
@@ -468,7 +470,10 @@ function getBonusDamageSourcesFromSystems(systems, activeWeapon) {
           if (activeWeapon) {
             const activeWeaponData = findWeaponData(activeWeapon.id)
             const loadingTag = findTagOnWeapon(activeWeaponData, 'tg_loading')
-            if (loadingTag) sources.push( newSource(systemData.name, systemData.id, '1d6', getDefaultWeaponDamageType(activeWeaponData), newSystemTrait(systemData)) );
+            if (loadingTag) {
+              const defaultDamageType = getDefaultWeaponDamageType(activeWeaponData)
+              sources.push( newSource(systemData.name, systemData.id, '1d6', defaultDamageType, newSystemTrait(systemData)) )
+            }
           }
           break;
 
@@ -541,3 +546,41 @@ function getBonusDamageSourcesFromCoreBonuses(activeMount) {
 //
 //   return sources;
 // }
+
+
+//  =======================================    ITEMS (NPC TRAITS)  =================================================
+function newNpcFeatureTrait(featureData, featureEffect = {}) {
+  return {...blankTrait, ...featureData, ...featureEffect}
+}
+
+function getBonusDamageSourcesFromNpcFeatures(npcFeatures, activeWeapon) {
+  var sources = [];
+  if (!npcFeatures) return sources;
+
+  npcFeatures.forEach(item => {
+    const featureData = findNpcFeatureData(item.itemID);
+    if (featureData) {
+      switch (featureData.id) {
+        case 'npcf_deadly_veteran':
+        case 'npcf_deadly_pirate':
+        case 'npcf_deadly_ultra':
+          const activeWeaponData = activeWeapon ? findNpcFeatureData(activeWeapon.id) : null
+          const defaultDamageType = getDefaultWeaponDamageType(activeWeaponData)
+          const deadlyEffect = { requiresCrit: true }
+          sources.push( newSource(featureData.name, featureData.id, '1d6', defaultDamageType, newNpcFeatureTrait(featureData, deadlyEffect)) )
+          break;
+
+        case 'npcf_extra_deadly_ultra':
+          break
+
+        default:
+          // sources.push( newSource(systemData.name, systemData.id, '', '', newModTrait(modData)) )
+          break;
+      }
+    }
+  })
+
+  // console.log('npc feature sources:', sources);
+
+  return sources;
+}

@@ -115,6 +115,7 @@ const NpcMechSheet = ({
   const accuracyAndDamageSourceInputs = {
     frameID: activeNpc.class,
     mechSystems: [],
+    npcFeatures: activeNpc.items,
     pilotTalents: [],
     isImpaired: false,
   }

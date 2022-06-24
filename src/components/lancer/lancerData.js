@@ -451,7 +451,7 @@ export function getAllWeaponRanges(weaponData) {
 export const getDefaultWeaponDamageType = (weaponData) => {
 
   var damageType = '';
-  if (weaponData.damage) {
+  if (weaponData && weaponData.damage) {
     weaponData.damage.forEach(damageValAndType => {
       // is this one of the types that bonus damage can normally become?
       if (isBasicDamageType(damageValAndType.type)) {
