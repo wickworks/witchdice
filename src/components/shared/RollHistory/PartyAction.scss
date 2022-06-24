@@ -115,7 +115,7 @@
   }
 
   .applied-conditions, .broadcast-message, .message {
-    p {
+    p, .paragraph {
       text-align: justify;
       margin: 8px 0 8px auto;
       width: fit-content;

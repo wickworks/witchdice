@@ -40,8 +40,6 @@ function getHighestRolls(sortedTotalPool, highestCount) {
 function pullOutCritGatedBonusDamage(bonusDamageData, isCrit) {
   if (isCrit) return bonusDamageData // we crit, don't have to do any gating.
 
-  console.log('is not crit, pulling out gated bonus damage....');
-
   // pull out all rolls which required crits
   let critlessRolls = []
   let critlessTraits = []
@@ -58,7 +56,6 @@ function pullOutCritGatedBonusDamage(bonusDamageData, isCrit) {
     traits: critlessTraits
   }
 
-  console.log('critGatedBonusDamageRolls',critGatedBonusDamageRolls);
   return critGatedBonusDamageRolls
 }
 

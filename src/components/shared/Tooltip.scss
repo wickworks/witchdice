@@ -105,7 +105,7 @@ $nub_width: 12px;
         @include below_max_width { font-size: 16px; }
       }
 
-      p {
+      .paragraph {
         margin-bottom: 0;
 
         &:first-child { margin-top: 8px; }

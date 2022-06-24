@@ -15,11 +15,12 @@ const BrToParagraphs = ({
   if (limitToFirstParagraph) splits = [splits[0]]
 
   // {turndownService.turndown(paragraph)}
+  // Not actual p tags anymore because validateDOMNesting kept complaining about uls inside of them
   return (
     splits.map((paragraph, i) =>
-      <p className={extraClass} key={`paragraph-${i}`}>
+      <div className={`paragraph ${extraClass}`} key={`paragraph-${i}`}>
         {ReactHtmlParser(paragraph)}
-      </p>
+      </div>
     )
   );
 }
