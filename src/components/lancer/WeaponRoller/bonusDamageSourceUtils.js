@@ -30,9 +30,10 @@ export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, 
   // filter them out by synergy e.g. melee talents only apply to melee weapons
   if (activeWeapon) {
     const weaponData = findWeaponData(activeWeapon.id)
-
     bonusDamageSources = bonusDamageSources.filter(source => {
-      const synergies = getSynergiesFor('weapon', source.trait.synergies)
+      // const synergies = getSynergiesFor(location, source.trait.synergies)
+      const synergies = source.trait.synergies || []
+
       const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
 
       // Only include sources without failing synergies
@@ -313,6 +314,27 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
         case 't_infiltrator':
           const ambushEffect = { onHit: 'Your target must succeed on a HULL save or become SLOWED, IMPAIRED, and unable to take reactions until the end of their next turn.' }
           addSourceFromTalent(sources,rank,talentData, 2, '', '', ambushEffect);
+          break;
+
+        case 't_juggernaut':
+          const juggSynergies = [{
+            "locations": ["ram"],
+          }]
+
+          const momentumEffect = { onHit: 'Juggernaut: Knockback 2.', synergies: juggSynergies }
+          addSourceFromTalent(sources,rank,talentData, 1, '', '', momentumEffect);
+
+          const kineticEffect1 = {
+            onHit: '1/round, if you Ram a target into a space occupied by another character, the other character must succeed on a Hull save or be knocked Prone.',
+            synergies: juggSynergies
+          }
+          sources.push( newSource('Mass Transfer: Character', 't_juggernaut_2_character', '', '', newTalentTrait(talentData,2,kineticEffect1)) );
+
+          const kineticEffect2 = {
+            onHit: '1/round, if you Ram a target into an obstruction large enough to stop their movement, your target takes 1d6 kinetic damage.',
+            synergies: juggSynergies
+          }
+          sources.push( newSource('Mass Transfer: Obstruction', 't_juggernaut_2_obstruction', '1d6', 'Kinetic', newTalentTrait(talentData,2,kineticEffect2)) );
           break;
 
         case 't_nuclear_cavalier':

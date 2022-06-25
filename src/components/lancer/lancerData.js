@@ -487,7 +487,7 @@ export const baselineWeapons = [
     damage: [],
     range: [{type: 'Threat', val: '1'}],
     effect: findActionData('act_ram').detail,
-    on_hit: "Prone.<br>Knockback 1 (optional).",
+    on_hit: "Prone.<br>Knockback 1.",
   },
   {
     id: 'act_grapple',

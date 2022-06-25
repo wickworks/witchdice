@@ -8,6 +8,15 @@ export function getPassingWeaponSynergies(weaponData, synergies) {
 
 export function getFailingWeaponSynergies(weaponData, synergies) {
   const failingSynergies = synergies.filter(synergy => {
+
+    // Location? — we're pretty permissive about this because damage sources are located all over.
+    // We only restrict if there's a certain *kind* of attack it needs
+    if (synergy.locations) {
+      if (synergy.locations.includes('ram') && weaponData.id !== 'act_ram') return true
+      if (synergy.locations.includes('grapple') && weaponData.id !== 'act_grapple') return true
+      if (synergy.locations.includes('improvised_attack') && weaponData.id !== 'act_improvised_attack') return true
+    }
+
     // Weapon size?
     if (synergy.weapon_sizes && synergy.weapon_sizes[0] !== 'any') {
       if (!synergy.weapon_sizes.includes(weaponData.mount)) return true // failed
