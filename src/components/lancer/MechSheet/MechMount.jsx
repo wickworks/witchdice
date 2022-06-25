@@ -302,9 +302,6 @@ const MechWeapon = ({
 
   var modData;
   if (mod) modData = findModData(mod.id);
-  console.log('mod', mod,'   date', modData);
-
-  // console.log('MechWeapon', weaponData);
   return (
     <div className='MechWeapon'>
 

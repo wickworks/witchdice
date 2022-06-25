@@ -20,7 +20,8 @@ export function getBroadcastObjectForTrait(trait) {
 		trait.frequency,
 		trait.range && trait.range.map(rangeEntry => `${rangeEntry.type} ${rangeEntry.val}`).join(', '),
 		trait.recharge && getRechargeString(trait.recharge),
-		trait.limited && `Limited ${trait.limited.max}`
+		trait.limited && `Limited ${trait.limited.max}`,
+		trait.selfHeat,
 	].filter(attr => !!attr).join(', ')
 
 	const description = [
@@ -53,6 +54,7 @@ const TraitBlock = ({
 		activation,
 		frequency,
 		range,
+		selfHeat,
 		description,
 		statblock,
 		isCP,
@@ -93,6 +95,8 @@ const TraitBlock = ({
 	const boldedDescription = getSystemDescription(trait.description, trait.isDestroyed).replace('Effect:', '<strong>Effect:</strong>')
 	const boldedTrigger = getSystemTrigger(trait.trigger).replace('Trigger:', '<strong>Trigger:</strong>')
 
+	const detailString = [activation, frequency, selfHeat].filter(detail => detail).join(', ')
+
 	const titleClass = isTitleCase ? 'title-case' : ''
 	const collapsedClass = isCollapsed ? 'collapsed' : ''
   const cpClass = isCP ? 'core-power' : ''
@@ -114,9 +118,7 @@ const TraitBlock = ({
 	        </div>
 
 					<div className='detail'>
-						{activation && <div className='activation'>{activation}</div> }
-
-						{frequency && `, ${frequency}`}
+						{detailString && <div className='detail-string'>{detailString}</div>}
 
 						{range && range.map((rangeType, i) =>
 	            <div className='range-icon' key={`range-${i}`}>

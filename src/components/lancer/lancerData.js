@@ -423,6 +423,13 @@ export const getSystemRecharge = (system, systemData) => {
   return recharge
 }
 
+export const getSelfHeat = (systemData) => {
+  let selfHeat = ''
+  const heatTag = findTagOnData(systemData, 'tg_heat_self')
+  if (heatTag) selfHeat = getTagName(heatTag, true)
+  return selfHeat
+}
+
 export const getTagName = (tag, forceCapitalize = false) => {
   const tagData = findTagData(tag.id)
   let tagString = ''

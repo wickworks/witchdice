@@ -36,6 +36,7 @@ import {
   hasTag,
   getSystemLimited,
   getSystemRecharge,
+  getSelfHeat
 } from '../lancerData.js';
 
 import { deepCopy } from '../../../utils.js';
@@ -351,6 +352,7 @@ function getSystemTraits(systems, limitedBonus) {
   systems.forEach((system, systemIndex) => {
     const systemData = findSystemData(system.id)
     const grantsTechAttacks = isSystemTechAttack(systemData)
+    const selfHeat = getSelfHeat(systemData)
 
     // passives
     if (systemData.effect) {
@@ -360,6 +362,7 @@ function getSystemTraits(systems, limitedBonus) {
       systemTraits.push({
         systemIndex: systemIndex,
         name: systemData.name.toLowerCase(),
+        selfHeat: selfHeat,
         description: systemData.effect,
         isDestructable: !hasTag(systemData, 'tg_indestructible'),
         isDestroyed: system.destroyed,
@@ -380,6 +383,7 @@ function getSystemTraits(systems, limitedBonus) {
       systemTraits.push({
         systemIndex: systemIndex,
         name: systemData.name.toLowerCase(),
+        selfHeat: selfHeat,
         description: techDescription,
         isDestructable: !hasTag(systemData, 'tg_indestructible'),
         isDestroyed: system.destroyed,
@@ -391,6 +395,7 @@ function getSystemTraits(systems, limitedBonus) {
   // ACTIONS and DEPLOYABLES second
   systems.forEach((system,systemIndex) => {
     const systemData = findSystemData(system.id)
+    const selfHeat = getSelfHeat(systemData)
 
     // deployables
     if (systemData.deployables) {
@@ -455,6 +460,7 @@ function getSystemTraits(systems, limitedBonus) {
             activation: action.activation || 'Quick',
             trigger: action.trigger,
             range: action.range,
+            selfHeat: selfHeat,
             description: action.detail,
             isDestructable: !hasTag(systemData, 'tg_indestructible'),
             isDestroyed: system.destroyed,
