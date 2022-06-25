@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import WeaponAttack from './WeaponAttack/WeaponAttack.jsx';
 import WeaponRollerSetup from './WeaponRollerSetup.jsx';
 import BonusDamageBar from './BonusDamageBar.jsx';
+import RechargeBar from '../MechSheet/RechargeBar.jsx'
 import BrToParagraphs from '../../shared/BrToParagraphs.jsx';
 import { deepCopy } from '../../../utils.js';
 
@@ -22,6 +23,8 @@ const TechRoller = ({
 
   availableBonusSources,
   accuracyAndDamageSourceInputs,
+
+  setRechargedForSystem,
 
   setRollSummaryData,
   onClear,
@@ -139,6 +142,13 @@ const TechRoller = ({
         <div className='effect-row'>
           <BrToParagraphs stringWithBrs={invadeData.detail}/>
         </div>
+
+        { invadeData.recharge &&
+          <RechargeBar
+            recharge={invadeData.recharge}
+            setRecharged={(charged) => setRechargedForSystem(charged, invadeData.systemIndex)}
+          />
+        }
 
         {availableBonusSources.length > 0 &&
           <BonusDamageBar

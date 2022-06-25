@@ -80,18 +80,8 @@
       }
     }
 
-    .recharge-bar {
-      @include text_monospace;
+    .RechargeBar {
       background-color: $pink;
-      display: flex;
-      align-items: center;
-      padding: 2px 12px;
-
-      input {
-        width: 24px;
-        height: 24px;
-        margin: 4px 12px 4px 0;
-      }
     }
 
     .MechNumberBar {

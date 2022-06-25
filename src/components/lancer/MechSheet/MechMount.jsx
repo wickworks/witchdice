@@ -19,6 +19,7 @@ import {
 import { deepCopy, capitalize } from '../../../utils.js';
 import { getNumberByTier } from '../LancerNpcMode/npcUtils.js';
 import { getBroadcastObjectForTrait } from './TraitBlock.jsx';
+import { getRechargeStatusString } from './RechargeBar.jsx';
 
 import './MechMount.scss';
 
@@ -263,6 +264,7 @@ const TechAttack = ({
   setRollSummaryData,
 }) => {
   const mountType = invadeData.activation
+  const recharge = invadeData.recharge
 
   return (
     <div className='TechAttack'>
@@ -284,6 +286,9 @@ const TechAttack = ({
 
         <div className="weapon-name-container">
           <div className="name">{invadeData.name.toLowerCase()}</div>
+          {recharge &&
+            <div className='mod'>{getRechargeStatusString(recharge)}</div>
+          }
         </div>
       </button>
     </div>

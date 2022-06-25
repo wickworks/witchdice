@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import MechNumberBar from '../MechState/MechNumberBar.jsx'
+import RechargeBar, { getRechargeString, getRechargeStatusShortString } from './RechargeBar.jsx'
 import { DestroySystemButton, BroadcastSystemButton } from './DestroySystemButton.jsx'
 import ReactHtmlParser from 'react-html-parser';
 
 import './TraitBlock.scss';
-
-function getRechargeString(recharge) {
-	if (recharge && recharge.rollTarget > 0) {
-		return `Recharge ${recharge.rollTarget}+`
-	}
-	return ''
-}
 
 function getSystemDescription(description, isDestroyed) {
 	return isDestroyed ? '[ SYSTEM DESTROYED ]' : (description || '')
@@ -138,16 +132,7 @@ const TraitBlock = ({
 						}
 
 						{recharge &&
-							<div className='recharge'>
-								{ recharge.rollTarget > 0 ?
-									<>
-										{recharge.charged ? '〔Charged〕' : 'Recharge '}
-										{recharge.rollTarget}+
-									</>
-								:
-									(recharge.charged ? '〔 Used 〕' : '〔 Available 〕')
-								}
-							</div>
+							<div className='recharge'>{getRechargeStatusShortString(recharge)}</div>
 						}
 					</div>
 				</button>
@@ -168,20 +153,7 @@ const TraitBlock = ({
 						}
 
 						{recharge && setRecharged && !isDestroyed &&
-							<div className='recharge-bar'>
-								<input type='checkbox'
-									checked={recharge.charged}
-									onChange={() => setRecharged(!recharge.charged)}
-								/>
-								{ recharge.rollTarget > 0 ?
-									<>
-										{getRechargeString(recharge)}
-										{recharge.charged ? ' 〔Charged〕' : ' 〔 ----- 〕'}
-									</>
-								:
-									(recharge.charged ? '〔 Used 〕' : '〔 Available 〕')
-								}
-							</div>
+							<RechargeBar recharge={recharge} setRecharged={setRecharged} />
 						}
 
 						{statblock && !isDestroyed &&

@@ -412,6 +412,7 @@ export const getSystemRecharge = (system, systemData) => {
     }
   }
 
+  // aka jury-rig Custom Paint Job to have a checkbox
   if (EXPENDABLE_SYSTEM_IDS.includes(systemData.id)) {
     recharge = {
       charged: !!system.uses,
@@ -421,7 +422,6 @@ export const getSystemRecharge = (system, systemData) => {
 
   return recharge
 }
-
 
 export const getTagName = (tag, forceCapitalize = false) => {
   const tagData = findTagData(tag.id)

@@ -264,13 +264,14 @@ function getNpcTechAttacks(items) {
   items.forEach((item, itemIndex) => {
     const featureData = findNpcFeatureData(item.itemID)
 
-
     if (featureData.type === 'Tech' && isNpcFeatureTechAttack(featureData)) {
       // const effectWithoutFirstSentence = featureData.effect.slice(featureData.effect.indexOf('.') + 1)
       techAttacks.push({
         name: featureData.name,
         activation: featureData.tech_type ? `${featureData.tech_type} Tech` : "Quick Tech",
         detail: setNumbersByTier(featureData.effect, item.tier),
+        recharge: getSystemRecharge(item, featureData),
+        systemIndex: itemIndex,
       })
     }
 

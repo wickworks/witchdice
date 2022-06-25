@@ -291,6 +291,7 @@ const MechSheet = ({
           sensorRange={robotStats.sensorRange}
           availableBonusSources={bonusDamageSources}
           accuracyAndDamageSourceInputs={accuracyAndDamageSourceInputs}
+          setRechargedForSystem={setRechargedForSystem}
           setRollSummaryData={setRollSummaryDataWithName}
           onClear={newAttackSummary}
         />
