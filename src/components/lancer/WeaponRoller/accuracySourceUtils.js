@@ -16,7 +16,7 @@ function addAccSourceFromTalent(sources, weaponData, talentData, rank, accBonus 
   const name = talentData.ranks[rank-1].name
   const desc = talentData.ranks[rank-1].description
 
-  const synergies = getSynergiesFor('weapon', talentData.ranks[rank-1].synergies)
+  const synergies = talentData.ranks[rank-1].synergies || []
   const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
 
   if (failingSynergies.length === 0) {
@@ -106,6 +106,9 @@ export function getAvailableAccuracySources(
           if (rank >= 1) addAccSourceFromTalent(sources, weaponData, talentData, 1)
           break;
         case 't_gunslinger':
+          if (rank >= 1) addAccSourceFromTalent(sources, weaponData, talentData, 1)
+          break;
+        case 't_juggernaut':
           if (rank >= 1) addAccSourceFromTalent(sources, weaponData, talentData, 1)
           break;
         case 't_tactician':
