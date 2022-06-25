@@ -8,7 +8,6 @@ import TechRoller from '../WeaponRoller/TechRoller.jsx';
 
 import {
   getWeaponsOnMount,
-  getModdedWeaponData,
   TechAttack,
   MechMount
 } from './MechMount.jsx';
@@ -16,6 +15,7 @@ import {
 import {
   getSystemLimited,
   getAllWeaponRanges,
+  getModdedWeaponData,
 } from '../lancerData.js';
 
 import {

@@ -1,5 +1,6 @@
 import { getIDFromStorageName } from '../../localstorage.js';
-import { capitalize } from '../../utils.js';
+import { deepCopy, capitalize } from '../../utils.js';
+import { getNumberByTier } from './LancerNpcMode/npcUtils.js';
 
 import { loadLcpData, LCP_PREFIX, STORAGE_ID_LENGTH } from './lancerLocalStorage.js';
 
@@ -193,6 +194,7 @@ export const findFrameData = (frameID) => {
   return frameData ? frameData : findFrameData('missing_frame')
 }
 
+// unless it's player-specific things should use getModdedWeaponData instead
 export const findWeaponData = (weaponID) => {
   var weaponData = allWeapons[weaponID]
   if (!weaponData) weaponData = findGameDataFromLcp('weapons', weaponID)
@@ -451,6 +453,58 @@ export function getAllWeaponRanges(weaponData) {
     weaponData.range,
     weaponData.profiles && weaponData.profiles.map(profile => profile.range)
   ].filter(range => !!range).flat(2)
+}
+
+export function getModdedWeaponData(weapon) {
+  if (!weapon) return null
+  let weaponData
+
+  // Baseline ram / improvise / grapple
+  if (weapon.id.startsWith('act_')) {
+    weaponData = deepCopy(baselineWeapons.find(baseline => baseline.id === weapon.id))
+
+  // NPC weapons
+  } else if (weapon.id.toLowerCase().includes('npcf_') || weapon.id.toLowerCase().includes('npc_')) {
+    let featureData = findNpcFeatureData(weapon.id)
+    weaponData = deepCopy(featureData)
+
+    // select the correct tier of damage
+    // (npcs only ever have one kind of damage)
+    weaponData.damage && weaponData.damage.forEach(damageObject => {
+      damageObject.val = damageObject.damage[weapon.npcTier-1]
+    });
+
+    // modify any tag values by tier
+    weaponData.tags && weaponData.tags.forEach(tagObject => {
+      if ('val' in tagObject) {
+        tagObject.val = getNumberByTier(tagObject.val, weapon.npcTier)
+      }
+    });
+
+    // split up eg "Main Cannon" into "Main" and "Cannon"
+    if (weaponData.weapon_type) {
+      [weaponData.mount, weaponData.type] = weaponData.weapon_type.split(' ')
+    }
+
+    // Say what the effect will be ahead of time.
+    weaponData.effect = [weaponData.effect, weaponData.on_hit].filter(effect => effect).join(' ')
+
+  // Normal weapon
+  } else {
+    weaponData = deepCopy( findWeaponData(weapon.id) );
+
+    // Now we actually MODIFY the weaponData to add any tags from mods.
+    // Much easier than doing it dynamically later.
+    if (weapon.mod) {
+      const modData = findModData(weapon.mod.id)
+      if (modData.added_tags) weaponData.tags = [...(weaponData.tags || []), ...modData.added_tags]
+    }
+  }
+
+  // Also mark it as, y'know, destroyed
+  if (weapon.destroyed) weaponData.destroyed = true
+
+  return weaponData;
 }
 
 // Gets the type of damage dealt by the weapon, or Variable if multiple or none.

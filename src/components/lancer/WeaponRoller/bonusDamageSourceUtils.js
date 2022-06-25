@@ -4,10 +4,10 @@ import {
   findModData,
   findCoreBonusData,
   findSystemData,
-  findWeaponData,
   findNpcFeatureData,
   findTagOnData,
   getDefaultWeaponDamageType,
+  getModdedWeaponData,
   HARDCODED_TECH_TALENT_SYNERGIES,
 } from '../lancerData.js';
 
@@ -29,11 +29,12 @@ export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, 
 
   // filter them out by synergy e.g. melee talents only apply to melee weapons
   if (activeWeapon) {
-    const weaponData = findWeaponData(activeWeapon.id)
+    const weaponData = getModdedWeaponData(activeWeapon)
     bonusDamageSources = bonusDamageSources.filter(source => {
       // const synergies = getSynergiesFor(location, source.trait.synergies)
       const synergies = source.trait.synergies || []
 
+      // console.log('weaponData',weaponData, 'synergies',synergies);
       const failingSynergies = getFailingWeaponSynergies(weaponData, synergies)
 
       // Only include sources without failing synergies
@@ -522,7 +523,7 @@ function getBonusDamageSourcesFromSystems(systems, activeWeapon) {
         case 'ms_roland_chamber':
           // is the current weapon loading?
           if (activeWeapon) {
-            const activeWeaponData = findWeaponData(activeWeapon.id)
+            const activeWeaponData = getModdedWeaponData(activeWeapon)
             const loadingTag = findTagOnData(activeWeaponData, 'tg_loading')
             if (loadingTag) {
               const defaultDamageType = getDefaultWeaponDamageType(activeWeaponData)
@@ -583,7 +584,7 @@ function getBonusDamageSourcesFromWeapons(activeWeapon) {
   var sources = [];
   if (!activeWeapon) return sources;
 
-  const weaponData = findWeaponData(activeWeapon.id);
+  const weaponData = getModdedWeaponData(activeWeapon);
 
   // console.log('mountedWeaponData',mountedWeaponData);
   // console.log('weaponData',weaponData);
@@ -614,15 +615,26 @@ function getBonusDamageSourcesFromNpcFeatures(npcFeatures, activeWeapon) {
   var sources = [];
   if (!npcFeatures) return sources;
 
+
+  const activeWeaponData = activeWeapon ? findNpcFeatureData(activeWeapon.id) : null
+  const defaultDamageType = getDefaultWeaponDamageType(activeWeaponData)
+  const meleeSynergies = [{
+    "locations": ["weapon"],
+    "weapon_types": ["Melee"],
+  }]
+
   npcFeatures.forEach(item => {
     const featureData = findNpcFeatureData(item.itemID);
     if (featureData) {
       switch (featureData.id) {
+        case 'npcf_hunt_specter':
+          const huntEffect = { synergies: meleeSynergies }
+          sources.push( newSource(featureData.name, featureData.id, '5', defaultDamageType, newStandardTrait(featureData, huntEffect)) )
+          break;
+
         case 'npcf_deadly_veteran':
         case 'npcf_deadly_pirate':
         case 'npcf_deadly_ultra':
-          const activeWeaponData = activeWeapon ? findNpcFeatureData(activeWeapon.id) : null
-          const defaultDamageType = getDefaultWeaponDamageType(activeWeaponData)
           const deadlyEffect = {
             requiresCrit: true,
             onCrit: featureData.effect,

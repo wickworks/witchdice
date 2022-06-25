@@ -1,13 +1,13 @@
 import React from 'react';
 import { DestroySystemButton, BroadcastSystemButton } from './DestroySystemButton.jsx'
 import {
-  findWeaponData,
   findCoreBonusData,
   findModData,
   findNpcFeatureData,
   getSystemLimited,
   hasTag,
   getTagName,
+  getModdedWeaponData,
   baselineWeapons
 } from '../lancerData.js';
 
@@ -23,55 +23,6 @@ import { getRechargeStatusString } from './RechargeBar.jsx';
 
 import './MechMount.scss';
 
-
-function getModdedWeaponData(weapon) {
-  if (!weapon) return null
-  let weaponData
-
-  // Baseline ram / improvise / grapple
-  if (weapon.id.startsWith('act_')) {
-    weaponData = deepCopy(baselineWeapons.find(baseline => baseline.id === weapon.id))
-
-  // NPC weapons
-  } else if (weapon.id.toLowerCase().includes('npcf_') || weapon.id.toLowerCase().includes('npc_')) {
-    let featureData = findNpcFeatureData(weapon.id)
-
-    weaponData = deepCopy(featureData)
-
-    // select the correct tier of damage
-    // npcs only ever have one kind of damage
-    weaponData.damage && weaponData.damage.forEach(damageObject => {
-      damageObject.val = damageObject.damage[weapon.npcTier-1]
-    });
-
-    // modify any tag values by tier
-    weaponData.tags && weaponData.tags.forEach(tagObject => {
-      if ('val' in tagObject) {
-        tagObject.val = getNumberByTier(tagObject.val, weapon.npcTier)
-      }
-    });
-
-    // Say what the effect will be ahead of time.
-    weaponData.effect = [weaponData.effect, weaponData.on_hit].filter(effect => effect).join(' ')
-
-  // Normal weapon
-  } else {
-    weaponData = deepCopy( findWeaponData(weapon.id) );
-
-    // Now we actually MODIFY the weaponData to add any tags from mods.
-    // Much easier than doing it dynamically later.
-    if (weapon.mod) {
-      const modData = findModData(weapon.mod.id)
-      if (modData.added_tags) weaponData.tags = [...(weaponData.tags || []), ...modData.added_tags]
-    }
-  }
-
-  // Also mark it as, y'know, destroyed
-  if (weapon.destroyed) weaponData.destroyed = true
-
-  return weaponData;
-}
-
 function getWeaponsOnMount(mount) {
   if (!mount) return
 
@@ -83,6 +34,7 @@ function getWeaponsOnMount(mount) {
 
   return weapons;
 }
+
 
 function isSystemTechAttack(systemData, onlyCheckInvade = false) {
   if (!systemData || !systemData.actions) return false
@@ -353,7 +305,6 @@ const MechWeapon = ({
 export {
   MechMount,
   TechAttack,
-  getModdedWeaponData,
   getWeaponsOnMount,
   isSystemTechAttack,
   isNpcFeatureTechAttack,
