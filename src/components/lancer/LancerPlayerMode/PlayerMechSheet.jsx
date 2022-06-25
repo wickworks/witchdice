@@ -480,10 +480,13 @@ function getPilotTraits(pilotTalents) {
     const talentData = findTalentData(pilotTalent.id)
     talentData.ranks.forEach((rankData,i) => {
       if (pilotTalent.rank > i) {
+
+        // const rankChars = ['Ⅰ','Ⅱ','Ⅲ']
+        const rankChar = "I"
         const talentTrait = {
-          name: rankData.name.toLowerCase(),
+          name: `${talentData.name.toLowerCase()} ${rankChar.repeat(i+1)}`,
           isTitleCase: true,
-          description: rankData.description,
+          description: `<b>${rankData.name}</b><br>${rankData.description}`,
         }
 
         // add any sub-actions from this trait
