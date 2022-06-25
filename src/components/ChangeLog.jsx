@@ -15,8 +15,12 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-          <div className='version-label'>v0.12.1-7 — May, June 2022</div>
+          <div className='version-label'>v0.12.1-8 — May, June 2022</div>
           <ul>
+            <li>Fixed siege ram and brawler modification of actions.</li>
+            <li>Bonus damage sources for juggernaut.</li>
+            <li>Show protocol and per/round info for NPC systems.</li>
+            <li>NPC tech attacks can recharge.</li>
             <li>Combat drill can calculate its runaway overkill damage.</li>
             <li>Deadly trait & variable sword get bonus damage on crits.</li>
             <li>Correct math for stress/structure rolls for NPCs.</li>
