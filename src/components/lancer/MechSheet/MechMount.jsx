@@ -6,7 +6,7 @@ import {
   findModData,
   findNpcFeatureData,
   getSystemLimited,
-  findTagOnWeapon,
+  hasTag,
   getTagName,
   baselineWeapons
 } from '../lancerData.js';
@@ -216,7 +216,7 @@ const MechMount = ({
       { mountedWeaponData.map(([weapon, weaponData], i) => {
         const weaponProfileData = weaponData.profiles ? weaponData.profiles[0] : weaponData
         const limited = getSystemLimited(weapon, weaponProfileData, limitedBonus)
-        const isLoaded = !!findTagOnWeapon(weaponProfileData, 'tg_loading') ? weapon.loaded : null
+        const isLoaded = hasTag(weaponProfileData, 'tg_loading') ? weapon.loaded : null
 
         // GHOST BUG: if we log mount.slots[i], it'll print fine, but accessing its props crashes it.
         const weaponMod = mount.slots[i] ? mount.slots[i].weapon.mod : null;

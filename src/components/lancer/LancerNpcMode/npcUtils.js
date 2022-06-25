@@ -1,5 +1,9 @@
 
-import { findNpcFeatureData, systemHasTag } from '../lancerData.js';
+import {
+  findNpcFeatureData,
+  findTagOnData,
+  hasTag
+} from '../lancerData.js';
 
 
 export function getStat(key, npc) {
@@ -77,7 +81,14 @@ export function setNumbersByTier(effectString, tier) {
 export function getActivationType(featureData) {
   let activation = ''
   if (featureData.type === 'Reaction') activation = 'Reaction'
-  if (systemHasTag(featureData, 'tg_quick_action')) activation = 'Quick'
-  if (systemHasTag(featureData, 'tg_full_action')) activation = 'Full'
+  if (hasTag(featureData, 'tg_protocol')) activation = 'Protocol'
+  if (hasTag(featureData, 'tg_quick_action')) activation = 'Quick'
+  if (hasTag(featureData, 'tg_full_action')) activation = 'Full'
   return activation
+}
+
+export function getUsesPerRound(featureData) {
+  const roundTag = findTagOnData(featureData, 'tg_round')
+  if (roundTag) return `${roundTag.val}/round`
+  return ''
 }

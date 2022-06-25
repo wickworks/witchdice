@@ -10,7 +10,8 @@ import {
   getMarkerFromFingerprint,
   getNpcSkillCheckAccuracy,
   setNumbersByTier,
-  getActivationType
+  getActivationType,
+  getUsesPerRound,
 } from './npcUtils.js';
 
 import {
@@ -19,7 +20,7 @@ import {
   findNpcTemplateData,
   baselineMount,
   getSystemRecharge,
-  systemHasTag,
+  hasTag,
 } from '../lancerData.js';
 
 const NpcMechSheet = ({
@@ -156,6 +157,7 @@ function getNpcTraits(items) {
         name: (item.flavorName || featureData.name).toLowerCase(),
         activation: getActivationType(featureData),
         description: setNumbersByTier([item.flavorName, featureData.effect].filter(str => str).join('<br>'), item.tier),
+        frequency: getUsesPerRound(featureData),
         isDestructable: false, // traits aren't destructable; only systems are
         isDestroyed: false,
         isTitleCase: true,
@@ -182,9 +184,9 @@ function getSystemTraits(items) {
         activation: `${item.tech_type || 'Quick'} Tech`,
         trigger: featureData.trigger,
         description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
-        frequency: featureData.frequency,
+        frequency: getUsesPerRound(featureData),
         range: featureData.range,
-        isDestructable: !systemHasTag(featureData, 'tg_indestructible'),
+        isDestructable: !hasTag(featureData, 'tg_indestructible'),
         isDestroyed: item.destroyed,
         isTitleCase: true,
         recharge: recharge,
@@ -197,9 +199,9 @@ function getSystemTraits(items) {
         activation: getActivationType(featureData),
         trigger: featureData.trigger,
         description: setNumbersByTier([item.flavorName, featureData.effect].filter(str => str).join('<br>'), item.tier),
-        frequency: featureData.frequency,
+        frequency: getUsesPerRound(featureData),
         range: featureData.range,
-        isDestructable: !systemHasTag(featureData, 'tg_indestructible'),
+        isDestructable: !hasTag(featureData, 'tg_indestructible'),
         isDestroyed: item.destroyed,
         isTitleCase: true,
         recharge: recharge,
@@ -266,18 +268,18 @@ function getNpcTechAttacks(items) {
     if (featureData.type === 'Tech' && isNpcFeatureTechAttack(featureData)) {
       // const effectWithoutFirstSentence = featureData.effect.slice(featureData.effect.indexOf('.') + 1)
       techAttacks.push({
-        "name": featureData.name,
-        "activation": featureData.tech_type ? `${featureData.tech_type} Tech` : "Quick Tech",
-        "detail": setNumbersByTier(featureData.effect, item.tier),
+        name: featureData.name,
+        activation: featureData.tech_type ? `${featureData.tech_type} Tech` : "Quick Tech",
+        detail: setNumbersByTier(featureData.effect, item.tier),
       })
     }
 
   })
 
   techAttacks.push({
-    "name": "Fragment Signal",
-    "activation": "Invade",
-    "detail": "Target player takes 2 Heat and is Impaired until the end of their next turn.",
+    name: "Fragment Signal",
+    activation: "Invade",
+    detail: "Target player takes 2 Heat and is Impaired until the end of their next turn.",
   })
 
   return techAttacks

@@ -1,6 +1,6 @@
 
 import {
-  findTagOnWeapon,
+  findTagOnData,
   findTalentData,
   findCoreBonusData,
   findModData,
@@ -75,8 +75,8 @@ export function getAvailableAccuracySources(
     addAccSource(sources, 'Soft Cover', 'cover_soft', 'Any time a target is obscured or obstructed somehow, it has soft cover, adding +1 difficulty to any ranged attacks.', -1)
 
     // -- WEAPON TAGS --
-    if (findTagOnWeapon(weaponData, 'tg_accurate'))   addAccSource(sources, 'Accurate', 'tg_accurate', 'Attacks made with this weapon receive +1 accuracy.', 1, true)
-    if (findTagOnWeapon(weaponData, 'tg_inaccurate')) addAccSource(sources, 'Inaccurate', 'tg_inaccurate', 'Attacks made with this weapon receive +1 difficulty.', -1, true)
+    if (findTagOnData(weaponData, 'tg_accurate'))   addAccSource(sources, 'Accurate', 'tg_accurate', 'Attacks made with this weapon receive +1 accuracy.', 1, true)
+    if (findTagOnData(weaponData, 'tg_inaccurate')) addAccSource(sources, 'Inaccurate', 'tg_inaccurate', 'Attacks made with this weapon receive +1 difficulty.', -1, true)
 
     // -- (initialize engagement) --
     let ignoresEngaged = false

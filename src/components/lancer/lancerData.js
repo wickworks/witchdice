@@ -372,17 +372,15 @@ export function isDamageRange(dieType) {
   return String(dieType).includes('-') || String(dieType).includes('???')
 }
 
-export const findTagOnWeapon = (weaponData, tagID) => {
-  if (weaponData.tags) {
-    const weaponTag = weaponData.tags.find(weapontag => weapontag.id === tagID);
-    return weaponTag;
+export const findTagOnData = (data, tagID) => {
+  if (data.tags) {
+    return data.tags.find(weapontag => weapontag.id === tagID)
   }
   return null;
 }
 
-export const systemHasTag = (systemData, tagID) => {
-  const tagObj = (systemData.tags && systemData.tags.find(tag => tag.id === tagID))
-  return !!tagObj
+export const hasTag = (systemData, tagID) => {
+  return !!findTagOnData(systemData, tagID)
 }
 
 export const getSystemLimited = (system, systemData, limitedBonus) => {

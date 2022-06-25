@@ -6,7 +6,7 @@ import {
   findSystemData,
   findWeaponData,
   findNpcFeatureData,
-  findTagOnWeapon,
+  findTagOnData,
   getDefaultWeaponDamageType,
   HARDCODED_TECH_TALENT_SYNERGIES,
 } from '../lancerData.js';
@@ -482,7 +482,7 @@ function getBonusDamageSourcesFromSystems(systems, activeWeapon) {
           // is the current weapon loading?
           if (activeWeapon) {
             const activeWeaponData = findWeaponData(activeWeapon.id)
-            const loadingTag = findTagOnWeapon(activeWeaponData, 'tg_loading')
+            const loadingTag = findTagOnData(activeWeaponData, 'tg_loading')
             if (loadingTag) {
               const defaultDamageType = getDefaultWeaponDamageType(activeWeaponData)
               sources.push( newSource(systemData.name, systemData.id, '1d6', defaultDamageType, newStandardTrait(systemData)) )

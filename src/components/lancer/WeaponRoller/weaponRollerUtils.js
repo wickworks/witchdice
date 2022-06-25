@@ -4,7 +4,8 @@ import {
 } from '../../../utils.js';
 
 import {
-  findTagOnWeapon,
+  hasTag,
+  findTagOnData,
   processDiceString,
   getDefaultWeaponDamageType,
   isDamageRange,
@@ -51,14 +52,14 @@ export function createNewAttack(weaponData, flatBonus, accuracyMod, consumedLock
   let newAttack = {};
 
   // Overkill?
-  newAttack.isOverkill = !!findTagOnWeapon(weaponData, 'tg_overkill');;
+  newAttack.isOverkill = hasTag(weaponData, 'tg_overkill');;
 
   // Armor piercing?
-  newAttack.isArmorPiercing = !!findTagOnWeapon(weaponData, 'tg_ap')
+  newAttack.isArmorPiercing = hasTag(weaponData, 'tg_ap')
 
   // Reliable?
   newAttack.reliable = { val: 0, type: 'Variable' };
-  const reliableTag = findTagOnWeapon(weaponData, 'tg_reliable')
+  const reliableTag = findTagOnData(weaponData, 'tg_reliable')
   if (reliableTag) {
     newAttack.reliable.val = reliableTag.val;
     newAttack.reliable.type = getDefaultWeaponDamageType(weaponData)
@@ -66,12 +67,12 @@ export function createNewAttack(weaponData, flatBonus, accuracyMod, consumedLock
 
   // Knockback?
   newAttack.knockback = 0;
-  const knockbackTag = findTagOnWeapon(weaponData, 'tg_knockback')
+  const knockbackTag = findTagOnData(weaponData, 'tg_knockback')
   if (knockbackTag) newAttack.knockback = knockbackTag.val;
 
   // Self heat?
   newAttack.selfHeat = 0;
-  const selfHeatTag = findTagOnWeapon(weaponData, 'tg_heat_self')
+  const selfHeatTag = findTagOnData(weaponData, 'tg_heat_self')
   if (selfHeatTag) newAttack.selfHeat = selfHeatTag.val;
 
   // consumedLock?

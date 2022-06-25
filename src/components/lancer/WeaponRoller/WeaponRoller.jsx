@@ -11,7 +11,7 @@ import { deepCopy } from '../../../utils.js';
 
 import {
   getDefaultWeaponDamageType,
-  findTagOnWeapon,
+  hasTag,
   GENERIC_BONUS_SOURCE,
   DAMAGE_MODIFIERS,
 } from '../lancerData.js';
@@ -210,8 +210,8 @@ const WeaponRoller = ({
     setAllAttackRolls(newData)
   }
 
-  const isLoading = !!findTagOnWeapon(currentWeaponProfile, 'tg_loading')
-  const isOverkill = !!findTagOnWeapon(currentWeaponProfile, 'tg_overkill')
+  const isLoading = hasTag(currentWeaponProfile, 'tg_loading')
+  const isOverkill = hasTag(currentWeaponProfile, 'tg_overkill')
 
   // the actual data for all the currently active bonus damages
   var activeBonusDamageData = getActiveBonusDamageData(
