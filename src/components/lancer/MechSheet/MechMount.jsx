@@ -32,18 +32,6 @@ function getModdedWeaponData(weapon) {
   if (weapon.id.startsWith('act_')) {
     weaponData = deepCopy(baselineWeapons.find(baseline => baseline.id === weapon.id))
 
-    // Modify RAM and IMPROVISED ATTACKS due to systems or talents
-    if (weapon.mod) {
-      if (weapon.id === 'act_ram' && weapon.mod === 'ms_siege_ram') {
-        weaponData.damage = [{type: 'Kinetic', val: '2'}]
-      }
-
-      if (weapon.id === 'act_improvised_attack' && weapon.mod === 't_brawler') {
-        weaponData.damage = [{type: 'Kinetic', val: '2d6+2'}]
-        weaponData.on_hit = "Knockback 2."
-      }
-    }
-
   // NPC weapons
   } else if (weapon.id.toLowerCase().includes('npcf_') || weapon.id.toLowerCase().includes('npc_')) {
     let featureData = findNpcFeatureData(weapon.id)
@@ -314,6 +302,7 @@ const MechWeapon = ({
 
   var modData;
   if (mod) modData = findModData(mod.id);
+  console.log('mod', mod,'   date', modData);
 
   // console.log('MechWeapon', weaponData);
   return (

@@ -213,6 +213,17 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
 
     if (talentData) {
       switch (talentData.id) {
+        case 't_brawler':
+          const brawlerSynergies = [{
+            "locations": ["improvised_attack"],
+          }]
+          const brawlerEffect = {
+            onHit: 'Brawler: Knockback 2.',
+            synergies: brawlerSynergies,
+            defaultEnabled: true
+          }
+          addSourceFromTalent(sources,rank,talentData, 2, '1d6+2', 'Kinetic', brawlerEffect);
+          break;
 
         case 't_brutal':
           const predEffect = { damageModifiers: { maximized: true }, isPassive: true }
@@ -500,6 +511,14 @@ function getBonusDamageSourcesFromSystems(systems, activeWeapon) {
     const systemData = findSystemData(system.id);
     if (systemData) {
       switch (systemData.id) {
+        case 'ms_siege_ram':
+          const siegeSynergies = [{
+            "locations": ["ram"],
+          }]
+          const siegeEffect = { synergies: siegeSynergies, defaultEnabled: true }
+          sources.push( newSource(systemData.name, systemData.id, '2', 'Kinetic', newStandardTrait(systemData, siegeEffect)) )
+          break;
+
         case 'ms_roland_chamber':
           // is the current weapon loading?
           if (activeWeapon) {

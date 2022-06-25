@@ -127,7 +127,7 @@ const PlayerMechSheet = ({
     systems: getSystemTraits([...loadout.systems, ...loadout.integratedSystems], robotStats.limitedBonus),
     pilotTalents: getPilotTraits(activePilot.talents),
 
-    mounts: [...getMountsFromLoadout(loadout), modifiedBaselineMount(activePilot, loadout)],
+    mounts: [...getMountsFromLoadout(loadout), deepCopy(baselineMount)],
     invades: getInvadeAndTechAttacks(loadout, activePilot.talents),
   }
 
@@ -511,23 +511,6 @@ function getPilotTraits(pilotTalents) {
 
   return pilotTraits
 }
-
-
-// Special case: modify RAM and IMPROVISED ATTACKS due to systems or talents
-function modifiedBaselineMount(activePilot, loadout) {
-  let mount = deepCopy(baselineMount)
-  mount.slots.forEach(slot => {
-    if (slot.weapon.id === 'act_ram' && loadout.systems.find(system => system.id === 'ms_siege_ram')) {
-      slot.weapon.mod = 'ms_siege_ram'
-    }
-
-    if (slot.weapon.id === 'act_improvised_attack' && activePilot.talents.find(talent => (talent.id === 't_brawler' && talent.rank >= 2))) {
-      slot.weapon.mod = 't_brawler'
-    }
-  })
-  return mount
-}
-
 
 export function getMountsFromLoadout(loadout) {
   let mounts = [];
