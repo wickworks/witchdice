@@ -159,7 +159,7 @@ const TraitBlock = ({
 						}
 
 						{statblock && !isDestroyed &&
-							<div className='statblock-bar'>
+							<div className={`statblock-bar ${subtraitClass}`}>
 								<div className='stat' title="E-Defense">
 									<span className='asset edef'/>
 									<span>{statblock.edef || 10}</span>

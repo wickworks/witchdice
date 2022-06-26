@@ -352,63 +352,55 @@ function getSystemTraits(systems, limitedBonus) {
   systems.forEach((system, systemIndex) => {
     const systemData = findSystemData(system.id)
     const grantsTechAttacks = isSystemTechAttack(systemData)
+    const grantsInvades = isSystemTechAttack(systemData, true)
     const selfHeat = getSelfHeat(systemData)
+    let recharge = getSystemRecharge(system, systemData)
+    let limited = getSystemLimited(system, systemData, limitedBonus)
 
-    // passives
-    if (systemData.effect) {
-      let recharge = getSystemRecharge(system, systemData)
-      let limited = getSystemLimited(system, systemData, limitedBonus)
+    let systemTrait = {
+      systemIndex: systemIndex,
+      name: systemData.name.toLowerCase(),
+      selfHeat: selfHeat,
+      description: systemData.effect,
+      isDestructable: !hasTag(systemData, 'tg_indestructible'),
+      isDestroyed: system.destroyed,
+      recharge: recharge,
+      limited: limited,
+      isTitleCase: true,
+    }
+    let systemSubTraits = []
 
-      systemTraits.push({
-        systemIndex: systemIndex,
-        name: systemData.name.toLowerCase(),
-        selfHeat: selfHeat,
-        description: systemData.effect,
-        isDestructable: !hasTag(systemData, 'tg_indestructible'),
-        isDestroyed: system.destroyed,
-        recharge: recharge,
-        limited: limited,
-        isTitleCase: true,
-      })
+    // system actions
+    if (systemData.actions) {
+      // (invades & tech attacks go into the mounts list; only allow non-attack tech here)
+      if (!grantsTechAttacks) {
+        systemData.actions.forEach((action, i) => {
+          if (action.name && action.name.includes('Grenade')) limited.icon = 'grenade'
+
+          systemSubTraits.push({
+            systemIndex: systemIndex,
+            name: (action.name || systemData.name).toLowerCase(),
+            activation: action.activation || 'Quick',
+            trigger: action.trigger,
+            range: action.range,
+            selfHeat: selfHeat,
+            description: action.detail,
+            isDestroyed: system.destroyed,
+            isTitleCase: true,
+          })
+        })
+      }
     }
 
-    // tech actions
-    if (!systemData.effect && grantsTechAttacks) {
-      const isInvade = isSystemTechAttack(systemData, true)
-      const techDescription = isInvade ?
-        `Gain the following options for Invade: ${systemData.actions.map(action => action.name).join(', ')}`
-      :
-        `Gain the following tech actions: ${systemData.actions.map(action => action.name || systemData.name).join(', ')}`
-
-      systemTraits.push({
-        systemIndex: systemIndex,
-        name: systemData.name.toLowerCase(),
-        selfHeat: selfHeat,
-        description: techDescription,
-        isDestructable: !hasTag(systemData, 'tg_indestructible'),
-        isDestroyed: system.destroyed,
-        isTitleCase: true,
-      })
-    }
-  })
-
-  // ACTIONS and DEPLOYABLES second
-  systems.forEach((system,systemIndex) => {
-    const systemData = findSystemData(system.id)
-    const selfHeat = getSelfHeat(systemData)
-
-    // deployables
+    // system deployables
     if (systemData.deployables) {
-      let limited = getSystemLimited(system, systemData, limitedBonus)
-
       systemData.deployables.forEach((deployable, i) => {
         if (deployable.type === 'Mine') limited.icon = 'mine'
 
-        let subTraits = null;
+        let deployableSubTraits = [];
         if (deployable.actions) {
-          subTraits = []
           deployable.actions.forEach(action => {
-            subTraits.push({
+            deployableSubTraits.push({
               systemIndex: systemIndex,
               name: action.name,
               activation: action.activation || 'Quick',
@@ -427,52 +419,46 @@ function getSystemTraits(systems, limitedBonus) {
           size: deployable.size || 1
         } : null
 
-
-        systemTraits.push({
+        systemSubTraits.push({
           systemIndex: systemIndex,
           name: deployable.name,
           activation: deployable.activation || 'Deployable',
           trigger: deployable.trigger,
           range: deployable.range,
           description: deployable.detail,
-          isDestructable: !hasTag(systemData, 'tg_indestructible'),
-          isDestroyed: system.destroyed,
-          limited: limited,
           statblock: deployableStatblock,
-          subTraits: subTraits,
+          subTraits: deployableSubTraits,
           isTitleCase: true,
         })
       })
     }
 
-    // system actions & actions from deployables
-    if (systemData.actions) {
-      let limited = getSystemLimited(system, systemData, limitedBonus)
+    // -- post-processing depending on the subtraits ---
+    // YO if we only have one action/deployable and nothing to say about it, just use that subcard instead of us
+    if (!systemTrait.effect && systemSubTraits.length === 1) {
+      systemTrait = {...systemSubTraits[0]}
+    } else {
+      // add actions and deployable sub cards
+      systemTrait.subTraits = systemSubTraits
 
-      // (invades go into the mounts list, but quick tech is fine here)
-      if (!isSystemTechAttack(systemData)) {
-        systemData.actions.forEach((action, i) => {
-          if (action.name && action.name.includes('Grenade')) limited.icon = 'grenade'
-
-          systemTraits.push({
-            systemIndex: systemIndex,
-            name: (action.name || systemData.name).toLowerCase(),
-            activation: action.activation || 'Quick',
-            trigger: action.trigger,
-            range: action.range,
-            selfHeat: selfHeat,
-            description: action.detail,
-            isDestructable: !hasTag(systemData, 'tg_indestructible'),
-            isDestroyed: system.destroyed,
-            limited: limited,
-            isTitleCase: true,
-          })
-        })
-      }
+      // harvest any action types of the subtraits
+      const activationTypes = [...new Set([
+        systemTrait.activation,
+        ...systemSubTraits.map(subtrait => subtrait.activation)
+      ])].filter(activation => activation)
+      systemTrait.activation = activationTypes.join(', ')
     }
-  })
 
-  // console.log('systemTraits',systemTraits);
+    // tech ATTACKS — they're described down in the attacks section, no need to repeat them here.
+    if (grantsTechAttacks) {
+      systemTrait.description = grantsInvades ?
+        `Gain the following options for Invade: ${systemData.actions.map(action => action.name).join(', ')}`
+      :
+        `Gain the following tech attacks: ${systemData.actions.map(action => action.name || systemData.name).join(', ')}`
+    }
+
+    systemTraits.push(systemTrait)
+  })
 
   return systemTraits
 }
