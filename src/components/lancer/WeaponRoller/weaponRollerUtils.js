@@ -252,7 +252,7 @@ export function getActiveBonusDamageData(bonusDamageData, activeBonusSources, ge
 
   if (bonusDamageData) {
     // pull out all active (or passive) TRAITS
-    bonusDamageData.traits.forEach((trait, i) => {
+    bonusDamageData.traits.forEach(trait => {
       if (activeBonusSources.indexOf(trait.id) >= 0 || trait.isPassive) {
         activeBonusDamageData.traits.push( deepCopy(trait) )
       }

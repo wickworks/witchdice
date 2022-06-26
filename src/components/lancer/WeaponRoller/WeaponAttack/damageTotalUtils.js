@@ -43,12 +43,16 @@ function pullOutCritGatedBonusDamage(bonusDamageData, isCrit) {
   // pull out all rolls which required crits
   let critlessRolls = []
   let critlessTraits = []
-  bonusDamageData.rolls.forEach((roll, i) => {
-    const trait = bonusDamageData.traits[i]
-    if (trait && !trait.requiresCrit) {
-      critlessRolls.push(roll)
-      critlessTraits.push(trait)
-    }
+
+  // pull out all TRAITS that don't need crits
+  bonusDamageData.traits.forEach(trait => {
+    if (!trait.requiresCrit) critlessTraits.push(trait)
+  })
+
+  // pull out all ROLLS that don't need crits
+  bonusDamageData.rolls.forEach(roll => {
+    const trait = bonusDamageData.traits.find(trait => trait.id === roll.id) || {}
+    if (!trait || !trait.requiresCrit) critlessRolls.push(roll)
   })
 
   const critGatedBonusDamageRolls = {
