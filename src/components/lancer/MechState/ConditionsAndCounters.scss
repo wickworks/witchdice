@@ -93,6 +93,13 @@
 				background-color: $rust;
 				padding: 6px 12px;
 				border-radius: 0 14px 0 0;
+				display: flex;
+				justify-content: space-between;
+
+				span.type {
+					color: $pink;
+					font-style: italic;
+				}
 			}
 
 			.text {

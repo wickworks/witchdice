@@ -104,10 +104,15 @@ const ConditionsAndCounters = ({
 const Condition = ({
   condition
 }) => {
+  const conditionData = findStatusData(condition)
+
   return (
     <div className='Condition'>
-      <div className='label'>{condition}</div>
-      <div className='text'>{findStatusData(condition).terse}</div>
+      <div className='label'>
+        <span className='name'>{condition}</span>
+        <span className='type'>{conditionData.type.toLowerCase()}</span>
+      </div>
+      <div className='text'>{conditionData.terse}</div>
     </div>
   );
 }
