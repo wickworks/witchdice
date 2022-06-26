@@ -160,19 +160,19 @@ const TraitBlock = ({
 
 						{statblock && !isDestroyed &&
 							<div className='statblock-bar'>
-								<div className='stat'>
+								<div className='stat' title="E-Defense">
 									<span className='asset edef'/>
 									<span>{statblock.edef || 10}</span>
 								</div>
-								<div className='stat'>
+								<div className='stat' title="Evasion">
 								<span className='asset evasion'/>
 									<span>{statblock.evasion || 5}</span>
 								</div>
-								<div className='stat'>
+								<div className='stat' title="HP">
 									<span className='asset heart'/>
 									<span>{statblock.hp || 10*(statblock.size || 1)}</span>
 								</div>
-								<div className='stat'>
+								<div className='stat' title="Size">
 									<span className='asset hex'/>
 									<span>{statblock.size || 1}</span>
 								</div>
