@@ -178,10 +178,7 @@ const Main = ({
       const dbRollsRef = getFirebaseDB().child('rolls').child(partyRoom);
 
       // ~~ new text broadcast ~~ //
-      if (partyLastAttackTimestamp === 0) {
-        dbRollsRef.push(actionData) // we don't track the key because we can't update broadcasts
-        // console.log('       pushed  new text broadcast to firebase', message);
-      }
+      dbRollsRef.push(actionData) // we don't track the key because we can't update broadcasts
     } else {
       // add it to the single-player roll history
       console.log('setting single-player text broadcast history ',actionData);
