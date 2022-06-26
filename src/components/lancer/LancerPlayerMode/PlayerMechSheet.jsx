@@ -284,6 +284,50 @@ const PlayerMechSheet = ({
 function getFrameTraits(traitList, coreSystem) {
   let frameTraits = []
 
+  // -- ACTIVE CORE SYSTEM --
+  let activeTrait = {
+    name: coreSystem.active_name,
+    activation: `Active (1 CP), ${coreSystem.activation}`,
+    description: coreSystem.active_effect,
+    isCP: true,
+  }
+  if (coreSystem.active_actions) {
+    activeTrait.subTraits = []
+    coreSystem.active_actions.forEach(activeAction => {
+      activeTrait.subTraits.push({
+        name: activeAction.name,
+        activation: activeAction.activation,
+        trigger: activeAction.trigger,
+        description: activeAction.detail,
+      })
+    })
+  }
+  frameTraits.push(activeTrait)
+
+  // -- PASSIVE CORE SYSTEM --
+  if (coreSystem.passive_effect || coreSystem.passive_actions) {
+    let passiveTrait = {
+      name: coreSystem.passive_name,
+      description: coreSystem.passive_effect,
+    }
+    if (coreSystem.passive_actions) {
+      passiveTrait.subTraits = []
+      coreSystem.passive_actions.forEach(passiveAction => {
+        passiveTrait.subTraits.push({
+          name: passiveAction.name,
+          activation: passiveAction.activation,
+          trigger: passiveAction.trigger,
+          description: passiveAction.detail,
+        })
+      })
+    }
+    passiveTrait.activation = getActivationTypes(passiveTrait)
+    frameTraits.push(passiveTrait)
+  }
+
+
+
+  // -- FRAME TRAITS --
   traitList.forEach(trait => {
     frameTraits.push({
       name: trait.name.toLowerCase(),
@@ -303,42 +347,6 @@ function getFrameTraits(traitList, coreSystem) {
       )
     }
   })
-
-  if (coreSystem.passive_effect) {
-    frameTraits.push({
-      name: coreSystem.passive_name,
-      description: coreSystem.passive_effect,
-    })
-  }
-
-  if (coreSystem.passive_actions) {
-    coreSystem.passive_actions.forEach(passiveAction => {
-      frameTraits.push({
-        name: passiveAction.name,
-        activation: passiveAction.activation,
-        trigger: passiveAction.trigger,
-        description: passiveAction.detail,
-      })
-    })
-  }
-
-  frameTraits.push({
-    name: coreSystem.active_name,
-    activation: `Active (1 CP), ${coreSystem.activation}`,
-    description: coreSystem.active_effect,
-    isCP: true,
-  })
-
-  if (coreSystem.active_actions) {
-    coreSystem.active_actions.forEach(activeAction => {
-      frameTraits.push({
-        name: activeAction.name,
-        activation: activeAction.activation,
-        trigger: activeAction.trigger,
-        description: activeAction.detail,
-      })
-    })
-  }
 
   return frameTraits
 }
@@ -442,11 +450,7 @@ function getSystemTraits(systems, limitedBonus) {
       systemTrait.subTraits = systemSubTraits
 
       // harvest any action types of the subtraits
-      const activationTypes = [...new Set([
-        systemTrait.activation,
-        ...systemSubTraits.map(subtrait => subtrait.activation)
-      ])].filter(activation => activation)
-      systemTrait.activation = activationTypes.join(', ')
+      systemTrait.activation = getActivationTypes(systemTrait)
     }
 
     // tech ATTACKS — they're described down in the attacks section, no need to repeat them here.
@@ -510,6 +514,19 @@ function getPilotTraits(pilotTalents) {
   })
 
   return pilotTraits
+}
+
+// return a string of all activation types of a trait and its subs (e.g. "Quick, Full")
+function getActivationTypes(trait) {
+  if (!trait.subTraits || trait.subTraits.length === 0) return trait.activation || ''
+
+  const activationSet = [
+    ...new Set([
+      trait.activation,
+      ...trait.subTraits.map(subtrait => subtrait.activation)
+    ])
+  ]
+  return activationSet.filter(activation => activation).join(', ')
 }
 
 export function getMountsFromLoadout(loadout) {
