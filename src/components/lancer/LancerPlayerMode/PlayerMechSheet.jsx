@@ -337,19 +337,17 @@ function getFrameTraits(traitList, coreSystem) {
     frameTraits.push(passiveTrait)
   }
 
-
-
   // -- FRAME TRAITS --
   traitList.forEach(trait => {
-    frameTraits.push({
+    let traitTrait = {
       name: trait.name.toLowerCase(),
       isTitleCase: true,
       description: trait.description,
-    })
-
+    }
     if (trait.actions) {
+      traitTrait.subTraits = []
       trait.actions.forEach(traitAction =>
-        frameTraits.push({
+        traitTrait.subTraits.push({
           name: traitAction.name,
           activation: traitAction.activation,
           trigger: traitAction.trigger,
@@ -358,6 +356,13 @@ function getFrameTraits(traitList, coreSystem) {
         })
       )
     }
+    // YO if we only have one action/deployable and nothing to say about it, just use that subcard instead of us
+    if (!traitTrait.description && traitTrait.subTraits.length === 1) {
+      traitTrait = {...traitTrait.subTraits[0]}
+      traitTrait.subTraits = []
+    }
+    traitTrait.activation = getActivationTypes(traitTrait)
+    frameTraits.push(traitTrait)
   })
 
   return frameTraits
