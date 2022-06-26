@@ -484,15 +484,17 @@ function getPilotTraits(pilotTalents) {
 
   pilotTalents.forEach(pilotTalent => {
     const talentData = findTalentData(pilotTalent.id)
+
+    let talentRankTraits = [];
     talentData.ranks.forEach((rankData,i) => {
       if (pilotTalent.rank > i) {
 
         // const rankChars = ['Ⅰ','Ⅱ','Ⅲ']
         const rankChar = "I"
         const talentTrait = {
-          name: `${talentData.name.toLowerCase()} ${rankChar.repeat(i+1)}`,
+          name: `${rankChar.repeat(i+1)} — ${rankData.name.toLowerCase()}`,
+          description: rankData.description,
           isTitleCase: true,
-          description: `<b>${rankData.name}</b><br>${rankData.description}`,
         }
 
         // add any sub-actions from this trait
@@ -510,9 +512,15 @@ function getPilotTraits(pilotTalents) {
           )
         }
 
-        pilotTraits.push(talentTrait)
+        talentRankTraits.push(talentTrait)
       }
     });
+
+    pilotTraits.push({
+      name: `${talentData.name.toLowerCase()} ${pilotTalent.rank}`,
+      subTraits: talentRankTraits,
+      isTitleCase: true,
+    })
   })
 
   return pilotTraits
