@@ -301,6 +301,12 @@ function getFrameTraits(traitList, coreSystem) {
         description: activeAction.detail,
       })
     })
+
+    // YO if we only have one action/deployable and nothing to say about it, just use that subcard instead of us
+    if (!activeTrait.description && activeTrait.subTraits.length === 1) {
+      activeTrait = {...activeTrait.subTraits[0]}
+      activeTrait.subTraits = []
+    }
   }
   frameTraits.push(activeTrait)
 
@@ -309,6 +315,7 @@ function getFrameTraits(traitList, coreSystem) {
     let passiveTrait = {
       name: coreSystem.passive_name,
       description: coreSystem.passive_effect,
+      isCP: true,
     }
     if (coreSystem.passive_actions) {
       passiveTrait.subTraits = []
@@ -320,6 +327,11 @@ function getFrameTraits(traitList, coreSystem) {
           description: passiveAction.detail,
         })
       })
+    }
+    // YO if we only have one action/deployable and nothing to say about it, just use that subcard instead of us
+    if (!passiveTrait.description && passiveTrait.subTraits.length === 1) {
+      passiveTrait = {...passiveTrait.subTraits[0]}
+      passiveTrait.subTraits = []
     }
     passiveTrait.activation = getActivationTypes(passiveTrait)
     frameTraits.push(passiveTrait)
@@ -443,7 +455,7 @@ function getSystemTraits(systems, limitedBonus) {
 
     // -- post-processing depending on the subtraits ---
     // YO if we only have one action/deployable and nothing to say about it, just use that subcard instead of us
-    if (!systemTrait.effect && systemSubTraits.length === 1) {
+    if (!systemTrait.description && systemSubTraits.length === 1) {
       systemTrait = {...systemSubTraits[0]}
     } else {
       // add actions and deployable sub cards

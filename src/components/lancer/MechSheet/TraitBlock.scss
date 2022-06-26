@@ -19,17 +19,30 @@
       border-radius: 0 14px 0 0;
 
       &.title-case { text-transform: capitalize; }
-      &.action, &.reaction { background-color: $crushed_velvet; }
-      &.core-power { background-color: $rust_dark; }
+      &:hover { filter: brightness(120%); } // SLIGHTLY lighter rust
 
-      &:hover { background-color: #9b371e; } // SLIGHTLY lighter rust
+      &.quick, &.full, &.deployable {
+        background-color: $rust;
+      }
+
+      &.reaction, &.protocol, &.free {
+        background-color: $crushed_velvet_dark;
+      }
 
       &.collapsed {
         background-color: $parchment_dark;
         color: $soft_black;
         border-radius: 0 14px 0 7px;
 
-        &:hover { background-color: $mud_light; }
+        &:hover { filter: brightness(80%); } // SLIGHTLY lighter rust
+
+        &.quick, &.full, &.deployable {
+          background-color: $pink;
+        }
+
+        &.reaction, &.protocol, &.free {
+          background-color: $concrete_violet_light;
+        }
 
         .detail .range-icon .asset { filter: none; }
       }

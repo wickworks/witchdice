@@ -103,7 +103,7 @@ const TraitBlock = ({
 	const destroyedClass = isDestroyed ? 'destroyed' : ''
 	const activationClass = activation ? activation.toLowerCase() : ''
 	const subtraitClass = isSubtrait ? 'subtrait' : ''
-	const wideClass = (systemDescription.length > 220 || subTraits) ? 'wide' : ''
+	const wideClass = (systemDescription.length > 220 || (subTraits && subTraits.length > 0)) ? 'wide' : ''
 
   return (
 		<div className={`TraitBlock ${collapsedClass} ${subtraitClass} ${wideClass}`}>
