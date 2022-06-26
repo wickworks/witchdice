@@ -23,7 +23,8 @@
 
     > .TraitBlock {
       // sort the open ones to the end
-      order: 1;
+      order: 2;
+      &.wide { order: 1; }
       &.collapsed { order: 0; }
 
       @include max_width {
