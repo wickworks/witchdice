@@ -17,6 +17,9 @@ const ChangeLog = () => {
 
           <div className='version-label'>v0.12.1-8 — May, June 2022</div>
           <ul>
+            <li>Added color to cards depending on their action type.</li>
+            <li>Fixed bug where broadcasts didn't work while attacking.</li>
+            <li>Condensed cards into 1/system.</li>
             <li>Fixed siege ram and brawler modification of actions.</li>
             <li>Bonus damage sources for juggernaut.</li>
             <li>Show protocol and per/round info for NPC systems.</li>
