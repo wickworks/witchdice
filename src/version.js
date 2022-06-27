@@ -1,6 +1,6 @@
 
 // minor version increase clear out monsters, major ones clear characters
-const CURRENT_VERSION = '0.12.9';
+const CURRENT_VERSION = '0.12.10';
 
 export {
   CURRENT_VERSION

@@ -15,8 +15,10 @@ const ChangeLog = () => {
       {isOpen &&
         <div className="change-container">
 
-          <div className='version-label'>v0.12.1-8 — May, June 2022</div>
+          <div className='version-label'>v0.12.1-10 — May, June 2022</div>
           <ul>
+            <li>Added status/condition indicator for statuses/conditions.</li>
+            <li>Added a generic action "cheat sheet".</li>
             <li>Added color to cards depending on their action type.</li>
             <li>Fixed bug where broadcasts didn't work while attacking.</li>
             <li>Condensed cards into 1/system.</li>
