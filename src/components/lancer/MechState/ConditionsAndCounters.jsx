@@ -17,7 +17,7 @@ const ConditionsAndCounters = ({
   activeConditions,
   activeCounters,
 	updateMechState,
-  setRollSummaryDataWithName = () => {}
+  setRollSummaryData,
 }) => {
   const [genericActionsOpen, setGenericActionsOpen] = useState(false)
 
@@ -114,7 +114,7 @@ const ConditionsAndCounters = ({
         <MechTraits
           sectionTitle=''
           frameTraits={genericActionTraits}
-          setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
+          setRollSummaryData={setRollSummaryData}
         />
       }
     </div>

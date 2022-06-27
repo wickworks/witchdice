@@ -30,6 +30,7 @@ $mud_light: #bcab8a;
 $mud: #7b705d;
 $pumpkin: #dc9c43;
 
+$periwinkle_very_light: #b7cdd7;
 $periwinkle_light: #9ab8e1;
 $periwinkle: #4b6faa;
 $periwinkle_dark: #202552;
@@ -49,7 +50,7 @@ $soft_white: #f1f1f1;
 $faded_gold: #f9cc9d;
 $faded_grey: #e8dac1;
 $faded_pink: #e5c4b1;
-$faded_green: #b9d9cb;
+$faded_green: #b9d9cb; // b7d7b8
 
 @mixin shadow {
   box-shadow: 0 1px 3px 1px rgba(60, 64, 67, 0.15), 0 1px 2px 0 rgba(60, 64, 67, 0.3);

@@ -19,30 +19,25 @@
       border-radius: 0 14px 0 0;
 
       &.title-case { text-transform: capitalize; }
-      &:hover { filter: brightness(120%); } // SLIGHTLY lighter rust
+      &:hover { filter: brightness(120%); }
 
-      &.quick, &.full, &.deployable {
-        background-color: $rust;
-      }
-
-      &.reaction, &.protocol, &.free {
-        background-color: $crushed_velvet_dark;
-      }
+      &.full { background-color: $crushed_velvet_dark; border-color: $crushed_velvet_dark; }
+      &.quick, &.deployable { background-color: $rust; border-color: $rust; }
+      &.reaction, &.protocol, &.free { background-color: $olive_dark; border-color: $olive_dark; }
+      &.tech { background-color: $periwinkle; border-color: $periwinkle; color: white; }
+      // &.tech { color: $periwinkle; }
 
       &.collapsed {
         background-color: $parchment_dark;
         color: $soft_black;
         border-radius: 0 14px 0 7px;
 
-        &:hover { filter: brightness(80%); } // SLIGHTLY lighter rust
+        &:hover { filter: brightness(80%); }
 
-        &.quick, &.full, &.deployable {
-          background-color: $pink;
-        }
-
-        &.reaction, &.protocol, &.free {
-          background-color: $concrete_violet_light;
-        }
+        &.full { background-color: $concrete_violet_light; }
+        &.quick, &.deployable { background-color: $pink; }
+        &.reaction, &.protocol, &.free { background-color: $olive_light; }
+        &.tech { background-color: $periwinkle_very_light; }
 
         .detail .range-icon .asset { filter: none; }
       }
@@ -119,8 +114,8 @@
       background-color: $parchment_dark;
 
       &.subtrait {
-        border-left: 2px solid $rust;
-        border-right: 2px solid $rust;
+        border-left: 2px solid; // color inherited
+        border-right: 2px solid;
       }
 
       .stat {
@@ -156,7 +151,7 @@
       }
 
       &.subtrait {
-        border: 2px solid $rust;
+        border: 2px solid; // color set by defaults up above
         border-top: none;
       }
 

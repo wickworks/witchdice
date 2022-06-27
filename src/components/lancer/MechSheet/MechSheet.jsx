@@ -175,6 +175,7 @@ const MechSheet = ({
           activeConditions={robotState.conditions}
           activeCounters={robotState.counters}
           updateMechState={updateMechState}
+          setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
         />
 
         { robotLoadout.pilotTalents.length > 0 &&
