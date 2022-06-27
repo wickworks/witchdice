@@ -16,9 +16,11 @@ const MechTraits = ({
 
   return (
 		<div className='MechTraits'>
-			<button className="label" onClick={() => setDefaultCollapsed(!defaultCollapsed)}>
-				{sectionTitle}
-			</button>
+			{ sectionTitle &&
+				<button className="label" onClick={() => setDefaultCollapsed(!defaultCollapsed)}>
+					{sectionTitle}
+				</button>
+			}
 
     	<div className='traits-container'>
 				{ frameTraits.map((trait, index) =>

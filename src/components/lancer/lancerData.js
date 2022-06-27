@@ -16,7 +16,7 @@ function hashLcpData(lcpData) {
 }
 
 const data = hashLcpData(require('lancer-data'));
-const allActions = data.actions;
+export const allActions = data.actions;
 const allWeapons = data.weapons;
 const allSkills = data.skills;
 const allPilotGear = data.pilot_gear;

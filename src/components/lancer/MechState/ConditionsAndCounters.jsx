@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select'
 import TextInput from '../../shared/TextInput.jsx';
+import MechTraits from '../MechSheet/MechTraits.jsx';
 import { getOptionFromValue, deepCopy } from '../../../utils.js';
 
 import './ConditionsAndCounters.scss';
@@ -10,18 +11,21 @@ import {
   findStatusData,
 } from '../lancerData.js';
 
+import { genericActionTraits } from '../lancerActionTraits.js';
 
 const ConditionsAndCounters = ({
   activeConditions,
   activeCounters,
-	updateMechState
+	updateMechState,
+  setRollSummaryDataWithName = () => {}
 }) => {
+  const [genericActionsOpen, setGenericActionsOpen] = useState(false)
+
   const allStatuses = findAllStatusData()
   const conditionOptions = Object.values(allStatuses).map(condition => ({
     "value" : condition.name,
     "label" : condition.name
   }))
-
 
   const setActiveConditions = (conditions) => updateMechState({conditions: conditions})
   const setCustomCounters = (custom_counters) => updateMechState(
@@ -65,7 +69,6 @@ const ConditionsAndCounters = ({
   return (
     <div className='ConditionsAndCounters'>
       <div className='controls-container'>
-
         <Select
           isMulti
           placeholder='Add Condition'
@@ -80,6 +83,15 @@ const ConditionsAndCounters = ({
           Add Custom Counter
           <div className='asset plus' />
         </button>
+
+        <label className={`open-generic-actions ${genericActionsOpen ? 'open' : ''}`}>
+          <input
+            type="checkbox"
+            checked={genericActionsOpen}
+            onChange={() => setGenericActionsOpen(!genericActionsOpen)}
+          />
+          <div className='name'>Action Cheatsheet</div>
+        </label>
       </div>
 
 
@@ -97,6 +109,14 @@ const ConditionsAndCounters = ({
           />
         )}
       </div>
+
+      {genericActionsOpen &&
+        <MechTraits
+          sectionTitle=''
+          frameTraits={genericActionTraits}
+          setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
+        />
+      }
     </div>
   );
 }

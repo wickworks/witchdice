@@ -5,7 +5,7 @@
 
 	.controls-container {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 		grid-auto-flow: dense;
 		// align-items: center;
 		column-gap: 20px;
@@ -72,6 +72,37 @@
 				// filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
 			}
 		}
+
+		label.open-generic-actions {
+			@include text_monospace;
+			display: block;
+			padding: 4px 6px;
+			border-radius: 4px;
+			background-color: $parchment_dark;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+      cursor: pointer;
+
+			&:hover { background-color: $mud_light; }
+
+			&.open {
+				background-color: $rust;
+				color: white;
+				&:hover { background-color: $rust_dark; }
+			}
+
+			input {
+				position: absolute;
+				left: -5000px;
+			}
+
+      .loading-text {
+        @include text_monospace;
+        padding: 4px 18px;
+        white-space: nowrap;
+      }
+    }
 	}
 
 	.active-blocks {
