@@ -153,7 +153,7 @@ const MainLancer = ({
           </a>
           or on
           <a
-            href='https://twitter.com/wickglyph'
+            href='https://twitter.com/jovialthunder'
             target="_blank"
             rel="noopener noreferrer"
           >

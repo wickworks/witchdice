@@ -33,7 +33,7 @@ const SiteAbout = () => {
               target="_blank" rel="noopener noreferrer">
             google form</a>
           </li>
-          <li>on <a href="https://twitter.com/wickglyph" target="_blank" rel="noopener noreferrer">Twitter</a></li>
+          <li>on <a href="https://twitter.com/jovialthunder" target="_blank" rel="noopener noreferrer">Twitter</a></li>
           <li>at contact@wick.works</li>
         </ul>
         <p><em>(also, compliments are welcome. If you like this, please be loud! I have social anxiety and little SEO savvy)</em></p>

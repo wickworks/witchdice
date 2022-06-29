@@ -29,11 +29,11 @@ const Footer = () => {
           :
             <>
               olive@wick.works or
-              <a href="https://twitter.com/wickglyph"
+              <a href="https://twitter.com/jobialthunder"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                @wickglyph
+                @jobialthunder
               </a>
             </>
           }
@@ -45,7 +45,7 @@ const Footer = () => {
       </div>
 
       {/*
-      <a href="https://twitter.com/wickglyph" target="_blank" rel="noopener noreferrer">@wickglyph</a>
+      <a href="https://twitter.com/jobialthunder" target="_blank" rel="noopener noreferrer">@jobialthunder</a>
       <a href="https://wick.works/" target="_blank" rel="noopener noreferrer">www.wick.works</a>
       */}
 
