@@ -232,7 +232,7 @@ const DiceBag = ({
                 <button
                   className='reset'
                   aria-label='Clear queued dice.'
-                  onClick={clearCurrentDiceData}
+                  onClick={() => { clearCurrentDiceData(); clearCurrentMetadata(); } }
                   key='reset'
                 >
                   <div className='asset x' />
