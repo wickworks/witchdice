@@ -314,7 +314,7 @@ function getBonusDamageSourcesFromTalents(pilotTalents) {
 
           const coveringEffect = { damageModifiers: { half: true }, synergies: gunnerSynergies }
           addSourceFromTalent(sources,rank,talentData, 1, '', '', coveringEffect);
-          const hammerEffect = { onHit: 'Your target is IMMOBILIZED until the end of their next turn.' }
+          const hammerEffect = { onHit: 'Your target is IMMOBILIZED until the end of their next turn.', synergies: gunnerSynergies }
           addSourceFromTalent(sources,rank,talentData, 2, '', '', hammerEffect);
           break;
 
