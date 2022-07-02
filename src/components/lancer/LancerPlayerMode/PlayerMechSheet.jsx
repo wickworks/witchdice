@@ -39,6 +39,8 @@ import {
   getSelfHeat
 } from '../lancerData.js';
 
+import { applyUpdatesToPlayer } from './playerUtils.js';
+
 import { deepCopy } from '../../../utils.js';
 import {
   savePilotData,
@@ -144,117 +146,21 @@ const PlayerMechSheet = ({
 
   // =============== MECH STATE ==================
 
-  const updateMechState = (newMechData) => {
-    let newPilotData = deepCopy(activePilot);
+  const updateMechState = (mechUpdate) => {
+    const newPilotData = deepCopy(activePilot);
     const mechIndex = activePilot.mechs.findIndex(mech => mech.id === activeMech.id)
-    const loadout = newPilotData.mechs[mechIndex].loadouts[0]
 
     if (mechIndex >= 0) {
-      Object.keys(newMechData).forEach(statKey => {
-        // console.log('statKey',statKey, ':', newMechData[statKey]);
-        switch (statKey) {
-          case 'custom_counters':
-          case 'counter_data':
-            newPilotData[statKey] = newMechData[statKey]
-            break;
+      const newMechData = newPilotData.mechs[mechIndex]
+      applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData)
 
-          case 'systemUses':
-          case 'systemCharged':
-          case 'systemDestroyed':
-            let systemIndex = newMechData[statKey].index
-            let system
-            if (systemIndex < loadout.systems.length) {
-              system = loadout.systems[systemIndex]
-            } else {
-              systemIndex = systemIndex - loadout.systems.length
-              system = loadout.integratedSystems[systemIndex]
-            }
-            if ('uses' in newMechData[statKey])  system.uses = newMechData[statKey].uses
-            if ('charged' in newMechData[statKey])       system.uses = newMechData[statKey].charged ? 1 : 0
-            if ('destroyed' in newMechData[statKey])     system.destroyed = newMechData[statKey].destroyed
-            break;
-
-          case 'weaponLoaded':
-          case 'weaponDestroyed':
-          case 'weaponUses':
-            const mountSource = newMechData[statKey].mountSource
-            const mountIndex = newMechData[statKey].mountIndex
-            const weaponIndex = newMechData[statKey].weaponIndex
-            let slot
-            if (mountSource === 'mounts') {
-              slot = loadout.mounts[mountIndex].slots[weaponIndex]
-              if (!slot) slot = loadout.mounts[mountIndex].extra[0]
-            } else if (mountSource === 'improved_armament') {
-              slot = loadout.improved_armament.slots[weaponIndex]
-              if (!slot) slot = loadout.improved_armament.extra[0]
-            } else if (mountSource === 'integratedWeapon') {
-              slot = loadout.integratedWeapon.slots[weaponIndex]
-              if (!slot) slot = loadout.integratedWeapon.extra[0]
-            } else if (mountSource === 'integratedMounts') {
-              slot = loadout.integratedMounts[weaponIndex]
-            }
-            if ('destroyed' in newMechData[statKey])  slot.weapon.destroyed = newMechData[statKey].destroyed
-            if ('uses' in newMechData[statKey])       slot.weapon.uses = newMechData[statKey].uses
-            if ('loaded' in newMechData[statKey])     slot.weapon.loaded = newMechData[statKey].loaded
-            break;
-
-          case 'repairAllWeaponsAndSystems':
-            const limitedBonus = getLimitedBonus(activeMech, activePilot, frameData);
-
-            // - systems - //
-            [loadout.systems, loadout.integratedSystems].forEach(systemArray => {
-              systemArray.forEach(system => {
-                // Repair
-                system.destroyed = false
-                // Restore limited uses
-                const systemData = findSystemData(system.id)
-                if (systemData && systemData.tags) {
-                  const limitedTag = systemData.tags.find(tag => tag.id === 'tg_limited')
-                  if (limitedTag) system.uses = limitedTag.val + limitedBonus
-                }
-              })
-            });
-            // - weapons - //
-            [loadout.mounts, [loadout.improved_armament], [loadout.integratedWeapon]].forEach(weaponMounts => {
-              weaponMounts.forEach(mount => {
-                [...mount.slots, ...(mount.extra || [])].forEach(slot => {
-                  if (slot.weapon) {
-                    // Repair
-                    slot.weapon.destroyed = false
-                    slot.weapon.loaded = true
-                    // Restore limited uses
-                    const weaponData = findWeaponData(slot.weapon.id)
-                    if (weaponData && weaponData.tags) {
-                      const limitedTag = weaponData.tags.find(tag => tag.id === 'tg_limited')
-                      if (limitedTag) slot.weapon.uses = limitedTag.val + limitedBonus
-                    }
-                  }
-                })
-              })
-            });
-            break;
-
-          // update a mech value
-          case 'conditions':
-            newPilotData.mechs[mechIndex][statKey] = newMechData[statKey]
-            break;
-          default:
-            newPilotData.mechs[mechIndex][statKey] = parseInt(newMechData[statKey])
-            break;
-          }
-      });
-
-      // update it in localstorage
-      savePilotData(newPilotData)
+      savePilotData(newPilotData) // update it in localstorage
 
       setTriggerRerender(!triggerRerender)
-
     } else {
-      console.error('Could not find mech to save it!', newMechData)
+      console.error('Could not find mech to save it!', mechIndex)
     }
   }
-
-
 
   return (
     <>
