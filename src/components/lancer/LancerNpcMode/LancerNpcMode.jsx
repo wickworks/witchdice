@@ -26,7 +26,7 @@ import {
 } from '../../../localstorage.js';
 
 import { findNpcFeatureData, } from '../lancerData.js';
-import { getStat, getMarkerForNpcID, prepareNewNpc } from './npcUtils.js';
+import { getStat, getMarkerForNpcID, fullRepairNpc, applyUpdatesToNpc } from './npcUtils.js';
 
 import './LancerNpcMode.scss';
 
@@ -217,7 +217,7 @@ const LancerNpcMode = ({
 
     if (npc) {
       let newNpc = deepCopy(npc)
-      prepareNewNpc(newNpc)
+      fullRepairNpc(newNpc)
 
       // need a new id so we can tell instances apart
       newNpc.fingerprint = `${getMarkerForNpcID(newNpc.id, activeEncounter.allNpcs)}-${getRandomFingerprint()}`
@@ -337,20 +337,7 @@ const LancerNpcMode = ({
     // Heal all NPCs
     Object.keys(newEncounter.allNpcs).forEach(fingerprint => {
       const npc = newEncounter.allNpcs[fingerprint]
-
-      const healedState = {
-        repairAllWeaponsAndSystems: true,
-        conditions: [],
-        custom_counters: [],
-        counter_data: [],
-        overshield: 0,
-        current_hp: getStat('hp', npc),
-        current_heat: 0,
-        burn: 0,
-        current_structure: getStat('structure', npc),
-        current_stress: getStat('stress', npc),
-      }
-      applyUpdatesToNpc(healedState, npc)
+      fullRepairNpc(npc)
     })
 
     // Move them all back to "reinforcements"
@@ -374,74 +361,6 @@ const LancerNpcMode = ({
     saveEncounterData(newEncounter)
     setAllEncounterEntries(newEncounterEntries)
     setTriggerRerender(!triggerRerender)
-  }
-
-  // applies the changes to an npc object ~ in place ~
-  function applyUpdatesToNpc(newMechData, newNpc) {
-
-    Object.keys(newMechData).forEach(statKey => {
-      console.log('statKey:',statKey, ' : ', newMechData[statKey]);
-      switch (statKey) {
-        // attributes outside of the currentStats
-        case 'conditions':
-        case 'custom_counters':
-        case 'counter_data':
-        case 'overshield':
-        case 'burn':
-          newNpc[statKey] = newMechData[statKey]
-          break;
-
-        // equipment features
-        case 'systemUses':
-          newNpc.items[newMechData[statKey].index].uses = newMechData[statKey].uses
-          break;
-        case 'systemCharged':
-          newNpc.items[newMechData[statKey].index].charged = newMechData[statKey].charged
-          break;
-        case 'systemDestroyed':
-          newNpc.items[newMechData[statKey].index].destroyed = newMechData[statKey].destroyed
-          break;
-        case 'weaponUses':
-        case 'weaponLoaded':
-        case 'weaponCharged':
-        case 'weaponDestroyed':
-          // find the item that generates this weapon
-          const weaponItems = newNpc.items.filter(item => findNpcFeatureData(item.itemID).type === 'Weapon')
-          let weaponItem = weaponItems[newMechData[statKey].mountIndex]
-          if (weaponItem) {
-            if ('destroyed' in newMechData[statKey]) weaponItem.destroyed = newMechData[statKey].destroyed
-            if ('uses' in newMechData[statKey]) weaponItem.uses = newMechData[statKey].uses
-            if ('loaded' in newMechData[statKey]) weaponItem.loaded = newMechData[statKey].loaded
-          }
-          break;
-        case 'repairAllWeaponsAndSystems':
-          newNpc.items.forEach(item => {
-            // item.uses = x // how are we doing npc system uses?
-            item.destroyed = false
-          });
-          break;
-        // not relavant for npcs
-        case 'current_overcharge':
-        case 'current_core_energy':
-        case 'current_repairs':
-          console.log('    not relavant for npcs');
-          break;
-
-        default: // change something in currentStats
-          // remove the 'current_' for keys that have it
-          const keyConversion = {
-            'current_hp': 'hp',
-            'current_heat': 'heatcap',
-            'current_structure': 'structure',
-            'current_stress': 'stress',
-            'activations': 'activations'
-          }
-          const convertedKey = keyConversion[statKey] || statKey
-          newNpc.currentStats[convertedKey] = newMechData[statKey]
-
-          break;
-      }
-    })
   }
 
   const updateNpcState = (newMechData, npcFingerprint = null) => {
