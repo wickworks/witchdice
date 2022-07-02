@@ -20,6 +20,7 @@ import {
   findNpcTemplateData,
   baselineMount,
   getSystemRecharge,
+  getSystemLimited,
   getSelfHeat,
   hasTag,
 } from '../lancerData.js';
@@ -150,7 +151,8 @@ function getNpcTraits(items) {
 
   items.forEach((item, itemIndex) => {
     const featureData = findNpcFeatureData(item.itemID)
-    let recharge = getSystemRecharge(item, featureData)
+    const recharge = getSystemRecharge(item, featureData)
+    const limited = getSystemLimited(item, featureData)
 
     if (featureData.type === 'Trait') {
       featureTraits.push({
@@ -163,6 +165,7 @@ function getNpcTraits(items) {
         isDestroyed: false,
         isTitleCase: true,
         recharge: recharge,
+        limited: limited,
       })
     }
 
@@ -177,6 +180,7 @@ function getSystemTraits(items) {
   items.forEach((item, itemIndex) => {
     const featureData = findNpcFeatureData(item.itemID)
     const recharge = getSystemRecharge(item, featureData)
+    const limited = getSystemLimited(item, featureData)
     const selfHeat = getSelfHeat(featureData)
 
     if (featureData.type === 'Tech' && !isNpcFeatureTechAttack(featureData)) {
@@ -193,6 +197,7 @@ function getSystemTraits(items) {
         isDestroyed: item.destroyed,
         isTitleCase: true,
         recharge: recharge,
+        limited: limited,
       })
 
     } else if (['System', 'Reaction'].includes(featureData.type)) {
@@ -209,6 +214,7 @@ function getSystemTraits(items) {
         isDestroyed: item.destroyed,
         isTitleCase: true,
         recharge: recharge,
+        limited: limited,
       })
     }
   })

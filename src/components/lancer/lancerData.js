@@ -385,7 +385,7 @@ export const hasTag = (systemData, tagID) => {
   return !!findTagOnData(systemData, tagID)
 }
 
-export const getSystemLimited = (system, systemData, limitedBonus) => {
+export const getSystemLimited = (system, systemData, limitedBonus = 0) => {
   const limitedTag = systemData.tags && systemData.tags.find(tag => tag.id === 'tg_limited')
   let limited = null
 

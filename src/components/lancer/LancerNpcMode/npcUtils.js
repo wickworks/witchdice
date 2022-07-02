@@ -2,6 +2,7 @@
 import {
   findNpcFeatureData,
   findTagOnData,
+  getSystemLimited,
   hasTag
 } from '../lancerData.js';
 
@@ -91,4 +92,13 @@ export function getUsesPerRound(featureData) {
   const roundTag = findTagOnData(featureData, 'tg_round')
   if (roundTag) return `${roundTag.val}/round`
   return ''
+}
+
+// refresh limited uses, etc
+export function prepareNewNpc(npc) {
+  npc.items.forEach(item => {
+    const featureData = findNpcFeatureData(item.itemID)
+    const limited = getSystemLimited(item, featureData)
+    if (limited) item.uses = limited.max
+  })
 }

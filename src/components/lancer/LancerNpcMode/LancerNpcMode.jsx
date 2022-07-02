@@ -26,7 +26,7 @@ import {
 } from '../../../localstorage.js';
 
 import { findNpcFeatureData, } from '../lancerData.js';
-import { getStat, getMarkerForNpcID, } from './npcUtils.js';
+import { getStat, getMarkerForNpcID, prepareNewNpc } from './npcUtils.js';
 
 import './LancerNpcMode.scss';
 
@@ -217,6 +217,8 @@ const LancerNpcMode = ({
 
     if (npc) {
       let newNpc = deepCopy(npc)
+      prepareNewNpc(newNpc)
+
       // need a new id so we can tell instances apart
       newNpc.fingerprint = `${getMarkerForNpcID(newNpc.id, activeEncounter.allNpcs)}-${getRandomFingerprint()}`
 
@@ -378,7 +380,7 @@ const LancerNpcMode = ({
   function applyUpdatesToNpc(newMechData, newNpc) {
 
     Object.keys(newMechData).forEach(statKey => {
-      // console.log('statKey:',statKey, ' : ', newMechData[statKey]);
+      console.log('statKey:',statKey, ' : ', newMechData[statKey]);
       switch (statKey) {
         // attributes outside of the currentStats
         case 'conditions':
@@ -390,6 +392,9 @@ const LancerNpcMode = ({
           break;
 
         // equipment features
+        case 'systemUses':
+          newNpc.items[newMechData[statKey].index].uses = newMechData[statKey].uses
+          break;
         case 'systemCharged':
           newNpc.items[newMechData[statKey].index].charged = newMechData[statKey].charged
           break;
