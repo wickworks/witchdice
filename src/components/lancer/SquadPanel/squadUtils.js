@@ -21,11 +21,14 @@ import { capitalize } from '../../../utils.js';
 
 // makes a condensed form of mech + pilot to show to the rest of the squad
 export function createSquadMech(activeMech, activePilot) {
+  // console.log('activePilot', activePilot);
   // console.log('activeMech', activeMech);
 
 	const frameData = findFrameData(activeMech.frame);
 	let squadMech = {}
 	squadMech.id = activeMech.id
+  if (activePilot.shareCode) squadMech.shareCode = activePilot.shareCode
+
   squadMech.name = activeMech.name
   squadMech.callsign = activePilot.callsign
 

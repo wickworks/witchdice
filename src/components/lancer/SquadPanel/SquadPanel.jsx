@@ -17,6 +17,8 @@ function getFirebaseDB() {
 const SquadPanel = ({
 	partyConnected,
   partyRoom,
+
+  onSyncShareCode,
 }) => {
 	// When we see a new entry in firebase or locally, we put it here.
   // This triggers triggering it getting added/updated in allSquadMechs.
@@ -180,6 +182,7 @@ const SquadPanel = ({
             <SquadMech
               squadMech={squadMech}
               onRemove={() => deleteEntry(i)}
+              onSyncShareCode={onSyncShareCode}
               pointsRight={(i % 2 === 1)}
               key={squadMech.id}
             />

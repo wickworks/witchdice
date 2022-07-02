@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FileList, PlainList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
 import LoadinDots from '../../shared/LoadinDots.jsx';
@@ -35,6 +35,7 @@ const LancerPlayerMode = ({
   triggerRerender,
 
   bondsEnabled = false,
+  syncShareCode,
 
   partyConnected,
   partyRoom,
@@ -109,6 +110,17 @@ const LancerPlayerMode = ({
     const squadMech = createSquadMech(activeMech, activePilot)
     localStorage.setItem(LANCER_SQUAD_MECH_KEY, JSON.stringify(squadMech));
   }
+
+  // =============== LOAD A COMMANDED SHARE CODE ==================
+  const playerModeRef = useRef(null)
+  useEffect(() => {
+    if (syncShareCode) {
+      console.log('syncing pilot share code ', syncShareCode);
+      fetchShareCode(syncShareCode)
+      setActivePilotID(null);
+      playerModeRef.current.scrollIntoView({behavior: "smooth"})
+    }
+  }, [syncShareCode]);
 
   // =============== PILOT FILES ==================
   const uploadPilotFile = e => {
@@ -185,11 +197,10 @@ const LancerPlayerMode = ({
   }
 
   const setActivePilot = (pilotID) => {
+    setActivePilotID(pilotID);
+
     const newActivePilot = pilotID && loadPilotData(pilotID)
-
     if (newActivePilot) {
-      setActivePilotID(pilotID);
-
       // select the last mech
       if (newActivePilot && newActivePilot.mechs.length > 0) {
         const lastMechIndex = newActivePilot.mechs.length - 1
@@ -242,7 +253,7 @@ const LancerPlayerMode = ({
   jumplinks.push('dicebag')
 
   return (
-    <div className='LancerPlayerMode'>
+    <div className='LancerPlayerMode' ref={playerModeRef} >
 
       { activePilot &&
         <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />

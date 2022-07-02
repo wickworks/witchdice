@@ -183,6 +183,12 @@ $pip_size: 13px; //structure/stress
 	}
 
 	.arrow-container {
+
+		&.has-share-code:hover {
+			cursor: pointer;
+			.backdrop { background-color: $rust_slightly_lighter; }
+		}
+
 		.backdrop {
 			background-color: $rust;
 			border: $border_width solid $rust_dark;

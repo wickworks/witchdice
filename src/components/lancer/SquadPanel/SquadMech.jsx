@@ -25,15 +25,27 @@ function renderPilotPortrait(squadMech) {
 const SquadMech = ({
 	squadMech,
 	onRemove,
+	onSyncShareCode,
 	pointsRight = false,
 }) => {
-	const pointClass = pointsRight ? 'points-right' : 'points-left';
+	const pointClass = pointsRight ? 'points-right' : 'points-left'
+	const shareClass = squadMech.shareCode ? 'has-share-code' : ''
+
+	const onClickSquadMech = () => {
+		if (squadMech.shareCode) {
+			console.log('click squad mech', squadMech.shareCode);
+			onSyncShareCode(squadMech.shareCode)
+		}
+	}
 
   return (
     <div className={`SquadMech extra-class ${pointClass}`} >
 
 			<div className={`arrow-and-statuses ${pointClass}`}>
-				<div className={`arrow-container ${pointClass}`}>
+				<div
+					className={`arrow-container ${pointClass} ${shareClass}`}
+					onClick={onClickSquadMech}
+				>
 
 					<div className='backdrop' />
 
