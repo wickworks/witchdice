@@ -26,6 +26,7 @@ export function createSquadMech(activeMech, activePilot) {
 
 	const frameData = findFrameData(activeMech.frame);
 	let squadMech = {}
+  squadMech.pilotID = activePilot.id
 	squadMech.id = activeMech.id
   if (activePilot.shareCode) squadMech.shareCode = activePilot.shareCode
 
@@ -84,4 +85,32 @@ export function createSquadMech(activeMech, activePilot) {
 
 	// console.log('squad mech', squadMech);
 	return squadMech;
+}
+
+// Given a squad mech, create the update functions to set a mech to match that state
+export function createUpdatesFromSquadMech(squadMech) {
+
+  let updateMech = {
+    pilotID: squadMech.pilotID, // removed partway through; just to find the pilot in question
+    id: squadMech.id,
+    current_hp: squadMech.hpCurrent,
+    current_heat: squadMech.heatCurrent,
+    current_structure: squadMech.structure,
+    current_stress: squadMech.stress,
+    burn: squadMech.burn || 0,
+    overshield: squadMech.overshield || 0,
+  }
+
+  // {
+  //   weaponDestroyed: {
+  //     mountSource: mount.source,
+  //     mountIndex: i,
+  //     weaponIndex: weaponIndex,
+  //     destroyed: destroyed
+  //   }
+  // }
+  console.log('created update from squad mech:', updateMech);
+
+
+  return updateMech
 }

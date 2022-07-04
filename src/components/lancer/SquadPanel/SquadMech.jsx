@@ -25,7 +25,7 @@ function renderPilotPortrait(squadMech) {
 const SquadMech = ({
 	squadMech,
 	onRemove,
-	onSyncShareCode,
+	setSyncShareCode,
 	pointsRight = false,
 }) => {
 	const pointClass = pointsRight ? 'points-right' : 'points-left'
@@ -34,7 +34,7 @@ const SquadMech = ({
 	const onClickSquadMech = () => {
 		if (squadMech.shareCode) {
 			console.log('click squad mech', squadMech.shareCode);
-			onSyncShareCode(squadMech.shareCode)
+			setSyncShareCode(squadMech.shareCode)
 		}
 	}
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SquadMech, AddSquadMechButton } from './SquadMech.jsx';
 import { deepCopy } from '../../../utils.js';
+import { createUpdatesFromSquadMech } from './squadUtils.js';
 
 import { LANCER_SQUAD_MECH_KEY } from '../lancerLocalStorage.js';
 
@@ -14,11 +15,13 @@ function getFirebaseDB() {
 
 // HIDDEN INPUT: a localstorage item under LANCER_SQUAD_MECH_KEY containing
 // the active mech's SquadMech summary data.
+// This is set to currentSquadMechJson & if that changes we send updates to firebase.
 const SquadPanel = ({
 	partyConnected,
   partyRoom,
 
-  onSyncShareCode,
+  setSyncShareCode,
+  setSquadMechRemoteUpdate,
 }) => {
 	// When we see a new entry in firebase or locally, we put it here.
   // This triggers triggering it getting added/updated in allSquadMechs.
@@ -71,7 +74,9 @@ const SquadPanel = ({
 		setAllSquadMechs(newData)
 	}
 
+  // push a squad mech to the server
 	function updateEntryInFirebase(entry) {
+    console.log('PUSHING MECH TO SERVER');
 		let firebaseEntry = {...entry}
 		const firebaseKey = firebaseEntry.firebaseKey
 		delete firebaseEntry.firebaseKey // keep the key itself out of the firebase object
@@ -98,6 +103,7 @@ const SquadPanel = ({
   // New/updated mech on the server or local data! Add it to the local allSquadMechs.
   useEffect(() => {
     if (lastUpdatedSquadMech) {
+      console.log('CREATE / UPDATE FROM SERVER OR LOCAL CHANGE', lastUpdatedSquadMech);
       let newData = [...allSquadMechs]
       let isUpdate = false;
 
@@ -112,7 +118,7 @@ const SquadPanel = ({
       setAllSquadMechs(newData)
     }
 
-  }, [lastUpdatedSquadMech]);
+  }, [ JSON.stringify(lastUpdatedSquadMech) ]);
 
 	// ~~ DESTROY TO SERVER ~~
   // Tell the server to remove a mech of the given key.
@@ -138,22 +144,27 @@ const SquadPanel = ({
 
 				dbInitiativeRef.on('child_changed', (snapshot) => {
 					if (snapshot) {
+            console.log('squad child_changed', snapshot.val());
 						let newEntry = snapshot.val() // restore the firebase key to the entry's object
 						newEntry.firebaseKey = snapshot.key
 						setLastUpdatedSquadMech(newEntry)
+            setSquadMechRemoteUpdate(createUpdatesFromSquadMech(newEntry))
 					}
 				});
 
 				dbInitiativeRef.on('child_added', (snapshot) => {
 					if (snapshot) {
+            console.log('squad child_added', snapshot.val());
 						let newEntry = snapshot.val() // restore the firebase key to the entry's object
 						newEntry.firebaseKey = snapshot.key
 						setLastUpdatedSquadMech(newEntry)
+            setSquadMechRemoteUpdate(createUpdatesFromSquadMech(newEntry))
 					}
 				});
 
 				dbInitiativeRef.on('child_removed', (snapshot) => {
 					if (snapshot) {
+            console.log('squad child_removed', snapshot.val());
 						setLastDestroyedKey(snapshot.key) // triggers a search and destroy
 					}
 				});
@@ -182,7 +193,7 @@ const SquadPanel = ({
             <SquadMech
               squadMech={squadMech}
               onRemove={() => deleteEntry(i)}
-              onSyncShareCode={onSyncShareCode}
+              setSyncShareCode={setSyncShareCode}
               pointsRight={(i % 2 === 1)}
               key={squadMech.id}
             />

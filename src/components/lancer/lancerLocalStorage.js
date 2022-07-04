@@ -32,6 +32,7 @@ export function savePilotData(pilot) {
 }
 
 export function loadPilotData(pilotID) {
+  if (!pilotID) return null
   return loadLocalData(PILOT_PREFIX, pilotID.slice(0,STORAGE_ID_LENGTH));
 }
 

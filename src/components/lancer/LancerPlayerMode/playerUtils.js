@@ -9,8 +9,10 @@ import {
 } from '../lancerData.js';
 
 
-export function applyUpdatesToPlayer (mechUpdate, newPilotData, newMechData) {
+export function applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData) {
   if (!newPilotData || !newMechData) return
+
+  console.log('applying updates:', mechUpdate);
 
   const frameData = findFrameData(newMechData.frame);
   const loadout = newMechData.loadouts[0]

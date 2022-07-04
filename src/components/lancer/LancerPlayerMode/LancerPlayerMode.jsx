@@ -22,6 +22,8 @@ import {
 import { getIDFromStorageName } from '../../../localstorage.js';
 
 import { createSquadMech } from '../SquadPanel/squadUtils.js';
+import { deepCopy } from '../../../utils.js';
+import { applyUpdatesToPlayer } from './playerUtils.js';
 
 import compendiaJonesJson from './YOURGRACE.json';
 
@@ -35,7 +37,9 @@ const LancerPlayerMode = ({
   triggerRerender,
 
   bondsEnabled = false,
+
   syncShareCode,
+  squadMechRemoteUpdate,
 
   partyConnected,
   partyRoom,
@@ -121,6 +125,36 @@ const LancerPlayerMode = ({
       playerModeRef.current.scrollIntoView({behavior: "smooth"})
     }
   }, [syncShareCode]);
+
+  useEffect(() => {
+    if (squadMechRemoteUpdate) {
+      // find the mech we're gonna be updating
+      const pilotID = squadMechRemoteUpdate.pilotID
+      delete squadMechRemoteUpdate.pilotID
+
+      let newPilotData
+      if (pilotID === activePilotID) {
+        newPilotData = deepCopy(activePilot)  // we have it on hand
+      } else {
+        newPilotData = loadPilotData(pilotID) // have to go fetch it from localstorage
+      }
+
+      if (newPilotData) {
+        const mechIndex = activePilot.mechs.findIndex(mech => mech.id === squadMechRemoteUpdate.id)
+        if (mechIndex >= 0) {
+          const newMechData = newPilotData.mechs[mechIndex]
+          applyUpdatesToPlayer(squadMechRemoteUpdate, newPilotData, newMechData)
+          savePilotData(newPilotData) // update it in localstorage
+
+          // We only have to rerender if we're looking at it;
+          // otherwise, it just happens in the background inside localstorage
+          if (activeMechID === squadMechRemoteUpdate.id) {
+            setTriggerRerender(!triggerRerender)
+          }
+        }
+      }
+    }
+  }, [squadMechRemoteUpdate]);
 
   // =============== PILOT FILES ==================
   const uploadPilotFile = e => {

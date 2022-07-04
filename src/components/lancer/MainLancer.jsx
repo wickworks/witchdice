@@ -50,6 +50,7 @@ const MainLancer = ({
   const [gameMode, setGameMode] = useState(GAME_MODE_PLAYER);
 
   const [syncShareCode, setSyncShareCode] = useState(null)
+  const [squadMechRemoteUpdate, setSquadMechRemoteUpdate] = useState(null)
 
   const changeGameMode = (newGameMode) => {
     setGameMode(newGameMode)
@@ -228,7 +229,9 @@ const MainLancer = ({
           triggerRerender={triggerRerender}
 
           bondsEnabled={bondsEnabled}
+
           syncShareCode={syncShareCode}
+          squadMechRemoteUpdate={squadMechRemoteUpdate}
 
           partyConnected={partyConnected}
           partyRoom={partyRoom}
@@ -257,7 +260,8 @@ const MainLancer = ({
           <SquadPanel
             partyConnected={partyConnected}
             partyRoom={partyRoom}
-            onSyncShareCode={(shareCode) => setSyncShareCode(shareCode)}
+            setSyncShareCode={setSyncShareCode}
+            setSquadMechRemoteUpdate={setSquadMechRemoteUpdate}
           />
         </>
       }
