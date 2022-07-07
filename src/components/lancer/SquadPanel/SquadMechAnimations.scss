@@ -1,7 +1,8 @@
 @import '../../../fonts';
 @import './SquadMech';
 
-$boot_time: 2s;
+$boot_time: 1.7s;
+$detail_expand_time: .3s;
 
 @keyframes anim_backdrop_ltr {
 	0% { clip-path: polygon(0 0,0 0,0 100%,0 100%); }
@@ -118,6 +119,65 @@ $boot_time: 2s;
 	100% { filter: brightness(100%); }
 }
 
+@keyframes detail_grow_in {
+	0% {
+		max-height: 10px;
+		clip-path: polygon(0 0,100% 0,100% 0%,0 0%);
+	}
+	60% {
+		max-height: 400px;
+		// max-height: 400px;
+		// max-height: 300px;
+		// margin-top: -12px; // baseline
+		clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+		// filter: none;
+	}
+
+	70% {
+		// margin-top: 0;
+		// filter: brightness(110%);
+		// clip-path: none;
+	}
+
+	100% {
+		max-height: none;
+
+		// margin-top: -12px; // baseline
+		// transform: none;
+		// filter: none;
+	}
+}
+
+@keyframes detail_items_fall {
+	0% { width: 10%; }
+	10% { width: 10%; }
+	100% { width: 100%; }
+	// 0% {
+	// 	// max-height: 0;
+	// 	// position: absolute;
+	// 	// top: 0
+	// 	// clip-path: polygon(0 0,100% 0,100% 0%,0 0%);
+	// }
+	// 60% {
+	// 	// max-height: 300px;
+	// 	// margin-top: -12px; // baseline
+	// 	// clip-path: polygon(0 0,100% 0,100% 100%,0 100%);
+	// 	// filter: none;
+	// }
+	//
+	// 70% {
+	// 	// margin-top: 0;
+	// 	// filter: brightness(110%);
+	// 	// clip-path: none;
+	// }
+	//
+	// 100% {
+	// 	// margin-top: -12px; // baseline
+	// 	// transform: none;
+	// 	// filter: none;
+	// }
+}
+
 .SquadMech {
 	&.points-left {
 		animation: shakes_ltr $boot_time ease-out, flashes $boot_time ease-out;;
@@ -127,37 +187,45 @@ $boot_time: 2s;
 		animation: shakes_rtl $boot_time ease-out, flashes $boot_time ease-out;;
 	}
 
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-	// ~ animation ~ //
-	.status-container {
-		&.points-left {
-			animation: anim_status_container_ltr $boot_time steps(6, end);
+	.arrow-and-statuses {
+		.status-container {
+			&.points-left {
+				animation: anim_status_container_ltr $boot_time steps(6, end);
+			}
+			&.points-right {
+				animation: anim_status_container_rtl $boot_time steps(6, end);
+			}
 		}
-		&.points-right {
-			animation: anim_status_container_rtl $boot_time steps(6, end);
+
+		.arrow-container {
+			&.points-left {
+				.backdrop { animation: anim_backdrop_ltr $boot_time ease-out; }
+				.mech-frame-container, .mech-container { animation: anim_mech_ltr $boot_time ease-in; }
+				.StatTriangle.hp { animation: anim_hp_ltr $boot_time ease-in; }
+				.StatTriangle.heat { animation: anim_heat_ltr $boot_time ease-in; }
+				.IconTriangle.structure { animation: anim_structure_ltr $boot_time ease-in; }
+				.IconTriangle.stress { animation: anim_stress_ltr $boot_time ease-in; }
+			}
+
+			&.points-right {
+				.backdrop { animation: anim_backdrop_rtl $boot_time ease-out; }
+				.mech-frame-container, .mech-container { animation: anim_mech_rtl $boot_time ease-in; }
+				.StatTriangle.hp { animation: anim_hp_rtl $boot_time ease-in; }
+				.StatTriangle.heat { animation: anim_heat_rtl $boot_time ease-in; }
+				.IconTriangle.structure { animation: anim_structure_rtl $boot_time ease-in; }
+				.IconTriangle.stress { animation: anim_stress_rtl $boot_time ease-in; }
+			}
+
+
 		}
 	}
 
-	.arrow-container {
-		&.points-left {
-			.backdrop { animation: anim_backdrop_ltr $boot_time ease-out; }
-			.mech-frame-container, .mech-container { animation: anim_mech_ltr $boot_time ease-in; }
-			.StatTriangle.hp { animation: anim_hp_ltr $boot_time ease-in; }
-			.StatTriangle.heat { animation: anim_heat_ltr $boot_time ease-in; }
-			.IconTriangle.structure { animation: anim_structure_ltr $boot_time ease-in; }
-			.IconTriangle.stress { animation: anim_stress_ltr $boot_time ease-in; }
+	.detail-container {
+		animation: detail_grow_in $detail_expand_time steps(4, end);
+
+		> * {
+			overflow: hidden; /* Ensures the content is not revealed until the animation */
+			animation: detail_items_fall $detail_expand_time linear;
 		}
-
-		&.points-right {
-			.backdrop { animation: anim_backdrop_rtl $boot_time ease-out; }
-			.mech-frame-container, .mech-container { animation: anim_mech_rtl $boot_time ease-in; }
-			.StatTriangle.hp { animation: anim_hp_rtl $boot_time ease-in; }
-			.StatTriangle.heat { animation: anim_heat_rtl $boot_time ease-in; }
-			.IconTriangle.structure { animation: anim_structure_rtl $boot_time ease-in; }
-			.IconTriangle.stress { animation: anim_stress_rtl $boot_time ease-in; }
-		}
-
-
 	}
-
 }

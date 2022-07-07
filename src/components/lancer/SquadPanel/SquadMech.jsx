@@ -40,11 +40,12 @@ const SquadMech = ({
 	console.log('squadMech',squadMech);
 
   return (
-    <div
-			className={`SquadMech extra-class ${pointClass}`}
-		>
+    <div className={`SquadMech extra-class ${pointClass}`} >
 
-			<div className={`arrow-and-statuses ${pointClass}`}>
+			<div
+				className={`arrow-and-statuses ${pointClass}`}
+				onClick={() => setDetailsOpen(!detailsOpen)}
+			>
 				<div className={`arrow-container ${pointClass}`}>
 
 					<div className='backdrop' />

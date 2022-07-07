@@ -9,12 +9,17 @@ $pip_size: 13px; //structure/stress
 
 .SquadMech {
 	margin-top: -50px;
-	&:first-of-type { margin-top: 0; }
 	@include below_max_width { margin-top: 20px; }
+	&:first-of-type { margin-top: 0; }
 
 	// main view
 	.arrow-and-statuses {
 		display: flex;
+
+		&:hover {
+			cursor: pointer;
+			filter: brightness(110%);
+		}
 
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 		// ~ overall layout ~ //
@@ -297,7 +302,7 @@ $pip_size: 13px; //structure/stress
 		border: 2px solid $rust_dark;
 		border-top: none;
 
-		// height: 50px;
+		overflow: hidden;
 
 		&.points-right {
 			margin-right: $portrait_height_half;
