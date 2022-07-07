@@ -18,13 +18,15 @@ import { getMountsFromLoadout } from '../LancerPlayerMode/PlayerMechSheet.jsx';
 
 import { capitalize } from '../../../utils.js';
 
-
 // makes a condensed form of mech + pilot to show to the rest of the squad
 export function createSquadMech(activeMech, activePilot) {
   // console.log('activeMech', activeMech);
 
 	const frameData = findFrameData(activeMech.frame);
-	let squadMech = {}
+	let squadMech = {
+    detail: {},
+    status: {}
+  }
 
   // == DETAILS == things that don't change
 	squadMech.detail.id = activeMech.id

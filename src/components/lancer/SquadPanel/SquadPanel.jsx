@@ -7,9 +7,15 @@ import { LANCER_SQUAD_MECH_KEY } from '../lancerLocalStorage.js';
 import './SquadPanel.scss';
 
 const FIREBASE_SQUAD_MECH_KEY = 'mechsquad'
+const FIREBASE_SQUAD_DETAIL_KEY = 'mechsquad_detail'
 
 function getFirebaseDB() {
   return window.firebase.database().ref()
+}
+
+// do we have both the detail and status for a squad mech
+function isSquadMechComplete(squadMech) {
+  return (squadMech && squadMech.status && squadMech.status.id && squadMech.detail && squadMech.detail.id)
 }
 
 // HIDDEN INPUT: a localstorage item under LANCER_SQUAD_MECH_KEY containing
@@ -21,6 +27,7 @@ const SquadPanel = ({
 	// When we see a new entry in firebase or locally, we put it here.
   // This triggers triggering it getting added/updated in allSquadMechs.
   const [lastUpdatedMechStatus, setLastUpdatedMechStatus] = useState(null);
+  const [lastUpdatedMechDetail, setLastUpdatedMechDetail] = useState(null);
 
   // Similar logic, but for targeted destruction of keys
   const [lastDestroyedID, setLastDestroyedID] = useState('');
@@ -31,7 +38,9 @@ const SquadPanel = ({
   // Is the current mech in the lineup?
   const currentSquadMechJson = localStorage.getItem(LANCER_SQUAD_MECH_KEY);
   const currentSquadMech = JSON.parse(currentSquadMechJson)
-	const isCurrentMechInSquad = currentSquadMech && allSquadMechs.some(squadMech => squadMech.detail.id === currentSquadMech.id)
+	const isCurrentMechInSquad = currentSquadMech && allSquadMechs.some(squadMech => squadMech.detail.id === currentSquadMech.detail.id)
+
+  const allCompleteSquadMechs = allSquadMechs.filter(squadMech => isSquadMechComplete(squadMech))
 
   // console.log('currentSquadMech',currentSquadMech);
   // console.log('allSquadMechs',allSquadMechs);
@@ -44,10 +53,14 @@ const SquadPanel = ({
 		if (partyConnected) {
       const mechID = currentSquadMech.detail.id
 
+      // console.log('SETTING MECH SQUAD IN FIREBASE');
+      // console.log('   status',newEntry.status);
+      // console.log('   detail',newEntry.detail);
+
       // the values that change frequently
-			getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom).child(mechID).set(newEntry.status)
       // the detailed build, only set on the initial add
-      getFirebaseDB().child(FIREBASE_SQUAD_DETAIL_KEY).child(partyRoom).child(mechID).set(newEntry.details)
+      getFirebaseDB().child(FIREBASE_SQUAD_DETAIL_KEY).child(partyRoom).child(mechID).set(newEntry.detail)
+      getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom).child(mechID).set(newEntry.status)
 		}
 
 		// add it to the local allSquadMechs
@@ -71,45 +84,50 @@ const SquadPanel = ({
 		setAllSquadMechs(newData)
 	}
 
-  // ~~ DETECT LOCAL CHANGE VIA LOCALSTORAGE, TRIGGER A SERVER UPDATE  ~~
+  // ~~ DETECT LOCAL STATUS UPDATE VIA LOCALSTORAGE, TRIGGER A SERVER UPDATE  ~~
   useEffect(() => {
     if (currentSquadMech && isCurrentMechInSquad) {
+      // update the squad status locally
+      setLastUpdatedMechStatus(currentSquadMech.status)
+
+      // update the squad status on the server
       const mechID = currentSquadMech.detail.id
-
-      // get the current firebase key for this mech
-      const oldEntry = allSquadMechs.find(entry => entry.detail.id === mechID)
-      if (oldEntry) {
-        const newEntry = deepCopy(currentSquadMech)
-        // update the squad status locally
-        setLastUpdatedMechStatus(newEntry.status)
-
-        // TODO: add details locally!!!
-
-        // update the squad status on the server
-        getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom).child(mechID).set(newEntry.status)
-      }
+      getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom).child(mechID).set(currentSquadMech.status)
     }
   }, [ currentSquadMechJson ]);
 
 
-  // ~~ CREATE / UPDATE FROM SERVER OR LOCAL ACTIVE MECH CHANGE ~~
+  // ~~ CREATE / UPDATE FROM SERVER - or - LOCAL ACTIVE MECH CHANGE ~~
   // New/updated mech on the server or local data! Add it to the local allSquadMechs.
-  useEffect(() => {
-    if (lastUpdatedMechStatus) {
-      let newData = [...allSquadMechs]
-      let isUpdate = false;
+  function updateAllSquadMechs(newData, statusOrDetail) {
+    let newAllSquadMechs = [...allSquadMechs]
+    let isUpdate = false;
 
-      allSquadMechs.forEach((entry, i) => {
-        if (entry.status.id === lastUpdatedMechStatus.id) {
-          isUpdate = true
-          newData[i].status = deepCopy(lastUpdatedMechStatus)
-        }
-      });
+    allSquadMechs.forEach((entry, i) => {
+      const entryID = entry.detail.id || entry.status.id
+      if (entryID === newData.id) {
+        isUpdate = true
+        newAllSquadMechs[i][statusOrDetail] = deepCopy(newData)
+      }
+    });
 
-      if (!isUpdate) newData.push(lastUpdatedMechStatus)
-      setAllSquadMechs(newData)
+    // we don't have an entry with this ID yet
+    if (!isUpdate) {
+      const newEntry = {status: {}, detail: {}}
+      newEntry[statusOrDetail] = deepCopy(newData)
+      newAllSquadMechs.push(newEntry)
     }
+
+    setAllSquadMechs(newAllSquadMechs)
+  }
+
+  useEffect(() => {
+    if (lastUpdatedMechStatus) updateAllSquadMechs(lastUpdatedMechStatus, 'status')
   }, [lastUpdatedMechStatus]);
+
+  useEffect(() => {
+    if (lastUpdatedMechDetail) updateAllSquadMechs(lastUpdatedMechDetail, 'detail')
+  }, [lastUpdatedMechDetail]);
 
 
 	// ~~ DESTROY FROM SERVER ~~
@@ -124,7 +142,6 @@ const SquadPanel = ({
       });
       setAllSquadMechs(newData)
     }
-
   }, [lastDestroyedID]);
 
 	// ~~ INITIAL CONNECTION FROM SERVER ~~
@@ -149,7 +166,6 @@ const SquadPanel = ({
         // DETAILS (only pay attention to ADDS)
         const dbDetailRef = getFirebaseDB().child(FIREBASE_SQUAD_DETAIL_KEY).child(partyRoom)
         dbDetailRef.on('child_added', (snapshot) => {
-          // TODO: add details locally!!!
           if (snapshot) setLastUpdatedMechDetail(snapshot.val())
         })
 
@@ -172,12 +188,12 @@ const SquadPanel = ({
             LANCERS
           </h3>
 
-					{ allSquadMechs.map((squadMech, i) =>
+					{ allCompleteSquadMechs.map((squadMech, i) =>
             <SquadMech
               squadMech={squadMech}
               onRemove={() => deleteEntry(i)}
               pointsRight={(i % 2 === 1)}
-              key={squadMech.id}
+              key={squadMech.detail.id}
             />
           )}
 
@@ -185,7 +201,7 @@ const SquadPanel = ({
 						<AddSquadMechButton
               squadMech={currentSquadMech}
               handleClick={addCurrentMechToSquad}
-              pointsRight={(allSquadMechs.length % 2 === 1)}
+              pointsRight={(allCompleteSquadMechs.length % 2 === 1)}
             />
 					}
 				</div>

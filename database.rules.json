@@ -33,6 +33,14 @@
       }
     },
 
+    "mechsquad_detail": {
+      "$room": {
+        ".read": true,
+        ".write": true,
+        ".validate": "$room.length > 6 && $room.length < 128 && $room.matches(/^[0-9a-zA-Z-]+$/i)"
+      }
+    },
+
     "clocksquad": {
       "$room": {
         ".read": true,

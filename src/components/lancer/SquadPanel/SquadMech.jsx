@@ -3,18 +3,18 @@ import './SquadMech.scss';
 import './SquadMechAnimations.scss';
 
 function renderMechPortrait(squadMech) {
-	if (squadMech.portraitMech.startsWith('mf_')) {
-		return <div className={`mech-portrait asset ${squadMech.portraitMech}`} />
+	if (squadMech.detail.portraitMech.startsWith('mf_')) {
+		return <div className={`mech-portrait asset ${squadMech.detail.portraitMech}`} />
 	} else {
 		// TODO: SANITIZE THIS INSTEAD OF PUTTING USER-DEFINED TEXT INTO SRC
-		return <img className='mech-portrait' src={squadMech.portraitMech} alt={'mech portrait'} />
+		return <img className='mech-portrait' src={squadMech.detail.portraitMech} alt={'mech portrait'} />
 	}
 }
 
 function renderPilotPortrait(squadMech) {
-	if (squadMech.portraitPilot) {
+	if (squadMech.detail.portraitPilot) {
 		// TODO: SANITIZE THIS INSTEAD OF PUTTING USER-DEFINED TEXT INTO SRC
-		return <img className="pilot-portrait" src={squadMech.portraitPilot} alt={'pilot portrait'} />
+		return <img className="pilot-portrait" src={squadMech.detail.portraitPilot} alt={'pilot portrait'} />
 	} else {
 		// TODO: BETTER DEFAULT PILOT PORTRAIT
 		// return <div className='pilot-portrait asset default_pilot' />
@@ -29,6 +29,7 @@ const SquadMech = ({
 }) => {
 	const pointClass = pointsRight ? 'points-right' : 'points-left';
 
+
   return (
     <div className={`SquadMech extra-class ${pointClass}`} >
 
@@ -39,27 +40,27 @@ const SquadMech = ({
 
 					<StatTriangle
 						label='HP'
-						mainNumberCurrent={squadMech.hpCurrent}
-						mainNumberMax={squadMech.hpMax}
+						mainNumberCurrent={squadMech.status.hpCurrent}
+						mainNumberMax={squadMech.detail.hpMax}
 						extraClass='hp'
 					/>
 
 					<StatTriangle
 						label='Heat'
-						mainNumberCurrent={squadMech.heatCurrent}
-						mainNumberMax={squadMech.heatMax}
+						mainNumberCurrent={squadMech.status.heatCurrent}
+						mainNumberMax={squadMech.detail.heatMax}
 						extraClass='heat'
 					/>
 
 					<IconTriangle
 						icon='reactor'
-						iconCountCurrent={squadMech.stress}
+						iconCountCurrent={squadMech.status.stress}
 						extraClass='stress'
 					/>
 
 					<IconTriangle
 						icon='structure'
-						iconCountCurrent={squadMech.structure}
+						iconCountCurrent={squadMech.status.structure}
 						extraClass='structure'
 					/>
 
@@ -81,16 +82,16 @@ const SquadMech = ({
 
 				<div className={`status-container ${pointClass}`}>
 					<div className='callsign'>
-						<div>{squadMech.callsign || squadMech.name}</div>
+						<div>{squadMech.detail.callsign || squadMech.detail.name}</div>
 						<button className='remove-mech asset x' onClick={onRemove} />
 					</div>
 
 					<div className='statuses external'>
-						{squadMech.statusExternal.replace(/,/g, ', ') || ' '}
+						{squadMech.status.statusExternal.replace(/,/g, ', ') || ' '}
 					</div>
 
-					<div className={`statuses internal ${!!squadMech.statusInternal ? '' : 'systems-nominal'}`}>
-						{squadMech.statusInternal.replace(/,/g, ', ') || 'All systems nominal.'}
+					<div className={`statuses internal ${!!squadMech.status.statusInternal ? '' : 'systems-nominal'}`}>
+						{squadMech.status.statusInternal.replace(/,/g, ', ') || 'All systems nominal.'}
 					</div>
 				</div>
 			</div>
@@ -159,7 +160,7 @@ const AddSquadMechButton = ({
 			</div>
 
 			<div className='name-container'>
-				<div className='name'>{(squadMech.callsign || squadMech.name).toUpperCase()}</div>
+				<div className='name'>{(squadMech.detail.callsign || squadMech.detail.name).toUpperCase()}</div>
 			</div>
 		</button>
   );
