@@ -1,4 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import MechanicsList from '../MechanicsList.jsx';
+import {
+  findFrameData,
+  findTalentData,
+  findCoreBonusData,
+} from '../lancerData.js';
 import './SquadMech.scss';
 import './SquadMechAnimations.scss';
 
@@ -29,9 +35,14 @@ const SquadMech = ({
 }) => {
 	const pointClass = pointsRight ? 'points-right' : 'points-left';
 
+	const [detailsOpen, setDetailsOpen] = useState(false);
+
+	console.log('squadMech',squadMech);
 
   return (
-    <div className={`SquadMech extra-class ${pointClass}`} >
+    <div
+			className={`SquadMech extra-class ${pointClass}`}
+		>
 
 			<div className={`arrow-and-statuses ${pointClass}`}>
 				<div className={`arrow-container ${pointClass}`}>
@@ -91,10 +102,49 @@ const SquadMech = ({
 					</div>
 
 					<div className={`statuses internal ${!!squadMech.status.statusInternal ? '' : 'systems-nominal'}`}>
-						{squadMech.status.statusInternal.replace(/,/g, ', ') || 'All systems nominal.'}
+						{squadMech.status.statusInternal.replace(/,/g, ', ') || 'Internal systems nominal'}
 					</div>
 				</div>
 			</div>
+
+			{detailsOpen &&
+				<div className={`detail-container ${pointClass}`}>
+				{/*	<MechanicsList
+						label='Licenses'
+						findData={findFrameData}
+						tooltipFlavorKey='description'
+						tooltipHref={`https://compcon.app/#/compendium/search?search=%TITLE`}
+						mechanicIDList={squadMech.detail.build.licenses}
+						containerClass={'licenses'}
+					/>*/}
+					<p>
+						<div className='label'>Licenses</div>
+						{squadMech.detail.build.licenses}
+					</p>
+					<p>
+						<div className='label'>Core bonuses</div>
+						{squadMech.detail.build.core_bonuses}
+					</p>
+					<p>
+						<div className='label'>Talents</div>
+						{squadMech.detail.build.talents}
+					</p>
+					<p>
+						<div className='label'>Stats</div>
+						<div>{squadMech.detail.build.mechSkills}</div>
+						<div>{squadMech.detail.build.statBonuses}</div>
+						<div>{squadMech.detail.build.stats}</div>
+					</p>
+					<p>
+						<div className='label'>Weapons</div>
+						{squadMech.detail.build.weapons}
+					</p>
+					<p>
+						<div className='label'>Systems</div>
+						{squadMech.detail.build.systems}
+					</p>
+				</div>
+			}
     </div>
   );
 }

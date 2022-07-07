@@ -3,10 +3,19 @@ import {
   getMechMaxHeatCap,
   getMechMaxRepairCap,
   getCountersFromPilot,
+  getMechArmor,
+  getMechTechAttack,
+  getLimitedBonus,
+  getMechMoveSpeed,
+  getMechEvasion,
+  getMechEDef,
+  getMechSaveTarget,
 } from '../MechState/mechStateUtils.js';
 
 import {
   findFrameData,
+  findTalentData,
+  findCoreBonusData,
   findSystemData,
 	findWeaponData,
   OVERCHARGE_SEQUENCE,
@@ -41,6 +50,60 @@ export function createSquadMech(activeMech, activePilot) {
   squadMech.detail.hpMax = getMechMaxHP(activeMech, activePilot, frameData)
   squadMech.detail.heatMax = getMechMaxHeatCap(activeMech, activePilot, frameData)
 
+  let build = {}
+  // build.licenses = activePilot.licenses
+  build.licenses = activePilot.licenses.map(license => `${findFrameData(license.id).name} ${license.rank}`).join(', ')
+  // build.core_bonuses = activePilot.core_bonuses
+  build.core_bonuses = activePilot.core_bonuses.map(license => findCoreBonusData(license).name).join(', ')
+  // build.talents = activePilot.talents
+  build.talents = activePilot.talents.map(talent => `${findTalentData(talent.id).name} ${talent.rank}`).join(', ')
+  build.mechSkills = [
+    `HULL:${activePilot.mechSkills[0]}`,
+    `AGI:${activePilot.mechSkills[1]}`,
+    `SYS:${activePilot.mechSkills[2]}`,
+    `ENGI:${activePilot.mechSkills[3]}`,
+  ].join(' ')
+
+  const techAtk = getMechTechAttack(activeMech, activePilot, frameData)
+  const limitedBonus = getLimitedBonus(activeMech, activePilot, frameData)
+  const maxRepairCap = getMechMaxRepairCap(activeMech, activePilot, frameData)
+  build.stats = [
+    `SPD:${getMechMoveSpeed(activeMech, activePilot, frameData)}`,
+    `EVA:${getMechEvasion(activeMech, activePilot, frameData)}`,
+    `EDEF:${getMechEDef(activeMech, activePilot, frameData)}`,
+    `ARMOR:${getMechArmor(activeMech, activePilot, frameData)}`,
+    `SENSOR:${frameData.stats.sensor_range}`,
+    `SAVE:${getMechSaveTarget(activeMech, activePilot, frameData)}`,
+  ].join(' ')
+
+  build.statBonuses = [
+    `REPAIR:${maxRepairCap}`,
+    `TECH ATK:${techAtk > 0 ? '+' : ''}${techAtk}`,
+    `LIMITED:${limitedBonus > 0 ? '+' : ''}${limitedBonus}`,
+  ].join(' ')
+
+  let destroyedSystemNames = []
+
+  let allWeaponNames = []
+  const mounts = getMountsFromLoadout(activeMech.loadouts[0])
+  mounts.forEach(mount => {
+    getWeaponsOnMount(mount).forEach(weapon => {
+      const weaponName = findWeaponData(weapon.id).name
+      allWeaponNames.push(weaponName)
+      if (weapon.destroyed) destroyedSystemNames.push(weaponName)
+    })
+  })
+  build.weapons = allWeaponNames.join(', ')
+
+  let allSystemNames = []
+  activeMech.loadouts[0].systems.forEach(system => {
+    const systemName = findSystemData(system.id).name.toUpperCase()
+    allSystemNames.push(systemName)
+    if (system.destroyed) destroyedSystemNames.push( systemName )
+  })
+  build.systems = allSystemNames.join(', ')
+
+  squadMech.detail.build = build
 
   // == STATUS == things that change a lot
   squadMech.status.id = activeMech.id // except for the id; it's gotta match up somehow
@@ -67,23 +130,11 @@ export function createSquadMech(activeMech, activePilot) {
   }
   if (activeMech.current_overcharge > 0) statuses.push(`Overcharge ${OVERCHARGE_SEQUENCE[activeMech.current_overcharge]} heat`)
   if (!activeMech.current_core_energy) statuses.push('CP exhausted')
-	if (activeMech.current_repairs < getMechMaxRepairCap(activeMech, activePilot, frameData)) {
+	if (activeMech.current_repairs < maxRepairCap) {
     statuses.push(`${activeMech.current_repairs} repairs left`)
   }
 
-  let destroyedSystemNames = []
-  activeMech.loadouts[0].systems.forEach(system => {
-    if (system.destroyed) {
-      const destroyedSystemData = findSystemData(system.id)
-      destroyedSystemNames.push( destroyedSystemData.name.toUpperCase() )
-    }
-  })
-  getMountsFromLoadout(activeMech.loadouts[0]).forEach(mount => {
-    getWeaponsOnMount(mount).forEach(weapon => {
-      if (weapon.destroyed) destroyedSystemNames.push( findWeaponData(weapon.id).name )
-    })
-  })
-  if (destroyedSystemNames.length > 0) statuses.push(`DESTROYED:,${destroyedSystemNames.join(',')}`)
+  if (destroyedSystemNames.length > 0) statuses.push(`DESTROYED:${destroyedSystemNames.join(',')}`)
 
 	squadMech.status.statusInternal = statuses.join(',')
 

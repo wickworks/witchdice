@@ -1,6 +1,7 @@
 @import '../../../fonts';
 
 $portrait_height: 120px; // SQUARE height of the portraites
+$portrait_height_half: 60px;
 $diamond_edge_length: 80px; // the length of each edge of the diamond to make that height
 $border_width: 2px;
 $pip_size: 13px; //structure/stress
@@ -11,10 +12,12 @@ $pip_size: 13px; //structure/stress
 	&:first-of-type { margin-top: 0; }
 	@include below_max_width { margin-top: 20px; }
 
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-	// ~ overall layout ~ //
+	// main view
 	.arrow-and-statuses {
 		display: flex;
+
+		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+		// ~ overall layout ~ //
 
 		&.points-left {
 			flex-direction: row;
@@ -43,241 +46,274 @@ $pip_size: 13px; //structure/stress
 			grid-template-rows: repeat(2, calc(#{$portrait_height} * .5));
 			z-index: 1;
 		}
-	}
 
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-	// ~ placement of things within the arrow/status containers ~ //
-	.status-container {
-		.callsign {
-			display: flex;
-			justify-content: space-between;
-		}
-
-		&.points-left {
-			text-align: left;
-
-			.callsign { flex-direction: row; }
-		}
-
-		&.points-right {
-			text-align: right;
-
-			.callsign { flex-direction: row-reverse; }
-		}
-	}
-
-	.arrow-container {
-		&.points-left {
-			.backdrop {
-				grid-column: 2 / span 3;
-				grid-row: 1 / span 2;
+		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+		// ~ placement of things within the arrow/status containers ~ //
+		.status-container {
+			.callsign {
+				display: flex;
+				justify-content: space-between;
 			}
 
-			.pilot-container, .pilot-frame-container {
-				grid-column: 1 / span 2;
-				grid-row: 1 / span 2;
+			&.points-left {
+				text-align: left;
+
+				.callsign { flex-direction: row; }
 			}
 
-			.mech-container, .mech-frame-container {
-				grid-column: 3 / span 2;
-				grid-row: 1 / span 2;
+			&.points-right {
+				text-align: right;
+
+				.callsign { flex-direction: row-reverse; }
+			}
+		}
+
+		.arrow-container {
+			&.points-left {
+				.backdrop {
+					grid-column: 2 / span 3;
+					grid-row: 1 / span 2;
+				}
+
+				.pilot-container, .pilot-frame-container {
+					grid-column: 1 / span 2;
+					grid-row: 1 / span 2;
+				}
+
+				.mech-container, .mech-frame-container {
+					grid-column: 3 / span 2;
+					grid-row: 1 / span 2;
+				}
+
+				.IconTriangle.structure {
+					grid-column: 4 / span 1;
+					grid-row: 1 / span 1;
+					.rotated-container { transform: rotate(180deg); }
+				}
+
+				.IconTriangle.stress {
+					grid-column: 4 / span 1;
+					grid-row: 2 / span 1;
+					.rotated-container { transform: rotate(-90deg); }
+				}
 			}
 
-			.IconTriangle.structure {
-				grid-column: 4 / span 1;
+			&.points-right {
+				.backdrop {
+					grid-column: 1 / span 3;
+					grid-row: 1 / span 2;
+				}
+
+				.pilot-container, .pilot-frame-container {
+					grid-column: 3 / span 2;
+					grid-row: 1 / span 2;
+				}
+
+				.mech-container, .mech-frame-container {
+					grid-column: 1 / span 2;
+					grid-row: 1 / span 2;
+				}
+
+				.IconTriangle.structure {
+					grid-column: 1 / span 1;
+					grid-row: 1 / span 1;
+					.rotated-container { transform: rotate(90deg); }
+				}
+
+				.IconTriangle.stress {
+					grid-column: 1 / span 1;
+					grid-row: 2 / span 1;
+					// .rotated-container { transform: rotate(0deg); }
+				}
+			}
+
+			.StatTriangle.hp {
+				grid-column: 2 / span 2;
 				grid-row: 1 / span 1;
-				.rotated-container { transform: rotate(180deg); }
 			}
 
-			.IconTriangle.stress {
-				grid-column: 4 / span 1;
+			.StatTriangle.heat {
+				grid-column: 2 / span 2;
 				grid-row: 2 / span 1;
-				.rotated-container { transform: rotate(-90deg); }
 			}
 		}
 
-		&.points-right {
+
+		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+		// ~ base styling of the components ~ //
+		.status-container {
+			@include text_monospace;
+			font-size: 12px;
+			width: 100%;
+			box-sizing: border-box;
+
+			background-color: $parchment_dark;
+			color: $soft_black;
+
+			border: $border_width solid $rust_dark;
+			border-right: none;
+			border-left: none;
+
+			.external { padding: 6px; }
+
+			.internal {
+				padding: 6px;
+				margin-top: auto;
+
+				&.systems-nominal {
+					font-style: italic;
+					color: $concrete_violet_dark;
+				}
+			}
+
+			.callsign {
+				padding: 2px 6px;
+				font-size: 16px;
+				color: $pink;
+				background-color: $rust_dark;
+
+				button.remove-mech {
+					width: 16px;
+					height: 16px;
+
+					// black to $pink
+					filter: invert(80%) sepia(22%) saturate(398%) hue-rotate(324deg) brightness(90%) contrast(88%);
+
+					opacity: .7;
+					&:hover { opacity: 1.0; }
+				}
+			}
+		}
+
+		.arrow-container {
 			.backdrop {
-				grid-column: 1 / span 3;
-				grid-row: 1 / span 2;
+				background-color: $rust;
+				border: $border_width solid $rust_dark;
 			}
 
-			.pilot-container, .pilot-frame-container {
-				grid-column: 3 / span 2;
-				grid-row: 1 / span 2;
+			.pilot-frame-container, .mech-frame-container {
+				align-self: center;
+				justify-self: center;
+
+				.pilot-frame, .mech-frame {
+					width: $diamond_edge_length;
+					height: $diamond_edge_length;
+					background-color: $parchment_dark;
+					border: $border_width solid $rust_dark;
+					transform: rotate(45deg);
+				}
 			}
 
-			.mech-container, .mech-frame-container {
-				grid-column: 1 / span 2;
-				grid-row: 1 / span 2;
+			.pilot-frame {
+				&.points-right { border-top-color: $rust_dark; border-right-color: $rust_dark; }
+				&.points-left { border-bottom-color: $rust_dark; border-left-color: $rust_dark; }
 			}
 
-			.IconTriangle.structure {
-				grid-column: 1 / span 1;
-				grid-row: 1 / span 1;
-				.rotated-container { transform: rotate(90deg); }
+			.pilot-container, .mech-container {
+				width: calc(#{$portrait_height} - #{$border_width*3});
+				height: calc(#{$portrait_height} - #{$border_width*3});
+				align-self: center;
+				justify-self: center;
+				clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
+
+				div { width: 100%; }
+
+				img, div {
+					height: 100%;
+					margin: auto;
+					display: block;
+				}
 			}
 
-			.IconTriangle.stress {
-				grid-column: 1 / span 1;
-				grid-row: 2 / span 1;
-				// .rotated-container { transform: rotate(0deg); }
+			// .mech-container { image-rendering: crisp-edges; }
+
+			.StatTriangle {
+				@include text_monospace;
+				display: flex;
+				align-items: center;
+				color: $pink;
+				justify-content: flex-start;
+
+				&.hp {
+					flex-direction: column;
+					margin-top: $border_width;
+					padding-top: 2px;
+				}
+
+				&.heat {
+					flex-direction: column-reverse;
+					margin-bottom: $border_width;
+					padding-bottom: 2px;
+				}
+
+				.label { font-size: 14px; }
+				.numerical-count { font-size: 24px; }
 			}
-		}
 
-		.StatTriangle.hp {
-			grid-column: 2 / span 2;
-			grid-row: 1 / span 1;
-		}
+			.IconTriangle {
+				margin: $border_width;
 
-		.StatTriangle.heat {
-			grid-column: 2 / span 2;
-			grid-row: 2 / span 1;
+				.rotated-container {
+					width: 100%;
+					height: 100%;
+
+					display: flex;
+					justify-content: flex-start;
+					align-items: flex-end;
+
+					.icon-container {
+						display: flex;
+						flex-wrap: wrap;
+						justify-content: center;
+						align-items: flex-end;
+						width: calc(#{$pip_size} * 3);
+						padding-top: $pip_size;
+						transform: rotate(45deg);
+
+						.asset {
+							width: $pip_size;
+							height: $pip_size;
+							transform: rotate(45deg);
+
+							// black to $pink
+						  filter: invert(80%) sepia(22%) saturate(398%) hue-rotate(324deg) brightness(90%) contrast(88%);
+
+							&.spent { opacity: .2; }
+						}
+					}
+				}
+			}
 		}
 	}
 
-	// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
-	// ~ base styling of the components ~ //
-	.status-container {
+	// detail view
+	.detail-container {
 		@include text_monospace;
 		font-size: 12px;
-		width: 100%;
-		box-sizing: border-box;
+		padding: 6px 6px 0;
 
 		background-color: $parchment_dark;
 		color: $soft_black;
+		border: 2px solid $rust_dark;
+		border-top: none;
 
-		border: $border_width solid $rust_dark;
-		border-right: none;
-		border-left: none;
+		// height: 50px;
 
-		.external { padding: 6px; }
-
-		.internal {
-			padding: 6px;
-			margin-top: auto;
-
-			&.systems-nominal {
-				font-style: italic;
-				color: $concrete_violet_dark;
-			}
+		&.points-right {
+			margin-right: $portrait_height_half;
+			border-left: none;
+		}
+		&.points-left {
+			margin-left: $portrait_height_half;
+			border-right: none;
 		}
 
-		.callsign {
-			padding: 2px 6px;
-			font-size: 16px;
-			color: $pink;
-			background-color: $rust_dark;
+		p {
+			margin: 0 0 6px;
 
-			button.remove-mech {
-				width: 16px;
-				height: 16px;
-
-				// black to $pink
-				filter: invert(80%) sepia(22%) saturate(398%) hue-rotate(324deg) brightness(90%) contrast(88%);
-
-				opacity: .7;
-				&:hover { opacity: 1.0; }
-			}
-		}
-	}
-
-	.arrow-container {
-		.backdrop {
-			background-color: $rust;
-			border: $border_width solid $rust_dark;
-		}
-
-		.pilot-frame-container, .mech-frame-container {
-			align-self: center;
-			justify-self: center;
-
-			.pilot-frame, .mech-frame {
-				width: $diamond_edge_length;
-				height: $diamond_edge_length;
-				background-color: $parchment_dark;
-				border: $border_width solid $rust_dark;
-				transform: rotate(45deg);
-			}
-		}
-
-		.pilot-frame {
-			&.points-right { border-top-color: $rust_dark; border-right-color: $rust_dark; }
-			&.points-left { border-bottom-color: $rust_dark; border-left-color: $rust_dark; }
-		}
-
-		.pilot-container, .mech-container {
-			width: calc(#{$portrait_height} - #{$border_width*3});
-			height: calc(#{$portrait_height} - #{$border_width*3});
-			align-self: center;
-			justify-self: center;
-			clip-path: polygon(50% 0,100% 50%,50% 100%,0 50%);
-
-			div { width: 100%; }
-
-			img, div {
-				height: 100%;
-				margin: auto;
-				display: block;
-			}
-		}
-
-		// .mech-container { image-rendering: crisp-edges; }
-
-		.StatTriangle {
-			@include text_monospace;
-			display: flex;
-			align-items: center;
-			color: $pink;
-			justify-content: flex-start;
-
-			&.hp {
-				flex-direction: column;
-				margin-top: $border_width;
-				padding-top: 2px;
-			}
-
-			&.heat {
-				flex-direction: column-reverse;
-				margin-bottom: $border_width;
-				padding-bottom: 2px;
-			}
-
-			.label { font-size: 14px; }
-			.numerical-count { font-size: 24px; }
-		}
-
-		.IconTriangle {
-			margin: $border_width;
-
-			.rotated-container {
-				width: 100%;
-				height: 100%;
-
-				display: flex;
-				justify-content: flex-start;
-				align-items: flex-end;
-
-				.icon-container {
-					display: flex;
-					flex-wrap: wrap;
-					justify-content: center;
-					align-items: flex-end;
-					width: calc(#{$pip_size} * 3);
-					padding-top: $pip_size;
-					transform: rotate(45deg);
-
-					.asset {
-						width: $pip_size;
-						height: $pip_size;
-						transform: rotate(45deg);
-
-						// black to $pink
-					  filter: invert(80%) sepia(22%) saturate(398%) hue-rotate(324deg) brightness(90%) contrast(88%);
-
-						&.spent { opacity: .2; }
-					}
-				}
+			.label {
+				color: $grey_dark;
+				margin-bottom: 2px;
 			}
 		}
 	}
@@ -291,7 +327,7 @@ $pip_size: 13px; //structure/stress
 	margin-top: 20px;
 
 	@include max_width { margin-top: -50px; }
-	
+
 	&:nth-child(2) { margin-top: 0; }
 
 
