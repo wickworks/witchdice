@@ -14,6 +14,10 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v0.13.0 — July 2022</div>
+          <ul>
+            <li>Mechs in squad panel can be clicked for detailed build.</li>
+          </ul>
 
           <div className='version-label'>v0.12.1-10 — May, June 2022</div>
           <ul>
