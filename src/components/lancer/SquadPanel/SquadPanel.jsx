@@ -20,10 +20,10 @@ const SquadPanel = ({
 }) => {
 	// When we see a new entry in firebase or locally, we put it here.
   // This triggers triggering it getting added/updated in allSquadMechs.
-  const [lastUpdatedSquadMech, setLastUpdatedSquadMech] = useState(null);
+  const [lastUpdatedMechStatus, setLastUpdatedMechStatus] = useState(null);
 
   // Similar logic, but for targeted destruction of keys
-  const [lastDestroyedKey, setLastDestroyedKey] = useState('');
+  const [lastDestroyedID, setLastDestroyedID] = useState('');
 
   // List of all the entries to display.
   const [allSquadMechs, setAllSquadMechs] = useState([]);
@@ -31,7 +31,7 @@ const SquadPanel = ({
   // Is the current mech in the lineup?
   const currentSquadMechJson = localStorage.getItem(LANCER_SQUAD_MECH_KEY);
   const currentSquadMech = JSON.parse(currentSquadMechJson)
-	const isCurrentMechInSquad = currentSquadMech && allSquadMechs.some(squadMech => squadMech.id === currentSquadMech.id)
+	const isCurrentMechInSquad = currentSquadMech && allSquadMechs.some(squadMech => squadMech.detail.id === currentSquadMech.id)
 
   // console.log('currentSquadMech',currentSquadMech);
   // console.log('allSquadMechs',allSquadMechs);
@@ -42,11 +42,12 @@ const SquadPanel = ({
     const newEntry = deepCopy(currentSquadMech)
 
 		if (partyConnected) {
-			const dbSquadRef = getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom)
-			const newKey = dbSquadRef.push(newEntry).key
+      const mechID = currentSquadMech.detail.id
 
-      // add the firebase key to the locally-saved entry
-			newEntry.firebaseKey = newKey
+      // the values that change frequently
+			getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom).child(mechID).set(newEntry.status)
+      // the detailed build, only set on the initial add
+      getFirebaseDB().child(FIREBASE_SQUAD_DETAIL_KEY).child(partyRoom).child(mechID).set(newEntry.details)
 		}
 
 		// add it to the local allSquadMechs
@@ -60,8 +61,9 @@ const SquadPanel = ({
 		if (index < 0 || index >= allSquadMechs.length) return
 
 		if (partyConnected) {
-			const firebaseKey = allSquadMechs[index].firebaseKey
-			getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom).child(firebaseKey).remove()
+      const mechID = allSquadMechs[index].detail.id
+      getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom).child(mechID).remove()
+			getFirebaseDB().child(FIREBASE_SQUAD_DETAIL_KEY).child(partyRoom).child(mechID).remove()
 		}
 
 		let newData = [...allSquadMechs]
@@ -69,98 +71,92 @@ const SquadPanel = ({
 		setAllSquadMechs(newData)
 	}
 
-	function updateEntryInFirebase(entry) {
-		let firebaseEntry = {...entry}
-		const firebaseKey = firebaseEntry.firebaseKey
-		delete firebaseEntry.firebaseKey // keep the key itself out of the firebase object
-    getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom).child(firebaseKey).set(firebaseEntry)
-	}
-
-  // ~~ DETECT LOCAL CHANGE, TRIGGER A SERVER UPDATE  ~~
+  // ~~ DETECT LOCAL CHANGE VIA LOCALSTORAGE, TRIGGER A SERVER UPDATE  ~~
   useEffect(() => {
     if (currentSquadMech && isCurrentMechInSquad) {
+      const mechID = currentSquadMech.detail.id
+
       // get the current firebase key for this mech
-      const oldEntry = allSquadMechs.find(entry => entry.id === currentSquadMech.id)
+      const oldEntry = allSquadMechs.find(entry => entry.detail.id === mechID)
       if (oldEntry) {
-        const newEntry = {...currentSquadMech, firebaseKey: oldEntry.firebaseKey}
-        // update it locally
-        setLastUpdatedSquadMech(newEntry)
-        // update it on the server
-        updateEntryInFirebase(newEntry)
+        const newEntry = deepCopy(currentSquadMech)
+        // update the squad status locally
+        setLastUpdatedMechStatus(newEntry.status)
+
+        // TODO: add details locally!!!
+
+        // update the squad status on the server
+        getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom).child(mechID).set(newEntry.status)
       }
     }
   }, [ currentSquadMechJson ]);
 
 
-  // ~~ CREATE / UPDATE FROM SERVER OR LOCAL CHANGE ~~
+  // ~~ CREATE / UPDATE FROM SERVER OR LOCAL ACTIVE MECH CHANGE ~~
   // New/updated mech on the server or local data! Add it to the local allSquadMechs.
   useEffect(() => {
-    if (lastUpdatedSquadMech) {
+    if (lastUpdatedMechStatus) {
       let newData = [...allSquadMechs]
       let isUpdate = false;
 
       allSquadMechs.forEach((entry, i) => {
-        if (entry.firebaseKey === lastUpdatedSquadMech.firebaseKey) {
+        if (entry.status.id === lastUpdatedMechStatus.id) {
           isUpdate = true
-          newData[i] = deepCopy(lastUpdatedSquadMech)
+          newData[i].status = deepCopy(lastUpdatedMechStatus)
         }
       });
 
-      if (!isUpdate) newData.push(lastUpdatedSquadMech)
+      if (!isUpdate) newData.push(lastUpdatedMechStatus)
       setAllSquadMechs(newData)
     }
+  }, [lastUpdatedMechStatus]);
 
-  }, [lastUpdatedSquadMech]);
 
-	// ~~ DESTROY TO SERVER ~~
-  // Tell the server to remove a mech of the given key.
+	// ~~ DESTROY FROM SERVER ~~
+  // We've heard from the server to remove a mech of the given key.
   useEffect(() => {
-    if (lastDestroyedKey) {
+    if (lastDestroyedID) {
       let newData = [...allSquadMechs]
       allSquadMechs.forEach((entry, i) => {
-        if (entry !== null && entry.firebaseKey === lastDestroyedKey) {
+        if (entry !== null && entry.id === lastDestroyedID) {
           newData.splice(i, 1);
         }
       });
       setAllSquadMechs(newData)
     }
 
-  }, [lastDestroyedKey]);
+  }, [lastDestroyedID]);
 
 	// ~~ INITIAL CONNECTION FROM SERVER ~~
   // Watch server for change/add/delete events & update the local data accordingly.
 	useEffect(() => {
 		if (partyConnected) {
 			try {
-				const dbInitiativeRef = getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom)
+        // STATUSES
+				const dbStatusRef = getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom)
+				dbStatusRef.on('child_changed', (snapshot) => {
+					if (snapshot) setLastUpdatedMechStatus(snapshot.val())
+				})
 
-				dbInitiativeRef.on('child_changed', (snapshot) => {
-					if (snapshot) {
-						let newEntry = snapshot.val() // restore the firebase key to the entry's object
-						newEntry.firebaseKey = snapshot.key
-						setLastUpdatedSquadMech(newEntry)
-					}
-				});
+				dbStatusRef.on('child_added', (snapshot) => {
+					if (snapshot) setLastUpdatedMechStatus(snapshot.val())
+				})
 
-				dbInitiativeRef.on('child_added', (snapshot) => {
-					if (snapshot) {
-						let newEntry = snapshot.val() // restore the firebase key to the entry's object
-						newEntry.firebaseKey = snapshot.key
-						setLastUpdatedSquadMech(newEntry)
-					}
-				});
+				dbStatusRef.on('child_removed', (snapshot) => {
+					if (snapshot) setLastDestroyedID(snapshot.val().id)
+				})
 
-				dbInitiativeRef.on('child_removed', (snapshot) => {
-					if (snapshot) {
-						setLastDestroyedKey(snapshot.key) // triggers a search and destroy
-					}
-				});
+        // DETAILS (only pay attention to ADDS)
+        const dbDetailRef = getFirebaseDB().child(FIREBASE_SQUAD_DETAIL_KEY).child(partyRoom)
+        dbDetailRef.on('child_added', (snapshot) => {
+          // TODO: add details locally!!!
+          if (snapshot) setLastUpdatedMechDetail(snapshot.val())
+        })
 
 			} catch (error) {
-				console.log('ERROR: ',error.message);
+				console.log('ERROR: ', error.message);
 			}
 		}
-
 	}, [partyConnected]);
 
   return (

@@ -25,21 +25,27 @@ export function createSquadMech(activeMech, activePilot) {
 
 	const frameData = findFrameData(activeMech.frame);
 	let squadMech = {}
-	squadMech.id = activeMech.id
-  squadMech.name = activeMech.name
-  squadMech.callsign = activePilot.callsign
 
-	squadMech.hpCurrent = activeMech.current_hp
-	squadMech.hpMax = getMechMaxHP(activeMech, activePilot, frameData)
-	squadMech.heatCurrent = activeMech.current_heat
-	squadMech.heatMax = getMechMaxHeatCap(activeMech, activePilot, frameData)
-	squadMech.structure = activeMech.current_structure
-	squadMech.stress = activeMech.current_stress
+  // == DETAILS == things that don't change
+	squadMech.detail.id = activeMech.id
+  squadMech.detail.name = activeMech.name
+  squadMech.detail.callsign = activePilot.callsign
 
-	// starts with 'mf_' if it's a default one
-	squadMech.portraitMech = activeMech.cloud_portrait ? activeMech.cloud_portrait : frameData.id
+  // starts with 'mf_' if it's a default one
+	squadMech.detail.portraitMech = activeMech.cloud_portrait ? activeMech.cloud_portrait : frameData.id
 	// TODO: should sanitize this on the receiving end
-	squadMech.portraitPilot = activePilot.cloud_portrait
+	squadMech.detail.portraitPilot = activePilot.cloud_portrait
+
+  squadMech.detail.hpMax = getMechMaxHP(activeMech, activePilot, frameData)
+  squadMech.detail.heatMax = getMechMaxHeatCap(activeMech, activePilot, frameData)
+
+
+  // == STATUS == things that change a lot
+  squadMech.status.id = activeMech.id // except for the id; it's gotta match up somehow
+	squadMech.status.hpCurrent = activeMech.current_hp
+	squadMech.status.heatCurrent = activeMech.current_heat
+	squadMech.status.structure = activeMech.current_structure
+	squadMech.status.stress = activeMech.current_stress
 
 	let statuses;
 
@@ -48,7 +54,7 @@ export function createSquadMech(activeMech, activePilot) {
   if (activeMech.conditions) statuses = activeMech.conditions.map(condition => capitalize(condition.toLowerCase()))
   if (activeMech.burn) statuses.push(`Burn ${activeMech.burn}`)
 	if (activeMech.overshield) statuses.push(`Overshield ${activeMech.overshield}`)
-	squadMech.statusExternal = statuses.join(',')
+	squadMech.status.statusExternal = statuses.join(',')
 
   // INTERNAL statuses
   statuses = []
@@ -77,7 +83,7 @@ export function createSquadMech(activeMech, activePilot) {
   })
   if (destroyedSystemNames.length > 0) statuses.push(`DESTROYED:,${destroyedSystemNames.join(',')}`)
 
-	squadMech.statusInternal = statuses.join(',')
+	squadMech.status.statusInternal = statuses.join(',')
 
 	// console.log('squad mech', squadMech);
 	return squadMech;
