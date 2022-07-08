@@ -197,7 +197,7 @@ const SquadPanel = ({
             />
           )}
 
-					{currentSquadMech && !isCurrentMechInSquad &&
+					{currentSquadMech && !isCurrentMechInSquad && isSquadMechComplete(currentSquadMech) &&
 						<AddSquadMechButton
               squadMech={currentSquadMech}
               handleClick={addCurrentMechToSquad}
