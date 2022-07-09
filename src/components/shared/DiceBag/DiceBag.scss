@@ -242,6 +242,8 @@ $bookmark_breakpoint: 575px;
 
         &:active { background-color: $pink; }
 
+        &:focus-within { outline: 2px solid $periwinkle; }
+
         input {
           position: absolute;
           left: -5000px;
@@ -257,6 +259,11 @@ $bookmark_breakpoint: 575px;
         width: 22px;
         height: 22px;
       }
+    }
+
+    .roll-description {
+      margin: 4px auto;
+      font-style: italic;
     }
   }
 }

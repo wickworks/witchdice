@@ -3,31 +3,64 @@
 
 .SummaryModeSwitcher {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 6px auto;
+  flex-direction: column;
 
-  .mode-container {
-    position: relative;
+  .RadioGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 6px auto;
     border-radius: 4px;
-    padding: 2px 6px;
 
-    cursor: pointer;
-    // background-color: $parchment_mid;
+    &:focus-within { outline: 2px solid $periwinkle; }
 
-    &:hover {
-      background-color: $parchment_dark;
-      color: $soft_black;
+    .mode-button {
+      position: relative;
+      border-radius: 4px;
+      padding: 2px 6px;
+      // padding: 12px 6px;
+
+      cursor: pointer;
+      // background-color: $parchment_mid;
+
+      &:hover {
+        background-color: $parchment_dark;
+        color: $soft_black;
+      }
+      &.selected {
+        outline: none;
+        background-color: $rust;
+        color: white;
+      }
+
+      input {
+        position: absolute;
+        left: -99999999px;
+        top: 0;
+      }
     }
-    &.selected {
-      background-color: $rust;
+  }
+
+  .advanced-container {
+    display: flex;
+    flex-direction: row;
+
+    input[type='number'] {
+      margin: 6px 0;
+
+      @include text_default;
+      // font-weight: bold;
       color: white;
-    }
+      text-align: center;
+      border-radius: 4px;
+      // background-color: transparent;
+      background-color: $rust;
+      border: none;
 
-    input {
-      position: absolute;
-      left: -99999999px;
-      top: 0;
+      &:hover {
+        background-color: $pink;
+        color: $soft_black;
+      }
     }
   }
 }

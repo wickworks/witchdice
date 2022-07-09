@@ -12,6 +12,7 @@ import {
   sortedDice,
   parseDieType,
   processRollData,
+  getPlainDescriptionOfRoll,
 } from './DiceBagData.js';
 import './DiceBag.scss';
 
@@ -27,7 +28,9 @@ const DiceBag = ({
   const [diceData, setDiceData] = useState({...blankDice});     // dice-to-roll
   const [rollData, setRollData] = useState([]);                 // roll results
 
-  const [summaryMode, setSummaryMode] = useState('total');      // 'total' / 'low' / 'high'
+  const [summaryMode, setSummaryMode] = useState('total');      // 'total' / 'keep-low' / 'keep-high' / 'count-low' / 'count-high'
+  const [summaryModeValue, setSummaryModeValue] = useState(1)   // how many to keep/count
+
   const [percentileMode, setPercentileMode] = useState(false);
   const [defaultVariableDieType, setDefaultVariableDieType] = useState('x')
 
@@ -317,6 +320,8 @@ const DiceBag = ({
             })}
           </div>
 
+          <p className='roll-description'>{getPlainDescriptionOfRoll(summaryMode, summaryModeValue)}</p>
+
           <div className='annotation-and-summary-mode'>
             <label className={`activate-annotation ${isAnnotationActive ? 'toggled' : ''}`}>
               <input
@@ -329,10 +334,13 @@ const DiceBag = ({
             <SummaryModeSwitcher
               summaryMode={summaryMode}
               setSummaryMode={setSummaryMode}
+              summaryModeValue={summaryModeValue}
+              setSummaryModeValue={setSummaryModeValue}
             />
 
             <div className='placeholder' />
           </div>
+
         </div>
       </div>
     </div>

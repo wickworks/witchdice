@@ -1,5 +1,5 @@
 
-const blankDice = {
+export const blankDice = {
   '4': 0,
   '6': 0,
   '8': 0,
@@ -19,7 +19,7 @@ const blankDice = {
 //   {'dieType': 'plus', 'result': -4}
 // ]
 // into the FINAL RESULT given a summaryMode
-function processRollData(rollData, summaryMode) {
+export function processRollData(rollData, summaryMode) {
   // console.log('SUMMING mode', summaryMode, '  roll data:', rollData);
 
   if (!rollData || Object.keys(rollData).length === 0) return 0
@@ -83,7 +83,7 @@ function processRollData(rollData, summaryMode) {
 //    {'dieType': '20', 'result': '1d20', sign: 1},
 //    {'dieType': '6',  'result': '2d6',  sign: -1}, ...
 //  ]
-function diceDataIntoToRollData(diceData, percentileMode = false) {
+export function diceDataIntoToRollData(diceData, percentileMode = false) {
 
   // hijack d10s in percentile mode
   if (percentileMode) {
@@ -119,7 +119,7 @@ function diceDataIntoToRollData(diceData, percentileMode = false) {
 // Min (3d6)          | Min (3, 1, 5)
 // Max (1d20) - (3d6) | Max (18) - (3, 1, 6)
 
-function getRollDescription(rollData, summaryMode) {
+export function getRollDescription(rollData, summaryMode) {
   if (!rollData || rollData.length === 0) return ''
 
   // Group the roll data by die type.
@@ -198,7 +198,7 @@ function getRollDescription(rollData, summaryMode) {
 
 
 // Returns an array of dice types e.g. ['20', 'x16', '12', '10', '8', '6', '4', 'plus']
-function sortedDice(diceData) {
+export function sortedDice(diceData) {
   let sorted = Object.keys(diceData).sort((a, b) => {
     return (parseInt(a) > parseInt(b)) ? -1 : 1
   });
@@ -227,17 +227,23 @@ function sortedDice(diceData) {
 }
 
 // turn '20' or 'x20' into 20
-function parseDieType(dieType) {
+export function parseDieType(dieType) {
   if (dieType.startsWith('x')) dieType = dieType.substring(1);
   return parseInt(dieType);
 }
 
+export function getPlainDescriptionOfRoll(summaryMode, summaryModeValue) {
+  const descriptions = {
+    'total': `Simply sum up all rolls.`,
+    'keep-high': (summaryModeValue === 1 ?
+      'Keep the highest roll.' :
+      `Keep the highest ${summaryModeValue} rolls.`),
+    'keep-low': (summaryModeValue === 1 ?
+      'Keep the lowest roll.' :
+      `Keep the lowest ${summaryModeValue} rolls.`),
+    'count-high': `Count how many dice roll above ${summaryModeValue}.`,
+    'count-low': `Count how many dice roll below ${summaryModeValue}.`
+  }
 
-export {
-  blankDice,
-  diceDataIntoToRollData,
-  getRollDescription,
-  sortedDice,
-  parseDieType,
-  processRollData,
-};
+  return descriptions[summaryMode]
+}
