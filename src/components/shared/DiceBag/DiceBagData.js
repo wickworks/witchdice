@@ -41,28 +41,43 @@ export function processRollData(rollData, summaryMode, summaryModeValue) {
   let resultTotal = 0;
 
   if (summaryMode === 'total') {
-    rollData.forEach(roll =>
-      resultTotal += roll.result // negative rolls have negative values
-    )
+    rollData.forEach(roll => resultTotal += roll.result)
 
-  } else if (summaryMode === 'lowest' || summaryMode === 'highest') {
+  // something more complicated
+  } else {
     // collect all the rolls into their respective types
     let rollsByType = {}
     rollData.forEach(roll => rollsByType[roll.dieType] = [])
     rollData.forEach(roll => rollsByType[roll.dieType].push(roll.result))
 
-    const sortOrder = (summaryMode === 'lowest') ? -1 : 1
+    if (summaryMode === 'lowest' || summaryMode === 'highest') {
+      const sortOrder = (summaryMode === 'lowest') ? -1 : 1
 
-    Object.keys(rollsByType).forEach(dieType => {
-      // sort all the rolls by lowest- or highest-first
-      rollsByType[dieType].sort((a,b) => (a<b) ? sortOrder : -1*sortOrder)
+      Object.keys(rollsByType).forEach(dieType => {
+        // sort all the rolls by lowest- or highest-first
+        rollsByType[dieType].sort((a,b) => (a<b) ? sortOrder : -1*sortOrder)
 
-      // trim all the rolls by the summary mode value
-      rollsByType[dieType] = rollsByType[dieType].slice(0, summaryModeValue)
+        // trim all the rolls by the summary mode value
+        rollsByType[dieType] = rollsByType[dieType].slice(0, summaryModeValue)
 
-      // sum them all up
-      resultTotal += rollsByType[dieType].reduce((prev,roll) => prev + roll, 0)
-    });
+        // sum them all up
+        resultTotal += rollsByType[dieType].reduce((prev,roll) => prev + roll, 0)
+      });
+
+    } else if (summaryMode === 'below') {
+      Object.keys(rollsByType).forEach(dieType => {
+        rollsByType[dieType].forEach(roll => {
+          if (roll < summaryModeValue) resultTotal += 1
+        })
+      })
+
+    } else if (summaryMode === 'above') {
+      Object.keys(rollsByType).forEach(dieType => {
+        rollsByType[dieType].forEach(roll => {
+          if (roll > summaryModeValue) resultTotal += 1
+        })
+      })
+    }
   }
 
   // add the modifier to the end of all this
