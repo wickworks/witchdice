@@ -14,15 +14,18 @@ export const blankDice = {
 
 // turns roll data:
 // [
-//   {'dieType': '20', 'result': 1, sign: 1},
-//   {'dieType': '6', 'result': 12, sign: -1},
+//   {'dieType': '20', 'result': 12},
+//   {'dieType': '6', 'result': -4},
 //   {'dieType': 'plus', 'result': -4}
 // ]
 // into the FINAL RESULT given a summaryMode
-export function processRollData(rollData, summaryMode) {
-  // console.log('SUMMING mode', summaryMode, '  roll data:', rollData);
-
+export function processRollData(rollData, summaryMode, summaryModeValue) {
+  // console.log('SUMMING mode', summaryMode, ' summaryModeValue ', summaryModeValue);
+  // console.log('  roll data:', rollData);
   if (!rollData || Object.keys(rollData).length === 0) return 0
+
+  // can't have a summary mode value of less than 1
+  summaryModeValue = summaryModeValue ? Math.max(summaryModeValue,1) : 1
 
   // extract the modifier out of the roll data
   let modifier = 0
@@ -39,34 +42,27 @@ export function processRollData(rollData, summaryMode) {
 
   if (summaryMode === 'total') {
     rollData.forEach(roll =>
-      resultTotal += (roll.result * roll.sign) // subtract rolls from negative dieType
+      resultTotal += roll.result // negative rolls have negative values
     )
 
-  } else if (summaryMode === 'low') {
-    // get lowest for each die type
-    let lowest = {}
-    rollData.forEach(roll => {
-      const prevLow = (Math.abs(lowest[roll.dieType]) || roll.result)
-      lowest[roll.dieType] = Math.min(prevLow, roll.result) * roll.sign
-    })
+  } else if (summaryMode === 'low' || summaryMode === 'high') {
+    // collect all the rolls into their respective types
+    let rollsByType = {}
+    rollData.forEach(roll => rollsByType[roll.dieType] = [])
+    rollData.forEach(roll => rollsByType[roll.dieType].push(roll.result))
 
-    // add or subtract those lowests all together (the sign is built-in)
-    Object.keys(lowest).forEach(dieType =>
-      resultTotal += (lowest[dieType])
-    )
+    const sortOrder = (summaryMode === 'low') ? -1 : 1
 
-  } else if (summaryMode === 'high') {
-    // get highest for each die type
-    let highest = {}
-    rollData.forEach(roll => {
-      const prevHigh = (Math.abs(highest[roll.dieType]) || roll.result)
-      highest[roll.dieType] = Math.max(prevHigh, roll.result) * roll.sign
-    })
+    Object.keys(rollsByType).forEach(dieType => {
+      // sort all the rolls by lowest- or highest-first
+      rollsByType[dieType].sort((a,b) => (a<b) ? sortOrder : -1*sortOrder)
 
-    // add or subtract those highests all together (the sign is built-in)
-    Object.keys(highest).forEach(dieType =>
-      resultTotal += (highest[dieType])
-    )
+      // trim all the rolls by the summary mode value
+      rollsByType[dieType] = rollsByType[dieType].slice(0, summaryModeValue)
+
+      // sum them all up
+      resultTotal += rollsByType[dieType].reduce((prev,roll) => prev + roll, 0)
+    });
   }
 
   // add the modifier to the end of all this

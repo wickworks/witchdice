@@ -119,7 +119,7 @@ const DiceBag = ({
           const result = getRandomInt(dieTypeNumber);
           const dieIcon = dieType.startsWith('x') ? 'dx' : `d${dieTypeNumber}`;
 
-          results.push({dieType: dieIcon, result: result, sign: rollSign})
+          results.push({dieType: dieIcon, result: result * rollSign})
 
           if (!rolledAtLeastOneDie) {
             rolledAtLeastOneDie = true;
@@ -130,7 +130,7 @@ const DiceBag = ({
     });
 
     if (rollDice['plus'] !== 0) {
-      results.push( {dieType: 'plus', result: parseInt(rollDice['plus']), sign: 1} )
+      results.push( {dieType: 'plus', result: parseInt(rollDice['plus'])} )
     }
 
     // store the results that we rolled
@@ -170,7 +170,7 @@ const DiceBag = ({
   const toRollString = getRollDescription(diceDataIntoToRollData(diceData), summaryMode)
 
   // summarize the results
-  const resultTotal = processRollData(rollData, summaryMode)
+  const resultTotal = processRollData(rollData, summaryMode, summaryModeValue)
   const resultSummary = getRollDescription(rollData, summaryMode)
 
   // add it to the party roll panel
