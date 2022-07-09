@@ -45,13 +45,13 @@ export function processRollData(rollData, summaryMode, summaryModeValue) {
       resultTotal += roll.result // negative rolls have negative values
     )
 
-  } else if (summaryMode === 'low' || summaryMode === 'high') {
+  } else if (summaryMode === 'lowest' || summaryMode === 'highest') {
     // collect all the rolls into their respective types
     let rollsByType = {}
     rollData.forEach(roll => rollsByType[roll.dieType] = [])
     rollData.forEach(roll => rollsByType[roll.dieType].push(roll.result))
 
-    const sortOrder = (summaryMode === 'low') ? -1 : 1
+    const sortOrder = (summaryMode === 'lowest') ? -1 : 1
 
     Object.keys(rollsByType).forEach(dieType => {
       // sort all the rolls by lowest- or highest-first
@@ -159,7 +159,7 @@ export function getRollDescription(rollData, summaryMode) {
       resultsByType[dieType] = resultsByType[dieType].join(' + ')
     )
 
-  } else if (summaryMode === 'low' || summaryMode === 'high') {
+  } else if (summaryMode === 'lowest' || summaryMode === 'highest') {
     sortedDieTypes.forEach(dieType =>
       resultsByType[dieType] = resultsByType[dieType].join(', ')
     )
@@ -167,7 +167,7 @@ export function getRollDescription(rollData, summaryMode) {
 
   // Wrap each group in parens, as necessary
   sortedDieTypes.forEach(dieType => {
-    if (summaryMode === 'low' || summaryMode === 'high' || signsByType[dieType] < 0) {
+    if (summaryMode === 'lowest' || summaryMode === 'highest' || signsByType[dieType] < 0) {
       const nonBreakingSpace = "\u00a0"
       resultsByType[dieType] = `(${nonBreakingSpace}${resultsByType[dieType]}${nonBreakingSpace})`
     }
@@ -186,8 +186,8 @@ export function getRollDescription(rollData, summaryMode) {
   if (modifier !== 0) summaryString += ` ${modifier > 0 ? '+' : ''} ${modifier}`
 
   // Prepend a "Min" or "Max" appropriately
-  if (summaryMode === 'low')  summaryString = 'Min ' + summaryString
-  if (summaryMode === 'high') summaryString = 'Max ' + summaryString
+  if (summaryMode === 'lowest')  summaryString = 'Min ' + summaryString
+  if (summaryMode === 'highest') summaryString = 'Max ' + summaryString
 
   return summaryString
 }

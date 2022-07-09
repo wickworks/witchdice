@@ -73,7 +73,7 @@ const MechCentralDiamond = ({
       setTimeout(
         () => setDistantDicebagData({
           diceData: diceData,
-          summaryMode: 'low',
+          summaryMode: 'lowest',
           annotation: 'STRUCTURE check',
           postRollMessage: postRollMessage,
         }), DAMAGE_SHAKE_TIME
@@ -113,7 +113,7 @@ const MechCentralDiamond = ({
       setTimeout(
         () => setDistantDicebagData({
           diceData: diceData,
-          summaryMode: 'low',
+          summaryMode: 'lowest',
           annotation: 'STRESS check',
           postRollMessage: postRollMessage,
         }), DAMAGE_SHAKE_TIME

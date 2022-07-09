@@ -7,13 +7,13 @@ const allSummaryModes = {
     'keep': 'total',
     'count': 'total',
   },
-  'high': {
-    'keep': 'high',
-    'count': 'count-high',
+  'highest': {
+    'keep': 'highest',
+    'count': 'above',
   },
-  'low': {
-    'keep': 'low',
-    'count': 'count-low',
+  'lowest': {
+    'keep': 'lowest',
+    'count': 'below',
   }
 }
 
@@ -45,13 +45,13 @@ const SummaryModeSwitcher = ({
           Total
         </label>
 
-        <label className={`mode-button ${standardMode === 'high' ? 'selected' : ''}`} key='mode-high'>
-          <Radio value='high' id='mode-high' />
+        <label className={`mode-button ${standardMode === 'highest' ? 'selected' : ''}`} key='mode-high'>
+          <Radio value='highest' id='mode-high' />
           High
         </label>
 
-        <label className={`mode-button ${standardMode === 'low' ? 'selected' : ''}`} key='mode-low'>
-          <Radio value='low' id='mode-low' />
+        <label className={`mode-button ${standardMode === 'lowest' ? 'selected' : ''}`} key='mode-low'>
+          <Radio value='lowest' id='mode-low' />
           Low
         </label>
       </RadioGroup>

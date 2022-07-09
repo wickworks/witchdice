@@ -13,8 +13,8 @@ const TipsAndTricks = () => {
   const [dummyPercentileMode, setDummyPercentileMode] = useState(false);
   const [dummyBookmarkSaved, setDummyBookmarkSaved] = useState(false);
 
-  const highClass = dummySummaryMode === 'high' ? 'mode selected' : 'mode';
-  const lowClass = dummySummaryMode === 'low' ? 'mode selected' : 'mode';
+  const highClass = dummySummaryMode === 'highest' ? 'mode selected' : 'mode';
+  const lowClass = dummySummaryMode === 'lowest' ? 'mode selected' : 'mode';
 
   const fakeBookmarkData = {4: 0, 6: 4, 8: 0, 10: 0, 12: 0, 20: 1, plus: 0, x: 0, summaryMode: 'total', percentileMode: false}
   const fakeRollDescription = '1d20 + 4d6'

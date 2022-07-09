@@ -24,7 +24,7 @@ const AbilityRollButton = ({
 
     setDistantDicebagData({
       diceData: diceData,
-      summaryMode: 'high',
+      summaryMode: 'highest',
       annotation: `${extraClass.toUpperCase()} save`
     });
   }
