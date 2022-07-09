@@ -154,6 +154,15 @@ const DiceBag = ({
     }
   }
 
+  const updateAnnotation = (newAnnotation) => {
+    if (newAnnotation) {
+      setAnnotation(newAnnotation)
+    } else {
+      setAnnotation('')
+      setIsAnnotationActive(false)
+    }
+  }
+
   // what is the highest type of die we're queueing up to roll?
   let rollDieType = '';
   sortedDice(diceData).forEach(dieType => {
@@ -295,14 +304,27 @@ const DiceBag = ({
               </>
             }
 
-            { isAnnotationActive &&
+
+
+            { isAnnotationActive ?
               <TextInput
                 textValue={annotation}
-                setTextValue={setAnnotation}
+                setTextValue={updateAnnotation}
                 placeholder='( roll annotation )'
+                startsOpen={true}
                 maxLength={32}
                 key={annotation}
               />
+            :
+              <>
+                {/*<label className={`activate-annotation ${isAnnotationActive ? 'toggled' : ''}`}>
+                  <input
+                    type='checkbox'
+                    onChange={handleAnnotationToggle}
+                  />
+                  <div className='asset edit' />
+                </label>*/}
+              </>
             }
           </div>
 
@@ -321,31 +343,19 @@ const DiceBag = ({
             })}
           </div>
 
-          <div className='annotation-and-summary-mode'>
-            <label className={`activate-annotation ${isAnnotationActive ? 'toggled' : ''}`}>
-              <input
-                type='checkbox'
-                onChange={handleAnnotationToggle}
-              />
-              <div className='asset edit' />
-            </label>
-
+          <div className='summary-mode-container'>
             <SummaryModeSwitcher
+                summaryMode={summaryMode}
+                setSummaryMode={setSummaryMode}
+              />
+
+            <SummaryModeDescription
               summaryMode={summaryMode}
-              setSummaryMode={setSummaryMode}
+              summaryModeValue={summaryModeValue}
+              setSummaryModeValue={setSummaryModeValue}
             />
 
-            <div className='placeholder' />
           </div>
-
-
-          <SummaryModeDescription
-            summaryMode={summaryMode}
-            summaryModeValue={summaryModeValue}
-            setSummaryModeValue={setSummaryModeValue}
-          />
-
-
         </div>
       </div>
     </div>
