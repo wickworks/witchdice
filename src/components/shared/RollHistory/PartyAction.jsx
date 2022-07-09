@@ -58,6 +58,11 @@ const PartyActionBroadcastText = ({actionData, showName}) => {
 
 const PartyActionDicebag = ({actionData, showName}) => {
   const {conditions, updatedAt} = actionData;
+  // console.log('actionData',actionData);
+
+  // these are put together into a string
+  let [summaryMode, summaryModeValue] = conditions.split(' ')
+  summaryModeValue = summaryModeValue || 1
 
   // convert the 'roll-X' keys into roll data:
   // [ {'dieType': '20', 'result': '1'}, {'dieType': '20', 'result': '12'}, ... ]
@@ -66,7 +71,7 @@ const PartyActionDicebag = ({actionData, showName}) => {
     if (key.startsWith('roll-')) rollData.push(actionData[key])
   });
 
-  const resultTotal = processRollData(rollData, conditions)
+  const resultTotal = processRollData(rollData, summaryMode, summaryModeValue)
 
   const oneLineClass = (rollData.length === 1) ? 'one-liner' : '';
 
@@ -83,7 +88,7 @@ const PartyActionDicebag = ({actionData, showName}) => {
           { oneLineClass ?
             <div className='dicebag-single'>
               <div className={`asset ${rollData[0].dieType}`} />
-              {rollData[0].result * rollData[0].sign}
+              {rollData[0].result}
             </div>
           : <>
             <div className="dicebag-rolls">
@@ -91,7 +96,7 @@ const PartyActionDicebag = ({actionData, showName}) => {
                 return (
                   <PartyRollDicebag
                     dieType={roll.dieType}
-                    result={roll.result * roll.sign}
+                    result={roll.result}
                     key={`${updatedAt}-${i}`}
                   />
                 )

@@ -123,7 +123,7 @@ const Main = ({
   }
 
   // Push a dicebag roll to firebase
-  const addNewDicebagPartyRoll = (rolls, summaryMode, annotation, message, isNew) => {
+  const addNewDicebagPartyRoll = (rolls, summaryMode, summaryModeValue, annotation, message, isNew) => {
     if (rolls.length > 0) {
       let actionData = {};
       actionData.name = partyName || 'Me';
@@ -131,14 +131,13 @@ const Main = ({
       actionData.message = message
 
       actionData.type = 'dicebag';
-      actionData.conditions = rolls.length > 1 ? summaryMode : '';
+      actionData.conditions = rolls.length > 1 ? `${summaryMode} ${summaryModeValue}` : '';
 
       // rolls = [ {dieType: 'd6', result: 4}, ... ]
       rolls.forEach((roll, i) => {
         actionData[`roll-${i}`] = {
           dieType: roll.dieType,
           result: roll.result,
-          sign: roll.sign,
         }
       });
 

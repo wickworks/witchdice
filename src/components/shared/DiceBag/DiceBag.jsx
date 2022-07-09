@@ -177,7 +177,7 @@ const DiceBag = ({
   useEffect(() => {
     const rollMessage = lastPostRollMessage ? lastPostRollMessage(resultTotal, rollData) : ''
     // console.log('rollMessage',rollMessage);
-    addNewDicebagPartyRoll(rollData, summaryMode, lastAnnotation, rollMessage, true);
+    addNewDicebagPartyRoll(rollData, summaryMode, summaryModeValue, lastAnnotation, rollMessage, true);
   }, [rollData]);
 
   // update something about the last roll on the party roll panel — IF we're not busy queueing up a new roll
@@ -185,9 +185,9 @@ const DiceBag = ({
     if (rollDieType.length === 0) {
       const rollMessage = lastPostRollMessage ? lastPostRollMessage(resultTotal, rollData) : ''
       // console.log('rollMessage',rollMessage);
-      addNewDicebagPartyRoll(rollData, summaryMode, lastAnnotation, rollMessage, false);
+      addNewDicebagPartyRoll(rollData, summaryMode, summaryModeValue, lastAnnotation, rollMessage, false);
     }
-  }, [summaryMode]);
+  }, [summaryMode, summaryModeValue]);
 
   // If somewhere else has commanded us to queue up a dice roll, do so
   useEffect(() => {
