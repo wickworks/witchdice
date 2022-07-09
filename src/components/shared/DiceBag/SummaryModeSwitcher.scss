@@ -57,7 +57,7 @@
       background-color: $rust;
       border: none;
 
-      &:hover {
+      &:hover, &:focus {
         background-color: $pink;
         color: $soft_black;
       }

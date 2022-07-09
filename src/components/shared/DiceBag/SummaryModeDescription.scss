@@ -1,0 +1,33 @@
+@import '../../../fonts';
+
+
+.SummaryModeDescription {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  margin: 6px 0;
+
+  span {
+    font-style: italic;
+  }
+
+  input[type='number'] {
+    margin: 0 4px;
+
+    @include text_default;
+    // font-weight: bold;
+    color: white;
+    text-align: center;
+    border-radius: 4px;
+    // background-color: transparent;
+    background-color: $rust;
+    border: none;
+
+    &:hover, &:focus {
+      background-color: $pink;
+      color: $soft_black;
+    }
+  }
+}

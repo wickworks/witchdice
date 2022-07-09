@@ -231,19 +231,3 @@ export function parseDieType(dieType) {
   if (dieType.startsWith('x')) dieType = dieType.substring(1);
   return parseInt(dieType);
 }
-
-export function getPlainDescriptionOfRoll(summaryMode, summaryModeValue) {
-  const descriptions = {
-    'total': `Simply sum up all rolls.`,
-    'keep-high': (summaryModeValue === 1 ?
-      'Keep the highest roll.' :
-      `Keep the highest ${summaryModeValue} rolls.`),
-    'keep-low': (summaryModeValue === 1 ?
-      'Keep the lowest roll.' :
-      `Keep the lowest ${summaryModeValue} rolls.`),
-    'count-high': `Count how many dice roll above ${summaryModeValue}.`,
-    'count-low': `Count how many dice roll below ${summaryModeValue}.`
-  }
-
-  return descriptions[summaryMode]
-}

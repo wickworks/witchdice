@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import DiceBookmarks from './DiceBookmarks';
 import DieButton from './DieButton';
 import SummaryModeSwitcher from './SummaryModeSwitcher';
+import SummaryModeDescription from './SummaryModeDescription';
 import PercentileOption from './PercentileOption';
 import TextInput from '../TextInput.jsx';
 import { deepCopy, getRandomInt } from '../../../utils.js';
@@ -320,8 +321,6 @@ const DiceBag = ({
             })}
           </div>
 
-          <p className='roll-description'>{getPlainDescriptionOfRoll(summaryMode, summaryModeValue)}</p>
-
           <div className='annotation-and-summary-mode'>
             <label className={`activate-annotation ${isAnnotationActive ? 'toggled' : ''}`}>
               <input
@@ -334,12 +333,18 @@ const DiceBag = ({
             <SummaryModeSwitcher
               summaryMode={summaryMode}
               setSummaryMode={setSummaryMode}
-              summaryModeValue={summaryModeValue}
-              setSummaryModeValue={setSummaryModeValue}
             />
 
             <div className='placeholder' />
           </div>
+
+
+          <SummaryModeDescription
+            summaryMode={summaryMode}
+            summaryModeValue={summaryModeValue}
+            setSummaryModeValue={setSummaryModeValue}
+          />
+
 
         </div>
       </div>

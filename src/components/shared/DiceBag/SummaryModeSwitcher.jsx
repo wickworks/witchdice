@@ -8,11 +8,11 @@ const allSummaryModes = {
     'count': 'total',
   },
   'high': {
-    'keep': 'keep-high',
+    'keep': 'high',
     'count': 'count-high',
   },
   'low': {
-    'keep': 'keep-low',
+    'keep': 'low',
     'count': 'count-low',
   }
 }
@@ -21,8 +21,6 @@ const allSummaryModes = {
 const SummaryModeSwitcher = ({
   summaryMode,
   setSummaryMode,
-  summaryModeValue,
-  setSummaryModeValue,
 }) => {
 
   const [standardMode, setStandardMode] = useState('total') // total / high / low
@@ -59,37 +57,22 @@ const SummaryModeSwitcher = ({
       </RadioGroup>
 
       {standardMode !== 'total' &&
-        <div className='advanced-container'>
+        <RadioGroup
+          name='summary-mode-advanced'
+          className='RadioGroup'
+          selectedValue={advancedMode}
+          onChange={setAdvancedMode}
+        >
+          <label className={`mode-button ${advancedMode === 'keep' ? 'selected' : ''}`} key='mode-keep'>
+            <Radio value='keep' id='mode-keep' />
+            Keep
+          </label>
 
-
-          <RadioGroup
-            name='summary-mode-advanced'
-            className='RadioGroup'
-            selectedValue={advancedMode}
-            onChange={setAdvancedMode}
-          >
-            <label className={`mode-button ${advancedMode === 'keep' ? 'selected' : ''}`} key='mode-keep'>
-              <Radio value='keep' id='mode-keep' />
-              Keep
-            </label>
-
-            <label className={`mode-button ${advancedMode === 'count' ? 'selected' : ''}`} key='mode-count'>
-              <Radio value='count' id='mode-count' />
-              Count
-            </label>
-          </RadioGroup>
-
-          <input className='advanced-value'
-            type="number"
-            value={summaryModeValue}
-            onChange={e => setSummaryModeValue(Math.min(Math.max(e.target.value, 1), 99))}
-            min='0'
-            max='99'
-            onClick={e => e.stopPropagation()}
-            onFocus={e => e.target.select()}
-            onKeyDown={e => { if (e.key === 'Enter') e.target.blur() }}
-          />
-        </div>
+          <label className={`mode-button ${advancedMode === 'count' ? 'selected' : ''}`} key='mode-count'>
+            <Radio value='count' id='mode-count' />
+            Count
+          </label>
+        </RadioGroup>
       }
     </div>
   )
