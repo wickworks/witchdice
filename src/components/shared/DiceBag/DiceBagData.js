@@ -67,7 +67,7 @@ export function processRollData(rollData, summaryMode, summaryModeValue) {
     } else if (summaryMode === 'count') {
       Object.keys(rollsByType).forEach(dieType => {
         rollsByType[dieType].forEach(roll => {
-          if (Math.abs(roll) > summaryModeValue) resultTotal += 1
+          if (Math.abs(roll) >= summaryModeValue) resultTotal += 1
         })
       })
     }
