@@ -3,7 +3,6 @@ import DiceBookmarks from './DiceBookmarks';
 import DieButton from './DieButton';
 import SummaryModeSwitcher from './SummaryModeSwitcher';
 import SummaryModeDescription from './SummaryModeDescription';
-import PercentileOption from './PercentileOption';
 import TextInput from '../TextInput.jsx';
 import { deepCopy, getRandomInt } from '../../../utils.js';
 import {
@@ -32,7 +31,6 @@ const DiceBag = ({
   const [summaryMode, setSummaryMode] = useState('total');      // 'total' / 'keep-low' / 'keep-high' / 'count-low' / 'count-high'
   const [summaryModeValue, setSummaryModeValue] = useState(1)   // how many to keep/count
 
-  const [percentileMode, setPercentileMode] = useState(false);
   const [defaultVariableDieType, setDefaultVariableDieType] = useState('x')
 
   const [isAnnotationActive, setIsAnnotationActive] = useState(false);
@@ -41,8 +39,6 @@ const DiceBag = ({
 
   const [lastAnnotation, setLastAnnotation] = useState(''); // cache the last annotation & message for any updates
   const [lastPostRollMessage, setLastPostRollMessage] = useState(null);
-
-  const percentileAvailable = (diceData['10'] === 2);
 
   const clearCurrentDiceData = () => {
     let clearedData = {...blankDice};
@@ -98,12 +94,6 @@ const DiceBag = ({
     let results = [];
 
     let rollDice = deepCopy(diceData);
-
-    // hijack d10s in percentile mode
-    if (percentileAvailable && percentileMode) {
-      rollDice['10'] = 0;
-      rollDice['100'] = 1;
-    }
 
     let rolledAtLeastOneDie = false;
 
@@ -229,10 +219,8 @@ const DiceBag = ({
         currentDice={(rollDieType.length > 0) ? diceData : previousDiceData}
         summaryMode={summaryMode}
         summaryModeValue={summaryModeValue}
-        percentileMode={percentileMode}
         setCurrentDice={setDiceData}
         setSummaryMode={setSummaryMode}
-        setPercentileMode={setPercentileMode}
       />
 
       <div className="DiceBag">
@@ -261,19 +249,12 @@ const DiceBag = ({
                 </button>
 
                 <div className='action' id='roll-action'>
-                  {percentileAvailable ?
-                    <PercentileOption
-                      percentileMode={percentileMode}
-                      setPercentileMode={setPercentileMode}
-                    />
-                  :
-                    <div className={`to-roll-summary ${isComplexRoll ? 'complex' : ''}`}>
-                      {!isComplexRoll &&
-                        <span className='verb'>{'Roll '}</span>
-                      }
-                      {toRollString}
-                    </div>
-                  }
+                  <div className={`to-roll-summary ${isComplexRoll ? 'complex' : ''}`}>
+                    {!isComplexRoll &&
+                      <span className='verb'>{'Roll '}</span>
+                    }
+                    {toRollString}
+                  </div>
                 </div>
               </div>
 

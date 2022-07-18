@@ -11,10 +11,8 @@ const DiceBookmarks = ({
   currentDice,
   summaryMode,
   summaryModeValue,
-  percentileMode,
   setCurrentDice,
   setSummaryMode,
-  setPercentileMode,
 }) => {
   const [allBookmarkData, setAllBookmarkData] = useState([]);
 
@@ -31,7 +29,6 @@ const DiceBookmarks = ({
     let bookmarkData = deepCopy(currentDice)
     bookmarkData.summaryMode = summaryMode
     bookmarkData.summaryModeValue = summaryModeValue
-    bookmarkData.percentileMode = percentileMode
 
     let newData = deepCopy(allBookmarkData)
     newData.push(bookmarkData)
@@ -57,12 +54,12 @@ const DiceBookmarks = ({
   // ...AND it doesn't match an existing bookmark.
   allBookmarkData.forEach((bookmarkData, i) => {
     const bookmarkText = getRollDescription(
-      diceDataIntoToRollData(bookmarkData, bookmarkData.percentileMode),
+      diceDataIntoToRollData(bookmarkData),
       bookmarkData.summaryMode,
       bookmarkData.summaryModeValue,
     )
     const diceText = getRollDescription(
-      diceDataIntoToRollData(currentDice, percentileMode),
+      diceDataIntoToRollData(currentDice),
       summaryMode,
       summaryModeValue
     )
@@ -81,7 +78,6 @@ const DiceBookmarks = ({
             bookmarkData={bookmarkData}
             setCurrentDice={setCurrentDice}
             setSummaryMode={setSummaryMode}
-            setPercentileMode={setPercentileMode}
             handleDelete={() => deleteBookmark(i)}
             isSelected={matchingBookmarkIndex === i}
             key={`bookmark-${i}-${allBookmarkData.length}`}
@@ -95,7 +91,7 @@ const DiceBookmarks = ({
           addBookmarkEnabled={addBookmarkEnabled}
           allBookmarkDataLength={allBookmarkData.length}
           rollDescription={
-            getRollDescription(diceDataIntoToRollData(currentDice, percentileMode), summaryMode, summaryModeValue)
+            getRollDescription(diceDataIntoToRollData(currentDice), summaryMode, summaryModeValue)
           }
         />
       }

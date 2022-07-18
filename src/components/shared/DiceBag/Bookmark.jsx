@@ -10,7 +10,6 @@ const Bookmark = ({
   bookmarkData,
   setCurrentDice,
   setSummaryMode,
-  setPercentileMode,
   handleDelete,
   isSelected,
 }) => {
@@ -21,12 +20,9 @@ const Bookmark = ({
     if (leftMouse && !e.shiftKey) {
       let diceData = deepCopy(bookmarkData)
       const summaryMode = diceData.summaryMode
-      const percentileMode = diceData.percentileMode
       delete diceData.summaryMode
-      delete diceData.percentileMode
 
       setSummaryMode(summaryMode)
-      setPercentileMode(percentileMode)
       setCurrentDice(diceData)
 
     // delete bookmark
@@ -46,7 +42,7 @@ const Bookmark = ({
       <div className='asset bookmark' />
 
       {getRollDescription(
-        diceDataIntoToRollData(bookmarkData, bookmarkData.percentileMode),
+        diceDataIntoToRollData(bookmarkData),
         bookmarkData.summaryMode,
         bookmarkData.summaryModeValue
       )}

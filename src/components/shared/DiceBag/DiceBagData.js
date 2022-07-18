@@ -87,14 +87,7 @@ export function processRollData(rollData, summaryMode, summaryModeValue) {
 //    {'dieType': '20', 'count': '1'},
 //    {'dieType': '6',  'count': '-2'}, ...
 //  ]
-export function diceDataIntoToRollData(diceData, percentileMode = false) {
-  // hijack d10s in percentile mode
-  if (percentileMode) {
-    diceData = {...diceData}
-    diceData['10'] = 0;
-    diceData['100'] = 1;
-  }
-
+export function diceDataIntoToRollData(diceData) {
   let toRollData = [];
 
   Object.keys(diceData).forEach(dieType => {

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import DieButton from '../shared/DiceBag/DieButton';
 import SummaryModeSwitcher from '../shared/DiceBag/SummaryModeSwitcher';
-import PercentileOption from '../shared/DiceBag/PercentileOption';
 import {Bookmark, BookmarkNew} from '../shared/DiceBag/Bookmark';
 
 import './TipsAndTricks.scss';
@@ -10,13 +9,12 @@ const TipsAndTricks = () => {
 
   const [dummyDieCount, setDummyDieCount] = useState(-2);
   const [dummySummaryMode, setDummySummaryMode] = useState('total');
-  const [dummyPercentileMode, setDummyPercentileMode] = useState(false);
   const [dummyBookmarkSaved, setDummyBookmarkSaved] = useState(false);
 
   const highClass = dummySummaryMode === 'highest' ? 'mode selected' : 'mode';
   const lowClass = dummySummaryMode === 'lowest' ? 'mode selected' : 'mode';
 
-  const fakeBookmarkData = {4: 0, 6: 4, 8: 0, 10: 0, 12: 0, 20: 1, plus: 0, x: 0, summaryMode: 'total', percentileMode: false}
+  const fakeBookmarkData = {4: 0, 6: 4, 8: 0, 10: 0, 12: 0, 20: 1, plus: 0, x: 0, summaryMode: 'total', summaryModeValue: 1}
   const fakeRollDescription = '1d20 + 4d6'
 
   return (
@@ -41,20 +39,6 @@ const TipsAndTricks = () => {
               from the total, e.g. <span className='dice'>1d20 - 2d6</span>
             </p>
             <p className='desktop-only'>After clicking a die, you can press 1-9 on your keyboard as a shortcut. Backspace clears it.</p>
-          </div>
-
-          <h3>Percentile dice</h3>
-          <div className='tip'>
-            <div className='interactable-widget'>
-              <PercentileOption
-                percentileMode={dummyPercentileMode}
-                setPercentileMode={setDummyPercentileMode}
-              />
-            </div>
-            <div className='text-and-image'>
-              <p>You can roll <span className='dice'>1d100</span> by queuing up <span className='dice'>2d10</span> & checking the box that appears.</p>
-              <div className={`asset ${dummyPercentileMode ? 'd100' : 'd10'}`} />
-            </div>
           </div>
 
           <h3>Min and max</h3>
@@ -85,7 +69,6 @@ const TipsAndTricks = () => {
                   bookmarkData={fakeBookmarkData}
                   setCurrentDice={() => {}}
                   setSummaryMode={() => {}}
-                  setPercentileMode={() => {}}
                   handleDelete={() => setDummyBookmarkSaved(false)}
                   isSelected={false}
                 />
