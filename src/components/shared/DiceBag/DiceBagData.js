@@ -135,7 +135,7 @@ export function getRollDescription(rollData, summaryMode, summaryModeValue) {
   let modifier = 0;
   rollData.forEach(roll => {
     if (roll.dieType === 'plus') {
-      modifier = parseInt(roll.result)
+      modifier = parseInt(roll.result || roll.count || 0)
 
     } else {
       const prevGroup = resultsByType[roll.dieType] || []

@@ -228,7 +228,7 @@ const DiceBag = ({
       <DiceBookmarks
         currentDice={(rollDieType.length > 0) ? diceData : previousDiceData}
         summaryMode={summaryMode}
-        summaryMode={summaryModeValue}
+        summaryModeValue={summaryModeValue}
         percentileMode={percentileMode}
         setCurrentDice={setDiceData}
         setSummaryMode={setSummaryMode}

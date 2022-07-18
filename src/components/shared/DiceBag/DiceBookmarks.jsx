@@ -30,6 +30,7 @@ const DiceBookmarks = ({
   const addNewBookmark = () => {
     let bookmarkData = deepCopy(currentDice)
     bookmarkData.summaryMode = summaryMode
+    bookmarkData.summaryModeValue = summaryModeValue
     bookmarkData.percentileMode = percentileMode
 
     let newData = deepCopy(allBookmarkData)
@@ -94,7 +95,7 @@ const DiceBookmarks = ({
           addBookmarkEnabled={addBookmarkEnabled}
           allBookmarkDataLength={allBookmarkData.length}
           rollDescription={
-            getRollDescription(diceDataIntoToRollData(currentDice, percentileMode), summaryMode,summaryModeValue)
+            getRollDescription(diceDataIntoToRollData(currentDice, percentileMode), summaryMode, summaryModeValue)
           }
         />
       }
