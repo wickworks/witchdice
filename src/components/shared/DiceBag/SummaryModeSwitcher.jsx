@@ -57,13 +57,13 @@ const SummaryModeSwitcher = ({
 
         <label className={`mode-button ${summaryMode === 'above' ? 'selected' : ''}`} key='mode-over'>
           <Radio value='above' id='mode-over' />
-          Over
+          Count
         </label>
 
-        <label className={`mode-button ${summaryMode === 'below' ? 'selected' : ''}`} key='mode-under'>
+        {/*<label className={`mode-button ${summaryMode === 'below' ? 'selected' : ''}`} key='mode-under'>
           <Radio value='below' id='mode-under' />
           Under
-        </label>
+        </label>*/}
       </RadioGroup>
     </div>
   )

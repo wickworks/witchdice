@@ -10,6 +10,7 @@ import './DiceBookmarks.scss';
 const DiceBookmarks = ({
   currentDice,
   summaryMode,
+  summaryModeValue,
   percentileMode,
   setCurrentDice,
   setSummaryMode,
@@ -56,11 +57,13 @@ const DiceBookmarks = ({
   allBookmarkData.forEach((bookmarkData, i) => {
     const bookmarkText = getRollDescription(
       diceDataIntoToRollData(bookmarkData, bookmarkData.percentileMode),
-      bookmarkData.summaryMode
+      bookmarkData.summaryMode,
+      bookmarkData.summaryModeValue,
     )
     const diceText = getRollDescription(
       diceDataIntoToRollData(currentDice, percentileMode),
-      summaryMode
+      summaryMode,
+      summaryModeValue
     )
     if (bookmarkText === diceText) {
       matchingBookmarkIndex = i;
@@ -90,7 +93,9 @@ const DiceBookmarks = ({
           addNewBookmark={addNewBookmark}
           addBookmarkEnabled={addBookmarkEnabled}
           allBookmarkDataLength={allBookmarkData.length}
-          rollDescription={getRollDescription(diceDataIntoToRollData(currentDice, percentileMode), summaryMode)}
+          rollDescription={
+            getRollDescription(diceDataIntoToRollData(currentDice, percentileMode), summaryMode,summaryModeValue)
+          }
         />
       }
     </div>

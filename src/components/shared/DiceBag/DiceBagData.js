@@ -130,7 +130,7 @@ export function diceDataIntoToRollData(diceData, percentileMode = false) {
 // Min (3d6)          | Min (3, 1, 5)
 // Max (1d20) - (3d6) | Max (18) - (3, 1, 6)
 
-export function getRollDescription(rollData, summaryMode) {
+export function getRollDescription(rollData, summaryMode, summaryModeValue) {
   if (!rollData || rollData.length === 0) return ''
 
   // Group the roll data by die type.
@@ -146,8 +146,8 @@ export function getRollDescription(rollData, summaryMode) {
 
     } else {
       const prevGroup = resultsByType[roll.dieType] || []
-      resultsByType[roll.dieType] = [...prevGroup, roll.result]
-      signsByType[roll.dieType] = roll.sign // the whole group's should be the same
+      resultsByType[roll.dieType] = [...prevGroup, Math.abs(roll.result)]
+      signsByType[roll.dieType] = Math.sign(roll.result) // the whole group's should be the same
     }
   })
 
@@ -174,7 +174,7 @@ export function getRollDescription(rollData, summaryMode) {
       resultsByType[dieType] = resultsByType[dieType].join(' + ')
     )
 
-  } else if (summaryMode === 'lowest' || summaryMode === 'highest') {
+  } else { // if (summaryMode === 'lowest' || summaryMode === 'highest') {
     sortedDieTypes.forEach(dieType =>
       resultsByType[dieType] = resultsByType[dieType].join(', ')
     )
@@ -201,8 +201,14 @@ export function getRollDescription(rollData, summaryMode) {
   if (modifier !== 0) summaryString += ` ${modifier > 0 ? '+' : ''} ${modifier}`
 
   // Prepend a "Min" or "Max" appropriately
-  if (summaryMode === 'lowest')  summaryString = 'Min ' + summaryString
-  if (summaryMode === 'highest') summaryString = 'Max ' + summaryString
+  if (summaryMode === 'lowest') {
+    if (summaryModeValue > 1) summaryString = `${summaryModeValue} ${summaryString}`
+    summaryString = `Min ${summaryString}`
+  }
+  if (summaryMode === 'highest') {
+    if (summaryModeValue > 1) summaryString = `${summaryModeValue} ${summaryString}`
+    summaryString = `Max ${summaryString}`
+  }
 
   return summaryString
 }

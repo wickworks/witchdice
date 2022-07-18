@@ -176,11 +176,11 @@ const DiceBag = ({
   });
 
   // summarize what we're going to roll
-  const toRollString = getRollDescription(diceDataIntoToRollData(diceData), summaryMode)
+  const toRollString = getRollDescription(diceDataIntoToRollData(diceData), summaryMode, summaryModeValue)
 
   // summarize the results
   const resultTotal = processRollData(rollData, summaryMode, summaryModeValue)
-  const resultSummary = getRollDescription(rollData, summaryMode)
+  const resultSummary = getRollDescription(rollData, summaryMode, summaryModeValue)
 
   // add it to the party roll panel
   useEffect(() => {
@@ -228,6 +228,7 @@ const DiceBag = ({
       <DiceBookmarks
         currentDice={(rollDieType.length > 0) ? diceData : previousDiceData}
         summaryMode={summaryMode}
+        summaryMode={summaryModeValue}
         percentileMode={percentileMode}
         setCurrentDice={setDiceData}
         setSummaryMode={setSummaryMode}

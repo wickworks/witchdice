@@ -47,7 +47,8 @@ const Bookmark = ({
 
       {getRollDescription(
         diceDataIntoToRollData(bookmarkData, bookmarkData.percentileMode),
-        bookmarkData.summaryMode
+        bookmarkData.summaryMode,
+        bookmarkData.summaryModeValue
       )}
     </button>
   );
