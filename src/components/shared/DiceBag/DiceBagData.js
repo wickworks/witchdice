@@ -55,7 +55,7 @@ export function processRollData(rollData, summaryMode, summaryModeValue) {
 
       Object.keys(rollsByType).forEach(dieType => {
         // sort all the rolls by lowest- or highest-first
-        rollsByType[dieType].sort((a,b) => (a<b) ? sortOrder : -1*sortOrder)
+        rollsByType[dieType].sort((a,b) => (Math.abs(a) < Math.abs(b)) ? sortOrder : -1 * sortOrder)
 
         // trim all the rolls by the summary mode value
         rollsByType[dieType] = rollsByType[dieType].slice(0, summaryModeValue)
@@ -64,17 +64,10 @@ export function processRollData(rollData, summaryMode, summaryModeValue) {
         resultTotal += rollsByType[dieType].reduce((prev,roll) => prev + roll, 0)
       });
 
-    } else if (summaryMode === 'below') {
+    } else if (summaryMode === 'count') {
       Object.keys(rollsByType).forEach(dieType => {
         rollsByType[dieType].forEach(roll => {
-          if (roll < summaryModeValue) resultTotal += 1
-        })
-      })
-
-    } else if (summaryMode === 'above') {
-      Object.keys(rollsByType).forEach(dieType => {
-        rollsByType[dieType].forEach(roll => {
-          if (roll > summaryModeValue) resultTotal += 1
+          if (Math.abs(roll) > summaryModeValue) resultTotal += 1
         })
       })
     }
@@ -89,13 +82,12 @@ export function processRollData(rollData, summaryMode, summaryModeValue) {
 
 // turns rollDice data:
 //  { '20': 1, '6': -2 ... }
-// into "to-roll" data that looks like roll data but dice instead of results
+// into "to-roll" data that looks like roll data but dice instead of results (so the summary can use either)
 //  [
-//    {'dieType': '20', 'result': '1d20', sign: 1},
-//    {'dieType': '6',  'result': '2d6',  sign: -1}, ...
+//    {'dieType': '20', 'count': '1'},
+//    {'dieType': '6',  'count': '-2'}, ...
 //  ]
 export function diceDataIntoToRollData(diceData, percentileMode = false) {
-
   // hijack d10s in percentile mode
   if (percentileMode) {
     diceData = {...diceData}
@@ -112,8 +104,7 @@ export function diceDataIntoToRollData(diceData, percentileMode = false) {
     if ((parseDieType(dieType) || dieType === 'plus') && rollCount > 0) {
       toRollData.push({
         dieType: dieType,
-        result: (dieType === 'plus' ? diceData[dieType] : `${rollCount}d${parseDieType(dieType)}`),
-        sign: rollSign
+        count: diceData[dieType],
       })
     }
   })
@@ -122,7 +113,9 @@ export function diceDataIntoToRollData(diceData, percentileMode = false) {
 }
 
 // turns to-roll or roll data:
-//   [ {'dieType': '20', 'result': 1, sign: 1}, ... ]
+//   [ {'dieType': '20', 'result': 1}, ... ]
+//   - or -
+//   [ {'dieType': '6', 'count': -2}, ... ]
 // into a string that says what WILL BE or WAS rolled, e.g.
 // 1d20               | 18
 // 2d12 + 4           | 11 + 12 + 4
@@ -146,8 +139,18 @@ export function getRollDescription(rollData, summaryMode, summaryModeValue) {
 
     } else {
       const prevGroup = resultsByType[roll.dieType] || []
-      resultsByType[roll.dieType] = [...prevGroup, Math.abs(roll.result)]
-      signsByType[roll.dieType] = Math.sign(roll.result) // the whole group's should be the same
+
+      // already-rolled results
+      if (roll.result) {
+        resultsByType[roll.dieType] = [...prevGroup, Math.abs(roll.result)]
+        signsByType[roll.dieType] = Math.sign(roll.result) // the whole group's should be the same
+
+      // to-roll results
+      } else if (roll.count) {
+        const rollString = `${Math.abs(roll.count)}d${parseDieType(roll.dieType)}`
+        resultsByType[roll.dieType] = [...prevGroup, rollString]
+        signsByType[roll.dieType] = Math.sign(roll.count) // the whole group's should be the same
+      }
     }
   })
 
@@ -182,7 +185,7 @@ export function getRollDescription(rollData, summaryMode, summaryModeValue) {
 
   // Wrap each group in parens, as necessary
   sortedDieTypes.forEach(dieType => {
-    if (summaryMode === 'lowest' || summaryMode === 'highest' || signsByType[dieType] < 0) {
+    if (summaryMode !== 'total' || signsByType[dieType] < 0) {
       const nonBreakingSpace = "\u00a0"
       resultsByType[dieType] = `(${nonBreakingSpace}${resultsByType[dieType]}${nonBreakingSpace})`
     }
@@ -208,6 +211,9 @@ export function getRollDescription(rollData, summaryMode, summaryModeValue) {
   if (summaryMode === 'highest') {
     if (summaryModeValue > 1) summaryString = `${summaryModeValue} ${summaryString}`
     summaryString = `Max ${summaryString}`
+  }
+  if (summaryMode === 'count') {
+    summaryString = `Count ${summaryModeValue}+ ${summaryString}`
   }
 
   return summaryString

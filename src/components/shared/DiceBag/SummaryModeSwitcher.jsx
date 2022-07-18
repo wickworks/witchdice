@@ -1,36 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {RadioGroup, Radio} from 'react-radio-group';
 import './SummaryModeSwitcher.scss';
-//
-// const allSummaryModes = {
-//   'total': {
-//     'keep': 'total',
-//     'count': 'total',
-//   },
-//   'highest': {
-//     'keep': 'highest',
-//     'count': 'above',
-//   },
-//   'lowest': {
-//     'keep': 'lowest',
-//     'count': 'below',
-//   }
-// }
-
 
 const SummaryModeSwitcher = ({
   summaryMode,
   setSummaryMode,
 }) => {
-
-  const [standardMode, setStandardMode] = useState('total') // total / high / low
-  const [advancedMode, setAdvancedMode] = useState('keep')  // keep / count
-
-  // // determine what the summary mode is
-  // useEffect(() => {
-  //   const newSummaryMode = allSummaryModes[standardMode][advancedMode]
-  //   setSummaryMode(newSummaryMode)
-  // }, [standardMode, advancedMode]);
 
   return (
     <div className="SummaryModeSwitcher">
@@ -55,8 +30,8 @@ const SummaryModeSwitcher = ({
           Low
         </label>
 
-        <label className={`mode-button ${summaryMode === 'above' ? 'selected' : ''}`} key='mode-over'>
-          <Radio value='above' id='mode-over' />
+        <label className={`mode-button ${summaryMode === 'count' ? 'selected' : ''}`} key='mode-count'>
+          <Radio value='count' id='mode-count' />
           Count
         </label>
 

@@ -62,7 +62,7 @@ const PartyActionDicebag = ({actionData, showName}) => {
 
   // these are put together into a string
   let [summaryMode, summaryModeValue] = conditions.split(' ')
-  summaryModeValue = summaryModeValue || 1
+  summaryModeValue = parseInt(summaryModeValue) || 1
 
   // convert the 'roll-X' keys into roll data:
   // [ {'dieType': '20', 'result': '1'}, {'dieType': '20', 'result': '12'}, ... ]

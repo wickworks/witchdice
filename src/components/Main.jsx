@@ -131,7 +131,8 @@ const Main = ({
       actionData.message = message
 
       actionData.type = 'dicebag';
-      actionData.conditions = rolls.length > 1 ? `${summaryMode} ${summaryModeValue}` : '';
+      const modeString = `${summaryMode} ${summaryModeValue}${summaryMode === 'count' ? '+' : ''}`
+      actionData.conditions = rolls.length > 1 ? modeString : '';
 
       // rolls = [ {dieType: 'd6', result: 4}, ... ]
       rolls.forEach((roll, i) => {

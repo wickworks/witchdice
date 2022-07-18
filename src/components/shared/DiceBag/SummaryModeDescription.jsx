@@ -13,16 +13,14 @@ const SummaryModeDescription = ({
     'total': `Simply sum up all rolls.`,
     'highest': 'Keep the highest',
     'lowest': 'Keep the lowest',
-    'above': 'Count how many dice roll above',
-    'below': 'Count how many dice roll below'
+    'count': 'Count the dice that roll',
   }
 
   const postDesc = {
     'total': '',
     'highest': (summaryModeValue === 1 ? 'roll.' : `rolls.`),
     'lowest': (summaryModeValue === 1 ? 'roll.' : `rolls.`),
-    'above': '',
-    'below': ''
+    'count': 'or higher.',
   }
 
   return (
