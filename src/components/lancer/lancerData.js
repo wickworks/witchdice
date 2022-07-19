@@ -222,7 +222,7 @@ export const findPilotGearData = (pilotGearID) => {
 
 export const findCoreBonusData = (coreBonusID) => {
   var coreBonusData = allCoreBonuses[coreBonusID]
-  if (!coreBonusData) coreBonusData = findGameDataFromLcp('core_bonuses', coreBonusID)
+  if (!coreBonusData) coreBonusData = findGameDataFromLcp('coreBonuses', coreBonusID)
   return coreBonusData ? coreBonusData : findWeaponData('missing_corebonus')
 }
 

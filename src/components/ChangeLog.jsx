@@ -14,8 +14,9 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v0.13.0 — July 2022</div>
+          <div className='version-label'>v0.13.0-1 — July 2022</div>
           <ul>
+            <li>Fix import of core bonuses from custom LCPs.</li>
             <li>Mechs in squad panel can be clicked for detailed build.</li>
           </ul>
 
