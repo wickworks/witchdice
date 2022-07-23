@@ -243,6 +243,9 @@ function getFrameTraits(traitList, coreSystem) {
     frameTraits.push(passiveTrait)
   }
 
+  // -- CORE SYSTEM DEPLOYABLES --
+  addDeployableTraits(coreSystem.deployables, frameTraits)
+
   // -- FRAME TRAITS --
   traitList.forEach(trait => {
     let traitTrait = {
@@ -324,45 +327,7 @@ function getSystemTraits(systems, limitedBonus) {
     }
 
     // system deployables
-    if (systemData.deployables) {
-      systemData.deployables.forEach((deployable, i) => {
-        if (deployable.type === 'Mine') limited.icon = 'mine'
-
-        let deployableSubTraits = [];
-        if (deployable.actions) {
-          deployable.actions.forEach(action => {
-            deployableSubTraits.push({
-              systemIndex: systemIndex,
-              name: action.name,
-              activation: action.activation || 'Quick',
-              trigger: action.trigger,
-              range: action.range,
-              description: action.detail,
-              isTitleCase: true,
-            })
-          })
-        }
-
-        const deployableStatblock = deployable.hp ? {
-          edef: deployable.edef || 10,
-          evasion: deployable.evasion || 10,
-          hp: deployable.hp,
-          size: deployable.size || 1
-        } : null
-
-        systemSubTraits.push({
-          systemIndex: systemIndex,
-          name: deployable.name,
-          activation: deployable.activation || 'Deployable',
-          trigger: deployable.trigger,
-          range: deployable.range,
-          description: deployable.detail,
-          statblock: deployableStatblock,
-          subTraits: deployableSubTraits,
-          isTitleCase: true,
-        })
-      })
-    }
+    addDeployableTraits(systemData.deployables, systemSubTraits, limited, systemIndex)
 
     // -- post-processing depending on the subtraits ---
     // YO if we only have one action/deployable and nothing to say about it, just use that subcard instead of us
@@ -388,6 +353,50 @@ function getSystemTraits(systems, limitedBonus) {
   })
 
   return systemTraits
+}
+
+// makes subtraits for deployables
+function addDeployableTraits(deployables, addToTraits, limited = null, systemIndex = -1) {
+  // system deployables
+  if (deployables) {
+    deployables.forEach((deployable, i) => {
+      if (deployable.type === 'Mine' && limited) limited.icon = 'mine'
+
+      let deployableSubTraits = [];
+      if (deployable.actions) {
+        deployable.actions.forEach(action => {
+          deployableSubTraits.push({
+            systemIndex: systemIndex,
+            name: action.name,
+            activation: action.activation || 'Quick',
+            trigger: action.trigger,
+            range: action.range,
+            description: action.detail,
+            isTitleCase: true,
+          })
+        })
+      }
+
+      const deployableStatblock = deployable.hp ? {
+        edef: deployable.edef || 10,
+        evasion: deployable.evasion || 10,
+        hp: deployable.hp,
+        size: deployable.size || 1
+      } : null
+
+      addToTraits.push({
+        systemIndex: systemIndex,
+        name: deployable.name,
+        activation: deployable.activation || 'Deployable',
+        trigger: deployable.trigger,
+        range: deployable.range,
+        description: deployable.detail,
+        statblock: deployableStatblock,
+        subTraits: deployableSubTraits,
+        isTitleCase: true,
+      })
+    })
+  }
 }
 
 
