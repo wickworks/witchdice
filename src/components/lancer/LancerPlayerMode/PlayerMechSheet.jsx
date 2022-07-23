@@ -332,6 +332,8 @@ function getSystemTraits(systems, limitedBonus) {
     // -- post-processing depending on the subtraits ---
     // YO if we only have one action/deployable and nothing to say about it, just use that subcard instead of us
     if (!systemTrait.description && systemSubTraits.length === 1) {
+      systemSubTraits[0].isDestructable = !hasTag(systemData, 'tg_indestructible')
+      systemSubTraits[0].isDestroyed = system.destroyed
       systemTrait = {...systemSubTraits[0]}
     } else {
       // add actions and deployable sub cards
