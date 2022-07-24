@@ -16,6 +16,7 @@
 
   input[type='number'] {
     margin: 0 4px;
+    width: 44px;
 
     @include text_default;
     // font-weight: bold;

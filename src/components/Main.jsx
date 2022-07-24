@@ -132,7 +132,7 @@ const Main = ({
 
       actionData.type = 'dicebag';
       const modeString = `${summaryMode} ${summaryModeValue}${summaryMode === 'count' ? '+' : ''}`
-      actionData.conditions = rolls.length > 1 ? modeString : '';
+      actionData.conditions = rolls.length > 1 ? modeString : ''; // it will default to "total" for single rolls
 
       // rolls = [ {dieType: 'd6', result: 4}, ... ]
       rolls.forEach((roll, i) => {
