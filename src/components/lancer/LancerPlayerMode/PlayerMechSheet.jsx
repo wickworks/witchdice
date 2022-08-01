@@ -32,6 +32,7 @@ import {
   findFrameData,
   findSystemData,
   findTalentData,
+  findCoreBonusData,
   baselineMount,
   hasTag,
   getSystemLimited,
@@ -128,7 +129,7 @@ const PlayerMechSheet = ({
   const robotLoadout = {
     frameTraits: getFrameTraits(frameData.traits, frameData.core_system),
     systems: getSystemTraits([...loadout.systems, ...loadout.integratedSystems], robotStats.limitedBonus),
-    pilotTalents: getPilotTraits(activePilot.talents),
+    pilotTraits: getPilotTraits(activePilot.talents, activePilot.core_bonuses),
 
     mounts: [...getMountsFromLoadout(loadout), deepCopy(baselineMount)],
     invades: getInvadeAndTechAttacks(loadout, activePilot.talents),
@@ -403,11 +404,13 @@ function addDeployableTraits(deployables, addToTraits, limited = null, systemInd
 
 
 // Harvest the traits for each pilot talent
-function getPilotTraits(pilotTalents) {
+function getPilotTraits(pilotTalents, pilotCoreBonuses) {
   let pilotTraits = []
 
+  // TALENTS
   pilotTalents.forEach(pilotTalent => {
     const talentData = findTalentData(pilotTalent.id)
+    let overallActivation = '';
 
     let talentRankTraits = [];
     talentData.ranks.forEach((rankData,i) => {
@@ -425,7 +428,8 @@ function getPilotTraits(pilotTalents) {
         if (rankData.actions) {
           talentTrait.subTraits = []
 
-          rankData.actions.forEach(action =>
+          rankData.actions.forEach(action => {
+            overallActivation = overallActivation || action.activation
             talentTrait.subTraits.push({
               name: action.name,
               activation: action.activation,
@@ -433,7 +437,7 @@ function getPilotTraits(pilotTalents) {
               frequency: action.frequency,
               description: action.detail,
             })
-          )
+          })
         }
 
         talentRankTraits.push(talentTrait)
@@ -444,7 +448,37 @@ function getPilotTraits(pilotTalents) {
       name: `${talentData.name.toLowerCase()} ${pilotTalent.rank}`,
       subTraits: talentRankTraits,
       isTitleCase: true,
+      activation: overallActivation,
     })
+  })
+  
+  // CORE BONUSES
+  pilotCoreBonuses.forEach(coreBonus => {
+    const coreBonusData = findCoreBonusData(coreBonus)
+
+    const coreBonusTrait = {
+      name: coreBonusData.name.toLowerCase(),
+      description: coreBonusData.effect,
+      isTitleCase: true,
+    }
+
+    // add any sub-actions from this trait
+    if (coreBonusData.actions) {
+      coreBonusTrait.subTraits = []
+
+      coreBonusData.actions.forEach(action => {
+        coreBonusTrait.activation = coreBonusTrait.activation || action.activation
+        coreBonusTrait.subTraits.push({
+          name: action.name,
+          activation: action.activation,
+          trigger: action.trigger,
+          frequency: action.frequency,
+          description: action.detail,
+        })
+      })
+    }
+
+    pilotTraits.push(coreBonusTrait)
   })
 
   return pilotTraits

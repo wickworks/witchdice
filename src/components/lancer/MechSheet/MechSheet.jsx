@@ -178,10 +178,10 @@ const MechSheet = ({
           setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
         />
 
-        { robotLoadout.pilotTalents.length > 0 &&
+        { robotLoadout.pilotTraits.length > 0 &&
           <MechTraits
-            sectionTitle='Talents'
-            frameTraits={robotLoadout.pilotTalents}
+            sectionTitle='Pilot Traits'
+            frameTraits={robotLoadout.pilotTraits}
             setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
           />
         }

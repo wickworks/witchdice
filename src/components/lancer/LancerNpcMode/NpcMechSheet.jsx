@@ -108,7 +108,7 @@ const NpcMechSheet = ({
   const robotLoadout = {
     frameTraits: getNpcTraits(activeNpc.items),
     systems: getSystemTraits(activeNpc.items),
-    pilotTalents: [],
+    pilotTraits: [],
     mounts: [...getNpcWeaponAttacks(activeNpc.items), baselineMount],
     invades: getNpcTechAttacks(activeNpc.items),
   }
