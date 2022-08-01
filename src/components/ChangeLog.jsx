@@ -14,8 +14,9 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v0.13.0-3 — July 2022</div>
+          <div className='version-label'>v0.13.0-4 — July 2022</div>
           <ul>
+            <li>Core bonuses show up alongside pilot talent cards.</li>
             <li>Fix destructability of systems with a single action.</li>
             <li>Added count mode for dicebag.</li>
             <li>Can keep X highest/lowest rolls instead of just one.</li>
