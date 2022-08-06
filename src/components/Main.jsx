@@ -130,9 +130,17 @@ const Main = ({
       if (annotation) actionData.name += ` — ${annotation}`
       actionData.message = message
 
-      actionData.type = 'dicebag';
-      const modeString = `${summaryMode} ${summaryModeValue}${summaryMode === 'count' ? '+' : ''}`
-      actionData.conditions = rolls.length > 1 ? modeString : ''; // it will default to "total" for single rolls
+      actionData.type = 'dicebag'
+
+      let modeString = ''
+      if (rolls.length <= 1) {
+        modeString = ''
+      } else if (summaryMode === 'total') {
+        modeString = summaryMode
+      } else {
+        modeString = `${summaryMode} ${summaryModeValue}${summaryMode === 'count' ? '+' : ''}`
+      }
+      actionData.conditions = modeString
 
       // rolls = [ {dieType: 'd6', result: 4}, ... ]
       rolls.forEach((roll, i) => {
