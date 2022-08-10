@@ -10,29 +10,52 @@
   // &:first-child { border-top: 2px solid $parchment_dark; }
   // &:not(:last-child) { margin-bottom: 16px; }
 
-  .damage-container {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+  .details-and-total-container {
     min-height: 78px;
 
-    > * { flex-shrink: 0; }
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
 
-    .miss-message {
-      margin-left: auto;
-      margin-right: 6px;
-      font-size: 18px;
-      font-weight: bold;
-      color: $rust;
+    .details-container {
+      display: grid;
+      align-items: center;
+      grid-template-columns: 44px 1fr;
+
+      .HitCheckbox {
+        grid-row: 1 / span 1;
+        width: fit-content;
+        height: fit-content;
+      }
+
+      .AttackRollOutput {
+        grid-row: span 1;
+      }
+
+      .damage-line {
+        grid-column: 2 / span 1;
+        grid-row: 2 / span 1;
+
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        flex-shrink: 1;
+
+        // @include max_width { max-width: 200px; }
+      }
+
+
     }
 
-    .damage-line {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
-      flex-shrink: 1;
+    .total-container {
+      margin: 4px 0 4px auto;
 
-      // @include max_width { max-width: 200px; }
+      .miss-message {
+        margin-right: 6px;
+        font-size: 18px;
+        font-weight: bold;
+        color: $rust;
+      }
     }
   }
 

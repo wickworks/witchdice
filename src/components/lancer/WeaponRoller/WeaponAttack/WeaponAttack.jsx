@@ -187,71 +187,69 @@ const WeaponAttack = ({
     />
   :
     <div className="WeaponAttack">
-      <div className="damage-container">
+      <div className="details-and-total-container">
+        <div className="details-container">
+          <HitCheckbox
+            isHit={isHit}
+            handleHitClick={() => setIsHit(!isHit)}
+          />
 
-        <HitCheckbox
-          isHit={isHit}
-          handleHitClick={() => setIsHit(!isHit)}
-        />
+          <AttackRollOutput
+            toHitData={toHitData}
+            changeAccuracyMod={changeAccuracyMod}
+            manualRoll={manualRoll}
+            setManualRoll={setManualRoll}
+            isCrit={isCrit}
+            invertCrit={invertCrit}
+            setInvertCrit={setInvertCrit}
+            isRerolled={isRerolled}
+            setIsRerolled={setIsRerolled}
+          />
 
-        <AttackRollOutput
-          toHitData={toHitData}
-          changeAccuracyMod={changeAccuracyMod}
-          manualRoll={manualRoll}
-          setManualRoll={setManualRoll}
-          isCrit={isCrit}
-          invertCrit={invertCrit}
-          setInvertCrit={setInvertCrit}
-          isRerolled={isRerolled}
-          setIsRerolled={setIsRerolled}
-        />
+          { isHit && damageRollCount > 1 &&
+            <div className="damage-line">
+              { attackData.damage.rolls.map((rollData, i) =>
+                <DamageRollPool
+                  rollData={rollData}
+                  isCrit={isCrit}
+                  damageModifiers={damageModifiers}
+                  key={i}
+                />
+              )}
 
-        { isHit ?
-          <>
-            { damageRollCount > 1 &&
-              <div className="damage-line">
-                { attackData.damage.rolls.map((rollData, i) =>
-                  <DamageRollPool
-                    rollData={rollData}
-                    isCrit={isCrit}
-                    damageModifiers={damageModifiers}
-                    key={i}
-                  />
-                )}
+              { trimmedBonusDamageRolls.map((rollData, i) =>
+                <DamageRollPool
+                  rollData={rollData}
+                  isCrit={isCrit}
+                  isBonusDamage={true}
+                  halveBonusDamage={halveBonusDamage}
+                  damageModifiers={damageModifiers}
+                  key={i}
+                />
+              )}
 
-                { trimmedBonusDamageRolls.map((rollData, i) =>
-                  <DamageRollPool
-                    rollData={rollData}
-                    isCrit={isCrit}
-                    isBonusDamage={true}
-                    halveBonusDamage={halveBonusDamage}
-                    damageModifiers={damageModifiers}
-                    key={i}
-                  />
-                )}
-
-                { isFirstRoll && firstBonusDamageRolls.map((rollData, i) =>
-                  <DamageRollPool
-                    rollData={rollData}
-                    isCrit={isCrit}
-                    isBonusDamage={true}
-                    halveBonusDamage={false}
-                    damageModifiers={damageModifiers}
-                    key={i}
-                  />
-                )}
-              </div>
-            }
-
-            { Object.keys(totalsByType).length > 0 && <DamageSubtotal totalsByType={totalsByType} /> }
-          </>
-        : isReliable ?
-          <>
+              { isFirstRoll && firstBonusDamageRolls.map((rollData, i) =>
+                <DamageRollPool
+                  rollData={rollData}
+                  isCrit={isCrit}
+                  isBonusDamage={true}
+                  halveBonusDamage={false}
+                  damageModifiers={damageModifiers}
+                  key={i}
+                />
+              )}
+            </div>
+          }
+        </div>
+        <div className="total-container">
+          { isHit ?
+            Object.keys(totalsByType).length > 0 && <DamageSubtotal totalsByType={totalsByType} />
+          : isReliable ?
             <DamageSubtotal totalsByType={ {...reliableDamage} } />
-          </>
-        :
-          <div className="miss-message">Missed.</div>
-        }
+          :
+            <div className="miss-message">Missed.</div>
+          }
+        </div>
       </div>
 
       <div className="effects-container">

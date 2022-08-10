@@ -2,14 +2,15 @@
 
 
 .DamageSubtotal {
-  // margin-left: auto;
-  max-width: 200px;
+  border: 2px solid $parchment_dark;
+  border-radius: 8px;
 
   button {
     padding: 0;
+    border-radius: 8px;
 
     &:hover {
-      background-color: $parchment_dark;
+      background-color: $pink;
     }
 
     &:disabled {
@@ -58,13 +59,13 @@
       align-items: center;
 
       .amount {
-        font-size: 36px;
+        font-size: 46px;
         margin-left: 10px;
       }
 
       .asset {
-        width: 30px;
-        height: 30px;
+        width: 36px;
+        height: 36px;
       }
     }
   }
