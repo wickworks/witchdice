@@ -216,7 +216,7 @@ export const findSkillData = (skillID) => {
 
 export const findPilotGearData = (pilotGearID) => {
   var pilotGearData = allPilotGear[pilotGearID]
-  if (!pilotGearData) pilotGearData = findGameDataFromLcp('pilot_gear', pilotGearID)
+  if (!pilotGearData) pilotGearData = findGameDataFromLcp('pilotGear', pilotGearID)
   return pilotGearData ? pilotGearData : blankPilotGear
 }
 
