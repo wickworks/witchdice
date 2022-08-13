@@ -11,7 +11,6 @@ import {
   getNpcSkillCheckAccuracy,
   setNumbersByTier,
   getActivationType,
-  getUsesPerRound,
 } from './npcUtils.js';
 
 import {
@@ -22,6 +21,7 @@ import {
   getSystemRecharge,
   getSystemLimited,
   getSelfHeat,
+  getUsesPerRound,
   hasTag,
 } from '../lancerData.js';
 

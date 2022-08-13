@@ -88,11 +88,7 @@ export function getActivationType(featureData) {
   return activation
 }
 
-export function getUsesPerRound(featureData) {
-  const roundTag = findTagOnData(featureData, 'tg_round')
-  if (roundTag) return `${roundTag.val}/round`
-  return ''
-}
+
 
 // refresh limited uses, etc; modifies in place
 export function fullRepairNpc(npc) {

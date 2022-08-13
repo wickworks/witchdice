@@ -447,6 +447,12 @@ export const getTagName = (tag, forceCapitalize = false) => {
   return tagString
 }
 
+export const getUsesPerRound = (featureData) => {
+  const roundTag = findTagOnData(featureData, 'tg_round')
+  if (roundTag) return `${roundTag.val}/round`
+  return ''
+}
+
 export function getAllWeaponRanges(weaponData) {
   if (!weaponData) return []
   return [

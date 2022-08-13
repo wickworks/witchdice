@@ -37,7 +37,8 @@ import {
   hasTag,
   getSystemLimited,
   getSystemRecharge,
-  getSelfHeat
+  getSelfHeat,
+  getUsesPerRound,
 } from '../lancerData.js';
 
 import { applyUpdatesToPlayer } from './playerUtils.js';
@@ -297,6 +298,7 @@ function getSystemTraits(systems, limitedBonus) {
       name: (system.flavorName || systemData.name).toLowerCase(),
       selfHeat: selfHeat,
       description: systemData.effect,
+      frequency: getUsesPerRound(systemData),
       isDestructable: !hasTag(systemData, 'tg_indestructible'),
       isDestroyed: system.destroyed,
       recharge: recharge,
@@ -317,6 +319,7 @@ function getSystemTraits(systems, limitedBonus) {
             name: (action.name || system.flavorName || systemData.name).toLowerCase(),
             activation: action.activation || 'Quick',
             trigger: action.trigger,
+            frequency: action.frequency,
             range: action.range,
             selfHeat: selfHeat,
             description: action.detail,
