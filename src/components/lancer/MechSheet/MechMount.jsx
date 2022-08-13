@@ -58,7 +58,7 @@ function isNpcFeatureTechAttack(featureData) {
   return !!featureData.effect.indexOf('makes a tech attack')
 }
 
-function getBroadcastObjectForWeapon(weaponData, bonusEffects, modData) {
+function getBroadcastObjectForWeapon(weaponData, bonusEffects, modData, flavorName = null) {
   const mountString = [
     getMountName(weaponData),
     bonusEffects && bonusEffects.map(effect => capitalize(effect, true)),
@@ -106,7 +106,7 @@ function getBroadcastObjectForWeapon(weaponData, bonusEffects, modData) {
 
   return {
     type: 'text',
-		title: weaponData.name.toUpperCase(),
+		title: (flavorName || weaponData.name).toUpperCase(),
 		message: [
       mountString,
       statString,
@@ -167,6 +167,7 @@ const MechMount = ({
             mountType={(i === 0 && !isBaseline) ? getMountName(weaponData) : ''}
             bonusEffects={i === 0 ? bonusEffects : []}
             weaponData={weaponData}
+            flavorName={weapon.flavorName}
             mod={weaponMod}
             onClick={() => setActiveWeaponIndex(i)}
             isActive={activeWeaponIndex === i}
@@ -240,6 +241,7 @@ const MechWeapon = ({
   mountType = '',
   bonusEffects = [],
   weaponData = null,
+  flavorName = null,
   mod = null,
   onClick = () => {},
   isActive,
@@ -267,7 +269,7 @@ const MechWeapon = ({
           }
           { setRollSummaryData &&
             <BroadcastSystemButton onBroadcast={() =>
-              setRollSummaryData(getBroadcastObjectForWeapon(weaponData, bonusEffects, modData))}
+              setRollSummaryData(getBroadcastObjectForWeapon(weaponData, bonusEffects, modData, flavorName))}
             />
           }
         </div>
@@ -287,7 +289,7 @@ const MechWeapon = ({
 
         { weaponData ?
           <div className={`weapon-name-container ${isDestroyed ? 'destroyed' : ''}`}>
-            <div className="name">{weaponData.name.toLowerCase()}</div>
+            <div className="name">{(flavorName || weaponData.name).toLowerCase()}</div>
             {isDestroyed && <div className='destroyed-text'>[ DESTROYED ]</div>}
             {modData && <div className='mod'>{modData.name}</div>}
             {limited && <div className='mod'>Limited {limited.current}/{limited.max}</div>}

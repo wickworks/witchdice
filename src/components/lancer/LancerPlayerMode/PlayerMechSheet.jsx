@@ -294,7 +294,7 @@ function getSystemTraits(systems, limitedBonus) {
 
     let systemTrait = {
       systemIndex: systemIndex,
-      name: systemData.name.toLowerCase(),
+      name: (system.flavorName || systemData.name).toLowerCase(),
       selfHeat: selfHeat,
       description: systemData.effect,
       isDestructable: !hasTag(systemData, 'tg_indestructible'),
@@ -314,7 +314,7 @@ function getSystemTraits(systems, limitedBonus) {
 
           systemSubTraits.push({
             systemIndex: systemIndex,
-            name: (action.name || systemData.name).toLowerCase(),
+            name: (action.name || system.flavorName || systemData.name).toLowerCase(),
             activation: action.activation || 'Quick',
             trigger: action.trigger,
             range: action.range,
@@ -451,7 +451,7 @@ function getPilotTraits(pilotTalents, pilotCoreBonuses) {
       activation: overallActivation,
     })
   })
-  
+
   // CORE BONUSES
   pilotCoreBonuses.forEach(coreBonus => {
     const coreBonusData = findCoreBonusData(coreBonus)

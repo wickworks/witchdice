@@ -250,6 +250,7 @@ function getNpcWeaponAttacks(items) {
                 maxUseOverride: 0,
                 uses: 0,
                 selectedProfile: 0,
+                flavorName: item.flavorName,
 
                 npcTier: item.tier,
                 npcAttackBonus: attackBonus,

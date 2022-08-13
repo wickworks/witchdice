@@ -36,6 +36,7 @@ const WeaponRoller = ({
   weaponData,
   weaponMod,
   weaponNpcAccuracy,
+  flavorName,
   mountBonusEffects,
   gritBonus,
   allRangeSynergies,
@@ -84,7 +85,7 @@ const WeaponRoller = ({
 
     setAllAttackSummaries(attackSummaries);
     setRollSummaryData({
-      conditions: [weaponData.name],
+      conditions: [(flavorName || weaponData.name)],
       rolls: attackSummaries,
       skipTotal: true,
     })
@@ -239,7 +240,7 @@ const WeaponRoller = ({
 
   return (
     <div className='WeaponRoller'>
-      <h3 className='name'>{weaponData.name}</h3>
+      <h3 className='name'>{flavorName || weaponData.name}</h3>
 
       <div className="top-bar">
         { allWeaponProfiles.map((weaponProfile, i) =>
