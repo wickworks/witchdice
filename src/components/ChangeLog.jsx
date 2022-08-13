@@ -14,8 +14,13 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v0.13.0-4 — July 2022</div>
+          <div className='version-label'>v0.13.0-5 — July, Aug 2022</div>
           <ul>
+            <li>Fix pilot gear import from homebrew LCPS.</li>
+            <li>Fix talents for weapons with profiles.</li>
+            <li>Player systems report X/round.</li>
+            <li>Utilize custom names for weapons and systems.</li>
+            <li>Cleaner damage total summary for attacks.</li>
             <li>Core bonuses show up alongside pilot talent cards.</li>
             <li>Fix destructability of systems with a single action.</li>
             <li>Added count mode for dicebag.</li>
