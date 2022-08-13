@@ -316,9 +316,13 @@ export function getActiveBonusDamageData(bonusDamageData, activeBonusSources, ge
 export function getAllWeaponProfiles(weaponData) {
   var allWeaponProfiles = [];
   if ('profiles' in weaponData) {
-    allWeaponProfiles.push(...weaponData.profiles)
-    // make a special note to label each of these profiles in the BaseDamageBar
-    allWeaponProfiles = allWeaponProfiles.map(profile => {return {...profile, profileName: profile.name}})
+    weaponData.profiles.forEach(profile =>
+      allWeaponProfiles.push({
+        ...profile,
+        profileName: profile.name, // make a special note to label each of these profiles in the BaseDamageBar
+        type: weaponData.type         // inherit the main weapon's type
+      })
+    )
   } else {
     allWeaponProfiles.push(weaponData)
   }

@@ -125,7 +125,7 @@ const MechSheet = ({
 
   if (robotStats.attackBonusRanged) {
     const weaponRanges = getAllWeaponRanges(activeWeaponData)
-    const isActiveWeaponRanged = weaponRanges.some(range => range.type === 'Range')
+    const isActiveWeaponRanged = weaponRanges.some(range => (range.type !== 'Threat'))
     if (isActiveWeaponRanged) totalAttackBonus += robotStats.attackBonusRanged
   }
   if (activeWeapon && activeWeapon.npcAttackBonus) totalAttackBonus += activeWeapon.npcAttackBonus
