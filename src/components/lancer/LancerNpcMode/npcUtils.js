@@ -25,13 +25,17 @@ export function getNpcSkillCheckAccuracy(skill, npc) {
     const featureData = findNpcFeatureData(feature.itemID)
     const effect = featureData.effect ? featureData.effect.toLowerCase() : ''
 
-    if (effect.includes(`${skill} save`) || setInCustomDescription) {
-      const value = parseInt(effect.charAt(effect.indexOf('+')+1))
+     // something that is too long probably has something else going on
+    const setInFeatureEffect = effect.includes(`${skill} save`) && effect.length < 200
 
-      if (effect.includes('accuracy')) {
-        accuracy += value
-      } else if (effect.includes('difficulty')) {
-        accuracy -= value
+    if (setInFeatureEffect || setInCustomDescription) {
+      const value = parseInt(effect.charAt(effect.indexOf('+')+1))
+      if (value) {
+        if (effect.includes('accuracy')) {
+          accuracy += value
+        } else if (effect.includes('difficulty')) {
+          accuracy -= value
+        }
       }
     }
   });
