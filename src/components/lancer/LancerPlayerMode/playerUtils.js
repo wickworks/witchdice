@@ -58,7 +58,7 @@ export function applyUpdatesToPlayer (mechUpdate, newPilotData, newMechData) {
           slot = loadout.integratedWeapon.slots[weaponIndex]
           if (!slot) slot = loadout.integratedWeapon.extra[0]
         } else if (mountSource === 'integratedMounts') {
-          slot = loadout.integratedMounts[weaponIndex]
+          slot = loadout.integratedMounts[mountIndex]
         }
         if ('destroyed' in updateValue)  slot.weapon.destroyed = updateValue.destroyed
         if ('uses' in updateValue)       slot.weapon.uses = updateValue.uses

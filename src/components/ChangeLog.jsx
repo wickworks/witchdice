@@ -16,6 +16,7 @@ const ChangeLog = () => {
         <div className="change-container">
           <div className='version-label'>v0.13.0-5 — July, Aug 2022</div>
           <ul>
+            <li>Fix limited charges on mechs with multiple integrated mounts.</li>
             <li>Fix skill difficulty being incorrectly applied on some NPCs.</li>
             <li>Fix pilot gear import from homebrew LCPS.</li>
             <li>Fix talents for weapons with profiles.</li>

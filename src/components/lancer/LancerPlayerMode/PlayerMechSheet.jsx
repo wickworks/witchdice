@@ -504,8 +504,8 @@ export function getMountsFromLoadout(loadout) {
   let mounts = [];
 
   // STANDARD MOUNTS
-  mounts = loadout.mounts.map(mount =>
-    ({...mount, source: 'mounts'})
+  mounts = loadout.mounts.map((mount, i) =>
+    ({...mount, source: 'mounts', index: i})
   )
 
   // IMPROVED improved_armament
@@ -513,6 +513,7 @@ export function getMountsFromLoadout(loadout) {
     let improved_armament = deepCopy(loadout.improved_armament)
     improved_armament.bonus_effects.push('cb_improved_armament')
     improved_armament.source = 'improved_armament'
+    improved_armament.index = 0
     mounts.push(improved_armament)
   }
 
@@ -521,20 +522,22 @@ export function getMountsFromLoadout(loadout) {
     let integratedWeapon = deepCopy(loadout.integratedWeapon)
     integratedWeapon.bonus_effects = ['cb_integrated_weapon']
     integratedWeapon.source = 'integratedWeapon'
+    integratedWeapon.index = 0
     mounts.push(integratedWeapon)
   }
 
   // gotta make a dummy mount for integrated mounts
   if (loadout.integratedMounts.length > 0) {
     const integratedMounts =
-      loadout.integratedMounts.map(integratedMountWeapon => {
+      loadout.integratedMounts.map((integratedMountWeapon, i) => {
         return {
           mount_type: "Integrated",
           lock: false,
           slots: [ integratedMountWeapon ],
           extra: [],
           bonus_effects: [],
-          source: 'integratedMounts'
+          source: 'integratedMounts',
+          index: i
         }
       })
     mounts.push(...integratedMounts)

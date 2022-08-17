@@ -223,7 +223,7 @@ const MechSheet = ({
                 updateMechState({
                   weaponDestroyed: {
                     mountSource: mount.source,
-                    mountIndex: i,
+                    mountIndex: mount.index,
                     weaponIndex: weaponIndex,
                     destroyed: destroyed
                   }
@@ -261,7 +261,7 @@ const MechSheet = ({
             updateMechState({
               weaponUses: {
                 mountSource: activeMount.source,
-                mountIndex: activeMountIndex,
+                mountIndex: activeMount.index,
                 weaponIndex: activeWeaponIndex,
                 uses: count
               }
@@ -272,7 +272,7 @@ const MechSheet = ({
             updateMechState({
               weaponLoaded: {
                 mountSource: activeMount.source,
-                mountIndex: activeMountIndex,
+                mountIndex: activeMount.index,
                 weaponIndex: activeWeaponIndex,
                 loaded: isLoaded
               }
