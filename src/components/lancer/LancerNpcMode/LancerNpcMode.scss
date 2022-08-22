@@ -2,6 +2,58 @@
 
 .LancerNpcMode {
 
+  .missing-lcp-warning {
+    @include standard_side_margin;
+    @include shadow;
+    @include parchment_background;
+    @include nouveau_border('nouveau_lancer_mech.svg');
+    box-sizing: border-box;
+    max-width: 800px;
+    padding: 8px 10% 40px;
+    // border-radius: 14px;
+    margin: 20px auto 0;
+
+    h2 {
+      color: $rust;
+      text-align: center;
+    }
+
+    ol {
+      margin: 16px 0 10px;
+      padding-inline-start: 40px;
+      li { margin: 16px 0 0; }
+    }
+
+    .fake-button {
+      padding: 2px 12px 2px 8px;
+      margin: 0 6px;
+      color: $pink_logo_light;
+      background-color: $crushed_velvet;
+      border-radius: 6px;
+      max-width: 800px;
+    }
+
+    .fake-new {
+      @include text_default;
+      background-color: $parchment_dark;
+      color: $rust;
+      border-radius: 0 6px 0 0;
+      padding: 4px 8px;
+      margin: 0 6px;
+
+      .asset {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        position: relative;
+        top: 5px;
+
+        // black to $rust
+        filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+      }
+    }
+  }
+
   .encounter-management {
     @include standard_side_margin;
 
