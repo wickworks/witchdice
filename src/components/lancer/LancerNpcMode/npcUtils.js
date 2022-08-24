@@ -146,7 +146,7 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
       case 'weaponDestroyed':
         // find the item that generates this weapon
         const weaponItems = newNpc.items.filter(item => findNpcFeatureData(item.itemID).type === 'Weapon')
-        let weaponItem = weaponItems[mechUpdate[statKey].mountIndex]
+        let weaponItem = weaponItems[mechUpdate[statKey].weaponIndex]
         if (weaponItem) {
           if ('destroyed' in mechUpdate[statKey]) weaponItem.destroyed = mechUpdate[statKey].destroyed
           if ('uses' in mechUpdate[statKey]) weaponItem.uses = mechUpdate[statKey].uses
