@@ -315,7 +315,7 @@ export function getActiveBonusDamageData(bonusDamageData, activeBonusSources, ge
 
 export function getAllWeaponProfiles(weaponData) {
   var allWeaponProfiles = [];
-  if ('profiles' in weaponData) {
+  if ('profiles' in weaponData && weaponData.profiles.length > 0) {
     weaponData.profiles.forEach(profile =>
       allWeaponProfiles.push({
         ...profile,
