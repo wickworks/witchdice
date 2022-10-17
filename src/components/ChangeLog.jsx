@@ -14,6 +14,11 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v0.13.8 — Oct 2022</div>
+          <ul>
+            <li>Fixed typo.</li>
+          </ul>
+
           <div className='version-label'>v0.13.0-7 — July, Aug, Sept 2022</div>
           <ul>
             <li>Handle faulty LCP weapon profile data without crashing.</li>

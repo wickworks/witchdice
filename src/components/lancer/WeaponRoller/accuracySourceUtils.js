@@ -61,7 +61,7 @@ export function getAvailableAccuracySources(
 
   if (frameID === 'mf_tortuga') {
     const desc = 'The Tortuga gains +1 accuracy on all attacks made as reactions (e.g. OVERWATCH).'
-    addAccSource(sources, 'Sentinal', 'mf_tortuga', desc)
+    addAccSource(sources, 'Sentinel', 'mf_tortuga', desc)
   }
 
   if (frameID === 'mf_standard_pattern_i_everest') {
