@@ -14,6 +14,11 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v0.13.9 — Nov 2022</div>
+          <ul>
+            <li>Fixed the wrong weapon getting destroyed for npcs with more than one.</li>
+          </ul>
+
           <div className='version-label'>v0.13.8 — Oct 2022</div>
           <ul>
             <li>Fixed typo.</li>
