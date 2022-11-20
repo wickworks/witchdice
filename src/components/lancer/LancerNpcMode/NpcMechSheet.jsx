@@ -260,7 +260,8 @@ function getNpcWeaponAttacks(items) {
         ],
         extra: [],
         bonus_effects: [],
-        source: 'npcItems'
+        source: 'npcItems',
+        index: itemIndex
       })
     }
 
