@@ -3,6 +3,7 @@
 .MechNumberIcon {
   @include text_monospace;
   font-size: 20px;
+  position: relative;
 
   // padding: 1px;
 
@@ -41,7 +42,7 @@
     }
   }
 
-  button {
+  button.main-button {
     position: relative;
     display: block;
     padding: 2px;
@@ -105,11 +106,28 @@
     width: 56px;
   }
 
+  button.reset-button {
+    position: absolute;
+    top: 100%;
+    right: 4px;
+    width: 24px;
+    height: 24px;
+
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    color: $mud;
+
+    &:hover {
+      background-color: $rust_light;
+      color: white;
+    }
+  }
 
   &.overshield {
     &:hover { background-color: $grey_light; }
 
-    button:hover {
+    button.main-button:hover {
       background-color: white;
 
       // black to $periwinkle
@@ -146,7 +164,7 @@
       .asset { filter: invert(20%) }
     }
 
-    button:hover {
+    button.main-button:hover {
       background-color: white;
 
       // black to $electric_orange
@@ -174,17 +192,11 @@
     width: 109px;
     justify-content: center;
 
-    button {
+    button.main-button {
       width: 100%;
       justify-content: center;
 
       &:hover {
-        // background-color: $electric_orange;
-        //
-        // .asset { filter: none; }
-        // .display-number { color: $soft_black; }
-
-
         background-color: $rust_light;
 
         .asset { filter: invert(100%); }
@@ -196,13 +208,12 @@
 
       .display-number {
         color: $parchment_dark;
-        // margin: auto;
       }
     }
   }
 
   &.core-power {
-    button {
+    button.main-button {
       display: flex;
       justify-content: center;
       width: 109px;
@@ -240,20 +251,20 @@
     &.active {
       background-color: $rust;
 
-      button .power-bars-coverup {
+      button.main-button .power-bars-coverup {
         background-color: $rust;
         clip-path: polygon(100% 0,100% 0,100% 100%,100% 100%);
         transition: clip-path 2s cubic-bezier(.07,.36,.13,-0.12);
       }
 
-      button:hover {
+      button.main-button:hover {
         background-color: $rust_light;
 
         .asset { filter: invert(100%); }
         .power-bars-coverup { background-color: $rust_light; }
       }
 
-      button:not(:hover) {
+      button.main-button:not(:hover) {
         // black to $parchment_dark
         .asset { filter: invert(88%) sepia(34%) saturate(340%) hue-rotate(335deg) brightness(92%) contrast(89%); }
       }

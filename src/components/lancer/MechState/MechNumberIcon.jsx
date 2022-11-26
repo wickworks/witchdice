@@ -14,14 +14,14 @@ const MechNumberIcon = ({
   extraClass = '',
   leftToRight = true,
   buttonOnly = false,
+  showResetButton = false,
 }) => {
   const maxNumberForInput = maxNumber ? maxNumber : 30
 
   return (
     <div className={`MechNumberIcon ${extraClass} ${leftToRight ? 'left-to-right' : 'right-to-left'}`}>
-
       <button
-        className={buttonOnly ? 'contains-number' : ''}
+        className={`main-button ${buttonOnly ? 'contains-number' : ''}`}
         onClick={onIconClick}
         onContextMenu={e => {e.preventDefault(); onIconRightClick();}}
       >
@@ -41,6 +41,10 @@ const MechNumberIcon = ({
           skipCloseButton={true}
         />
       </button>
+
+      { showResetButton &&
+        <button className='reset-button' onClick={onIconRightClick}> ↺ </button>
+      }
 
       { !buttonOnly &&
         <input type='number'

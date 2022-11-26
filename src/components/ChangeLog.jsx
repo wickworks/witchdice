@@ -17,6 +17,7 @@ const ChangeLog = () => {
           <div className='version-label'>v0.13.9 — Nov 2022</div>
           <ul>
             <li>Fixed the wrong weapon getting destroyed for npcs with more than one.</li>
+            <li>Added little resets under CP / OC so right clicks aren't required.</li>
           </ul>
 
           <div className='version-label'>v0.13.8 — Oct 2022</div>
