@@ -19,16 +19,15 @@ import {
   LANCER_SQUAD_MECH_KEY,
 } from '../lancerLocalStorage.js';
 
+import { deepCopy } from '../../../utils.js';
 import { getIDFromStorageName } from '../../../localstorage.js';
-
 import { createSquadMech } from '../SquadPanel/squadUtils.js';
+import { applyUpdatesToPlayer } from './playerUtils.js';
 
 import compendiaJonesJson from './YOURGRACE.json';
-
 import './LancerPlayerMode.scss';
 
 const PILOT_SHARE_CODE_URL = 'https://api.compcon.app/share?code='
-
 
 const LancerPlayerMode = ({
   setTriggerRerender,
@@ -50,19 +49,6 @@ const LancerPlayerMode = ({
   const [isViewingBond, setIsViewingBond] = useState(false);
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
   const [isWaitingOnSharecodeResponse, setIsWaitingOnSharecodeResponse] = useState(false);
-
-  const changeMech = (newMechID) => {
-    setActiveMechID(newMechID)
-    setIsViewingBond(false)
-
-    // We trigger a full rerender when we change the mech so the squad panel can pick up changes to LANCER_SQUAD_MECH_KEY
-    setTriggerRerender(!triggerRerender)
-  }
-
-  const onBondButtonClick = () => {
-    setIsViewingBond(true)
-    setActiveMechID(null)
-  }
 
   // const activePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
   const activePilot = activePilotID && loadPilotData(activePilotID); // load the pilot data from local storage
@@ -103,6 +89,40 @@ const LancerPlayerMode = ({
       }
     }
   }, []);
+
+  // =============== CHANGE MECH OR BOND ==================
+
+  const changeMech = (newMechID, pilot = activePilot) => {
+    setActiveMechID(newMechID)
+    setMechAsActive(newMechID, pilot) // saves to localstorage that this is the active one
+
+    setIsViewingBond(false)
+
+    // We trigger a full rerender when we change the mech so the squad panel can pick up changes to LANCER_SQUAD_MECH_KEY
+    setTriggerRerender(!triggerRerender)
+  }
+
+  // activate this one and deactivate the rest
+  const setMechAsActive = (mechID, pilot) => {
+    if (mechID && pilot) {
+      const newPilotData = deepCopy(pilot);
+
+      var changedActiveStatus = false // only save if we changed something
+      pilot.mechs.forEach((mech, i) => {
+        const newMechData = newPilotData.mechs[i]
+        const isThisMechNowActive = newMechData.id === mechID
+        changedActiveStatus = changedActiveStatus || newMechData.active !== isThisMechNowActive
+        applyUpdatesToPlayer({ active: isThisMechNowActive }, newPilotData, newMechData)
+      })
+
+      if (changedActiveStatus) savePilotData(newPilotData) // update it in localstorage
+    }
+  }
+
+  const onBondButtonClick = () => {
+    setIsViewingBond(true)
+    setActiveMechID(null)
+  }
 
   // =============== MAINTAIN SQUAD MECH JSON ==================
   if (partyConnected && activeMech && activePilot) {
@@ -190,13 +210,16 @@ const LancerPlayerMode = ({
     if (newActivePilot) {
       setActivePilotID(pilotID);
 
-      // select the last mech
+      // select the first active mech
       if (newActivePilot && newActivePilot.mechs.length > 0) {
-        const lastMechIndex = newActivePilot.mechs.length - 1
-        changeMech(newActivePilot.mechs[lastMechIndex].id);
+        // look for the active mech
+        const activeMechs = newActivePilot.mechs.filter(mech => mech.active)
+        const activeMech = activeMechs.length > 0 ? activeMechs[0] : newActivePilot.mechs[newActivePilot.mechs.length - 1]
+        changeMech(activeMech.id, newActivePilot);
       } else {
         changeMech(null)
       }
+
 
       localStorage.setItem(SELECTED_CHARACTER_KEY, pilotID.slice(0,STORAGE_ID_LENGTH));
     }
@@ -231,6 +254,8 @@ const LancerPlayerMode = ({
     downloadAnchorNode.click();
     downloadAnchorNode.remove();
   }
+
+
 
   let jumplinks = ['pilot']
   if (activeMechID) {

@@ -9,7 +9,7 @@ import {
 } from '../lancerData.js';
 
 
-export function applyUpdatesToPlayer (mechUpdate, newPilotData, newMechData) {
+export function applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData) {
   if (!newPilotData || !newMechData) return
 
   const frameData = findFrameData(newMechData.frame);
@@ -102,6 +102,7 @@ export function applyUpdatesToPlayer (mechUpdate, newPilotData, newMechData) {
         break;
 
       // update a mech value
+      case 'active':
       case 'conditions':
         newMechData[statKey] = updateValue
         break;
