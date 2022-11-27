@@ -14,9 +14,10 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v0.13.9 — Nov 2022</div>
+          <div className='version-label'>v0.13.9-11 — Nov 2022</div>
           <ul>
-            <li>Fixed the wrong weapon getting destroyed for npcs with more than one.</li>
+            <li>Mech list pays attention to and saves which one is active.</li>
+            <li>Fixed the wrong weapon getting destroyed for npcs.</li>
             <li>Added little resets under CP / OC so right clicks aren't required.</li>
           </ul>
 
