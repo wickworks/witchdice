@@ -138,6 +138,15 @@
 				border-radius: 0 0 0 14px;
 				background-color: $parchment;
 				line-height: 1.4;
+
+				p { margin: 0; }
+
+				button {
+					margin: 0 8px;
+					color: $grey_mid;
+
+					&:hover { color: $rust; }
+				}
 			}
 		}
 

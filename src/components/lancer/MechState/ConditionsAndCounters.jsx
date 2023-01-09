@@ -126,13 +126,36 @@ const Condition = ({
 }) => {
   const conditionData = findStatusData(condition)
 
+  const fullDescParagraphs = conditionData.effects.split('<br>')
+
+  const [fullDescOpen, setFullDescOpen] = useState(false)
+
+  // if they're the same, allowing for typos
+  const showMoreButton = Math.abs(conditionData.effects.length - conditionData.terse.length) > 1
+
   return (
     <div className='Condition'>
       <div className='label'>
         <span className='name'>{condition}</span>
         <span className='type'>{conditionData.type.toLowerCase()}</span>
       </div>
-      <div className='text'>{conditionData.terse}</div>
+      <div className='text'>
+        {fullDescOpen ?
+          fullDescParagraphs.map((fullDescPara, i) =>
+            <p>
+              {fullDescPara}
+              {(i == fullDescParagraphs.length-1) &&
+                <button onClick={() => setFullDescOpen(false)}>(less)</button>
+              }
+            </p>
+          )
+        :
+          <p>
+            {conditionData.terse}
+            {showMoreButton && <button onClick={() => setFullDescOpen(true)}>(more)</button>}
+          </p>
+        }
+      </div>
     </div>
   );
 }
