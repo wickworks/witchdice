@@ -123,16 +123,17 @@ const Main5E = ({
       const newMinorVersion = loadedVersion.slice(loadedVersion.indexOf(".")+1)
       console.log('Loading data from version', loadedVersion, '--— major version: ', newMajorVersion, ' ---- minor version', newMinorVersion);
 
-      if (newMajorVersion !== CURRENT_VERSION.slice(0,CURRENT_VERSION.indexOf("."))) {
-        brokeOldCharacterData = true;
-        brokeOldMonsterData = true;
-        console.log('Detected breaking change of saved Character data. Clearing.');
-      }
-
-      if (newMinorVersion !== CURRENT_VERSION.slice(CURRENT_VERSION.indexOf(".")+1)) {
-        brokeOldMonsterData = true;
-        console.log('Detected breaking change of saved Monster data. Resetting to defaults.');
-      }
+      // These tools have stabilized; I'm bumping to 1.0.0 and disabling these.
+      // if (newMajorVersion !== CURRENT_VERSION.slice(0,CURRENT_VERSION.indexOf("."))) {
+      //   brokeOldCharacterData = true;
+      //   brokeOldMonsterData = true;
+      //   console.log('Detected breaking change of saved Character data. Clearing.');
+      // }
+      //
+      // if (newMinorVersion !== CURRENT_VERSION.slice(CURRENT_VERSION.indexOf(".")+1)) {
+      //   brokeOldMonsterData = true;
+      //   console.log('Detected breaking change of saved Monster data. Resetting to defaults.');
+      // }
     }
 
     // should we initialize to defaults?

@@ -14,6 +14,12 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.0.0 — Jan 2023</div>
+          <ul>
+            <li>Bumped version up to 1.0.0; development has shifted to small enhancements and bugfixes for now.</li>
+            <li>Can expand conditions to get detailed rules text.</li>
+          </ul>
+
           <div className='version-label'>v0.13.9-11 — Nov 2022</div>
           <ul>
             <li>Mech list pays attention to and saves which one is active.</li>
