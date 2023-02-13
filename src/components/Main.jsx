@@ -25,6 +25,7 @@ const Main5E = lazy(() => import('./5e/Main5E.jsx'));
 const MainWitchCraft = lazy(() => import('./witchcraft/MainWitchCraft.jsx'));
 const MainLancer = lazy(() => import('./lancer/MainLancer.jsx'));
 const MainSettings = lazy(() => import('./settings/MainSettings.jsx'));
+const MainTOS = lazy(() => import('./termsofservice/MainTOS.jsx'));
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -431,6 +432,13 @@ const Main = ({
               setEnabledPages={setEnabledPages}
             />
             {renderDicebag()}
+          </Suspense>
+        </Route>
+
+        <Route path="/terms">
+          <HelmetForPage pageID='terms' />
+          <Suspense fallback={<LoadinDots />}>
+            <MainTOS />
           </Suspense>
         </Route>
       </Switch>

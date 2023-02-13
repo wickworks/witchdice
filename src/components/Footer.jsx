@@ -184,6 +184,7 @@ const Footer = () => {
               </a>
             </p>
 
+            <p><a href='/terms'>Terms of use and privacy policy.</a></p>
             <p>This tool is not affiliated with Wizards of the Coast (D&D), Astrolago Press (Witch+Craft), or Massif Press (Lancer).</p>
             <p>Spells & Monster Manual stat blocks included as per the <button className='open-button' onClick={() => setOglOpen(!oglOpen)}>Open Game License.</button></p>
 

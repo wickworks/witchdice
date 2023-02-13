@@ -39,6 +39,13 @@ const allPages = [
     defaultEnabled: true,
     metaTitle: 'Witch Dice ~ settings',
     metaDesc: 'A cute & elegant online dice roller for playing tabletop games online with friends.',
+  },{
+    id: 'terms',
+    title: 'Terms of Service',
+    desc: 'Terms of service for the Witchdice Discord Bot.',
+    defaultEnabled: false,
+    metaTitle: 'Witch Dice ~ terms',
+    metaDesc: 'Terms of service for the Witchdice Discord Bot.',
   }
 ]
 

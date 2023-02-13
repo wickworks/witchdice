@@ -1,0 +1,25 @@
+@import '../../fonts' ;
+
+.MainTOS {
+
+  margin: auto;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+
+  .terms-panel {
+    @include shadow;
+    @include parchment_background;
+    @include nouveau_border('nouveau_roller.svg');
+
+    width: 100%;
+    // max-width: 480px;
+    box-sizing: border-box;
+
+    padding: 30px;
+    margin: 30px 10px 0;
+  }
+
+}
