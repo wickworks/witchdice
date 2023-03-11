@@ -27,6 +27,7 @@ const WeaponRollerSetup = ({
   let availableAccuracySources = getAvailableAccuracySources(
     accuracySourceInputs.frameID,
     accuracySourceInputs.mechSystems,
+    accuracySourceInputs.npcFeatures,
     accuracySourceInputs.pilotTalents,
     accuracySourceInputs.isImpaired,
     weaponData,

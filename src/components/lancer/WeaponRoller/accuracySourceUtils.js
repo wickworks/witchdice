@@ -3,6 +3,7 @@ import {
   findTagOnData,
   findTalentData,
   findCoreBonusData,
+  findNpcFeatureData,
   findModData,
 } from '../lancerData.js';
 
@@ -45,6 +46,7 @@ export function newAccSource(name, id, desc, accBonus = 1, defaultOn = false) {
 export function getAvailableAccuracySources(
   frameID,
   mechSystems,
+  npcFeatures,
   pilotTalents,
   isImpaired,
   weaponData,
@@ -164,7 +166,22 @@ export function getAvailableAccuracySources(
       addAccSource(sources, 'Core Siphon (Other)', 'ms_core_siphon_other', '...but receive +1 difficulty on all other attack rolls until the end of the turn.', -1)
     }
 
-    // NPC sources
+
+    // -- NPC SYSTEMS --
+    npcFeatures && npcFeatures.forEach(feature => {
+      const npcFeatureData = findNpcFeatureData(feature.itemID)
+      switch (feature.itemID) {
+        case 'npcf_kinetic_compensation_demolisher':
+          addAccSource(sources, 'Kinetic Comp 1', feature.itemID+'_1', npcFeatureData.effect, 1)
+          addAccSource(sources, 'Kinetic Comp 2', feature.itemID+'_2', npcFeatureData.effect, 1)
+          addAccSource(sources, 'Kinetic Comp 3', feature.itemID+'_3', npcFeatureData.effect, 1)
+          break;
+        default:
+          break;
+      }
+    })
+
+    // NPC natural weapon sources
     if (!!weaponNpcAccuracy) {
       addAccSource(sources, weaponData.name, weaponData.id, '', weaponNpcAccuracy, true)
     }
