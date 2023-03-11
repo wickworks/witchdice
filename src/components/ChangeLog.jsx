@@ -14,8 +14,9 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.0.1 — Feb 2023</div>
+          <div className='version-label'>v1.0.1-2 — Feb, Mar 2023</div>
           <ul>
+            <li>Added kinetic compensation accuracy button for demolisher.</li>
             <li>Added terms of use and privacy policy as required for the discord bot.</li>
           </ul>
 
