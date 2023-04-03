@@ -133,7 +133,7 @@ const PlayerMechSheet = ({
     pilotTraits: getPilotTraits(activePilot.talents, activePilot.core_bonuses),
 
     mounts: [...getMountsFromLoadout(loadout), deepCopy(baselineMount)],
-    invades: getInvadeAndTechAttacks(loadout, activePilot.talents),
+    invades: getInvadeAndTechAttacks(loadout, activePilot.talents, frameData.core_system),
   }
 
 
@@ -546,7 +546,7 @@ export function getMountsFromLoadout(loadout) {
   return mounts;
 }
 
-function getInvadeAndTechAttacks(loadout, pilotTalents) {
+function getInvadeAndTechAttacks(loadout, pilotTalents, coreSystem) {
   let invades = [];
 
   loadout.systems.forEach(system => {
@@ -572,6 +572,15 @@ function getInvadeAndTechAttacks(loadout, pilotTalents) {
       }
     });
   })
+
+  // CHOMOLUNGMA core system
+  if (coreSystem.passive_actions) {
+    coreSystem.passive_actions.forEach(action => {
+      if (['Invade', 'Quick Tech', 'Full Tech'].includes(action.activation)) {
+        invades.push(action)
+      }
+    })
+  }
 
   invades.push({
     "name": "Fragment Signal",
