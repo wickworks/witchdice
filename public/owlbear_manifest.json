@@ -1,0 +1,14 @@
+
+{
+  "name": "Witch Dice",
+  "homepage_url": "https://witchdice.com/",
+  "version": "1.0.3",
+  "manifest_version": 1,
+  "action": {
+    "title": "Witchdice Dicebag",
+    "icon": "/icon.svg",
+    "popover": "/owlbear",
+    "height": 752,
+    "width": 340
+  }
+}

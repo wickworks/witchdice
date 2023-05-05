@@ -26,7 +26,6 @@ $bookmark_breakpoint: 575px;
 
 .bookmarks-and-bag {
   display: flex;
-  margin: 10px 10px;
 
   @media screen and (max-width: $bookmark_breakpoint) {
     flex-direction: column-reverse;

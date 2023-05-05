@@ -46,6 +46,13 @@ const allPages = [
     defaultEnabled: false,
     metaTitle: 'Witch Dice ~ terms',
     metaDesc: 'Terms of service for the Witchdice Discord Bot.',
+  },{
+    id: 'owlbear',
+    title: 'Owlbear',
+    desc: 'A stripped-down version of the site for use in iframes.',
+    defaultEnabled: false,
+    metaTitle: 'Witch Dice ~ owlbear',
+    metaDesc: 'A stripped-down version of the site for use in iframes',
   }
 ]
 

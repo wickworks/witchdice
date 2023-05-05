@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useParams, useLocation } from "react-router-dom";
-import { allPages, allPageIds } from "./page_data.js";
+import { allPages, allPageIds } from "../page_data.js";
 import './ModeChooser.scss';
 
 function useQuery() {

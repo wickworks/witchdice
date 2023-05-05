@@ -1,0 +1,35 @@
+@import '../../fonts';
+
+.MainOwlbear {
+
+  .pagemode-switcher {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    // padding: 4px 0;
+
+    background-color: $crushed_velvet;
+    // border-radius: 16px;
+    margin-bottom: 12px;
+
+    button {
+      padding: 8px 12px;
+      // background-color: $rust;
+      // border-radius: 8px;
+      font-size: 18px;
+      color: $pink;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $pink_logo_dark;
+        color: white;
+      }
+
+      &.active {
+        background-color: #4b2021;
+        color: white;
+        cursor: auto;
+      }
+    }
+  }
+}

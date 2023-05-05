@@ -23,7 +23,9 @@ const MainSettings = ({
           <SiteAbout />
         </div>
 
-        <TipsAndTricks />
+        <div className='tips-tricks-container' >
+          <TipsAndTricks />
+        </div>
 
       </div>
 

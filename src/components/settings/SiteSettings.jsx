@@ -37,12 +37,18 @@ const SiteSettings = ({
     return ['settings','simple'].includes(pageID)
   }
 
+  const isPageHidden = (pageID) => {
+    return ['terms','owlbear'].includes(pageID)
+  }
+
   const pageClass = (pageID) => {
     return [
       isPageLocked(pageID) ? 'unavailable' : '',
       enabledPages[pageID] ? 'active' : ''
     ].join(' ')
   }
+
+  const toggleablePages = allPages.filter(page => !isPageHidden(page.id))
 
   return (
     <div className='SiteSettings'>
@@ -52,7 +58,7 @@ const SiteSettings = ({
       <h3>Active Pages</h3>
       <div className='settings-section'>
         <div className='navbar-settings-container'>
-          {allPages.map(page =>
+          {toggleablePages.map(page =>
             <label
               className={pageClass(page.id)}
               key={page.id}

@@ -19,6 +19,7 @@ import './DiceBag.scss';
 const DiceBag = ({
   addNewDicebagPartyRoll,
   distantDicebagData,
+  bookmarksEnabled = true,
 }) => {
   const diceBagRef = useRef(null)
 
@@ -215,13 +216,15 @@ const DiceBag = ({
 
   return (
     <div className="bookmarks-and-bag">
-      <DiceBookmarks
-        currentDice={(rollDieType.length > 0) ? diceData : previousDiceData}
-        summaryMode={summaryMode}
-        summaryModeValue={summaryModeValue}
-        setCurrentDice={setDiceData}
-        setSummaryMode={setSummaryMode}
-      />
+      {bookmarksEnabled &&
+        <DiceBookmarks
+          currentDice={(rollDieType.length > 0) ? diceData : previousDiceData}
+          summaryMode={summaryMode}
+          summaryModeValue={summaryModeValue}
+          setCurrentDice={setDiceData}
+          setSummaryMode={setSummaryMode}
+        />
+      }
 
       <div className="DiceBag">
         <div className='jumplink-anchor' id='dicebag' ref={diceBagRef} />

@@ -49,6 +49,10 @@
           cursor: auto;
         }
 
+        &.hidden {
+          display: none;
+        }
+
         input {
           margin-right: 16px;
           width: 24px;

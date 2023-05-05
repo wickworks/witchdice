@@ -26,6 +26,7 @@ const MainWitchCraft = lazy(() => import('./witchcraft/MainWitchCraft.jsx'));
 const MainLancer = lazy(() => import('./lancer/MainLancer.jsx'));
 const MainSettings = lazy(() => import('./settings/MainSettings.jsx'));
 const MainTOS = lazy(() => import('./termsofservice/MainTOS.jsx'));
+const MainOwlbear = lazy(() => import('./owlbear/MainOwlbear.jsx'));
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -327,10 +328,13 @@ const Main = ({
   function renderDicebag() {
     return (
       <div className="dicebag-and-history">
-        <DiceBag
-          addNewDicebagPartyRoll={addNewDicebagPartyRoll}
-          distantDicebagData={distantDicebagData}
-        />
+
+        <div className='dicebag-container'>
+          <DiceBag
+            addNewDicebagPartyRoll={addNewDicebagPartyRoll}
+            distantDicebagData={distantDicebagData}
+          />
+        </div>
 
         <div className="history-and-room">
           <RollHistory
@@ -439,6 +443,19 @@ const Main = ({
           <HelmetForPage pageID='terms' />
           <Suspense fallback={<LoadinDots />}>
             <MainTOS />
+          </Suspense>
+        </Route>
+
+        <Route path="/owlbear">
+          <HelmetForPage pageID='owlbear' />
+          <Suspense fallback={<LoadinDots />}>
+            <MainOwlbear
+              addNewDicebagPartyRoll={addNewDicebagPartyRoll}
+              distantDicebagData={distantDicebagData}
+              allPartyActionData={allPartyActionData}
+              partyConnected={partyConnected}
+              partyRoom={partyRoom}
+            />
           </Suspense>
         </Route>
       </Switch>

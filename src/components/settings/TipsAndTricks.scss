@@ -5,7 +5,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  margin-top: 20px;
+
+  h2, h3 { text-align: center; }
 
 
   .tips-panel {
@@ -16,10 +17,9 @@
     // width: 100%;
     max-width: 480px;
     box-sizing: border-box;
-    min-height: 714px; // get them to line up
+    // min-height: 714px; // get them to line up
 
     padding: 30px 0 80px;
-    margin: 10px 10px;
 
     .tips-container {
 
@@ -65,6 +65,7 @@
         }
 
         p {
+          line-height: 1.5; // slightly taller to make room for inline buttons
 
           span.mode {
             background-color: $parchment_dark;

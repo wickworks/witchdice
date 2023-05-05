@@ -5,7 +5,9 @@ import {Bookmark, BookmarkNew} from '../shared/DiceBag/Bookmark';
 
 import './TipsAndTricks.scss';
 
-const TipsAndTricks = () => {
+const TipsAndTricks = ({
+  abbreviated = false
+}) => {
 
   const [dummyDieCount, setDummyDieCount] = useState(-2);
   const [dummySummaryMode, setDummySummaryMode] = useState('total');
@@ -21,11 +23,15 @@ const TipsAndTricks = () => {
     <div className='TipsAndTricks'>
 
       <div className='tips-panel'>
-        <h2>Dicebag Tips & Tricks</h2>
+        {!abbreviated &&
+          <h2>Dicebag Tips & Tricks</h2>
+        }
 
         <div className='tips-container'>
 
-          <h3>Negative dice</h3>
+          {!abbreviated &&
+            <h3>Negative dice</h3>
+          }
           <div className='tip'>
             <div className='interactable-widget'>
               <DieButton
@@ -35,13 +41,15 @@ const TipsAndTricks = () => {
               />
             </div>
             <p>
-              <RightClickLongTap /> to get negative dice. These will be subtracted
+              <RightClickLongTap click={abbreviated} /> to get negative dice. These will be subtracted
               from the total, e.g. <span className='dice'>1d20 - 2d6</span>
             </p>
             <p className='desktop-only'>After clicking a die, you can press 1-9 on your keyboard as a shortcut. Backspace clears it.</p>
           </div>
 
-          <h3>Min and max</h3>
+          {!abbreviated &&
+            <h3>Min and max</h3>
+          }
           <div className='tip'>
             <div className='interactable-widget'>
               <SummaryModeSwitcher
@@ -61,30 +69,32 @@ const TipsAndTricks = () => {
             <p>This should give you <span className='dice'>Min( 2d20 ) + 1d4</span></p>
           </div>
 
-          <h3>Bookmarks</h3>
-          <div className='tip'>
-            <div className='interactable-widget bookmarks'>
-              { dummyBookmarkSaved ?
-                <Bookmark
-                  bookmarkData={fakeBookmarkData}
-                  setCurrentDice={() => {}}
-                  setSummaryMode={() => {}}
-                  handleDelete={() => setDummyBookmarkSaved(false)}
-                  isSelected={false}
-                />
-              :
-                <BookmarkNew
-                  addNewBookmark={() => setDummyBookmarkSaved(true)}
-                  addBookmarkEnabled={true}
-                  allBookmarkDataLength={1}
-                  rollDescription={fakeRollDescription}
-                />
-              }
-              <div className='desktop-fake-panel' />
+          {!abbreviated && <>
+            <h3>Bookmarks</h3>
+            <div className='tip'>
+              <div className='interactable-widget bookmarks'>
+                { dummyBookmarkSaved ?
+                  <Bookmark
+                    bookmarkData={fakeBookmarkData}
+                    setCurrentDice={() => {}}
+                    setSummaryMode={() => {}}
+                    handleDelete={() => setDummyBookmarkSaved(false)}
+                    isSelected={false}
+                  />
+                :
+                  <BookmarkNew
+                    addNewBookmark={() => setDummyBookmarkSaved(true)}
+                    addBookmarkEnabled={true}
+                    allBookmarkDataLength={1}
+                    rollDescription={fakeRollDescription}
+                  />
+                }
+                <div className='desktop-fake-panel' />
+              </div>
+              <p>Click <AddPlusBookmark /> while dice are queued to save that roll.</p>
+              <p><RightClickLongTap click={abbreviated} /> an existing bookmark to delete it.</p>
             </div>
-            <p>Click <AddPlusBookmark /> while dice are queued to save that roll.</p>
-            <p><RightClickLongTap /> an existing bookmark to delete it.</p>
-          </div>
+          </>}
         </div>
       </div>
     </div>
@@ -92,12 +102,15 @@ const TipsAndTricks = () => {
 }
 
 // Inline control indicator: right-click for desktop, long-tap for mobile.
-const RightClickLongTap = () => {
+const RightClickLongTap = ({click = false}) => {
   return (
-    <>
-      <span className='desktop-only'>Right-click</span>
-      <span className='mobile-only'>Long-tap</span>
-    </>
+    click ?
+      <span>Right-click</span>
+    :
+      <>
+        <span className='desktop-only'>Right-click</span>
+        <span className='mobile-only'>Long-tap</span>
+      </>
   )
 }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CURRENT_VERSION } from '../version.js';
+import { CURRENT_VERSION } from '../../version.js';
 import './ChangeLog.scss';
 
 
