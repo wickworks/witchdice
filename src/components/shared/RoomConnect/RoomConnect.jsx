@@ -8,7 +8,7 @@ const RoomConnect = ({
   partyName, setPartyName,
   generateRoomName,
   partyConnected, connectToRoom,
-  rollMode
+  currentPage
 }) => {
   const [showingCopiedMessage, setShowingCopiedMessage] = useState(false);
 
@@ -27,7 +27,7 @@ const RoomConnect = ({
     const hostname = window.location.hostname;
     const port = window.location.port.length > 1 ? `:${window.location.port}` : '';
 
-    const roomUrl = `${protocol}${hostname}${port}/${rollMode}?r=${partyRoom}`;
+    const roomUrl = `${protocol}${hostname}${port}/${currentPage}?r=${partyRoom}`;
 
     const el = document.createElement('textarea');
     el.value = roomUrl
@@ -73,7 +73,7 @@ const RoomConnect = ({
           :
             <Link
               className='party-connect'
-              to={`/${rollMode}?r=${partyRoom}`}
+              to={`/${currentPage}?r=${partyRoom}`}
               onClick={() => connectToRoom(partyRoom)}
             >
               Join Room

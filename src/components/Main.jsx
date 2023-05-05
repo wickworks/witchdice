@@ -350,7 +350,7 @@ const Main = ({
               generateRoomName={generateRoomName}
               partyConnected={partyConnected}
               connectToRoom={connectToRoom}
-              rollMode={rollmode}
+              currentPage={rollmode}
             />
 
             <XCard
@@ -453,8 +453,14 @@ const Main = ({
               addNewDicebagPartyRoll={addNewDicebagPartyRoll}
               distantDicebagData={distantDicebagData}
               allPartyActionData={allPartyActionData}
+
+              partyName={partyName}
+              setPartyName={(name) => { setPartyName(name); localStorage.setItem("party_name", name); } }
               partyConnected={partyConnected}
               partyRoom={partyRoom}
+              connectToRoom={connectToRoom}
+              setPartyRoom={setPartyRoom}
+              generateRoomName={generateRoomName}
             />
           </Suspense>
         </Route>
