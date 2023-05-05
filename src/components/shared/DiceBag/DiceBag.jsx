@@ -12,7 +12,6 @@ import {
   sortedDice,
   parseDieType,
   processRollData,
-  getPlainDescriptionOfRoll,
 } from './DiceBagData.js';
 import './DiceBag.scss';
 
@@ -136,14 +135,14 @@ const DiceBag = ({
     clearCurrentMetadata()
   }
 
-  const handleAnnotationToggle = () => {
-    if (isAnnotationActive) {
-      setIsAnnotationActive(false)
-      setAnnotation('')
-    } else {
-      setIsAnnotationActive(true)
-    }
-  }
+  // const handleAnnotationToggle = () => {
+  //   if (isAnnotationActive) {
+  //     setIsAnnotationActive(false)
+  //     setAnnotation('')
+  //   } else {
+  //     setIsAnnotationActive(true)
+  //   }
+  // }
 
   const updateAnnotation = (newAnnotation) => {
     if (newAnnotation) {

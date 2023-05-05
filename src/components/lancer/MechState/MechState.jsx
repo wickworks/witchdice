@@ -342,7 +342,7 @@ const MechState = ({
                   setCurrentNumber={() => {}}
                   leftToRight={true}
                   buttonOnly={true}
-                  showResetButton={overchargeDie != OVERCHARGE_SEQUENCE[0]}
+                  showResetButton={overchargeDie !== OVERCHARGE_SEQUENCE[0]}
                 />
               }
             </div>

@@ -28,7 +28,6 @@ import {
 
 import {
   getGrit,
-  findWeaponData,
   findFrameData,
   findSystemData,
   findTalentData,

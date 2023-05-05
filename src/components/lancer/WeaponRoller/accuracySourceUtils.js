@@ -8,7 +8,6 @@ import {
 } from '../lancerData.js';
 
 import {
-  getSynergiesFor,
   getFailingWeaponSynergies,
 } from './synergyUtils.js';
 

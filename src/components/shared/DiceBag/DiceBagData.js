@@ -92,7 +92,7 @@ export function diceDataIntoToRollData(diceData) {
 
   Object.keys(diceData).forEach(dieType => {
     const rollCount = Math.abs(diceData[dieType])
-    const rollSign = Math.sign(diceData[dieType])
+    // const rollSign = Math.sign(diceData[dieType])
 
     if ((parseDieType(dieType) || dieType === 'plus') && rollCount > 0) {
       toRollData.push({

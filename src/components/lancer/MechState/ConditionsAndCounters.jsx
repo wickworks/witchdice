@@ -144,7 +144,7 @@ const Condition = ({
           fullDescParagraphs.map((fullDescPara, i) =>
             <p>
               {fullDescPara}
-              {(i == fullDescParagraphs.length-1) &&
+              {(i === fullDescParagraphs.length-1) &&
                 <button onClick={() => setFullDescOpen(false)}>(less)</button>
               }
             </p>

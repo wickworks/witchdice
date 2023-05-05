@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import MechanicsList from '../MechanicsList.jsx';
-import {
-  findFrameData,
-  findTalentData,
-  findCoreBonusData,
-} from '../lancerData.js';
+// import MechanicsList from '../MechanicsList.jsx';
+// import {
+//   findFrameData,
+//   findTalentData,
+//   findCoreBonusData,
+// } from '../lancerData.js';
 import './SquadMech.scss';
 import './SquadMechAnimations.scss';
 

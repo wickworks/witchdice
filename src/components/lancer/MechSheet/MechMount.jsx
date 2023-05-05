@@ -3,12 +3,10 @@ import { DestroySystemButton, BroadcastSystemButton } from './DestroySystemButto
 import {
   findCoreBonusData,
   findModData,
-  findNpcFeatureData,
   getSystemLimited,
   hasTag,
   getTagName,
   getModdedWeaponData,
-  baselineWeapons
 } from '../lancerData.js';
 
 import {
@@ -16,8 +14,7 @@ import {
   getMountName,
 } from '../WeaponRoller/weaponRollerUtils.js';
 
-import { deepCopy, capitalize } from '../../../utils.js';
-import { getNumberByTier } from '../LancerNpcMode/npcUtils.js';
+import { capitalize } from '../../../utils.js';
 import { getBroadcastObjectForTrait } from './TraitBlock.jsx';
 import { getRechargeStatusString } from './RechargeBar.jsx';
 

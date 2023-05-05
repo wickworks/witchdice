@@ -1,5 +1,4 @@
 import React from 'react';
-import {RadioGroup, Radio} from 'react-radio-group';
 import './SummaryModeDescription.scss';
 
 const SummaryModeDescription = ({
