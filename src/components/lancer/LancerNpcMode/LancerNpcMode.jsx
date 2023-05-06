@@ -56,6 +56,8 @@ const LancerNpcMode = ({
   setPartyLastAttackTimestamp,
   setRollSummaryData,
   setDistantDicebagData,
+
+  skipDicebagJumplink,
 }) => {
   //
   const [allEncounterEntries, setAllEncounterEntries] = useState([])
@@ -400,7 +402,7 @@ const LancerNpcMode = ({
     }
   }
   // jumplinks.push('clocks','squad')
-  jumplinks.push('dicebag')
+  if (!skipDicebagJumplink) jumplinks.push('dicebag')
 
   return (
     <div className='LancerNpcMode'>
@@ -428,7 +430,9 @@ const LancerNpcMode = ({
         </div>
       }
 
-      <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />
+      { (jumplinks.length > 0) &&
+        <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />
+      }
 
       <div className='encounter-management'>
         <div className='jumplink-anchor' id='roster' />

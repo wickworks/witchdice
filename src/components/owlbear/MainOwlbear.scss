@@ -1,42 +1,78 @@
 @import '../../fonts';
 
+$subwindow_height: 700px;
+
 .MainOwlbear {
-
-  // this can get a little taller in our context
-  .RollHistory {
-    max-height: 700px;
-  }
-
   .pagemode-switcher {
     display: flex;
     justify-content: space-around;
-    width: 100%;
-    // padding: 4px 0;
 
     background-color: $crushed_velvet;
-    // border-radius: 16px;
-    margin-bottom: 12px;
+
+    width: 100%;
+    z-index: 100;
+    position: sticky;
+    top: 0;
 
     button {
-      padding: 8px 12px;
-      // background-color: $rust;
-      // border-radius: 8px;
+      display: grid;
+      grid-template-areas: "center";
+      grid-template-columns: 50px;
+      transition: grid-template-columns .1s ease-out;
+      justify-content: center;
+      align-items: center;
+
+      padding: 4px 0;
       font-size: 18px;
       color: $pink;
       cursor: pointer;
 
+      overflow: hidden;
+
       &:hover {
         background-color: $pink_logo_dark;
         color: white;
+        grid-template-columns: 80px;
+
+        .asset { display: none; }
+        .text { display: block; }
       }
 
       &.active {
-        background-color: #4b2021;
+        background-color: $rust_dark;
         color: white;
         cursor: auto;
+        grid-template-columns: 80px;
+
+        // turn black to white
+        .asset { filter: invert(100%); }
+      }
+
+      &.flash-0 { animation: .75s ease-out 0s 1 flashIn1; }
+      &.flash-1 { animation: .75s ease-out 0s 1 flashIn2; }
+
+      * { grid-area: center }
+
+      .asset {
+        margin: auto;
+        width: 30px;
+        height: 30px;
+        // black to pink
+        filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+      }
+
+      .text {
+        text-align: center;
+        display: none;
       }
     }
   }
+
+  // need to put a resize listener on the whole frame if we want to do this
+  // .scrollable-container {
+  // 	overflow-y: auto;
+  //   max-height: $subwindow_height;
+  // }
 
 
   .roll-history-container {
@@ -48,4 +84,30 @@
       z-index: -10;
     }
   }
+
+  .DiceBag {
+    margin-top: 10px;
+  }
+
+  // this can get a little taller in our context
+  .RollHistory {
+    max-height: $subwindow_height;
+  }
+
+  // need to be positioned below the pagemode switcher
+  .JumplinkPanel {
+    top: 38px;
+  }
+}
+
+
+// Two copies so we can flip back and forth to retrigger the flash
+@keyframes flashIn1 {
+  0% { background-color: $rust_light; }
+  100% { background-color: transparent; }
+}
+
+@keyframes flashIn2 {
+  0% { background-color: $rust_light; }
+  100% { background-color: transparent; }
 }

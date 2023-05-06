@@ -41,6 +41,8 @@ const LancerPlayerMode = ({
   setPartyLastAttackTimestamp,
   setRollSummaryData,
   setDistantDicebagData,
+
+  skipDicebagJumplink,
 }) => {
   const [allPilotEntries, setAllPilotEntries] = useState([]);
   const [activePilotID, setActivePilotID] = useState(null);
@@ -264,7 +266,7 @@ const LancerPlayerMode = ({
   if (isViewingBond) jumplinks.push('bond')
   if (partyConnected) jumplinks.push('squad')
   // jumplinks.push('clocks')
-  jumplinks.push('dicebag')
+  if (!skipDicebagJumplink) jumplinks.push('dicebag')
 
   return (
     <div className='LancerPlayerMode'>

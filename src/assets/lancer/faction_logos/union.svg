@@ -1,31 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 23.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
-	<!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
-	<!ENTITY ns_ai "http://ns.adobe.com/AdobeIllustrator/10.0/">
-	<!ENTITY ns_graphs "http://ns.adobe.com/Graphs/1.0/">
-	<!ENTITY ns_vars "http://ns.adobe.com/Variables/1.0/">
-	<!ENTITY ns_imrep "http://ns.adobe.com/ImageReplacement/1.0/">
-	<!ENTITY ns_sfw "http://ns.adobe.com/SaveForWeb/1.0/">
-	<!ENTITY ns_custom "http://ns.adobe.com/GenericCustomNamespace/1.0/">
-	<!ENTITY ns_adobe_xpath "http://ns.adobe.com/XPath/1.0/">
-]>
-<svg version="1.1" id="Content" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 1080 1080"
-	 style="enable-background:new 0 0 1080 1080;" xml:space="preserve">
-<switch>
-	<foreignObject requiredExtensions="&ns_ai;" x="0" y="0" width="1" height="1">
-		<i:pgfRef  xlink:href="#adobe_illustrator_pgf">
-		</i:pgfRef>
-	</foreignObject>
-	<g i:extraneous="self">
-		<g>
-			<path d="M911.43,538.1L732.16,218.95c-1.67-2.97-4.81-4.81-8.22-4.81H348.03c-7.22,0-11.75,7.78-8.2,14.06l173.85,307.5
-				c1.65,2.92,1.62,6.5-0.07,9.4L334.06,851.67c-3.68,6.28,0.85,14.18,8.13,14.18h376.09c3.34,0,6.42-1.76,8.12-4.64L911.33,547.5
-				C913.04,544.61,913.07,541.03,911.43,538.1z"/>
-			<path d="M298.99,305.86L168.58,536.53c-1.65,2.92-1.62,6.5,0.07,9.4l130.41,222.68c4.86,8.29,17.55,4.85,17.55-4.76V310.5
-				C316.62,300.81,303.76,297.43,298.99,305.86z"/>
-		</g>
-	</g>
-</switch>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1080 1080" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1.44122,0,0,1.44122,-238.258,-238.256)">
+        <g>
+            <g>
+                <path d="M911.43,538.1L732.16,218.95C730.49,215.98 727.35,214.14 723.94,214.14L348.03,214.14C340.81,214.14 336.28,221.92 339.83,228.2L513.68,535.7C515.33,538.62 515.3,542.2 513.61,545.1L334.06,851.67C330.38,857.95 334.91,865.85 342.19,865.85L718.28,865.85C721.62,865.85 724.7,864.09 726.4,861.21L911.33,547.5C913.04,544.61 913.07,541.03 911.43,538.1Z" style="fill-rule:nonzero;"/>
+                <path d="M298.99,305.86L168.58,536.53C166.93,539.45 166.96,543.03 168.65,545.93L299.06,768.61C303.92,776.9 316.61,773.46 316.61,763.85L316.61,310.5C316.62,300.81 303.76,297.43 298.99,305.86Z" style="fill-rule:nonzero;"/>
+            </g>
+        </g>
+    </g>
 </svg>

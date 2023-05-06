@@ -1,5 +1,11 @@
 @import '../../../fonts';
 
+@mixin mobile_only {
+  @media (max-width: 575px) {
+    @content;
+  }
+}
+
 .SquadClockPanel {
 	@include standard_side_margin;
   margin-top: 20px;
@@ -37,7 +43,18 @@
 		.clocks-container {
 			display: flex;
 			flex-wrap: wrap;
-			justify-content: center;
+			justify-content: space-around;
+			gap: 18px;
+			padding: 0 18px;
+
+			@include mobile_only {
+				justify-content: center;
+				gap: 4px;
+				padding: 0;
+			}
+
+
+
 
 			.Clock { margin-bottom: 16px; }
 		}

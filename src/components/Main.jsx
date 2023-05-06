@@ -28,6 +28,9 @@ const MainSettings = lazy(() => import('./settings/MainSettings.jsx'));
 const MainTOS = lazy(() => import('./termsofservice/MainTOS.jsx'));
 const MainOwlbear = lazy(() => import('./owlbear/MainOwlbear.jsx'));
 
+const WipNotice = lazy(() => import('./lancer/WipNotice.jsx'));
+const SquadClockPanel = lazy(() => import('./shared/SquadClockPanel/SquadClockPanel.jsx'));
+
 function useQuery() {
   return new URLSearchParams(useLocation().search);
 }
@@ -41,6 +44,7 @@ const Main = ({
   enabledPages, setEnabledPages
 }) => {
   const [xCardRaisedBy, setXCardRaisedBy] = useState('');
+  const [triggerRerender, setTriggerRerender] = useState(false);
 
   // 5e summary of the current roll. On change, we push it to firebase.
   // Or, if disconnected, just send straight to latestAction.
@@ -416,6 +420,7 @@ const Main = ({
         <Route path="/lancer">
           <HelmetForPage pageID='lancer' />
           <Suspense fallback={<LoadinDots />}>
+            <WipNotice />
             <MainLancer
               setPartyLastAttackKey={setPartyLastAttackKey}
               setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
@@ -423,6 +428,13 @@ const Main = ({
               setDistantDicebagData={setDistantDicebagData}
               partyConnected={partyConnected}
               partyRoom={partyRoom}
+            />
+            <div className='jumplink-anchor' id='clocks' />
+            <SquadClockPanel
+              partyConnected={partyConnected}
+              partyRoom={partyRoom}
+              setTriggerRerender={setTriggerRerender}
+              triggerRerender={triggerRerender}
             />
             {renderDicebag()}
           </Suspense>
@@ -460,8 +472,11 @@ const Main = ({
               partyConnected={partyConnected}
               partyRoom={partyRoom}
               connectToRoom={connectToRoom}
-              setPartyRoom={setPartyRoom}
-              generateRoomName={generateRoomName}
+
+              setPartyLastAttackKey={setPartyLastAttackKey}
+              setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+              setRollSummaryData={setRollSummaryData}
+              setDistantDicebagData={setDistantDicebagData}
             />
           </Suspense>
         </Route>

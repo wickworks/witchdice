@@ -5,6 +5,7 @@ import RollHistory from '../shared/RollHistory/RollHistory.jsx';
 import OwlbearSettings from './OwlbearSettings.jsx';
 import SquadClockPanel from '../shared/SquadClockPanel/SquadClockPanel.jsx';
 import TipsAndTricks from '../settings/TipsAndTricks.jsx';
+import MainLancer from '../lancer/MainLancer.jsx';
 import { randomWords } from '../../random_words.js';
 import { latestActionToNotification } from './OwlbearNotifications.js';
 
@@ -29,14 +30,24 @@ const MainOwlbear = ({
   partyConnected,
   partyRoom,
   connectToRoom,
-  setPartyRoom,
-  generateRoomName,
+
+  setPartyLastAttackKey,
+  setPartyLastAttackTimestamp,
+  setRollSummaryData,
+  setDistantDicebagData,
 }) => {
   const [triggerRerender, setTriggerRerender] = useState(false);
 
   // Instead of changing the URL, change the page in state here
-  const allPageModes = ['Dice','History','Clocks','⚙️']
-  const [pageMode, setPageMode] = useState('Dice');
+
+  const allPageModes = {
+    dice: {label: 'Dice', width: 340, icon: 'dicebag'},
+    rolls: {label: 'Rolls', width: 340, icon: 'icon_owlbear'},
+    lancer: {label: 'Lancer', width: 380, icon: 'union'},
+    clocks: {label: 'Clocks', width: 340, icon: 'clock'},
+    settings: {label: 'Settings', width: 340, icon: 'gear'},
+  }
+  const [pageMode, setPageMode] = useState('dice');
 
   // Initialize Owlbear SDK
   const [obrReady, setObrReady] = useState(false)
@@ -89,36 +100,62 @@ const MainOwlbear = ({
 
   }, [latestAction])
 
+  const changePageTo = (mode) => {
+    console.log('changed to mode ', mode);
+    setPageMode(mode)
+
+    if (obrReady) {
+      OBR.action.setWidth(allPageModes[mode].width)
+    }
+  }
+  // {allPageModes[mode].label}
+
   return (
     <div className='MainOwlbear'>
-
       <div className='pagemode-switcher'>
-        {allPageModes.map(mode =>
-          <button
-            onClick={() => setPageMode(mode)}
-            className={pageMode === mode ? 'active' : ''}
-            key={mode}
-          >
-            {mode}
-          </button>
-        )}
+        {Object.keys(allPageModes).map(mode => {
+          let buttonClass = (pageMode === mode ? 'active' : '')
+          // flops back and forth to trigger anim
+          if (mode === 'rolls' && allPartyActionData.length > 0) buttonClass += ` flash-${allPartyActionData.length % 2}`
+          return (
+            <button
+              onClick={() => changePageTo(mode)}
+              className={buttonClass}
+              key={mode}
+            >
+              <div className='text'>{allPageModes[mode].label}</div>
+              <div className={`asset ${allPageModes[mode].icon}`} />
+            </button>
+          )
+        })}
       </div>
 
 
-      { pageMode === 'Dice' ?
+      { pageMode === 'dice' ?
         <DiceBag
           addNewDicebagPartyRoll={addNewDicebagPartyRoll}
           distantDicebagData={distantDicebagData}
           bookmarksEnabled={false}
         />
-      : pageMode === 'Clocks' ?
+
+      : pageMode === 'lancer' ?
+        <MainLancer
+          setPartyLastAttackKey={setPartyLastAttackKey}
+          setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+          setRollSummaryData={setRollSummaryData}
+          setDistantDicebagData={setDistantDicebagData}
+          partyConnected={partyConnected}
+          partyRoom={partyRoom}
+          skipDicebagJumplink={true}
+        />
+      : pageMode === 'clocks' ?
         <SquadClockPanel
           partyConnected={partyConnected}
           partyRoom={partyRoom}
           setTriggerRerender={setTriggerRerender}
           triggerRerender={triggerRerender}
         />
-      : pageMode === '⚙️' &&
+      : pageMode === 'settings' &&
         <>
           <OwlbearSettings
             notifyOnRoll={notifyOnRoll}
@@ -129,11 +166,12 @@ const MainOwlbear = ({
         </>
       }
 
-      <div className={`roll-history-container ${pageMode === 'History' ? 'visible' : 'hidden'}`}>
+      <div className={`roll-history-container ${pageMode === 'rolls' ? 'visible' : 'hidden'}`}>
         <RollHistory
           allPartyActionData={allPartyActionData}
         />
       </div>
+
 
     </div>
   )

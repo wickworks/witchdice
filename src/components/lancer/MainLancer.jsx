@@ -4,7 +4,6 @@ import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
 import LancerPlayerMode from './LancerPlayerMode/LancerPlayerMode.jsx';
 import LancerNpcMode from './LancerNpcMode/LancerNpcMode.jsx';
 import SquadPanel from './SquadPanel/SquadPanel.jsx';
-import SquadClockPanel from '../shared/SquadClockPanel/SquadClockPanel.jsx';
 
 import PromisifyFileReader from 'promisify-file-reader'
 import { parseContentPack } from './contentPackParser.js';
@@ -40,6 +39,8 @@ const MainLancer = ({
 
   partyConnected,
   partyRoom,
+
+  skipDicebagJumplink = false,
 }) => {
   const [allLcpEntries, setAllLcpEntries] = useState([coreLcpEntry]);
   const [activeLcpID, setActiveLcpID] = useState(coreLcpEntry.id);
@@ -140,29 +141,6 @@ const MainLancer = ({
 
   return (
     <div className='MainLancer'>
-
-      <div className='wip-container'>
-        <p>
-          Lancer is a big game; tell me about bugs or missing mechanics
-          <a
-            href='https://docs.google.com/forms/d/e/1FAIpQLScs5LFyqCURtVjQDzrscMZhWXC45xZl4sUdLLMig0QQ3fO5GA/viewform'
-            target="_blank"
-            rel="noopener noreferrer"
-          >here</a>
-          or on<a
-            href='https://twitter.com/jovialthunder'
-            target="_blank"
-            rel="noopener noreferrer"
-          >Twitter.</a>
-
-          The to-do list is on<a
-            href='https://trello.com/b/e24TNiu1/witchdice'
-            target="_blank"
-            rel="noopener noreferrer"
-          >Trello.</a>
-        </p>
-      </div>
-
       <div className='lcp-container'>
         {isShowingLcpList ?
           <FileList
@@ -225,6 +203,8 @@ const MainLancer = ({
           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
           setRollSummaryData={setRollSummaryData}
           setDistantDicebagData={setDistantDicebagData}
+
+          skipDicebagJumplink={skipDicebagJumplink}
         />
       : gameMode === GAME_MODE_NPC &&
         <LancerNpcMode
@@ -237,6 +217,8 @@ const MainLancer = ({
           setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
           setRollSummaryData={setRollSummaryData}
           setDistantDicebagData={setDistantDicebagData}
+
+          skipDicebagJumplink={skipDicebagJumplink}
         />
       }
 
@@ -249,15 +231,6 @@ const MainLancer = ({
           />
         </>
       }
-
-      <div className='jumplink-anchor' id='clocks' />
-      <SquadClockPanel
-        partyConnected={partyConnected}
-        partyRoom={partyRoom}
-        setTriggerRerender={setTriggerRerender}
-        triggerRerender={triggerRerender}
-      />
-
     </div>
   )
 }

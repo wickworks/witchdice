@@ -1,0 +1,17 @@
+@import '../../fonts';
+
+.WipNotice {
+  margin: 12px auto 20px;
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  color: $rust_dark;
+  // font-size: 20px;
+
+  a {
+    margin: 0 4px;
+    color: $olive_dark;
+
+    &:hover { color: $crushed_velvet; }
+  }
+}
