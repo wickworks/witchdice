@@ -6,7 +6,7 @@
   "manifest_version": 1,
   "action": {
     "title": "Witchdice",
-    "icon": "/icon.svg",
+    "icon": "/icon_owlbear.svg",
     "popover": "/owlbear",
     "height": 752,
     "width": 340
