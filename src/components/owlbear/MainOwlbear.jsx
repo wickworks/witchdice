@@ -5,11 +5,8 @@ import RollHistory from '../shared/RollHistory/RollHistory.jsx';
 import RoomConnect from '../shared/RoomConnect/RoomConnect.jsx';
 import SquadClockPanel from '../shared/SquadClockPanel/SquadClockPanel.jsx';
 import TipsAndTricks from '../settings/TipsAndTricks.jsx';
-import {
-  getRollDescription,
-  processRollData,
-} from '../shared/DiceBag/DiceBagData.js';
 import { randomWords } from '../../random_words.js';
+import { latestActionToNotification } from './OwlbearNotifications.js';
 
 import OBR from "@owlbear-rodeo/sdk";
 
@@ -25,6 +22,7 @@ const MainOwlbear = ({
   addNewDicebagPartyRoll,
   distantDicebagData,
   allPartyActionData,
+  latestAction,
 
   partyName,
   setPartyName,
@@ -34,24 +32,20 @@ const MainOwlbear = ({
   setPartyRoom,
   generateRoomName,
 }) => {
-
-  // instead of changing the URL, change them in state here
-  const allPageModes = ['Dice','History','Clocks','?']
-
-  const [pageMode, setPageMode] = useState('Dice');
   const [triggerRerender, setTriggerRerender] = useState(false);
 
-  const [obrReady, setObrReady] = useState(false)
-  useEffect(() => {
-    if (OBR.isAvailable && !obrReady) OBR.onReady(() => initializeObr(obrReady))
-  }, [obrReady])
+  // Instead of changing the URL, change the page in state here
+  const allPageModes = ['Dice','History','Clocks','?']
+  const [pageMode, setPageMode] = useState('Dice');
 
+  // Initialize Owlbear SDK
+  const [obrReady, setObrReady] = useState(false)
+  useEffect(() => { if (OBR.isAvailable && !obrReady) OBR.onReady(() => initializeObr(obrReady)) }, [obrReady])
   const initializeObr = () => {
     console.log('OBR READY');
     setObrReady(true);
 
     // get the player name
-
     Promise.all([OBR.room.getMetadata(), OBR.player.getName()])
       .then(values => {
         const metadata = values[0][METADATA_ROOM]
@@ -78,29 +72,21 @@ const MainOwlbear = ({
         if (playerName) setPartyName(playerName)
         if (loadedRoom) connectToRoom(loadedRoom)
       })
-
-    //
-    // OBR.room.setMetadata(
-    //   {""}
-    // )
   }
 
+  // New action coming in to roll history; let's make a notification about it. (closing the old one if it's still open)
+  const [actionToNotificationMap, setActionToNotificationMap] = useState({})
+  useEffect(() => {
+    console.log('latestAction', latestAction, ' obrReady ', obrReady, ' OBR.isAvailable', OBR.isAvailable);
 
-  const addNewDicebagPartyRollWithNotif = (rolls, summaryMode, summaryModeValue, annotation, message, isNew) => {
-    // summarize the results
-    const resultTotal = processRollData(rolls, summaryMode, summaryModeValue)
-    const resultSummary = getRollDescription(rolls, summaryMode, summaryModeValue)
-
-    //
-    console.log('NEW ROLL ', resultTotal,  'obrReady ', obrReady, '  OBR.isAvailable', OBR.isAvailable);
-    if (obrReady && resultTotal > 0) {
-      OBR.notification.show(`Total: ${resultTotal} | Summary: ${resultSummary}`);
+    // was this one modified in the last ten seconds?
+    var now = Date.now()
+    var cutoff = now - (10 * 1000) // 10 seconds ago
+    if (obrReady && latestAction.updatedAt > cutoff) {
+      latestActionToNotification(latestAction, actionToNotificationMap, setActionToNotificationMap)
     }
 
-    addNewDicebagPartyRoll(rolls, summaryMode, summaryModeValue, annotation, message, isNew)
-  }
-
-  // o2DDoFrVaznh/TheSolidStump
+  }, [latestAction])
 
   return (
     <div className='MainOwlbear'>
@@ -120,13 +106,9 @@ const MainOwlbear = ({
 
       { pageMode === 'Dice' ?
         <DiceBag
-          addNewDicebagPartyRoll={addNewDicebagPartyRollWithNotif}
+          addNewDicebagPartyRoll={addNewDicebagPartyRoll}
           distantDicebagData={distantDicebagData}
           bookmarksEnabled={false}
-        />
-      : pageMode === 'History' ?
-        <RollHistory
-          allPartyActionData={allPartyActionData}
         />
       : pageMode === 'Clocks' ?
         <SquadClockPanel
@@ -150,6 +132,12 @@ const MainOwlbear = ({
           <TipsAndTricks abbreviated={true} />
         </>
       }
+
+      <div className={`roll-history-container ${pageMode === 'History' ? 'visible' : 'hidden'}`}>
+        <RollHistory
+          allPartyActionData={allPartyActionData}
+        />
+      </div>
 
     </div>
   )

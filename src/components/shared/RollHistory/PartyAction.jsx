@@ -1,7 +1,7 @@
 import React from 'react';
 import BrToParagraphs from '../BrToParagraphs.jsx';
 
-import { processRollData } from '../DiceBag/DiceBagData.js';
+import { processRollData, firebaseActionDataIntoRollData } from '../DiceBag/DiceBagData.js';
 import { allDamageTypes } from '../../5e/data.js';
 import { LANCER_DAMAGE_TYPES } from '../../lancer/lancerData.js';
 import './PartyAction.scss';
@@ -66,11 +66,7 @@ const PartyActionDicebag = ({actionData, showName}) => {
 
   // convert the 'roll-X' keys into roll data:
   // [ {'dieType': '20', 'result': '1'}, {'dieType': '20', 'result': '12'}, ... ]
-  let rollData = [];
-  Object.keys(actionData).forEach(key => {
-    if (key.startsWith('roll-')) rollData.push(actionData[key])
-  });
-
+  let rollData = firebaseActionDataIntoRollData(actionData);
   const resultTotal = processRollData(rollData, summaryMode, summaryModeValue)
 
   const oneLineClass = (rollData.length === 1) ? 'one-liner' : '';

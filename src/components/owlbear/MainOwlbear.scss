@@ -32,4 +32,15 @@
       }
     }
   }
+
+
+  .roll-history-container {
+    &.hidden {
+      visibility: hidden;
+      height: 0px;
+      position: absolute;
+      top: 0;
+      z-index: -10;
+    }
+  }
 }

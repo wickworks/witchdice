@@ -453,6 +453,7 @@ const Main = ({
               addNewDicebagPartyRoll={addNewDicebagPartyRoll}
               distantDicebagData={distantDicebagData}
               allPartyActionData={allPartyActionData}
+              latestAction={latestAction}
 
               partyName={partyName}
               setPartyName={(name) => { setPartyName(name); localStorage.setItem("party_name", name); } }

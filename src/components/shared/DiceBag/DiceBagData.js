@@ -213,6 +213,24 @@ export function getRollDescription(rollData, summaryMode, summaryModeValue) {
 }
 
 
+// turns firebase action data back into native rollData
+//  {
+//    "roll-0": { dieType: "d20", result: 18 }
+//    "roll-1": { dieType: "d6", result: 2 }
+//  }
+//  into:
+//  [
+//    {'dieType': '20', 'result': 18},
+//    {'dieType': '6', 'result': 2}, ...
+//  ]
+export function firebaseActionDataIntoRollData(actionData) {
+  let rollData = [];
+  Object.keys(actionData).forEach(key => {
+    if (key.startsWith('roll-')) rollData.push(actionData[key])
+  });
+  return rollData
+}
+
 // Returns an array of dice types e.g. ['20', 'x16', '12', '10', '8', '6', '4', 'plus']
 export function sortedDice(diceData) {
   let sorted = Object.keys(diceData).sort((a, b) => {
