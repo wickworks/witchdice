@@ -122,6 +122,7 @@ const MainOwlbear = ({
               onClick={() => changePageTo(mode)}
               className={buttonClass}
               key={mode}
+              disabled={mode === pageMode}
             >
               <div className='text'>{allPageModes[mode].label}</div>
               <div className={`asset ${allPageModes[mode].icon}`} />
