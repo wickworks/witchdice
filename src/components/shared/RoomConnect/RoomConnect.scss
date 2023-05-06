@@ -28,6 +28,7 @@
 
     label {
       width: 66px;
+      line-height: 28px;
       flex-shrink: 0;
     }
 
@@ -69,35 +70,6 @@
       cursor: pointer;
 
       &:hover { color: $soft_black; }
-    }
-
-    .copy-on-click {
-      @include text_label;
-      display: flex;
-      border-radius: 4px;
-      margin-top: 1px;
-      padding: 0;
-      text-align: left;
-      overflow: hidden;
-      cursor: pointer;
-
-      &:hover { background-color: $pink; }
-
-      .name {
-        max-width: 88%;
-        box-sizing: border-box;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-      }
-
-      .copy-symbol { margin-left: 4px; }
-    }
-
-    .copied-message {
-      color: $olive_dark;
-      font-size: 18px;
-      padding-top: 2px;
     }
   }
 

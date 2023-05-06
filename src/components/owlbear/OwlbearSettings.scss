@@ -1,0 +1,33 @@
+@import '../../fonts';
+
+.OwlbearSettings {
+  @include nouveau_border('nouveau_room_connected.svg');
+  @include shadow;
+  @include parchment_background;
+  padding: 16px 22px 18px;
+  margin: 6px 0;
+  box-sizing: border-box;
+  width: 100%;
+
+
+  label.notify-on-roll {
+    color: $rust;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 0;
+    margin: 2px 0;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover { background-color: $pink; }
+
+
+    input[type=checkbox] {
+      width: 20px;
+      height: 20px;
+      margin: 0 10px 0 0;
+    }
+  }
+}

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 import TextInput from '../TextInput.jsx';
+import CopyRoomLink from './CopyRoomLink.jsx';
 import './RoomConnect.scss';
 
 const RoomConnect = ({
@@ -10,8 +11,6 @@ const RoomConnect = ({
   partyConnected, connectToRoom,
   currentPage
 }) => {
-  const [showingCopiedMessage, setShowingCopiedMessage] = useState(false);
-
   const updatePartyRoom = (value) => {
     const filtered = value.replace(/[^A-Za-z-]/ig, '')
     setPartyRoom(filtered)
@@ -20,29 +19,6 @@ const RoomConnect = ({
   const updatePartyName = (value) => {
     const filtered = value.replace(/[^A-Za-z -]/ig, '')
     setPartyName(filtered)
-  }
-
-  const copyRoom = () => {
-    const protocol = window.location.protocol.length > 1 ? `${window.location.protocol}//` : '';
-    const hostname = window.location.hostname;
-    const port = window.location.port.length > 1 ? `:${window.location.port}` : '';
-
-    const roomUrl = `${protocol}${hostname}${port}/${currentPage}?r=${partyRoom}`;
-
-    const el = document.createElement('textarea');
-    el.value = roomUrl
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-
-    console.log('copied room url', roomUrl);
-
-    setShowingCopiedMessage(true);
-
-    setTimeout(function(){
-      setShowingCopiedMessage(false);
-    }, 2000);
   }
 
   const connectDisabled = (partyRoom.length <= 6 || partyName.length <= 0);
@@ -95,16 +71,10 @@ const RoomConnect = ({
           </div>
 
           <div className='party-room-container connected'>
-            <label>Room:</label>
-
-            { showingCopiedMessage ?
-              <div className='copied-message'>Copied url!</div>
-            :
-              <button className='copy-on-click' onClick={copyRoom}>
-                <span className='name'>{partyRoom}</span>
-                <span className='copy-symbol'>⧉</span>
-              </button>
-            }
+            <CopyRoomLink
+              partyRoom={partyRoom}
+              currentPage={currentPage}
+            />
           </div>
         </>
       }

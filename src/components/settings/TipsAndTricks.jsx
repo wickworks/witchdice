@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import DieButton from '../shared/DiceBag/DieButton';
 import SummaryModeSwitcher from '../shared/DiceBag/SummaryModeSwitcher';
+import SummaryModeDescription from '../shared/DiceBag/SummaryModeDescription';
 import {Bookmark, BookmarkNew} from '../shared/DiceBag/Bookmark';
 
 import './TipsAndTricks.scss';
@@ -11,10 +12,12 @@ const TipsAndTricks = ({
 
   const [dummyDieCount, setDummyDieCount] = useState(-2);
   const [dummySummaryMode, setDummySummaryMode] = useState('total');
+  const [dummySummaryModeValue, setDummySummaryModeValue] = useState(1);
   const [dummyBookmarkSaved, setDummyBookmarkSaved] = useState(false);
 
   const highClass = dummySummaryMode === 'highest' ? 'mode selected' : 'mode';
   const lowClass = dummySummaryMode === 'lowest' ? 'mode selected' : 'mode';
+  const countClass = dummySummaryMode === 'count' ? 'mode selected' : 'mode';
 
   const fakeBookmarkData = {4: 0, 6: 4, 8: 0, 10: 0, 12: 0, 20: 1, plus: 0, x: 0, summaryMode: 'total', summaryModeValue: 1}
   const fakeRollDescription = '1d20 + 4d6'
@@ -42,7 +45,7 @@ const TipsAndTricks = ({
             </div>
             <p>
               <RightClickLongTap click={abbreviated} /> to get negative dice. These will be subtracted
-              from the total, e.g. <span className='dice'>1d20 - 2d6</span>
+              from the total, e.g. <em>1d20 - 2d6</em>
             </p>
             <p className='desktop-only'>After clicking a die, you can press 1-9 on your keyboard as a shortcut. Backspace clears it.</p>
           </div>
@@ -50,23 +53,40 @@ const TipsAndTricks = ({
           {!abbreviated &&
             <h3>Min and max</h3>
           }
+
+          <div className='interactable-widget'>
+            <SummaryModeSwitcher
+              summaryMode={dummySummaryMode}
+              setSummaryMode={setDummySummaryMode}
+            />
+            <SummaryModeDescription
+              summaryMode={dummySummaryMode}
+              summaryModeValue={dummySummaryModeValue}
+              setSummaryModeValue={setDummySummaryModeValue}
+            />
+          </div>
           <div className='tip'>
-            <div className='interactable-widget'>
-              <SummaryModeSwitcher
-                summaryMode={dummySummaryMode}
-                setSummaryMode={setDummySummaryMode}
-              />
-            </div>
             <p>
               When in <span className={highClass}>High</span> or <span className={lowClass}>Low</span> mode,
-              only the highest or lowest die of each type will be added to the total.
+              only the highest or
+              lowest <em>{dummySummaryModeValue > 1 ? `${dummySummaryModeValue} dice` : `die`}</em> of <em>each type</em> will
+              be added to the total.
             </p>
+
+            {!abbreviated && <>
+              <p>
+                For example, to roll with disadvantage while <span className='hashtag'>#</span>blessed:
+                <br />— Switch to <span className={lowClass}>Low</span> mode
+                <br />— Queue up <em>2d20</em> and <em>1d4</em>
+              </p>
+              <p>This should give you <em>Min( 2d20 ) + 1d4</em></p>
+            </>}
+
             <p>
-              For example, to roll with disadvantage while <span className='hashtag'>#</span>blessed:
-              <br />— Switch to <span className={lowClass}>Low</span> mode
-              <br />— Queue up <span className='dice'>2d20</span> and <span className='dice'>1d4</span>
+              When in <span className={countClass}>Count</span> mode, it will tell
+              you the <em>number</em> of dice that
+              rolled at or above <em>{dummySummaryModeValue}</em>.
             </p>
-            <p>This should give you <span className='dice'>Min( 2d20 ) + 1d4</span></p>
           </div>
 
           {!abbreviated && <>

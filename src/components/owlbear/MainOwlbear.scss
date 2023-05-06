@@ -2,6 +2,11 @@
 
 .MainOwlbear {
 
+  // this can get a little taller in our context
+  .RollHistory {
+    max-height: 700px;
+  }
+
   .pagemode-switcher {
     display: flex;
     justify-content: space-around;

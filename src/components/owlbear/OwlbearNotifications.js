@@ -32,8 +32,14 @@ function createDicebagNotification(latestAction) {
   const rollData = firebaseActionDataIntoRollData(latestAction);
   let [summaryMode, summaryModeValue] = latestAction.conditions.split(' ')
 
-  const resultTotal = processRollData(rollData, summaryMode, summaryModeValue)
-  const resultDesc = getRollDescription(rollData, summaryMode, summaryModeValue)
+  if (rollData.length > 1) {
+    const resultTotal = processRollData(rollData, summaryMode, summaryModeValue)
+    const resultDesc = getRollDescription(rollData, summaryMode, summaryModeValue)
+    return `${latestAction.name} | ${resultDesc}⠀⠀⠀⠀⠀⦑ ${resultTotal} ⦒⠀⠀⠀`
 
-  return `⦑ ${resultTotal} ⦒ ${latestAction.name} | ${resultDesc}`
+  } else if (rollData.length == 1) {
+    return `${latestAction.name} | ${rollData[0].dieType}⠀⠀⠀⠀⠀⦑ ${rollData[0].result} ⦒⠀⠀⠀`
+  }
+
+  return ''
 }

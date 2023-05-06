@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import DiceBag from '../shared/DiceBag/DiceBag.jsx';
 import RollHistory from '../shared/RollHistory/RollHistory.jsx';
-import RoomConnect from '../shared/RoomConnect/RoomConnect.jsx';
+import OwlbearSettings from './OwlbearSettings.jsx';
 import SquadClockPanel from '../shared/SquadClockPanel/SquadClockPanel.jsx';
 import TipsAndTricks from '../settings/TipsAndTricks.jsx';
 import { randomWords } from '../../random_words.js';
@@ -35,7 +35,7 @@ const MainOwlbear = ({
   const [triggerRerender, setTriggerRerender] = useState(false);
 
   // Instead of changing the URL, change the page in state here
-  const allPageModes = ['Dice','History','Clocks','?']
+  const allPageModes = ['Dice','History','Clocks','⚙️']
   const [pageMode, setPageMode] = useState('Dice');
 
   // Initialize Owlbear SDK
@@ -75,6 +75,7 @@ const MainOwlbear = ({
   }
 
   // New action coming in to roll history; let's make a notification about it. (closing the old one if it's still open)
+  const [notifyOnRoll, setNotifyOnRoll] = useState(true)
   const [actionToNotificationMap, setActionToNotificationMap] = useState({})
   useEffect(() => {
     console.log('latestAction', latestAction, ' obrReady ', obrReady, ' OBR.isAvailable', OBR.isAvailable);
@@ -82,7 +83,7 @@ const MainOwlbear = ({
     // was this one modified in the last ten seconds?
     var now = Date.now()
     var cutoff = now - (10 * 1000) // 10 seconds ago
-    if (obrReady && latestAction.updatedAt > cutoff) {
+    if (obrReady && notifyOnRoll && latestAction.updatedAt > cutoff) {
       latestActionToNotification(latestAction, actionToNotificationMap, setActionToNotificationMap)
     }
 
@@ -117,17 +118,12 @@ const MainOwlbear = ({
           setTriggerRerender={setTriggerRerender}
           triggerRerender={triggerRerender}
         />
-      : pageMode === '?' &&
+      : pageMode === '⚙️' &&
         <>
-          <RoomConnect
-            partyName={partyName}
-            setPartyName={setPartyName}
+          <OwlbearSettings
+            notifyOnRoll={notifyOnRoll}
+            setNotifyOnRoll={setNotifyOnRoll}
             partyRoom={partyRoom}
-            setPartyRoom={setPartyRoom}
-            generateRoomName={generateRoomName}
-            partyConnected={partyConnected}
-            connectToRoom={connectToRoom}
-            currentPage={'simple'}
           />
           <TipsAndTricks abbreviated={true} />
         </>
