@@ -19,9 +19,33 @@ const METADATA_ROOM = "com.witchdice.obr-extension/metadata"
 const FRAME_WIDTH = 380;
 const FRAME_WIDTH_EXPANDED = 840;
 
+const SETTINGS_HIDDEN_PAGE_MODES = 'settings-hidden-iframe-page-modes';
+
+// Returns a hash of currently-enabled pages
+function loadSkippedPageModes() {
+  let skipPages = []
+  const savedString = localStorage.getItem(SETTINGS_HIDDEN_PAGE_MODES)
+  if (savedString) skipPages = JSON.parse(savedString)
+  return skipPages;
+}
+
+// saved a page to be skipped/shown to localstorage
+function saveSkipPages(skipPages) {
+  localStorage.setItem(SETTINGS_HIDDEN_PAGE_MODES, JSON.stringify(skipPages))
+}
+
 
 function generateOwlbearRoomName() {
   return `owlbear-${randomWords(1)}-${randomWords({exactly: 1, maxLength: 6})}-${randomWords({exactly: 1, maxLength: 4})}`
+}
+
+// Instead of changing the URL, change the page in state here
+const allPageModes = {
+  dice: {label: 'Dice', icon: 'dicebag', skippable: false},
+  rolls: {label: 'Rolls', icon: 'icon_owlbear', skippable: false},
+  lancer: {label: 'Lancer', icon: 'union', skippable: true},
+  clocks: {label: 'Clocks', icon: 'clock', skippable: true},
+  settings: {label: 'Settings', icon: 'gear', skippable: false},
 }
 
 const MainOwlbear = ({
@@ -44,27 +68,39 @@ const MainOwlbear = ({
   const [triggerRerender, setTriggerRerender] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const [pageMode, setPageMode] = useState('dice');
+
   // settings can turn certain pages off
   const [skipPages, setSkipPages] = useState([])
 
-  // Instead of changing the URL, change the page in state here
-  const allPageModes = {
-    dice: {label: 'Dice', icon: 'dicebag', skippable: false},
-    rolls: {label: 'Rolls', icon: 'icon_owlbear', skippable: false},
-    lancer: {label: 'Lancer', icon: 'union', skippable: true},
-    clocks: {label: 'Clocks', icon: 'clock', skippable: true},
-    settings: {label: 'Settings', icon: 'gear', skippable: false},
-  }
-  const [pageMode, setPageMode] = useState('dice');
-
-  // Initialize Owlbear SDK
   const [obrReady, setObrReady] = useState(false)
+
+  const [notifyOnRoll, setNotifyOnRoll] = useState(true)
+  const [actionToNotificationMap, setActionToNotificationMap] = useState({})
+
+  // INITIALIZE
   useEffect(() => {
+    setSkipPages(loadSkippedPageModes())
     if (OBR.isAvailable && !obrReady) OBR.onReady(() => initializeObr(obrReady))
   }, [])
 
+  // DICE ROLL NOTIFICATION
+  useEffect(() => {
+    // New action coming in to roll history; let's make a notification about it. (closing the old one if it's still open)
+    // console.log('latestAction', latestAction, ' obrReady ', obrReady, ' OBR.isAvailable', OBR.isAvailable);
+
+    // was this one modified in the last ten seconds?
+    var now = Date.now()
+    var cutoff = now - (10 * 1000) // 10 seconds ago
+    if (obrReady && notifyOnRoll && latestAction.updatedAt > cutoff) {
+      latestActionToNotification(latestAction, actionToNotificationMap, setActionToNotificationMap)
+    }
+
+  }, [latestAction])
+
+  // INITIALIZE OWLBEAR SDK
   const initializeObr = () => {
-    console.log('OBR READY');
+    console.log('Witchdice: OBR SDK ready!');
     setObrReady(true);
 
     // get the player name
@@ -96,21 +132,7 @@ const MainOwlbear = ({
       })
   }
 
-  // New action coming in to roll history; let's make a notification about it. (closing the old one if it's still open)
-  const [notifyOnRoll, setNotifyOnRoll] = useState(true)
-  const [actionToNotificationMap, setActionToNotificationMap] = useState({})
-  useEffect(() => {
-    console.log('latestAction', latestAction, ' obrReady ', obrReady, ' OBR.isAvailable', OBR.isAvailable);
-
-    // was this one modified in the last ten seconds?
-    var now = Date.now()
-    var cutoff = now - (10 * 1000) // 10 seconds ago
-    if (obrReady && notifyOnRoll && latestAction.updatedAt > cutoff) {
-      latestActionToNotification(latestAction, actionToNotificationMap, setActionToNotificationMap)
-    }
-
-  }, [latestAction])
-
+  // CHANGE PAGE MODE
   const changePageTo = (mode) => {
     console.log('changed to mode ', mode);
     setPageMode(mode)
@@ -121,6 +143,19 @@ const MainOwlbear = ({
     }
   }
 
+  // SHOW / HIDE A PAGE MODE
+  const toggleSkipPage = (mode) => {
+    let newSkipPages = []
+    if (skipPages.includes(mode)) {
+      newSkipPages = skipPages.filter(e => e !== mode)
+    } else {
+      newSkipPages = [...skipPages, mode]
+    }
+    setSkipPages(newSkipPages)
+    saveSkipPages(newSkipPages)
+  }
+
+  // EXPAND / CONTRACT THE IFRAME
   const toggleExpanded = () => {
     if (obrReady) {
       let newWidth = isExpanded ? FRAME_WIDTH : FRAME_WIDTH_EXPANDED
@@ -144,6 +179,7 @@ const MainOwlbear = ({
         pageMode={pageMode}
         changePageTo={changePageTo}
         allPartyActionDataLength={allPartyActionData.length}
+        obrReady={obrReady}
       />
 
       <div className={`page-mode-content ${isExpanded ? 'expanded' : ''}`}>
@@ -180,7 +216,7 @@ const MainOwlbear = ({
               setNotifyOnRoll={setNotifyOnRoll}
               allPageModes={allPageModes}
               skipPages={skipPages}
-              setSkipPages={setSkipPages}
+              toggleSkipPage={toggleSkipPage}
               partyRoom={partyRoom}
             />
             <TipsAndTricks abbreviated={true} />

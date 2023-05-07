@@ -23,7 +23,6 @@ const SiteSettings = ({
   }
 
   const onDeleteAllLocalData = () => {
-
     if (window.confirm(
       'This will delete ALL saved data from this browser, including characters and monsters saved across all pages. Are you sure you wish to continue?'
     )) {

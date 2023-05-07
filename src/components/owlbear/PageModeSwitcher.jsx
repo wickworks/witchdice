@@ -10,6 +10,7 @@ const PageModeSwitcher = ({
   pageMode,
   changePageTo,
   allPartyActionDataLength,
+  obrReady,
 }) => {
 
   // skip separate dicebags when expanded
@@ -40,9 +41,11 @@ const PageModeSwitcher = ({
         })
       }
 
-      <button onClick={toggleExpanded}>
-        <div className={`asset ${isExpanded ? 'panel_contract' : 'panel_expand'}`} />
-      </button>
+      {obrReady &&
+        <button onClick={toggleExpanded}>
+          <div className={`asset ${isExpanded ? 'panel_contract' : 'panel_expand'}`} />
+        </button>
+      }
 
     </div>
   )
