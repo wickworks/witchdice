@@ -27,7 +27,6 @@
 
   background-color: $crushed_velvet;
 
-
   .jumplinks {
     @include shadow;
     // @include parchment_background;
@@ -38,7 +37,10 @@
     width: 100%;
     max-width: 800px;
 
+    display: flex;
+
     .link-container {
+      width: 100%;
       display: flex;
       justify-content: space-between;
 

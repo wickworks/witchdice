@@ -7,7 +7,7 @@ import './JumplinkPanel.scss';
 
 const JumplinkPanel = ({
   partyConnected,
-  jumplinks
+  jumplinks,
 }) => {
 
   return (

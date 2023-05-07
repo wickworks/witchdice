@@ -1,6 +1,14 @@
 @import '../../fonts';
 
+$page_switcher_height: 36px;
 $subwindow_height: 700px;
+
+
+@mixin expanded_width {
+  @media (min-width: 500px) {
+    @content;
+  }
+}
 
 .MainOwlbear {
   .pagemode-switcher {
@@ -13,6 +21,10 @@ $subwindow_height: 700px;
     z-index: 100;
     position: sticky;
     top: 0;
+
+    @include expanded_width {
+      width: 50%;
+    }
 
     button {
       display: grid;
@@ -55,8 +67,8 @@ $subwindow_height: 700px;
 
       .asset {
         margin: auto;
-        width: 30px;
-        height: 30px;
+        width: 28px;
+        height: 28px;
         // black to pink
         filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
       }
@@ -94,9 +106,55 @@ $subwindow_height: 700px;
     max-height: $subwindow_height;
   }
 
+  .MainLancer {
+    flex-direction: column-reverse; // stick mode switcher and LCPs at end
+  }
+
   // need to be positioned below the pagemode switcher
   .JumplinkPanel {
-    top: 38px;
+    top: $page_switcher_height;
+    margin-top: 0;
+    width: calc(100vw - 58px);
+
+    @include expanded_width {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: calc(50vw - 58px);
+      right: 58px;
+      margin: 0;
+    }
+  }
+
+  // Hacked inline with the Jumplink panel; better than passing its state down through the jsx
+  button.expand-panel {
+    position: fixed;
+    top: $page_switcher_height;
+    right: 0;
+    display: block;
+    color: $pink;
+    text-decoration: none;
+    text-align: center;
+    padding: 4px 16px;
+    background-color: $crushed_velvet;
+    z-index: 100;
+
+    @include expanded_width {
+      top: 0;
+    }
+
+    &:hover {
+      background-color: $pink_logo_dark;
+      color: white;
+    }
+
+    .asset {
+      width: 28px;
+      height: 28px;
+
+      // black to pink
+      filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+    }
   }
 }
 

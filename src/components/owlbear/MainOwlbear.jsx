@@ -37,15 +37,16 @@ const MainOwlbear = ({
   setDistantDicebagData,
 }) => {
   const [triggerRerender, setTriggerRerender] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   // Instead of changing the URL, change the page in state here
 
   const allPageModes = {
-    dice: {label: 'Dice', width: 340, icon: 'dicebag'},
-    rolls: {label: 'Rolls', width: 340, icon: 'icon_owlbear'},
-    lancer: {label: 'Lancer', width: 380, icon: 'union'},
-    clocks: {label: 'Clocks', width: 340, icon: 'clock'},
-    settings: {label: 'Settings', width: 340, icon: 'gear'},
+    dice: {label: 'Dice', icon: 'dicebag', width: 340, expandedWidth: 340},
+    rolls: {label: 'Rolls', icon: 'icon_owlbear', width: 340, expandedWidth: 340},
+    lancer: {label: 'Lancer', icon: 'union', width: 380, expandedWidth: 840},
+    clocks: {label: 'Clocks', icon: 'clock', width: 340, expandedWidth: 340},
+    settings: {label: 'Settings', icon: 'gear', width: 340, expandedWidth: 340},
   }
   const [pageMode, setPageMode] = useState('dice');
 
@@ -105,10 +106,19 @@ const MainOwlbear = ({
     setPageMode(mode)
 
     if (obrReady) {
-      OBR.action.setWidth(allPageModes[mode].width)
+      let newWidth = isExpanded ? allPageModes[mode].expandedWidth : allPageModes[mode].width
+      OBR.action.setWidth(newWidth)
     }
   }
   // {allPageModes[mode].label}
+
+  const onExpandIframe = () => {
+    if (obrReady) {
+      let newWidth = isExpanded ? allPageModes[pageMode].width : allPageModes[pageMode].expandedWidth
+      OBR.action.setWidth(newWidth)
+    }
+    setIsExpanded(!isExpanded)
+  }
 
   return (
     <div className='MainOwlbear'>
@@ -140,15 +150,21 @@ const MainOwlbear = ({
         />
 
       : pageMode === 'lancer' ?
-        <MainLancer
-          setPartyLastAttackKey={setPartyLastAttackKey}
-          setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-          setRollSummaryData={setRollSummaryData}
-          setDistantDicebagData={setDistantDicebagData}
-          partyConnected={partyConnected}
-          partyRoom={partyRoom}
-          skipDicebagJumplink={true}
-        />
+        <>
+          <button className='expand-panel' onClick={onExpandIframe}>
+            <div className={`asset ${isExpanded ? 'panel_contract' : 'panel_expand'}`} />
+          </button>
+
+          <MainLancer
+            setPartyLastAttackKey={setPartyLastAttackKey}
+            setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+            setRollSummaryData={setRollSummaryData}
+            setDistantDicebagData={setDistantDicebagData}
+            partyConnected={partyConnected}
+            partyRoom={partyRoom}
+            skipDicebagJumplink={true}
+          />
+        </>
       : pageMode === 'clocks' ?
         <SquadClockPanel
           partyConnected={partyConnected}

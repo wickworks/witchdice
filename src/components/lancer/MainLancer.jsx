@@ -189,48 +189,49 @@ const MainLancer = ({
         </div>
       </div>
 
+      <div className='game-mode-and-squad-container'>
+        { gameMode === GAME_MODE_PLAYER ?
+          <LancerPlayerMode
+            setTriggerRerender={setTriggerRerender}
+            triggerRerender={triggerRerender}
 
-      { gameMode === GAME_MODE_PLAYER ?
-        <LancerPlayerMode
-          setTriggerRerender={setTriggerRerender}
-          triggerRerender={triggerRerender}
+            bondsEnabled={bondsEnabled}
 
-          bondsEnabled={bondsEnabled}
-
-          partyConnected={partyConnected}
-          partyRoom={partyRoom}
-          setPartyLastAttackKey={setPartyLastAttackKey}
-          setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-          setRollSummaryData={setRollSummaryData}
-          setDistantDicebagData={setDistantDicebagData}
-
-          skipDicebagJumplink={skipDicebagJumplink}
-        />
-      : gameMode === GAME_MODE_NPC &&
-        <LancerNpcMode
-          setTriggerRerender={setTriggerRerender}
-          triggerRerender={triggerRerender}
-
-          partyConnected={partyConnected}
-          partyRoom={partyRoom}
-          setPartyLastAttackKey={setPartyLastAttackKey}
-          setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-          setRollSummaryData={setRollSummaryData}
-          setDistantDicebagData={setDistantDicebagData}
-
-          skipDicebagJumplink={skipDicebagJumplink}
-        />
-      }
-
-      { partyConnected &&
-        <>
-          <div className='jumplink-anchor' id='squad' />
-          <SquadPanel
             partyConnected={partyConnected}
             partyRoom={partyRoom}
+            setPartyLastAttackKey={setPartyLastAttackKey}
+            setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+            setRollSummaryData={setRollSummaryData}
+            setDistantDicebagData={setDistantDicebagData}
+
+            skipDicebagJumplink={skipDicebagJumplink}
           />
-        </>
-      }
+        : gameMode === GAME_MODE_NPC &&
+          <LancerNpcMode
+            setTriggerRerender={setTriggerRerender}
+            triggerRerender={triggerRerender}
+
+            partyConnected={partyConnected}
+            partyRoom={partyRoom}
+            setPartyLastAttackKey={setPartyLastAttackKey}
+            setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+            setRollSummaryData={setRollSummaryData}
+            setDistantDicebagData={setDistantDicebagData}
+
+            skipDicebagJumplink={skipDicebagJumplink}
+          />
+        }
+
+        { partyConnected &&
+          <>
+            <div className='jumplink-anchor' id='squad' />
+            <SquadPanel
+              partyConnected={partyConnected}
+              partyRoom={partyRoom}
+            />
+          </>
+        }
+      </div>
     </div>
   )
 }
