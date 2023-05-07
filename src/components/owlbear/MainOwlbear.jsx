@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import DiceBag from '../shared/DiceBag/DiceBag.jsx';
 import RollHistory from '../shared/RollHistory/RollHistory.jsx';
+import PageModeSwitcher from './PageModeSwitcher.jsx';
 import OwlbearSettings from './OwlbearSettings.jsx';
 import SquadClockPanel from '../shared/SquadClockPanel/SquadClockPanel.jsx';
 import TipsAndTricks from '../settings/TipsAndTricks.jsx';
@@ -14,6 +15,10 @@ import OBR from "@owlbear-rodeo/sdk";
 import './MainOwlbear.scss';
 
 const METADATA_ROOM = "com.witchdice.obr-extension/metadata"
+
+const FRAME_WIDTH = 380;
+const FRAME_WIDTH_EXPANDED = 840;
+
 
 function generateOwlbearRoomName() {
   return `owlbear-${randomWords(1)}-${randomWords({exactly: 1, maxLength: 6})}-${randomWords({exactly: 1, maxLength: 4})}`
@@ -39,20 +44,25 @@ const MainOwlbear = ({
   const [triggerRerender, setTriggerRerender] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Instead of changing the URL, change the page in state here
+  // settings can turn certain pages off
+  const [skipPages, setSkipPages] = useState([])
 
+  // Instead of changing the URL, change the page in state here
   const allPageModes = {
-    dice: {label: 'Dice', icon: 'dicebag', width: 340, expandedWidth: 340},
-    rolls: {label: 'Rolls', icon: 'icon_owlbear', width: 340, expandedWidth: 340},
-    lancer: {label: 'Lancer', icon: 'union', width: 380, expandedWidth: 840},
-    clocks: {label: 'Clocks', icon: 'clock', width: 340, expandedWidth: 340},
-    settings: {label: 'Settings', icon: 'gear', width: 340, expandedWidth: 340},
+    dice: {label: 'Dice', icon: 'dicebag', skippable: false},
+    rolls: {label: 'Rolls', icon: 'icon_owlbear', skippable: false},
+    lancer: {label: 'Lancer', icon: 'union', skippable: true},
+    clocks: {label: 'Clocks', icon: 'clock', skippable: true},
+    settings: {label: 'Settings', icon: 'gear', skippable: false},
   }
   const [pageMode, setPageMode] = useState('dice');
 
   // Initialize Owlbear SDK
   const [obrReady, setObrReady] = useState(false)
-  useEffect(() => { if (OBR.isAvailable && !obrReady) OBR.onReady(() => initializeObr(obrReady)) }, [obrReady])
+  useEffect(() => {
+    if (OBR.isAvailable && !obrReady) OBR.onReady(() => initializeObr(obrReady))
+  }, [])
+
   const initializeObr = () => {
     console.log('OBR READY');
     setObrReady(true);
@@ -106,90 +116,85 @@ const MainOwlbear = ({
     setPageMode(mode)
 
     if (obrReady) {
-      let newWidth = isExpanded ? allPageModes[mode].expandedWidth : allPageModes[mode].width
+      let newWidth = isExpanded ? FRAME_WIDTH_EXPANDED : FRAME_WIDTH
       OBR.action.setWidth(newWidth)
     }
   }
-  // {allPageModes[mode].label}
 
-  const onExpandIframe = () => {
+  const toggleExpanded = () => {
     if (obrReady) {
-      let newWidth = isExpanded ? allPageModes[pageMode].width : allPageModes[pageMode].expandedWidth
+      let newWidth = isExpanded ? FRAME_WIDTH : FRAME_WIDTH_EXPANDED
       OBR.action.setWidth(newWidth)
     }
+    if (pageMode === 'rolls') setPageMode('dice') // these categories are condensed
     setIsExpanded(!isExpanded)
   }
 
+  const forceShowDicebag = (pageMode === 'rolls' && isExpanded)
+  const forceShowRolls = (pageMode === 'dice' && isExpanded)
+
   return (
     <div className='MainOwlbear'>
-      <div className='pagemode-switcher'>
-        {Object.keys(allPageModes).map(mode => {
-          let buttonClass = (pageMode === mode ? 'active' : '')
-          // flops back and forth to trigger anim
-          if (mode === 'rolls' && allPartyActionData.length > 0) buttonClass += ` flash-${allPartyActionData.length % 2}`
-          return (
-            <button
-              onClick={() => changePageTo(mode)}
-              className={buttonClass}
-              key={mode}
-              disabled={mode === pageMode}
-            >
-              <div className='text'>{allPageModes[mode].label}</div>
-              <div className={`asset ${allPageModes[mode].icon}`} />
-            </button>
-          )
-        })}
-      </div>
 
+      <PageModeSwitcher
+        isExpanded={isExpanded}
+        toggleExpanded={toggleExpanded}
+        allPageModes={allPageModes}
+        skipPages={skipPages}
+        pageMode={pageMode}
+        changePageTo={changePageTo}
+        allPartyActionDataLength={allPartyActionData.length}
+      />
 
-      { pageMode === 'dice' ?
-        <DiceBag
-          addNewDicebagPartyRoll={addNewDicebagPartyRoll}
-          distantDicebagData={distantDicebagData}
-          bookmarksEnabled={false}
-        />
+      <div className={`page-mode-content ${isExpanded ? 'expanded' : ''}`}>
 
-      : pageMode === 'lancer' ?
-        <>
-          <button className='expand-panel' onClick={onExpandIframe}>
-            <div className={`asset ${isExpanded ? 'panel_contract' : 'panel_expand'}`} />
-          </button>
-
-          <MainLancer
-            setPartyLastAttackKey={setPartyLastAttackKey}
-            setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-            setRollSummaryData={setRollSummaryData}
-            setDistantDicebagData={setDistantDicebagData}
+        { (pageMode === 'dice' || forceShowDicebag) ?
+          <DiceBag
+            addNewDicebagPartyRoll={addNewDicebagPartyRoll}
+            distantDicebagData={distantDicebagData}
+            bookmarksEnabled={false}
+          />
+        : pageMode === 'lancer' ?
+          <>
+            <MainLancer
+              setPartyLastAttackKey={setPartyLastAttackKey}
+              setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+              setRollSummaryData={setRollSummaryData}
+              setDistantDicebagData={setDistantDicebagData}
+              partyConnected={partyConnected}
+              partyRoom={partyRoom}
+              skipDicebagJumplink={true}
+            />
+          </>
+        : pageMode === 'clocks' ?
+          <SquadClockPanel
             partyConnected={partyConnected}
             partyRoom={partyRoom}
-            skipDicebagJumplink={true}
+            setTriggerRerender={setTriggerRerender}
+            triggerRerender={triggerRerender}
           />
-        </>
-      : pageMode === 'clocks' ?
-        <SquadClockPanel
-          partyConnected={partyConnected}
-          partyRoom={partyRoom}
-          setTriggerRerender={setTriggerRerender}
-          triggerRerender={triggerRerender}
-        />
-      : pageMode === 'settings' &&
-        <>
-          <OwlbearSettings
-            notifyOnRoll={notifyOnRoll}
-            setNotifyOnRoll={setNotifyOnRoll}
-            partyRoom={partyRoom}
-          />
-          <TipsAndTricks abbreviated={true} />
-        </>
-      }
+        : pageMode === 'settings' &&
+          <div className='owlbear-settings-container'>
+            <OwlbearSettings
+              notifyOnRoll={notifyOnRoll}
+              setNotifyOnRoll={setNotifyOnRoll}
+              allPageModes={allPageModes}
+              skipPages={skipPages}
+              setSkipPages={setSkipPages}
+              partyRoom={partyRoom}
+            />
+            <TipsAndTricks abbreviated={true} />
+          </div>
+        }
 
-      <div className={`roll-history-container ${pageMode === 'rolls' ? 'visible' : 'hidden'}`}>
-        <RollHistory
-          allPartyActionData={allPartyActionData}
-        />
+        <div className={`roll-history-container ${(pageMode === 'rolls' || forceShowRolls) ? 'visible' : 'hidden'} ${isExpanded ? 'expanded' : ''}`}>
+          <RollHistory
+            allPartyActionData={allPartyActionData}
+          />
+        </div>
+
+
       </div>
-
-
     </div>
   )
 }

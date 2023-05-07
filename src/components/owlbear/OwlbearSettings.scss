@@ -1,7 +1,7 @@
 @import '../../fonts';
 
 .OwlbearSettings {
-  @include nouveau_border('nouveau_room_connected.svg');
+  @include nouveau_border('nouveau_lancer_mech.svg');
   @include shadow;
   @include parchment_background;
   padding: 16px 22px 18px;
@@ -10,24 +10,30 @@
   width: 100%;
 
 
-  label.notify-on-roll {
-    color: $rust;
-    font-size: 18px;
+  label {
+    @include text_label;
+    margin: 6px 0;
+    padding: 6px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 4px 0;
-    margin: 2px 0;
-    border-radius: 4px;
     cursor: pointer;
 
-    &:hover { background-color: $pink; }
+    &:hover { background-color: $parchment_dark; }
 
+    input {
+      margin-right: 16px;
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+    }
 
-    input[type=checkbox] {
-      width: 20px;
-      height: 20px;
-      margin: 0 10px 0 0;
+    .asset {
+      width: 28px;
+      height: 28px;
+      margin-right: 12px;
+      // turns black to $rust
+      filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
     }
   }
 }

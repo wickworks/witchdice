@@ -1,84 +1,9 @@
 @import '../../fonts';
+@import './PageModeSwitcher';
 
-$page_switcher_height: 36px;
-$subwindow_height: 700px;
-
-
-@mixin expanded_width {
-  @media (min-width: 500px) {
-    @content;
-  }
-}
+$subwindow_height: 690px;
 
 .MainOwlbear {
-  .pagemode-switcher {
-    display: flex;
-    justify-content: space-around;
-
-    background-color: $crushed_velvet;
-
-    width: 100%;
-    z-index: 100;
-    position: sticky;
-    top: 0;
-
-    @include expanded_width {
-      width: 50%;
-    }
-
-    button {
-      display: grid;
-      grid-template-areas: "center";
-      grid-template-columns: 50px;
-      transition: grid-template-columns .1s ease-out;
-      justify-content: center;
-      align-items: center;
-
-      padding: 4px 0;
-      font-size: 18px;
-      color: $pink;
-      cursor: pointer;
-
-      overflow: hidden;
-
-      &:hover {
-        background-color: $pink_logo_dark;
-        color: white;
-        grid-template-columns: 80px;
-
-        .asset { display: none; }
-        .text { display: block; }
-      }
-
-      &.active {
-        background-color: $rust_dark;
-        color: white;
-        cursor: auto;
-        grid-template-columns: 80px;
-
-        // turn black to white
-        .asset { filter: invert(100%); }
-      }
-
-      &.flash-0 { animation: .75s ease-out 0s 1 flashIn1; }
-      &.flash-1 { animation: .75s ease-out 0s 1 flashIn2; }
-
-      * { grid-area: center }
-
-      .asset {
-        margin: auto;
-        width: 28px;
-        height: 28px;
-        // black to pink
-        filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
-      }
-
-      .text {
-        text-align: center;
-        display: none;
-      }
-    }
-  }
 
   // need to put a resize listener on the whole frame if we want to do this
   // .scrollable-container {
@@ -86,86 +11,57 @@ $subwindow_height: 700px;
   //   max-height: $subwindow_height;
   // }
 
+  .page-mode-content {
 
-  .roll-history-container {
-    &.hidden {
-      visibility: hidden;
-      height: 0px;
-      position: absolute;
-      top: 0;
-      z-index: -10;
-    }
-  }
-
-  .DiceBag {
-    margin-top: 10px;
-  }
-
-  // this can get a little taller in our context
-  .RollHistory {
-    max-height: $subwindow_height;
-  }
-
-  .MainLancer {
-    flex-direction: column-reverse; // stick mode switcher and LCPs at end
-  }
-
-  // need to be positioned below the pagemode switcher
-  .JumplinkPanel {
-    top: $page_switcher_height;
-    margin-top: 0;
-    width: calc(100vw - 58px);
-
-    @include expanded_width {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: calc(50vw - 58px);
-      right: 58px;
-      margin: 0;
-    }
-  }
-
-  // Hacked inline with the Jumplink panel; better than passing its state down through the jsx
-  button.expand-panel {
-    position: fixed;
-    top: $page_switcher_height;
-    right: 0;
-    display: block;
-    color: $pink;
-    text-decoration: none;
-    text-align: center;
-    padding: 4px 16px;
-    background-color: $crushed_velvet;
-    z-index: 100;
-
-    @include expanded_width {
-      top: 0;
+    &.expanded {
+      display: flex;
+      justify-content: space-around;
     }
 
-    &:hover {
-      background-color: $pink_logo_dark;
-      color: white;
+
+    .roll-history-container {
+
+      &.expanded {
+        max-width: 400px;
+      }
+
+      &.hidden {
+        visibility: hidden;
+        height: 0px;
+        position: absolute;
+        top: 0;
+        z-index: -10;
+      }
     }
 
-    .asset {
-      width: 28px;
-      height: 28px;
+    .DiceBag {
+      margin: 12px auto 0;
+    }
 
-      // black to pink
-      filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+    // this can get a little taller in our context
+    .RollHistory {
+      max-height: $subwindow_height;
+
+      margin-top: 12px;
+    }
+
+    .MainLancer {
+      flex-direction: column-reverse; // stick mode switcher and LCPs at end
+    }
+
+    // need to be positioned below the pagemode switcher
+    .JumplinkPanel {
+      top: $page_switcher_height;
+      margin-top: 0;
+
+      // to the left of the pagemode switcher
+      @include expanded_width {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 50vw;
+        margin: 0;
+      }
     }
   }
-}
-
-
-// Two copies so we can flip back and forth to retrigger the flash
-@keyframes flashIn1 {
-  0% { background-color: $rust_light; }
-  100% { background-color: transparent; }
-}
-
-@keyframes flashIn2 {
-  0% { background-color: $rust_light; }
-  100% { background-color: transparent; }
 }

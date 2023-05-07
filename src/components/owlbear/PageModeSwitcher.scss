@@ -1,0 +1,127 @@
+@import '../../fonts';
+
+$page_switcher_height: 36px;
+
+@mixin expanded_width {
+  @media (min-width: 500px) {
+    @content;
+  }
+}
+
+.PageModeSwitcher {
+  @include shadow;
+  
+  display: flex;
+  justify-content: space-around;
+
+  background-color: $crushed_velvet;
+
+  width: 100%;
+  z-index: 99;
+  position: sticky;
+  top: 0;
+  // left: 50vw;
+
+  @include expanded_width {
+    width: calc(50vw);
+    padding-left: 50vw;
+  }
+
+  button {
+    display: grid;
+    grid-template-areas: "center";
+    grid-template-columns: 50px;
+    transition: grid-template-columns .1s ease-out;
+    justify-content: center;
+    align-items: center;
+
+    padding: 4px 0;
+    font-size: 18px;
+    color: $pink;
+    cursor: pointer;
+
+    overflow: hidden;
+
+    &:hover {
+      background-color: $pink_logo_dark;
+      color: white;
+      grid-template-columns: 80px;
+
+      .pagemode-icon.asset { display: none; }
+      .text { display: block; }
+    }
+
+    &.active {
+      background-color: $rust_dark;
+      color: white;
+      cursor: auto;
+      grid-template-columns: 80px;
+
+      // turn black to white
+      .pagemode-icon.asset { filter: invert(100%); }
+    }
+
+    &.flash-0 { animation: .75s ease-out 0s 1 flashIn1; }
+    &.flash-1 { animation: .75s ease-out 0s 1 flashIn2; }
+
+    * { grid-area: center }
+
+    .asset {
+      margin: auto;
+      width: 28px;
+      height: 28px;
+      // black to pink
+      filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+    }
+
+    .text {
+      text-align: center;
+      display: none;
+    }
+  }
+
+  //
+  // // Hacked inline with the Jumplink panel; better than passing its state down through the jsx
+  // button.expand-panel {
+  //   // position: fixed;
+  //   // top: $page_switcher_height;
+  //   // right: 0;
+  //   display: block;
+  //   color: $pink;
+  //   text-decoration: none;
+  //   text-align: center;
+  //   padding: 4px 16px;
+  //   background-color: $crushed_velvet;
+  //   z-index: 100;
+  //
+  //   @include expanded_width {
+  //     top: 0;
+  //   }
+  //
+  //   &:hover {
+  //     background-color: $pink_logo_dark;
+  //     color: white;
+  //   }
+  //
+  //   .asset {
+  //     width: 28px;
+  //     height: 28px;
+  //
+  //     // black to pink
+  //     filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+  //   }
+  // }
+}
+
+
+
+// Two copies so we can flip back and forth to retrigger the flash
+@keyframes flashIn1 {
+  0% { background-color: $rust_light; }
+  100% { background-color: transparent; }
+}
+
+@keyframes flashIn2 {
+  0% { background-color: $rust_light; }
+  100% { background-color: transparent; }
+}
