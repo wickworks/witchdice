@@ -4,7 +4,6 @@
 $subwindow_height: 690px;
 
 .MainOwlbear {
-
   // need to put a resize listener on the whole frame if we want to do this
   // .scrollable-container {
   // 	overflow-y: auto;
@@ -35,14 +34,14 @@ $subwindow_height: 690px;
     }
 
     .DiceBag {
-      margin: 12px auto 0;
+      margin: auto;
     }
 
     // this can get a little taller in our context
     .RollHistory {
       max-height: $subwindow_height;
 
-      margin-top: 12px;
+      // margin-top: 12px;
     }
 
     .MainLancer {

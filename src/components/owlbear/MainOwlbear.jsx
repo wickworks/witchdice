@@ -34,7 +34,6 @@ function saveSkipPages(skipPages) {
   localStorage.setItem(SETTINGS_HIDDEN_PAGE_MODES, JSON.stringify(skipPages))
 }
 
-
 function generateOwlbearRoomName() {
   return `owlbear-${randomWords(1)}-${randomWords({exactly: 1, maxLength: 6})}-${randomWords({exactly: 1, maxLength: 4})}`
 }
@@ -165,6 +164,12 @@ const MainOwlbear = ({
     setIsExpanded(!isExpanded)
   }
 
+  // DISTANT DICEBAG DATA CHANGES PAGE MODE
+  const setDistantDicebagDataWithPageModeChange = (distantData) => {
+    setPageMode('dice') // since it's not on the same page anymore, we gotta switch modes to show the dicebag
+    setDistantDicebagData(distantData)
+  }
+
   const forceShowDicebag = (pageMode === 'rolls' && isExpanded)
   const forceShowRolls = (pageMode === 'dice' && isExpanded)
 
@@ -196,7 +201,7 @@ const MainOwlbear = ({
               setPartyLastAttackKey={setPartyLastAttackKey}
               setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
               setRollSummaryData={setRollSummaryData}
-              setDistantDicebagData={setDistantDicebagData}
+              setDistantDicebagData={setDistantDicebagDataWithPageModeChange}
               partyConnected={partyConnected}
               partyRoom={partyRoom}
               skipDicebagJumplink={true}

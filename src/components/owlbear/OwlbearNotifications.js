@@ -17,7 +17,7 @@ export function latestActionToNotification(latestAction, actionToNotificationMap
   if (latestAction.type === 'dicebag') notificationMessage = createDicebagNotification(latestAction)
 
   if (notificationMessage) {
-    console.log('NOTIF: ', notificationMessage);
+    // console.log('NOTIF: ', notificationMessage);
 
     // make a new notification and store its ID for this action
     OBR.notification.show(notificationMessage)
