@@ -45,7 +45,7 @@ const LancerPlayerMode = ({
   skipDicebagJumplink,
 }) => {
   const [allPilotEntries, setAllPilotEntries] = useState([]);
-  const [activePilotID, setActivePilotID] = useState(null);
+  const [activePilotID, setActivePilotID] = useState(localStorage.getItem(SELECTED_CHARACTER_KEY));
   const [activeMechID, setActiveMechID] = useState(null);
 
   const [isViewingBond, setIsViewingBond] = useState(false);
