@@ -8,6 +8,7 @@ import './JumplinkPanel.scss';
 const JumplinkPanel = ({
   partyConnected,
   jumplinks,
+  onClickJumplink = () => {},
 }) => {
 
   return (
@@ -21,7 +22,9 @@ const JumplinkPanel = ({
           className='link-container'
         >
           {jumplinks.map(link =>
-            <a href={`#${link}`} key={link}>{capitalize(link)}</a>
+            <a href={`#${link}`} onClick={() => onClickJumplink(link)} key={link}>
+              {capitalize(link)}
+            </a>
           )}
         </Scrollspy>
       </div>

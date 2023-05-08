@@ -17,6 +17,7 @@ const ChooseNewBond = ({
           <button
             className={`select-bond ${currentBondId === bondId ? 'selected' : ''}`}
             onClick={() => setPilotBond(bondId)}
+            key={bondId}
           >
             <div className='bond-name'>{allBonds[bondId].name}</div>
             <div className={`asset ${bondId in allBonds ? bondId : 'card'}`} />

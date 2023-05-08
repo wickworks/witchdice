@@ -6,18 +6,15 @@
   margin: auto;
 
   overflow-y: hidden;
-  -webkit-transition: max-height .2s;
-  -moz-transition: max-height .2s;
-  -ms-transition: max-height .2s;
-  -o-transition: max-height .2s;
-  transition: max-height .2s;
 
   &.closed {
-    max-height: 53px;
+    animation: animate_max_height_closing .2s forwards;
+    -webkit-animation: animate_max_height_closing .2s forwards;
   }
 
   &.open {
-    max-height: 1200px;
+    animation: animate_max_height_opening .2s forwards;
+    -webkit-animation: animate_max_height_opening .2s forwards;
   }
 
   button.section-title {
@@ -49,4 +46,16 @@
       &.reversed { transform: rotate(180deg); }
     }
   }
+}
+
+@keyframes animate_max_height_closing {
+  0% { max-height: auto; }
+  1% { max-height: 1200px; }
+  100% { max-height: 53px; }
+}
+
+@keyframes animate_max_height_opening {
+  0% { max-height: 53px; }
+  99% { max-height: 1200px; }
+  100% { max-height: auto; }
 }

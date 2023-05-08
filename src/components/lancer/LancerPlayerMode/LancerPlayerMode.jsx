@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FileList, PlainList } from '../FileAndPlainList.jsx';
 import EntryList from '../../shared/EntryList.jsx';
 import LoadinDots from '../../shared/LoadinDots.jsx';
+import CollapsibleSection from '../../shared/CollapsibleSection.jsx';
 import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import PilotDossier from './PilotDossier.jsx';
 import Bonds from '../Bonds/Bonds.jsx';
@@ -51,6 +52,10 @@ const LancerPlayerMode = ({
   const [isViewingBond, setIsViewingBond] = useState(false);
   const [isUploadingNewFile, setIsUploadingNewFile] = useState(false);
   const [isWaitingOnSharecodeResponse, setIsWaitingOnSharecodeResponse] = useState(false);
+
+  const [pilotSectionOpen, setPilotSectionOpen] = useState(true);
+  const [mechSectionOpen, setMechSectionOpen] = useState(true);
+
 
   // const activePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
   const activePilot = activePilotID && loadPilotData(activePilotID); // load the pilot data from local storage
@@ -257,7 +262,10 @@ const LancerPlayerMode = ({
     downloadAnchorNode.remove();
   }
 
-
+  const onClickJumplink = (link) => {
+    if (['mech','weapons'].includes(link)) setMechSectionOpen(true)
+    if (['pilot','bond'].includes(link)) setPilotSectionOpen(true)
+  }
 
   let jumplinks = ['pilot']
   if (activeMechID) {
@@ -272,103 +280,113 @@ const LancerPlayerMode = ({
     <div className='LancerPlayerMode'>
 
       { activePilot &&
-        <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />
+        <JumplinkPanel
+          jumplinks={jumplinks}
+          partyConnected={partyConnected}
+          onClickJumplink={onClickJumplink}
+        />
       }
 
-      {isWaitingOnSharecodeResponse ?
-        <LoadinDots />
-      :
-        <FileList
-          title='Pilot'
-          extraClass='pilots'
-          onFileUpload={uploadPilotFile}
-          onFilePaste={parsedJson => createNewPilot(parsedJson)}
-          onShareCodePaste={fetchShareCode}
-          shareCodeLength={6}
-          isUploadingNewFile={isUploadingNewFile}
-          setIsUploadingNewFile={setIsUploadingNewFile}
-          instructions={
-            <>
-              Upload a pilot data file (.json) from
-              <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
-            </>
-          }
-        >
-          <CharacterList
-            title={'Pilot'}
-            characterEntries={allPilotEntries}
-            handleEntryClick={setActivePilot}
-            activeCharacterID={activePilotID}
-            deleteActiveCharacter={deleteActivePilot}
-            exportActiveCharacter={exportActivePilot}
-            refreshActiveCharacter={
-              (activePilot && activePilot.shareCode) ?
-                (() => fetchShareCode(activePilot.shareCode))
-              :
-                null
+      <CollapsibleSection title='Pilot' parentControlledOpen={pilotSectionOpen} setParentControlledOpen={setPilotSectionOpen}>
+
+        {isWaitingOnSharecodeResponse ?
+          <LoadinDots />
+        :
+          <FileList
+            title='Pilot'
+            extraClass='pilots'
+            onFileUpload={uploadPilotFile}
+            onFilePaste={parsedJson => createNewPilot(parsedJson)}
+            onShareCodePaste={fetchShareCode}
+            shareCodeLength={6}
+            isUploadingNewFile={isUploadingNewFile}
+            setIsUploadingNewFile={setIsUploadingNewFile}
+            instructions={
+              <>
+                Upload a pilot data file (.json) from
+                <a href="https://compcon.app" target="_blank" rel="noopener noreferrer">COMP/CON</a>.
+              </>
             }
-            createNewCharacter={() => setIsUploadingNewFile(true)}
-          />
+          >
+            <CharacterList
+              title={'Pilot'}
+              characterEntries={allPilotEntries}
+              handleEntryClick={setActivePilot}
+              activeCharacterID={activePilotID}
+              deleteActiveCharacter={deleteActivePilot}
+              exportActiveCharacter={exportActivePilot}
+              refreshActiveCharacter={
+                (activePilot && activePilot.shareCode) ?
+                  (() => fetchShareCode(activePilot.shareCode))
+                :
+                  null
+              }
+              createNewCharacter={() => setIsUploadingNewFile(true)}
+            />
 
-        </FileList>
-      }
+          </FileList>
+        }
 
-      <div className='jumplink-anchor' id='pilot' />
-      { activePilot &&
-        <>
-          <PilotDossier
-            activePilot={activePilot}
-            setDistantDicebagData={setDistantDicebagData}
-          />
+        <div className='jumplink-anchor' id='pilot' />
+        { activePilot &&
+          <>
+            <PilotDossier
+              activePilot={activePilot}
+              setDistantDicebagData={setDistantDicebagData}
+            />
 
-          <div className='mechlist-or-bonds'>
-            <PlainList title='Mech' extraClass='mechs'>
-              <EntryList
-                entries={allMechEntries}
-                handleEntryClick={changeMech}
-                activeCharacterID={activeMechID}
-                deleteEnabled={false}
-              />
-            </PlainList>
-            { bondsEnabled &&
-              <BondButton
-                onClick={onBondButtonClick}
-                isViewingBond={isViewingBond}
-                bondID={activePilot.bondId}
-              />
-            }
-          </div>
+            <div className='mechlist-or-bonds'>
+              <PlainList title='Mech' extraClass='mechs'>
+                <EntryList
+                  entries={allMechEntries}
+                  handleEntryClick={changeMech}
+                  activeCharacterID={activeMechID}
+                  deleteEnabled={false}
+                />
+              </PlainList>
+              { bondsEnabled &&
+                <BondButton
+                  onClick={onBondButtonClick}
+                  isViewingBond={isViewingBond}
+                  bondID={activePilot.bondId}
+                />
+              }
+            </div>
 
-        </>
-      }
+          </>
+        }
 
-      { isViewingBond &&
-        <>
-          <div className='jumplink-anchor' id='bond' />
-          <Bonds
-            activePilot={activePilot}
-            setTriggerRerender={setTriggerRerender}
-            triggerRerender={triggerRerender}
-          />
-        </>
-      }
+        { isViewingBond &&
+          <>
+            <div className='jumplink-anchor' id='bond' />
+            <Bonds
+              activePilot={activePilot}
+              setTriggerRerender={setTriggerRerender}
+              triggerRerender={triggerRerender}
+            />
+          </>
+        }
+      </CollapsibleSection>
+
 
       { activeMech &&
-        <>
+        <div>
           <div className='jumplink-anchor' id='mech' />
-          <PlayerMechSheet
-            activePilot={activePilot}
-            activeMech={activeMech}
+          <CollapsibleSection title='Mech' parentControlledOpen={mechSectionOpen} setParentControlledOpen={setMechSectionOpen}>
+            <PlayerMechSheet
+              activePilot={activePilot}
+              activeMech={activeMech}
 
-            setTriggerRerender={setTriggerRerender}
-            triggerRerender={triggerRerender}
+              setTriggerRerender={setTriggerRerender}
+              triggerRerender={triggerRerender}
 
-            setPartyLastAttackKey={setPartyLastAttackKey}
-            setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-            setRollSummaryData={setRollSummaryData}
-            setDistantDicebagData={setDistantDicebagData}
-          />
-        </>
+              setPartyLastAttackKey={setPartyLastAttackKey}
+              setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+              setRollSummaryData={setRollSummaryData}
+              setDistantDicebagData={setDistantDicebagData}
+            />
+          </CollapsibleSection>
+        </div>
       }
     </div>
   );

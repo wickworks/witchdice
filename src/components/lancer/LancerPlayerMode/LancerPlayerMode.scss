@@ -1,6 +1,9 @@
 @import '../../../fonts';
 
 .LancerPlayerMode {
+  display: flex;
+  flex-direction: column;
+  row-gap: 12px;
 
   > .LoadinDots {
     margin: 80px auto;
