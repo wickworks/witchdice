@@ -1,4 +1,5 @@
 import React from 'react';
+import DeleteLocalContentButton from "./DeleteLocalContentButton.jsx";
 import { allPages, saveEnabledPages } from "../page_data.js";
 
 import './SiteSettings.scss';
@@ -22,15 +23,6 @@ const SiteSettings = ({
     saveEnabledPages(newEnabledPages) // save the setting to localstorage
   }
 
-  const onDeleteAllLocalData = () => {
-    if (window.confirm(
-      'This will delete ALL saved data from this browser, including characters and monsters saved across all pages. Are you sure you wish to continue?'
-    )) {
-      localStorage.clear();
-      window.location.reload(false);
-      window.location.replace("/");
-    }
-  }
 
   const isPageLocked = (pageID) => {
     return ['settings','simple'].includes(pageID)
@@ -77,9 +69,7 @@ const SiteSettings = ({
         </div>
       </div>
 
-      <button className='clear-all' onClick={onDeleteAllLocalData}>
-        Delete all local data
-      </button>
+      <DeleteLocalContentButton />
     </div>
   )
 }

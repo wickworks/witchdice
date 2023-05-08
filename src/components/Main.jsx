@@ -11,7 +11,8 @@ import LoadinDots from './shared/LoadinDots.jsx';
 import DiceBag from './shared/DiceBag/DiceBag.jsx';
 import RollHistory from './shared/RollHistory/RollHistory.jsx';
 import RoomConnect from './shared/RoomConnect/RoomConnect.jsx';
-import DiscordBotNotice from './shared/DiscordBotNotice.jsx';
+import DiscordBotNotice from './shared/bots/DiscordBotNotice.jsx';
+import OwlbearExtensionNotice from './shared/bots/OwlbearExtensionNotice.jsx';
 import {XCard, XCardModal} from './shared/RoomConnect/XCard.jsx';
 
 import './Main.scss';
@@ -371,9 +372,8 @@ const Main = ({
               />
             }
 
-            <DiscordBotNotice
-              partyRoom={partyRoom}
-            />
+            <DiscordBotNotice partyRoom={partyRoom} />
+            <OwlbearExtensionNotice />
           </div>
         </div>
       </div>

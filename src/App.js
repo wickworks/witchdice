@@ -37,7 +37,7 @@ function App() {
 
           <Route render={
             ({ location }) => !location.pathname.includes(IFRAME_PATH)
-              ? <Footer enabledPages={enabledPages} />
+              ? <Footer />
               : null
             }
           />

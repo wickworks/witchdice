@@ -5,7 +5,8 @@ const SOURCE_LINK = 'https://github.com/wickworks/witchdice-discord-bot'
 const INVITE_LINK = 'https://discord.com/api/oauth2/authorize?client_id=937850556272226374&permissions=67584&scope=bot%20applications.commands'
 
 const DiscordBotNotice = ({
-  partyRoom
+  partyRoom,
+  abbreviated = false,
 }) => {
 
 
@@ -14,9 +15,6 @@ const DiscordBotNotice = ({
     <div className='DiscordBotNotice'>
       {!instructionsVisible ?
         <div className='intro-container'>
-          <div className='new-attention'>
-            New!
-          </div>
 
           <button onClick={() => setInstructionsVisible(true)}>
             <div className='text'>
@@ -32,7 +30,9 @@ const DiscordBotNotice = ({
             <div className='asset discord' />
             <p>With the <a href={SOURCE_LINK} target="_blank" rel="noopener noreferrer">Witchdice bot</a>, your rolls can show up in a Discord channel!</p>
             <ol>
-              <li><div>Join a Witchdice room, above. ⤴</div></li>
+              {!abbreviated &&
+                <li><div>Join a Witchdice room, above. ⤴</div></li>
+              }
               <li><div>
                 <a href={INVITE_LINK} target="_blank" rel="noopener noreferrer">Invite the bot to your server.</a>
               </div></li>

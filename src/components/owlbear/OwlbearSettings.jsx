@@ -1,5 +1,6 @@
 import React from 'react';
 import CopyRoomLink from '../shared/RoomConnect/CopyRoomLink.jsx';
+import DeleteLocalContentButton from "../settings/DeleteLocalContentButton.jsx";
 
 
 import './OwlbearSettings.scss';
@@ -45,6 +46,9 @@ const OwlbearSettings = ({
         partyRoom={partyRoom}
         currentPage={'simple'}
       />
+
+      <DeleteLocalContentButton />
+
     </div>
   )
 }

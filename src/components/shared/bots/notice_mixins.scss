@@ -1,11 +1,11 @@
-@import '../../fonts';
+@import '../../../fonts';
 
-.DiscordBotNotice {
+@mixin bot_notice_styles {
 
   .intro-container {
     display: flex;
     flex-direction: column;
-    margin: 20px auto;
+    margin: 20px auto 0;
 
     button {
       @include shadow;

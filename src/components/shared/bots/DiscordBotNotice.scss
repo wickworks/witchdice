@@ -1,0 +1,21 @@
+@import './notice_mixins';
+
+.DiscordBotNotice {
+  @include bot_notice_styles;
+
+  .intro-container {
+    .asset.discord {
+      width: 150px;
+      height: 32px;
+      margin: 6px 0 0;
+    }
+  }
+
+  .instructions-container {
+    .asset.discord {
+      width: 150px;
+      height: 32px;
+      margin: 0 auto 16px;
+    }
+  }
+}

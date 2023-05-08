@@ -5,7 +5,9 @@ import RollHistory from '../shared/RollHistory/RollHistory.jsx';
 import PageModeSwitcher from './PageModeSwitcher.jsx';
 import OwlbearSettings from './OwlbearSettings.jsx';
 import SquadClockPanel from '../shared/SquadClockPanel/SquadClockPanel.jsx';
+import DiscordBotNotice from '../shared/bots/DiscordBotNotice.jsx';
 import TipsAndTricks from '../settings/TipsAndTricks.jsx';
+import Footer from '../siteframe/Footer.jsx';
 import MainLancer from '../lancer/MainLancer.jsx';
 import { randomWords } from '../../random_words.js';
 import { latestActionToNotification } from './OwlbearNotifications.js';
@@ -196,17 +198,15 @@ const MainOwlbear = ({
             bookmarksEnabled={false}
           />
         : pageMode === 'lancer' ?
-          <>
-            <MainLancer
-              setPartyLastAttackKey={setPartyLastAttackKey}
-              setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-              setRollSummaryData={setRollSummaryData}
-              setDistantDicebagData={setDistantDicebagDataWithPageModeChange}
-              partyConnected={partyConnected}
-              partyRoom={partyRoom}
-              skipDicebagJumplink={true}
-            />
-          </>
+          <MainLancer
+            setPartyLastAttackKey={setPartyLastAttackKey}
+            setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+            setRollSummaryData={setRollSummaryData}
+            setDistantDicebagData={setDistantDicebagDataWithPageModeChange}
+            partyConnected={partyConnected}
+            partyRoom={partyRoom}
+            skipDicebagJumplink={true}
+          />
         : pageMode === 'clocks' ?
           <SquadClockPanel
             partyConnected={partyConnected}
@@ -216,6 +216,13 @@ const MainOwlbear = ({
           />
         : pageMode === 'settings' &&
           <div className='owlbear-settings-container'>
+            <div className='witch-dice banner-container-container'>
+              <div className='banner-container'>
+                <a href='https://witchdice.com/' target='_blank'>
+                  <div className='asset site_banner' role="img" alt="WITCH DICE"/>
+                </a>
+              </div>
+            </div>
             <OwlbearSettings
               notifyOnRoll={notifyOnRoll}
               setNotifyOnRoll={setNotifyOnRoll}
@@ -225,6 +232,8 @@ const MainOwlbear = ({
               partyRoom={partyRoom}
             />
             <TipsAndTricks abbreviated={true} />
+            <DiscordBotNotice partyRoom={partyRoom} abbreviated={true} />
+            <Footer />
           </div>
         }
 

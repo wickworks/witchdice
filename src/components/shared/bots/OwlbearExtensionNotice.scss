@@ -1,0 +1,21 @@
+@import './notice_mixins';
+
+.OwlbearExtensionNotice {
+  @include bot_notice_styles;
+
+  .intro-container {
+    .asset.owlbear {
+      width: 150px;
+      height: 32px;
+      margin: 6px 0 0;
+    }
+  }
+
+  .instructions-container {
+    .asset.owlbear {
+      width: 150px;
+      height: 32px;
+      margin: 0 auto 16px;
+    }
+  }
+}
