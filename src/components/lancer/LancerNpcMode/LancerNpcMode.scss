@@ -57,6 +57,9 @@
 
   .encounter-management {
     @include standard_side_margin;
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
 
     .encounter-and-roster-container {
       display: flex;
@@ -64,7 +67,7 @@
       box-sizing: border-box;
       width: 100%;
       max-width: 800px;
-      margin: 20px auto;
+      margin: 12px auto 0;
 
       @include below_max_width {
         flex-wrap: wrap-reverse;
@@ -161,14 +164,6 @@
     }
 
     .active-npc-boxes-container {
-      // @include shadow;
-      // @include parchment_background;
-      // @include nouveau_border('nouveau_lancer_mech.svg');
-
-      // display: flex;
-      // justify-content: space-between;
-      // flex-wrap: wrap;
-
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
 
@@ -181,10 +176,6 @@
       margin: 0 auto;
 
       .ActiveNpcBox {
-        // &.condensed {
-        //   width: 48%;
-        // }
-
         &.full {
           grid-column: 1 / span 2;
 

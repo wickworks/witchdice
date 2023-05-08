@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FileList } from '../FileAndPlainList.jsx';
 import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
+import CollapsibleSection from '../../shared/CollapsibleSection.jsx';
 import { ActiveNpcBox, CondensedNpcBox } from './ActiveNpcBox.jsx';
 import EncounterControls from './EncounterControls.jsx';
 import NpcMechSheet from './NpcMechSheet.jsx';
@@ -436,75 +437,77 @@ const LancerNpcMode = ({
 
       <div className='encounter-management'>
         <div className='jumplink-anchor' id='roster' />
-        <div className='encounter-and-roster-container'>
 
-          <FileList
-            title='NPC'
-            extraClass='npcs'
-            acceptFileType='application/JSON,.compcon'
-            onFileUpload={uploadNpcFile}
-            onShareCodePaste={importAllNpcsFromUserID}
-            shareCodeLength={EXAMPLE_IDENTITYID.length}
-            shareCodeName={'comp/con identityid'}
-            isUploadingNewFile={isUploadingNewFile}
-            setIsUploadingNewFile={setIsUploadingNewFile}
-            instructions={
-              <>
-                Options for importing NPCs:
-                <ul>
-                  <li>Upload a single npc data file (.json)</li>
-                  <li>Upload a full data backup (.compcon)</li>
-                  <li>
-                    Enter your <span className='hover-help'>COMP/CON
-                    IDENTITYID<img alt="Location on COMP/CON Account for identity ID" src={identityid}/></span> to import
-                    all npcs saved in your cloud account.
-                  </li>
-                  {lastIdentityID &&
-                    <li>
-                      <button className='reimport' onClick={() => importAllNpcsFromUserID(lastIdentityID)}>
-                        <span>Reimport from your cloud account.</span>
-                        <span className='asset refresh' />
-                      </button>
-                    </li>
-                  }
-                </ul>
-              </>
-            }
-          >
-            <NpcRoster
-              npcLibrary={npcLibrary}
-              addNpcToEncounter={addNpcToEncounter}
-              deleteNpc={deleteNpc}
-              deleteAllNpcsWithLabel={deleteAllNpcsWithLabel}
+
+        <CollapsibleSection title='Encounter Builder' startsOpen={!activeEncounter}>
+          <div className='encounter-and-roster-container'>
+            <FileList
+              title='NPC'
+              extraClass='npcs'
+              acceptFileType='application/JSON,.compcon'
+              onFileUpload={uploadNpcFile}
+              onShareCodePaste={importAllNpcsFromUserID}
+              shareCodeLength={EXAMPLE_IDENTITYID.length}
+              shareCodeName={'comp/con identityid'}
+              isUploadingNewFile={isUploadingNewFile}
               setIsUploadingNewFile={setIsUploadingNewFile}
-              hasActiveEncounter={!!activeEncounter}
-              isWaitingOnSharecodeResponse={isWaitingOnSharecodeResponse}
-            />
-          </FileList>
-
-          <div className='encounter-list-and-info'>
-            <CharacterList
-              title='Encounter'
-              characterEntries={allEncounterEntries}
-              handleEntryClick={setActiveEncounter}
-              activeCharacterID={activeEncounterID}
-              deleteActiveCharacter={deleteActiveEncounter}
-              createNewCharacter={createNewEncounter}
-            />
-
-            { activeEncounter &&
-              <EncounterControls
-                activeEncounter={activeEncounter}
-                setEncounterName={setEncounterName}
-                restartEncounter={restartEncounter}
+              instructions={
+                <>
+                  Options for importing NPCs:
+                  <ul>
+                    <li>Upload a single npc data file (.json)</li>
+                    <li>Upload a full data backup (.compcon)</li>
+                    <li>
+                      Enter your <span className='hover-help'>COMP/CON
+                      IDENTITYID<img alt="Location on COMP/CON Account for identity ID" src={identityid}/></span> to import
+                      all npcs saved in your cloud account.
+                    </li>
+                    {lastIdentityID &&
+                      <li>
+                        <button className='reimport' onClick={() => importAllNpcsFromUserID(lastIdentityID)}>
+                          <span>Reimport from your cloud account.</span>
+                          <span className='asset refresh' />
+                        </button>
+                      </li>
+                    }
+                  </ul>
+                </>
+              }
+            >
+              <NpcRoster
+                npcLibrary={npcLibrary}
+                addNpcToEncounter={addNpcToEncounter}
+                deleteNpc={deleteNpc}
+                deleteAllNpcsWithLabel={deleteAllNpcsWithLabel}
+                setIsUploadingNewFile={setIsUploadingNewFile}
+                hasActiveEncounter={!!activeEncounter}
+                isWaitingOnSharecodeResponse={isWaitingOnSharecodeResponse}
               />
-            }
+            </FileList>
+
+            <div className='encounter-list-and-info'>
+              <CharacterList
+                title='Encounter'
+                characterEntries={allEncounterEntries}
+                handleEntryClick={setActiveEncounter}
+                activeCharacterID={activeEncounterID}
+                deleteActiveCharacter={deleteActiveEncounter}
+                createNewCharacter={createNewEncounter}
+              />
+            </div>
           </div>
-        </div>
+        </CollapsibleSection>
 
         { activeEncounter &&
           <>
             <div className='jumplink-anchor' id='encounter' />
+
+            <EncounterControls
+              activeEncounter={activeEncounter}
+              setEncounterName={setEncounterName}
+              restartEncounter={restartEncounter}
+            />
+
             <div className='active-npc-boxes-container'>
               <CondensedNpcBox
                 label={'~ Reinforcements ~'}

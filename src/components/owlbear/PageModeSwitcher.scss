@@ -10,7 +10,7 @@ $page_switcher_height: 36px;
 
 .PageModeSwitcher {
   @include shadow;
-  
+
   display: flex;
   justify-content: space-around;
 
@@ -79,38 +79,6 @@ $page_switcher_height: 36px;
       display: none;
     }
   }
-
-  //
-  // // Hacked inline with the Jumplink panel; better than passing its state down through the jsx
-  // button.expand-panel {
-  //   // position: fixed;
-  //   // top: $page_switcher_height;
-  //   // right: 0;
-  //   display: block;
-  //   color: $pink;
-  //   text-decoration: none;
-  //   text-align: center;
-  //   padding: 4px 16px;
-  //   background-color: $crushed_velvet;
-  //   z-index: 100;
-  //
-  //   @include expanded_width {
-  //     top: 0;
-  //   }
-  //
-  //   &:hover {
-  //     background-color: $pink_logo_dark;
-  //     color: white;
-  //   }
-  //
-  //   .asset {
-  //     width: 28px;
-  //     height: 28px;
-  //
-  //     // black to pink
-  //     filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
-  //   }
-  // }
 }
 
 

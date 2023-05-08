@@ -1,0 +1,52 @@
+@import '../../fonts';
+
+.CollapsibleSection {
+  max-width: 800px;
+  width: 100%;
+  margin: auto;
+
+  overflow-y: hidden;
+  -webkit-transition: max-height .2s;
+  -moz-transition: max-height .2s;
+  -ms-transition: max-height .2s;
+  -o-transition: max-height .2s;
+  transition: max-height .2s;
+
+  &.closed {
+    max-height: 53px;
+  }
+
+  &.open {
+    max-height: 1200px;
+  }
+
+  button.section-title {
+    @include text_title_heavy;
+    color: $pink;
+    background-color: $crushed_velvet_dark;
+    text-align: center;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 0;
+    box-sizing: border-box;
+    width: 100%;
+
+    &:hover {
+      background-color: $crushed_velvet;
+    }
+
+    .asset {
+      display: inline-block;
+      margin-left: 14px;
+      width: 18px;
+      height: 18px;
+
+      // black to pink
+      filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+
+      &.reversed { transform: rotate(180deg); }
+    }
+  }
+}

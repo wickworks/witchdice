@@ -4,6 +4,7 @@
 .MainLancer {
   display: flex;
   flex-direction: column; // reversed by owlbear`
+  width: 100%;
 
   .game-mode-switcher-container {
     @include standard_side_margin;

@@ -1,55 +1,51 @@
 @import '../../../fonts';
 
 .EncounterControls {
-  @include shadow;
-  // @include parchment_background;
-  // @include nouveau_border('nouveau_list_characters.svg');
-
-  background-color: $parchment_dark;
-  border-radius: 0 0 14px 14px;
-  padding: 4px 0 0 0;
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  margin: auto;
+  box-sizing: border-box;
+  max-width: 800px;
+  width: 100%;
 
   .TextInput {
-    margin: 8px 8px 0;
-
-    .display:hover { background-color: $pink; }
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    width: 100%;
 
     .display, input {
-      @include text_monospace;
-      font-size: 22px;
-      font-weight: bold;
-      color: $rust;
-      // color: white;
+      @include text_title_heavy;
+      color: $pink;
+      padding: 12px 20px;
       text-align: center;
     }
-  }
 
-  .buttons-container {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 8px;
+    input {
+      background-color: $concrete_violet;
+      color: $soft_black;
+    }
 
-    button {
-      @include text_monospace;
-      background-color: $faded_grey;
-      padding: 12px;
-
-      &:hover {
-        background-color: $rust;
-        color: white;
-      }
-
-      &.clear {
-        border-radius: 0 12px 0 12px;
-      }
-
-      &.restart {
-        border-radius: 12px 0 12px 0;
-      }
+    .display {
+      background-color: $crushed_velvet_dark;
+      &:hover { background-color: $crushed_velvet;}
     }
   }
 
-  .DeleteConfirmation {
-    .controls button .asset { width: 30px; height: 30px; }
+  button.restart {
+    background-color: $rust;
+    padding: 12px 20px;
+
+    &:hover { background-color: $rust_light;}
+
+    .asset {
+      width: 14px;
+      height: 14px;
+
+      // black to pink
+      filter: invert(82%) sepia(3%) saturate(3828%) hue-rotate(319deg) brightness(96%) contrast(78%);
+
+    }
   }
 }

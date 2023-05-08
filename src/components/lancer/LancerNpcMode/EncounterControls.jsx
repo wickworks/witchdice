@@ -29,13 +29,9 @@ const EncounterControls = ({
           handleDelete={() => {setIsRestarting(false); restartEncounter();}}
         />
       :
-        <div className='buttons-container'>
-          <div />
-
-          <button className='restart' onClick={() => setIsRestarting(true)}>
-            Restart
-          </button>
-        </div>
+        <button className='restart' onClick={() => setIsRestarting(true)}>
+          <div className='asset refresh' />
+        </button>
       }
     </div>
   )
