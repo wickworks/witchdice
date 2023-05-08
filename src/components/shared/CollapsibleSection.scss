@@ -23,7 +23,7 @@
   button.section-title {
     @include text_title_heavy;
     color: $pink;
-    background-color: $crushed_velvet_dark;
+    background-color: $crushed_velvet;
     text-align: center;
 
     display: flex;
@@ -34,7 +34,7 @@
     width: 100%;
 
     &:hover {
-      background-color: $crushed_velvet;
+      background-color: $pink_logo_dark;
     }
 
     .asset {
