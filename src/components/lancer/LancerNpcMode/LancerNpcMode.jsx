@@ -521,7 +521,7 @@ const LancerNpcMode = ({
                 removeNpcFromEncounter={removeNpcFromEncounter}
               />
               <ActiveNpcBox
-                label={'Active Combatants'}
+                label={'Combatants'}
                 npcList={npcListActive}
                 setNpcStatus={setNpcStatus}
                 setActiveNpcFingerprint={setActiveNpcFingerprint}

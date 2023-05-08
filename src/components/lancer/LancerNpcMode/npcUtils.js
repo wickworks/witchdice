@@ -118,7 +118,7 @@ export function fullRepairNpc(npc) {
 export function applyUpdatesToNpc(mechUpdate, newNpc) {
 
   Object.keys(mechUpdate).forEach(statKey => {
-    console.log('statKey:',statKey, ' : ', mechUpdate[statKey]);
+    // console.log('statKey:',statKey, ' : ', mechUpdate[statKey]);
     switch (statKey) {
       // attributes outside of the currentStats
       case 'conditions':

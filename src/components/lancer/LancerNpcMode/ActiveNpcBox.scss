@@ -22,7 +22,7 @@
   &.full {
     @include parchment_background;
     @include nouveau_border('nouveau_lancer_mech.svg');
-    padding: 14px 12px 18px;
+    padding: 14px 0 18px;
   }
 
   .title-bar {
@@ -39,26 +39,31 @@
     }
 
     &.full {
-      display: grid;
-      grid-template-columns: 1fr 5fr 1fr;
-      padding: 0 0 20px;
+      display: flex;
+      justify-content: space-between;
+      // grid-template-columns: 1fr 5fr 1fr;
+      padding: 0 12px 20px;
+
+      .spacer {
+        width: 8%;
+
+      }
 
       h2 {
         color: $rust;
         font-size: 32px;
-        margin: 16px 0 8px;
+        margin: 12px 0;
       }
 
       button.end-round {
         @include text_monospace;
-        // background-color: $faded_grey;
         border-radius: 0 12px 0 12px;
+        padding: 16px;
 
         &:hover {
           background-color: $rust;
           color: white;
         }
-        // .finish { font-size: 14px; }
         .round-count { font-size: 18px; }
       }
     }
