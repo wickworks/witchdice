@@ -17,7 +17,6 @@ import {
   LANCER_SQUAD_MECH_KEY,
 } from './lancerLocalStorage.js';
 
-
 import { deepCopy } from '../../utils.js';
 import { getIDFromStorageName } from '../../localstorage.js';
 
@@ -30,6 +29,21 @@ const coreLcpEntry = {
 
 const GAME_MODE_PLAYER = 1
 const GAME_MODE_NPC = 2
+
+const SETTINGS_LANCER_GAME_MODE = 'settings-lancer-game-mode';
+
+// save which game mode we're in
+function saveGameModeToLocalStorage(gameMode) {
+  localStorage.setItem(SETTINGS_LANCER_GAME_MODE, JSON.stringify(gameMode))
+}
+
+// Returns a hash of currently-enabled pages
+function loadGameModeFromLocalStorage() {
+  let gameMode = GAME_MODE_PLAYER
+  const savedString = localStorage.getItem(SETTINGS_LANCER_GAME_MODE)
+  if (savedString) gameMode = parseInt(savedString)
+  return gameMode;
+}
 
 const MainLancer = ({
   setPartyLastAttackKey,
@@ -48,10 +62,11 @@ const MainLancer = ({
   const [isUploadingNewLcpFile, setIsUploadingNewLcpFile] = useState(false);
 
   const [triggerRerender, setTriggerRerender] = useState(false);
-  const [gameMode, setGameMode] = useState(GAME_MODE_PLAYER);
+  const [gameMode, setGameMode] = useState(loadGameModeFromLocalStorage());
 
   const changeGameMode = (newGameMode) => {
     setGameMode(newGameMode)
+    saveGameModeToLocalStorage(newGameMode)
     // when we switch to NPC mode, clear the squadpanel's ability to add a mech
     if (newGameMode === GAME_MODE_NPC) localStorage.removeItem(LANCER_SQUAD_MECH_KEY);
   }
