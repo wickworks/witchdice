@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FileList } from './FileAndPlainList.jsx';
 import { CharacterList } from '../shared/CharacterAndMonsterList.jsx';
+import NouveauDivider from '../shared/NouveauDivider.jsx';
 import LancerPlayerMode from './LancerPlayerMode/LancerPlayerMode.jsx';
 import LancerNpcMode from './LancerNpcMode/LancerNpcMode.jsx';
 import SquadPanel from './SquadPanel/SquadPanel.jsx';
@@ -246,6 +247,9 @@ const MainLancer = ({
             />
           </>
         }
+
+        <NouveauDivider />
+
       </div>
     </div>
   )

@@ -74,6 +74,7 @@ const LancerNpcMode = ({
   const activeEncounter = activeEncounterID && loadEncounterData(activeEncounterID);
   const activeNpc = (activeEncounter && activeNpcFingerprint) && activeEncounter.allNpcs[activeNpcFingerprint];
 
+  const startedWithEncounterOpen = !!localStorage.getItem(SELECTED_ENCOUNTER_KEY);
   // console.log('activeEncounter',activeEncounter);
 
   // =============== INITIALIZE ==================
@@ -439,7 +440,7 @@ const LancerNpcMode = ({
         <div className='jumplink-anchor' id='roster' />
 
 
-        <CollapsibleSection title='Encounter Builder' startsOpen={!activeEncounter}>
+        <CollapsibleSection title='Encounter Builder' startsOpen={!startedWithEncounterOpen}>
           <div className='encounter-and-roster-container'>
             <FileList
               title='NPC'
