@@ -502,34 +502,36 @@ const LancerNpcMode = ({
           </div>
         </div>
 
-        <div className='jumplink-anchor' id='encounter' />
         { activeEncounter &&
-          <div className='active-npc-boxes-container'>
-            <CondensedNpcBox
-              label={'~ Reinforcements ~'}
-              npcList={npcListReinforcements}
-              setNpcStatus={setNpcStatus}
-              activeNpcFingerprint={activeNpcFingerprint}
-              removeNpcFromEncounter={removeNpcFromEncounter}
-            />
-            <CondensedNpcBox
-              label={'~ Casualties ~'}
-              npcList={npcListCasualties}
-              setNpcStatus={setNpcStatus}
-              activeNpcFingerprint={activeNpcFingerprint}
-              removeNpcFromEncounter={removeNpcFromEncounter}
-            />
-            <ActiveNpcBox
-              label={'Active Combatants'}
-              npcList={npcListActive}
-              setNpcStatus={setNpcStatus}
-              setActiveNpcFingerprint={setActiveNpcFingerprint}
-              activeNpcFingerprint={activeNpcFingerprint}
-              updateNpcState={updateNpcState}
-              currentRound={activeEncounter.roundCount}
-              setCurrentRound={setCurrentRound}
-            />
-          </div>
+          <>
+            <div className='jumplink-anchor' id='encounter' />
+            <div className='active-npc-boxes-container'>
+              <CondensedNpcBox
+                label={'~ Reinforcements ~'}
+                npcList={npcListReinforcements}
+                setNpcStatus={setNpcStatus}
+                activeNpcFingerprint={activeNpcFingerprint}
+                removeNpcFromEncounter={removeNpcFromEncounter}
+              />
+              <CondensedNpcBox
+                label={'~ Casualties ~'}
+                npcList={npcListCasualties}
+                setNpcStatus={setNpcStatus}
+                activeNpcFingerprint={activeNpcFingerprint}
+                removeNpcFromEncounter={removeNpcFromEncounter}
+              />
+              <ActiveNpcBox
+                label={'Active Combatants'}
+                npcList={npcListActive}
+                setNpcStatus={setNpcStatus}
+                setActiveNpcFingerprint={setActiveNpcFingerprint}
+                activeNpcFingerprint={activeNpcFingerprint}
+                updateNpcState={updateNpcState}
+                currentRound={activeEncounter.roundCount}
+                setCurrentRound={setCurrentRound}
+              />
+            </div>
+          </>
         }
       </div>
 
