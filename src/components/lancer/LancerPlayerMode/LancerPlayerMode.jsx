@@ -54,8 +54,6 @@ const LancerPlayerMode = ({
   const [isWaitingOnSharecodeResponse, setIsWaitingOnSharecodeResponse] = useState(false);
 
   const [pilotSectionOpen, setPilotSectionOpen] = useState(true);
-  const [mechSectionOpen, setMechSectionOpen] = useState(true);
-
 
   // const activePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
   const activePilot = activePilotID && loadPilotData(activePilotID); // load the pilot data from local storage
@@ -263,7 +261,6 @@ const LancerPlayerMode = ({
   }
 
   const onClickJumplink = (link) => {
-    if (['mech','weapons'].includes(link)) setMechSectionOpen(true)
     if (['pilot','bond'].includes(link)) setPilotSectionOpen(true)
   }
 
@@ -327,9 +324,10 @@ const LancerPlayerMode = ({
           </FileList>
         }
 
-        <div className='jumplink-anchor' id='pilot' />
         { activePilot &&
           <>
+            <div className={`jumplink-anchor ${pilotSectionOpen ? '' : 'collapsed'}`} id='pilot' />
+
             <PilotDossier
               activePilot={activePilot}
               setDistantDicebagData={setDistantDicebagData}
@@ -358,7 +356,7 @@ const LancerPlayerMode = ({
 
         { isViewingBond &&
           <>
-            <div className='jumplink-anchor' id='bond' />
+            <div className={`jumplink-anchor ${pilotSectionOpen ? '' : 'collapsed'}`} id='bond' />
             <Bonds
               activePilot={activePilot}
               setTriggerRerender={setTriggerRerender}
@@ -372,20 +370,18 @@ const LancerPlayerMode = ({
       { activeMech &&
         <div>
           <div className='jumplink-anchor' id='mech' />
-          <CollapsibleSection title='Mech' parentControlledOpen={mechSectionOpen} setParentControlledOpen={setMechSectionOpen}>
-            <PlayerMechSheet
-              activePilot={activePilot}
-              activeMech={activeMech}
+          <PlayerMechSheet
+            activePilot={activePilot}
+            activeMech={activeMech}
 
-              setTriggerRerender={setTriggerRerender}
-              triggerRerender={triggerRerender}
+            setTriggerRerender={setTriggerRerender}
+            triggerRerender={triggerRerender}
 
-              setPartyLastAttackKey={setPartyLastAttackKey}
-              setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-              setRollSummaryData={setRollSummaryData}
-              setDistantDicebagData={setDistantDicebagData}
-            />
-          </CollapsibleSection>
+            setPartyLastAttackKey={setPartyLastAttackKey}
+            setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+            setRollSummaryData={setRollSummaryData}
+            setDistantDicebagData={setDistantDicebagData}
+          />
         </div>
       }
     </div>

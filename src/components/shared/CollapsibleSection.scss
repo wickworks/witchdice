@@ -3,18 +3,23 @@
 .CollapsibleSection {
   max-width: 800px;
   width: 100%;
+  box-sizing: border-box;
   margin: auto;
 
-  overflow-y: hidden;
+  .collapsible-container {
+    // overflow-y: hidden;
 
-  &.closed {
-    animation: animate_max_height_closing .2s forwards;
-    -webkit-animation: animate_max_height_closing .2s forwards;
-  }
+    &.closed {
+      display: none;
+      // animation: animate_max_height_closing 2s forwards;
+      // -webkit-animation: animate_max_height_closing 2s forwards;
+    }
 
-  &.open {
-    animation: animate_max_height_opening .2s forwards;
-    -webkit-animation: animate_max_height_opening .2s forwards;
+    &.open {
+      display: block;
+      animation: animate_max_height_opening .2s ease-out forwards;
+      -webkit-animation: animate_max_height_opening .2s ease-out forwards;
+    }
   }
 
   button.section-title {
@@ -51,11 +56,16 @@
 @keyframes animate_max_height_closing {
   0% { max-height: auto; }
   1% { max-height: 1200px; }
-  100% { max-height: 53px; }
+  100% { max-height: 0px; }
 }
 
 @keyframes animate_max_height_opening {
-  0% { max-height: 53px; }
+  0% { max-height: 0; }
   99% { max-height: 1200px; }
   100% { max-height: auto; }
 }
+
+// @keyframes animate_max_height_opening {
+//   0% { clip-path: inset(0 0 100% 0); }
+//   100% { clip-path: inset(0 0 0 0); }
+// }

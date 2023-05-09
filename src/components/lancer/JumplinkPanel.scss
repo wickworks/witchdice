@@ -8,6 +8,12 @@
 
   height: 350px;
   margin-bottom: -350px;
+
+  // # when inside a collapsed section, we don't want this blocking the ones below it
+  &.collapsed {
+    height: 0;
+    margin-bottom: 0;
+  }
 }
 
 .JumplinkPanel {

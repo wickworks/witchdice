@@ -22,12 +22,14 @@ const CollapsibleSection = ({
   }
 
   return (
-    <div className={`CollapsibleSection ${sectionOpen ? 'open' : 'closed'}`}>
+    <div className='CollapsibleSection'>
       <button className='section-title' onClick={toggleOpen}>
         {title}
         <span className={`asset arrow-sharp ${sectionOpen ? '' : 'reversed'}`} />
       </button>
-      {children}
+      <div className={`collapsible-container ${sectionOpen ? 'open' : 'closed'}`}>
+        {children}
+      </div>
     </div>
   );
 }
