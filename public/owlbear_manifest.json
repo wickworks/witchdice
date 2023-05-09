@@ -2,7 +2,7 @@
 {
   "name": "Witch Dice",
   "homepage_url": "https://witchdice.com/",
-  "version": "1.0.3",
+  "version": "1.1.0",
   "manifest_version": 1,
   "action": {
     "title": "Witchdice",

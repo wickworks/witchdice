@@ -37,7 +37,7 @@ const SquadMech = ({
 
 	const [detailsOpen, setDetailsOpen] = useState(false);
 
-	console.log('squadMech',squadMech);
+	// console.log('squadMech',squadMech);
 
   return (
     <div className={`SquadMech extra-class ${pointClass}`} >

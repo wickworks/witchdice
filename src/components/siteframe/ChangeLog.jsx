@@ -14,6 +14,13 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.1.0 — May 2023</div>
+          <ul>
+            <li>Support for Owlbear Rodeo extension.</li>
+            <li>Collapsible pilot card for Lancer sheet.</li>
+            <li>Collapsible npc roster for GM mode, moved encounter name input.</li>
+          </ul>
+
           <div className='version-label'>v1.0.1-3 — Feb, Mar, Apr 2023</div>
           <ul>
             <li>Added Chomolungma invades to the attack roller.</li>

@@ -284,7 +284,7 @@ const Main = ({
 
   const connectToRoom = (roomName) => {
     try {
-      console.log('Connecting to room : ', roomName);
+      console.log('Connecting to Witchdice room : ', roomName);
       if (roomName === null || roomName.length === 0) { throw new Error('Invalid room name!') }
 
       // ~~ DICEBAG AND DAMAGE ROLLS ~~~

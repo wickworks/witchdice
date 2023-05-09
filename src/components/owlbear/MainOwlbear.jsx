@@ -113,7 +113,7 @@ const MainOwlbear = ({
         // is this room already connected to an owlbear room?
         let loadedRoom = ''
         if (metadata) {
-          console.log('in a witchdice room already :', metadata);
+          // console.log('in a witchdice room already :', metadata);
           loadedRoom = metadata['party_room']
         } else {
           // create a new room
@@ -135,7 +135,7 @@ const MainOwlbear = ({
 
   // CHANGE PAGE MODE
   const changePageTo = (mode) => {
-    console.log('changed to mode ', mode);
+    // console.log('changed to mode ', mode);
     setPageMode(mode)
 
     if (obrReady) {
