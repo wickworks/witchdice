@@ -37,7 +37,7 @@
         "value": "max-age=31536000"
       } ]
     }, {
-      "source": "**/*.@(json)",
+      "source": "**/*.@(json|svg)",
       "headers": [ {
         "key": "Access-Control-Allow-Origin",
         "value": "*"
