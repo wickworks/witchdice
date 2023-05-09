@@ -1,0 +1,17 @@
+
+{
+  "name": "Witch Dice",
+  "version": "1.1.0",
+  "manifest_version": 1,
+  "icon": "/owlbear_ext/store_icon.svg",
+  "author": "Olive Perry",
+  "homepage_url": "https://witchdice.com/",
+  "description": "Elegant + powerful dice roller. Character sheets for Lancer.",
+  "action": {
+    "title": "Witchdice",
+    "icon": "/owlbear_ext/toolbar_icon.svg",
+    "popover": "/owlbear",
+    "height": 752,
+    "width": 380
+  }
+}

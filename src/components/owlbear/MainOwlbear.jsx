@@ -43,7 +43,7 @@ function generateOwlbearRoomName() {
 // Instead of changing the URL, change the page in state here
 const allPageModes = {
   dice: {label: 'Dice', icon: 'dicebag', skippable: false},
-  rolls: {label: 'Rolls', icon: 'icon_owlbear', skippable: false},
+  rolls: {label: 'Rolls', icon: 'owlbear_ext_icon', skippable: false},
   lancer: {label: 'Lancer', icon: 'union', skippable: true},
   clocks: {label: 'Clocks', icon: 'clock', skippable: true},
   settings: {label: 'Settings', icon: 'gear', skippable: false},
