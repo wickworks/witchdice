@@ -373,7 +373,7 @@ const Main = ({
             }
 
             <DiscordBotNotice partyRoom={partyRoom} />
-            <OwlbearExtensionNotice />
+            {/*<OwlbearExtensionNotice />*/}
           </div>
         </div>
       </div>

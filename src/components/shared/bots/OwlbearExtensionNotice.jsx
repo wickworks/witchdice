@@ -3,6 +3,7 @@ import './OwlbearExtensionNotice.scss';
 
 
 const OWLBEAR_LINK = 'https://www.owlbear.app/'
+const OWLBEAR_PROFILE_LINK = 'https://www.owlbear.app/profile/'
 const EXTENSION_LINK = 'https://extensions.owlbear.rodeo/witchdice'
 
 const OwlbearExtensionNotice = ({
@@ -30,23 +31,22 @@ const OwlbearExtensionNotice = ({
           <div className='border'>
             <a href={OWLBEAR_LINK} target="_blank" rel="noopener noreferrer"><div className='asset owlbear' /></a>
             <p>Owlbear Rodeo is a virtual tabletop that handles the maps and tokens for playing online games.</p>
-            <p>Add the <a href={EXTENSION_LINK} target="_blank" rel="noopener noreferrer">Witchdice extension</a> to stop jumping between tabs!</p>
+            <p>Add the Witchdice extension to stop jumping between tabs!</p>
 
             <ol>
               <li><div>
-                <a href={OWLBEAR_LINK} target="_blank" rel="noopener noreferrer">Create a free room on Owlbear Rodeo.</a>
+                Click "Copy Install Link" from <a href={EXTENSION_LINK} target="_blank" rel="noopener noreferrer">Witchdice's extension page.</a>
               </div></li>
               <li><div>
-                <a href={EXTENSION_LINK} target="_blank" rel="noopener noreferrer">Copy the install link for Witchdice.</a>
+                <a href={OWLBEAR_PROFILE_LINK} target="_blank" rel="noopener noreferrer">Log into Owlbear Rodeo</a> and press "Add Extension". Paste the install link.
               </div></li>
               <li><div>
-                Subscribe a channel to your room by running the command:
+                Open your Owlbear Rodeo room, click the kebab in the bottom left, and press "Extensions".
+              </div></li>
+              <li><div>
+                Enable Witchdice.
               </div></li>
             </ol>
-          </div>
-
-          <div className='border'>
-
           </div>
         </div>
       }
