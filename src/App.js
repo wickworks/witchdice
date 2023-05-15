@@ -10,10 +10,19 @@ import './App.scss';
 const Main = lazy(() => import('./components/Main.jsx'));
 
 const IFRAME_PATH = '/owlbear'
+window.isInOwlbearIframe = window.location.href.includes(IFRAME_PATH)
+
+try {
+  window.localStorageEnabled = (window.localStorage && true)
+} catch (e) {
+  console.log('Local storage not enabled; Witchdice requires access for its advanced features.');
+}
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [enabledPages, setEnabledPages] = useState( loadEnabledPages() )
+  const [enabledPages, setEnabledPages] = useState(
+    window.localStorageEnabled ? loadEnabledPages() : ['simple']
+  )
 
   return (
     <Router>
@@ -21,7 +30,7 @@ function App() {
         <div className="App" aria-disabled={isModalOpen}>
 
           <Route render={
-            ({ location }) => !location.pathname.includes(IFRAME_PATH)
+            ({ location }) => !window.isInOwlbearIframe
               ? <Header enabledPages={enabledPages} />
               : null
             }
@@ -36,7 +45,7 @@ function App() {
           </Suspense>
 
           <Route render={
-            ({ location }) => !location.pathname.includes(IFRAME_PATH)
+            ({ location }) => !window.isInOwlbearIframe
               ? <Footer />
               : null
             }

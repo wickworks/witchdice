@@ -9,31 +9,36 @@
   box-sizing: border-box;
   width: 100%;
 
+  .localstorage-warning {
+    padding: 0 24px;
+  }
 
-  label {
-    @include text_label;
-    margin: 6px 0;
-    padding: 6px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
+  .toggles-container {
+    label {
+      @include text_label;
+      margin: 6px 0;
+      padding: 6px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
 
-    &:hover { background-color: $parchment_dark; }
+      &:hover { background-color: $parchment_dark; }
 
-    input {
-      margin-right: 16px;
-      width: 24px;
-      height: 24px;
-      flex-shrink: 0;
-    }
+      input {
+        margin-right: 16px;
+        width: 24px;
+        height: 24px;
+        flex-shrink: 0;
+      }
 
-    .asset {
-      width: 28px;
-      height: 28px;
-      margin-right: 12px;
-      // turns black to $rust
-      filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+      .asset {
+        width: 28px;
+        height: 28px;
+        margin-right: 12px;
+        // turns black to $rust
+        filter: invert(19%) sepia(35%) saturate(2526%) hue-rotate(342deg) brightness(89%) contrast(96%);
+      }
     }
   }
 }

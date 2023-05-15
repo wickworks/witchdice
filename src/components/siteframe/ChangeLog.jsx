@@ -14,11 +14,14 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.1.0 — May 2023</div>
+          <div className='version-label'>v1.1.0-8 — May 2023</div>
           <ul>
             <li>Support for Owlbear Rodeo extension.</li>
             <li>Collapsible pilot card for Lancer sheet.</li>
             <li>Collapsible npc roster for GM mode, moved encounter name input.</li>
+            <li>Changing player name updates name you roll as.</li>
+            <li>Fixed the extension's roll history breaking when already in a room.</li>
+            <li>Fail gracefully when localstorage is not enabled.</li>
           </ul>
 
           <div className='version-label'>v1.0.1-3 — Feb, Mar, Apr 2023</div>

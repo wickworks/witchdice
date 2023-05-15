@@ -76,25 +76,33 @@ const Main = ({
   const { rollmode } = useParams();
   const queryParams = useQuery();
   useEffect(() => {
-    const urlRoom = queryParams.get('r');
-    const loadedRoom = localStorage.getItem("party_room");
-    const loadedName = localStorage.getItem("party_name");
+    // the owlbear extension will handle the room joining when we're in that context
+    if (!window.isInOwlbearIframe) {
+      const urlRoom = queryParams.get('r');
 
-    if (loadedName) setPartyName(loadedName);
+      let loadedRoom, loadedName
+      if (window.localStorageEnabled) {
+        loadedRoom = localStorage.getItem("party_room");
+        loadedName = localStorage.getItem("party_name");
+      }
 
-    // join the room from the URL
-    if (urlRoom && urlRoom.length > 6) {
-      console.log('we are joining from a link, connecting...');
-      if (!loadedName) generatePartyName();
-      setPartyRoom(urlRoom);
-      setPartyAutoconnect(true);
-    } else {
-      // prefill the room name from local storage
-      if (loadedRoom) {
-        setPartyRoom(loadedRoom);
-      // new here? get a random name
+      if (loadedName) setPartyName(loadedName);
+
+      // join the room from the URL
+      if (urlRoom && urlRoom.length > 6) {
+        console.log('We are joining from a link, connecting to room:', urlRoom);
+        if (!loadedName) generatePartyName();
+        setPartyRoom(urlRoom);
+        setPartyAutoconnect(true);
       } else {
-        generateRoomName()
+        // prefill the room name from local storage
+        if (loadedRoom) {
+          console.log('Loaded room from localstorage:', loadedRoom);
+          setPartyRoom(loadedRoom);
+        // new here? get a random name
+        } else {
+          generateRoomName()
+        }
       }
     }
   }, []);
@@ -306,9 +314,11 @@ const Main = ({
       });
 
       setPartyConnected(true);
-      localStorage.setItem("party_name", partyName);
-      localStorage.setItem("party_room", roomName);
 
+      if (window.localStorageEnabled) {
+        localStorage.setItem("party_name", partyName);
+        localStorage.setItem("party_room", roomName);
+      }
     } catch (error) {
       console.log('ERROR: ',error.message);
       setPartyConnected(false);
@@ -321,6 +331,11 @@ const Main = ({
 
   const generatePartyName = () => {
     setPartyName( capitalize(`${randomWords(1)}`) )
+  }
+
+  const updatePartyName = (name) => {
+    if (window.localStorageEnabled) localStorage.setItem("party_name", name);
+    setPartyName(name)
   }
 
 
@@ -349,7 +364,7 @@ const Main = ({
           <div className="room-and-xcard">
             <RoomConnect
               partyName={partyName}
-              setPartyName={(name) => { setPartyName(name); localStorage.setItem("party_name", name); } }
+              setPartyName={updatePartyName}
               partyRoom={partyRoom}
               setPartyRoom={setPartyRoom}
               generateRoomName={generateRoomName}
@@ -468,11 +483,11 @@ const Main = ({
               latestAction={latestAction}
 
               partyName={partyName}
-              setPartyName={(name) => { setPartyName(name); localStorage.setItem("party_name", name); } }
+              setPartyName={updatePartyName}
               partyConnected={partyConnected}
               partyRoom={partyRoom}
+              setPartyRoom={setPartyRoom}
               connectToRoom={connectToRoom}
-
               setPartyLastAttackKey={setPartyLastAttackKey}
               setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
               setRollSummaryData={setRollSummaryData}

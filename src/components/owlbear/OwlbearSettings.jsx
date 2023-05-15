@@ -20,34 +20,47 @@ const OwlbearSettings = ({
   return (
     <div className='OwlbearSettings'>
 
-      {toggleablePageModes.map(mode =>
-        <label className='skip-page' key={mode}>
-          <input
-            type='checkbox'
-            checked={!skipPages.includes(mode)}
-            onChange={() => toggleSkipPage(mode)}
-          />
-          <div className={`asset ${allPageModes[mode].icon}`} />
-          <div className='title'>{allPageModes[mode].label}</div>
-        </label>
-      )}
+      {!window.localStorageEnabled &&
+        <div className='localstorage-warning'>
+          <h2>Warning: localStorage is not enabled!</h2>
+          <p>
+            Witchdice's advanced features require access to
+            localStorage. <a href='https://support.atlassian.com/trello/docs/enabling-localstorage/' target="_blank" rel="noopener noreferrer">Read
+            this guide</a> to enable localStorage for specific sites in Chrome incognito windows.
+          </p>
+        </div>
+      }
 
-      <label className='notify-on-roll'>
-        <input
-          type="checkbox"
-          checked={notifyOnRoll}
-          onChange={() => setNotifyOnRoll(!notifyOnRoll)}
-        />
-        <div className={`asset dicebag`} />
-        <div className='name'>Notification on rolls</div>
-      </label>
+      <div className='toggles-container'>
+        {window.localStorageEnabled && toggleablePageModes.map(mode =>
+          <label className='skip-page' key={mode}>
+            <input
+              type='checkbox'
+              checked={!skipPages.includes(mode)}
+              onChange={() => toggleSkipPage(mode)}
+            />
+            <div className={`asset ${allPageModes[mode].icon}`} />
+            <div className='title'>{allPageModes[mode].label}</div>
+          </label>
+        )}
+
+        <label className='notify-on-roll'>
+          <input
+            type="checkbox"
+            checked={notifyOnRoll}
+            onChange={() => setNotifyOnRoll(!notifyOnRoll)}
+          />
+          <div className={`asset dicebag`} />
+          <div className='name'>Notification on rolls</div>
+        </label>
+      </div>
 
       <CopyRoomLink
         partyRoom={partyRoom}
         currentPage={'simple'}
       />
 
-      <DeleteLocalContentButton />
+      {window.localStorageEnabled && <DeleteLocalContentButton />}
 
     </div>
   )

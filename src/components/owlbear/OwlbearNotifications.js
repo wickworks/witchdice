@@ -35,10 +35,10 @@ function createDicebagNotification(latestAction) {
   if (rollData.length > 1) {
     const resultTotal = processRollData(rollData, summaryMode, summaryModeValue)
     const resultDesc = getRollDescription(rollData, summaryMode, summaryModeValue)
-    return `${latestAction.name} | ${resultDesc}⠀⠀⠀⠀⠀⦑ ${resultTotal} ⦒⠀⠀⠀`
+    return `${latestAction.name} | ${resultDesc}⠀⠀⠀⠀⠀⦑ ${resultTotal} ⦒⠀⠀⠀⠀⠀`
 
   } else if (rollData.length === 1) {
-    return `${latestAction.name} | ${rollData[0].dieType}⠀⠀⠀⠀⠀⦑ ${rollData[0].result} ⦒⠀⠀⠀`
+    return `${latestAction.name} | ${rollData[0].dieType}⠀⠀⠀⠀⠀⦑ ${rollData[0].result} ⦒⠀⠀⠀⠀⠀`
   }
 
   return ''

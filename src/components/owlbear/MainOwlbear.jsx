@@ -16,7 +16,7 @@ import OBR from "@owlbear-rodeo/sdk";
 
 import './MainOwlbear.scss';
 
-const METADATA_ROOM = "com.witchdice.obr-extension/metadata"
+const METADATA_OWLBEAR_ROOM_KEY = "com.witchdice.obr-extension/metadata"
 
 const FRAME_WIDTH = 380;
 const FRAME_WIDTH_EXPANDED = 840;
@@ -25,6 +25,9 @@ const SETTINGS_HIDDEN_PAGE_MODES = 'settings-hidden-iframe-page-modes';
 
 // Returns a hash of currently-enabled pages
 function loadSkippedPageModes() {
+  // only enable simple mode if local storage is not enabled
+  if (!window.localStorageEnabled) return Object.keys(allPageModes).filter(mode => !['dice','rolls','settings'].includes(mode))
+
   let skipPages = []
   const savedString = localStorage.getItem(SETTINGS_HIDDEN_PAGE_MODES)
   if (savedString) skipPages = JSON.parse(savedString)
@@ -33,6 +36,8 @@ function loadSkippedPageModes() {
 
 // saved a page to be skipped/shown to localstorage
 function saveSkipPages(skipPages) {
+  if (!window.localStorageEnabled) return
+
   localStorage.setItem(SETTINGS_HIDDEN_PAGE_MODES, JSON.stringify(skipPages))
 }
 
@@ -59,6 +64,7 @@ const MainOwlbear = ({
   setPartyName,
   partyConnected,
   partyRoom,
+  setPartyRoom,
   connectToRoom,
 
   setPartyLastAttackKey,
@@ -93,7 +99,7 @@ const MainOwlbear = ({
     // was this one modified in the last ten seconds?
     var now = Date.now()
     var cutoff = now - (10 * 1000) // 10 seconds ago
-    if (obrReady && notifyOnRoll && latestAction.updatedAt > cutoff) {
+    if (obrReady && notifyOnRoll && latestAction && latestAction.updatedAt > cutoff) {
       latestActionToNotification(latestAction, actionToNotificationMap, setActionToNotificationMap)
     }
 
@@ -104,32 +110,39 @@ const MainOwlbear = ({
     console.log('Witchdice: OBR SDK ready!');
     setObrReady(true);
 
+    OBR.player.onChange((player) => {
+      setPartyName(player.name)
+    })
+
     // get the player name
     Promise.all([OBR.room.getMetadata(), OBR.player.getName()])
       .then(values => {
-        const metadata = values[0][METADATA_ROOM]
+        const metadata = values[0][METADATA_OWLBEAR_ROOM_KEY]
         const playerName = values[1]
+
 
         // is this room already connected to an owlbear room?
         let loadedRoom = ''
         if (metadata) {
-          // console.log('in a witchdice room already :', metadata);
           loadedRoom = metadata['party_room']
+          console.log('Loaded Witchdice metadata for this Owlbear room :', metadata);
         } else {
           // create a new room
           loadedRoom = generateOwlbearRoomName()
           const initialWitchdiceMetadata = {'party_room': loadedRoom}
 
           const metadataUpdate = {}
-          metadataUpdate[METADATA_ROOM] = initialWitchdiceMetadata
+          metadataUpdate[METADATA_OWLBEAR_ROOM_KEY] = initialWitchdiceMetadata
           OBR.room.setMetadata(metadataUpdate)
 
-          console.log('Initialized witchdice metadata: ', initialWitchdiceMetadata);
+          console.log('Initialized Witchdice metadata for this Owlbear room: ', initialWitchdiceMetadata);
         }
 
         // update state
-        if (playerName) setPartyName(playerName)
-        if (loadedRoom) connectToRoom(loadedRoom)
+        // console.log('Owlbear room data | player: ', playerName, ' room: ', loadedRoom);
+        setPartyName(playerName);
+        setPartyRoom(loadedRoom);
+        connectToRoom(loadedRoom)
       })
   }
 
