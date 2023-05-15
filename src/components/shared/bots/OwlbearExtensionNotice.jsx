@@ -29,16 +29,16 @@ const OwlbearExtensionNotice = ({
         <div className='instructions-container'>
           <button className='asset x' onClick={() => setInstructionsVisible(false)} />
           <div className='border'>
-            <a href={OWLBEAR_LINK} target="_blank" rel="noopener noreferrer"><div className='asset owlbear' /></a>
+            <a href={OWLBEAR_LINK} target="_blank"><div className='asset owlbear' /></a>
             <p>Owlbear Rodeo is a virtual tabletop that handles the maps and tokens for playing online games.</p>
             <p>Add the Witchdice extension to stop jumping between tabs!</p>
 
             <ol>
               <li><div>
-                Click "Copy Install Link" from <a href={EXTENSION_LINK} target="_blank" rel="noopener noreferrer">Witchdice's extension page.</a>
+                Click "Copy Install Link" from <a href={EXTENSION_LINK} target="_blank">Witchdice's extension page.</a>
               </div></li>
               <li><div>
-                <a href={OWLBEAR_PROFILE_LINK} target="_blank" rel="noopener noreferrer">Log into Owlbear Rodeo</a> and press "Add Extension". Paste the install link.
+                <a href={OWLBEAR_PROFILE_LINK} target="_blank">Log into Owlbear Rodeo</a> and press "Add Extension". Paste the install link.
               </div></li>
               <li><div>
                 Open your Owlbear Rodeo room, click the kebab in the bottom left, and press "Extensions".
