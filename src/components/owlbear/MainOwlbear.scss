@@ -11,18 +11,13 @@ $subwindow_height: 690px;
   // }
 
   .page-mode-content {
-
     &.expanded {
       display: flex;
       justify-content: space-around;
     }
 
-
     .roll-history-container {
-
-      &.expanded {
-        max-width: 400px;
-      }
+      &.expanded { max-width: 400px; }
 
       &.hidden {
         visibility: hidden;
@@ -33,20 +28,16 @@ $subwindow_height: 690px;
       }
     }
 
-    .DiceBag {
-      margin: auto;
-    }
+    // center the dicebag when it's alone
+    .DiceBag { margin: auto; }
 
     // this can get a little taller in our context
     .RollHistory {
+      @include standard_side_margin;
       max-height: $subwindow_height;
-
-      // margin-top: 12px;
     }
 
-    .MainLancer {
-      flex-direction: column-reverse; // stick mode switcher and LCPs at end
-    }
+    .MainLancer { margin-bottom: 20px; }
 
     // need to be positioned below the pagemode switcher
     .JumplinkPanel {

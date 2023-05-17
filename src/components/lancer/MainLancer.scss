@@ -3,18 +3,24 @@
 
 .MainLancer {
   display: flex;
-  flex-direction: column; // reversed by owlbear`
+  flex-direction: column;
   width: 100%;
 
-  .game-mode-switcher-container {
-    @include standard_side_margin;
-    margin-top: 20px;
-    margin-bottom: 20px;
+  .game-mode-and-lcp-container {
+    // @include standard_side_margin;
+    max-width: 800px;
+    width: 100%;
+    margin: 10px auto;
+    // margin-top: 20px;
+    // margin-bottom: 20px;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
 
     .game-mode-switcher {
-      margin: auto;
+      // margin: auto;
+      margin: 10px 0;
+      height: fit-content;
       display: flex;
       justify-content: center;
       border-radius: 6px;
@@ -39,11 +45,12 @@
   }
 
   .lcp-container {
-    margin: 12px auto 20px;
+    margin: 10px 0;
+    &.expanded { width: 100%; }
 
     button.lcp-list-collapsed {
       margin: auto;
-      padding: 2px 12px 2px 8px;
+      padding: 4px 12px;
       font-size: 20px;
       display: flex;
       flex-wrap: wrap;
@@ -55,14 +62,11 @@
 
       &:hover { background-color: $pink_logo_dark; }
 
-      span {
-        margin-left: 4px;
-      }
+      span { margin-left: 4px; }
     }
 
     .FileList.content-packs {
-      // .title { color: $crushed_velvet; }
-
+      margin: 0;
       .id-core .DeleteButton { display: none; }
     }
   }

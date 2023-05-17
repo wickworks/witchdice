@@ -186,7 +186,7 @@ const MainOwlbear = ({
   }
 
   const forceShowDicebag = (pageMode === 'rolls' && isExpanded)
-  const forceShowRolls = (pageMode === 'dice' && isExpanded)
+  const forceShowRolls = (pageMode === 'dice' && isExpanded) || (pageMode === 'lancer')
 
   return (
     <div className='MainOwlbear'>

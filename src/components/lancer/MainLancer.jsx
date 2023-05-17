@@ -157,38 +157,8 @@ const MainLancer = ({
 
   return (
     <div className='MainLancer'>
-      <div className='lcp-container'>
-        {isShowingLcpList ?
-          <FileList
-            title='Lancer Content Pack'
-            extraClass='content-packs'
-            acceptFileType='.lcp'
-            onFileUpload={uploadLcpFile}
-            isUploadingNewFile={isUploadingNewLcpFile}
-            setIsUploadingNewFile={setIsUploadingNewLcpFile}
-            instructions={<>Upload a Lancer content pack (.lcp)</>}
-          >
-            <CharacterList
-              title='Lancer Content Pack'
-              characterEntries={allLcpEntries}
-              handleEntryClick={setActiveLcpID}
-              activeCharacterID={activeLcpID}
-              deleteActiveCharacter={deleteActiveLcp}
-              createNewCharacter={() => setIsUploadingNewLcpFile(true)}
-              onTitleClick={() => setIsShowingLcpList(false)}
-            />
-          </FileList>
-        :
-          <button className='lcp-list-collapsed' onClick={() => setIsShowingLcpList(true)}>
-            { allLcpEntries.map((lcpEntry, i) =>
-              <span key={lcpEntry.id}> — {lcpEntry.name}</span>
-            )}
-            <span>—</span>
-          </button>
-        }
-      </div>
 
-      <div className='game-mode-switcher-container'>
+      <div className='game-mode-and-lcp-container'>
         <div className='game-mode-switcher'>
           <button
             onClick={() => changeGameMode(GAME_MODE_PLAYER)}
@@ -202,6 +172,42 @@ const MainLancer = ({
           >
             GM
           </button>
+        </div>
+
+        <div className={`lcp-container ${isShowingLcpList ? 'expanded' : ''}`}>
+          {isShowingLcpList ?
+            <FileList
+              title='Lancer Content Pack'
+              extraClass='content-packs'
+              acceptFileType='.lcp'
+              onFileUpload={uploadLcpFile}
+              isUploadingNewFile={isUploadingNewLcpFile}
+              setIsUploadingNewFile={setIsUploadingNewLcpFile}
+              instructions={<>Upload a Lancer content pack (.lcp)</>}
+            >
+              <CharacterList
+                title='Lancer Content Pack'
+                characterEntries={allLcpEntries}
+                handleEntryClick={setActiveLcpID}
+                activeCharacterID={activeLcpID}
+                deleteActiveCharacter={deleteActiveLcp}
+                createNewCharacter={() => setIsUploadingNewLcpFile(true)}
+                onTitleClick={() => setIsShowingLcpList(false)}
+              />
+            </FileList>
+          :
+            <button className='lcp-list-collapsed' onClick={() => setIsShowingLcpList(true)}>
+              {/* allLcpEntries.map((lcpEntry, i) =>
+                <span key={lcpEntry.id}> — {lcpEntry.name}</span>
+              )*/}
+              {/*<span>—</span>*/}
+              {allLcpEntries.length <= 1 ?
+                <>Click here to add LCPs</>
+              :
+                <>{allLcpEntries.length} LCPs loaded</>
+              }
+            </button>
+          }
         </div>
       </div>
 
