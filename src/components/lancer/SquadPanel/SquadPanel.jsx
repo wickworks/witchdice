@@ -147,21 +147,21 @@ const SquadPanel = ({
 	// ~~ INITIAL CONNECTION FROM SERVER ~~
   // Watch server for change/add/delete events & update the local data accordingly.
 	useEffect(() => {
-		if (partyConnected) {
-			try {
+    if (partyConnected) {
+      try {
         // STATUSES
-				const dbStatusRef = getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom)
-				dbStatusRef.on('child_changed', (snapshot) => {
-					if (snapshot) setLastUpdatedMechStatus(snapshot.val())
-				})
+        const dbStatusRef = getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom)
+        dbStatusRef.on('child_changed', (snapshot) => {
+          if (snapshot) setLastUpdatedMechStatus(snapshot.val())
+        })
 
-				dbStatusRef.on('child_added', (snapshot) => {
-					if (snapshot) setLastUpdatedMechStatus(snapshot.val())
-				})
+        dbStatusRef.on('child_added', (snapshot) => {
+          if (snapshot) setLastUpdatedMechStatus(snapshot.val())
+        })
 
-				dbStatusRef.on('child_removed', (snapshot) => {
-					if (snapshot) setLastDestroyedID(snapshot.val().id)
-				})
+        dbStatusRef.on('child_removed', (snapshot) => {
+          if (snapshot) setLastDestroyedID(snapshot.val().id)
+        })
 
         // DETAILS (only pay attention to ADDS)
         const dbDetailRef = getFirebaseDB().child(FIREBASE_SQUAD_DETAIL_KEY).child(partyRoom)
@@ -169,11 +169,20 @@ const SquadPanel = ({
           if (snapshot) setLastUpdatedMechDetail(snapshot.val())
         })
 
-			} catch (error) {
-				console.log('ERROR: ', error.message);
-			}
-		}
-	}, [partyConnected]);
+        // CLEANUP FUNCTION
+        return () => {
+          dbStatusRef.off('child_changed')
+          dbStatusRef.off('child_added')
+          dbStatusRef.off('child_removed')
+          dbDetailRef.off('child_added')
+        }
+
+      } catch (error) {
+        console.log('ERROR: ', error.message);
+      }
+    }
+  }, [partyConnected]);
+
 
   return (
 		<div className='SquadPanel'>
