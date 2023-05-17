@@ -14,6 +14,13 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.1.9 — May 2023</div>
+          <ul>
+            <li>Show roll history at bottom of owlbear lancer mode</li>
+            <li>Fix the squad panel crashing when switching modes</li>
+            <li>Use the updated @massif/lancer-data repo</li>
+          </ul>
+
           <div className='version-label'>v1.1.0-8 — May 2023</div>
           <ul>
             <li>Support for Owlbear Rodeo extension.</li>
