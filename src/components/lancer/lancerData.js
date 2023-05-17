@@ -15,7 +15,7 @@ function hashLcpData(lcpData) {
   return hashedLcpData
 }
 
-const data = hashLcpData(require('lancer-data'));
+const data = hashLcpData(require('@massif/lancer-data'));
 export const allActions = data.actions;
 const allWeapons = data.weapons;
 const allSkills = data.skills;
@@ -30,7 +30,7 @@ const allNpcClasses = data.npc_classes;
 const allNpcFeatures = data.npc_features;
 const allNpcTemplates = data.npc_templates;
 // const allStatuses = data.statuses; // for some reason this was returning junk??
-const allStatuses = require('lancer-data/lib/statuses.json')
+const allStatuses = require('@massif/lancer-data/lib/statuses.json')
 
 const blankTalent = {
   "id": "missing_talent",
