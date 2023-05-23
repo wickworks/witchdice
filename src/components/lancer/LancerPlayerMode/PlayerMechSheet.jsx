@@ -337,7 +337,8 @@ function getSystemTraits(systems, limitedBonus) {
     if (!systemTrait.description && systemSubTraits.length === 1) {
       systemSubTraits[0].isDestructable = !hasTag(systemData, 'tg_indestructible')
       systemSubTraits[0].isDestroyed = system.destroyed
-      systemTrait = {...systemSubTraits[0]}
+      systemTrait = {...systemTrait, ...systemSubTraits[0]}
+
     } else {
       // add actions and deployable sub cards
       systemTrait.subTraits = systemSubTraits

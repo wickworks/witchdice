@@ -66,7 +66,6 @@ const TraitBlock = ({
 		subTraits
 	} = trait
 
-
 	const [isCollapsed, setIsCollapsed] = useState(defaultCollapsed);
 	// if MechTraits toggles what's open, set them all to that.
 	useEffect(() => setIsCollapsed(defaultCollapsed), [defaultCollapsed]);
