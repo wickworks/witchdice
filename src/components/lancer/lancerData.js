@@ -305,8 +305,11 @@ export const LANCER_DAMAGE_TYPES = [
 ]
 
 export function isBasicDamageType(type) {
-  const lowerType = type.toLowerCase()
-  return BASIC_DAMAGE_TYPES.some(basicType => basicType.toLowerCase() === lowerType)
+  if (type) {
+    const lowerType = type.toLowerCase()
+    return BASIC_DAMAGE_TYPES.some(basicType => basicType.toLowerCase() === lowerType)
+  }
+  return false
 }
 
 
@@ -520,7 +523,7 @@ export const getDefaultWeaponDamageType = (weaponData) => {
   if (weaponData && weaponData.damage) {
     weaponData.damage.forEach(damageValAndType => {
       // is this one of the types that bonus damage can normally become?
-      if (isBasicDamageType(damageValAndType.type)) {
+      if (damageValAndType.type && isBasicDamageType(damageValAndType.type)) {
         // assign it to the first one we see
         if (damageType === '') {
           damageType = damageValAndType.type
