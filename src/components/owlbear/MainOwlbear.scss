@@ -14,6 +14,7 @@ $subwindow_height: 690px;
     &.expanded {
       display: flex;
       justify-content: space-around;
+      flex-wrap: wrap;
     }
 
     .roll-history-container {
