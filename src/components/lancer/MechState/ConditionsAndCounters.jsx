@@ -178,7 +178,7 @@ const CustomCounter = ({
         <input type='number'
           min={0}
           max={99}
-          value={parseInt(counter.val)}
+          value={parseInt(counter.val) || 0}
           onChange={e =>
             updateCounter({...counter, val: parseInt(e.target.value) || 0})
           }
