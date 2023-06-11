@@ -509,12 +509,21 @@ export function getMountsFromLoadout(loadout) {
   )
 
   // IMPROVED improved_armament
-  if (loadout.improved_armament.slots.length > 0 && loadout.improved_armament.slots[0].weapon) {
+  if (loadout.improved_armament.slots && loadout.improved_armament.slots[0].weapon) {
     let improved_armament = deepCopy(loadout.improved_armament)
     improved_armament.bonus_effects.push('cb_improved_armament')
     improved_armament.source = 'improved_armament'
     improved_armament.index = 0
     mounts.push(improved_armament)
+  }
+
+  // SUPERHEAVY superheavy_mounting
+  if (loadout.superheavy_mounting && loadout.superheavy_mounting.slots && loadout.superheavy_mounting.slots[0].weapon) {
+    let superheavy_mounting = deepCopy(loadout.superheavy_mounting)
+    superheavy_mounting.bonus_effects.push('cb_superheavy_mounting')
+    superheavy_mounting.source = 'superheavy_mounting'
+    superheavy_mounting.index = 0
+    mounts.push(superheavy_mounting)
   }
 
   // give the integrated weapon a bonus_effect and source to make it clear where it came from

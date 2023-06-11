@@ -54,6 +54,9 @@ export function applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData) {
         } else if (mountSource === 'improved_armament') {
           slot = loadout.improved_armament.slots[weaponIndex]
           if (!slot) slot = loadout.improved_armament.extra[0]
+        } else if (mountSource === 'superheavy_mounting') {
+          slot = loadout.superheavy_mounting.slots[weaponIndex]
+          if (!slot) slot = loadout.superheavy_mounting.extra[0]
         } else if (mountSource === 'integratedWeapon') {
           slot = loadout.integratedWeapon.slots[weaponIndex]
           if (!slot) slot = loadout.integratedWeapon.extra[0]
@@ -82,7 +85,7 @@ export function applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData) {
           })
         });
         // - weapons - //
-        [loadout.mounts, [loadout.improved_armament], [loadout.integratedWeapon]].forEach(weaponMounts => {
+        [loadout.mounts, [loadout.improved_armament], [loadout.integratedWeapon], [loadout.superheavy_mounting]].forEach(weaponMounts => {
           weaponMounts.forEach(mount => {
             [...mount.slots, ...(mount.extra || [])].forEach(slot => {
               if (slot.weapon) {
