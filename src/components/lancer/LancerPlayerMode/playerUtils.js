@@ -41,6 +41,14 @@ export function applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData) {
         if ('destroyed' in updateValue)     system.destroyed = updateValue.destroyed
         break;
 
+      case 'systemPerRoundCount':
+        var perRoundState = newPilotData.state.per_round_uses || {}
+        if (updateValue.source) {
+          perRoundState[updateValue.source] = Math.max(updateValue.uses || 0, 0)
+        }
+        newPilotData.state.per_round_uses = perRoundState // in case it was new
+        break;
+
       case 'weaponLoaded':
       case 'weaponDestroyed':
       case 'weaponUses':

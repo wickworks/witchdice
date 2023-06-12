@@ -74,17 +74,34 @@
           padding-left: 12px;
         }
 
-         .recharge {
-           margin-left: auto;
-           padding-left: 12px;
-           display: flex;
-           align-items: center;
-           min-height: 16.5px;
+        .recharge {
+          margin-left: auto;
+          padding-left: 12px;
+          display: flex;
+          align-items: center;
+          min-height: 16.5px;
 
-           input {
-             margin: 0;
-           }
-         }
+          input { margin: 0; }
+        }
+
+        .per-round-count {
+          margin: 0 0 0 2px;
+          font-size: 15px;
+          display: flex;
+          align-items: center;
+          // margin: 0;
+
+          span {
+            padding: 0 2px;
+          }
+
+          // span.asset {
+          //   display: inline-block;
+          //   width: 8px;
+          //   height: 8px;
+          //   margin-left: 4px;
+          // }
+        }
       }
     }
 

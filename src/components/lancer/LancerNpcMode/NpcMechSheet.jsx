@@ -20,6 +20,7 @@ import {
   baselineMount,
   getSystemRecharge,
   getSystemLimited,
+  getSystemPerRoundCount,
   getSelfHeat,
   getUsesPerRound,
   hasTag,
@@ -153,6 +154,7 @@ function getNpcTraits(items) {
     const featureData = findNpcFeatureData(item.itemID)
     const recharge = getSystemRecharge(item, featureData)
     const limited = getSystemLimited(item, featureData)
+    const perRoundCount = getSystemPerRoundCount(featureData, {}, `${item.itemID}-${itemIndex}`)
 
     if (featureData.type === 'Trait') {
       featureTraits.push({
@@ -166,6 +168,7 @@ function getNpcTraits(items) {
         isTitleCase: true,
         recharge: recharge,
         limited: limited,
+        perRoundCount: perRoundCount,
       })
     }
 

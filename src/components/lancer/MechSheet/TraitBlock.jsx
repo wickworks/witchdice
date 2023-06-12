@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MechNumberBar from '../MechState/MechNumberBar.jsx'
+import PerRoundBar, { getPerRoundCountShortString } from './PerRoundBar.jsx'
 import RechargeBar, { getRechargeString, getRechargeStatusShortString } from './RechargeBar.jsx'
 import { DestroySystemButton, BroadcastSystemButton } from './DestroySystemButton.jsx'
 import ReactHtmlParser from 'react-html-parser';
@@ -42,6 +43,7 @@ const TraitBlock = ({
 	onDestroy = null,
 	setLimitedCount = null,
 	setRecharged = null,
+	setPerRoundCount = null,
 	setRollSummaryData = null,
 
 	isSubtrait = false,
@@ -62,6 +64,7 @@ const TraitBlock = ({
 		isDestroyed,
 		limited,	// {current: X, max: Y, icon: 'generic-item'}
 		recharge,	// {charged: X, rollTarget: Y} >> rollTarget of 0 is just usable/unusable
+		perRoundCount,	// {current: X, max: Y, icon: 'generic-item'}
 		isTitleCase,
 		subTraits
 	} = trait
@@ -94,7 +97,7 @@ const TraitBlock = ({
 	const boldedDescription = getSystemDescription(trait.description, trait.isDestroyed).replace('Effect:', '<strong>Effect:</strong>')
 	const boldedTrigger = getSystemTrigger(trait.trigger).replace('Trigger:', '<strong>Trigger:</strong>')
 
-	const detailString = [activation, frequency, selfHeat].filter(detail => detail).join(', ')
+	const detailString = [activation, selfHeat, frequency].filter(detail => detail).join(', ')
 
 	const titleClass = isTitleCase ? 'title-case' : ''
 	const collapsedClass = isCollapsed ? 'collapsed' : ''
@@ -135,6 +138,10 @@ const TraitBlock = ({
 						{recharge &&
 							<div className='recharge'>{getRechargeStatusShortString(recharge)}</div>
 						}
+
+						{perRoundCount &&
+							<div className='per-round-count'>{getPerRoundCountShortString(perRoundCount)}</div>
+						}
 					</div>
 				</button>
 
@@ -155,6 +162,10 @@ const TraitBlock = ({
 
 						{recharge && setRecharged && !isDestroyed &&
 							<RechargeBar recharge={recharge} setRecharged={setRecharged} />
+						}
+
+						{perRoundCount && setPerRoundCount && !isDestroyed &&
+							<PerRoundBar perRoundCount={perRoundCount} setPerRoundCount={setPerRoundCount} />
 						}
 
 						{statblock && !isDestroyed &&

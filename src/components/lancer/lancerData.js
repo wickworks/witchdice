@@ -428,6 +428,59 @@ export const getSystemRecharge = (system, systemData) => {
   return recharge
 }
 
+
+export const getSystemPerRoundCount = (systemData, perRoundState, source) => {
+  let perRound = null
+
+  let isReaction = false
+
+  // per-round tags
+  let usesPerRound = getUsesPerRound(systemData)
+
+  // systems
+  if (!usesPerRound && systemData.actions) {
+    systemData.actions.forEach(action => {
+      usesPerRound = usesPerRound || action.frequency
+      if (action.activation.toLowerCase() == 'reaction') isReaction = true
+    })
+  }
+
+  // talents
+  if (!usesPerRound && systemData.ranks) {
+    const rank = parseInt(source.slice(-1)) // HACK: RANK IS LAST CHAR
+    systemData.ranks.forEach((rankData,i) => {
+      if (rank > i) {
+        if (rankData.actions) {
+          rankData.actions.forEach(action => {
+            usesPerRound = usesPerRound || action.frequency
+            if (action.activation.toLowerCase() == 'reaction') isReaction = true
+          })
+        }
+      }
+    });
+  }
+
+  // frame traits
+  if (!usesPerRound && systemData.description) {
+    if (systemData.description.startsWith('1/round')) usesPerRound = '1/round'
+  }
+
+  // reactions default to being once per round
+  if (!usesPerRound && isReaction) usesPerRound = '1/round'
+
+  if (usesPerRound) {
+    const perRoundMaxValue = parseInt(usesPerRound.charAt(0))
+    const currentUses = (perRoundState && perRoundState[source]) || 0
+    perRound = {
+      current: currentUses || 0,
+      max: perRoundMaxValue,
+      source: source,
+    }
+  }
+
+  return perRound
+}
+
 export const getSelfHeat = (systemData) => {
   let selfHeat = ''
   const heatTag = findTagOnData(systemData, 'tg_heat_self')

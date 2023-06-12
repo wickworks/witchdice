@@ -11,6 +11,7 @@ const MechTraits = ({
   setLimitedCountForSystem = () => {},
   setDestroyedForSystem = () => {},
 	setRechargedForSystem = () => {},
+	setPerRoundCount = () => {},
 }) => {
 	const [defaultCollapsed, setDefaultCollapsed] = useState(true)
 
@@ -30,6 +31,7 @@ const MechTraits = ({
             onDestroy={() => setDestroyedForSystem(!trait.isDestroyed, trait.systemIndex)}
             setLimitedCount={(count) => setLimitedCountForSystem(count, trait.systemIndex)}
 						setRecharged={(charged) => setRechargedForSystem(charged, trait.systemIndex)}
+						setPerRoundCount={setPerRoundCount}
 						setRollSummaryData={setRollSummaryData}
 
 						defaultCollapsed={defaultCollapsed}

@@ -36,6 +36,7 @@ import {
   hasTag,
   getSystemLimited,
   getSystemRecharge,
+  getSystemPerRoundCount,
   getSelfHeat,
   getUsesPerRound,
 } from '../lancerData.js';
@@ -127,9 +128,9 @@ const PlayerMechSheet = ({
   }
 
   const robotLoadout = {
-    frameTraits: getFrameTraits(frameData.traits, frameData.core_system),
-    systems: getSystemTraits([...loadout.systems, ...loadout.integratedSystems], robotStats.limitedBonus),
-    pilotTraits: getPilotTraits(activePilot.talents, activePilot.core_bonuses),
+    frameTraits: getFrameTraits(frameData.traits, frameData.core_system, activePilot.state.per_round_uses),
+    systems: getSystemTraits([...loadout.systems, ...loadout.integratedSystems], robotStats.limitedBonus, activePilot.state.per_round_uses),
+    pilotTraits: getPilotTraits(activePilot.talents, activePilot.core_bonuses, activePilot.state.per_round_uses),
 
     mounts: [...getMountsFromLoadout(loadout), deepCopy(baselineMount)],
     invades: getInvadeAndTechAttacks(loadout, activePilot.talents, frameData.core_system),
@@ -188,7 +189,7 @@ const PlayerMechSheet = ({
 
 
 // Harvest the many frame traits and actions available in core systems
-function getFrameTraits(traitList, coreSystem) {
+function getFrameTraits(traitList, coreSystem, perRoundState) {
   let frameTraits = []
 
   // -- ACTIVE CORE SYSTEM --
@@ -253,6 +254,7 @@ function getFrameTraits(traitList, coreSystem) {
       name: trait.name.toLowerCase(),
       isTitleCase: true,
       description: trait.description,
+      perRoundCount: getSystemPerRoundCount(trait, perRoundState, trait.name.toLowerCase().replace(' ','-'))
     }
     if (trait.actions) {
       traitTrait.subTraits = []
@@ -280,7 +282,7 @@ function getFrameTraits(traitList, coreSystem) {
 
 
 // Harvest the actions and whatnot from a mech's loadout
-function getSystemTraits(systems, limitedBonus) {
+function getSystemTraits(systems, limitedBonus, perRoundState) {
   let systemTraits = []
 
   // PASSIVES and TECH first
@@ -289,8 +291,9 @@ function getSystemTraits(systems, limitedBonus) {
     const grantsTechAttacks = isSystemTechAttack(systemData)
     const grantsInvades = isSystemTechAttack(systemData, true)
     const selfHeat = getSelfHeat(systemData)
-    let recharge = getSystemRecharge(system, systemData)
-    let limited = getSystemLimited(system, systemData, limitedBonus)
+    const recharge = getSystemRecharge(system, systemData)
+    const limited = getSystemLimited(system, systemData, limitedBonus)
+    const perRoundCount = getSystemPerRoundCount(systemData, perRoundState, `${system.id}-${systemIndex}`)
 
     let systemTrait = {
       systemIndex: systemIndex,
@@ -302,6 +305,7 @@ function getSystemTraits(systems, limitedBonus) {
       isDestroyed: system.destroyed,
       recharge: recharge,
       limited: limited,
+      perRoundCount: perRoundCount,
       isTitleCase: true,
     }
     let systemSubTraits = []
@@ -407,12 +411,13 @@ function addDeployableTraits(deployables, addToTraits, limited = null, systemInd
 
 
 // Harvest the traits for each pilot talent
-function getPilotTraits(pilotTalents, pilotCoreBonuses) {
+function getPilotTraits(pilotTalents, pilotCoreBonuses, perRoundState) {
   let pilotTraits = []
 
   // TALENTS
   pilotTalents.forEach(pilotTalent => {
     const talentData = findTalentData(pilotTalent.id)
+    const perRoundCount = getSystemPerRoundCount(talentData, perRoundState, `${pilotTalent.id}-${pilotTalent.rank}`) // HACK: RANK IS LAST CHAR
     let overallActivation = '';
 
     let talentRankTraits = [];
@@ -452,16 +457,19 @@ function getPilotTraits(pilotTalents, pilotCoreBonuses) {
       subTraits: talentRankTraits,
       isTitleCase: true,
       activation: overallActivation,
+      perRoundCount: perRoundCount,
     })
   })
 
   // CORE BONUSES
   pilotCoreBonuses.forEach(coreBonus => {
     const coreBonusData = findCoreBonusData(coreBonus)
+    const perRoundCount = getSystemPerRoundCount(coreBonusData, perRoundState, coreBonus)
 
     const coreBonusTrait = {
       name: coreBonusData.name.toLowerCase(),
       description: coreBonusData.effect,
+      perRoundCount: perRoundCount,
       isTitleCase: true,
     }
 

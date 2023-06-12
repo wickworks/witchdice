@@ -98,9 +98,14 @@ const MechSheet = ({
     })
   }
   const setRechargedForSystem = (charged, systemIndex) => {
-    console.log('setting recharge for system ', systemIndex);
     updateMechState({
       systemCharged: {index: systemIndex, charged: charged}
+    })
+  }
+
+  const setPerRoundCount = (source, uses) => {
+    updateMechState({
+      systemPerRoundCount: {source: source, uses: uses}
     })
   }
 
@@ -119,7 +124,6 @@ const MechSheet = ({
   const bonusDamageSources = getAvailableBonusDamageSources(accuracyAndDamageSourceInputs, activeMount, activeWeapon, activeInvadeData);
 
   // console.log('activeWeapon',activeWeapon);
-
 
   let totalAttackBonus = robotStats.attackBonus
 
@@ -183,6 +187,7 @@ const MechSheet = ({
             sectionTitle='Pilot Traits'
             frameTraits={robotLoadout.pilotTraits}
             setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
+            setPerRoundCount={setPerRoundCount}
           />
         }
 
@@ -194,6 +199,7 @@ const MechSheet = ({
             setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
             setLimitedCountForSystem={setLimitedCountForSystem}
             setRechargedForSystem={setRechargedForSystem}
+            setPerRoundCount={setPerRoundCount}
           />
         }
 
@@ -205,6 +211,7 @@ const MechSheet = ({
             setLimitedCountForSystem={setLimitedCountForSystem}
             setDestroyedForSystem={setDestroyedForSystem}
             setRechargedForSystem={setRechargedForSystem}
+            setPerRoundCount={setPerRoundCount}
           />
         }
 

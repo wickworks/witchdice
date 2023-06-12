@@ -1,0 +1,15 @@
+@import '../../../fonts';
+
+.PerRoundBar {
+  @include text_monospace;
+  display: flex;
+  align-items: center;
+  padding: 2px 12px;
+  background-color: $parchment;
+
+  input {
+    width: 24px;
+    height: 24px;
+    margin: 4px 12px 4px 0;
+  }
+}
