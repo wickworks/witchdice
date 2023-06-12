@@ -361,6 +361,7 @@ const LancerPlayerMode = ({
               activePilot={activePilot}
               setTriggerRerender={setTriggerRerender}
               triggerRerender={triggerRerender}
+              setRollSummaryData={setRollSummaryData}
             />
           </>
         }

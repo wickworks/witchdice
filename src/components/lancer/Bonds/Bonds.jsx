@@ -10,6 +10,7 @@ const Bonds = ({
   activePilot,
   triggerRerender,
   setTriggerRerender,
+  setRollSummaryData,
 }) => {
   const [isChoosingNewBond, setIsChoosingNewBond] = useState(!activePilot.bondId)
 
@@ -32,6 +33,7 @@ const Bonds = ({
             setIsChoosingNewBond={setIsChoosingNewBond}
             triggerRerender={triggerRerender}
             setTriggerRerender={setTriggerRerender}
+            setRollSummaryData={setRollSummaryData}
           />
         }
       </div>

@@ -40,6 +40,7 @@ const Bonds = ({
   setIsChoosingNewBond,
   triggerRerender,
   setTriggerRerender,
+  setRollSummaryData,
 }) => {
   // maintain an extra copy of the burdens in order to maintain ordering - minor - minor - major
   const [localBurdens, setLocalBurdens] = useState(initializeLocalBurdens(activePilot))
@@ -167,6 +168,7 @@ const Bonds = ({
             bondData={bondData}
             pilotBondPowers={activePilot.bondPowers || []}
             setPilotBondPowers={bondPowers => updateBondState({ bondPowers: bondPowers}) }
+            setRollSummaryData={setRollSummaryData}
           />
         </div>
       </div>

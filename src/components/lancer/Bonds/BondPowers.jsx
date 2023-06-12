@@ -46,6 +46,7 @@ const BondPowers = ({
   bondData,
   pilotBondPowers,
   setPilotBondPowers,
+  setRollSummaryData,
 }) => {
   const [isAddingPower, setIsAddingPower] = useState(pilotBondPowers.length === 0)
 
@@ -105,6 +106,7 @@ const BondPowers = ({
             key={`${trait.name}-${index}`}
             trait={trait}
             defaultCollapsed={false}
+            setRollSummaryData={setRollSummaryData}
             onDestroy={() => removePower(index)}
           />
         )}
