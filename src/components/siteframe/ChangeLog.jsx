@@ -14,18 +14,13 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.1.9-12 — May 2023</div>
+          <div className='version-label'>v1.1.13— June 2023</div>
           <ul>
-            <li>Show roll history at bottom of owlbear lancer mode.</li>
-            <li>Fix the squad panel crashing when switching modes.</li>
-            <li>Use the updated @massif/lancer-data repo.</li>
-            <li>Refactored clocks to keep them synced better.</li>
-            <li>Fix Aceso Stabilizer (+ other systems) missing limited tag.</li>
-            <li>Fix crash on attacks with invalid range types.</li>
-            <li>Fix layout bug in expanded lancer mode for OBR ext.</li>
+            <li>Show Dustgrave Superheavy Mount CB</li>
+            <li>Add x/round tracking checkboxes and corresponding reset button.</li>
           </ul>
 
-          <div className='version-label'>v1.1.0-8 — May 2023</div>
+          <div className='version-label'>v1.1.0-12 — May 2023</div>
           <ul>
             <li>Support for Owlbear Rodeo extension.</li>
             <li>Collapsible pilot card for Lancer sheet.</li>
@@ -33,6 +28,13 @@ const ChangeLog = () => {
             <li>Changing player name updates name you roll as.</li>
             <li>Fixed the extension's roll history breaking when already in a room.</li>
             <li>Fail gracefully when localstorage is not enabled.</li>
+            <li>Show roll history at bottom of owlbear lancer mode.</li>
+            <li>Fix the squad panel crashing when switching modes.</li>
+            <li>Use the updated @massif/lancer-data repo.</li>
+            <li>Refactored clocks to keep them synced better.</li>
+            <li>Fix Aceso Stabilizer (+ other systems) missing limited tag.</li>
+            <li>Fix crash on attacks with invalid range types.</li>
+            <li>Fix layout bug in expanded lancer mode for OBR ext.</li>
           </ul>
 
           <div className='version-label'>v1.0.1-3 — Feb, Mar, Apr 2023</div>
