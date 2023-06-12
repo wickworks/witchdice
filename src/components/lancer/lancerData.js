@@ -431,7 +431,6 @@ export const getSystemRecharge = (system, systemData) => {
 
 export const getSystemPerRoundCount = (systemData, perRoundState, source) => {
   let perRound = null
-
   let isReaction = false
 
   // per-round tags
@@ -441,7 +440,7 @@ export const getSystemPerRoundCount = (systemData, perRoundState, source) => {
   if (!usesPerRound && systemData.actions) {
     systemData.actions.forEach(action => {
       usesPerRound = usesPerRound || action.frequency
-      if (action.activation.toLowerCase() == 'reaction') isReaction = true
+      if (action.activation === 'Reaction') isReaction = true
     })
   }
 
@@ -453,7 +452,7 @@ export const getSystemPerRoundCount = (systemData, perRoundState, source) => {
         if (rankData.actions) {
           rankData.actions.forEach(action => {
             usesPerRound = usesPerRound || action.frequency
-            if (action.activation.toLowerCase() == 'reaction') isReaction = true
+            if (action.activation === 'Reaction') isReaction = true
           })
         }
       }
@@ -463,6 +462,12 @@ export const getSystemPerRoundCount = (systemData, perRoundState, source) => {
   // frame traits
   if (!usesPerRound && systemData.description) {
     if (systemData.description.startsWith('1/round')) usesPerRound = '1/round'
+  }
+
+  // npc items
+  if (!usesPerRound && systemData.type) {
+    const isRecharge = systemData.tags && systemData.tags.find(tag => tag.id === 'tg_recharge')
+    if (systemData.type === 'Reaction' && !isRecharge) isReaction = true
   }
 
   // reactions default to being once per round

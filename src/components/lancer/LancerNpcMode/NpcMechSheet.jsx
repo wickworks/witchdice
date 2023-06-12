@@ -107,8 +107,8 @@ const NpcMechSheet = ({
   }
 
   const robotLoadout = {
-    frameTraits: getNpcTraits(activeNpc.items),
-    systems: getSystemTraits(activeNpc.items),
+    frameTraits: getNpcTraits(activeNpc.items, activeNpc.per_round_uses),
+    systems: getSystemTraits(activeNpc.items, activeNpc.per_round_uses),
     pilotTraits: [],
     mounts: [...getNpcWeaponAttacks(activeNpc.items), baselineMount],
     invades: getNpcTechAttacks(activeNpc.items),
@@ -147,14 +147,14 @@ const NpcMechSheet = ({
 }
 
 
-function getNpcTraits(items) {
+function getNpcTraits(items, perRoundState) {
   let featureTraits = []
 
   items.forEach((item, itemIndex) => {
     const featureData = findNpcFeatureData(item.itemID)
     const recharge = getSystemRecharge(item, featureData)
     const limited = getSystemLimited(item, featureData)
-    const perRoundCount = getSystemPerRoundCount(featureData, {}, `${item.itemID}-${itemIndex}`)
+    const perRoundCount = getSystemPerRoundCount(featureData, perRoundState, `${item.itemID}-${itemIndex}`)
 
     if (featureData.type === 'Trait') {
       featureTraits.push({
@@ -177,13 +177,14 @@ function getNpcTraits(items) {
   return featureTraits
 }
 
-function getSystemTraits(items) {
+function getSystemTraits(items, perRoundState) {
   let featureTraits = []
 
   items.forEach((item, itemIndex) => {
     const featureData = findNpcFeatureData(item.itemID)
     const recharge = getSystemRecharge(item, featureData)
     const limited = getSystemLimited(item, featureData)
+    const perRoundCount = getSystemPerRoundCount(featureData, perRoundState, `${item.itemID}-${itemIndex}`)
     const selfHeat = getSelfHeat(featureData)
 
     if (featureData.type === 'Tech' && !isNpcFeatureTechAttack(featureData)) {
@@ -201,6 +202,7 @@ function getSystemTraits(items) {
         isTitleCase: true,
         recharge: recharge,
         limited: limited,
+        perRoundCount: perRoundCount,
       })
 
     } else if (['System', 'Reaction'].includes(featureData.type)) {
@@ -218,6 +220,7 @@ function getSystemTraits(items) {
         isTitleCase: true,
         recharge: recharge,
         limited: limited,
+        perRoundCount: perRoundCount,
       })
     }
   })

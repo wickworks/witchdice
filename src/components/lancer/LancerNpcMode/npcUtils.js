@@ -139,6 +139,15 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
       case 'systemDestroyed':
         newNpc.items[mechUpdate[statKey].index].destroyed = mechUpdate[statKey].destroyed
         break;
+
+      case 'systemPerRoundCount':
+        var perRoundState = newNpc.per_round_uses || {}
+        if (mechUpdate[statKey].source) {
+          perRoundState[mechUpdate[statKey].source] = Math.max(mechUpdate[statKey].uses || 0, 0)
+        }
+        newNpc.per_round_uses = perRoundState // in case it was new
+        break;
+
       case 'weaponUses':
       case 'weaponLoaded':
       case 'weaponCharged':
