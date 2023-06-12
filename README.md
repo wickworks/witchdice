@@ -18,6 +18,8 @@ http://localhost:4000
 
 # prep for deploy
 update ChangeLog.jsx and version.js and owlbear_ext/manifest.js
+make a version commit
+move deployed branch up to main
 npm run build
 
 # preview the deploy
@@ -25,9 +27,6 @@ firebase hosting:channel:deploy eye-of-newt
 
 # actually deploy
 firebase deploy
-make a version commit
-move deployed branch up to main
-
 
 ### NEW ENVIRONMENT ###
 - running on node v16.13.2
