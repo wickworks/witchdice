@@ -97,7 +97,8 @@ const TraitBlock = ({
 	const boldedDescription = getSystemDescription(trait.description, trait.isDestroyed).replace('Effect:', '<strong>Effect:</strong>')
 	const boldedTrigger = getSystemTrigger(trait.trigger).replace('Trigger:', '<strong>Trigger:</strong>')
 
-	const detailString = [activation, selfHeat, frequency].filter(detail => detail).join(', ')
+	const perRoundFreq = frequency || (perRoundCount && `${perRoundCount.max}/round`)
+	const detailString = [activation, selfHeat, perRoundFreq].filter(detail => detail).join(', ')
 
 	const titleClass = isTitleCase ? 'title-case' : ''
 	const collapsedClass = isCollapsed ? 'collapsed' : ''

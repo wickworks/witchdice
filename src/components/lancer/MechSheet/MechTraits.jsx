@@ -8,20 +8,31 @@ const MechTraits = ({
 	frameTraits,
   sectionTitle,
 	setRollSummaryData,
+	showResetPerRoundCounts = false,
   setLimitedCountForSystem = () => {},
   setDestroyedForSystem = () => {},
 	setRechargedForSystem = () => {},
 	setPerRoundCount = () => {},
+	resetPerRoundCounts = () => {},
 }) => {
 	const [defaultCollapsed, setDefaultCollapsed] = useState(true)
 
   return (
 		<div className='MechTraits'>
-			{ sectionTitle &&
-				<button className="label" onClick={() => setDefaultCollapsed(!defaultCollapsed)}>
-					{sectionTitle}
-				</button>
-			}
+			<div className='title-container'>
+				{ sectionTitle &&
+					<button className="label" onClick={() => setDefaultCollapsed(!defaultCollapsed)}>
+						{sectionTitle}
+					</button>
+				}
+
+				{ showResetPerRoundCounts &&
+					<button className="reset-per-round-counts" onClick={resetPerRoundCounts}>
+						<div className='hover-explain'>Reset x/round abilities</div>
+						<div className='reset-icon'>⚉↺</div>
+					</button>
+				}
+			</div>
 
     	<div className='traits-container'>
 				{ frameTraits.map((trait, index) =>

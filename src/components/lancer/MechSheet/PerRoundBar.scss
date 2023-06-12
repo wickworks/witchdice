@@ -1,11 +1,17 @@
 @import '../../../fonts';
 
-.PerRoundBar {
+label.PerRoundBar {
   @include text_monospace;
   display: flex;
   align-items: center;
   padding: 2px 12px;
   background-color: $parchment;
+
+  cursor: pointer;
+
+  &:hover {
+    background-color: $parchment_dark;
+  }
 
   input {
     width: 24px;

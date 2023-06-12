@@ -109,6 +109,8 @@ const MechSheet = ({
     })
   }
 
+  const resetPerRoundCounts = () => updateMechState({resetPerRoundCounts: true})
+
   // =============== GET THE DATA FOR THE SHEET ==================
   const activeMount = robotLoadout.mounts[activeMountIndex];
   const activeMountWeapons = getWeaponsOnMount(activeMount);
@@ -136,7 +138,6 @@ const MechSheet = ({
 
   // I try not to discriminate, but in some cases it's convenient to.
   const looksLikeAnNPC = robotState.coreEnergy < 0
-
 
   return (
     <div className="MechSheet">
@@ -188,6 +189,8 @@ const MechSheet = ({
             frameTraits={robotLoadout.pilotTraits}
             setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
             setPerRoundCount={setPerRoundCount}
+            showResetPerRoundCounts={true}
+            resetPerRoundCounts={resetPerRoundCounts}
           />
         }
 
@@ -200,6 +203,8 @@ const MechSheet = ({
             setLimitedCountForSystem={setLimitedCountForSystem}
             setRechargedForSystem={setRechargedForSystem}
             setPerRoundCount={setPerRoundCount}
+            showResetPerRoundCounts={robotLoadout.pilotTraits.length === 0}
+            resetPerRoundCounts={resetPerRoundCounts}
           />
         }
 

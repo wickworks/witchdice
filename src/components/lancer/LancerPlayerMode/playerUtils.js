@@ -48,6 +48,9 @@ export function applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData) {
         }
         newPilotData.state.per_round_uses = perRoundState // in case it was new
         break;
+      case 'resetPerRoundCounts':
+        newPilotData.state.per_round_uses = {}
+        break;
 
       case 'weaponLoaded':
       case 'weaponDestroyed':

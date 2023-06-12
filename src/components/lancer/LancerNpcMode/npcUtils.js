@@ -147,6 +147,9 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
         }
         newNpc.per_round_uses = perRoundState // in case it was new
         break;
+      case 'resetPerRoundCounts':
+        newNpc.per_round_uses = {}
+        break;
 
       case 'weaponUses':
       case 'weaponLoaded':

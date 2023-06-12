@@ -21,7 +21,7 @@ const PerRoundBar = ({
 	setPerRoundCount,
 }) => {
   return (
-    <div className='PerRoundBar'>
+    <label className='PerRoundBar'>
 			{ [...Array(perRoundCount.max || 0)].map((undef, i) =>
 	      <input type='checkbox'
 	        checked={dotIsFilled(perRoundCount, i)}
@@ -33,7 +33,7 @@ const PerRoundBar = ({
 	      />
 			)}
 			<div className='uses-label'>/ Round</div>
-    </div>
+    </label>
   )
 }
 

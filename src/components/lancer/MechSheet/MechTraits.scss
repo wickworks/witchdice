@@ -3,17 +3,53 @@
 .MechTraits, .MechCoreSystem, .MechSystemActions {
   margin-top: 0;
 
-  button.label {
-    @include text_monospace;
-    font-size: 20px;
-    color: $grey_mid;
-    margin: 8px 0;
-    padding: 2px 4px;
-    border-radius: 4px;
+  .title-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 
-    &:hover {
-      background-color: $parchment_dark;
-      color: $soft_black;
+    button.label {
+      @include text_monospace;
+      font-size: 20px;
+      color: $grey_mid;
+      margin: 8px 0;
+      padding: 2px 4px;
+      border-radius: 2px;
+
+      &:hover {
+        background-color: $parchment_dark;
+        color: $soft_black;
+      }
+    }
+
+    button.reset-per-round-counts {
+      @include text_monospace;
+      color: $grey_mid;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: fit-content;
+      padding: 0 8px;
+      border-radius: 2px;
+
+      .reset-icon {
+        font-size: 20px;
+        margin-bottom: 2px;
+      }
+
+      .hover-explain {
+        max-width: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        transition: max-width .2s;
+      }
+
+      &:hover {
+        background-color: $parchment_dark;
+        color: $soft_black;
+
+        .hover-explain { max-width: 300px; }
+      }
     }
   }
 
