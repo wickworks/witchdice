@@ -25,9 +25,8 @@ const Header = ({
         <div className='lancer banner-container-container'>
           <a
             className='banner-container'
-            href='https://massif.netlify.app/lancer'
+            href='https://massifpress.com/lancer'
             target="_blank"
-            rel="noopener noreferrer"
           >
             <div className='asset lancer_banner' role="img" alt="Lancer banner" />
           </a>
