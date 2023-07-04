@@ -439,7 +439,7 @@ export const getSystemPerRoundCount = (systemData, perRoundState, source) => {
   // systems
   if (!usesPerRound && systemData.actions) {
     systemData.actions.forEach(action => {
-      usesPerRound = usesPerRound || action.frequency
+      if (parseInt(action.frequency) > 0) usesPerRound = action.frequency
       if (action.activation === 'Reaction') isReaction = true
     })
   }
@@ -451,7 +451,7 @@ export const getSystemPerRoundCount = (systemData, perRoundState, source) => {
       if (rank > i) {
         if (rankData.actions) {
           rankData.actions.forEach(action => {
-            usesPerRound = usesPerRound || action.frequency
+            if (parseInt(action.frequency) > 0) usesPerRound = action.frequency
             if (action.activation === 'Reaction') isReaction = true
           })
         }
