@@ -451,17 +451,25 @@ export const getSystemPerRoundCount = (systemData, perRoundState, source) => {
       if (rank > i) {
         if (rankData.actions) {
           rankData.actions.forEach(action => {
+
             if (parseInt(action.frequency) > 0) usesPerRound = action.frequency
             if (action.activation === 'Reaction') isReaction = true
           })
         }
+        // TODO: figure out how to give each range of duelist its own per-round counter
+        // if (!usesPerRound && rankData.description.toLowerCase().includes('1/round')) usesPerRound = '1/round'
       }
     });
   }
 
   // frame traits
   if (!usesPerRound && systemData.description) {
-    if (systemData.description.startsWith('1/round')) usesPerRound = '1/round'
+    if (systemData.description.toLowerCase().includes('1/round')) usesPerRound = '1/round'
+  }
+
+  // core bonuses
+  if (!usesPerRound && systemData.effect) {
+    if (systemData.effect.toLowerCase().includes('1/round')) usesPerRound = '1/round'
   }
 
   // npc items
