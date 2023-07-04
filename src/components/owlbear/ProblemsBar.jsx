@@ -19,8 +19,6 @@ const ProblemsBar = ({
 
   const [tempRoomName, setTempRoomName] = useState(partyRoom || generateOwlbearRoomName());
 
-  console.log('requestUserRefresh',requestUserRefresh);
-
   return (
     <div className='ProblemsBar'>
       { !obrReady ?

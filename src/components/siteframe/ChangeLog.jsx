@@ -14,7 +14,7 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.1.14— July 2023</div>
+          <div className='version-label'>v1.1.14-15— July 2023</div>
           <ul>
             <li>Can leave joined rooms (it refreshes the page)</li>
             <li>OBR extension can input what room they would like to join.</li>
