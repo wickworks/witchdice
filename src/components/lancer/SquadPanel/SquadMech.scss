@@ -176,6 +176,7 @@ $pip_size: 13px; //structure/stress
 				font-size: 16px;
 				color: $pink;
 				background-color: $rust_dark;
+				position: relative;
 
 				button.remove-mech {
 					width: 16px;
@@ -186,6 +187,14 @@ $pip_size: 13px; //structure/stress
 
 					opacity: .7;
 					&:hover { opacity: 1.0; }
+
+					@include constricted {
+						position: absolute;
+						top: -22px;
+						width: 18px;
+						height: 18px;
+						z-index: 2;
+					}
 				}
 			}
 		}
