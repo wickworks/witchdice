@@ -76,6 +76,13 @@ const RoomConnect = ({
               currentPage={currentPage}
             />
           </div>
+
+          <a
+            className='party-connect'
+            href={`/${currentPage}`}
+          >
+            Leave Room
+          </a>
         </>
       }
     </div>

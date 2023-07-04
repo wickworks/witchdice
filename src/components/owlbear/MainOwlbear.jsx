@@ -4,6 +4,7 @@ import DiceBag from '../shared/DiceBag/DiceBag.jsx';
 import RollHistory from '../shared/RollHistory/RollHistory.jsx';
 import PageModeSwitcher from './PageModeSwitcher.jsx';
 import OwlbearSettings from './OwlbearSettings.jsx';
+import ProblemsBar from './ProblemsBar.jsx';
 import SquadClockPanel from '../shared/SquadClockPanel/SquadClockPanel.jsx';
 import DiscordBotNotice from '../shared/bots/DiscordBotNotice.jsx';
 import TipsAndTricks from '../settings/TipsAndTricks.jsx';
@@ -16,7 +17,7 @@ import OBR from "@owlbear-rodeo/sdk";
 
 import './MainOwlbear.scss';
 
-const METADATA_OWLBEAR_ROOM_KEY = "com.witchdice.obr-extension/metadata"
+const WITCHDICE_METADATA_KEY = "com.witchdice.obr-extension/metadata"
 
 const FRAME_WIDTH = 380;
 const FRAME_WIDTH_EXPANDED = 840;
@@ -39,10 +40,6 @@ function saveSkipPages(skipPages) {
   if (!window.localStorageEnabled) return
 
   localStorage.setItem(SETTINGS_HIDDEN_PAGE_MODES, JSON.stringify(skipPages))
-}
-
-function generateOwlbearRoomName() {
-  return `owlbear-${randomWords(1)}-${randomWords({exactly: 1, maxLength: 6})}-${randomWords({exactly: 1, maxLength: 4})}`
 }
 
 // Instead of changing the URL, change the page in state here
@@ -81,6 +78,7 @@ const MainOwlbear = ({
   const [skipPages, setSkipPages] = useState([])
 
   const [obrReady, setObrReady] = useState(false)
+  const [requestUserRefresh, setRequestUserRefresh] = useState(false)
 
   const [notifyOnRoll, setNotifyOnRoll] = useState(true)
   const [actionToNotificationMap, setActionToNotificationMap] = useState({})
@@ -88,11 +86,13 @@ const MainOwlbear = ({
   // INITIALIZE
   useEffect(() => {
     setSkipPages(loadSkippedPageModes())
-    if (OBR.isAvailable && !obrReady) OBR.onReady(() => initializeObr(obrReady))
+
+    if (OBR.isAvailable && !obrReady) OBR.onReady(initializeObr)
   }, [])
 
   // DICE ROLL NOTIFICATION
   useEffect(() => {
+
     // New action coming in to roll history; let's make a notification about it. (closing the old one if it's still open)
     // console.log('latestAction', latestAction, ' obrReady ', obrReady, ' OBR.isAvailable', OBR.isAvailable);
 
@@ -107,43 +107,75 @@ const MainOwlbear = ({
 
   // INITIALIZE OWLBEAR SDK
   const initializeObr = () => {
-    console.log('Witchdice: OBR SDK ready!');
+    console.log('Witchdice sees: OBR SDK ready!');
     setObrReady(true);
 
     OBR.player.onChange((player) => {
       setPartyName(player.name)
     })
 
-    // get the player name
-    Promise.all([OBR.room.getMetadata(), OBR.player.getName()])
-      .then(values => {
-        const metadata = values[0][METADATA_OWLBEAR_ROOM_KEY]
-        const playerName = values[1]
+    OBR.player.getName().then(playerName => setPartyName(playerName))
 
+    // does this owlbear room already have an associated Witchdice room?
+    OBR.room.getMetadata().then(fullOwlbearMetadata => {
+      const metadata = fullOwlbearMetadata[WITCHDICE_METADATA_KEY]
+      console.log('Loaded Witchdice metadata for this Owlbear room :', metadata);
 
-        // is this room already connected to an owlbear room?
-        let loadedRoom = ''
-        if (metadata) {
-          loadedRoom = metadata['party_room']
-          console.log('Loaded Witchdice metadata for this Owlbear room :', metadata);
-        } else {
-          // create a new room
-          loadedRoom = generateOwlbearRoomName()
-          const initialWitchdiceMetadata = {'party_room': loadedRoom}
+      if (metadata && metadata['party_room']) {
+        const loadedRoom = metadata['party_room']
+        setPartyRoom(loadedRoom)
+        connectToRoom(loadedRoom)
+      }
+    })
 
+    // if the room in the metadata changes -- reload to pick that up and join that room instead.
+    OBR.room.onMetadataChange((fullOwlbearMetadata) => {
+      const metadata = fullOwlbearMetadata[WITCHDICE_METADATA_KEY]
+      console.log('Witchdice room metadata changed. Metadata: ', metadata);
+
+      if (metadata) {
+        const loadedRoom = metadata['party_room']
+
+        // somebody joined a room
+        if (!!loadedRoom) {
+          setPartyRoom(loadedRoom)
+          connectToRoom(loadedRoom)
+        } else { // somebody left a room
+          setRequestUserRefresh(true)
+        }
+      }
+    })
+  }
+
+  const createAndJoinRoom = (roomName) => {
+    // Joining the room happens through the normal metadata change detection
+    if (obrReady) {
+      const metadataUpdate = {}
+      metadataUpdate[WITCHDICE_METADATA_KEY] = {'party_room': roomName}
+      OBR.room.setMetadata(metadataUpdate)
+      console.log('Initialized Witchdice metadata for this Owlbear room: ', metadataUpdate);
+    }
+  }
+
+  // CLEAR THE OBR ROOM DATA
+  const onLeaveRoom = () => {
+    console.log('Leaving witchdice room: ', partyRoom);
+    if (obrReady) {
+      if (window.confirm(
+        `This will leave the Witchdice room for everyone in this Owlbear room. All connected players will have to manually refresh after you pick a new Witchdice room. Continue?`
+      )) {
+        OBR.room.getMetadata().then(fullOwlbearMetadata => {
+          const metadata = fullOwlbearMetadata[WITCHDICE_METADATA_KEY]
+
+          // preserve any other metadata we've saved (none atm) but clear out the room
           const metadataUpdate = {}
-          metadataUpdate[METADATA_OWLBEAR_ROOM_KEY] = initialWitchdiceMetadata
+          metadataUpdate[WITCHDICE_METADATA_KEY] = {...metadata, 'party_room': ''}
           OBR.room.setMetadata(metadataUpdate)
 
-          console.log('Initialized Witchdice metadata for this Owlbear room: ', initialWitchdiceMetadata);
-        }
-
-        // update state
-        // console.log('Owlbear room data | player: ', playerName, ' room: ', loadedRoom);
-        setPartyName(playerName);
-        setPartyRoom(loadedRoom);
-        connectToRoom(loadedRoom)
-      })
+          // the refresh request will come through the normal metadata change mechanism
+        })
+      }
+    }
   }
 
   // CHANGE PAGE MODE
@@ -202,6 +234,15 @@ const MainOwlbear = ({
         obrReady={obrReady}
       />
 
+      { (!obrReady || requestUserRefresh || !partyRoom) &&
+        <ProblemsBar
+          obrReady={obrReady}
+          partyRoom={partyRoom}
+          onJoinRoom={createAndJoinRoom}
+          requestUserRefresh={requestUserRefresh}
+        />
+      }
+
       <div className={`page-mode-content ${isExpanded ? 'expanded' : ''}`}>
 
         { (pageMode === 'dice' || forceShowDicebag) ?
@@ -243,6 +284,7 @@ const MainOwlbear = ({
               skipPages={skipPages}
               toggleSkipPage={toggleSkipPage}
               partyRoom={partyRoom}
+              onLeaveRoom={onLeaveRoom}
             />
             <TipsAndTricks abbreviated={true} />
             <DiscordBotNotice partyRoom={partyRoom} abbreviated={true} />

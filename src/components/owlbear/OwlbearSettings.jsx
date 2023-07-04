@@ -12,6 +12,7 @@ const OwlbearSettings = ({
   skipPages,
   toggleSkipPage,
   partyRoom,
+  onLeaveRoom,
 }) => {
 
   const toggleablePageModes = Object.keys(allPageModes)
@@ -55,10 +56,24 @@ const OwlbearSettings = ({
         </label>
       </div>
 
-      <CopyRoomLink
-        partyRoom={partyRoom}
-        currentPage={'simple'}
-      />
+      { partyRoom ?
+        <>
+          <CopyRoomLink
+            partyRoom={partyRoom}
+            currentPage={'simple'}
+          />
+          <button className='leave-room' onClick={onLeaveRoom}>
+            Leave Room
+          </button>
+        </>
+      :
+        <p className='no-room-warning'>
+          No room detected. Please join a room, reload the page, or
+          tell olive@wick.works that something is broken!
+        </p>
+      }
+
+
 
       {window.localStorageEnabled && <DeleteLocalContentButton />}
 

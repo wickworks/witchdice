@@ -35,6 +35,6 @@ REACT_APP_COMPCON_API_KEY=xxxxx
 
 
 ### TO TEST ON OWLBEAR ###
-- bump up the version number
 - deploy to the eye-of-newt preview server
 - install that /owlbear_ext/manifest.json file on owlbear
+- may have to hard refresh to see the new version on owlbear

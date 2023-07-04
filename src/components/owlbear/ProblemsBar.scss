@@ -1,0 +1,77 @@
+@import '../../fonts';
+
+.ProblemsBar {
+  background-color: $pumpkin;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  margin: 10px 0;
+
+  .empty-room {
+    padding: 4px 6%;
+
+    .party-room-container {
+      @include text_label;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0 0;
+
+      input {
+        @include text_default;
+        text-align: center;
+        background-color: $parchment;
+        border: 1px solid $parchment_dark;
+        border-radius: 4px;
+        padding: 4px 4px;
+        margin-left: 20px;
+        box-sizing: border-box;
+        width: 100%;
+      }
+
+      .generate-new-room {
+        right: 12px;
+        top: 12px;
+        background: none;
+        border: none;
+        font-size: 20px;
+        color: $soft_black;
+        transition: color .075s ease-out;
+        cursor: pointer;
+
+        &:hover { color: $grey_dark; }
+      }
+    }
+
+    // either a disabled span or a clickable Link
+    .party-connect {
+      @include text_connect_button;
+      font-size: 18px;
+      text-decoration: none;
+      text-align: center;
+      width: fit-content;
+      display: block;
+      margin: 10px auto;
+      padding: 5px 50px;
+      border: none;
+      border-radius: 8px;
+      background-color: $rust;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $rust_light;
+        color: white;
+      }
+      &.disabled {
+        cursor: auto;
+        background-color: $parchment_dark;
+        color: $grey_mid;
+      }
+    }
+
+    p { color: $rust_dark; }
+  }
+}

@@ -3,20 +3,13 @@
 .RoomConnect {
   @include shadow;
   @include parchment_background;
+  @include nouveau_border('nouveau_room_disconnected.svg');
   padding: 16px 22px 18px;
   margin-top: 22px;
   box-sizing: border-box;
   width: 100%;
   z-index: 2; // in front of XCard
 
-  &.disconnected {
-    @include nouveau_border('nouveau_room_disconnected.svg');
-  }
-  &.connected {
-    @include nouveau_border('nouveau_room_connected.svg');
-    padding-top: 20px;
-    padding-bottom: 30px;
-  }
 
   .party-room-container, .party-name-container, .x-card-container {
     @include text_label;
@@ -47,6 +40,8 @@
     }
 
     &.connected {
+      padding-top: 6px;
+
       .TextInput input {
         @include text_label;
       }
