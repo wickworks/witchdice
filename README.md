@@ -32,3 +32,9 @@ firebase deploy
 - running on node v16.13.2
 - create a .env file in the root directory:
 REACT_APP_COMPCON_API_KEY=xxxxx
+
+
+### TO TEST ON OWLBEAR ###
+- bump up the version number
+- deploy to the eye-of-newt preview server
+- install that /owlbear_ext/manifest.json file on owlbear
