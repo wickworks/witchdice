@@ -14,6 +14,16 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.1.14— July 2023</div>
+          <ul>
+            <li>Can leave joined rooms (it refreshes the page)</li>
+            <li>OBR extension can input what room they would like to join.</li>
+            <li>Fix missing remove-pilot buttons in the mobile squad layout.</li>
+            <li>Fix lancer banner link.</li>
+            <li>Dropped "less math, more stories" from preview. Always kinda bugged me.</li>
+            <li>Cast slightly wider net in looking for 1/round abilities.</li>
+          </ul>
+
           <div className='version-label'>v1.1.13— June 2023</div>
           <ul>
             <li>Show Dustgrave Superheavy Mount CB</li>
