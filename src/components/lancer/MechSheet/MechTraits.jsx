@@ -28,7 +28,7 @@ const MechTraits = ({
 
 				{ showResetPerRoundCounts &&
 					<button className="reset-per-round-counts" onClick={resetPerRoundCounts}>
-						<div className='hover-explain'>Reset x/round abilities</div>
+						<div className='hover-explain'>Reset uses</div>
 						<div className='reset-icon'>⚉↺</div>
 					</button>
 				}
