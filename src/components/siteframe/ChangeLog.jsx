@@ -14,17 +14,20 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.1.14-15— July 2023</div>
+          <div className='version-label'>v1.1.14-16 — July 2023</div>
           <ul>
             <li>Can leave joined rooms (it refreshes the page)</li>
             <li>OBR extension can input what room they would like to join.</li>
             <li>Fix missing remove-pilot buttons in the mobile squad layout.</li>
             <li>Fix lancer banner link.</li>
-            <li>Dropped "less math, more stories" from preview. Always kinda bugged me.</li>
+            <li>Dropped "less math, more stories" from preview. Always bugged me.</li>
             <li>Cast slightly wider net in looking for 1/round abilities.</li>
+            <li>Added preliminary integration with Marked! on OBR.</li>
+            <li>Fix clocks not finishing.</li>
+            <li>Added hidden text to roll history for copy+paste.</li>
           </ul>
 
-          <div className='version-label'>v1.1.13— June 2023</div>
+          <div className='version-label'>v1.1.13 — June 2023</div>
           <ul>
             <li>Show Dustgrave Superheavy Mount CB</li>
             <li>Add x/round tracking checkboxes and corresponding reset button.</li>
