@@ -4,6 +4,7 @@ import DiceBag from '../shared/DiceBag/DiceBag.jsx';
 import RollHistory from '../shared/RollHistory/RollHistory.jsx';
 import PageModeSwitcher from './PageModeSwitcher.jsx';
 import OwlbearSettings from './OwlbearSettings.jsx';
+import MarkedIntegration from './MarkedIntegration.jsx';
 import ProblemsBar from './ProblemsBar.jsx';
 import SquadClockPanel from '../shared/SquadClockPanel/SquadClockPanel.jsx';
 import DiscordBotNotice from '../shared/bots/DiscordBotNotice.jsx';
@@ -11,6 +12,7 @@ import TipsAndTricks from '../settings/TipsAndTricks.jsx';
 import Footer from '../siteframe/Footer.jsx';
 import MainLancer from '../lancer/MainLancer.jsx';
 import { randomWords } from '../../random_words.js';
+import { MARKED_METADATA_KEY } from './marked_integration_utils.js';
 import { latestActionToNotification } from './OwlbearNotifications.js';
 
 import OBR from "@owlbear-rodeo/sdk";
@@ -83,6 +85,8 @@ const MainOwlbear = ({
   const [notifyOnRoll, setNotifyOnRoll] = useState(true)
   const [actionToNotificationMap, setActionToNotificationMap] = useState({})
 
+  const [markedMetadata, setMarkedMetadata] = useState(null)
+
   // INITIALIZE
   useEffect(() => {
     setSkipPages(loadSkippedPageModes())
@@ -118,20 +122,24 @@ const MainOwlbear = ({
 
     // does this owlbear room already have an associated Witchdice room?
     OBR.room.getMetadata().then(fullOwlbearMetadata => {
+      // console.log('Full owlbear metadata: ', fullOwlbearMetadata);
+
       const metadata = fullOwlbearMetadata[WITCHDICE_METADATA_KEY]
       console.log('Loaded Witchdice metadata for this Owlbear room :', metadata);
-
       if (metadata && metadata['party_room']) {
         const loadedRoom = metadata['party_room']
         setPartyRoom(loadedRoom)
         connectToRoom(loadedRoom)
       }
+
+      // obtain the marked metadata, if it's available
+      if (fullOwlbearMetadata[WITCHDICE_METADATA_KEY]) setMarkedMetadata(fullOwlbearMetadata[MARKED_METADATA_KEY])
     })
 
     // if the room in the metadata changes -- reload to pick that up and join that room instead.
     OBR.room.onMetadataChange((fullOwlbearMetadata) => {
       const metadata = fullOwlbearMetadata[WITCHDICE_METADATA_KEY]
-      console.log('Witchdice room metadata changed. Metadata: ', metadata);
+      // console.log('Witchdice room metadata changed. Metadata: ', metadata);
 
       if (metadata) {
         const loadedRoom = metadata['party_room']
@@ -144,6 +152,9 @@ const MainOwlbear = ({
           setRequestUserRefresh(true)
         }
       }
+
+      // change to the marked metadata; who knows, we might be interested in the fact it changed
+      if (fullOwlbearMetadata[WITCHDICE_METADATA_KEY]) setMarkedMetadata(fullOwlbearMetadata[MARKED_METADATA_KEY])
     })
   }
 
@@ -285,7 +296,11 @@ const MainOwlbear = ({
               toggleSkipPage={toggleSkipPage}
               partyRoom={partyRoom}
               onLeaveRoom={onLeaveRoom}
+
             />
+            { !skipPages.includes('lancer') &&
+              <MarkedIntegration markedMetadata={markedMetadata} />
+            }
             <TipsAndTricks abbreviated={true} />
             <DiscordBotNotice partyRoom={partyRoom} abbreviated={true} />
             <Footer />
