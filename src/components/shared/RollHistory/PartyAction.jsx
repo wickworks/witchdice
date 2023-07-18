@@ -71,6 +71,9 @@ const PartyActionDicebag = ({actionData, showName}) => {
 
   const oneLineClass = (rollData.length === 1) ? 'one-liner' : '';
 
+  // used by the dicebag in seeing if we change die types
+  let prevDieType = ''
+
   return (
     <div className='PartyAction'>
 
@@ -84,21 +87,28 @@ const PartyActionDicebag = ({actionData, showName}) => {
           { oneLineClass ?
             <div className='dicebag-single'>
               <div className={`asset ${rollData[0].dieType}`} />
+              <span className="hidden-text-for-copy-paste">{`(${rollData[0].dieType}) `}</span>
               {rollData[0].result}
             </div>
           : <>
             <div className="dicebag-rolls">
               { rollData.map((roll, i) => {
+
+                const hiddenJoinText = (actionData.conditions == 'total' || roll.dieType !== prevDieType) ? ` + ` : ', '
+                prevDieType = roll.dieType
+
                 return (
                   <PartyRollDicebag
                     dieType={roll.dieType}
                     result={roll.result}
+                    hiddenJoinText={i === 0 ? '' : hiddenJoinText}
                     key={`${updatedAt}-${i}`}
                   />
                 )
               })}
             </div>
             <div className="dicebag-sum">
+              <span className="hidden-text-for-copy-paste">Result: </span>
               {resultTotal}
             </div>
           </> }
@@ -114,13 +124,14 @@ const PartyActionDicebag = ({actionData, showName}) => {
   );
 }
 
-
-const PartyRollDicebag = ({dieType, result}) => {
+const PartyRollDicebag = ({dieType, result, hiddenJoinText}) => {
   return (
-    <div className="PartyRollDicebag">
-      <div className={`asset ${dieType}`} />
-      <div className="result">{result}</div>
-    </div>
+    <span className="PartyRollDicebag">
+      <span className="hidden-text-for-copy-paste">{hiddenJoinText}</span>
+      <span className={`asset ${dieType}`} />
+      <span className="hidden-text-for-copy-paste">{`(${dieType}) `}</span>
+      <span className="result">{result}</span>
+    </span>
   );
 }
 
