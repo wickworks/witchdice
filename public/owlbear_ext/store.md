@@ -41,6 +41,10 @@ Witchdice has a full-fledged combat character sheet for [Lancer](https://massifp
 - Broadcast the text of systems and weapons
 - See the HP, heat, and statuses of all other PCs in the squad
 
+## Clocks
+
+Create synced segment clocks (4, 6, 8, 10) that anyone in the room can edit, rename, or delete.
+
 ## Options
 
 To open the options menu, click the gear icon in the extension's toolbar.

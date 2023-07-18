@@ -60,15 +60,15 @@ const SquadClockPanel = ({
       }
 
     // FINISH
-    } else if (clockChange.finishClockId) {
-      const finishIndex = allSquadClocks.findIndex(clock => clock.id === clockChange.finishClockId)
-      // console.log('finish clock index ', finishIndex);
-      if (finishIndex >= 0) {
-        const finishedClock = newData[finishIndex]
-        finishedClock.finished = true
-        if (clockChange.isLocal) updateClockInFirebase(finishedClock)
-        newData[finishIndex] = deepCopy(finishedClock)
-      }
+    // } else if (clockChange.finishClockId) {
+    //   const finishIndex = allSquadClocks.findIndex(clock => clock.id === clockChange.finishClockId)
+    //   // console.log('finish clock index ', finishIndex);
+    //   if (finishIndex >= 0) {
+    //     const finishedClock = newData[finishIndex]
+    //     finishedClock.finished = true
+    //     if (clockChange.isLocal) updateClockInFirebase(finishedClock)
+    //     newData[finishIndex] = deepCopy(finishedClock)
+    //   }
 
     // DELETE
     } else if (clockChange.deleteClockId) {
@@ -233,14 +233,14 @@ const SquadClockPanel = ({
               maxSegments={clock.segments}
               setMaxSegments={maxSegments => localUpdateToClock(clock, {segments: maxSegments, progress: Math.min(maxSegments, clock.progress)}) }
               onReset={() => localUpdateToClock(clock, {progress: 0}) }
-              onFinish={() => setClockChange({finishClockId: clock.id, isLocal: true}) }
+              onFinish={() => setClockChange({deleteClockId: clock.id, isLocal: true}) }
               typeLabel='Campaign clock'
               userLabel={clock.title}
               setUserLabel={title => {
                 if (title) {
                   localUpdateToClock(clock, {title: title})
                 } else {
-                  setClockChange({finishClockId: clock.id, isLocal: true})
+                  setClockChange({deleteClockId: clock.id, isLocal: true})
                 }
               }}
               inputEnabled={true}
