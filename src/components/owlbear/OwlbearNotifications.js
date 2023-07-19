@@ -9,21 +9,23 @@ import {
 
 export function latestActionToNotification(latestAction, actionToNotificationMap, setActionToNotificationMap) {
   // we already have a notification about it; close the old one
-  if (latestAction.createdAt in actionToNotificationMap) {
-    OBR.notification.close( actionToNotificationMap[latestAction.createdAt] )
-  }
+  // if (latestAction.createdAt in actionToNotificationMap) {
+  //   OBR.notification.close( actionToNotificationMap[latestAction.createdAt] )
+  // }
+  // don't show edits; only show the first roll
+  if (!(latestAction.createdAt in actionToNotificationMap)) {
 
-  let notificationMessage = ''
-  if (latestAction.type === 'dicebag') notificationMessage = createDicebagNotification(latestAction)
+    let notificationMessage = ''
+    if (latestAction.type === 'dicebag') notificationMessage = createDicebagNotification(latestAction)
 
-  if (notificationMessage) {
-    // console.log('NOTIF: ', notificationMessage);
+    if (notificationMessage) {
+      // console.log('NOTIF: ', notificationMessage);
 
-    // make a new notification and store its ID for this action
-    OBR.notification.show(notificationMessage)
-      .then(notifID => {
+      // make a new notification and store its ID for this action
+      OBR.notification.show(notificationMessage).then(notifID => {
         setActionToNotificationMap( {...actionToNotificationMap, ...{[latestAction.createdAt]: notifID} } )
       })
+    }
   }
 }
 
