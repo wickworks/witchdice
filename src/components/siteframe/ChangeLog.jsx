@@ -14,7 +14,7 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.1.14-16 — July 2023</div>
+          <div className='version-label'>v1.1.14-17 — July 2023</div>
           <ul>
             <li>Can leave joined rooms (it refreshes the page)</li>
             <li>OBR extension can input what room they would like to join.</li>
@@ -25,6 +25,7 @@ const ChangeLog = () => {
             <li>Added preliminary integration with Marked! on OBR.</li>
             <li>Fix clocks not finishing.</li>
             <li>Added hidden text to roll history for copy+paste.</li>
+            <li>Better detection of custom skills.</li>
           </ul>
 
           <div className='version-label'>v1.1.13 — June 2023</div>
