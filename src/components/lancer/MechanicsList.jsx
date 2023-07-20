@@ -19,8 +19,7 @@ const MechanicsList = ({
 
   function getTooltipData(data, mechanic) {
     var tooltipData = {}
-    const useCustomData = !!(mechanic.custom_desc || mechanic.custom_detail)
-
+    const useCustomData = (mechanic.custom === true) || !!(mechanic.custom_desc || mechanic.custom_detail)
     if (useCustomData) {
       tooltipData.title = mechanic.id
       tooltipData.content = mechanic.custom_desc + ' ' + mechanic.custom_detail
