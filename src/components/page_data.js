@@ -53,6 +53,13 @@ const allPages = [
     defaultEnabled: false,
     metaTitle: 'Witch Dice ~ owlbear',
     metaDesc: 'A stripped-down version of the site for use in iframes',
+  },{
+    id: 'view',
+    title: 'View Rolls',
+    desc: 'Just the roll history of a room for use in iframes.',
+    defaultEnabled: false,
+    metaTitle: 'Witch Dice ~',
+    metaDesc: 'Just the roll history of a room for use in iframes.',
   }
 ]
 

@@ -7,7 +7,8 @@ import {Bookmark, BookmarkNew} from '../shared/DiceBag/Bookmark';
 import './TipsAndTricks.scss';
 
 const TipsAndTricks = ({
-  abbreviated = false
+  abbreviated = false,
+  partyRoom = '',
 }) => {
 
   const [dummyDieCount, setDummyDieCount] = useState(-2);
@@ -21,6 +22,12 @@ const TipsAndTricks = ({
 
   const fakeBookmarkData = {4: 0, 6: 4, 8: 0, 10: 0, 12: 0, 20: 1, plus: 0, x: 0, summaryMode: 'total', summaryModeValue: 1}
   const fakeRollDescription = '1d20 + 4d6'
+
+  const viewOnlyUrl = `/view?r=${partyRoom ? partyRoom : 'your-room-here'}`
+  const protocol = window.location.protocol.length > 1 ? `${window.location.protocol}//` : '';
+  const hostname = window.location.hostname;
+  const port = window.location.port.length > 1 ? `:${window.location.port}` : '';
+  const viewOnlyUrlFull = `${protocol}${hostname}${port}${viewOnlyUrl}`
 
   return (
     <div className='TipsAndTricks'>
@@ -113,6 +120,17 @@ const TipsAndTricks = ({
               </div>
               <p>Click <AddPlusBookmark /> while dice are queued to save that roll.</p>
               <p><RightClickLongTap click={abbreviated} /> an existing bookmark to delete it.</p>
+            </div>
+          </>}
+
+          {!abbreviated && <>
+            <h3>View-only mode</h3>
+            <div className='tip'>
+              <p>You can see a room's rolls at {partyRoom ?
+                <a href={viewOnlyUrlFull} target="_blank" rel="noopener noreferrer">{viewOnlyUrl}</a>
+              :
+                <span className='mode'>viewOnlyUrl</span>
+              } without the rest of the site. Useful for iframes.</p>
             </div>
           </>}
         </div>

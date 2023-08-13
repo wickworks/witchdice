@@ -14,6 +14,11 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.1.18 — Aug 2023</div>
+          <ul>
+            <li>Added plain roll history page (for iframes) at /view?r=room-name</li>
+          </ul>
+
           <div className='version-label'>v1.1.14-17 — July 2023</div>
           <ul>
             <li>Can leave joined rooms (it refreshes the page)</li>

@@ -7,7 +7,7 @@ import NouveauDivider from '../shared/NouveauDivider.jsx';
 import './MainSettings.scss';
 
 const MainSettings = ({
-  enabledPages, setEnabledPages
+  enabledPages, setEnabledPages, partyRoom
 }) => {
 
   return (
@@ -24,7 +24,7 @@ const MainSettings = ({
         </div>
 
         <div className='tips-tricks-container' >
-          <TipsAndTricks />
+          <TipsAndTricks partyRoom={partyRoom} />
         </div>
 
       </div>

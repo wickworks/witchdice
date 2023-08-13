@@ -301,7 +301,7 @@ const MainOwlbear = ({
             { !skipPages.includes('lancer') &&
               <MarkedIntegration markedMetadata={markedMetadata} />
             }
-            <TipsAndTricks abbreviated={true} />
+            <TipsAndTricks partyRoom={partyRoom} abbreviated={true} />
             <DiscordBotNotice partyRoom={partyRoom} abbreviated={true} />
             <Footer />
           </div>

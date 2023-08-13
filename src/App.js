@@ -9,8 +9,11 @@ import './App.scss';
 // import Main from './components/Main.jsx';
 const Main = lazy(() => import('./components/Main.jsx'));
 
-const IFRAME_PATH = '/owlbear'
-window.isInOwlbearIframe = window.location.href.includes(IFRAME_PATH)
+const OWLBEAR_IFRAME_PATH = '/owlbear'
+const VIEW_IFRAME_PATH = '/view'
+window.witchdiceIsInOwlbearIframe = window.location.href.includes(OWLBEAR_IFRAME_PATH)
+window.witchdiceIsInViewIframe = window.location.href.includes(VIEW_IFRAME_PATH)
+const isRenderingToIframe = window.witchdiceIsInOwlbearIframe || window.witchdiceIsInViewIframe
 
 try {
   window.localStorageEnabled = (window.localStorage && true)
@@ -30,7 +33,7 @@ function App() {
         <div className="App" aria-disabled={isModalOpen}>
 
           <Route render={
-            ({ location }) => !window.isInOwlbearIframe
+            ({ location }) => !isRenderingToIframe
               ? <Header enabledPages={enabledPages} />
               : null
             }
@@ -45,7 +48,7 @@ function App() {
           </Suspense>
 
           <Route render={
-            ({ location }) => !window.isInOwlbearIframe
+            ({ location }) => !isRenderingToIframe
               ? <Footer />
               : null
             }

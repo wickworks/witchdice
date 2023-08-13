@@ -28,6 +28,7 @@ const MainLancer = lazy(() => import('./lancer/MainLancer.jsx'));
 const MainSettings = lazy(() => import('./settings/MainSettings.jsx'));
 const MainTOS = lazy(() => import('./termsofservice/MainTOS.jsx'));
 const MainOwlbear = lazy(() => import('./owlbear/MainOwlbear.jsx'));
+const MainView = lazy(() => import('./view/MainView.jsx'));
 
 const WipNotice = lazy(() => import('./lancer/WipNotice.jsx'));
 const SquadClockPanel = lazy(() => import('./shared/SquadClockPanel/SquadClockPanel.jsx'));
@@ -77,7 +78,12 @@ const Main = ({
   const queryParams = useQuery();
   useEffect(() => {
     // the owlbear extension will handle the room joining when we're in that context
-    if (!window.isInOwlbearIframe) {
+    if (window.witchdiceIsInOwlbearIframe) {
+      console.log('Rendering Witchdice for Owlbear iframe...');
+    } else if (window.witchdiceIsInOwlbearIframe) {
+      console.log('Rendering Witchdice for roll history iframe...');
+      setPartyAutoconnect(true);
+    } else {
       const urlRoom = queryParams.get('r');
 
       let loadedRoom, loadedName
@@ -461,6 +467,7 @@ const Main = ({
             <MainSettings
               enabledPages={enabledPages}
               setEnabledPages={setEnabledPages}
+              partyRoom={partyRoom}
             />
             {renderDicebag()}
           </Suspense>
@@ -493,6 +500,13 @@ const Main = ({
               setRollSummaryData={setRollSummaryData}
               setDistantDicebagData={setDistantDicebagData}
             />
+          </Suspense>
+        </Route>
+
+        <Route path="/view">
+          <HelmetForPage pageID='view' />
+          <Suspense fallback={<LoadinDots />}>
+            <MainView allPartyActionData={allPartyActionData} />
           </Suspense>
         </Route>
       </Switch>
