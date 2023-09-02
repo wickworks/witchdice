@@ -14,8 +14,9 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.1.18 — Aug 2023</div>
+          <div className='version-label'>v1.1.18-19 — Aug-Sept 2023</div>
           <ul>
+            <li>NPC tech attack rolls use listed bonuses instead of SYS score.</li>
             <li>Added plain roll history page (for iframes) at /view?r=room-name</li>
           </ul>
 
