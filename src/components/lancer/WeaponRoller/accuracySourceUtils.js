@@ -165,7 +165,6 @@ export function getAvailableAccuracySources(
       addAccSource(sources, 'Core Siphon (Other)', 'ms_core_siphon_other', '...but receive +1 difficulty on all other attack rolls until the end of the turn.', -1)
     }
 
-
     // -- NPC SYSTEMS --
     npcFeatures && npcFeatures.forEach(feature => {
       const npcFeatureData = findNpcFeatureData(feature.itemID)
@@ -191,6 +190,11 @@ export function getAvailableAccuracySources(
 
     if (mechSystems && mechSystems.find(system => system.id === 'ms_scanner_swarm')) {
       addAccSource(sources, 'Scanner Swarm', 'ms_scanner_swarm', 'You gain +1 accuracy on tech attacks against adjacent characters.')
+    }
+
+    // -- NPC TECH ATTACKS --
+    if ('accuracy' in invadeData) {
+      addAccSource(sources, invadeData.name, invadeData.name, 'Inherent accuracy.', invadeData.accuracy, true)
     }
   }
 

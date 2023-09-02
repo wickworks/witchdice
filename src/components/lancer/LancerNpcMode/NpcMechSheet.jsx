@@ -283,6 +283,9 @@ function getNpcTechAttacks(items) {
     const featureData = findNpcFeatureData(item.itemID)
 
     if (featureData.type === 'Tech' && isNpcFeatureTechAttack(featureData)) {
+      const naturalAttackBonus = ('attack_bonus' in featureData) ? featureData.attack_bonus[item.tier-1] : 0
+      const naturalAttackAccuracy = ('accuracy' in featureData) ? featureData.accuracy[item.tier-1] : 0
+
       // const effectWithoutFirstSentence = featureData.effect.slice(featureData.effect.indexOf('.') + 1)
       techAttacks.push({
         name: featureData.name,
@@ -290,6 +293,8 @@ function getNpcTechAttacks(items) {
         detail: setNumbersByTier(featureData.effect, item.tier),
         recharge: getSystemRecharge(item, featureData),
         systemIndex: itemIndex,
+        attack_bonus: naturalAttackBonus,
+        accuracy: naturalAttackAccuracy,
       })
     }
 

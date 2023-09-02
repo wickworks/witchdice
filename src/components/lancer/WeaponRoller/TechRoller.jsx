@@ -79,6 +79,9 @@ const TechRoller = ({
   // the actual data for all the currently active bonus damages
   var activeBonusDamageData = getActiveBonusDamageData(bonusDamageData, activeBonusSources, 0,0,false);
 
+  // ====== Many NPC weapons have an inherent attack bonus instead of using their Systems score ======
+  const finalAttackBonus = invadeData.attack_bonus ? invadeData.attack_bonus : techAttackBonus
+
   // =============== CHANGE WEAPON ==================
   const stringifiedInvadeData = JSON.stringify(invadeData)
 
@@ -117,7 +120,7 @@ const TechRoller = ({
           <div className='tech-stat'>
             <div className='bracket'>[</div>
             <div className='label'>Tech Attack</div>
-            <div className='value'>{techAttackBonus >= 0 ? '+' : ''}{techAttackBonus}</div>
+            <div className='value'>{finalAttackBonus >= 0 ? '+' : ''}{finalAttackBonus}</div>
             <div className='bracket'>]</div>
           </div>
           <div className='tech-stat'>
@@ -177,7 +180,7 @@ const TechRoller = ({
         { isSettingUpAttack &&
           <WeaponRollerSetup
             invadeData={invadeData}
-            rollBonus={techAttackBonus}
+            rollBonus={finalAttackBonus}
             rollBonusLabel='Tech'
             createNewAttackRoll={createNewAttackRoll}
             accuracySourceInputs={accuracyAndDamageSourceInputs}

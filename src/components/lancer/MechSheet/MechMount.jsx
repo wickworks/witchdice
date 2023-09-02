@@ -52,7 +52,7 @@ function isSystemTechAttack(systemData, onlyCheckInvade = false) {
 
 function isNpcFeatureTechAttack(featureData) {
   if (!featureData || !featureData.effect) return false
-  return !!featureData.effect.indexOf('makes a tech attack')
+  return !!featureData.effect.toLowerCase().indexOf('makes a tech attack')
 }
 
 function getBroadcastObjectForWeapon(weaponData, bonusEffects, modData, flavorName = null) {
