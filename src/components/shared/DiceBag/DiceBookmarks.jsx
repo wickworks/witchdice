@@ -13,6 +13,7 @@ const DiceBookmarks = ({
   summaryModeValue,
   setCurrentDice,
   setSummaryMode,
+  setSummaryModeValue,
 }) => {
   const [allBookmarkData, setAllBookmarkData] = useState([]);
 
@@ -78,6 +79,7 @@ const DiceBookmarks = ({
             bookmarkData={bookmarkData}
             setCurrentDice={setCurrentDice}
             setSummaryMode={setSummaryMode}
+            setSummaryModeValue={setSummaryModeValue}
             handleDelete={() => deleteBookmark(i)}
             isSelected={matchingBookmarkIndex === i}
             key={`bookmark-${i}-${allBookmarkData.length}`}

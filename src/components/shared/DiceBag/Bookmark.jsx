@@ -10,6 +10,7 @@ const Bookmark = ({
   bookmarkData,
   setCurrentDice,
   setSummaryMode,
+  setSummaryModeValue,
   handleDelete,
   isSelected,
 }) => {
@@ -20,9 +21,12 @@ const Bookmark = ({
     if (leftMouse && !e.shiftKey) {
       let diceData = deepCopy(bookmarkData)
       const summaryMode = diceData.summaryMode
+      const summaryModeValue = diceData.summaryModeValue || 0
       delete diceData.summaryMode
+      delete diceData.summaryModeValue
 
       setSummaryMode(summaryMode)
+      setSummaryModeValue(summaryModeValue)
       setCurrentDice(diceData)
 
     // delete bookmark

@@ -222,6 +222,7 @@ const DiceBag = ({
           summaryModeValue={summaryModeValue}
           setCurrentDice={setDiceData}
           setSummaryMode={setSummaryMode}
+          setSummaryModeValue={setSummaryModeValue}
         />
       }
 
