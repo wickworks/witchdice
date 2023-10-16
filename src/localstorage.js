@@ -1,4 +1,18 @@
 
+const BACKUP_PREFIX_WHITELIST = [
+  'pilot-',
+  'lcp-',
+  'encounter-',
+  'crafter-',
+  'project-',
+  'settings-',
+  'lancer-npcs',
+  'lancer-user-identityid',
+  'dice-bookmarks',
+  'squad-clocks',
+  'party_name',
+  'version'
+]
 
 // ======================== SAVE / LOAD TO LOCALSTORAGE =======================
 
@@ -88,8 +102,7 @@ function convertLocalDataToJson() {
     let saveKey = false;
 
     // whitelist
-    const savePrefixes = ['pilot-', 'lcp-', 'encounter-', 'crafter-', 'project-', 'settings-', 'party_name', 'version']
-    saveKey = savePrefixes.some((prefix) => key.startsWith(prefix))
+    saveKey = BACKUP_PREFIX_WHITELIST.some((prefix) => key.startsWith(prefix))
 
     // conditional whitelist
     const CHARACTER_PREFIX = 'character-';
