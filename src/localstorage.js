@@ -79,6 +79,28 @@ function getRandomFingerprint() {
   return Math.floor(rand)
 }
 
+function convertLocalDataToJson() {
+  // find the key with this ID
+  let jsonObject = {};
+  for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+    const key = localStorage.key(i);
+
+    let saveKey = false;
+
+    // whitelist
+    const savePrefixes = ['pilot-', 'lcp-', 'encounter-', 'crafter-', 'project-', 'party_name', 'version']
+    saveKey = savePrefixes.some((prefix) => key.startsWith(prefix))
+
+    // conditional whitelist
+    const CHARACTER_PREFIX = 'character-';
+    saveKey = saveKey || (key.startsWith(CHARACTER_PREFIX) && getIDFromStorageName(CHARACTER_PREFIX, key) > 120000)
+
+    if (saveKey) jsonObject[key] = localStorage.getItem(key)
+  }
+
+  return JSON.stringify(jsonObject);
+}
+
 export {
   loadLocalData,
   saveLocalData,
@@ -86,4 +108,5 @@ export {
   getNameFromStorageName,
   getIDFromStorageName,
   getRandomFingerprint,
+  convertLocalDataToJson,
 };

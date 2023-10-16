@@ -1,0 +1,29 @@
+@import '../../fonts';
+
+.ManageLocalContent {
+  display: flex;
+  flex-direction: column;
+
+  button, label {
+    cursor: pointer;
+    display: block;
+    padding: 6px 40px;
+    margin: 10px auto;
+    background-color: $rust;
+    border-radius: 6px;
+    color: white;
+
+    &:hover {
+      background-color: $rust_light;
+      // color: black;
+    }
+  }
+
+  input[type='file'] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    visibility: hidden;
+  }
+
+}

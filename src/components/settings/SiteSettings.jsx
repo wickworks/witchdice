@@ -1,5 +1,5 @@
 import React from 'react';
-import DeleteLocalContentButton from "./DeleteLocalContentButton.jsx";
+import ManageLocalContent from "./ManageLocalContent.jsx";
 import { allPages, saveEnabledPages } from "../page_data.js";
 
 import './SiteSettings.scss';
@@ -69,7 +69,7 @@ const SiteSettings = ({
         </div>
       </div>
 
-      <DeleteLocalContentButton />
+      <ManageLocalContent />
     </div>
   )
 }
