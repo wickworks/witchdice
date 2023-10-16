@@ -1,6 +1,6 @@
 import React from 'react';
 import CopyRoomLink from '../shared/RoomConnect/CopyRoomLink.jsx';
-import DeleteLocalContentButton from "../settings/DeleteLocalContentButton.jsx";
+import ManageLocalContent from "../settings/ManageLocalContent.jsx";
 
 import './OwlbearSettings.scss';
 
@@ -74,7 +74,7 @@ const OwlbearSettings = ({
 
 
 
-      {window.localStorageEnabled && <DeleteLocalContentButton />}
+      {window.localStorageEnabled && <ManageLocalContent />}
 
     </div>
   )
