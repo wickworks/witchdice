@@ -359,6 +359,7 @@ const Main = ({
           <DiceBag
             addNewDicebagPartyRoll={addNewDicebagPartyRoll}
             distantDicebagData={distantDicebagData}
+            setDistantDicebagData={setDistantDicebagData}
           />
         </div>
 

@@ -260,6 +260,7 @@ const MainOwlbear = ({
           <DiceBag
             addNewDicebagPartyRoll={addNewDicebagPartyRoll}
             distantDicebagData={distantDicebagData}
+            setDistantDicebagData={setDistantDicebagData}
             bookmarksEnabled={false}
           />
         : pageMode === 'lancer' ?

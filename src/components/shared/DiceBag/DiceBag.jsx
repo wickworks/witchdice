@@ -18,6 +18,7 @@ import './DiceBag.scss';
 const DiceBag = ({
   addNewDicebagPartyRoll,
   distantDicebagData,
+  setDistantDicebagData,
   bookmarksEnabled = true,
 }) => {
   const diceBagRef = useRef(null)
@@ -45,6 +46,7 @@ const DiceBag = ({
     delete clearedData['x'] // remove the default x
     clearedData[defaultVariableDieType] = 0; // 'x' : 0, for use by the variable die types
     setDiceData(clearedData);
+    setDistantDicebagData(null)
   }
 
   const clearCurrentRoll = () => {
@@ -133,6 +135,8 @@ const DiceBag = ({
     cacheCurrentMetadata()
     // clear the that annotation and post-roll message function
     clearCurrentMetadata()
+    // be sure that once we roll due to distant data, it does not come back
+    setDistantDicebagData(null)
   }
 
   // const handleAnnotationToggle = () => {
@@ -193,6 +197,7 @@ const DiceBag = ({
     if (distantDicebagData) {
       setDiceData(distantDicebagData.diceData)
       setSummaryMode(distantDicebagData.summaryMode)
+
 
       if (distantDicebagData.annotation) {
         setAnnotation(distantDicebagData.annotation)
