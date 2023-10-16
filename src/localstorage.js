@@ -88,7 +88,7 @@ function convertLocalDataToJson() {
     let saveKey = false;
 
     // whitelist
-    const savePrefixes = ['pilot-', 'lcp-', 'encounter-', 'crafter-', 'project-', 'party_name', 'version']
+    const savePrefixes = ['pilot-', 'lcp-', 'encounter-', 'crafter-', 'project-', 'settings-', 'party_name', 'version']
     saveKey = savePrefixes.some((prefix) => key.startsWith(prefix))
 
     // conditional whitelist
