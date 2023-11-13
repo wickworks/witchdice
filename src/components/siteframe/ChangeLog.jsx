@@ -14,6 +14,13 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.1.20 — Oct 2023</div>
+          <ul>
+            <li>Added download/upload for data backups.</li>
+            <li>Fix crash when using dice bookmarks.</li>
+            <li>Fix the same skill roll popping back up multiple times.</li>
+          </ul>
+
           <div className='version-label'>v1.1.18-19 — Aug-Sept 2023</div>
           <ul>
             <li>NPC tech attack rolls use listed bonuses instead of SYS score.</li>
