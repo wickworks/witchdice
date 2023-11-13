@@ -19,7 +19,9 @@ import {
 export function getMechMaxHP(activeMech, activePilot, frameData) {
   var total = frameData.stats.hp
 
-  total += getGrit(activePilot)
+  if (activeMech.frame != 'mf_emperor') {
+    total += getGrit(activePilot)
+  }
 
   const hull = activePilot.mechSkills[0]
   total += hull * 2
