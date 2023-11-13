@@ -6,6 +6,7 @@ import MechNumberIcon from './MechNumberIcon.jsx';
 import MechSingleStat from './MechSingleStat.jsx';
 import AbilityRollButton from './AbilityRollButton.jsx';
 
+import { capitalize } from '../../../utils.js';
 import { blankDice } from '../../shared/DiceBag/DiceBagData.js';
 import {
   OVERCHARGE_SEQUENCE,
@@ -59,6 +60,7 @@ const MechState = ({
 
   updateMechState,
   setDistantDicebagData,
+  setRollSummaryData,
 }) => {
   const currentOvershield = robotState.overshield;
   const setCurrentOvershield = (overshield) => updateMechState({overshield: overshield})
@@ -73,7 +75,7 @@ const MechState = ({
   const setCurrentBurn = (burn) => updateMechState({burn: burn})
 
   const currentOverchargeIndex = robotState.overcharge;
-  const setCurrentOverchargeIndex = (current_overcharge) => updateMechState({current_overcharge: current_overcharge})
+  // const setCurrentOverchargeIndex = (current_overcharge) => updateMechState({current_overcharge: current_overcharge}) // now done manually in a batch
 
   const currentCore = !!robotState.coreEnergy;
   const setCurrentCore = (hasCoreEnergy) => updateMechState({current_core_energy: hasCoreEnergy ? 1 : 0})
@@ -143,47 +145,62 @@ const MechState = ({
     setCurrentBurn(newBurn)
   }
 
+  const getOverchargeResultMessage = (result) => {
+    let finalHeat = (currentHeat + result)
+    let stressCount = 0
+    while ((finalHeat > robotStats.maxHeat) && (stressCount < 4)) {
+      finalHeat -= robotStats.maxHeat;
+      stressCount += 1
+    }
+    let message = `Take ${result} heat; you have <b>${finalHeat}</b> heat total.`
+    if (stressCount > 0) message += `<br>Take <b>${stressCount}</b> Stress damage.`
+    return message
+  }
+
   // roll the current for heat, increase the counter
   const handleOverchargeClick = (rightClick) => {
     var direction = rightClick ? -1 : 1
     var newIndex = Math.max(Math.min(currentOverchargeIndex + direction, OVERCHARGE_SEQUENCE.length-1), 0);
 
-    // if counting up, queue up a roll
-    if (direction > 0 && currentOverchargeIndex > 0) {
+    var mechStatUpdate = {current_overcharge: newIndex}
+
+    // if counting up
+    if (direction > 0) {
       const currentOvercharge = OVERCHARGE_SEQUENCE[currentOverchargeIndex]
-      const overchargeDice = processDiceString(currentOvercharge)
-      let diceData = {...blankDice}
 
-      // have to handle the custom d3 die format
-      if (overchargeDice.dietype in diceData) {
-        diceData[overchargeDice.dietype] = overchargeDice.count
-      } else {
-        delete diceData['x']
-        diceData['x3'] = overchargeDice.count
-      }
-      diceData['plus'] = overchargeDice.bonus
+      // just do it; one of the few automatic updates the sheet does for you
+      if (currentOverchargeIndex == 0) {
+        setRollSummaryData({
+      		type: 'text',
+      		title: [robotInfo.frameSourceText, capitalize(robotInfo.frameName)].join(', '),
+      		message: getOverchargeResultMessage(1)
+      	})
+        mechStatUpdate.current_heat = (currentHeat+1) // roll this into the update
 
-      const postRollMessage = (result) => {
-        let finalHeat = (currentHeat + result)
-        let stressCount = 0
-        while ((finalHeat > robotStats.maxHeat) && (stressCount < 4)) {
-          finalHeat -= robotStats.maxHeat;
-          stressCount += 1
+      // queue up a roll
+      } else if (currentOverchargeIndex > 0) {
+        const overchargeDice = processDiceString(currentOvercharge)
+        let diceData = {...blankDice}
+
+        // have to handle the custom d3 die format
+        if (overchargeDice.dietype in diceData) {
+          diceData[overchargeDice.dietype] = overchargeDice.count
+        } else {
+          delete diceData['x']
+          diceData['x3'] = overchargeDice.count
         }
-        let message = `Take ${result} heat; you have <b>${finalHeat}</b> heat total.`
-        if (stressCount > 0) message += `<br>Take <b>${stressCount}</b> Stress damage.`
-        return message
-      }
+        diceData['plus'] = overchargeDice.bonus
 
-      setDistantDicebagData({
-        diceData: diceData,
-        summaryMode: 'total',
-        annotation: 'OVERCHARGE',
-        postRollMessage: postRollMessage,
-      });
+        setDistantDicebagData({
+          diceData: diceData,
+          summaryMode: 'total',
+          annotation: 'OVERCHARGE',
+          postRollMessage: getOverchargeResultMessage,
+        });
+      }
     }
 
-    setCurrentOverchargeIndex( newIndex );
+    updateMechState( mechStatUpdate );
   }
 
   // player mechs default to frame images, npcs have blank image

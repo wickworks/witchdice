@@ -174,6 +174,7 @@ const MechSheet = ({
           robotInfo={robotInfo}
           updateMechState={updateMechState}
           setDistantDicebagData={setDistantDicebagData}
+          setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
         />
 
         <ConditionsAndCounters
