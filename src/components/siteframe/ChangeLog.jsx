@@ -14,8 +14,11 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.1.20 — Oct 2023</div>
+          <div className='version-label'>v1.1.20-21 — Oct-Nov 2023</div>
           <ul>
+            <li>Fix detection of NPC tech actions vs invades.</li>
+            <li>First overcharge bumps up the heat for you.</li>
+            <li>Grit doesn't increase Emperor HP.</li>
             <li>Added download/upload for data backups.</li>
             <li>Fix crash when using dice bookmarks.</li>
             <li>Fix the same skill roll popping back up multiple times.</li>
