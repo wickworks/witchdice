@@ -47,6 +47,9 @@ const WeaponRoller = ({
   weaponLimited,
   setLimitedCount = () => {},
 
+  modLimited,
+  setModLimitedCount = () => {},
+
   isPrimaryWeaponOnMount,
   availableBonusSources = [],
   accuracyAndDamageSourceInputs,
@@ -272,6 +275,24 @@ const WeaponRoller = ({
 
             <div className='limited-label'>
               Limited {weaponLimited.current}/{weaponLimited.max}
+            </div>
+          </div>
+        }
+
+        { modLimited &&
+          <div className='limited-container'>
+            <MechNumberBar
+              extraClass='condensed'
+              dotIcon='ammo'
+              zeroIcon='dot'
+              maxNumber={modLimited.max}
+              currentNumber={modLimited.current}
+              setCurrentNumber={setModLimitedCount}
+              leftToRight={true}
+            />
+
+            <div className='limited-label'>
+              Charges {modLimited.current}/{modLimited.max}
             </div>
           </div>
         }

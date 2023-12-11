@@ -16,6 +16,7 @@ import {
   getSystemLimited,
   getAllWeaponRanges,
   getModdedWeaponData,
+  findModData,
 } from '../lancerData.js';
 
 import {
@@ -120,8 +121,7 @@ const MechSheet = ({
   const activeInvadeData = robotLoadout.invades[activeInvadeIndex]
 
   const weaponLimited = activeWeaponData ? getSystemLimited(activeWeapon, activeWeaponData, robotStats.limitedBonus) : null
-  // console.log('activeWeapon',activeWeapon);
-  // console.log('activeWeaponData',activeWeaponData);
+  const modLimited = activeWeaponData && activeWeapon.mod ? getSystemLimited(activeWeapon.mod, findModData(activeWeapon.mod.id), robotStats.limitedBonus) : null
 
   const bonusDamageSources = getAvailableBonusDamageSources(accuracyAndDamageSourceInputs, activeMount, activeWeapon, activeInvadeData);
 
@@ -277,6 +277,17 @@ const MechSheet = ({
                 mountIndex: activeMount.index,
                 weaponIndex: activeWeaponIndex,
                 uses: count
+              }
+            })
+          }
+          modLimited={modLimited}
+          setModLimitedCount={(count) =>
+            updateMechState({
+              weaponModUses: {
+                mountSource: activeMount.source,
+                mountIndex: activeMount.index,
+                weaponIndex: activeWeaponIndex,
+                modUses: count
               }
             })
           }

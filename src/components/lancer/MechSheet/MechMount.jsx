@@ -155,7 +155,9 @@ const MechMount = ({
       { mountedWeaponData.map(([weapon, weaponData], i) => {
         const allWeaponProfiles = getAllWeaponProfiles(weaponData)
         const weaponProfileData = allWeaponProfiles[0]
-        const limited = getSystemLimited(weapon, weaponProfileData, limitedBonus)
+
+        const weaponLimited = getSystemLimited(weapon, weaponProfileData, limitedBonus)
+        const modLimited = weapon.mod && getSystemLimited(weapon.mod, findModData(weapon.mod.id), limitedBonus)
         const isLoaded = hasTag(weaponProfileData, 'tg_loading') ? weapon.loaded : null
 
         // GHOST BUG: if we log mount.slots[i], it'll print fine, but accessing its props crashes it.
@@ -165,14 +167,14 @@ const MechMount = ({
           <MechWeapon
             mountType={(i === 0 && !isBaseline) ? getMountName(weaponData) : ''}
             bonusEffects={i === 0 ? bonusEffects : []}
+            isActive={activeWeaponIndex === i}
+            onClick={() => setActiveWeaponIndex(i)}
             weaponData={weaponData}
             flavorName={weapon.flavorName}
             mod={weaponMod}
-            onClick={() => setActiveWeaponIndex(i)}
-            isActive={activeWeaponIndex === i}
-
+            modLimited={modLimited}
             isLoaded={isLoaded}
-            limited={limited}
+            weaponLimited={weaponLimited}
             isDestructable={isDestructable}
             isDestroyed={mountedWeapons[i].destroyed}
             onDestroy={() => setDestroyedForWeapon(!mountedWeapons[i].destroyed, i)}
@@ -246,7 +248,8 @@ const MechWeapon = ({
   isActive,
 
   isLoaded = null,
-  limited = null,
+  modLimited = null,
+  weaponLimited = null,
   isDestructable,
   isDestroyed,
   onDestroy,
@@ -291,7 +294,8 @@ const MechWeapon = ({
             <div className="name">{(flavorName || weaponData.name).toLowerCase()}</div>
             {isDestroyed && <div className='destroyed-text'>[ DESTROYED ]</div>}
             {modData && <div className='mod'>{modData.name}</div>}
-            {limited && <div className='mod'>Limited {limited.current}/{limited.max}</div>}
+            {modLimited && <div className='mod'>Charges {modLimited.current}/{modLimited.max}</div>}
+            {weaponLimited && <div className='mod'>Limited {weaponLimited.current}/{weaponLimited.max}</div>}
             {isLoaded !== null && <div className='mod'>Loading {isLoaded ? '1' : '0'}/1</div>}
           </div>
         :

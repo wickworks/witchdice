@@ -151,10 +151,11 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
         newNpc.per_round_uses = {}
         break;
 
-      case 'weaponUses':
-      case 'weaponLoaded':
       case 'weaponCharged':
+      case 'weaponLoaded':
       case 'weaponDestroyed':
+      case 'weaponUses':
+      case 'weaponModUses': // NPCs don't have weapon mods so this won't do anything
         // find the item that generates this weapon
         // const weaponItems = newNpc.items.filter(item => findNpcFeatureData(item.itemID).type === 'Weapon')
         // let weaponItem = weaponItems[mechUpdate[statKey].weaponIndex]

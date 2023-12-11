@@ -55,6 +55,7 @@ export function applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData) {
       case 'weaponLoaded':
       case 'weaponDestroyed':
       case 'weaponUses':
+      case 'weaponModUses':
         const mountSource = updateValue.mountSource
         const mountIndex = updateValue.mountIndex
         const weaponIndex = updateValue.weaponIndex
@@ -75,8 +76,9 @@ export function applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData) {
           slot = loadout.integratedMounts[mountIndex]
         }
         if ('destroyed' in updateValue)  slot.weapon.destroyed = updateValue.destroyed
-        if ('uses' in updateValue)       slot.weapon.uses = updateValue.uses
         if ('loaded' in updateValue)     slot.weapon.loaded = updateValue.loaded
+        if ('uses' in updateValue)       slot.weapon.uses = updateValue.uses
+        if ('modUses' in updateValue)    slot.weapon.mod.uses = updateValue.modUses
         break;
 
       case 'repairAllWeaponsAndSystems':
