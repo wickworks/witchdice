@@ -14,6 +14,15 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.1.22 — Dec 2023</div>
+          <ul>
+            <li>Allow numbers in room/user names.</li>
+            <li>Discord bot returns error when given an invalid room name.</li>
+            <li>Fix discord bot not showing negative roll results.</li>
+            <li>Added bonus damage for Lucifer NHP using current heat.</li>
+            <li>Track thermal charge uses.</li>
+          </ul>
+
           <div className='version-label'>v1.1.20-21 — Oct-Nov 2023</div>
           <ul>
             <li>Fix detection of NPC tech actions vs invades.</li>
