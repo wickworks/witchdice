@@ -17,12 +17,13 @@ import {
 } from './synergyUtils.js';
 
 export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, activeWeapon, activeInvadeData) {
+  console.log('damageSourceInputs',damageSourceInputs);
   let bonusDamageSources = [
     ...getBonusDamageSourcesFromMech(damageSourceInputs.frameID),
     ...getBonusDamageSourcesFromTalents(damageSourceInputs.pilotTalents),
     ...getBonusDamageSourcesFromCoreBonuses(activeMount),
     ...getBonusDamageSourcesFromMod(activeWeapon),
-    ...getBonusDamageSourcesFromSystems(damageSourceInputs.mechSystems, activeWeapon),
+    ...getBonusDamageSourcesFromSystems(damageSourceInputs.mechSystems, damageSourceInputs.currentHeat, activeWeapon),
     ...getBonusDamageSourcesFromWeapons(activeWeapon),
     ...getBonusDamageSourcesFromNpcFeatures(damageSourceInputs.npcFeatures, activeWeapon)
   ]
@@ -504,7 +505,7 @@ function getBonusDamageSourcesFromMod(activeWeapon) {
 
 //  =======================================    SYSTEMS (PC MECHS)  =================================================
 
-function getBonusDamageSourcesFromSystems(systems, activeWeapon) {
+function getBonusDamageSourcesFromSystems(systems, currentHeat, activeWeapon) {
   var sources = [];
   if (!systems) return sources;
 
@@ -528,6 +529,16 @@ function getBonusDamageSourcesFromSystems(systems, activeWeapon) {
             if (loadingTag) {
               const defaultDamageType = getDefaultWeaponDamageType(activeWeaponData)
               sources.push( newSource(systemData.name, systemData.id, '1d6', defaultDamageType, newStandardTrait(systemData)) )
+            }
+          }
+          break;
+
+        case 'ms_lucifer_class_nhp':
+          // does the current weapon deal energy damage?
+          if (activeWeapon && currentHeat > 0) {
+            const activeWeaponData = getModdedWeaponData(activeWeapon)
+            if (activeWeaponData.damage.some((damage) => ['variable', 'energy'].includes(damage.type.toLowerCase()))) {
+              sources.push( newSource(systemData.name, systemData.id, currentHeat, 'Energy', newStandardTrait(systemData)) )
             }
           }
           break;

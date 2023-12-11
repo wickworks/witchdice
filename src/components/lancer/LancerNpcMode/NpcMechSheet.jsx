@@ -122,6 +122,7 @@ const NpcMechSheet = ({
     npcFeatures: activeNpc.items,
     pilotTalents: [],
     isImpaired: false,
+    currentHeat: robotState.heat, // may replace this with the rest of state if we ever need it
   }
 
   // =============== MECH STATE ==================

@@ -144,6 +144,7 @@ const PlayerMechSheet = ({
     npcFeatures: [],
     pilotTalents: activePilot.talents,
     isImpaired: activeMech.conditions.includes('IMPAIRED'),
+    currentHeat: robotState.heat, // may replace this with the rest of state if we ever need it
   }
 
   // =============== MECH STATE ==================
