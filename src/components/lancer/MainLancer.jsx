@@ -24,9 +24,18 @@ import { getIDFromStorageName } from '../../localstorage.js';
 import './MainLancer.scss';
 
 const coreLcpEntry = {
-  name: 'Core LCP Data',
+  name: 'LANCER Core',
   id: 'core'
 }
+const coreLcpEntries = [
+  coreLcpEntry,
+  {name: "LANCER: Dustgrave", id: 'dustgrave'},
+  {name: "Lancer KTB Data", id: 'ktb'},
+  {name: "Lancer Long Rim Data", id: 'longrim'},
+  {name: "Operation Solstice Rain Data", id: 'solticerain'},
+  {name: "Siren's Song, A Mountain's Remorse", id: 'sirenssong'},
+  {name: "Lancer Wallflower Data", id: 'wallflower'},
+]
 
 const GAME_MODE_PLAYER = 1
 const GAME_MODE_NPC = 2
@@ -57,7 +66,7 @@ const MainLancer = ({
 
   skipDicebagJumplink = false,
 }) => {
-  const [allLcpEntries, setAllLcpEntries] = useState([coreLcpEntry]);
+  const [allLcpEntries, setAllLcpEntries] = useState(coreLcpEntries);
   const [activeLcpID, setActiveLcpID] = useState(coreLcpEntry.id);
   const [isShowingLcpList, setIsShowingLcpList] = useState(false);
   const [isUploadingNewLcpFile, setIsUploadingNewLcpFile] = useState(false);
@@ -134,7 +143,7 @@ const MainLancer = ({
 
   // =============== INITIALIZE ==================
   useEffect(() => {
-    let lcpEntries = [coreLcpEntry];
+    let lcpEntries = [...coreLcpEntries];
 
     for ( var i = 0, len = localStorage.length; i < len; ++i ) {
       const key = localStorage.key(i);
@@ -188,6 +197,7 @@ const MainLancer = ({
                 characterEntries={allLcpEntries}
                 handleEntryClick={setActiveLcpID}
                 activeCharacterID={activeLcpID}
+                checkIfDeletable={id => !coreLcpEntries.some(coreEntry => coreEntry.id == id)}
                 deleteActiveCharacter={deleteActiveLcp}
                 createNewCharacter={() => setIsUploadingNewLcpFile(true)}
                 onTitleClick={() => setIsShowingLcpList(false)}

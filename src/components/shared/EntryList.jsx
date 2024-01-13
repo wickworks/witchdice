@@ -9,6 +9,7 @@ const EntryList = ({
   handleEntryClick,
   activeCharacterID,
   deleteActiveCharacter,
+  checkIfDeletable = (id) => true,
   deleteEnabled = true,
   exportActiveCharacter,
   refreshActiveCharacter,
@@ -58,7 +59,7 @@ const EntryList = ({
                 />
               }
 
-              {deleteEnabled && (id === activeCharacterID) &&
+              {deleteEnabled && checkIfDeletable(id) && (id === activeCharacterID) &&
                 <DeleteButton handleClick={() => setIsDeleting(true)} />
               }
             </li>

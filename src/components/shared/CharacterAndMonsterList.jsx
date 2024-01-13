@@ -36,6 +36,7 @@ const CharacterList = ({
   characterEntries,
   handleEntryClick,
   activeCharacterID,
+  checkIfDeletable = (id) => true,
   deleteActiveCharacter,
   exportActiveCharacter = null,
   refreshActiveCharacter = null,
@@ -64,6 +65,7 @@ const CharacterList = ({
           entries={characterEntries}
           handleEntryClick={handleEntryClick}
           activeCharacterID={activeCharacterID}
+          checkIfDeletable={checkIfDeletable}
           deleteActiveCharacter={deleteActiveCharacter}
           exportActiveCharacter={exportActiveCharacter}
           refreshActiveCharacter={refreshActiveCharacter}
