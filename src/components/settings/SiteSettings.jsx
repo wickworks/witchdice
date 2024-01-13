@@ -29,7 +29,7 @@ const SiteSettings = ({
   }
 
   const isPageHidden = (pageID) => {
-    return ['terms','owlbear','view'].includes(pageID)
+    return ['terms','owlbear','view','draft'].includes(pageID)
   }
 
   const pageClass = (pageID) => {

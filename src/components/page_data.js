@@ -33,6 +33,13 @@ const allPages = [
     metaTitle: 'Witch Dice ~ Lancer',
     metaDesc: 'Attack and damage roller for the Lancer RPG.',
   },{
+    id: 'draft',
+    title: 'Lancer Draft',
+    desc: 'WIP system of drafting Lancer NPCs',
+    defaultEnabled: false,
+    metaTitle: 'Witch Dice ~ Lancer Draft',
+    metaDesc: 'WIP system of drafting Lancer NPCs.',
+  },{
     id: 'settings',
     title: 'Settings',
     desc: 'Settings, tips, and tricks.',

@@ -32,6 +32,15 @@ function capitalize(string, preLowerCase = false) {
   return capString
 }
 
+function snakeToCamel(str) {
+  return str.toLowerCase().replace(/([-_][a-z])/g, group =>
+    group
+      .toUpperCase()
+      .replace('-', '')
+      .replace('_', '')
+  )
+}
+
 // The react-select wants us to pass in the ENTIRE option from above to be selected, not just the value.
 // However, I don't want to store its weird-ass special object. We can just retrieve it with the key here.
 function getOptionFromValue(options, value) {
@@ -43,4 +52,4 @@ function getOptionFromValue(options, value) {
   return result;
 }
 
-export {deepCopy, getRandomInt, capitalize, getOptionFromValue} ;
+export {deepCopy, getRandomInt, capitalize, snakeToCamel, getOptionFromValue} ;

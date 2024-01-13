@@ -1,12 +1,12 @@
 import React from 'react';
-import { getAllBondData } from '../lancerData.js';
+import { findAllGameData } from '../lancerData.js';
 import './ChooseNewBond.scss';
 
 const ChooseNewBond = ({
   currentBondId,
   setPilotBond,
 }) => {
-  const allBondData = getAllBondData('bonds')
+  const allBondData = findAllGameData('bonds')
 
   return (
     <div className='ChooseNewBond'>

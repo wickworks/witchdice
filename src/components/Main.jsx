@@ -25,6 +25,7 @@ const MainSimple = lazy(() => import('./simple/MainSimple.jsx'));
 const Main5E = lazy(() => import('./5e/Main5E.jsx'));
 const MainWitchCraft = lazy(() => import('./witchcraft/MainWitchCraft.jsx'));
 const MainLancer = lazy(() => import('./lancer/MainLancer.jsx'));
+const MainDraft = lazy(() => import('./draft/MainDraft.jsx'));
 const MainSettings = lazy(() => import('./settings/MainSettings.jsx'));
 const MainTOS = lazy(() => import('./termsofservice/MainTOS.jsx'));
 const MainOwlbear = lazy(() => import('./owlbear/MainOwlbear.jsx'));
@@ -457,6 +458,17 @@ const Main = ({
               partyRoom={partyRoom}
               setTriggerRerender={setTriggerRerender}
               triggerRerender={triggerRerender}
+            />
+            {renderDicebag()}
+          </Suspense>
+        </Route>
+
+        <Route path="/draft">
+          <HelmetForPage pageID='draft' />
+          <Suspense fallback={<LoadinDots />}>
+            <MainDraft
+              partyConnected={partyConnected}
+              partyRoom={partyRoom}
             />
             {renderDicebag()}
           </Suspense>

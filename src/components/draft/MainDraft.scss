@@ -1,0 +1,36 @@
+@import '../../fonts';
+
+.MainDraft {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 20px;
+
+  .panel {
+    @include shadow;
+    @include parchment_background;
+    @include nouveau_border('nouveau_roller.svg');
+
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 800px;
+    padding: 0 20px 20px;
+    margin: 0 20px;
+
+    h3 {
+      @include text_title_heavy;
+      text-align: center;
+    }
+
+  }
+
+
+
+  // h2 {
+  //   text-align: center;
+  // }
+
+
+}
