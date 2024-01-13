@@ -5,15 +5,21 @@ import './DraftCard.scss';
 
 
 const DraftCard = ({
-  npcID
+  npcID,
+  onClick = null,
+  disabled = false,
 }) => {
 
   const npcData = findNpcClassData(npcID)
 
   return (
-    <div className='DraftCard'>
-      {npcData.name}
-    </div>
+    <button className='DraftCard' onClick={onClick} disabled={disabled}>
+      {(npcID && npcData) ?
+        npcData.name
+      :
+        '<blank>'
+      }
+    </button>
   )
 }
 

@@ -2,5 +2,25 @@
 
 .DraftDecks {
 
+  .central-pool {
+    display: flex;
+    justify-content: flex-start;
+    gap: 20px;
 
+    .undrawn {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+    }
+
+    .current-picks {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      column-gap: 16px;
+      row-gap: 8px;
+    }
+  }
 }
