@@ -17,7 +17,6 @@ import {
 } from './synergyUtils.js';
 
 export function getAvailableBonusDamageSources(damageSourceInputs, activeMount, activeWeapon, activeInvadeData) {
-  console.log('damageSourceInputs',damageSourceInputs);
   let bonusDamageSources = [
     ...getBonusDamageSourcesFromMech(damageSourceInputs.frameID),
     ...getBonusDamageSourcesFromTalents(damageSourceInputs.pilotTalents),

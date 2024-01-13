@@ -34,8 +34,6 @@ const LancerPlayerMode = ({
   setTriggerRerender,
   triggerRerender,
 
-  bondsEnabled = false,
-
   partyConnected,
   partyRoom,
   setPartyLastAttackKey,
@@ -342,13 +340,11 @@ const LancerPlayerMode = ({
                   deleteEnabled={false}
                 />
               </PlainList>
-              { bondsEnabled &&
-                <BondButton
-                  onClick={onBondButtonClick}
-                  isViewingBond={isViewingBond}
-                  bondID={activePilot.bondId}
-                />
-              }
+              <BondButton
+                onClick={onBondButtonClick}
+                isViewingBond={isViewingBond}
+                bondID={activePilot.bondId}
+              />
             </div>
 
           </>

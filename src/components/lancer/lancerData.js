@@ -15,7 +15,38 @@ function hashLcpData(lcpData) {
   return hashedLcpData
 }
 
-const data = hashLcpData(require('@massif/lancer-data'));
+const data = [
+  require('@massif/lancer-data'),
+  require('@massif/dustgrave-data'),
+  require('@massif/ktb-data'),
+  require('@massif/long-rim-data'),
+  require('@massif/osr-data'),
+  require('@massif/ssmr-data'),
+  require('@massif/wallflower-data'),
+].map(
+  lcpData => hashLcpData(lcpData)
+).reduce(
+  (totalData, lcpData) => {
+    return {
+      actions: {...(totalData.actions) || {}, ...(lcpData.actions || {})},
+      weapons: {...(totalData.weapons) || {}, ...(lcpData.weapons || {})},
+      skills: {...(totalData.skills) || {}, ...(lcpData.skills || {})},
+      pilot_gear: {...(totalData.pilot_gear) || {}, ...(lcpData.pilot_gear || {})},
+      tags: {...(totalData.tags) || {}, ...(lcpData.tags || {})},
+      frames: {...(totalData.frames) || {}, ...(lcpData.frames || {})},
+      talents: {...(totalData.talents) || {}, ...(lcpData.talents || {})},
+      core_bonuses: {...(totalData.core_bonuses) || {}, ...(lcpData.core_bonuses || {})},
+      systems: {...(totalData.systems) || {}, ...(lcpData.systems || {})},
+      mods: {...(totalData.mods) || {}, ...(lcpData.mods || {})},
+      npc_classes: {...(totalData.npc_classes) || {}, ...(lcpData.npc_classes || {})},
+      npc_features: {...(totalData.npc_features) || {}, ...(lcpData.npc_features || {})},
+      npc_templates: {...(totalData.npc_templates) || {}, ...(lcpData.npc_templates || [])},
+      bonds: {...(totalData.bonds) || {}, ...(lcpData.bonds || {})},
+    }
+  },
+  {}
+);
+
 export const allActions = data.actions;
 const allWeapons = data.weapons;
 const allSkills = data.skills;
@@ -29,6 +60,7 @@ const allMods = data.mods;
 const allNpcClasses = data.npc_classes;
 const allNpcFeatures = data.npc_features;
 const allNpcTemplates = data.npc_templates;
+export const allBonds = data.bonds;
 // const allStatuses = data.statuses; // for some reason this was returning junk??
 const allStatuses = require('@massif/lancer-data/lib/statuses.json')
 
@@ -279,11 +311,13 @@ export const findTagData = (tagID) => {
 }
 
 export const findBondData = (bondID) => {
-  // no core bonds
-  var bondData = findGameDataFromLcp('bonds', bondID)
+  var bondData = allBonds[bondID]
+  if (!bondData) bondData = findGameDataFromLcp('bonds', bondID)
   return bondData ? bondData : blankBond
 }
-
+export const getAllBondData = () => {
+  return {...allBonds, ...findAllGameDataFromLcp('bonds')}
+}
 
 export const OVERCHARGE_SEQUENCE = ['1','1d3','1d6','1d6+4']
 

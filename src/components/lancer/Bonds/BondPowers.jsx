@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Select from 'react-select'
 import TraitBlock from '../MechSheet/TraitBlock.jsx';
-import { findAllGameDataFromLcp } from '../lancerData.js'
+import { getAllBondData } from '../lancerData.js'
 import { deepCopy } from '../../../utils.js';
 import './BondPowers.scss';
 
@@ -21,7 +21,7 @@ function getOptionsForBond(pilotBondPowers, bondData) {
 }
 
 function getBondPowersGroupedByClass(activeBondID, pilotBondPowers) {
-  const allBondData = findAllGameDataFromLcp('bonds')
+  const allBondData = getAllBondData('bonds')
   const allOptions = []
   // start with the powers for the current class
   allOptions.push({
