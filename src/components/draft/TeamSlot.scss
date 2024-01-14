@@ -1,0 +1,37 @@
+@import '../../fonts';
+
+.TeamSlot {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+
+  button.slot-section {
+    // @include text_connect_button;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+    padding: 8px;
+    background-color: $mud;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $mud_light;
+      color: white;
+    }
+
+    &:disabled {
+      background-color: $grey_mid_light;
+      color: $grey_dark;
+      cursor: auto;
+    }
+  }
+
+  .npcs, .upgrades {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+}

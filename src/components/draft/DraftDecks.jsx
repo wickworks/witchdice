@@ -1,7 +1,25 @@
 import React, { useState } from 'react';
 import DraftCard from './DraftCard.jsx';
+import PlayerTeam from './PlayerTeam.jsx';
+import NouveauDivider from '../shared/NouveauDivider.jsx';
+import { deepCopy } from '../../utils.js';
 
 import './DraftDecks.scss';
+
+const blankTeamSlot = {
+  npcs: [],
+  upgrades: []
+}
+
+const blankPlayerTeam = {
+  unallocated: [],
+  slots: [
+    deepCopy(blankTeamSlot),
+    deepCopy(blankTeamSlot),
+    deepCopy(blankTeamSlot),
+    deepCopy(blankTeamSlot),
+  ]
+}
 
 
 const DraftDecks = ({
@@ -10,7 +28,7 @@ const DraftDecks = ({
   const [undrawnDeck, setUndrawnDeck] = useState(totalNpcDeck)
   const [currentPicks, setCurrentPicks] = useState(['','','','','','','',''])
 
-  const [playerCards, setPlayerCards] = useState([])
+  const [playerTeam, setPlayerTeam] = useState(deepCopy(blankPlayerTeam))
 
   // get the next empty slot
   const nextEmptySlot = currentPicks.indexOf('')
@@ -34,7 +52,10 @@ const DraftDecks = ({
       const newCurrentPicks = [...currentPicks]
       newCurrentPicks[currentPicksIndex] = ''
       setCurrentPicks(newCurrentPicks)
-      setPlayerCards([...playerCards, pickedNpcID])
+
+      const newPlayerTeam = {...playerTeam}
+      newPlayerTeam.unallocated.push(pickedNpcID)
+      setPlayerTeam(newPlayerTeam)
     }
   }
 
@@ -50,16 +71,18 @@ const DraftDecks = ({
 
         <div className='current-picks'>
           {currentPicks.map((npcID, i) =>
-            <DraftCard npcID={npcID} onClick={() => handlePickCard(i)} disabled={!npcID} />
+            <DraftCard npcID={npcID} onClick={() => handlePickCard(i)} disabled={!npcID} key={i} />
           )}
         </div>
       </div>
 
-      <div className='player-picks'>
-        {playerCards.map((npcID, i) =>
-          <DraftCard npcID={npcID} onClick={() => {}} />
-        )}
-      </div>
+      <NouveauDivider />
+
+
+      <PlayerTeam
+        playerTeam={playerTeam}
+        setPlayerTeam={setPlayerTeam}
+      />
 
     </div>
   )

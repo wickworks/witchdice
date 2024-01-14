@@ -1,0 +1,37 @@
+@import '../../fonts';
+
+.PlayerTeam {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  column-gap: 20px;
+
+  > p {
+    @include text_label;
+  }
+
+  .unallocated {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+    // .unallocated-card-container {
+    //   &.selected {
+    //     background-color: $pink;
+    //   }
+    // }
+  }
+
+  .slots {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 18px;
+    column-gap: 18px;
+
+    .slot-container {
+      // display: flex;
+
+      // .slot-number {
+      //
+      // }
+    }
+  }
+}

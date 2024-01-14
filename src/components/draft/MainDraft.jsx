@@ -72,7 +72,6 @@ const MainDraft = ({
 
       {(npcDeck.length > 0) &&
         <DraftDecks totalNpcDeck={npcDeck}/>
-
       }
     </div>
   )

@@ -8,12 +8,17 @@ const DraftCard = ({
   npcID,
   onClick = null,
   disabled = false,
+  isSelected = false,
 }) => {
 
   const npcData = findNpcClassData(npcID)
 
   return (
-    <button className='DraftCard' onClick={onClick} disabled={disabled}>
+    <button
+      className={`DraftCard ${isSelected ? 'selected' : ''}`}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {(npcID && npcData) ?
         npcData.name
       :
