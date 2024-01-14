@@ -467,6 +467,7 @@ const Main = ({
           <HelmetForPage pageID='draft' />
           <Suspense fallback={<LoadinDots />}>
             <MainDraft
+              partyName={partyName}
               partyConnected={partyConnected}
               partyRoom={partyRoom}
             />

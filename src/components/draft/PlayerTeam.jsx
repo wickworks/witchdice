@@ -47,7 +47,7 @@ const PlayerTeam = ({
   return (
     <div className='PlayerTeam'>
       <p>Unallocated</p>
-      <p>Team</p>
+      <p>Your Team</p>
 
       <div className='unallocated'>
         {playerTeam.unallocated.map((npcID, i) =>
@@ -58,15 +58,13 @@ const PlayerTeam = ({
       </div>
       <div className='slots'>
         {playerTeam.slots.map((slot, i) =>
-          <div className='slot-container'>
-            <TeamSlot
-              slotData={slot}
-              onPressSlot={(npcOrUpgrade) => setSelectedToSlot(i, npcOrUpgrade)}
-              onUnallocateSlot={(npcOrUpgrade, innerIndex) => unallocateSlot(i, npcOrUpgrade, innerIndex)}
-              isDisabled={!canAllocate}
-              key={i}
-            />
-          </div>
+          <TeamSlot
+            slotData={slot}
+            onPressSlot={(npcOrUpgrade) => setSelectedToSlot(i, npcOrUpgrade)}
+            onUnallocateSlot={(npcOrUpgrade, innerIndex) => unallocateSlot(i, npcOrUpgrade, innerIndex)}
+            isDisabled={!canAllocate}
+            key={i}
+          />
         )}
       </div>
 

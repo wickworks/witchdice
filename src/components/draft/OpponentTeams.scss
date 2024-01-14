@@ -1,0 +1,27 @@
+@import '../../fonts';
+
+.OpponentTeams {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  .SpecificOpponent {
+    // display: flex;
+
+    > p {
+      @include text_label;
+      margin: 16px 0 4px;
+
+    }
+
+    .opponent-cards-container {
+      // width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 16px;
+      row-gap: 2px;
+    }
+  }
+
+
+}

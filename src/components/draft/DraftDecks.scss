@@ -25,7 +25,11 @@
   }
 
   .NouveauDivider {
-    margin: 26px auto;
+    margin: 34px auto;
+
+    &.reversed {
+
+    }
   }
 
   .player-picks {

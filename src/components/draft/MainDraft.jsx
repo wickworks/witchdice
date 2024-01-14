@@ -61,6 +61,7 @@ const defaultDeck = [
 
 
 const MainDraft = ({
+  partyName,
   partyConnected,
   partyRoom,
 }) => {
@@ -71,7 +72,7 @@ const MainDraft = ({
       <SetupDeck setNpcDeck={setNpcDeck}/>
 
       {(npcDeck.length > 0) &&
-        <DraftDecks totalNpcDeck={npcDeck}/>
+        <DraftDecks totalNpcDeck={npcDeck} partyName={partyName}/>
       }
     </div>
   )
