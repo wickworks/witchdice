@@ -3,7 +3,7 @@ import { findAllGameData, findNpcClassData } from '../lancer/lancerData.js';
 import './SetupDeck.scss';
 
 const SetupDeck = ({
-  setNpcDeck
+  setNewNpcDeck,
 }) => {
   const [checkedNpcs, setCheckedNpcs] = useState([])
   const [duplicateCount, setDuplicateCount] = useState(4)
@@ -61,9 +61,7 @@ const SetupDeck = ({
         )}
       </ul>
 
-      <button
-        onClick={() => setNpcDeck(totalNpcDeck)}
-      >
+      <button onClick={() => setNewNpcDeck(totalNpcDeck)}>
         Finalize Deck
       </button>
     </div>

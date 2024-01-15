@@ -7,41 +7,25 @@ import { deepCopy, getRandomInt } from '../../utils.js';
 
 import './DraftDecks.scss';
 
-const blankTeamSlot = {
-  npcs: [],
-  upgrades: []
-}
-
-const blankPlayerTeam = {
-  unallocated: [],
-  slots: [
-    deepCopy(blankTeamSlot),
-    deepCopy(blankTeamSlot),
-    deepCopy(blankTeamSlot),
-    deepCopy(blankTeamSlot),
-  ]
-}
-
 
 const DraftDecks = ({
-  totalNpcDeck,
-  partyName
+  undrawnDeck,
+  setUndrawnDeck,
+  currentPicks,
+  setCurrentPicks,
+  allTeams,
+  setTeamData,
+  partyName,
 }) => {
-  const [undrawnDeck, setUndrawnDeck] = useState(totalNpcDeck)
-  const [currentPicks, setCurrentPicks] = useState(['','','','','','','',''])
-
-  const [allTeams, setAllTeams] = useState({
-    [partyName]: deepCopy(blankPlayerTeam),
-    'opponent': deepCopy(blankPlayerTeam),
-    'hii': deepCopy(blankPlayerTeam),
-  })
+  // const [currentPicks, setCurrentPicks] = useState(['','','','','','','',''])
+  //
+  // const [allTeams, setAllTeams] = useState({
+  //   [partyName]: deepCopy(blankPlayerTeam),
+  //   'opponent': deepCopy(blankPlayerTeam),
+  //   'hii': deepCopy(blankPlayerTeam),
+  // })
 
   const playerTeam = allTeams[partyName]
-  const setPlayerTeam = (newPlayerTeam) => {
-    const newAllTeams = {...allTeams}
-    newAllTeams[partyName] = newPlayerTeam
-    setAllTeams(newAllTeams)
-  }
 
   // get an object with all the opponent teams
   const opponentTeams = {...allTeams}
@@ -73,7 +57,7 @@ const DraftDecks = ({
 
       const newPlayerTeam = {...playerTeam}
       newPlayerTeam.unallocated.push(pickedNpcID)
-      setPlayerTeam(newPlayerTeam)
+      setTeamData(partyName, newPlayerTeam)
     }
   }
 
@@ -104,7 +88,7 @@ const DraftDecks = ({
 
       <PlayerTeam
         playerTeam={playerTeam}
-        setPlayerTeam={setPlayerTeam}
+        setPlayerTeam={(teamData) => setTeamData(partyName, teamData)}
       />
 
     </div>

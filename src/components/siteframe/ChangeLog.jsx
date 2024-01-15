@@ -14,7 +14,7 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.2.0 — Jan 2023</div>
+          <div className='version-label'>v1.2.0 — Jan 2024</div>
           <ul>
             <li>Include all first-party LCPs automatically.</li>
           </ul>

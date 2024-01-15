@@ -8,8 +8,6 @@ const OpponentTeams = ({
   opponentTeams
 }) => {
 
-  console.log('opponentTeams', Object.keys(opponentTeams));
-
   return (
     <div className='OpponentTeams'>
       {Object.keys(opponentTeams).map(opponentName =>
