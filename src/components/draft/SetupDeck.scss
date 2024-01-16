@@ -29,28 +29,9 @@
   }
 
   button {
-    // @include text_connect_button;
-    color: white;
-    text-decoration: none;
-    text-align: center;
-    width: fit-content;
-    display: block;
+    @include red_button;
     margin: 0 auto 5px;
     padding: 8px 70px;
-    border: none;
-    border-radius: 8px;
-    background-color: $rust;
-    cursor: pointer;
-
-    &:hover {
-      background-color: $rust_light;
-      color: white;
-    }
-    &:disabled {
-      cursor: auto;
-      background-color: $parchment_dark;
-      color: $grey_mid;
-    }
   }
 
   > p { text-align: center; }

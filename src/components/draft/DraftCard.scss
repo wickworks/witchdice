@@ -1,28 +1,9 @@
 @import '../../fonts';
 
 button.DraftCard {
-  // @include text_connect_button;
-  color: white;
-  text-decoration: none;
-  text-align: center;
+  @include red_button;
   width: 100%;
-  display: block;
   margin: 0 auto;
-  padding: 8px;
-  border: none;
-  border-radius: 8px;
-  background-color: $rust;
-  cursor: pointer;
-
-  &:hover {
-    background-color: $rust_light;
-    color: white;
-  }
-  &:disabled {
-    cursor: auto;
-    background-color: $parchment_dark;
-    color: $grey_mid;
-  }
 
   &.selected {
     background-color: $periwinkle;
@@ -30,5 +11,4 @@ button.DraftCard {
       background-color: $periwinkle_light;
     }
   }
-
 }

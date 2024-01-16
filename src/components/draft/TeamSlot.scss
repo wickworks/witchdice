@@ -3,29 +3,28 @@
 .TeamSlot {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px;
+  // gap: 6px;
+  background-color: $parchment_dark;
+  border-radius: 8px;
 
   button.slot-section {
-    // @include text_connect_button;
-    color: white;
-    text-decoration: none;
-    text-align: center;
+    @include red_button;
     width: 100%;
-    display: block;
     margin: 0 auto;
     padding: 8px;
-    background-color: $mud;
-    cursor: pointer;
+    // border-radius: 0;
 
+    background-color: $olive_light;
+    color: $grey_very_dark;
     &:hover {
-      background-color: $mud_light;
+      background-color: $olive_dark;
       color: white;
     }
 
     &:disabled {
-      background-color: $grey_mid_light;
-      color: $grey_dark;
       cursor: auto;
+      background-color: $parchment_dark;
+      color: $grey_mid;
     }
   }
 
@@ -33,5 +32,6 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
+    padding: 4px;
   }
 }

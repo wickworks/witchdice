@@ -71,8 +71,9 @@ const DraftDecks = ({
 
       <div className='central-pool'>
         <div className='undrawn'>
-          <button className='asset ssc-watermark' onClick={() => handleDrawCard()} disabled={nextEmptySlot < 0} />
-          ({undrawnDeck.length})
+          <button className='asset ssc-watermark' onClick={() => handleDrawCard()} disabled={nextEmptySlot < 0}>
+            {undrawnDeck.length}
+          </button>
         </div>
 
         <div className='current-picks'>

@@ -6,22 +6,25 @@
   column-gap: 20px;
 
   > p {
-    @include text_label;
-    margin-top: 0;
+    @include text_title_light;
+    margin: 0;
+    text-align: center;
+    padding: 8px 0;
+    border-top: 2px solid $parchment_dark;
+    border-bottom: 2px solid $parchment_dark;
   }
 
   .unallocated {
+    background-color: $parchment_dark;
+    padding: 8px;
+
     display: flex;
     flex-direction: column;
     row-gap: 4px;
-    // .unallocated-card-container {
-    //   &.selected {
-    //     background-color: $pink;
-    //   }
-    // }
   }
 
   .slots {
+    margin-top: 8px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     row-gap: 18px;

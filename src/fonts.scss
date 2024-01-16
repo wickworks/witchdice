@@ -54,6 +54,29 @@
   background-color: #f6ebbf; // matches the image
 }
 
+@mixin red_button {
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  width: fit-content;
+  display: block;
+  padding: 8px;
+  border: none;
+  border-radius: 8px;
+  background-color: $rust;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $rust_light;
+    color: white;
+  }
+  &:disabled {
+    cursor: auto;
+    background-color: $parchment_dark;
+    color: $grey_mid;
+  }
+}
+
 // @import url('https://fonts.googleapis.com/css?family=Bitter:regular,bold,italic&subset=latin,latin-ext');
 // @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 

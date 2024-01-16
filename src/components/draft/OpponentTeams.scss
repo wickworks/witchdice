@@ -3,15 +3,20 @@
 .OpponentTeams {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 20px;
 
   .SpecificOpponent {
     // display: flex;
 
     > p {
-      @include text_label;
-      margin: 16px 0 4px;
-
+      @include text_title_light;
+      margin: 0;
+      text-align: center;
+      padding: 8px 0;
+      margin: 0 0 6px;
+      border-top: 2px solid $parchment_dark;
+      border-bottom: 2px solid $parchment_dark;
     }
 
     .opponent-cards-container {
