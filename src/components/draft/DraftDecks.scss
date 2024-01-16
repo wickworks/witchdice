@@ -1,4 +1,5 @@
 @import '../../fonts';
+@import '../../assets_lancer';
 
 .DraftDecks {
 
@@ -13,6 +14,32 @@
       justify-content: center;
       gap: 8px;
       text-align: center;
+
+      button {
+        // @include text_connect_button;
+        color: white;
+        text-decoration: none;
+        text-align: center;
+        width: 80px;
+        height: 100px;
+        display: block;
+        margin: 0 auto;
+        padding: 8px;
+        border: none;
+        border-radius: 8px;
+        background-color: $rust;
+        cursor: pointer;
+
+        &:hover {
+          background-color: $rust_light;
+          color: white;
+        }
+        &:disabled {
+          cursor: auto;
+          background-color: $parchment_dark;
+          color: $grey_mid;
+        }
+      }
     }
 
     .current-picks {
@@ -26,10 +53,6 @@
 
   .NouveauDivider {
     margin: 34px auto;
-
-    &.reversed {
-
-    }
   }
 
   .player-picks {

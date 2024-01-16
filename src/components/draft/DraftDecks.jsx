@@ -4,32 +4,30 @@ import PlayerTeam from './PlayerTeam.jsx';
 import OpponentTeams from './OpponentTeams.jsx';
 import NouveauDivider from '../shared/NouveauDivider.jsx';
 import { deepCopy, getRandomInt } from '../../utils.js';
+import { blankPlayerTeam } from './MainDraft.jsx';
 
 import './DraftDecks.scss';
 
 
 const DraftDecks = ({
   undrawnDeck,
-  setUndrawnDeck,
+  updateDraftState,
   currentPicks,
-  setCurrentPicks,
   allTeams,
-  setTeamData,
   partyName,
 }) => {
-  // const [currentPicks, setCurrentPicks] = useState(['','','','','','','',''])
-  //
-  // const [allTeams, setAllTeams] = useState({
-  //   [partyName]: deepCopy(blankPlayerTeam),
-  //   'opponent': deepCopy(blankPlayerTeam),
-  //   'hii': deepCopy(blankPlayerTeam),
-  // })
-
-  const playerTeam = allTeams[partyName]
+  const playerTeam = {...deepCopy(blankPlayerTeam), ...allTeams[partyName]}
+  const setPlayerTeam = (newPlayerTeam) => {
+    const newAllTeams = {...allTeams}
+    newAllTeams[partyName] = newPlayerTeam
+    updateDraftState({allTeams: newAllTeams})
+  }
 
   // get an object with all the opponent teams
-  const opponentTeams = {...allTeams}
-  delete opponentTeams[partyName]
+  const opponentTeams = {}
+  Object.keys(allTeams).forEach(teamName => {
+    if (teamName !== partyName) opponentTeams[teamName] = {...deepCopy(blankPlayerTeam), ...allTeams[teamName]}
+  });
 
   // get the next empty slot
   const nextEmptySlot = currentPicks.indexOf('')
@@ -40,11 +38,11 @@ const DraftDecks = ({
       const drawIndex = getRandomInt(undrawnDeck.length) - 1 // 0-51
       const drawnNpcID = newUndrawnDeck[drawIndex]
       newUndrawnDeck.splice(drawIndex, 1)
-      setUndrawnDeck(newUndrawnDeck)
 
       const newCurrentPicks = [...currentPicks]
       newCurrentPicks[nextEmptySlot] = drawnNpcID
-      setCurrentPicks(newCurrentPicks)
+
+      updateDraftState({undrawnDeck: newUndrawnDeck, currentPicks: newCurrentPicks})
     }
   }
 
@@ -53,11 +51,11 @@ const DraftDecks = ({
     if (pickedNpcID) {
       const newCurrentPicks = [...currentPicks]
       newCurrentPicks[currentPicksIndex] = ''
-      setCurrentPicks(newCurrentPicks)
 
-      const newPlayerTeam = {...playerTeam}
+      const newPlayerTeam = {...deepCopy(blankPlayerTeam), ...playerTeam}
       newPlayerTeam.unallocated.push(pickedNpcID)
-      setTeamData(partyName, newPlayerTeam)
+
+      updateDraftState({allTeams: {...allTeams, [partyName]: newPlayerTeam}, currentPicks: newCurrentPicks})
     }
   }
 
@@ -73,7 +71,7 @@ const DraftDecks = ({
 
       <div className='central-pool'>
         <div className='undrawn'>
-          <DraftCard npcID={''} onClick={() => handleDrawCard()} disabled={nextEmptySlot === -1} />
+          <button className='asset ssc-watermark' onClick={() => handleDrawCard()} disabled={nextEmptySlot < 0} />
           ({undrawnDeck.length})
         </div>
 
@@ -88,7 +86,7 @@ const DraftDecks = ({
 
       <PlayerTeam
         playerTeam={playerTeam}
-        setPlayerTeam={(teamData) => setTeamData(partyName, teamData)}
+        setPlayerTeam={setPlayerTeam}
       />
 
     </div>

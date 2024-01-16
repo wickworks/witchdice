@@ -16,8 +16,6 @@ const TeamSlot = ({
   isDisabled = false
 }) => {
 
-
-
   return (
     <div className='TeamSlot'>
 

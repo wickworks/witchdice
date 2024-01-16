@@ -65,14 +65,34 @@ const blankTeamSlot = {
   upgrades: []
 }
 
-const blankPlayerTeam = {
+const blankPlayerSlots = [
+  deepCopy(blankTeamSlot),
+  deepCopy(blankTeamSlot),
+  deepCopy(blankTeamSlot),
+  deepCopy(blankTeamSlot),
+]
+export const blankPlayerTeam = {
+  state: 'joined', // firebase doesn't store this object if it's totally empty
   unallocated: [],
-  slots: [
-    deepCopy(blankTeamSlot),
-    deepCopy(blankTeamSlot),
-    deepCopy(blankTeamSlot),
-    deepCopy(blankTeamSlot),
-  ]
+  slots: deepCopy(blankPlayerSlots)
+}
+
+const blankDraftState = {
+  undrawnDeck: [],
+  currentPicks: ['','','','','','','',''],
+  allTeams: {}
+}
+
+const importStateFromFirebase = (importedDraftState) => {
+  var newDraftState = {...blankDraftState, ...importedDraftState}
+  Object.keys(newDraftState.allTeams).forEach(teamName => {
+    newDraftState.allTeams[teamName].unallocated = newDraftState.allTeams[teamName].unallocated || []
+    newDraftState.allTeams[teamName].slots = newDraftState.allTeams[teamName].slots || []
+    newDraftState.allTeams[teamName].slots = deepCopy(blankPlayerSlots.map(
+      (blankSlot, i) => (i < newDraftState.allTeams[teamName].slots.length ? {...blankSlot, ...newDraftState.allTeams[teamName].slots[i]} : blankSlot)
+    ))
+  });
+  return newDraftState
 }
 
 const FIREBASE_DRAFT_STATE_KEY = 'drafts'
@@ -81,22 +101,17 @@ function getFirebaseDB() {
   return window.firebase.database().ref()
 }
 
-const blankDraftState = {
-  undrawnDeck: [],
-  currentPicks: ['','','','','','','',''],
-}
-
 const MainDraft = ({
   partyName,
   partyConnected,
   partyRoom,
 }) => {
-  // when we get REMOTE changes, that remote data is set here
-  // const [draftStateFromRemote, setDraftStateFromRemote] = useState(null);
   // the Firebase item ID we're reading from and writing to
   const [currentDraftID, setCurrentDraftID] = useState('');
   // just the whole json of the draft state
   const [draftState, setDraftState] = useState({})
+  const [updatedStateFromServer, setUpdatedStateFromServer] = useState(false)
+
 
   // ~~ INITIAL CONNECTION FROM SERVER ~~
   // Watch server for change/add/delete events & update the local data accordingly.
@@ -107,22 +122,28 @@ const MainDraft = ({
         const dbDraftRef = getFirebaseDB().child(FIREBASE_DRAFT_STATE_KEY).child(partyRoom)
         dbDraftRef.on('child_changed', (snapshot) => {
           if (snapshot) {
+            // console.log('child changed', snapshot.val(), '  IMPORTED:', importStateFromFirebase(snapshot.val()));
             setCurrentDraftID(snapshot.key)
-            setDraftState(snapshot.val())
+            setDraftState(importStateFromFirebase(snapshot.val()))
+            setUpdatedStateFromServer(true)
           }
         })
 
         dbDraftRef.on('child_added', (snapshot) => {
           if (snapshot) {
+            // console.log('child added', snapshot.val(), '  IMPORTED:', importStateFromFirebase(snapshot.val()));
             setCurrentDraftID(snapshot.key)
-            setDraftState(snapshot.val())
+            setDraftState(importStateFromFirebase(snapshot.val()))
+            setUpdatedStateFromServer(true)
           }
         })
 
         dbDraftRef.on('child_removed', (snapshot) => {
-          if (snapshot && snapshot.val().id === currentDraftID) {
+          if (snapshot && snapshot.key === currentDraftID) {
+            // console.log('child removed', snapshot.val());
             setCurrentDraftID('')
-            setDraftState(null)
+            setDraftState(blankDraftState)
+            setUpdatedStateFromServer(true)
           }
         })
 
@@ -149,40 +170,35 @@ const MainDraft = ({
   // ~~ DETECT STATE UPDATE, TRIGGER A SERVER UPDATE  ~~
   // (this will also trigger on remote changes, but setting to the thing we recieved won't do anything?)
   useEffect(() => {
-    if (draftState && currentDraftID) {
-      // update the draft state locally
-      // setDraftStateFromRemote(draftState)
-      console.log('DETECT STATE UPDATE, TRIGGER A SERVER UPDATE, draftState', draftState);
-
+    if (draftState && currentDraftID && !updatedStateFromServer) {
+      // console.log('DETECT STATE UPDATE, TRIGGER A SERVER UPDATE');
       // update the draft state on the server
       getFirebaseDB().child(FIREBASE_DRAFT_STATE_KEY).child(partyRoom).child(currentDraftID).set(draftState)
     }
+    setUpdatedStateFromServer(false)
   }, [ JSON.stringify(draftState) ]);
 
   // ================================================ INDIVIDUAL GETTERS/SETTERS ================================
-  const allTeams = deepCopy(draftState)
-  delete allTeams.undrawnDeck
-  delete allTeams.currentPicks
 
-  const setDraftStateProperty = (property, newProperty) => {
-    const newDraftState = deepCopy(draftState)
-    newDraftState[property] = newProperty
-    setDraftState(newDraftState)
+  const updateDraftState = (updates) => {
+    setDraftState({...deepCopy(draftState), ...updates})
   }
 
   const setNewNpcDeck = (newUndrawnDeck) => {
     const newDraftState = deepCopy(blankDraftState)
     newDraftState.undrawnDeck = newUndrawnDeck
-    newDraftState[partyName] = deepCopy(blankPlayerTeam)
+    newDraftState.allTeams[partyName] = deepCopy(blankPlayerTeam)
 
     if (partyConnected) {
-      console.log('starting new draft with state : ', newDraftState);
       const dbDraftRef = getFirebaseDB().child(FIREBASE_DRAFT_STATE_KEY).child(partyRoom)
       const newKey = dbDraftRef.push(newDraftState).key
+
+      // dbDraftRef.push({array: ['test'], obj: {test: 'test_object'}, 'olive': 'wtf'})
 
       // add the firebase key to the locally-saved entry
       setCurrentDraftID(newKey)
       // Set it locally
+      console.log('setNewNpcDeck');
       setDraftState(newDraftState)
     }
   }
@@ -190,12 +206,10 @@ const MainDraft = ({
 
 
   // ================================================ JOIN/START DRAFT ================================
-  console.log('draftState', draftState);
 
   const joinExistingDraft = () => {
     const newDraftState = {...draftState}
-    newDraftState[partyName] = deepCopy(blankPlayerTeam)
-    console.log('joining exsting draft, newDraftState',newDraftState);
+    newDraftState.allTeams[partyName] = deepCopy(blankPlayerTeam)
     setDraftState(newDraftState)
   }
 
@@ -206,11 +220,8 @@ const MainDraft = ({
   }
 
   const hasDraftStarted = !!currentDraftID//!!draftState.undrawnDeck && (draftState.undrawnDeck.length > 0)
-  const hasJoinedDraft = !!draftState[partyName]
+  const hasJoinedDraft = !!draftState.allTeams && !!draftState.allTeams[partyName]
   const readyToDraft = hasDraftStarted && hasJoinedDraft
-
-  console.log('hasDraftStarted', hasDraftStarted);
-  console.log('hasJoinedDraft', hasJoinedDraft);
 
   return (
     <div className='MainDraft'>
@@ -235,11 +246,9 @@ const MainDraft = ({
       {readyToDraft &&
         <DraftDecks
           undrawnDeck={draftState.undrawnDeck}
-          setUndrawnDeck={(newUndrawnDeck) => setDraftStateProperty('undrawnDeck', newUndrawnDeck)}
+          updateDraftState={updateDraftState}
           currentPicks={draftState.currentPicks}
-          setCurrentPicks={(newCurrentPicks) => setDraftStateProperty('currentPicks', newCurrentPicks)}
-          allTeams={allTeams}
-          setTeamData={(teamName, teamData) => setDraftStateProperty(teamName, teamData)}
+          allTeams={draftState.allTeams}
           partyName={partyName}
         />
       }

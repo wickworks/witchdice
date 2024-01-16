@@ -7,7 +7,6 @@ import './OpponentTeams.scss';
 const OpponentTeams = ({
   opponentTeams
 }) => {
-
   return (
     <div className='OpponentTeams'>
       {Object.keys(opponentTeams).map(opponentName =>
@@ -20,22 +19,6 @@ const OpponentTeams = ({
     </div>
   )
 }
-
-
-// const blankTeamSlot = {
-//   npcs: [],
-//   upgrades: []
-// }
-//
-// const blankPlayerTeam = {
-//   unallocated: [],
-//   slots: [
-//     deepCopy(blankTeamSlot),
-//     deepCopy(blankTeamSlot),
-//     deepCopy(blankTeamSlot),
-//     deepCopy(blankTeamSlot),
-//   ]
-// }
 
 const SpecificOpponent = ({
   opponentName,
