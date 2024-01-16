@@ -4,6 +4,7 @@ import './SetupDeck.scss';
 
 const SetupDeck = ({
   setNewNpcDeck,
+  partyConnected,
 }) => {
   const [checkedNpcs, setCheckedNpcs] = useState([])
   const [duplicateCount, setDuplicateCount] = useState(4)
@@ -61,9 +62,10 @@ const SetupDeck = ({
         )}
       </ul>
 
-      <button onClick={() => setNewNpcDeck(totalNpcDeck)}>
+      <button onClick={() => setNewNpcDeck(totalNpcDeck)} disabled={!partyConnected}>
         Finalize Deck
       </button>
+      {!partyConnected && <p>Join a room to start the draft!</p>}
     </div>
   )
 }

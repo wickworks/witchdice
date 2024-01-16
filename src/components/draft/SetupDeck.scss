@@ -28,7 +28,6 @@
     }
   }
 
-
   button {
     // @include text_connect_button;
     color: white;
@@ -47,10 +46,12 @@
       background-color: $rust_light;
       color: white;
     }
-    &.disabled {
+    &:disabled {
       cursor: auto;
       background-color: $parchment_dark;
       color: $grey_mid;
     }
   }
+
+  > p { text-align: center; }
 }

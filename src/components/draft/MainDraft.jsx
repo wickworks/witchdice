@@ -228,6 +228,7 @@ const MainDraft = ({
       {!hasDraftStarted ?
         <SetupDeck
           setNewNpcDeck={setNewNpcDeck}
+          partyConnected={partyConnected}
         />
       :
         <div className='controls panel'>
