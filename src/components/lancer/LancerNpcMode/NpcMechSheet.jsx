@@ -192,9 +192,9 @@ function getSystemTraits(items, perRoundState) {
       featureTraits.push({
         systemIndex: itemIndex,
         name: (item.flavorName || featureData.name).toLowerCase(),
-        activation: `${item.tech_type || 'Quick'} Tech`,
+        activation: `${featureData.tech_type || 'Quick'} Tech`,
         trigger: featureData.trigger,
-        description: [item.flavorName, featureData.effect].filter(str => str).join('<br>'),
+        description: [featureData.flavorName, featureData.effect].filter(str => str).join('<br>'),
         frequency: getUsesPerRound(featureData),
         range: featureData.range,
         selfHeat: selfHeat,
