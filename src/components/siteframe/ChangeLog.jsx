@@ -14,9 +14,12 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.2.0 — Jan 2024</div>
+          <div className='version-label'>v1.2.0-1 — Jan 2024</div>
           <ul>
             <li>Include all first-party LCPs automatically.</li>
+            <li>Added secret /draft url for prototype NPC PvP gamemode.</li>
+            <li>Fix NPC tech actions incorrectly being labelled as Quick.</li>
+            <li>Fix crash when first slot of a flex is empty.</li>
           </ul>
 
           <div className='version-label'>v1.1.22 — Dec 2023</div>
