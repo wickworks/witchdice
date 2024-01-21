@@ -161,7 +161,8 @@ const MechMount = ({
         const isLoaded = hasTag(weaponProfileData, 'tg_loading') ? weapon.loaded : null
 
         // GHOST BUG: if we log mount.slots[i], it'll print fine, but accessing its props crashes it.
-        const weaponMod = mount.slots[i] ? mount.slots[i].weapon.mod : null;
+        // const weaponMod = mount.slots[i] ? mount.slots[i].weapon.mod : null;
+        const weaponMod = (mount.slots[i] && mount.slots[i].weapon) ? mount.slots[i].weapon.mod : null;
 
         return (
           <MechWeapon
