@@ -70,17 +70,12 @@ const SquadPanel = ({
 	}
 
 	// Clicked "delete mech" locally: trigger a server deleting & remove locally.
-	const deleteEntry = (index) => {
-		if (index < 0 || index >= allSquadMechs.length) return
-
+	const deleteEntry = (mechID) => {
 		if (partyConnected) {
-      const mechID = allSquadMechs[index].detail.id
       getFirebaseDB().child(FIREBASE_SQUAD_MECH_KEY).child(partyRoom).child(mechID).remove()
 			getFirebaseDB().child(FIREBASE_SQUAD_DETAIL_KEY).child(partyRoom).child(mechID).remove()
 		}
-
-		let newData = [...allSquadMechs]
-		newData.splice(index, 1);
+		let newData = [...allSquadMechs].filter(squadMech => squadMech.detail.id !== mechID)
 		setAllSquadMechs(newData)
 	}
 
@@ -183,7 +178,6 @@ const SquadPanel = ({
     }
   }, [partyConnected]);
 
-
   return (
 		<div className='SquadPanel'>
     	<div className='squad-container'>
@@ -200,7 +194,7 @@ const SquadPanel = ({
 					{ allCompleteSquadMechs.map((squadMech, i) =>
             <SquadMech
               squadMech={squadMech}
-              onRemove={() => deleteEntry(i)}
+              onRemove={() => deleteEntry(squadMech.detail.id)}
               pointsRight={(i % 2 === 1)}
               key={squadMech.detail.id}
             />
