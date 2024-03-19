@@ -14,6 +14,17 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.2.2 — March 2024</div>
+          <ul>
+            <li>Added a name/class filter to the NPC roster.</li>
+            <li>LCP reader loads pilot skills from LCPs correctly. You will have to delete and re-add any LCPs to get them to start showing up.</li>
+            <li>Fix squad X button not always removing the right pilot.</li>
+            <li>Custom NPC system descriptions come through correctly.</li>
+            <li>Better e.g. "+1 difficulty to agility" detection in custom NPC system descriptions.</li>
+            <li>Better detection of NPC tech attacks (Hive, Nightmare).</li>
+            <li>Weapon profiles inherit tags from base weapon.</li>
+          </ul>
+
           <div className='version-label'>v1.2.0-1 — Jan 2024</div>
           <ul>
             <li>Include all first-party LCPs automatically.</li>
