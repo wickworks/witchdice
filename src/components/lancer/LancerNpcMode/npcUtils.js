@@ -19,13 +19,11 @@ export function getStat(key, npc) {
 export function getNpcSkillCheckAccuracy(skill, npc) {
   let accuracy = 0
   npc.items.forEach(feature => {
-    const setInCustomDescription = feature.description && feature.description.toLowerCase().includes(skill)
-
     const featureData = findNpcFeatureData(feature.itemID)
-    const effect = featureData.effect ? featureData.effect.toLowerCase() : ''
-
-     // something that is too long probably has something else going on
-    const setInFeatureEffect = effect.includes(`${skill} save`) && effect.length < 200
+    const effect = [featureData.effect, feature.description].filter(text => text).join(' ').toLowerCase()
+    // something that is too long probably has something else going on
+    const setInFeatureEffect = effect.includes(`${skill} save`) && featureData.effect < 200
+    const setInCustomDescription = feature.description && feature.description.toLowerCase().includes(skill)
 
     if (setInFeatureEffect || setInCustomDescription) {
       const value = parseInt(effect.charAt(effect.indexOf('+')+1))
