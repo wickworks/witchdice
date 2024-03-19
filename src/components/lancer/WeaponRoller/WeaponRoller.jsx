@@ -128,6 +128,13 @@ const WeaponRoller = ({
   const allWeaponProfiles = getAllWeaponProfiles(weaponData);
   const currentWeaponProfile = allWeaponProfiles[activeProfileIndex] || allWeaponProfiles[0];
 
+  // hacky inheritance of tags from the main weapon to the individual profiles (e.g. reaper assault cannon)
+  weaponData.tags.forEach(tag => {
+    if (!currentWeaponProfile.tags.some(profileTag => profileTag.id === tag.id)) {
+      currentWeaponProfile.tags = [...currentWeaponProfile.tags, tag]
+    }
+  });
+
   // console.log('allWeaponProfiles',allWeaponProfiles);
   // console.log('currentWeaponProfile',currentWeaponProfile);
   // console.log('weaponData',weaponData);

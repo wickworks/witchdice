@@ -52,7 +52,7 @@ export function createNewAttack(weaponData, flatBonus, accuracyMod, consumedLock
   let newAttack = {};
 
   // Overkill?
-  newAttack.isOverkill = hasTag(weaponData, 'tg_overkill');;
+  newAttack.isOverkill = hasTag(weaponData, 'tg_overkill');
 
   // Armor piercing?
   newAttack.isArmorPiercing = hasTag(weaponData, 'tg_ap')
@@ -324,7 +324,7 @@ export function getAllWeaponProfiles(weaponData) {
       })
     )
   } else {
-    allWeaponProfiles.push(weaponData)
+    allWeaponProfiles.push({...weaponData})
   }
   return allWeaponProfiles
 }
