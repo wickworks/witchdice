@@ -51,8 +51,14 @@ function isSystemTechAttack(systemData, onlyCheckInvade = false) {
 }
 
 function isNpcFeatureTechAttack(featureData) {
-  if (!featureData || !featureData.effect) return false
-  return featureData.effect.toLowerCase().indexOf('a tech attack') >= 0
+  if (!featureData) return false
+  if (!featureData.effect) return false
+  if (featureData.type !== 'Tech') return false
+
+  // detection via attack bonus being present
+  if (featureData.attack_bonus && featureData.attack_bonus.length > 0) return true
+  // detection via it saying "makes a tech attack"
+  return featureData.effect.toLowerCase().indexOf('makes a tech attack') >= 0
 }
 
 function getBroadcastObjectForWeapon(weaponData, bonusEffects, modData, flavorName = null) {
