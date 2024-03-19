@@ -92,6 +92,7 @@ const parseContentPack = async function (binString) {
     const npcFeatures = (await readZipJSON(zip, 'npc_features.json')) || [];
     const npcTemplates = (await readZipJSON(zip, 'npc_templates.json')) || [];
     const actions = (await readZipJSON(zip, 'actions.json')) || [];
+    const skills = (await readZipJSON(zip, 'skills.json')) || [];
     const statuses = (await readZipJSON(zip, 'statuses.json')) || [];
     const environments = (await readZipJSON(zip, 'environments.json')) || [];
     const sitreps = (await readZipJSON(zip, 'sitreps.json')) || [];
@@ -120,6 +121,7 @@ const parseContentPack = async function (binString) {
             npcTemplates,
             actions,
             statuses,
+            skills,
             environments,
             sitreps,
             tables,
