@@ -162,7 +162,7 @@ function getNpcTraits(items, perRoundState) {
         systemIndex: itemIndex,
         name: (item.flavorName || featureData.name).toLowerCase(),
         activation: getActivationType(featureData),
-        description: setNumbersByTier([item.flavorName, featureData.effect].filter(str => str).join('<br>'), item.tier),
+        description: setNumbersByTier([item.description, featureData.effect].filter(str => str).join('<br>'), item.tier),
         frequency: getUsesPerRound(featureData),
         isDestructable: false, // traits aren't destructable; only systems are
         isDestroyed: false,
@@ -172,7 +172,6 @@ function getNpcTraits(items, perRoundState) {
         perRoundCount: perRoundCount,
       })
     }
-
   })
 
   return featureTraits
@@ -194,7 +193,7 @@ function getSystemTraits(items, perRoundState) {
         name: (item.flavorName || featureData.name).toLowerCase(),
         activation: `${featureData.tech_type || 'Quick'} Tech`,
         trigger: featureData.trigger,
-        description: [featureData.flavorName, featureData.effect].filter(str => str).join('<br>'),
+        description: [featureData.description, featureData.effect].filter(str => str).join('<br>'),
         frequency: getUsesPerRound(featureData),
         range: featureData.range,
         selfHeat: selfHeat,
@@ -212,7 +211,7 @@ function getSystemTraits(items, perRoundState) {
         name: (item.flavorName || featureData.name).toLowerCase(),
         activation: getActivationType(featureData),
         trigger: featureData.trigger,
-        description: setNumbersByTier([item.flavorName, featureData.effect].filter(str => str).join('<br>'), item.tier),
+        description: setNumbersByTier([item.description, featureData.effect].filter(str => str).join('<br>'), item.tier),
         frequency: getUsesPerRound(featureData),
         range: featureData.range,
         selfHeat: selfHeat,
