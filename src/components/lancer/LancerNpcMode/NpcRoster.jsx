@@ -18,6 +18,7 @@ const NpcRoster = ({
   isWaitingOnSharecodeResponse,
 }) => {
   const [openLabels, setOpenLabels] = useState([])
+  const [filter, setFilter] = useState('');
 
   const toggleLabelOpen = (label) => {
     const newOpenLabels = [...openLabels]
@@ -40,9 +41,24 @@ const NpcRoster = ({
 
   // console.log('npcLibrary',npcLibrary);
 
+  let filteredLibrary = {}
+  if (filter.length > 0) {
+    const filterLower = filter.toLowerCase()
+    Object.values(sortedLibrary).forEach(npc => {
+      const npcData = findNpcClassData(npc.class)
+      if (
+        (npc.name.toLowerCase().includes(filterLower)) ||
+        (npcData.name.includes(filterLower)) ||
+        (npcData.role.includes(filterLower))
+      ) { filteredLibrary[npc.id] = npc }
+    })
+  } else {
+    filteredLibrary = {...sortedLibrary}
+  }
+
   let noLabelNpcs = []
   let libraryByLabel = {}
-  Object.values(sortedLibrary).forEach(npc => {
+  Object.values(filteredLibrary).forEach(npc => {
     if (npc.labels.length > 0) {
       npc.labels.forEach(label => {
         if (label in libraryByLabel) { libraryByLabel[label].push(npc) } else { libraryByLabel[label] = [npc] }
@@ -53,7 +69,7 @@ const NpcRoster = ({
   });
 
 
-  function renderNpcRow(npc) {
+  function renderNpcRow(npc, addTopBorder = false) {
     const npcData = findNpcClassData(npc.class)
 
     const onClickNpc = () => {
@@ -62,7 +78,7 @@ const NpcRoster = ({
 
     return (
       <tr
-        className={`npc ${buttonsDisabled ? 'disabled' : ''}`}
+        className={`npc ${buttonsDisabled ? 'disabled' : ''} ${addTopBorder ? 'top-border' : ''}`}
         key={npc.id}
       >
         <td className='name' onClick={onClickNpc}>
@@ -100,6 +116,21 @@ const NpcRoster = ({
             </button>
           </div>
 
+          <div className="filter-bar">
+            <input
+              type="text"
+              value={filter}
+              onChange={ e => setFilter(e.target.value) }
+              placeholder='filter'
+            />
+            {filter.length > 0 &&
+              <button className="clear-filter" onClick={() => {setFilter('')}}>
+                <div className="asset x" />
+              </button>
+            }
+          </div>
+
+
           <div className='table-scrollable-area'>
             <table className="roster-table">
               <thead>
@@ -114,7 +145,7 @@ const NpcRoster = ({
 
               <tbody>
                 {Object.keys(libraryByLabel).map(label => {
-                  const isOpen = openLabels.includes(label)
+                  const isOpen = openLabels.includes(label) || (filter.length > 0)
                   return (
                     <React.Fragment key={label}>
                       <tr
@@ -125,7 +156,7 @@ const NpcRoster = ({
                           onClick={() => toggleLabelOpen(label)}
                         >
                           <div className='label-container'>
-                            <span className={`asset arrow-sharp ${isOpen ? '' : 'reversed'}`} />
+                            <span className={`asset arrow-sharp ${isOpen ? 'reversed' : ''}`} />
                             {label}
                           </div>
                         </td>
@@ -139,7 +170,7 @@ const NpcRoster = ({
                   )
                 })}
 
-                {noLabelNpcs.map(npc => renderNpcRow(npc))}
+                {noLabelNpcs.map((npc, i) => renderNpcRow(npc, i === 0))}
               </tbody>
             </table>
           </div>

@@ -81,6 +81,41 @@
       }
     }
 
+    .filter-bar {
+      position: relative;
+
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 6px 8px;
+        border: 1px solid $parchment_dark;
+        background-color: $parchment;
+      }
+
+      button.clear-filter {
+        position: absolute;
+        right: 0;
+        top: 0;
+        height: 33px;
+        width: 33px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+
+        &:hover {background-color: $parchment_dark;}
+
+        .asset.x {
+          height: 20px;
+          width: 20px;
+        }
+      }
+    }
+
     .table-scrollable-area {
       max-height: 400px;
       overflow: auto;
@@ -91,6 +126,7 @@
         @include text_monospace;
         position: relative;
         box-sizing: border-box;
+        border-collapse: collapse;
         width: 100%;
         border-spacing: 0;
 
@@ -162,6 +198,10 @@
           &.disabled {
             cursor: auto;
             background-color: transparent;
+          }
+
+          &.top-border {
+            border-top: 1px solid $mud;
           }
         }
 
