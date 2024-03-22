@@ -130,9 +130,11 @@ const WeaponRoller = ({
 
   // hacky inheritance of tags from the main weapon to the individual profiles (e.g. reaper assault cannon)
   weaponData.tags && weaponData.tags.forEach(tag => {
-    if (!currentWeaponProfile.tags.some(profileTag => profileTag.id === tag.id)) {
-      currentWeaponProfile.tags = [...currentWeaponProfile.tags, tag]
+    let inheritedTags = currentWeaponProfile.tags ? [...currentWeaponProfile.tags] : []
+    if (!inheritedTags.some(profileTag => profileTag.id === tag.id)) {
+      inheritedTags = [...inheritedTags, tag]
     }
+    currentWeaponProfile.tags = inheritedTags
   });
 
 

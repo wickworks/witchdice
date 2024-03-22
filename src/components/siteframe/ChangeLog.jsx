@@ -14,7 +14,7 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.2.2-3 — March 2024</div>
+          <div className='version-label'>v1.2.2-4 — March 2024</div>
           <ul>
             <li>Added a name/class filter to the NPC roster.</li>
             <li>LCP reader loads pilot skills from LCPs correctly. You will have to delete and re-add any LCPs to get them to start showing up.</li>
@@ -23,7 +23,7 @@ const ChangeLog = () => {
             <li>Better e.g. "+1 difficulty to agility" detection in custom NPC system descriptions.</li>
             <li>Better detection of NPC tech attacks (Hive, Nightmare).</li>
             <li>Weapon profiles inherit tags from base weapon.</li>
-            <li>Fixed crash on selecting weapon with no tag.</li>
+            <li>Fixed crash on selecting weapon with no tags // terishima blade.</li>
           </ul>
 
           <div className='version-label'>v1.2.0-1 — Jan 2024</div>
