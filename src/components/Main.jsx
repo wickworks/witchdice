@@ -1,11 +1,11 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Switch, Route, useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import OBR from "@owlbear-rodeo/sdk";
 
 import { deepCopy, capitalize } from '../utils.js';
 import { randomWords } from '../random_words.js';
 import { getPage } from "./page_data.js";
-
 
 import LoadinDots from './shared/LoadinDots.jsx';
 import DiceBag from './shared/DiceBag/DiceBag.jsx';
@@ -119,6 +119,29 @@ const Main = ({
     if (partyAutoconnect) connectToRoom(partyRoom)
   }, [partyAutoconnect]);
 
+
+  const sendTextToRumbleChatbox = (actionData) => {
+    let text = ''
+
+    if (actionData.type === 'text') {
+      text = `${actionData.title}: ${actionData.message}`
+    }
+
+    const metadataUpdate = {}
+    metadataUpdate['com.battle-system.friends/metadata_chatlog'] = {
+      chatlog: text,
+      sender: actionData.name,
+      created: new Date().toISOString(),
+      targetId: '0000'
+    }
+
+    console.log('metadataUpdate: ', metadataUpdate)
+    if (OBR.isAvailable && text) {
+      console.log('OBR is available! Setting metadata.')
+      OBR.player.setMetadata(metadataUpdate)
+    }
+  }
+
   // =============== FIREBASE DICE ROLL FUNCTIONS ==================
 
   // Push a 5e damage roll to firebase
@@ -194,6 +217,7 @@ const Main = ({
           dbRollsRef.child(partyLastDicebagKey).set(actionData);
         }
 
+
       } else {
         // add it to the single-player roll history
         // console.log('setting single-player dicebag history latest action');
@@ -214,6 +238,9 @@ const Main = ({
       console.log('setting single-player text broadcast history ',actionData);
       setLatestAction(actionData)
     }
+
+    // OBR extension integration with Rumble
+    sendTextToRumbleChatbox(actionData)
   }
 
   // We created or updated our 5e/lancer damage roll data — prepare it to push to firebase.
