@@ -53,6 +53,8 @@ To open the options menu, click the gear icon in the extension's toolbar.
 
 ## Support
 
+Witchdice is open-source! Check out the code on [github](https://github.com/wickworks/witchdice)
+
 If you need support for this extension you can email <olive@wick.works>. She's @jovialthunder on [Twitter](https://twitter.com/jovialthunder) or [Mastodon](https://xoxo.zone/@jovialthunder) and messaging her there also works.
 
 You can also follow her game development on [itch.io](wick.itch.io/) or [cohost](https://cohost.org/wick).
