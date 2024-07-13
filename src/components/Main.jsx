@@ -1,7 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { Switch, Route, useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import OBR from "@owlbear-rodeo/sdk";
 
 import { deepCopy, capitalize } from '../utils.js';
 import { randomWords } from '../random_words.js';
@@ -13,6 +12,7 @@ import RollHistory from './shared/RollHistory/RollHistory.jsx';
 import RoomConnect from './shared/RoomConnect/RoomConnect.jsx';
 import DiscordBotNotice from './shared/bots/DiscordBotNotice.jsx';
 import OwlbearExtensionNotice from './shared/bots/OwlbearExtensionNotice.jsx';
+import { sendTextToRumbleChatbox } from './owlbear/RumbleIntegration.js';
 import {XCard, XCardModal} from './shared/RoomConnect/XCard.jsx';
 
 import './Main.scss';
@@ -120,27 +120,7 @@ const Main = ({
   }, [partyAutoconnect]);
 
 
-  const sendTextToRumbleChatbox = (actionData) => {
-    let text = ''
 
-    if (actionData.type === 'text') {
-      text = `${actionData.title}: ${actionData.message}`
-    }
-
-    const metadataUpdate = {}
-    metadataUpdate['com.battle-system.friends/metadata_chatlog'] = {
-      chatlog: text,
-      sender: actionData.name,
-      created: new Date().toISOString(),
-      targetId: '0000'
-    }
-
-    console.log('metadataUpdate: ', metadataUpdate)
-    if (OBR.isAvailable && text) {
-      console.log('OBR is available! Setting metadata.')
-      OBR.player.setMetadata(metadataUpdate)
-    }
-  }
 
   // =============== FIREBASE DICE ROLL FUNCTIONS ==================
 
