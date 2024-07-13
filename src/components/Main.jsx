@@ -145,6 +145,8 @@ const Main = ({
       // console.log('setting single-player attack history latest action');
       setLatestAction(actionData)
     }
+
+    sendTextToRumbleChatbox(actionData)
   }
 
   // Push a dicebag roll to firebase
@@ -166,6 +168,7 @@ const Main = ({
         modeString = `${summaryMode} ${summaryModeValue}${summaryMode === 'count' ? '+' : ''}`
       }
       actionData.conditions = modeString
+      console.log('       set rubmle action data', actionData);
 
       // rolls = [ {dieType: 'd6', result: 4}, ... ]
       rolls.forEach((roll, i) => {
@@ -186,23 +189,19 @@ const Main = ({
 
       if (partyConnected) {
         const dbRollsRef = getFirebaseDB().child('rolls').child(partyRoom);
-        // ~~ new dicebag roll ~~ //
-        if (isNew) {
+        if (isNew) { // ~~ new dicebag roll ~~ //
           // console.log('       pushing  new dicebag roll to room',partyRoom,' : ', actionData);
           const newKey = dbRollsRef.push(actionData).key;
           setPartyLastDicebagKey(newKey);
-        // ~~ update dicebag roll ~~ //
-        } else {
+        } else { // ~~ update dicebag roll ~~ //
           // console.log('       set updated dicebag roll in firebase', actionData);
           dbRollsRef.child(partyLastDicebagKey).set(actionData);
         }
-
-
-      } else {
-        // add it to the single-player roll history
-        // console.log('setting single-player dicebag history latest action');
+      } else { // add it to the single-player roll history
         setLatestAction(actionData)
       }
+
+      sendTextToRumbleChatbox(actionData)
     }
   }
 
