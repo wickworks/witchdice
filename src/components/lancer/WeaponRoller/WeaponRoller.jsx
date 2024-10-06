@@ -37,6 +37,7 @@ const WeaponRoller = ({
   weaponMod,
   weaponNpcAccuracy,
   flavorName,
+  flavorNote,
   mountBonusEffects,
   gritBonus,
   allRangeSynergies,
@@ -318,6 +319,12 @@ const WeaponRoller = ({
               {isLoaded ? '〔 - Loaded! - 〕' : '〔 - Reload! - 〕'}
             </div>
           </label>
+        }
+
+        { flavorNote &&
+          <div className='effect-row'>
+            <BrToParagraphs stringWithBrs={flavorNote}/>
+          </div>
         }
 
         { weaponData.effect &&

@@ -266,6 +266,7 @@ const MechSheet = ({
           weaponMod={activeWeapon.mod}
           weaponNpcAccuracy={activeWeapon.npcAccuracyBonus}
           flavorName={activeWeapon.flavorName}
+          flavorNote={activeWeapon.note}
           mountBonusEffects={activeMount.bonus_effects}
           gritBonus={totalAttackBonus}
           allRangeSynergies={robotStats.rangeSynergies}
