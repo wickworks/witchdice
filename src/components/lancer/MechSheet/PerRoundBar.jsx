@@ -32,7 +32,7 @@ const PerRoundBar = ({
 					key={i}
 	      />
 			)}
-			<div className='uses-label'>/ Round</div>
+			<div className='uses-label'>/ {perRoundCount.interval}</div>
     </label>
   )
 }

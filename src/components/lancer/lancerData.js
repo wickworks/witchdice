@@ -470,6 +470,11 @@ export const getSystemPerRoundCount = (systemData, perRoundState, source) => {
   // per-round tags
   let usesPerRound = getUsesPerRound(systemData)
 
+  // "use" property
+  if (!usesPerRound && systemData.use) {
+    if (systemData.use.toLowerCase() == 'encounter') usesPerRound = '1/scene'
+  }
+
   // systems
   if (!usesPerRound && systemData.actions) {
     systemData.actions.forEach(action => {
@@ -499,6 +504,7 @@ export const getSystemPerRoundCount = (systemData, perRoundState, source) => {
   // frame traits
   if (!usesPerRound && systemData.description) {
     if (systemData.description.toLowerCase().includes('1/round')) usesPerRound = '1/round'
+    if (systemData.description.toLowerCase().includes('1/scene')) usesPerRound = '1/scene'
   }
 
   // core bonuses
@@ -517,11 +523,14 @@ export const getSystemPerRoundCount = (systemData, perRoundState, source) => {
 
   if (usesPerRound) {
     const perRoundMaxValue = parseInt(usesPerRound.charAt(0))
+    const splitInterval = usesPerRound.split('/')
+    const interval = splitInterval.length <= 1 ? 'round' : splitInterval[1]
     const currentUses = (perRoundState && perRoundState[source]) || 0
     perRound = {
       current: currentUses || 0,
       max: perRoundMaxValue,
       source: source,
+      interval: interval
     }
   }
 
