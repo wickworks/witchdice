@@ -328,7 +328,7 @@ export const FIRST_ROLL_ONLY_TAGS = ['t_nuclear_cavalier']
 export const HARDCODED_TECH_TALENT_SYNERGIES = [{id: 't_nuclear_cavalier', rank: 1}]
 
 // special-case systems that should get a 'used' checkbox
-const EXPENDABLE_SYSTEM_IDS = ['ms_custom_paint_job']
+const EXPENDABLE_SYSTEM_IDS = ['ms_custom_paint_job', 'ms_armament_redundancy']
 
 const BASIC_DAMAGE_TYPES = ['Kinetic', 'Explosive', 'Energy', 'Variable']
 
