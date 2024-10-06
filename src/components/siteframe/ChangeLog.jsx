@@ -14,11 +14,20 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.2.11 — Oct 2024</div>
+          <ul>
+            <li>Update official LCP packages.</li>
+            <li>Traits marked `"use": "Encounter"` get appropriate checkbox.</li>
+            <li>Leave custom counters alone when doing a full repair.</li>
+            <li>Gave Armament Redundancy a manual checkbox.</li>
+            <li>Custom weapon descriptions show up.</li>
+          </ul>
+
           <div className='version-label'>v1.2.10 — July 2024</div>
           <ul>
             <li>Mirror broadcasts & basic dicebag to Rumble! chatbox.</li>
           </ul>
-          
+
           <div className='version-label'>v1.2.2-4 — March 2024</div>
           <ul>
             <li>Added a name/class filter to the NPC roster.</li>
