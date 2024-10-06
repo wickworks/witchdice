@@ -46,8 +46,8 @@ const FullRepairButton = ({
     updateMechState({
       repairAllWeaponsAndSystems: true,
       conditions: [],
-      custom_counters: [],
-      counter_data: [],
+      // custom_counters: [],
+      // counter_data: [],
       overshield: 0,
       current_hp: getMechMaxHP(activeMech, activePilot, frameData),
       current_heat: 0,
