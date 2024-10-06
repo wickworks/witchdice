@@ -37,7 +37,7 @@ $right_column_wid: 370px;
       @include below_max_width { margin: 20px 8px 0; }
 
       @include constricted {
-        margin-left: calc(50% - 106px;)
+        margin-left: calc(50% - 106px);
       }
 
       .portrait {
