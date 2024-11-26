@@ -422,6 +422,24 @@ export const hasTag = (systemData, tagID) => {
   return !!findTagOnData(systemData, tagID)
 }
 
+export const dealsDamageType = (weaponData, checkDamageType) => {
+  if (weaponData) {
+    let checkDamageArrays = []
+    if (weaponData.damage) checkDamageArrays.push(weaponData.damage)
+    if (weaponData.profiles) {
+      weaponData.profiles.forEach(profile => {
+        if (profile.damage) checkDamageArrays.push(profile.damage)
+      })
+    }
+    checkDamageArrays.forEach(damageArray => {
+      if (damageArray.some((damage) =>
+        damage.type && ['variable', checkDamageType].includes(damage.type.toLowerCase())
+      )) { return true }
+    })
+  }
+  return false
+}
+
 export const getSystemLimited = (system, systemData, limitedBonus = 0) => {
   const limitedTag = systemData.tags && systemData.tags.find(tag => tag.id === 'tg_limited')
   let limited = null

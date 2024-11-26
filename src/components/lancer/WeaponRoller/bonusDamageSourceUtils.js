@@ -7,6 +7,7 @@ import {
   findNpcFeatureData,
   findTagOnData,
   getDefaultWeaponDamageType,
+  dealsDamageType,
   getModdedWeaponData,
   HARDCODED_TECH_TALENT_SYNERGIES,
 } from '../lancerData.js';
@@ -536,7 +537,7 @@ function getBonusDamageSourcesFromSystems(systems, currentHeat, activeWeapon) {
           // does the current weapon deal energy damage?
           if (activeWeapon && currentHeat > 0) {
             const activeWeaponData = getModdedWeaponData(activeWeapon)
-            if (activeWeaponData.damage.some((damage) => ['variable', 'energy'].includes(damage.type.toLowerCase()))) {
+            if (dealsDamageType(activeWeaponData, 'energy')) {
               sources.push( newSource(systemData.name, systemData.id, currentHeat, 'Energy', newStandardTrait(systemData)) )
             }
           }
