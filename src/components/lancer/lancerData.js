@@ -423,6 +423,7 @@ export const hasTag = (systemData, tagID) => {
 }
 
 export const dealsDamageType = (weaponData, checkDamageType) => {
+  let itDoes = false
   if (weaponData) {
     let checkDamageArrays = []
     if (weaponData.damage) checkDamageArrays.push(weaponData.damage)
@@ -434,10 +435,12 @@ export const dealsDamageType = (weaponData, checkDamageType) => {
     checkDamageArrays.forEach(damageArray => {
       if (damageArray.some((damage) =>
         damage.type && ['variable', checkDamageType].includes(damage.type.toLowerCase())
-      )) { return true }
+      )) {
+        itDoes = true
+      }
     })
   }
-  return false
+  return itDoes
 }
 
 export const getSystemLimited = (system, systemData, limitedBonus = 0) => {

@@ -14,7 +14,7 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.2.12 — Nov 2024</div>
+          <div className='version-label'>v1.2.13 — Nov 2024</div>
           <ul>
             <li>Fix crash when Lucifer NHP is applied to a profiled weapon.</li>
           </ul>
