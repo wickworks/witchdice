@@ -126,6 +126,9 @@ const LancerNpcMode = ({
       if (!npc || !npc.id || !npc.class) {
         console.error("Uploaded file doesn't look like an NPC! ::")
         console.log(npc);
+      } else if (npc.isDeleted || npc.deleteTime) {
+        console.log("Skipping loading NPC because it's marked as deleted ::")
+        console.log(npc);
       } else {
         newNpcLibrary[npc.id] = npc;
       }
