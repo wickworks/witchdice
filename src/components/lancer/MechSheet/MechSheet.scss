@@ -30,6 +30,12 @@
       font-weight: normal;
     }
 
+    .multiple-loadouts-warning {
+      @include text_label;
+      @include text_license;
+      text-align: center;
+    }
+
     .frame-and-stat-broadcast {
       display: flex;
       justify-content: space-between;

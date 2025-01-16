@@ -121,10 +121,12 @@ const PlayerMechSheet = ({
     name: activeMech.name,
     id: activeMech.id,
     cloud_portrait: activeMech.cloud_portrait,
+    hasMultipleLoadouts: (activeMech.loadouts && activeMech.loadouts.length > 1),
     frameID: frameData.id,
     frameSourceIcon: frameData.source.toLowerCase(),
     frameSourceText: frameData.source,
     frameName: frameData.name.toLowerCase(),
+
   }
 
   const robotLoadout = {

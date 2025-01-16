@@ -96,6 +96,7 @@ const NpcMechSheet = ({
     name: `${activeNpc.name}〔${getMarkerFromFingerprint(activeNpc.fingerprint)}〕`,
     id: activeNpc.id,
     cloud_portrait: activeNpc.cloud_portrait,
+    hasMultipleLoadouts: false,
     frameID: activeNpc.class,
     frameSourceIcon: npcClassData.role.toLowerCase(),
     frameSourceText:

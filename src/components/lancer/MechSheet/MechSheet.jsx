@@ -184,6 +184,10 @@ const MechSheet = ({
           setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
         />
 
+        { robotInfo.hasMultipleLoadouts &&
+          <p className='multiple-loadouts-warning'> WARNING: multiple mech loadouts detected; Witchdice only supports the first one created.</p>
+        }
+
         { robotLoadout.pilotTraits.length > 0 &&
           <MechTraits
             sectionTitle='Pilot Traits'
