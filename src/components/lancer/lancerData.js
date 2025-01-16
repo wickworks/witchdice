@@ -6,6 +6,7 @@ import { loadLcpData, LCP_PREFIX, STORAGE_ID_LENGTH } from './lancerLocalStorage
 
 // converts the lcp's data array into a hash by the data's ID
 function hashLcpData(lcpData) {
+  console.log('hashing LCP data ', lcpData.lcp_manifest);
   const hashedLcpData = {}
   Object.keys(lcpData).forEach(dataType => {
     if (Array.isArray(lcpData[dataType])) {
@@ -21,6 +22,7 @@ const data = [
   require('@massif/ktb-data'),
   require('@massif/long-rim-data'),
   require('@massif/osr-data'),
+  require('@massif/ows-data'),
   require('@massif/ssmr-data'),
   require('@massif/wallflower-data'),
 ].map(

@@ -14,6 +14,13 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.2.15 — Jan 2025</div>
+          <ul>
+            <li>Correctly parse reliable & other tiered values for NPCs.</li>
+            <li>Add a warning when multiple mech loadouts are detected.</li>
+            <li>Added Winter Scar player-facing LCP by default.</li>
+          </ul>
+
           <div className='version-label'>v1.2.13-14 — Nov 2024</div>
           <ul>
             <li>Fix crash when Lucifer NHP is applied to a profiled weapon.</li>
