@@ -60,7 +60,7 @@ export function getMarkerForNpcID(npcID, allNpcs) {
 // turns "{1/2/3}" into just 2 for a tier-2 enemy
 export function getNumberByTier(bracketedNumbers, npcTier) {
   if (bracketedNumbers[0] !== '{' || bracketedNumbers.slice(-1) !== '}') return bracketedNumbers
-  const tierNumbers = bracketedNumbers.substr(1, bracketedNumbers.length-2).slice('/')
+  const tierNumbers = bracketedNumbers.substr(1, bracketedNumbers.length-2).split('/')
   return parseInt(tierNumbers[npcTier-1]) || 0
 }
 

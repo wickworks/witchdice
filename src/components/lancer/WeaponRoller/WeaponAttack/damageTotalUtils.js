@@ -125,7 +125,7 @@ function summateAllDamageByType(damageData, bonusDamageData, isCrit, halveBonusD
 
 function getReliableDamage(attackData, damageModifiers) {
   if ('reliable' in attackData) {
-    var reliableDamage = attackData.reliable.val;
+    var reliableDamage = parseInt(attackData.reliable.val);
     reliableDamage = applyDamageMultiplier(reliableDamage, attackData.reliable.type, damageModifiers)
 
     // some reliable amount?

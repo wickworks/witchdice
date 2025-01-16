@@ -61,7 +61,7 @@ export function createNewAttack(weaponData, flatBonus, accuracyMod, consumedLock
   newAttack.reliable = { val: 0, type: 'Variable' };
   const reliableTag = findTagOnData(weaponData, 'tg_reliable')
   if (reliableTag) {
-    newAttack.reliable.val = reliableTag.val;
+    newAttack.reliable.val = parseInt(reliableTag.val);
     newAttack.reliable.type = getDefaultWeaponDamageType(weaponData)
   }
 
