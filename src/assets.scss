@@ -88,4 +88,138 @@
   &.site_banner { background-image: url('./assets/banner_dark.svg'); }
   &.witchcraft_banner { background-image: url('./assets/witchcraft_banner.jpg'); }
   &.lancer_banner { background-image: url('./assets/lancer_banner.jpg'); }
+
+
+  //  ============== LANCER ================= \\
+  // WHEN ADDING NEW ICONS:
+  // ALL lancer icons have a weird -64 in their viewport. Change to 0 to fix them.
+
+  &.burn { background-image: url('./assets/lancer/damage_burn.svg'); }
+  &.energy { background-image: url('./assets/lancer/damage_energy.svg'); }
+  &.explosive { background-image: url('./assets/lancer/damage_explosive.svg'); }
+  &.heat { background-image: url('./assets/lancer/damage_heat.svg'); }
+  &.kinetic { background-image: url('./assets/lancer/damage_kinetic.svg'); }
+  &.variable { background-image: url('./assets/lancer/damage_variable.svg'); }
+
+  &.accuracy { background-image: url('./assets/lancer/accuracy.svg'); }
+  &.difficulty { background-image: url('./assets/lancer/difficulty.svg'); }
+
+  &.threat { background-image: url('./assets/lancer/threat.svg'); }
+  &.range { background-image: url('./assets/lancer/range.svg'); }
+  &.blast { background-image: url('./assets/lancer/aoe_blast.svg'); }
+  &.burst { background-image: url('./assets/lancer/aoe_burst.svg'); }
+  &.cone { background-image: url('./assets/lancer/aoe_cone.svg'); }
+  &.line { background-image: url('./assets/lancer/aoe_line.svg'); }
+
+  &.skill { background-image: url('./assets/lancer/skill.svg'); }
+  &.repair { background-image: url('./assets/lancer/repair.svg'); }
+  &.structure { background-image: url('./assets/lancer/structure.svg'); }
+  &.reactor { background-image: url('./assets/lancer/reactor.svg'); }
+  &.sensor { background-image: url('./assets/lancer/sensor.svg'); }
+  &.evasion { background-image: url('./assets/lancer/evasion.svg'); }
+  &.edef { background-image: url('./assets/lancer/edef.svg'); }
+  &.movement { background-image: url('./assets/lancer/movement.svg'); }
+
+  &.core-power { background-image: url('./assets/lancer/core_power.svg'); }
+  &.core-power-empty { background-image: url('./assets/lancer/core_power_empty.svg'); }
+  &.core-power-full { background-image: url('./assets/lancer/core_power_full.svg'); }
+
+  &.overshield-outline { background-image: url('./assets/lancer/overshield_outline.svg'); }
+  &.overshield { background-image: url('./assets/lancer/overshield.svg'); }
+  &.overcharge { background-image: url('./assets/lancer/overcharge.svg'); }
+  &.armor { background-image: url('./assets/lancer/shield_outline.svg'); }
+
+  &.generic-item { background-image: url('./assets/lancer/generic_item.svg'); }
+  &.mine { background-image: url('./assets/lancer/mine.svg'); }
+  &.grenade { background-image: url('./assets/lancer/grenade.svg'); }
+  &.ammo { background-image: url('./assets/lancer/ammo.svg'); }
+
+  &.size-half { background-image: url('./assets/lancer/size_half.svg'); }
+  &.size-1 { background-image: url('./assets/lancer/size_1.svg'); }
+  &.size-2 { background-image: url('./assets/lancer/size_2.svg'); }
+  &.size-3 { background-image: url('./assets/lancer/size_3.svg'); }
+  &.size-4 { background-image: url('./assets/lancer/size_4.svg'); }
+  &.hex { background-image: url('./assets/lancer/hex.svg'); }
+
+  &.artillery { background-image: url('./assets/lancer/role_artillery.svg'); }
+  &.controller { background-image: url('./assets/lancer/role_controller.svg'); }
+  &.defender { background-image: url('./assets/lancer/role_defender.svg'); }
+  &.striker { background-image: url('./assets/lancer/role_striker.svg'); }
+  &.support { background-image: url('./assets/lancer/role_support.svg'); }
+
+  &.npc-tier-1 { background-image: url('./assets/lancer/npc_tier_1.svg'); }
+  &.npc-tier-2 { background-image: url('./assets/lancer/npc_tier_2.svg'); }
+  &.npc-tier-3 { background-image: url('./assets/lancer/npc_tier_3.svg'); }
+  &.npc-tier-custom { background-image: url('./assets/lancer/npc_tier_custom.svg'); }
+
+  &.albatross { background-image: url('./assets/lancer/faction_logos/albatross.svg'); }
+  &.aun { background-image: url('./assets/lancer/faction_logos/aun.svg'); }
+  &.barony { background-image: url('./assets/lancer/faction_logos/barony.svg'); }
+  &.gms { background-image: url('./assets/lancer/faction_logos/gms.svg'); }
+  &.ha { background-image: url('./assets/lancer/faction_logos/ha.svg'); }
+  &.horus { background-image: url('./assets/lancer/faction_logos/horus.svg'); }
+  &.ips-n { background-image: url('./assets/lancer/faction_logos/ips-n.svg'); }
+  &.sparri { background-image: url('./assets/lancer/faction_logos/sparri.svg'); }
+  &.ssc { background-image: url('./assets/lancer/faction_logos/ssc.svg'); }
+  &.union { background-image: url('./assets/lancer/faction_logos/union.svg'); }
+  &.voladores { background-image: url('./assets/lancer/faction_logos/voladores.svg'); }
+
+  &.ssc-watermark { background-image: url('./assets/lancer/faction_logos/ssc-watermark.svg'); }
+  &.butterfly-watermark { background-image: url('./assets/bg_butterfly.webp'); }
+
+  &.mf_atlas { background-image: url('./assets/lancer/mech/mf_atlas.png'); }
+  &.mf_balor { background-image: url('./assets/lancer/mech/mf_balor.png'); }
+  &.mf_barbarossa { background-image: url('./assets/lancer/mech/mf_barbarossa.png'); }
+  &.mf_black_witch { background-image: url('./assets/lancer/mech/mf_black_witch.png'); }
+  &.mf_blackbeard { background-image: url('./assets/lancer/mech/mf_blackbeard.png'); }
+  &.mf_caliban { background-image: url('./assets/lancer/mech/mf_caliban.png'); }
+  &.mf_deaths_head { background-image: url('./assets/lancer/mech/mf_deaths_head.png'); }
+  &.mf_drake { background-image: url('./assets/lancer/mech/mf_drake.png'); }
+  &.mf_dusk_wing { background-image: url('./assets/lancer/mech/mf_dusk_wing.png'); }
+  &.mf_genghis { background-image: url('./assets/lancer/mech/mf_genghis.png'); }
+  &.mf_goblin { background-image: url('./assets/lancer/mech/mf_goblin.png'); }
+  &.mf_gorgon { background-image: url('./assets/lancer/mech/mf_gorgon.png'); }
+  &.mf_hydra { background-image: url('./assets/lancer/mech/mf_hydra.png'); }
+  &.mf_iskander { background-image: url('./assets/lancer/mech/mf_iskander.png'); }
+  &.mf_kidd { background-image: url('./assets/lancer/mech/mf_kidd.png'); }
+  &.mf_kobold { background-image: url('./assets/lancer/mech/mf_kobold.png'); }
+  &.mf_lancaster { background-image: url('./assets/lancer/mech/mf_lancaster.png'); }
+  &.mf_lich { background-image: url('./assets/lancer/mech/mf_lich.png'); }
+  &.mf_manticore { background-image: url('./assets/lancer/mech/mf_manticore.png'); }
+  &.mf_metalmark { background-image: url('./assets/lancer/mech/mf_metalmark.png'); }
+  &.mf_minotaur { background-image: url('./assets/lancer/mech/mf_minotaur.png'); }
+  &.mf_monarch { background-image: url('./assets/lancer/mech/mf_monarch.png'); }
+  &.mf_mourning_cloak { background-image: url('./assets/lancer/mech/mf_mourning_cloak.png'); }
+  &.mf_napoleon { background-image: url('./assets/lancer/mech/mf_napoleon.png'); }
+  &.mf_nelson { background-image: url('./assets/lancer/mech/mf_nelson.png'); }
+  &.mf_pegasus { background-image: url('./assets/lancer/mech/mf_pegasus.png'); }
+  &.mf_raleigh { background-image: url('./assets/lancer/mech/mf_raleigh.png'); }
+  &.mf_saladin { background-image: url('./assets/lancer/mech/mf_saladin.png'); }
+  &.mf_sherman { background-image: url('./assets/lancer/mech/mf_sherman.png'); }
+  &.mf_sunzi { background-image: url('./assets/lancer/mech/mf_sunzi.png'); }
+  &.mf_swallowtail { background-image: url('./assets/lancer/mech/mf_swallowtail.png'); }
+  &.mf_tokugawa { background-image: url('./assets/lancer/mech/mf_tokugawa.png'); }
+  &.mf_tortuga { background-image: url('./assets/lancer/mech/mf_tortuga.png'); }
+  &.mf_vlad { background-image: url('./assets/lancer/mech/mf_vlad.png'); }
+  &.mf_zheng { background-image: url('./assets/lancer/mech/mf_zheng.png'); }
+
+  &.mf_minotaur_alt_wraith { background-image: url('./assets/lancer/mech/mf_minotaur_alt_wraith.png'); }
+  &.mf_black_witch_alt_orchidea { background-image: url('./assets/lancer/mech/mf_black_witch_alt_orchidea.png'); }
+
+  &.card { background-image: url('./assets/lancer/bonds/card.svg'); }
+  &.ktb-bond-harlequin { background-image: url('./assets/lancer/bonds/mask.svg'); }
+  &.ktb-bond-titan { background-image: url('./assets/lancer/bonds/sword.svg'); }
+  &.ktb-bond-pathfinder { background-image: url('./assets/lancer/bonds/horizon.svg'); }
+  &.ktb-bond-builder { background-image: url('./assets/lancer/bonds/village.svg'); }
+  &.ktb-bond-magus { background-image: url('./assets/lancer/bonds/sun.svg'); }
+  &.ktb-bond-wolf { background-image: url('./assets/lancer/bonds/wolf.svg'); }
+  &.ktb-bond-fool { background-image: url('./assets/lancer/bonds/stick.svg'); }
+  &.ktb-bond-broker { background-image: url('./assets/lancer/bonds/pen.svg'); }
+
+
+  &.mf_standard_pattern_i_everest { background-image: url('./assets/lancer/mech/mf_standard_pattern_i_everest.png'); }
+  &.mf_sagarmatha { background-image: url('./assets/lancer/mech/mf_standard_pattern_i_everest.png'); }
+
+  &.default_pilot { background-image: url('./assets/lancer/mech/default_pilot.png'); }
+
 }
