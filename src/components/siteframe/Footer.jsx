@@ -115,6 +115,7 @@ const Footer = () => {
               <li>Hobo Stick by Griffin Mullins</li>
               <li>quill pen by Kangrif</li>
               <li>Gear by vectaicon</li>
+              <li>dragon by sentya irma</li>
             </ul>
 
             <p>
