@@ -14,9 +14,9 @@ const OwlbearExtensionNotice = ({
     <div className='OwlbearExtensionNotice'>
       {!instructionsVisible ?
         <div className='intro-container'>
-          <div className='new-attention'>
+          {/*<div className='new-attention'>
             New!
-          </div>
+          </div>*/}
 
           <button onClick={() => setInstructionsVisible(true)}>
             <div className='text'>

@@ -9,7 +9,8 @@ const CharacterAndMonsterList = ({
   deleteActiveCharacter,
   allCharacterEntries,
   allMonsterEntries,
-  createNewCharacter
+  createNewCharacter,
+  initializeMonsters,
 }) => {
 
   return (
@@ -27,6 +28,7 @@ const CharacterAndMonsterList = ({
         handleEntryClick={setActiveCharacterID}
         deleteActiveCharacter={deleteActiveCharacter}
         activeCharacterID={activeCharacterID}
+		initializeMonsters={initializeMonsters}
       />
     </div>
   );
@@ -85,6 +87,7 @@ const MonsterList = ({
   handleEntryClick,
   deleteActiveCharacter,
   activeCharacterID,
+  initializeMonsters,
 }) => {
   const [filter, setFilter] = useState('');
   const [recentMonsters, setRecentMonsters] = useState([]);
@@ -171,7 +174,7 @@ const MonsterList = ({
         <input
           type="text"
           value={filter}
-          onChange={ e => setFilter(e.target.value) }
+          onChange={ e => { initializeMonsters(); setFilter(e.target.value); }}
           placeholder='filter'
         />
         {filter.length > 0 &&
