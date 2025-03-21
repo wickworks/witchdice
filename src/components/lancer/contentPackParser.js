@@ -1,133 +1,143 @@
-import JSZip from 'jszip'
-// import {
-//   IMechWeaponData,
-//   IManufacturerData,
-//   IFactionData,
-//   ICoreBonusData,
-//   IFrameData,
-//   IMechSystemData,
-//   IWeaponModData,
-//   ITalentData,
-//   IPilotEquipmentData,
-//   IContentPackManifest,
-//   ITagCompendiumData,
-//   IContentPack,
-//   INpcClassData,
-//   INpcFeatureData,
-//   INpcTemplateData,
-//   ICompendiumItemData,
-// } from '@/interface'
-// import { IActionData } from '@/classes/Action'
+import JSZip from "jszip"
+//import {
+//	IMechWeaponData,
+//	IManufacturerData,
+//	ICoreBonusData,
+//	IFrameData,
+//	IMechSystemData,
+//	IWeaponModData,
+//	ITalentData,
+//	IPilotEquipmentData,
+//	IContentPackManifest,
+//	ITagCompendiumData,
+//	IContentPack,
+//	INpcClassData,
+//	INpcFeatureData,
+//	INpcTemplateData,
+//	ICompendiumItemData,
+//} from '@/interface'
+//import { IActionData } from '@/classes/Action'
+//import { IBackgroundData } from '@/classes/Background'
+//import { IReserveData, ISkillData } from '@/classes/pilot/components'
 
-const isValidManifest = function (obj) {
-    return ('name' in obj &&
-        typeof obj.name === 'string' &&
-        'author' in obj &&
-        typeof obj.author === 'string' &&
-        'version' in obj &&
-        typeof obj.version === 'string');
-};
-
-const readZipJSON = async function (zip, filename) {
-    const file = zip.file(filename);
-    if (!file)
-        return null;
-    const text = await file.async('text');
-    return JSON.parse(text);
-};
-
-const getPackID = async function (manifest) {
-    const enc = new TextEncoder();
-    const signature = `${manifest.author}/${manifest.name}`;
-    const hash = await crypto.subtle.digest('SHA-1', enc.encode(signature));
-    return btoa(String.fromCharCode.apply(null, new Uint8Array(hash)));
-};
-
-async function getZipData(zip, filename) {
-    let readResult;
-    try {
-        readResult = await readZipJSON(zip, filename);
-    }
-    catch (e) {
-        console.error(`Error reading file ${filename} from package, skipping. Error follows:`);
-        console.trace(e);
-        readResult = null;
-    }
-    return readResult || [];
+const isValidManifest = function(obj) {
+	return (
+		"name" in obj &&
+		typeof obj.name === "string" &&
+		"author" in obj &&
+		typeof obj.author === "string" &&
+		"version" in obj &&
+		typeof obj.version === "string"
+	)
 }
 
-const parseContentPack = async function (binString) {
-    const zip = await JSZip.loadAsync(binString);
-    const manifest = await readZipJSON(zip, 'lcp_manifest.json');
+const readZipJSON = async function(zip, filename) {
+	const file = zip.file(filename)
+	if (!file) return null
+	const text = await file.async("text")
+	return JSON.parse(text)
+}
 
-    if (!manifest)
-        throw new Error('Content pack has no manifest');
-    if (!isValidManifest(manifest))
-        throw new Error('Content manifest is invalid');
+const getPackID = async function(manifest) {
+	const enc = new TextEncoder()
+	const signature = `${manifest.author}/${manifest.name}`
+	const hash = await crypto.subtle.digest("SHA-1", enc.encode(signature))
+	return btoa(String.fromCharCode.apply(null, new Uint8Array(hash)))
+}
 
-    const generateItemID = (type, name) => {
-        const sanitizedName = name
-            .replace(/[ /-]/g, '_')
-            .replace(/[^A-Za-z0-9_]/g, '')
-            .toLowerCase();
-        return `${manifest.item_prefix}__${type}_${sanitizedName}`;
-    };
+async function getZipData(zip, filename) {
+	let readResult
+	try {
+		readResult = await readZipJSON(zip, filename)
+	} catch (e) {
+		console.error(
+			`Error reading file ${filename} from package, skipping. Error follows:`
+		)
+		console.trace(e)
+		readResult = null
+	}
+	return readResult || []
+}
 
-    function generateIDs(data, dataPrefix) {
-        return data.map(x => (Object.assign(Object.assign({}, x), { id: x.id || generateItemID(dataPrefix, x.name) })));
-    }
+const parseContentPack = async function(binString) {
+	const zip = await JSZip.loadAsync(binString)
 
-    const manufacturers = await getZipData(zip, 'manufacturers.json');
-    const factions = await getZipData(zip, 'factions.json');
-    const backgrounds = await getZipData(zip, 'backgrounds.json');
-    const coreBonuses = generateIDs(await getZipData(zip, 'core_bonuses.json'), 'cb');
-    const frames = generateIDs(await getZipData(zip, 'frames.json'), 'mf');
-    const weapons = generateIDs(await getZipData(zip, 'weapons.json'), 'mw');
-    const systems = generateIDs(await getZipData(zip, 'systems.json'), 'ms');
-    const mods = generateIDs(await getZipData(zip, 'mods.json'), 'wm');
-    const pilotGear = generateIDs(await getZipData(zip, 'pilot_gear.json'), 'pg');
-    const talents = generateIDs(await getZipData(zip, 'talents.json'), 't');
-    const tags = generateIDs(await getZipData(zip, 'tags.json'), 'tg');
-    const npcClasses = (await readZipJSON(zip, 'npc_classes.json')) || [];
-    const npcFeatures = (await readZipJSON(zip, 'npc_features.json')) || [];
-    const npcTemplates = (await readZipJSON(zip, 'npc_templates.json')) || [];
-    const actions = (await readZipJSON(zip, 'actions.json')) || [];
-    const skills = (await readZipJSON(zip, 'skills.json')) || [];
-    const statuses = (await readZipJSON(zip, 'statuses.json')) || [];
-    const environments = (await readZipJSON(zip, 'environments.json')) || [];
-    const sitreps = (await readZipJSON(zip, 'sitreps.json')) || [];
-    const tables = (await readZipJSON(zip, 'tables.json')) || [];
-    const bonds = (await readZipJSON(zip, 'bonds.json')) || [];
-    const id = await getPackID(manifest);
+	const manifest = await readZipJSON(zip, "lcp_manifest.json")
+	if (!manifest) throw new Error("Content pack has no manifest")
+	if (!isValidManifest(manifest)) throw new Error("Content manifest is invalid")
 
-    return {
-        id,
-        active: false,
-        manifest,
-        data: {
-            manufacturers,
-            factions,
-            backgrounds,
-            coreBonuses,
-            frames,
-            weapons,
-            systems,
-            mods,
-            pilotGear,
-            talents,
-            tags,
-            npcClasses,
-            npcFeatures,
-            npcTemplates,
-            actions,
-            statuses,
-            skills,
-            environments,
-            sitreps,
-            tables,
-            bonds,
-        },
-    };
-};
+	const generateItemID = (type, name) => {
+		const sanitizedName = name
+			.replace(/[ \/-]/g, "_")
+			.replace(/[^A-Za-z0-9_]/g, "")
+			.toLowerCase()
+		return `${manifest.item_prefix}__${type}_${sanitizedName}`
+	}
 
-export { parseContentPack };
+	function generateIDs(data, dataPrefix) {
+		return data.map(x => ({
+			...x,
+			id: x.id || generateItemID(dataPrefix, x.name)
+		}))
+	}
+
+	const manufacturers = await getZipData(zip, "manufacturers.json")
+	const backgrounds = await getZipData(zip, "backgrounds.json")
+	const coreBonuses = generateIDs(
+	await getZipData(zip, "core_bonuses.json"),
+		"cb"
+	)
+	const frames = generateIDs(await getZipData(zip, "frames.json"), "mf")
+	const weapons = generateIDs(await getZipData(zip, "weapons.json"), "mw")
+	const systems = generateIDs(await getZipData(zip, "systems.json"), "ms")
+	const mods = generateIDs(await getZipData(zip, "mods.json"), "wm")
+	const pilotGear = generateIDs(await getZipData(zip, "pilot_gear.json"), "pg")
+	const talents = generateIDs(await getZipData(zip, "talents.json"), "t")
+	const tags = generateIDs(await getZipData(zip, "tags.json"), "tg")
+	const skills = generateIDs(await getZipData(zip, "skills.json"), "sk")
+
+	const npcClasses = (await readZipJSON(zip, "npc_classes.json")) || []
+	const npcFeatures = (await readZipJSON(zip, "npc_features.json")) || []
+	const npcTemplates = (await readZipJSON(zip, "npc_templates.json")) || []
+
+	const actions = (await readZipJSON(zip, "actions.json")) || []
+	const statuses = (await readZipJSON(zip, "statuses.json")) || []
+	const environments = (await readZipJSON(zip, "environments.json")) || []
+	const sitreps = (await readZipJSON(zip, "sitreps.json")) || []
+	const tables = (await readZipJSON(zip, "tables.json")) || []
+	const bonds = (await readZipJSON(zip, "bonds.json")) || []
+	const reserves = (await readZipJSON(zip, "reserves.json")) || []
+
+	const id = await getPackID(manifest)
+
+	return {
+		id,
+		active: false,
+		manifest,
+		data: {
+			manufacturers,
+			backgrounds,
+			coreBonuses,
+			frames,
+			weapons,
+			systems,
+			mods,
+			skills,
+			pilotGear,
+			talents,
+			tags,
+			npcClasses,
+			npcFeatures,
+			npcTemplates,
+			actions,
+			statuses,
+			environments,
+			sitreps,
+			tables,
+			bonds,
+			reserves
+		}
+	}
+}
+
+export { parseContentPack }
