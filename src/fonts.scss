@@ -38,7 +38,7 @@
 
 
 @mixin nouveau_border($border_filename) {
-  border-image-source: url("./assets/borders/#{$border_filename}");
+  border-image-source: url("/src/assets/borders/#{$border_filename}");
   border-style: solid;
   border-color: $faded_gold;
   border-radius: 14px;
@@ -50,7 +50,7 @@
 }
 
 @mixin parchment_background {
-  background-image: url('./assets/bg_parchment.webp');
+  background-image: url('/src/assets/bg_parchment.webp');
   background-color: #f6ebbf; // matches the image
 }
 
