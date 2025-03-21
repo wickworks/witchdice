@@ -80,31 +80,31 @@
 // @import url('https://fonts.googleapis.com/css?family=Bitter:regular,bold,italic&subset=latin,latin-ext');
 // @import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
 
-@font-face {
-  font-family: 'Bitter';
-  font-style: normal;
-  src: local('Bitter'), url('./fonts/Bitter-VariableFont_wght.ttf') format('truetype');
-  font-display: swap;
-}
+//@font-face {
+//  font-family: 'Bitter';
+//  font-style: normal;
+//  src: local('Bitter'), url('/fonts/Bitter-VariableFont_wght.ttf') format('truetype');
+//  font-display: swap;
+//}
 
-@font-face {
-  font-family: 'Bitter';
-  font-style: italic;
-  src: local('Bitter'), url('./fonts/Bitter-Italic-VariableFont_wght.ttf') format('truetype');
-  font-display: swap;
-}
+//@font-face {
+//  font-family: 'Bitter';
+//  font-style: italic;
+//  src: local('Bitter'), url('/fonts/Bitter-Italic-VariableFont_wght.ttf') format('truetype');
+//  font-display: swap;
+//}
 
-@font-face {
-  font-family: 'Architects Daughter';
-  src: local('Architects Daughter'), url('./fonts/ArchitectsDaughter-Regular.ttf') format('truetype');
-  font-display: swap;
-}
+//@font-face {
+//  font-family: 'Architects Daughter';
+//  src: local('Architects Daughter'), url('/fonts/ArchitectsDaughter-Regular.ttf') format('truetype');
+//  font-display: swap;
+//}
 
-@font-face {
-  font-family: 'PT Mono';
-  src: local('PT Mono'), url('./fonts/PTMono-Regular.ttf') format('truetype');
-  font-display: swap;
-}
+//@font-face {
+//  font-family: 'PT Mono';
+//  src: local('PT Mono'), url('/fonts/PTMono-Regular.ttf') format('truetype');
+//  font-display: swap;
+//}
 
 @mixin text_default {
   font-family: 'Bitter', serif;
