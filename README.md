@@ -30,7 +30,7 @@ firebase deploy
 
 ### NEW ENVIRONMENT ###
 - create a .env file in the root directory:
-REACT_APP_COMPCON_API_KEY=xxxxx
+VITE_COMPCON_API_KEY=xxxxx
 
 
 ### TO TEST ON OWLBEAR ###

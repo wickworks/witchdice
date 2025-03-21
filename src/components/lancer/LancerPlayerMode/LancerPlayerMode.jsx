@@ -146,7 +146,7 @@ const LancerPlayerMode = ({
     if (!shareCode) return
     console.log('Fetching pilot via share code:', shareCode);
 
-    const fetchHeader = { 'x-api-key': process.env.REACT_APP_COMPCON_API_KEY }
+    const fetchHeader = { 'x-api-key': import.meta.env.VITE_COMPCON_API_KEY }
     fetch(PILOT_SHARE_CODE_URL+shareCode, { headers: fetchHeader } )
     .then(
       response => response.json()

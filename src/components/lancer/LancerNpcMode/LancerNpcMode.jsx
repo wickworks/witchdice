@@ -194,7 +194,7 @@ const LancerNpcMode = ({
 
     let params = `?uid=${userID}&itemType=npc`
 
-    const fetchHeader = { 'x-api-key': process.env.REACT_APP_COMPCON_API_KEY }
+    const fetchHeader = { 'x-api-key': import.meta.env.VITE_COMPCON_API_KEY }
     fetch(NPC_CLOUD_URL+params, { headers: fetchHeader } )
     .then(
       response => response.json()
