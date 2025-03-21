@@ -1,7 +1,7 @@
 import { capitalize } from '../../utils.js';
 import OBR from "@owlbear-rodeo/sdk";
 
-const allStatuses = require('@massif/lancer-data/lib/statuses.json')
+import allStatuses from '@massif/lancer-data/lib/statuses.json';
 
 export const MARKED_METADATA_KEY = "com.battle-system.mark/metadata_marks"
 
