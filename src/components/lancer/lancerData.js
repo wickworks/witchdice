@@ -1,8 +1,19 @@
 import { getIDFromStorageName } from '../../localstorage.js';
 import { deepCopy, capitalize, snakeToCamel } from '../../utils.js';
 import { getNumberByTier } from './LancerNpcMode/npcUtils.js';
-
 import { loadLcpData, LCP_PREFIX, STORAGE_ID_LENGTH } from './lancerLocalStorage.js';
+
+import allStatuses from '@massif/lancer-data/lib/statuses.json';
+
+import lancer_data from '@massif/lancer-data';
+import dustgrave_data from '@massif/dustgrave-data';
+import ktb_data from '@massif/ktb-data';
+import long_rim_data from '@massif/long-rim-data';
+import osr_data from '@massif/osr-data';
+import ows_data from '@massif/ows-data';
+import sotw_data from '@massif/sotw-data';
+import ssmr_data from '@massif/ssmr-data';
+import wallflower_data from '@massif/wallflower-data';
 
 // converts the lcp's data array into a hash by the data's ID
 function hashLcpData(lcpData) {
@@ -17,14 +28,15 @@ function hashLcpData(lcpData) {
 }
 
 const data = [
-  require('@massif/lancer-data'),
-  require('@massif/dustgrave-data'),
-  require('@massif/ktb-data'),
-  require('@massif/long-rim-data'),
-  require('@massif/osr-data'),
-  require('@massif/ows-data'),
-  require('@massif/ssmr-data'),
-  require('@massif/wallflower-data'),
+	lancer_data,
+	dustgrave_data,
+	ktb_data,
+	long_rim_data,
+	osr_data,
+	ows_data,
+	sotw_data,
+	ssmr_data,
+	wallflower_data,
 ].map(
   lcpData => hashLcpData(lcpData)
 ).reduce(
@@ -64,7 +76,6 @@ const allNpcFeatures = data.npc_features;
 const allNpcTemplates = data.npc_templates;
 export const allBonds = data.bonds;
 // const allStatuses = data.statuses; // for some reason this was returning junk??
-const allStatuses = require('@massif/lancer-data/lib/statuses.json')
 
 const blankTalent = {
   "id": "missing_talent",
