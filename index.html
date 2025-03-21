@@ -7,19 +7,29 @@
       name="description"
       content="An elegant + powerful shared online dice roller with tools for some specific systems."
     />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/icon192.png" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/icon192.png" />
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="manifest" href="/manifest.json" />
 
     <script async defer data-domain="witchdice.com" src="https://plausible.io/js/plausible.js"></script>
-    <!-- <link rel="preload" href="%PUBLIC_URL%/fonts/Bitter-VariableFont_wght.ttf" as="font"> -->
+    <!-- <link rel="preload" href="/fonts/Bitter-VariableFont_wght.ttf" as="font"> -->
+
+	<!-- Polyfills from https://web3auth.io/community/t/how-to-migrate-from-create-react-app-to-vite/8807 -->
+	<script type="module">
+		import { Buffer } from "buffer";
+		import process from "process";
+		window.Buffer = Buffer;
+		window.process = process;
+	</script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
+
+	<script type="module" src="/src/index.jsx"></script>
 
     <!-- The core Firebase JS SDK is always required and must be listed first -->
     <script src="https://www.gstatic.com/firebasejs/8.2.1/firebase-app.js"></script>

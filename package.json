@@ -15,6 +15,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@vitejs/plugin-react": "^4.3.4",
     "5e-database": "github:5e-bits/5e-database",
     "ansi-regex": "^6.0.1",
     "focus-trap-react": "^8.3.2",
@@ -31,13 +32,16 @@
     "react-scrollspy": "^3.4.3",
     "react-select": "^3.1.1",
     "sass": "^1.79.4",
-    "turndown": "^7.1.1"
+    "turndown": "^7.1.1",
+    "vite": "^6.2.2",
+    "vite-plugin-svgr": "^4.3.0",
+    "vite-tsconfig-paths": "^5.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview"
   },
   "eslintConfig": {
     "extends": "react-app",

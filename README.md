@@ -10,7 +10,7 @@ List is at https://trello.com/b/e24TNiu1/witchdice
 
 # start local server
 npm start
-http://localhost:3000
+http://localhost:5173/
 
 # start and view the local firebase emulator
 firebase emulators:start --only database
