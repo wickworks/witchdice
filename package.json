@@ -20,6 +20,7 @@
     "@zip.js/zip.js": "^2.7.57",
     "5e-database": "github:5e-bits/5e-database",
     "ansi-regex": "^6.0.1",
+    "buffer": "^6.0.3",
     "focus-trap-react": "^8.3.2",
     "promisify-file-reader": "^4.1.0",
     "react": "^16.13.1",
