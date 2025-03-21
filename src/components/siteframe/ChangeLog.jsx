@@ -14,11 +14,10 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.3.0 — Mar 2025</div>
+          <div className='version-label'>v1.3.1 — Mar 2025</div>
           <ul>
             <li>Added 5e mode to the owlbear extension.</li>
-            <li>Did a lot of long-waiting upgrades, which likely broke things.</li>
-            <li>Javascript web development is a bad place.</li>
+            <li>Was forced to do a buncha long-waiting upgrades, which likely broke things. Javascript web development is a bad place.</li>
           </ul>
 
           <div className='version-label'>v1.2.15 — Jan 2025</div>
