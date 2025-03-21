@@ -22,6 +22,7 @@
     "ansi-regex": "^6.0.1",
     "buffer": "^6.0.3",
     "focus-trap-react": "^8.3.2",
+    "process": "^0.11.10",
     "promisify-file-reader": "^4.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

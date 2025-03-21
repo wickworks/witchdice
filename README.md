@@ -29,7 +29,6 @@ firebase hosting:channel:deploy eye-of-newt
 firebase deploy
 
 ### NEW ENVIRONMENT ###
-- running on node v16.13.2
 - create a .env file in the root directory:
 REACT_APP_COMPCON_API_KEY=xxxxx
 
