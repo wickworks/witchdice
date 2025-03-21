@@ -1,4 +1,6 @@
-import JSZip from "jszip"
+import { ZipReader, Uint8ArrayReader, TextWriter } from "@zip.js/zip.js";
+
+//import JSZip from "jszip"
 //import {
 //	IMechWeaponData,
 //	IManufacturerData,
@@ -21,6 +23,8 @@ import JSZip from "jszip"
 //import { IReserveData, ISkillData } from '@/classes/pilot/components'
 
 const isValidManifest = function(obj) {
+	console.log('checking manifest : ', obj, typeof obj);
+
 	return (
 		"name" in obj &&
 		typeof obj.name === "string" &&
@@ -31,12 +35,12 @@ const isValidManifest = function(obj) {
 	)
 }
 
-const readZipJSON = async function(zip, filename) {
-	const file = zip.file(filename)
-	if (!file) return null
-	const text = await file.async("text")
-	return JSON.parse(text)
-}
+//const readZipJSON = async function(zip, filename) {
+//	const file = zip.file(filename)
+//	if (!file) return null
+//	const text = await file.async("text")
+//	return JSON.parse(text)
+//}
 
 const getPackID = async function(manifest) {
 	const enc = new TextEncoder()
@@ -46,9 +50,12 @@ const getPackID = async function(manifest) {
 }
 
 async function getZipData(zip, filename) {
+	//console.log('getting ', filename, '::::::');
+
 	let readResult
 	try {
-		readResult = await readZipJSON(zip, filename)
+		const rawString = zip[filename]
+		if (rawString) readResult = await JSON.parse(rawString)
 	} catch (e) {
 		console.error(
 			`Error reading file ${filename} from package, skipping. Error follows:`
@@ -56,13 +63,51 @@ async function getZipData(zip, filename) {
 		console.trace(e)
 		readResult = null
 	}
+	//console.log('>>>>> ', readResult);
+
 	return readResult || []
 }
 
-const parseContentPack = async function(binString) {
-	const zip = await JSZip.loadAsync(binString)
+const parseZipBinaryString = async (binaryString) => {
+    try {
+        // Convert binary string to Uint8Array
+        const uint8Array = new Uint8Array(binaryString.length);
+        for (let i = 0; i < binaryString.length; i++) {
+            uint8Array[i] = binaryString.charCodeAt(i);
+        }
 
-	const manifest = await readZipJSON(zip, "lcp_manifest.json")
+        // Create a ZIP reader
+        const zipReader = new ZipReader(new Uint8ArrayReader(uint8Array));
+
+        // Get file entries
+        const entries = await zipReader.getEntries();
+
+        // Read files into a dictionary
+        const filesDict = {};
+        for (const entry of entries) {
+            if (!entry.directory) {
+                // Read file as text (modify this if you need binary)
+                const textWriter = new TextWriter();
+                const content = await entry.getData(textWriter);
+                filesDict[entry.filename] = content;
+            }
+        }
+
+        // Close the zip reader
+        await zipReader.close();
+
+        return filesDict;
+    } catch (error) {
+        console.error("Error parsing ZIP binary string:", error);
+        return null;
+    }
+};
+
+
+const parseContentPack = async function(binString) {
+	var zip = await parseZipBinaryString(binString)
+	const manifest = JSON.parse(zip['lcp_manifest.json'])
+
 	if (!manifest) throw new Error("Content pack has no manifest")
 	if (!isValidManifest(manifest)) throw new Error("Content manifest is invalid")
 
@@ -96,17 +141,17 @@ const parseContentPack = async function(binString) {
 	const tags = generateIDs(await getZipData(zip, "tags.json"), "tg")
 	const skills = generateIDs(await getZipData(zip, "skills.json"), "sk")
 
-	const npcClasses = (await readZipJSON(zip, "npc_classes.json")) || []
-	const npcFeatures = (await readZipJSON(zip, "npc_features.json")) || []
-	const npcTemplates = (await readZipJSON(zip, "npc_templates.json")) || []
+	const npcClasses = (await getZipData(zip, "npc_classes.json")) || []
+	const npcFeatures = (await getZipData(zip, "npc_features.json")) || []
+	const npcTemplates = (await getZipData(zip, "npc_templates.json")) || []
 
-	const actions = (await readZipJSON(zip, "actions.json")) || []
-	const statuses = (await readZipJSON(zip, "statuses.json")) || []
-	const environments = (await readZipJSON(zip, "environments.json")) || []
-	const sitreps = (await readZipJSON(zip, "sitreps.json")) || []
-	const tables = (await readZipJSON(zip, "tables.json")) || []
-	const bonds = (await readZipJSON(zip, "bonds.json")) || []
-	const reserves = (await readZipJSON(zip, "reserves.json")) || []
+	const actions = (await getZipData(zip, "actions.json")) || []
+	const statuses = (await getZipData(zip, "statuses.json")) || []
+	const environments = (await getZipData(zip, "environments.json")) || []
+	const sitreps = (await getZipData(zip, "sitreps.json")) || []
+	const tables = (await getZipData(zip, "tables.json")) || []
+	const bonds = (await getZipData(zip, "bonds.json")) || []
+	const reserves = (await getZipData(zip, "reserves.json")) || []
 
 	const id = await getPackID(manifest)
 

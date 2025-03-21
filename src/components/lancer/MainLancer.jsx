@@ -34,6 +34,7 @@ const coreLcpEntries = [
   {name: "Lancer Long Rim Data", id: 'longrim'},
   {name: "Operation Solstice Rain Data", id: 'solticerain'},
   {name: "Operation Winter Scar Data", id: 'winterscar'},
+  {name: "Shadow of the Wolf Data", id: 'shadowofthewolf'},
   {name: "Siren's Song, A Mountain's Remorse", id: 'sirenssong'},
   {name: "Lancer Wallflower Data", id: 'wallflower'},
 ]
