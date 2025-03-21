@@ -11,6 +11,7 @@ import DiscordBotNotice from '../shared/bots/DiscordBotNotice.jsx';
 import TipsAndTricks from '../settings/TipsAndTricks.jsx';
 import Footer from '../siteframe/Footer.jsx';
 import MainLancer from '../lancer/MainLancer.jsx';
+import Main5E from '../5e/Main5E.jsx';
 import { randomWords } from '../../random_words.js';
 import { MARKED_METADATA_KEY } from './marked_integration_utils.js';
 import { latestActionToNotification } from './OwlbearNotifications.js';
@@ -32,6 +33,7 @@ function loadSkippedPageModes() {
   if (!window.localStorageEnabled) return Object.keys(allPageModes).filter(mode => !['dice','rolls','settings'].includes(mode))
 
   let skipPages = []
+  skipPages = Object.keys(allPageModes).filter(mode => allPageModes[mode].default ? '' : mode)
   const savedString = localStorage.getItem(SETTINGS_HIDDEN_PAGE_MODES)
   if (savedString) skipPages = JSON.parse(savedString)
   return skipPages;
@@ -46,11 +48,12 @@ function saveSkipPages(skipPages) {
 
 // Instead of changing the URL, change the page in state here
 const allPageModes = {
-  dice: {label: 'Dice', icon: 'dicebag', skippable: false},
-  rolls: {label: 'Rolls', icon: 'owlbear_ext_icon', skippable: false},
-  lancer: {label: 'Lancer', icon: 'union', skippable: true},
-  clocks: {label: 'Clocks', icon: 'clock', skippable: true},
-  settings: {label: 'Settings', icon: 'gear', skippable: false},
+  dice: {label: 'Dice', icon: 'dicebag', skippable: false, default: true},
+  rolls: {label: 'Rolls', icon: 'owlbear_ext_icon', skippable: false, default: true},
+  lancer: {label: 'Lancer', icon: 'union', skippable: true, default: true},
+  dnd: {label: 'D&D 5e', icon: 'dragon', skippable: true, default: false},
+  clocks: {label: 'Clocks', icon: 'clock', skippable: true, default: false},
+  settings: {label: 'Settings', icon: 'gear', skippable: false, default: true},
 }
 
 const MainOwlbear = ({
@@ -272,6 +275,14 @@ const MainOwlbear = ({
             partyConnected={partyConnected}
             partyRoom={partyRoom}
             skipDicebagJumplink={true}
+          />
+		: pageMode === 'dnd' ?
+          <Main5E
+            setPartyLastAttackKey={setPartyLastAttackKey}
+            setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+            setRollSummaryData={setRollSummaryData}
+            partyConnected={partyConnected}
+            partyRoom={partyRoom}
           />
         : pageMode === 'clocks' ?
           <SquadClockPanel
