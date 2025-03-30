@@ -14,12 +14,17 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.3.2 — Mar 2025</div>
+          <ul>
+            <li>Update owlbear SDK to 3.1.0.</li>
+          </ul>
+
           <div className='version-label'>v1.3.1 — Mar 2025</div>
           <ul>
             <li>Was forced to do a buncha long-waiting upgrades, which likely broke things. Javascript web development is a bad place.</li>
             <li>Added 5e mode to the owlbear extension.</li>
             <li>Added Shadow of the Wolf Massif LCP.</li>
-            </ul>
+          </ul>
 
           <div className='version-label'>v1.2.15 — Jan 2025</div>
           <ul>
