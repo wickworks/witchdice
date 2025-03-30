@@ -168,7 +168,7 @@ const Main = ({
         modeString = `${summaryMode} ${summaryModeValue}${summaryMode === 'count' ? '+' : ''}`
       }
       actionData.conditions = modeString
-      console.log('       set rubmle action data', actionData);
+      //console.log('       set rubmle action data', actionData);
 
       // rolls = [ {dieType: 'd6', result: 4}, ... ]
       rolls.forEach((roll, i) => {

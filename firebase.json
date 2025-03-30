@@ -40,13 +40,7 @@
       "source": "**",
       "headers": [ {
         "key": "Access-Control-Allow-Origin",
-        "value": "https://www.owlbear.app"
-      } ]
-    }, {
-      "source": "**",
-      "headers": [ {
-        "key": "Access-Control-Allow-Origin",
-        "value": "https://www.owlbear.rodeo"
+        "value": "*"
       } ]
     } ]
   }

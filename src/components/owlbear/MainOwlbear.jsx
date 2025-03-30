@@ -94,7 +94,10 @@ const MainOwlbear = ({
   useEffect(() => {
     setSkipPages(loadSkippedPageModes())
 
-    if (OBR.isAvailable && !obrReady) OBR.onReady(initializeObr)
+    if (OBR.isAvailable && !obrReady) {
+      if (OBR.isReady) { initializeObr() } // the OBR library got ready before we did; initialize now
+      else { OBR.onReady(initializeObr) } // we're ready and waiting on the library; initialize when they finish
+    }
   }, [])
 
   // DICE ROLL NOTIFICATION

@@ -21,9 +21,9 @@ export const sendTextToRumbleChatbox = (actionData) => {
     targetId: '0000'
   }
 
-  console.log('Rumble chatbox metadataUpdate text: ', text)
+  //console.log('Rumble chatbox metadataUpdate text: ', text)
   if (OBR && OBR.isAvailable && text) {
-    console.log('OBR is available! Setting metadata.')
+    //console.log('OBR is available! Setting metadata.')
     OBR.player.setMetadata(metadataUpdate)
   }
 }
