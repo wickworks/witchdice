@@ -94,9 +94,16 @@ const MainOwlbear = ({
   useEffect(() => {
     setSkipPages(loadSkippedPageModes())
 
+    console.log('Witchdice: initializing connection to OBR...', OBR);
     if (OBR.isAvailable && !obrReady) {
-      if (OBR.isReady) { initializeObr() } // the OBR library got ready before we did; initialize now
-      else { OBR.onReady(initializeObr) } // we're ready and waiting on the library; initialize when they finish
+      if (OBR.isReady) {
+        console.log('Witchdice: OBR is ready!');
+        initializeObr()
+      } // the OBR library got ready before we did; initialize now
+      else {
+        console.log('Witchdice: OBR not ready yet...');
+        OBR.onReady(initializeObr)
+      } // we're ready and waiting on the library; initialize when they finish
     }
   }, [])
 
