@@ -13,7 +13,7 @@ const ProblemsBar = ({
   obrReady,
   partyRoom,
   onJoinRoom,
-  reloadExtension,
+  tryToInitializeObr,
   requestUserRefresh,
 }) => {
 
@@ -22,7 +22,11 @@ const ProblemsBar = ({
   return (
     <div className='ProblemsBar'>
       { !obrReady ?
-        <p> Looks like there was a problem loading the extension. Try refreshing the page. </p>
+        <p>
+          Looks like there was a problem loading the extension.
+          Click <button onClick={tryToInitializeObr} className='retry-obr'>here</button> to retry,
+          or try disabling adblock and refreshing the page.
+        </p>
 
       : requestUserRefresh ?
         <p> Somebody changed the connected Witchdice room. Please refresh the page. </p>

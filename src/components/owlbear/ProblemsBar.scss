@@ -8,6 +8,12 @@
   text-align: center;
   margin: 10px 0;
 
+  button.retry-obr {
+    color: $rust;
+    font-weight: bold;
+    &:hover { color: $rust_light; }
+  }
+
   .empty-room {
     padding: 4px 6%;
 

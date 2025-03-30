@@ -93,18 +93,7 @@ const MainOwlbear = ({
   // INITIALIZE
   useEffect(() => {
     setSkipPages(loadSkippedPageModes())
-
-    console.log('Witchdice: initializing connection to OBR...', OBR);
-    if (OBR.isAvailable && !obrReady) {
-      if (OBR.isReady) {
-        console.log('Witchdice: OBR is ready!');
-        initializeObr()
-      } // the OBR library got ready before we did; initialize now
-      else {
-        console.log('Witchdice: OBR not ready yet...');
-        OBR.onReady(initializeObr)
-      } // we're ready and waiting on the library; initialize when they finish
-    }
+    tryToInitializeObr()
   }, [])
 
   // DICE ROLL NOTIFICATION
@@ -121,6 +110,17 @@ const MainOwlbear = ({
     }
 
   }, [latestAction])
+
+  const tryToInitializeObr = () => {
+    console.log('Witchdice: initializing connection to OBR; OBR.isAvailable / OBR.isReady / obrReady : ', OBR.isAvailable, OBR.isReady, obrReady);
+    if (OBR.isAvailable && !obrReady) {
+      if (OBR.isReady) {
+        initializeObr() // the OBR library got ready before we did; initialize now
+      } else {
+        OBR.onReady(initializeObr) // we're ready and waiting on the library; initialize when they finish
+      }
+    }
+  }
 
   // INITIALIZE OWLBEAR SDK
   const initializeObr = () => {
@@ -264,6 +264,7 @@ const MainOwlbear = ({
           partyRoom={partyRoom}
           onJoinRoom={createAndJoinRoom}
           requestUserRefresh={requestUserRefresh}
+          tryToInitializeObr={tryToInitializeObr}
         />
       }
 

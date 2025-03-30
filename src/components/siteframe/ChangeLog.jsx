@@ -17,7 +17,7 @@ const ChangeLog = () => {
           <div className='version-label'>v1.3.2 — Mar 2025</div>
           <ul>
             <li>Update owlbear SDK to 3.1.0.</li>
-            <li>Stabilize loading the OBR extension.</li>
+            <li>Stabilize loading the OBR extension / add button to retry.</li>
           </ul>
 
           <div className='version-label'>v1.3.1 — Mar 2025</div>
