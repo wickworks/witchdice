@@ -388,7 +388,7 @@ export function getGrit(pilot) { return Math.ceil(pilot.level * .5) }
 
 // turns '10d6+4' into {count: 10, dietype: 6, bonus: 4}
 export const processDiceString = (diceString) => {
-  var dice = String(diceString)
+  var dice = String(diceString).toLowerCase()
 
   var count = 0;
   var dietype = '';
