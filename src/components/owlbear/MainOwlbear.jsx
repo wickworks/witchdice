@@ -96,21 +96,6 @@ const MainOwlbear = ({
     tryToInitializeObr()
   }, [])
 
-  // DICE ROLL NOTIFICATION
-  useEffect(() => {
-
-    // New action coming in to roll history; let's make a notification about it. (closing the old one if it's still open)
-    // console.log('latestAction', latestAction, ' obrReady ', obrReady, ' OBR.isAvailable', OBR.isAvailable);
-
-    // was this one modified in the last ten seconds?
-    var now = Date.now()
-    var cutoff = now - (10 * 1000) // 10 seconds ago
-    if (obrReady && notifyOnRoll && latestAction && latestAction.updatedAt > cutoff) {
-      latestActionToNotification(latestAction, actionToNotificationMap, setActionToNotificationMap)
-    }
-
-  }, [latestAction])
-
   const tryToInitializeObr = () => {
     console.log('Witchdice: initializing connection to OBR; OBR.isAvailable / OBR.isReady / obrReady : ', OBR.isAvailable, OBR.isReady, obrReady);
     if (OBR.isAvailable && !obrReady) {
@@ -124,7 +109,7 @@ const MainOwlbear = ({
 
   // INITIALIZE OWLBEAR SDK
   const initializeObr = () => {
-    console.log('Witchdice sees: OBR SDK ready!');
+    console.log('Witchdice: OBR SDK ready, initializing extension!');
     setObrReady(true);
 
     OBR.player.onChange((player) => {
@@ -170,6 +155,21 @@ const MainOwlbear = ({
       if (fullOwlbearMetadata[WITCHDICE_METADATA_KEY]) setMarkedMetadata(fullOwlbearMetadata[MARKED_METADATA_KEY])
     })
   }
+
+  // DICE ROLL NOTIFICATION
+  useEffect(() => {
+
+    // New action coming in to roll history; let's make a notification about it. (closing the old one if it's still open)
+    // console.log('latestAction', latestAction, ' obrReady ', obrReady, ' OBR.isAvailable', OBR.isAvailable);
+
+    // was this one modified in the last ten seconds?
+    var now = Date.now()
+    var cutoff = now - (10 * 1000) // 10 seconds ago
+    if (obrReady && notifyOnRoll && latestAction && latestAction.updatedAt > cutoff) {
+      latestActionToNotification(latestAction, actionToNotificationMap, setActionToNotificationMap)
+    }
+
+  }, [latestAction])
 
   const createAndJoinRoom = (roomName) => {
     // Joining the room happens through the normal metadata change detection

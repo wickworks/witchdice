@@ -14,6 +14,11 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.3.7 — Apr 2025</div>
+          <ul>
+            <li>Another attempt at fixing the spotty connection to OBR extension library.</li>
+          </ul>
+
           <div className='version-label'>v1.3.2-6 — Mar 2025</div>
           <ul>
             <li>Update owlbear SDK to 3.1.0.</li>
