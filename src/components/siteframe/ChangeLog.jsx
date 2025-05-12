@@ -14,6 +14,13 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.3.8 — May 2025</div>
+          <ul>
+            <li>Added a Lancer Tactics banner ad. You can dismiss it by clicking it. :)</li>
+            <li>Added a link to istealyourzs' how-to guide in the Owlbear extension settings.</li>
+            <li>Turned off notification on rolls by default; I found it to be too buggy.</li>
+          </ul>
+
           <div className='version-label'>v1.3.7 — Apr 2025</div>
           <ul>
             <li>Another attempt at fixing the spotty connection to OBR extension library.</li>
