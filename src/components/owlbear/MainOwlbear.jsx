@@ -6,6 +6,7 @@ import PageModeSwitcher from './PageModeSwitcher.jsx';
 import OwlbearSettings from './OwlbearSettings.jsx';
 import MarkedIntegration from './MarkedIntegration.jsx';
 import ProblemsBar from './ProblemsBar.jsx';
+import LancerTacticsBanner from './LancerTacticsBanner.jsx';
 import SquadClockPanel from '../shared/SquadClockPanel/SquadClockPanel.jsx';
 import DiscordBotNotice from '../shared/bots/DiscordBotNotice.jsx';
 import TipsAndTricks from '../settings/TipsAndTricks.jsx';
@@ -278,15 +279,18 @@ const MainOwlbear = ({
             bookmarksEnabled={false}
           />
         : pageMode === 'lancer' ?
-          <MainLancer
-            setPartyLastAttackKey={setPartyLastAttackKey}
-            setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
-            setRollSummaryData={setRollSummaryData}
-            setDistantDicebagData={setDistantDicebagDataWithPageModeChange}
-            partyConnected={partyConnected}
-            partyRoom={partyRoom}
-            skipDicebagJumplink={true}
-          />
+          <>
+            <LancerTacticsBanner />
+            <MainLancer
+              setPartyLastAttackKey={setPartyLastAttackKey}
+              setPartyLastAttackTimestamp={setPartyLastAttackTimestamp}
+              setRollSummaryData={setRollSummaryData}
+              setDistantDicebagData={setDistantDicebagDataWithPageModeChange}
+              partyConnected={partyConnected}
+              partyRoom={partyRoom}
+              skipDicebagJumplink={true}
+            />
+          </>
 		: pageMode === 'dnd' ?
           <Main5E
             setPartyLastAttackKey={setPartyLastAttackKey}
