@@ -22,12 +22,23 @@ const MarkedIntegration = ({
 
   return (
     <div className='MarkedIntegration'>
+      <h3>Lancer how-to guide</h3>
+      <span className='small'>by istealyourzs</span>
+      <p className='center'>
+        <a href='https://docs.google.com/document/d/13saLpZuuSbW_zvwz3YyRNSYxLnrMetzhaYMorWK-a-c' target="_blank" rel="noopener noreferrer">
+          <strong>Click here</strong>
+        </a> for a quick guide to the Lancer chararacter sheet.
+        <br />
+      </p>
+
+      <hr />
+
       <h3>Marked! integration</h3>
       { !markedMetadata ?
         <>
           <p>
             If you install the <a href='https://extensions.owlbear.rodeo/marked' target="_blank" rel="noopener noreferrer">Marked! extension</a>,
-            you can apply a preset for Lancer statuses and conditions here.
+            you can apply a preset for Lancer statuses and conditions.
           </p>
           <p>This will allow you to easily attach tags like Jammed to tokens.</p>
         </>
