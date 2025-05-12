@@ -86,7 +86,7 @@ const MainOwlbear = ({
   const [obrReady, setObrReady] = useState(false)
   const [requestUserRefresh, setRequestUserRefresh] = useState(false)
 
-  const [notifyOnRoll, setNotifyOnRoll] = useState(true)
+  const [notifyOnRoll, setNotifyOnRoll] = useState(false)
   const [actionToNotificationMap, setActionToNotificationMap] = useState({})
 
   const [markedMetadata, setMarkedMetadata] = useState(null)
