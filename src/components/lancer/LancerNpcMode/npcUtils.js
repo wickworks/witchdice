@@ -7,17 +7,38 @@ import {
 
 
 export function getStat(key, npc) {
-  let stat = npc.stats[key]
-  if (npc.stats.overrides && npc.stats.overrides[key] > 0) {
-    stat = npc.stats.overrides[key]
-  } else if (npc.stats.bonuses) {
-    stat += npc.stats.bonuses[key] || 0
+  let stat
+  if ('stats' in npc) { // V2
+    stat = npc.stats[key]
+    if (npc.stats.overrides && npc.stats.overrides[key] > 0) {
+      stat = npc.stats.overrides[key]
+    } else if (npc.stats.bonuses) {
+      stat += npc.stats.bonuses[key] || 0
+    }
+  } else {
+    stat = npc.combat_data.stats.max[key] // V3
   }
+  // V3 UPDATE: it doesn't compile the bonuses for us; we have to do it ourselves
+  if ('features' in npc) {
+    for (const feature of npc.features) {
+      if ('data' in feature && 'bonuses' in feature.data) {
+        for (const bonus of feature.data.bonuses) {
+          if (bonus.id == key) {
+            stat += bonus.val || 0
+            if (bonus.overwrite == true) { return bonus.val } // return immediately for overrides
+          }
+        }
+      }
+    }
+  }
+
+
   return stat
 }
 
 export function getNpcSkillCheckAccuracy(skill, npc) {
   let accuracy = 0
+  npc.items = npc.items || [] // V3 UPDATE: dropped items
   npc.items.forEach(feature => {
     const featureData = findNpcFeatureData(feature.itemID)
     const effect = [featureData.effect, feature.description].filter(text => text).join(' ').toLowerCase()
@@ -165,6 +186,7 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
         }
         break;
       case 'repairAllWeaponsAndSystems':
+        newNpc.items = newNpc.items || [] // V3 UPDATE: dropped items
         newNpc.items.forEach(item => {
           const featureData = findNpcFeatureData(item.itemID)
           const limited = getSystemLimited(item, featureData)
@@ -190,6 +212,7 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
           'activations': 'activations'
         }
         const convertedKey = keyConversion[statKey] || statKey
+        newNpc.currentStats = newNpc.currentStats || {} // V3 UPDATE: dropped currentStats, so have to add it back
         newNpc.currentStats[convertedKey] = mechUpdate[statKey]
 
         break;

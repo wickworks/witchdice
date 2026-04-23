@@ -303,6 +303,7 @@ export const findActionData = (actionID) => {
 }
 
 export const findNpcClassData = (npcClassID) => {
+  npcClassID = (typeof npcClassID === 'object') ? npcClassID.id : npcClassID // V3 UPDATE: class => class.id
   var npcClassData = allNpcClasses[npcClassID]
   if (!npcClassData) npcClassData = findGameDataFromUploadedLcp('npcClasses', npcClassID)
   return npcClassData ? npcClassData : blankNpcClass

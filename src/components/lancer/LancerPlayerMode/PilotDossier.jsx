@@ -32,7 +32,10 @@ const PilotDossier = ({
 
   const geneStatus = pilotIDToGeneStatus(activePilot.id);
 
-  const showPilotGear = activePilot.loadout.gear.filter(gear => gear)
+  // V3 UPDATE: the single pilot "loadout" is now an array of loadouts
+  let loadout = (!!activePilot.loadout ? activePilot.loadout : activePilot.loadouts[0])
+
+  const showPilotGear = loadout.gear.filter(gear => gear)
 
   const queueUpSkillCheck = (skillIndex) => {
     const skill = activePilot.skills[skillIndex]

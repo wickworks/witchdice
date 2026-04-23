@@ -69,7 +69,7 @@ const PlayerMechSheet = ({
   const customPaintJobSystem = loadout.systems.find(system => system.id === 'ms_custom_paint_job')
   const hasIntactCustomPaintJob = customPaintJobSystem && (customPaintJobSystem.uses === 0)
 
-  const robotState = {
+  const robotState = ('current_hp' in activeMech) ? { // V2
     overshield: activeMech.overshield,
     hp: activeMech.current_hp,
     heat: activeMech.current_heat,
@@ -84,7 +84,23 @@ const PlayerMechSheet = ({
     counters: getCountersFromPilot(activePilot),
 
     hasIntactCustomPaintJob: hasIntactCustomPaintJob,
+  } : { // V3 UPDATE: changes where stats are stored
+    overshield: activeMech.stats.current.overshield,
+    hp: activeMech.stats.current.hp,
+    heat: activeMech.stats.current.heat,
+    burn: activeMech.stats.current.burn,
+    overcharge: activeMech.stats.current.overcharge,
+    coreEnergy: activeMech.corePower,
+    repairs: activeMech.stats.current.repairCapacity,
+    structure: activeMech.stats.current.structure,
+    stress: activeMech.stats.current.stress,
+
+    conditions: activeMech.statuses,
+    counters: getCountersFromPilot(activePilot),
+
+    hasIntactCustomPaintJob: hasIntactCustomPaintJob,
   }
+
 
   const robotStats = {
     hull: activePilot.mechSkills[0],
@@ -129,10 +145,12 @@ const PlayerMechSheet = ({
 
   }
 
+  // V3 UPDATE: .state is kaput -- no clear replacement TODO figure out where to stash this
+  const pilotPerRoundUses = activePilot.state ? activePilot.state.per_round_uses : {}
   const robotLoadout = {
-    frameTraits: getFrameTraits(frameData.traits, frameData.core_system, activePilot.state.per_round_uses),
-    systems: getSystemTraits([...loadout.systems, ...loadout.integratedSystems], robotStats.limitedBonus, activePilot.state.per_round_uses),
-    pilotTraits: getPilotTraits(activePilot.talents, activePilot.core_bonuses, activePilot.state.per_round_uses),
+    frameTraits: getFrameTraits(frameData.traits, frameData.core_system, pilotPerRoundUses),
+    systems: getSystemTraits([...loadout.systems, ...loadout.integratedSystems], robotStats.limitedBonus, pilotPerRoundUses),
+    pilotTraits: getPilotTraits(activePilot.talents, activePilot.core_bonuses, pilotPerRoundUses),
 
     mounts: [...getMountsFromLoadout(loadout), deepCopy(baselineMount)],
     invades: getInvadeAndTechAttacks(loadout, activePilot.talents, frameData.core_system),
@@ -140,12 +158,14 @@ const PlayerMechSheet = ({
 
 
   // anything the weapon roller setup will need to determine available sources of accuracy/difficulty
+  // V3 UPDATE: .conditions is kaput -- no clear replacement TODO figure out where to stash this
+  const isImpaired = activeMech.conditions ? activeMech.conditions.includes('IMPAIRED') : false
   const accuracyAndDamageSourceInputs = {
     frameID: activeMech.frame,
     mechSystems: loadout.systems,
     npcFeatures: [],
     pilotTalents: activePilot.talents,
-    isImpaired: activeMech.conditions.includes('IMPAIRED'),
+    isImpaired: isImpaired,
     currentHeat: robotState.heat, // may replace this with the rest of state if we ever need it
   }
 

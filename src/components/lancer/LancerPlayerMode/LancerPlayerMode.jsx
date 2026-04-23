@@ -25,6 +25,12 @@ import { getIDFromStorageName } from '../../../localstorage.js';
 import { createSquadMech } from '../SquadPanel/squadUtils.js';
 import { applyUpdatesToPlayer } from './playerUtils.js';
 
+import { findFrameData, } from '../lancerData.js';
+import {
+  getMechMaxHP,
+  getMechMaxRepairCap,
+} from '../MechState/mechStateUtils.js';
+
 import compendiaJonesJson from './YOURGRACE.json';
 import './LancerPlayerMode.scss';
 
@@ -171,6 +177,9 @@ const LancerPlayerMode = ({
   }
 
   const createNewPilot = (pilot, viaShareCode = null) => {
+    // V3 UPDATE: everything is in a "data" object
+    if (pilot["EXPORT_TYPE"] == "Save Pilot" && !!pilot.data) { pilot = pilot.data }
+
     if (!pilot || !pilot.id || !pilot.mechs) return // sanity-check the pilot file
 
     let newPilotEntries = [...allPilotEntries]
@@ -188,6 +197,27 @@ const LancerPlayerMode = ({
       }
       deletePilotData(allPilotEntries[pilotIndex].id, allPilotEntries[pilotIndex].name)
       newPilotEntries.splice(pilotIndex, 1)
+    }
+
+    // full repair
+    for (let index = 0; index < pilot.mechs.length; index++) {
+      const mech = pilot.mechs[index];
+      const frameData = findFrameData(mech.frame);
+      applyUpdatesToPlayer({
+        repairAllWeaponsAndSystems: true,
+        conditions: [],
+        // custom_counters: [],
+        // counter_data: [],
+        overshield: 0,
+        current_hp: getMechMaxHP(mech, pilot, frameData),
+        current_heat: 0,
+        burn: 0,
+        current_overcharge: 0,
+        current_core_energy: 1,
+        current_repairs: getMechMaxRepairCap(mech, pilot, frameData),
+        current_structure: 4,
+        current_stress: 4,
+      }, pilot, mech)
     }
 
     // add the sharecode to this pilot if we have one

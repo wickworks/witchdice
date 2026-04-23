@@ -97,7 +97,7 @@ const NpcMechSheet = ({
     id: activeNpc.id,
     cloud_portrait: activeNpc.cloud_portrait,
     hasMultipleLoadouts: false,
-    frameID: activeNpc.class,
+    frameID: (typeof activeNpc.class === 'object') ? activeNpc.class.id : activeNpc.class, // V3 UPDATE: class => class.id
     frameSourceIcon: npcClassData.role.toLowerCase(),
     frameSourceText:
       (activeNpc.tier ? `Tier ${activeNpc.tier} ` : '') +

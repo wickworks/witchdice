@@ -150,7 +150,10 @@ const LancerNpcMode = ({
 
   const deleteAllNpcsWithLabel = (label) => {
     let newNpcLibrary = {...npcLibrary}
-    const idsToDelete = Object.values(newNpcLibrary).filter(npc => npc.labels.includes(label)).map(npc => npc.id)
+    const idsToDelete = Object.values(newNpcLibrary).filter(npc => {
+      const labels = ('labels' in npc ? npc.labels : npc.narrative.labels)
+      return labels.includes(label)
+    }).map(npc => npc.id)
     idsToDelete.forEach(npcID => delete newNpcLibrary[npcID])
 
     // save the whole library to state & localstorage

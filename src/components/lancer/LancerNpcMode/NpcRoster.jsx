@@ -59,8 +59,10 @@ const NpcRoster = ({
   let noLabelNpcs = []
   let libraryByLabel = {}
   Object.values(filteredLibrary).forEach(npc => {
-    if (npc.labels.length > 0) {
-      npc.labels.forEach(label => {
+    // V3 UPDATE: labels => narrative.labels
+    const labels = ('labels' in npc ? npc.labels : npc.narrative.labels)
+    if (labels.length > 0) {
+      labels.forEach(label => {
         if (label in libraryByLabel) { libraryByLabel[label].push(npc) } else { libraryByLabel[label] = [npc] }
       })
     } else {
