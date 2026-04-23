@@ -6,11 +6,12 @@
   max-width: 800px;
   text-align: center;
   color: $rust_dark;
-  // font-size: 20px;
+  font-size: 20px;
 
   a {
     margin: 0 4px;
-    color: $olive_dark;
+    //color: $olive_dark;
+    color: $pink_logo_light;
 
     &:hover { color: $crushed_velvet; }
   }

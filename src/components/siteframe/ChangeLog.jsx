@@ -14,6 +14,19 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v1.3.9 — Apr 2026</div>
+          <ul>
+            <li>
+              Pilots created with
+              <a
+                href='https://github.com/orgs/massif-press/discussions/64'
+                target="_blank"
+                rel="noopener noreferrer"
+              >COMP/CON V3</a>
+              load correctly. V3 NPCs are still unsupported until I find the time for a larger overhaul.
+            </li>
+          </ul>
+
           <div className='version-label'>v1.3.8 — May 2025</div>
           <ul>
             <li>Added a Lancer Tactics banner ad. You can dismiss it by clicking it. :)</li>
