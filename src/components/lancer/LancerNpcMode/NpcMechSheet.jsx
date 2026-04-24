@@ -101,7 +101,7 @@ const NpcMechSheet = ({
     frameSourceIcon: npcClassData.role.toLowerCase(),
     frameSourceText:
       (activeNpc.tier ? `Tier ${activeNpc.tier} ` : '') +
-      activeNpc.templates.map(templateID =>
+      getAllTemplateIds(activeNpc).map(templateID =>
         capitalize(findNpcTemplateData(templateID).name.toLowerCase())
       ).join(' '),
     frameName: npcClassData.name.toLowerCase(),

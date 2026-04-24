@@ -6,6 +6,7 @@ import { getStat, getMarkerFromFingerprint } from './npcUtils.js';
 import {
   findNpcClassData,
   findNpcTemplateData,
+  getAllTemplateIds,
 } from '../lancerData.js';
 
 import './NpcCard.scss';
@@ -14,7 +15,7 @@ import './NpcCard.scss';
 function getClassNames(npc, npcData) {
   let classNames = [ capitalize(npcData.name.toLowerCase()) ]
 
-  let templateData = npc.templates.map(template => findNpcTemplateData(template))
+  let templateData = getAllTemplateIds(npc).map(template => findNpcTemplateData(template))
   templateData.forEach(template => classNames.push(
     capitalize(template.name.toLowerCase())
   ))

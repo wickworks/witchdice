@@ -315,6 +315,19 @@ export const findNpcFeatureData = (npcFeatureID) => {
   return npcFeatureData ? npcFeatureData : blankNpcFeature
 }
 
+// pre-V3 UPDATE: templates (list of ID strings) => templates (list of objects with "id" property)
+export const getAllTemplateIds = (npc) => {
+  const npcTemplates = []
+  for (const template of npc.templates) {
+    if (typeof template === 'string') {
+      npcTemplates.push(template)
+    } else if ('id' in template) {
+      npcTemplates.push(template.id)
+    }
+  }
+  return npcTemplates
+}
+
 export const findNpcTemplateData = (npcTemplateID) => {
   var npcTemplateData = allNpcTemplates[npcTemplateID]
   if (!npcTemplateData) npcTemplateData = findGameDataFromUploadedLcp('npcTemplates', npcTemplateID)

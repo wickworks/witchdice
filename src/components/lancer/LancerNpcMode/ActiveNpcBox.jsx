@@ -1,5 +1,6 @@
 import React from 'react';
 import { NpcCardFull, NpcCardGrunt, NpcCardInactive } from './NpcCard.jsx';
+import {getAllTemplateIds} from '../lancerData.js';
 
 import './ActiveNpcBox.scss';
 
@@ -32,7 +33,7 @@ const ActiveNpcBox = ({
 
       <div className='npcs-container full'>
         {npcList.map((npc, i) => {
-          if (npc.templates.includes('npct_grunt')) {
+          if (getAllTemplateIds(npc).includes('npct_grunt')) {
             return (
               <NpcCardGrunt
                 key={npc.fingerprint}
