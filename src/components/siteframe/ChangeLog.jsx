@@ -14,7 +14,7 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.3.9-10 — Apr 2026</div>
+          <div className='version-label'>v1.3.9-11 — Apr 2026</div>
           <ul>
             <li>
               Pilots created with
