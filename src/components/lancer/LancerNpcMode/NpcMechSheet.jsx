@@ -4,6 +4,7 @@ import MechSheet from '../MechSheet/MechSheet.jsx';
 import { capitalize } from '../../../utils.js';
 import { getCountersFromPilot } from '../MechState/mechStateUtils.js';
 import { isNpcFeatureTechAttack } from '../MechSheet/MechMount.jsx';
+import {getAllTemplateIds} from '../lancerData.js';
 
 import {
   getStat,
