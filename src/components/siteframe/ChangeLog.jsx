@@ -14,7 +14,7 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.3.9 — Apr 2026</div>
+          <div className='version-label'>v1.3.9-10 — Apr 2026</div>
           <ul>
             <li>
               Pilots created with
@@ -25,6 +25,7 @@ const ChangeLog = () => {
               >COMP/CON V3</a>
               load correctly. V3 NPCs are still unsupported until I find the time for a larger overhaul.
             </li>
+            <li>Fix NPC template detection for V2 NPCs that still had their format changed pre-V3.</li>
           </ul>
 
           <div className='version-label'>v1.3.8 — May 2025</div>
