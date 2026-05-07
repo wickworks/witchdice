@@ -49,6 +49,8 @@ const FileList = ({
     } else {
       try {
         const pilot = JSON.parse(pastedString)
+        // V3 UPDATE: pilot data may be wrapped in an EXPORT_TYPE envelope
+        if (pilot && pilot["EXPORT_TYPE"] === "Save Pilot" && !!pilot.data) pilot = pilot.data
         // sanity-check the pilot file
         if (!pilot || !pilot.id || !pilot.mechs) throw new Error('Invalid pilot file!')
 
