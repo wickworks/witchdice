@@ -182,6 +182,12 @@ const LancerPlayerMode = ({
 
     if (!pilot || !pilot.id || !pilot.mechs) return // sanity-check the pilot file
 
+    // V3 UPDATE: in v3 portraits are nested under .img.cloud_portrait
+    if (!pilot.cloud_portrait && pilot.img && pilot.img.cloud_portrait) pilot.cloud_portrait = pilot.img.cloud_portrait
+    pilot.mechs.forEach(mech => {
+      if (!mech.cloud_portrait && mech.img && mech.img.cloud_portrait) mech.cloud_portrait = mech.img.cloud_portrait
+    })
+
     let newPilotEntries = [...allPilotEntries]
 
     // remove any existing pilots of this ID
