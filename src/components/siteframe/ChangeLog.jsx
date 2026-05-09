@@ -14,7 +14,7 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v1.3.9-13 — Apr 2026</div>
+          <div className='version-label'>v1.3.9-14 — Apr 2026</div>
           <ul>
             <li>
               Pilots created with
@@ -26,7 +26,7 @@ const ChangeLog = () => {
               load correctly. V3 NPCs are still unsupported until I find the time for a larger overhaul.
             </li>
             <li>Fix NPC template detection for V2 NPCs that still had their format changed pre-V3.</li>
-            <li>Fix pasting in V3 pilots (thanks Giovanni0114 for hunting this down!).</li>
+            <li>Fix pasting in V3 pilots & cloud portrait URLs (thanks Giovanni0114 for hunting these down!).</li>
           </ul>
 
           <div className='version-label'>v1.3.8 — May 2025</div>
