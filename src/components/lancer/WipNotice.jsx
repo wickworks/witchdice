@@ -5,13 +5,13 @@ import './WipNotice.scss';
 const WipNotice = () => (
   <div className='WipNotice'>
     <p>
-      Warning: the
+      <strong>Warning:</strong> Witchdice will be dropping V2 support in favor of the
       <a
         href='https://github.com/orgs/massif-press/discussions/64'
         target="_blank"
         rel="noopener noreferrer"
-      >recent V3 update on COMP/CON</a>
-      introduced major data format changes. V3 Pilots may experience problems; V3 NPCs will certainly not work.
+      >V3 COMP/CON updates</a>
+      sometime in the coming months. Please update your PCs and NPCs at your earliest convenience.
     </p>
     {/*<p>
       Lancer is a big game; tell me about bugs or missing mechanics

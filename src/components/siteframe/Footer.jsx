@@ -12,7 +12,7 @@ const Footer = () => {
     <div className="Footer">
 
       <div className="meeeeeeeeeeeee-luv-u">
-        <a href="https://wick.works/about/" target="_blank">
+        <a href="https://wick.works/about" target="_blank">
           Olive Perry
         </a>
         ~

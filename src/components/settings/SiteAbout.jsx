@@ -10,7 +10,7 @@ const SiteAbout = () => {
 
       <div className='settings-section'>
         <p>
-          Hi! My name is <a href="https://wick.works/about/" target="_blank">Olive</a>.
+          Hi! My name is <a href="https://wick.works/about" target="_blank">Olive</a>.
           I wanted an online dice roller that fit
           my <a href="https://wick.itch.io/aesthetic" target="_blank" rel="noopener noreferrer">aesthetic</a> sensibilities,
           so I built this!
