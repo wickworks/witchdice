@@ -1,3 +1,3 @@
-const CURRENT_VERSION = '1.3.14';
+const CURRENT_VERSION = '1.3.15';
 
 export { CURRENT_VERSION };
