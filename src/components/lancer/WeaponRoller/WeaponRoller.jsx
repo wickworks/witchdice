@@ -336,7 +336,7 @@ const WeaponRoller = ({
         { weaponData.on_crit &&
           <div className='effect-row'>
             <div><strong>On critical hit:</strong></div>
-            <BrToParagraphs stringWithBrs={weaponData.on_crit}/>
+            <BrToParagraphs stringWithBrs={weaponData.on_crit.detail}/>
           </div>
         }
 

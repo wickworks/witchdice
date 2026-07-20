@@ -19,6 +19,7 @@ import {
   ENCOUNTER_PREFIX,
   STORAGE_ID_LENGTH,
   NPC_LIBRARY_NAME,
+  isValidNpcJson,
 } from '../lancerLocalStorage.js';
 
 import {
@@ -77,6 +78,8 @@ const LancerNpcMode = ({
   const startedWithEncounterOpen = !!localStorage.getItem(SELECTED_ENCOUNTER_KEY);
   // console.log('activeEncounter',activeEncounter);
 
+
+
   // =============== INITIALIZE ==================
   useEffect(() => {
     let encounterEntries = [];
@@ -90,7 +93,14 @@ const LancerNpcMode = ({
       }
 
       // load the npc library into memory
-      if (key === NPC_LIBRARY_NAME) setNpcLibrary( JSON.parse(localStorage.getItem(NPC_LIBRARY_NAME)) )
+      if (key === NPC_LIBRARY_NAME) {
+        var loadedNpcLibrary = JSON.parse(localStorage.getItem(NPC_LIBRARY_NAME))
+        var filteredNpcLibrary = {}
+        Object.keys(loadedNpcLibrary).forEach(key => {
+          if (isValidNpcJson(loadedNpcLibrary[key])) filteredNpcLibrary[key] = loadedNpcLibrary[key]
+        });
+        setNpcLibrary(filteredNpcLibrary)
+      }
     }
 
     // // If we have no encounters, make a new one
@@ -123,15 +133,7 @@ const LancerNpcMode = ({
 
     npcList.forEach(npc => {
       // sanity-check the npc file
-      if (!npc || !npc.id || !npc.class) {
-        console.error("Uploaded file doesn't look like an NPC! ::")
-        console.log(npc);
-      } else if (npc.isDeleted || npc.deleteTime) {
-        console.log("Skipping loading NPC because it's marked as deleted ::")
-        console.log(npc);
-      } else {
-        newNpcLibrary[npc.id] = npc;
-      }
+      if (isValidNpcJson(npc)) newNpcLibrary[npc.id] = npc;
     });
 
     // save the whole library to state & localstorage
@@ -173,13 +175,19 @@ const LancerNpcMode = ({
       // compcon backups — have a lot of stuff we don't need
       if (fileName.endsWith('.compcon')) {
         const compconBackup = JSON.parse(e.target.result)
-        const npcFile = compconBackup.find(backupFile => backupFile.filename.startsWith('npcs'))
-        const npcArray = JSON.parse(npcFile.data)
+        console.log(compconBackup);
+
+
+        //const npcFile = compconBackup.find(backupFile => backupFile.filename.startsWith('npcs'))
+        const npcFile = compconBackup.data.data.find(backupFile => backupFile.collection === 'npcs')
+        const npcArray = npcFile.items
 
         // create ALL the new npcs & save them to localstorage
         if (npcArray && npcArray.length > 0) {
           let newNpcLibrary = {...npcLibrary}
-          npcArray.forEach(npc => newNpcLibrary[npc.id] = npc);
+          npcArray.forEach(npc => {
+            if (isValidNpcJson(npc)) newNpcLibrary[npc.id] = npc
+          });
           setNpcLibrary(newNpcLibrary)
           localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
         }
@@ -331,7 +339,7 @@ const LancerNpcMode = ({
     if (newRound > activeEncounter.roundCount) {
       Object.keys(newEncounter.allNpcs).forEach(fingerprint => {
         let npc = newEncounter.allNpcs[fingerprint]
-        npc.currentStats['activations'] = getStat('activations', npc)
+        npc.combat_data.stats.current['activations'] = getStat('activations', npc)
       })
     }
 
@@ -414,7 +422,7 @@ const LancerNpcMode = ({
 
   return (
     <div className='LancerNpcMode'>
-      {isMissingNpcLCP &&
+      {/*{isMissingNpcLCP &&
         <div className='missing-lcp-warning'>
           <h2>Warning: missing NPC LCP</h2>
           <p>
@@ -436,7 +444,7 @@ const LancerNpcMode = ({
             <li>Click <span className='fake-new'>New <span className="asset plus"/></span> and upload the <strong>Lancer_CORE_NPCs</strong> .lcp</li>
           </ol>
         </div>
-      }
+      }*/}
 
       { (jumplinks.length > 0) &&
         <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />

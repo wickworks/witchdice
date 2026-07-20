@@ -7,17 +7,7 @@ import {
 
 
 export function getStat(key, npc) {
-  let stat
-  if ('stats' in npc) { // V2
-    stat = npc.stats[key]
-    if (npc.stats.overrides && npc.stats.overrides[key] > 0) {
-      stat = npc.stats.overrides[key]
-    } else if (npc.stats.bonuses) {
-      stat += npc.stats.bonuses[key] || 0
-    }
-  } else {
-    stat = npc.combat_data.stats.max[key] // V3
-  }
+  let stat = npc.combat_data.stats.max[key] // V3
   // V3 UPDATE: it doesn't compile the bonuses for us; we have to do it ourselves
   if ('features' in npc) {
     for (const feature of npc.features) {
@@ -38,12 +28,11 @@ export function getStat(key, npc) {
 
 export function getNpcSkillCheckAccuracy(skill, npc) {
   let accuracy = 0
-  npc.items = npc.items || [] // V3 UPDATE: dropped items
-  npc.items.forEach(feature => {
-    const featureData = findNpcFeatureData(feature.itemID)
-    const effect = [featureData.effect, feature.description].filter(text => text).join(' ').toLowerCase()
+  npc.features.forEach(feature => {
+    const featureData = findNpcFeatureData(feature)
+    const effectText = getEffectText(featureData).toLowerCase()
     // something that is too long probably has something else going on
-    const setInFeatureEffect = effect.includes(`${skill} save`) && featureData.effect < 200
+    const setInFeatureEffect = effectText.includes(`${skill} save`) && featureData.effectText < 200
     const setInCustomDescription = feature.description && feature.description.toLowerCase().includes(skill)
 
     if (setInFeatureEffect || setInCustomDescription) {
@@ -110,6 +99,15 @@ export function getActivationType(featureData) {
   return activation
 }
 
+export function getEffectText(featureData, tier) {
+  let effectTexts = [
+    featureData.flavorDescription,
+    featureData.description,
+    featureData.effect
+  ]
+  if (featureData.actions) effectTexts = effectTexts.concat(featureData.actions.map(action => action.detail));
+  return setNumbersByTier(effectTexts.filter(str => str).join('<br>'), tier)
+}
 
 
 // refresh limited uses, etc; modifies in place
@@ -122,11 +120,11 @@ export function fullRepairNpc(npc) {
     custom_counters: [],
     counter_data: [],
     overshield: 0,
-    current_hp: getStat('hp', npc),
-    current_heat: 0,
+    hp: getStat('hp', npc),
+    heat: 0,
     burn: 0,
-    current_structure: getStat('structure', npc),
-    current_stress: getStat('stress', npc),
+    structure: getStat('structure', npc),
+    stress: getStat('stress', npc),
   }
   applyUpdatesToNpc(healedState, npc)
 }
@@ -135,9 +133,17 @@ export function fullRepairNpc(npc) {
 
 // applies the changes to an npc object ~ in place ~
 export function applyUpdatesToNpc(mechUpdate, newNpc) {
+  // V3 UPDATE: I don't care anymore, battering ram these keys in
+  newNpc.combat_data = newNpc.combat_data || {}
+  newNpc.combat_data.stats = newNpc.combat_data.stats || {}
+  newNpc.combat_data.stats.current = newNpc.combat_data.stats.current || {}
+  newNpc.combat_data.stats.max = newNpc.combat_data.stats.max || {}
+
+  console.log('newNpc', newNpc);
+
 
   Object.keys(mechUpdate).forEach(statKey => {
-    // console.log('statKey:',statKey, ' : ', mechUpdate[statKey]);
+     console.log('statKey:',statKey, ' : ', mechUpdate[statKey]);
     switch (statKey) {
       // attributes outside of the currentStats
       case 'conditions':
@@ -175,9 +181,6 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
       case 'weaponDestroyed':
       case 'weaponUses':
       case 'weaponModUses': // NPCs don't have weapon mods so this won't do anything
-        // find the item that generates this weapon
-        // const weaponItems = newNpc.items.filter(item => findNpcFeatureData(item.itemID).type === 'Weapon')
-        // let weaponItem = weaponItems[mechUpdate[statKey].weaponIndex]
         let weaponItem = newNpc.items[mechUpdate[statKey].mountIndex]
         if (weaponItem) {
           if ('destroyed' in mechUpdate[statKey]) weaponItem.destroyed = mechUpdate[statKey].destroyed
@@ -186,34 +189,24 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
         }
         break;
       case 'repairAllWeaponsAndSystems':
-        newNpc.items = newNpc.items || [] // V3 UPDATE: dropped items
-        newNpc.items.forEach(item => {
-          const featureData = findNpcFeatureData(item.itemID)
-          const limited = getSystemLimited(item, featureData)
-          if (limited) item.uses = limited.max
+        newNpc.features = newNpc.features || [] // V3 UPDATE: dropped features
+        newNpc.features.forEach(feature => {
+          const featureData = findNpcFeatureData(feature)
+          const limited = getSystemLimited(feature, featureData)
+          if (limited) feature.uses = limited.max
 
-          item.destroyed = false
+          feature.destroyed = false
         });
         break;
       // not relavant for npcs
-      case 'current_overcharge':
-      case 'current_core_energy':
-      case 'current_repairs':
+      case 'overcharge':
+      case 'corePower':
+      case 'repairCapacity':
         console.log('    not relavant for npcs');
         break;
 
-      default: // change something in currentStats
-        // remove the 'current_' for keys that have it
-        const keyConversion = {
-          'current_hp': 'hp',
-          'current_heat': 'heatcap',
-          'current_structure': 'structure',
-          'current_stress': 'stress',
-          'activations': 'activations'
-        }
-        const convertedKey = keyConversion[statKey] || statKey
-        newNpc.currentStats = newNpc.currentStats || {} // V3 UPDATE: dropped currentStats, so have to add it back
-        newNpc.currentStats[convertedKey] = mechUpdate[statKey]
+      default: // change something in current stats
+        newNpc.combat_data.stats.current[statKey] = mechUpdate[statKey]
 
         break;
     }

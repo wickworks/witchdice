@@ -182,10 +182,9 @@ const LancerPlayerMode = ({
 
     if (!pilot || !pilot.id || !pilot.mechs) return // sanity-check the pilot file
 
-    // V3 UPDATE: in v3 portraits are nested under .img.cloud_portrait
-    if (!pilot.cloud_portrait && pilot.img && pilot.img.cloud_portrait) pilot.cloud_portrait = pilot.img.cloud_portrait
+    if (pilot.img) pilot.cloud_portrait = pilot.img.cloud_portrait
     pilot.mechs.forEach(mech => {
-      if (!mech.cloud_portrait && mech.img && mech.img.cloud_portrait) mech.cloud_portrait = mech.img.cloud_portrait
+      if (mech.img) mech.cloud_portrait = mech.img.cloud_portrait
     })
 
     let newPilotEntries = [...allPilotEntries]
@@ -215,14 +214,14 @@ const LancerPlayerMode = ({
         // custom_counters: [],
         // counter_data: [],
         overshield: 0,
-        current_hp: getMechMaxHP(mech, pilot, frameData),
-        current_heat: 0,
+        hp: getMechMaxHP(mech, pilot, frameData),
+        heat: 0,
         burn: 0,
-        current_overcharge: 0,
-        current_core_energy: 1,
-        current_repairs: getMechMaxRepairCap(mech, pilot, frameData),
-        current_structure: 4,
-        current_stress: 4,
+        overcharge: 0,
+        corePower: true,
+        repairCapacity: getMechMaxRepairCap(mech, pilot, frameData),
+        structure: 4,
+        stress: 4,
       }, pilot, mech)
     }
 

@@ -49,14 +49,14 @@ const FullRepairButton = ({
       // custom_counters: [],
       // counter_data: [],
       overshield: 0,
-      current_hp: getMechMaxHP(activeMech, activePilot, frameData),
-      current_heat: 0,
+      hp: getMechMaxHP(activeMech, activePilot, frameData),
+      heat: 0,
       burn: 0,
-      current_overcharge: 0,
-      current_core_energy: 1,
-      current_repairs: getMechMaxRepairCap(activeMech, activePilot, frameData),
-      current_structure: 4,
-      current_stress: 4,
+      overcharge: 0,
+      corePower: true,
+      repairCapacity: getMechMaxRepairCap(activeMech, activePilot, frameData),
+      structure: 4,
+      stress: 4,
     })
   }
 

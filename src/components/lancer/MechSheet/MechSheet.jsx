@@ -116,6 +116,10 @@ const MechSheet = ({
   const activeMount = robotLoadout.mounts[activeMountIndex];
   const activeMountWeapons = getWeaponsOnMount(activeMount);
   const activeWeapon = activeMountWeapons && activeMountWeapons[activeWeaponIndex];
+  // console.log('robotLoadout.mounts',robotLoadout.mounts);
+  // console.log('activeMountIndex',activeMountIndex);
+  // console.log('activeMount',activeMount);
+  // console.log('activeWeapon',activeWeapon);
 
   const activeWeaponData = getModdedWeaponData(activeWeapon)
   const activeInvadeData = robotLoadout.invades[activeInvadeIndex]
@@ -125,7 +129,6 @@ const MechSheet = ({
 
   const bonusDamageSources = getAvailableBonusDamageSources(accuracyAndDamageSourceInputs, activeMount, activeWeapon, activeInvadeData);
 
-  // console.log('activeWeapon',activeWeapon);
 
   let totalAttackBonus = robotStats.attackBonus
 
@@ -137,7 +140,9 @@ const MechSheet = ({
   if (activeWeapon && activeWeapon.npcAttackBonus) totalAttackBonus += activeWeapon.npcAttackBonus
 
   // I try not to discriminate, but in some cases it's convenient to.
-  const looksLikeAnNPC = robotState.coreEnergy < 0
+  const looksLikeAnNPC = robotState.corePower == -1
+
+  //console.log('robotLoadout.systems ', robotLoadout.systems);
 
   return (
     <div className="MechSheet">

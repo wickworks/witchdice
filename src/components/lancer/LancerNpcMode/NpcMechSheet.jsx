@@ -12,12 +12,14 @@ import {
   getNpcSkillCheckAccuracy,
   setNumbersByTier,
   getActivationType,
+  getEffectText,
 } from './npcUtils.js';
 
 import {
   findNpcClassData,
   findNpcFeatureData,
   findNpcTemplateData,
+  getNpcName,
   baselineMount,
   getSystemRecharge,
   getSystemLimited,
@@ -26,6 +28,7 @@ import {
   getUsesPerRound,
   hasTag,
 } from '../lancerData.js';
+import { act } from 'react';
 
 const NpcMechSheet = ({
   activeNpc,
@@ -47,14 +50,14 @@ const NpcMechSheet = ({
 
   const robotState = {
     overshield: activeNpc.overshield,
-    hp: activeNpc.currentStats.hp,
-    heat: activeNpc.currentStats.heatcap,
+    hp: activeNpc.combat_data.stats.current.hp,
+    heat: activeNpc.combat_data.stats.current.heat,
     burn: activeNpc.burn,
     overcharge: -1,
-    coreEnergy: -1,
+    corePower: -1,
     repairs: 0,
-    structure: activeNpc.currentStats.structure,
-    stress: activeNpc.currentStats.stress,
+    structure: activeNpc.combat_data.stats.current.structure,
+    stress: activeNpc.combat_data.stats.current.stress,
 
     conditions: activeNpc.conditions,
     counters: getCountersFromPilot(activeNpc),
@@ -65,27 +68,27 @@ const NpcMechSheet = ({
   const robotStats = {
     hull: getStat('hull', activeNpc),
     hullAccuracy: getNpcSkillCheckAccuracy('hull', activeNpc),
-    engineering: getStat('engineering', activeNpc),
+    engineering: getStat('eng', activeNpc),
     engineeringAccuracy: getNpcSkillCheckAccuracy('engineering', activeNpc),
-    agility: getStat('agility', activeNpc),
+    agility: getStat('agi', activeNpc),
     agilityAccuracy: getNpcSkillCheckAccuracy('agility', activeNpc),
-    systems: getStat('systems', activeNpc),
+    systems: getStat('sys', activeNpc),
     systemsAccuracy: getNpcSkillCheckAccuracy('systems', activeNpc),
 
     maxHP: getStat('hp', activeNpc),
-    maxHeat: getStat('heatcap', activeNpc),
+    maxHeat: getStat('heatcap', activeNpc), // not "heat", apparently
     maxRepairCap: 0,
     maxStructure: getStat('structure', activeNpc),
     maxStress: getStat('stress', activeNpc),
 
-    size: getStat('size', activeNpc),
+    size: getStat('sizes', activeNpc),
     armor: getStat('armor', activeNpc),
-    evasion: getStat('evade', activeNpc),
+    evasion: getStat('evasion', activeNpc),
     moveSpeed: getStat('speed', activeNpc),
     eDef: getStat('edef', activeNpc),
-    saveTarget: getStat('save', activeNpc),
-    sensorRange: getStat('sensor', activeNpc),
-    techAttackBonus: getStat('systems', activeNpc),
+    saveTarget: getStat('saveTarget', activeNpc),
+    sensorRange: getStat('sensorRange', activeNpc),
+    techAttackBonus: getStat('sys', activeNpc),
     limitedBonus: 0,
     rangeSynergies: [],
 
@@ -94,11 +97,11 @@ const NpcMechSheet = ({
   }
 
   const robotInfo = {
-    name: `${activeNpc.name}〔${getMarkerFromFingerprint(activeNpc.fingerprint)}〕`,
+    name: `${getNpcName(activeNpc)}〔${getMarkerFromFingerprint(activeNpc.fingerprint)}〕`,
     id: activeNpc.id,
     cloud_portrait: activeNpc.cloud_portrait,
     hasMultipleLoadouts: false,
-    frameID: (typeof activeNpc.class === 'object') ? activeNpc.class.id : activeNpc.class, // V3 UPDATE: class => class.id
+    frameID: activeNpc.class.id,
     frameSourceIcon: npcClassData.role.toLowerCase(),
     frameSourceText:
       (activeNpc.tier ? `Tier ${activeNpc.tier} ` : '') +
@@ -109,11 +112,11 @@ const NpcMechSheet = ({
   }
 
   const robotLoadout = {
-    frameTraits: getNpcTraits(activeNpc.items, activeNpc.per_round_uses),
-    systems: getSystemTraits(activeNpc.items, activeNpc.per_round_uses),
+    frameTraits: getNpcTraits(activeNpc.features, activeNpc.per_round_uses, activeNpc.tier),
+    systems: getSystemTraits(activeNpc.features, activeNpc.per_round_uses, activeNpc.tier),
     pilotTraits: [],
-    mounts: [...getNpcWeaponAttacks(activeNpc.items), baselineMount],
-    invades: getNpcTechAttacks(activeNpc.items),
+    mounts: [...getNpcWeaponAttacks(activeNpc.features, activeNpc.tier), baselineMount],
+    invades: getNpcTechAttacks(activeNpc.features, activeNpc.tier),
   }
 
 
@@ -121,7 +124,7 @@ const NpcMechSheet = ({
   const accuracyAndDamageSourceInputs = {
     frameID: activeNpc.class,
     mechSystems: [],
-    npcFeatures: activeNpc.items,
+    npcFeatures: activeNpc.features,
     pilotTalents: [],
     isImpaired: false,
     currentHeat: robotState.heat, // may replace this with the rest of state if we ever need it
@@ -150,21 +153,21 @@ const NpcMechSheet = ({
 }
 
 
-function getNpcTraits(items, perRoundState) {
+function getNpcTraits(features, perRoundState, tier) {
   let featureTraits = []
 
-  items.forEach((item, itemIndex) => {
-    const featureData = findNpcFeatureData(item.itemID)
-    const recharge = getSystemRecharge(item, featureData)
-    const limited = getSystemLimited(item, featureData)
-    const perRoundCount = getSystemPerRoundCount(featureData, perRoundState, `${item.itemID}-${itemIndex}`)
+  features.forEach((feature, featureIndex) => {
+    const featureData = findNpcFeatureData(feature)
+    const recharge = getSystemRecharge(feature, featureData)
+    const limited = getSystemLimited(feature, featureData)
+    const perRoundCount = getSystemPerRoundCount(featureData, perRoundState, `${feature.id}-${featureIndex}`)
 
     if (featureData.type === 'Trait') {
       featureTraits.push({
-        systemIndex: itemIndex,
-        name: (item.flavorName || featureData.name).toLowerCase(),
+        systemIndex: featureIndex,
+        name: (featureData.flavorName || featureData.name).toLowerCase(),
         activation: getActivationType(featureData),
-        description: setNumbersByTier([item.description, featureData.effect].filter(str => str).join('<br>'), item.tier),
+        description: getEffectText(featureData, tier),
         frequency: getUsesPerRound(featureData),
         isDestructable: false, // traits aren't destructable; only systems are
         isDestroyed: false,
@@ -179,28 +182,29 @@ function getNpcTraits(items, perRoundState) {
   return featureTraits
 }
 
-function getSystemTraits(items, perRoundState) {
+function getSystemTraits(features, perRoundState, tier) {
   let featureTraits = []
 
-  items.forEach((item, itemIndex) => {
-    const featureData = findNpcFeatureData(item.itemID)
-    const recharge = getSystemRecharge(item, featureData)
-    const limited = getSystemLimited(item, featureData)
-    const perRoundCount = getSystemPerRoundCount(featureData, perRoundState, `${item.itemID}-${itemIndex}`)
+
+  features.forEach((feature, featureIndex) => {
+    const featureData = findNpcFeatureData(feature)
+    const recharge = getSystemRecharge(feature, featureData)
+    const limited = getSystemLimited(feature, featureData)
+    const perRoundCount = getSystemPerRoundCount(featureData, perRoundState, `${feature.id}-${featureIndex}`)
     const selfHeat = getSelfHeat(featureData)
 
     if (featureData.type === 'Tech' && !isNpcFeatureTechAttack(featureData)) {
       featureTraits.push({
-        systemIndex: itemIndex,
-        name: (item.flavorName || featureData.name).toLowerCase(),
+        systemIndex: featureIndex,
+        name: (featureData.flavorName || featureData.name).toLowerCase(),
         activation: `${featureData.tech_type || 'Quick'} Tech`,
         trigger: featureData.trigger,
-        description: [featureData.description, featureData.effect].filter(str => str).join('<br>'),
+        description: getEffectText(featureData, tier),
         frequency: getUsesPerRound(featureData),
         range: featureData.range,
         selfHeat: selfHeat,
         isDestructable: !hasTag(featureData, 'tg_indestructible'),
-        isDestroyed: item.destroyed,
+        isDestroyed: featureData.destroyed,
         isTitleCase: true,
         recharge: recharge,
         limited: limited,
@@ -209,16 +213,16 @@ function getSystemTraits(items, perRoundState) {
 
     } else if (['System', 'Reaction'].includes(featureData.type)) {
       featureTraits.push({
-        systemIndex: itemIndex,
-        name: (item.flavorName || featureData.name).toLowerCase(),
+        systemIndex: featureIndex,
+        name: (featureData.flavorName || featureData.name).toLowerCase(),
         activation: getActivationType(featureData),
         trigger: featureData.trigger,
-        description: setNumbersByTier([item.description, featureData.effect].filter(str => str).join('<br>'), item.tier),
+        description: getEffectText(featureData, tier),
         frequency: getUsesPerRound(featureData),
         range: featureData.range,
         selfHeat: selfHeat,
         isDestructable: !hasTag(featureData, 'tg_indestructible'),
-        isDestroyed: item.destroyed,
+        isDestroyed: featureData.destroyed,
         isTitleCase: true,
         recharge: recharge,
         limited: limited,
@@ -230,15 +234,16 @@ function getSystemTraits(items, perRoundState) {
   return featureTraits
 }
 
-function getNpcWeaponAttacks(items) {
+function getNpcWeaponAttacks(features, tier) {
   let weaponAttacks = []
 
-  items.forEach((item, itemIndex) => {
-    const featureData = findNpcFeatureData(item.itemID)
+  features.forEach((feature, featureIndex) => {
+    const featureData = findNpcFeatureData(feature)
 
     if (featureData.type === 'Weapon') {
-      const attackBonus = featureData.attack_bonus ? featureData.attack_bonus[item.tier-1] : 0
-      const accuracyBonus = featureData.accuracy ? featureData.accuracy[item.tier-1] : 0
+      const attackBonus = featureData.attack_bonus ? featureData.attack_bonus[tier-1] : 0
+      const accuracyBonus = featureData.accuracy
+
 
       // make a fascimile of player mounts
       weaponAttacks.push({
@@ -248,19 +253,20 @@ function getNpcWeaponAttacks(items) {
           {
              size: featureData.weapon_type,
              weapon: {
-                id: item.itemID,
-                destroyed: item.destroyed,
+                id: feature.id,
+                data: featureData, // pack in the NPC data to the fascimile PC mount
+                destroyed: feature.destroyed,
                 cascading: false,
-                loaded: item.loaded || false,
-                note: setNumbersByTier(item.description),
+                loaded: feature.loaded || false,
+                note: getEffectText(featureData, tier),
                 mod: null,
                 customDamageType: null,
                 maxUseOverride: 0,
                 uses: 0,
                 selectedProfile: 0,
-                flavorName: item.flavorName,
+                flavorName: featureData.flavorName,
 
-                npcTier: item.tier,
+                npcTier: tier,
                 npcAttackBonus: attackBonus,
                 npcAccuracyBonus: accuracyBonus,
              }
@@ -268,8 +274,8 @@ function getNpcWeaponAttacks(items) {
         ],
         extra: [],
         bonus_effects: [],
-        source: 'npcItems',
-        index: itemIndex
+        source: 'features',
+        index: featureIndex
       })
     }
 
@@ -278,23 +284,23 @@ function getNpcWeaponAttacks(items) {
   return weaponAttacks
 }
 
-function getNpcTechAttacks(items) {
+function getNpcTechAttacks(features, tier) {
   let techAttacks = []
 
-  items.forEach((item, itemIndex) => {
-    const featureData = findNpcFeatureData(item.itemID)
+  features.forEach((feature, featureIndex) => {
+    const featureData = findNpcFeatureData(feature)
 
     if (featureData.type === 'Tech' && isNpcFeatureTechAttack(featureData)) {
-      const naturalAttackBonus = ('attack_bonus' in featureData) ? featureData.attack_bonus[item.tier-1] : 0
-      const naturalAttackAccuracy = ('accuracy' in featureData) ? featureData.accuracy[item.tier-1] : 0
+      const naturalAttackBonus = ('attack_bonus' in featureData) ? featureData.attack_bonus[tier-1] : 0
+      const naturalAttackAccuracy = ('accuracy' in featureData) ? featureData.accuracy[tier-1] : 0
 
       // const effectWithoutFirstSentence = featureData.effect.slice(featureData.effect.indexOf('.') + 1)
       techAttacks.push({
         name: featureData.name,
         activation: featureData.tech_type ? `${featureData.tech_type} Tech` : "Quick Tech",
-        detail: setNumbersByTier(featureData.effect, item.tier),
-        recharge: getSystemRecharge(item, featureData),
-        systemIndex: itemIndex,
+        detail: getEffectText(featureData, tier),
+        recharge: getSystemRecharge(feature, featureData),
+        systemIndex: featureIndex,
         attack_bonus: naturalAttackBonus,
         accuracy: naturalAttackAccuracy,
       })

@@ -1,6 +1,8 @@
 import React from 'react';
 import { NpcCardFull, NpcCardGrunt, NpcCardInactive } from './NpcCard.jsx';
-import {getAllTemplateIds} from '../lancerData.js';
+import {
+  getAllTemplateIds,
+} from '../lancerData.js';
 
 import './ActiveNpcBox.scss';
 

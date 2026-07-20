@@ -67,30 +67,15 @@ const PlayerMechSheet = ({
 
   // weird special case looking for an un-used custom paint job
   const customPaintJobSystem = loadout.systems.find(system => system.id === 'ms_custom_paint_job')
-  const hasIntactCustomPaintJob = customPaintJobSystem && (customPaintJobSystem.uses === 0)
+  const hasIntactCustomPaintJob = customPaintJobSystem && (customPaintJobSystem.currentUses === 0)
 
-  const robotState = ('current_hp' in activeMech) ? { // V2
-    overshield: activeMech.overshield,
-    hp: activeMech.current_hp,
-    heat: activeMech.current_heat,
-    burn: activeMech.burn,
-    overcharge: activeMech.current_overcharge,
-    coreEnergy: activeMech.current_core_energy,
-    repairs: activeMech.current_repairs,
-    structure: activeMech.current_structure,
-    stress: activeMech.current_stress,
-
-    conditions: activeMech.conditions,
-    counters: getCountersFromPilot(activePilot),
-
-    hasIntactCustomPaintJob: hasIntactCustomPaintJob,
-  } : { // V3 UPDATE: changes where stats are stored
+  const robotState = {
     overshield: activeMech.stats.current.overshield,
     hp: activeMech.stats.current.hp,
     heat: activeMech.stats.current.heat,
     burn: activeMech.stats.current.burn,
     overcharge: activeMech.stats.current.overcharge,
-    coreEnergy: activeMech.corePower,
+    corePower: activeMech.corePower,
     repairs: activeMech.stats.current.repairCapacity,
     structure: activeMech.stats.current.structure,
     stress: activeMech.stats.current.stress,
@@ -146,7 +131,8 @@ const PlayerMechSheet = ({
   }
 
   // V3 UPDATE: .state is kaput -- no clear replacement TODO figure out where to stash this
-  const pilotPerRoundUses = activePilot.state ? activePilot.state.per_round_uses : {}
+  // >>> IDK just a key called per_round_uses straight on the pilot
+  const pilotPerRoundUses = activePilot.per_round_uses ? activePilot.per_round_uses : {}
   const robotLoadout = {
     frameTraits: getFrameTraits(frameData.traits, frameData.core_system, pilotPerRoundUses),
     systems: getSystemTraits([...loadout.systems, ...loadout.integratedSystems], robotStats.limitedBonus, pilotPerRoundUses),

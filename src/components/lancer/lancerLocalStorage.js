@@ -60,7 +60,12 @@ export function saveEncounterData(encounter) {
 }
 
 export function loadEncounterData(encounterID) {
-  return loadLocalData(ENCOUNTER_PREFIX, encounterID.slice(0,STORAGE_ID_LENGTH));
+  var loadedEncounter = loadLocalData(ENCOUNTER_PREFIX, encounterID.slice(0,STORAGE_ID_LENGTH));
+  // skip all encounters that still have V2 NPCs
+  if (Object.keys(loadedEncounter.allNpcs).some(
+    key => !isValidNpcJson(loadedEncounter.allNpcs[key]))
+  ) return null
+  return loadedEncounter
 }
 
 export function deleteEncounterData(encounter) {
@@ -80,4 +85,21 @@ export const saveNpcStateToLocalStorage = (mechState, activePilot, activeMech) =
   } else {
     console.error('Could not find mech ', activeMech.id, ' for pilot!')
   }
+}
+
+
+
+export const isValidNpcJson = (npc) => {
+    if (!npc || !npc.id || !npc.class || !npc.class.id) {
+      console.error("Uploaded file doesn't look like an NPC! ::")
+      console.log(npc);
+    } else if (npc.isDeleted || npc.deleteTime) {
+      console.log("Skipping loading NPC because it's marked as deleted ::")
+      console.log(npc);
+    } else if (!npc.npcType) {
+      console.warn("V2 NPCs no longer supported ::")
+    } else {
+      return true;
+    }
+    return false
 }

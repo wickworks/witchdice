@@ -107,10 +107,10 @@ export function createSquadMech(activeMech, activePilot) {
 
   // == STATUS == things that change a lot
   squadMech.status.id = activeMech.id // except for the id; it's gotta match up somehow
-	squadMech.status.hpCurrent = activeMech.current_hp
-	squadMech.status.heatCurrent = activeMech.current_heat
-	squadMech.status.structure = activeMech.current_structure
-	squadMech.status.stress = activeMech.current_stress
+	squadMech.status.hpCurrent = activeMech.hp
+	squadMech.status.heatCurrent = activeMech.heat
+	squadMech.status.structure = activeMech.structure
+	squadMech.status.stress = activeMech.stress
 
 	let statuses;
 
@@ -128,10 +128,10 @@ export function createSquadMech(activeMech, activePilot) {
       .filter(counter => counter.name.length > 0)
       .forEach(counter => statuses.push(`${counter.name}: ${counter.val}`))
   }
-  if (activeMech.current_overcharge > 0) statuses.push(`Overcharge ${OVERCHARGE_SEQUENCE[activeMech.current_overcharge]} heat`)
-  if (!activeMech.current_core_energy) statuses.push('CP exhausted')
-	if (activeMech.current_repairs < maxRepairCap) {
-    statuses.push(`${activeMech.current_repairs} repairs left`)
+  if (activeMech.overcharge > 0) statuses.push(`Overcharge ${OVERCHARGE_SEQUENCE[activeMech.overcharge]} heat`)
+  if (!activeMech.corePower) statuses.push('CP exhausted')
+	if (activeMech.repairCapacity < maxRepairCap) {
+    statuses.push(`${activeMech.repairCapacity} repairs left`)
   }
 
   if (destroyedSystemNames.length > 0) statuses.push(`DESTROYED:${destroyedSystemNames.join(',')}`)

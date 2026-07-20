@@ -12,22 +12,31 @@ import {
 export function applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData) {
   if (!newPilotData || !newMechData) return
 
+  //console.log('mechUpdate', mechUpdate);
+  //console.log('newMechData', newMechData)
+
   const frameData = findFrameData(newMechData.frame);
   const loadout = newMechData.loadouts[0]
   Object.keys(mechUpdate).forEach(statKey => {
     const updateValue = mechUpdate[statKey]
 
-    // console.log('statKey',statKey, ':', mechUpdate[statKey]);
+    //console.log('statKey',statKey, ':', mechUpdate[statKey]);
     switch (statKey) {
       // update something on the pilot
       case 'custom_counters':
       case 'counter_data':
         newPilotData[statKey] = updateValue
+
+        break;
+
+      case 'corePower':
+        newMechData.corePower = updateValue
         break;
 
       case 'systemUses':
       case 'systemCharged':
       case 'systemDestroyed':
+
         let systemIndex = updateValue.index
         let system
         if (systemIndex < loadout.systems.length) {
@@ -42,14 +51,14 @@ export function applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData) {
         break;
 
       case 'systemPerRoundCount':
-        var perRoundState = newPilotData.state.per_round_uses || {}
+        var perRoundState = newPilotData.per_round_uses || {}
         if (updateValue.source) {
           perRoundState[updateValue.source] = Math.max(updateValue.uses || 0, 0)
         }
-        newPilotData.state.per_round_uses = perRoundState // in case it was new
+        newPilotData.per_round_uses = perRoundState // in case it was new
         break;
       case 'resetPerRoundCounts':
-        newPilotData.state.per_round_uses = {}
+        newPilotData.per_round_uses = {}
         break;
 
       case 'weaponLoaded':
@@ -122,8 +131,12 @@ export function applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData) {
       case 'conditions':
         newMechData[statKey] = updateValue
         break;
-      default:
-        newMechData[statKey] = parseInt(updateValue)
+      //default:
+      //  newMechData[statKey] = parseInt(updateValue)
+
+      default: // change something in current stats
+        newMechData.stats.current[statKey] = mechUpdate[statKey]
+
         break;
       }
   });

@@ -167,12 +167,12 @@ export function getAvailableAccuracySources(
 
     // -- NPC SYSTEMS --
     npcFeatures && npcFeatures.forEach(feature => {
-      const npcFeatureData = findNpcFeatureData(feature.itemID)
-      switch (feature.itemID) {
+      const npcFeatureData = findNpcFeatureData(feature)
+      switch (feature.id) {
         case 'npcf_kinetic_compensation_demolisher':
-          addAccSource(sources, 'Kinetic Comp 1', feature.itemID+'_1', npcFeatureData.effect, 1)
-          addAccSource(sources, 'Kinetic Comp 2', feature.itemID+'_2', npcFeatureData.effect, 1)
-          addAccSource(sources, 'Kinetic Comp 3', feature.itemID+'_3', npcFeatureData.effect, 1)
+          addAccSource(sources, 'Kinetic Comp 1', feature.id+'_1', npcFeatureData.effect, 1)
+          addAccSource(sources, 'Kinetic Comp 2', feature.id+'_2', npcFeatureData.effect, 1)
+          addAccSource(sources, 'Kinetic Comp 3', feature.id+'_3', npcFeatureData.effect, 1)
           break;
         default:
           break;

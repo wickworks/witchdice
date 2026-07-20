@@ -89,9 +89,9 @@ export function createNewAttack(weaponData, flatBonus, accuracyMod, consumedLock
     newAttack.damage = rollDamage(weaponData, newAttack.isOverkill, manualBaseDamage);
   }
 
-  newAttack.onAttack = weaponData.on_attack || '';
-  newAttack.onHit = weaponData.on_hit || '';
-  newAttack.onCrit = weaponData.on_crit || '';
+  newAttack.onAttack = weaponData.on_attack ? weaponData.on_attack.detail : '';
+  newAttack.onHit = weaponData.on_hit ? weaponData.on_hit.detail : '';
+  newAttack.onCrit = weaponData.on_crit ? weaponData.on_crit.detail : '';
 
   return newAttack;
 }

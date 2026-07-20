@@ -29,11 +29,8 @@ const PilotDossier = ({
   activePilot,
   setDistantDicebagData
 }) => {
-
   const geneStatus = pilotIDToGeneStatus(activePilot.id);
-
-  // V3 UPDATE: the single pilot "loadout" is now an array of loadouts
-  let loadout = (!!activePilot.loadout ? activePilot.loadout : activePilot.loadouts[0])
+  let loadout = activePilot.loadouts[0]
 
   const showPilotGear = loadout.gear.filter(gear => gear)
 

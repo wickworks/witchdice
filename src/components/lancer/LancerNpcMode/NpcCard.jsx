@@ -7,21 +7,14 @@ import {
   findNpcClassData,
   findNpcTemplateData,
   getAllTemplateIds,
+  getNpcName,
+  getClassNames,
 } from '../lancerData.js';
 
 import './NpcCard.scss';
 
 
-function getClassNames(npc, npcData) {
-  let classNames = [ capitalize(npcData.name.toLowerCase()) ]
 
-  let templateData = getAllTemplateIds(npc).map(template => findNpcTemplateData(template))
-  templateData.forEach(template => classNames.push(
-    capitalize(template.name.toLowerCase())
-  ))
-
-  return classNames.join(' ')
-}
 
 
 const NpcPortrait = ({ npc, npcData }) => {
@@ -35,7 +28,7 @@ const NpcPortrait = ({ npc, npcData }) => {
 }
 
 const ActivationsTracker = ({ npc, updateNpcState }) => {
-  const current = npc.currentStats.activations
+  const current = npc.combat_data.stats.current.activations
   const max = getStat('activations',npc)
   return (
     <div className='ActivationsTracker'>
@@ -73,7 +66,7 @@ const NpcCardInactive = ({
         </div>
 
         <div className='name'>
-          {npc.name}
+          {getNpcName(npc)}
         </div>
 
         <div className='class'>
@@ -119,7 +112,7 @@ const NpcCardGrunt = ({
       {/*<div className={`tier asset npc-tier-${npc.tier}`} />*/}
 
       <div className='name'>
-        {npc.name}
+        {getNpcName(npc)}
       </div>
 
       <div className='class'>
@@ -171,7 +164,7 @@ const NpcCardFull = ({
       </div>
 
       <div className='name'>
-        {npc.name}
+        {getNpcName(npc)}
       </div>
 
       <div className='class'>
@@ -181,12 +174,12 @@ const NpcCardFull = ({
       <div className='hp-label'>HP</div>
 
       <div className='hp'>
-        {npc.currentStats.hp}/{getStat('hp',npc)}
+        {npc.combat_data.stats.current.hp}/{getStat('hp',npc)}
       </div>
 
       <div className='structure-bar'>
         {(maxStructure > 1) && [...Array(getStat('structure',npc))].map((undef, i) => {
-          const filledClass = (i < npc.currentStats.structure) ? 'filled' : 'empty'
+          const filledClass = (i < npc.combat_data.stats.current.structure) ? 'filled' : 'empty'
           return (<div className={`asset structure ${filledClass}`} key={i} />)
         })}
       </div>
@@ -199,7 +192,7 @@ const NpcCardFull = ({
 
       <div className='stress-bar'>
         {(maxStress > 1) && [...Array(getStat('stress',npc))].map((undef, i) => {
-          const filledClass = (i < (npc.currentStats.stress || 1)) ? 'filled' : 'empty'
+          const filledClass = (i < (npc.combat_data.stats.current.stress || 1)) ? 'filled' : 'empty'
           return (<div className={`asset reactor ${filledClass}`} key={i} />)
         })}
       </div>
@@ -207,7 +200,7 @@ const NpcCardFull = ({
       <div className='heat-label'>Heat</div>
 
       <div className='heat'>
-        {npc.currentStats.heatcap}/{getStat('heatcap',npc)}
+        {npc.combat_data.stats.current.heat}/{getStat('heat',npc)}
       </div>
 
       <button className='DieOrReserveButton die' onClick={onClickDie}>

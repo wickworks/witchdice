@@ -144,7 +144,7 @@ const blankNpcClass = {
     "hp": [0,0,0],
     "evade": [0,0,0],
     "edef": [0,0,0],
-    "heatcap": [0,0,0],
+    "heat": [0,0,0],
     "speed": [0,0,0],
     "sensor": [0,0,0],
     "save": [0,0,0],
@@ -302,17 +302,12 @@ export const findActionData = (actionID) => {
   return actionData ? actionData : blankAction
 }
 
-export const findNpcClassData = (npcClassID) => {
-  npcClassID = (typeof npcClassID === 'object') ? npcClassID.id : npcClassID // V3 UPDATE: class => class.id
-  var npcClassData = allNpcClasses[npcClassID]
-  if (!npcClassData) npcClassData = findGameDataFromUploadedLcp('npcClasses', npcClassID)
-  return npcClassData ? npcClassData : blankNpcClass
+export const findNpcClassData = (npcClass) => {
+  return npcClass.data ? npcClass.data : blankNpcClass
 }
 
-export const findNpcFeatureData = (npcFeatureID) => {
-  var npcFeatureData = allNpcFeatures[npcFeatureID]
-  if (!npcFeatureData) npcFeatureData = findGameDataFromUploadedLcp('npcFeatures', npcFeatureID)
-  return npcFeatureData ? npcFeatureData : blankNpcFeature
+export const findNpcFeatureData = (npcFeature) => {
+  return npcFeature.data ? npcFeature.data : blankNpcFeature
 }
 
 // pre-V3 UPDATE: templates (list of ID strings) => templates (list of objects with "id" property)
@@ -480,7 +475,7 @@ export const getSystemLimited = (system, systemData, limitedBonus = 0) => {
     const limitedMaxValue = limitedDice.count * parseInt(limitedDice.dietype || 0) + limitedDice.bonus
 
     limited = {
-      current: system.uses || 0,
+      current: system.currentUses || 0,
       max: limitedMaxValue + limitedBonus,
       icon: 'generic-item'
     }
@@ -494,7 +489,7 @@ export const getSystemRecharge = (system, systemData) => {
 
   if (rechargeTag) {
     recharge = {
-      charged: system.charged,
+      charged: !!system.charged,
       rollTarget: rechargeTag.val,
     }
   }
@@ -502,7 +497,7 @@ export const getSystemRecharge = (system, systemData) => {
   // aka jury-rig Custom Paint Job to have a checkbox
   if (EXPENDABLE_SYSTEM_IDS.includes(systemData.id)) {
     recharge = {
-      charged: !!system.uses,
+      charged: !!system.currentUses,
       rollTarget: 0,
     }
   }
@@ -613,6 +608,22 @@ export const getUsesPerRound = (featureData) => {
   return ''
 }
 
+export const getNpcName = (npc) => {
+  if (npc.name) return npc.name
+  return getClassNames(npc, findNpcClassData(npc.class));
+}
+
+export const getClassNames = (npc, npcData) => {
+  let classNames = [ capitalize(npcData.name.toLowerCase()) ]
+
+  let templateData = getAllTemplateIds(npc).map(template => findNpcTemplateData(template))
+  templateData.forEach(template => classNames.push(
+    capitalize(template.name.toLowerCase())
+  ))
+
+  return classNames.join(' ')
+}
+
 export function getAllWeaponRanges(weaponData) {
   if (!weaponData) return []
   return [
@@ -631,13 +642,13 @@ export function getModdedWeaponData(weapon) {
 
   // NPC weapons
   } else if (weapon.id.toLowerCase().includes('npcf_') || weapon.id.toLowerCase().includes('npc_')) {
-    let featureData = findNpcFeatureData(weapon.id)
+    let featureData = findNpcFeatureData(weapon)
     weaponData = deepCopy(featureData)
 
     // select the correct tier of damage
     // (npcs only ever have one kind of damage)
     weaponData.damage && weaponData.damage.forEach(damageObject => {
-      damageObject.val = damageObject.damage[weapon.npcTier-1]
+      damageObject.val = damageObject.val[weapon.npcTier-1]
     });
 
     // modify any tag values by tier

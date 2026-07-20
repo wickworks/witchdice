@@ -627,15 +627,15 @@ function getBonusDamageSourcesFromNpcFeatures(npcFeatures, activeWeapon) {
   if (!npcFeatures) return sources;
 
 
-  const activeWeaponData = activeWeapon ? findNpcFeatureData(activeWeapon.id) : null
+  const activeWeaponData = activeWeapon ? findNpcFeatureData(activeWeapon) : null
   const defaultDamageType = getDefaultWeaponDamageType(activeWeaponData)
   const meleeSynergies = [{
     "locations": ["weapon"],
     "weapon_types": ["Melee"],
   }]
 
-  npcFeatures.forEach(item => {
-    const featureData = findNpcFeatureData(item.itemID);
+  npcFeatures.forEach(feature => {
+    const featureData = findNpcFeatureData(feature);
     if (featureData) {
       switch (featureData.id) {
         case 'npcf_hunt_specter':

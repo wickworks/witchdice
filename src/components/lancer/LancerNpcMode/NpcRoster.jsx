@@ -59,12 +59,20 @@ const NpcRoster = ({
   let noLabelNpcs = []
   let libraryByLabel = {}
   Object.values(filteredLibrary).forEach(npc => {
-    // V3 UPDATE: labels => narrative.labels
-    const labels = ('labels' in npc ? npc.labels : npc.narrative.labels)
+    let labels = npc.narrative.labels.map(label => label.title)
+
     if (labels.length > 0) {
+      // add the folder name to the start of each label
+      if (npc.folder && npc.folder.folder) {
+        labels = labels.map(label => npc.folder.folder + ' — ' + label)
+      }
       labels.forEach(label => {
         if (label in libraryByLabel) { libraryByLabel[label].push(npc) } else { libraryByLabel[label] = [npc] }
       })
+    // just use the folder name
+    } else if (npc.folder && npc.folder.folder) {
+      if (npc.folder.folder in libraryByLabel) { libraryByLabel[npc.folder.folder].push(npc) } else { libraryByLabel[npc.folder.folder] = [npc] }
+    // unorganized
     } else {
       noLabelNpcs.push(npc)
     }

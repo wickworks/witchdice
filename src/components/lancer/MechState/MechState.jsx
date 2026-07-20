@@ -66,28 +66,27 @@ const MechState = ({
   const setCurrentOvershield = (overshield) => updateMechState({overshield: overshield})
 
   const currentHP = robotState.hp;
-  const setCurrentHP = (current_hp) => updateMechState({current_hp: current_hp})
+  const setCurrentHP = (hp) => updateMechState({hp: hp})
 
   const currentHeat = robotState.heat;
-  const setCurrentHeat = (current_heat) => updateMechState({current_heat: current_heat})
+  const setCurrentHeat = (heat) => updateMechState({heat: heat})
 
   const currentBurn = robotState.burn;
   const setCurrentBurn = (burn) => updateMechState({burn: burn})
 
   const currentOverchargeIndex = robotState.overcharge;
-  // const setCurrentOverchargeIndex = (current_overcharge) => updateMechState({current_overcharge: current_overcharge}) // now done manually in a batch
 
-  const currentCore = !!robotState.coreEnergy;
-  const setCurrentCore = (hasCoreEnergy) => updateMechState({current_core_energy: hasCoreEnergy ? 1 : 0})
+  const currentCore = !!robotState.corePower;
+  const setCurrentCore = (hasCorePower) => updateMechState({corePower: !!hasCorePower})
 
   const currentRepairs = robotState.repairs;
-  const setCurrentRepairs = (current_repairs) => updateMechState({current_repairs: current_repairs})
+  const setCurrentRepairs = (repairCapacity) => updateMechState({repairCapacity: repairCapacity})
 
   const currentStructure = robotState.structure;
-  const setCurrentStructure = (current_structure) => updateMechState({current_structure: current_structure})
+  const setCurrentStructure = (structure) => updateMechState({structure: structure})
 
   const currentStress = robotState.stress;
-  const setCurrentStress = (current_stress) => updateMechState({current_stress: current_stress})
+  const setCurrentStress = (stress) => updateMechState({stress: stress})
 
 
   const overshieldPlusHP = parseInt(currentHP) + parseInt(currentOvershield)
@@ -126,7 +125,7 @@ const MechState = ({
     }
 
     newHP = Math.min(Math.max(newHP, 0), robotStats.maxHP)
-    updateMechState({overshield: newOvershield, current_hp: newHP})
+    updateMechState({overshield: newOvershield, hp: newHP})
   }
 
   // tick overshield up/down
@@ -162,7 +161,7 @@ const MechState = ({
     var direction = rightClick ? -1 : 1
     var newIndex = Math.max(Math.min(currentOverchargeIndex + direction, OVERCHARGE_SEQUENCE.length-1), 0);
 
-    var mechStatUpdate = {current_overcharge: newIndex}
+    var mechStatUpdate = {overcharge: newIndex}
 
     // if counting up
     if (direction > 0) {
@@ -175,7 +174,7 @@ const MechState = ({
       		title: [robotInfo.frameSourceText, capitalize(robotInfo.frameName)].join(', '),
       		message: getOverchargeResultMessage(1)
       	})
-        mechStatUpdate.current_heat = (currentHeat+1) // roll this into the update
+        mechStatUpdate.heat = (currentHeat+1) // roll this into the update
 
       // queue up a roll
       } else if (currentOverchargeIndex > 0) {
@@ -333,7 +332,7 @@ const MechState = ({
             />
 
             <div className='overcharge-and-core'>
-              {robotState.coreEnergy >= 0 &&
+              {robotState.corePower != -1 &&
                 <MechNumberIcon
                   extraClass={`core-power ${currentCore ? 'active' : ''}`}
                   icon='core-power'
