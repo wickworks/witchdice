@@ -12,10 +12,10 @@ const WipNotice = () => (
         rel="noopener noreferrer"
       >here</a>
       or on<a
-        href='https://twitter.com/jovialthunder'
+        href='https://bsky.app/profile/wick.works'
         target="_blank"
         rel="noopener noreferrer"
-      >Twitter.</a>
+      >Bsky.</a>
 
       The to-do list is on<a
         href='https://trello.com/b/e24TNiu1/witchdice'
