@@ -1,0 +1,944 @@
+{
+  "npcType": "unit",
+  "id": "d5b2092d-a502-4117-8ce1-efc89b3ec80a",
+  "is_instance": false,
+  "instanceId": "",
+  "originId": "",
+  "name": "",
+  "tag": "Mech",
+  "note": "",
+  "description": "<p><br></p>",
+  "gmDescription": "",
+  "combat_data": {
+    "stats": {
+      "stats": {},
+      "max": {
+        "activations": 1,
+        "size": 1,
+        "sizes": 1,
+        "structure": 1,
+        "hull": -1,
+        "agi": -1,
+        "sys": 2,
+        "eng": 4,
+        "hp": 20,
+        "armor": 0,
+        "stress": 1,
+        "heat": 0,
+        "speed": 3,
+        "evasion": 9,
+        "edef": 10,
+        "sensorRange": 15,
+        "saveTarget": 12,
+        "overshield": 0,
+        "overcharge": 0,
+        "burn": 0,
+        "heatcap": 12,
+        "repairCapacity": 0,
+        "attackBonus": 2,
+        "techAttack": 0,
+        "limitedBonus": 0,
+        "saveBonus": 0,
+        "grapple": 2,
+        "ram": 2
+      },
+      "current": {
+        "activations": 1,
+        "size": 1,
+        "sizes": 1,
+        "structure": 1,
+        "hull": -1,
+        "agi": -1,
+        "sys": 2,
+        "eng": 4,
+        "hp": 20,
+        "armor": 0,
+        "stress": 1,
+        "heat": 0,
+        "speed": 3,
+        "evasion": 9,
+        "edef": 10,
+        "sensorRange": 15,
+        "saveTarget": 12,
+        "overshield": 0,
+        "overcharge": 0,
+        "burn": 0,
+        "heatcap": 0,
+        "repairCapacity": 0,
+        "attackBonus": 2,
+        "techAttack": 0,
+        "limitedBonus": 0,
+        "saveBonus": 0,
+        "grapple": 2,
+        "ram": 2
+      },
+      "stat_version": 1,
+      "user_added_keys": []
+    },
+    "counters": {
+      "counter_data": [],
+      "custom_counters": []
+    },
+    "statuses": [],
+    "customStatuses": [],
+    "resistances": [],
+    "cover": "none",
+    "mounted": true,
+    "overwatch": false,
+    "braced": false,
+    "prepared": false,
+    "coreActive": false,
+    "corePower": true,
+    "aiControl": false,
+    "isInSelfDestruct": false,
+    "reactorDestroyed": false,
+    "isDead": false,
+    "combatActions": {
+      "Protocol": true,
+      "Full": true,
+      "Quick1": true,
+      "Quick2": true,
+      "Overcharge": true,
+      "Reaction": true
+    },
+    "combat_history": [],
+    "round": 1,
+    "turn": 1,
+    "usedActions": [],
+    "timed_effects": []
+  },
+  "config": null,
+  "save": {
+    "lastModified": 1784577251594,
+    "deleteTime": 0,
+    "created": 1784576963477,
+    "remote_code": "",
+    "remote_author": "",
+    "remote_collection": ""
+  },
+  "cloud": {
+    "_ts": {
+      "templates.npct_veteran": 1784577142470,
+      "features.npcf_reinforced_veteran": 1784577142470,
+      "features.npcf_veterancy_veteran": 1784577142471
+    }
+  },
+  "img": {
+    "portrait": "",
+    "cloud_portrait": ""
+  },
+  "templates": [
+    {
+      "id": "npct_rpv",
+      "data": {
+        "id": "npct_rpv",
+        "template": true,
+        "name": "RPV",
+        "description": "Redacted for fixture use."
+      }
+    },
+    {
+      "id": "npct_ultra",
+      "data": {
+        "id": "npct_ultra",
+        "template": true,
+        "name": "Ultra",
+        "description": "<p>Redacted for fixture use.</p>",
+        "tactics": "Redacted for fixture use.",
+        "prohibitTemplates": [
+          "npct_grunt",
+          "npct_elite"
+        ],
+        "optionalClassMin": 1,
+        "optionalClassMax": 2,
+        "optionalMin": 1,
+        "optionalMax": 3
+      }
+    }
+  ],
+  "features": [
+    {
+      "id": "npcf_flak_cannon_engineer",
+      "data": {
+        "id": "npcf_flak_cannon_engineer",
+        "name": "Flak Cannon",
+        "origin": "npcc_engineer",
+        "base": true,
+        "type": "Weapon",
+        "effect": "Redacted for fixture use.",
+        "tags": [
+          {
+            "id": "tg_smart"
+          }
+        ],
+        "weapon_type": "Heavy Cannon",
+        "attack_bonus": [
+          1,
+          2,
+          3
+        ],
+        "damage": [
+          {
+            "type": "Kinetic",
+            "val": [
+              3,
+              4,
+              5
+            ]
+          }
+        ],
+        "range": [
+          {
+            "type": "Range",
+            "val": 15
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "MISSING",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_deployable_turret_engineer",
+      "data": {
+        "id": "npcf_deployable_turret_engineer",
+        "name": "Deployable Turret",
+        "origin": "npcc_engineer",
+        "base": true,
+        "type": "System",
+        "deployables": [
+          {
+            "name": "Deployable Turret",
+            "activation": "Quick",
+            "size": 0.5,
+            "hp": [
+              5,
+              8,
+              10
+            ],
+            "evasion": 10,
+            "edef": 10,
+            "type": "Drone",
+            "detail": "Redacted for fixture use.",
+            "range": [
+              {
+                "type": "Range",
+                "val": 10
+              }
+            ],
+            "damage": [
+              {
+                "type": "Kinetic",
+                "val": [
+                  4,
+                  5,
+                  6
+                ]
+              }
+            ],
+            "attack_bonus": [
+              1,
+              2,
+              3
+            ]
+          }
+        ],
+        "tags": [
+          {
+            "id": "tg_limited",
+            "val": 6
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_engineers_mark_engineer",
+      "data": {
+        "id": "npcf_engineers_mark_engineer",
+        "name": "Engineer’s Mark",
+        "origin": "npcc_engineer",
+        "base": true,
+        "type": "Trait",
+        "actions": [
+          {
+            "name": "Engineer’s Mark",
+            "activation": "Quick",
+            "detail": "Redacted for fixture use.",
+            "add_special": [
+              {
+                "attribute": "Engineer's Mark Active",
+                "detail": "Redacted for fixture use.",
+                "duration": "next_turn_end_self",
+                "target": "self"
+              }
+            ]
+          }
+        ],
+        "tags": [
+          {
+            "id": "tg_recharge",
+            "val": 6
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_bonus_hp_rpv",
+      "data": {
+        "id": "npcf_bonus_hp_rpv",
+        "name": "Bonus HP",
+        "origin": "npct_rpv",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "bonuses": [
+          {
+            "id": "hp",
+            "val": 5
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_no_pilot_rpv",
+      "data": {
+        "id": "npcf_no_pilot_rpv",
+        "name": "No Pilot",
+        "origin": "npct_rpv",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "active_effects": [
+          {
+            "name": "No Pilot",
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_vulnerable_to_tech_rpv",
+      "data": {
+        "id": "npcf_vulnerable_to_tech_rpv",
+        "name": "Vulnerable To Tech",
+        "origin": "npct_rpv",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "active_effects": [
+          {
+            "name": "Vulnerable To Tech",
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_arsenal_engineer",
+      "data": {
+        "id": "npcf_arsenal_engineer",
+        "name": "Arsenal",
+        "origin": "npcc_engineer",
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "mod": "npcf_deployable_turret_engineer",
+        "deployables": [
+          {
+            "name": "Inferno Turret",
+            "activation": "Quick",
+            "size": 0.5,
+            "hp": [
+              5,
+              8,
+              10
+            ],
+            "evasion": 10,
+            "edef": 10,
+            "type": "Drone",
+            "detail": "Redacted for fixture use."
+          },
+          {
+            "name": "Hellstorm Turret",
+            "activation": "Quick",
+            "size": 0.5,
+            "hp": [
+              5,
+              8,
+              10
+            ],
+            "evasion": 10,
+            "edef": 10,
+            "type": "Drone",
+            "detail": "Redacted for fixture use.",
+            "range": [
+              {
+                "type": "Range",
+                "val": 15
+              },
+              {
+                "type": "Blast",
+                "val": 1
+              }
+            ],
+            "damage": [
+              {
+                "type": "Explosive",
+                "val": [
+                  2,
+                  3,
+                  4
+                ],
+                "aoe": "blast 1"
+              }
+            ],
+            "attack_bonus": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "name": "Hunter Turret",
+            "activation": "Quick",
+            "size": 0.5,
+            "hp": [
+              5,
+              8,
+              10
+            ],
+            "evasion": 10,
+            "edef": 10,
+            "type": "Drone",
+            "detail": "Redacted for fixture use.",
+            "tags": [
+              {
+                "id": "tg_reliable",
+                "val": 1
+              }
+            ],
+            "range": [
+              {
+                "type": "Range",
+                "val": 10
+              }
+            ],
+            "damage": [
+              {
+                "type": "Kinetic",
+                "val": [
+                  4,
+                  5,
+                  6
+                ]
+              }
+            ],
+            "attack_bonus": [
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "name": "Primed Turret",
+            "activation": "Quick",
+            "size": 0.5,
+            "hp": [
+              5,
+              8,
+              10
+            ],
+            "evasion": 10,
+            "edef": 10,
+            "type": "Drone",
+            "detail": "Redacted for fixture use.",
+            "range": [
+              {
+                "type": "Range",
+                "val": 10
+              }
+            ],
+            "damage": [
+              {
+                "type": "Kinetic",
+                "val": [
+                  4,
+                  5,
+                  6
+                ]
+              }
+            ],
+            "attack_bonus": [
+              1,
+              2,
+              3
+            ],
+            "active_effects": [
+              {
+                "name": "Primed Turret Explosion",
+                "condition": "Redacted for fixture use.",
+                "detail": "Redacted for fixture use.",
+                "damage": [
+                  {
+                    "type": "Explosive",
+                    "val": [
+                      7,
+                      9,
+                      11
+                    ],
+                    "save": "agility",
+                    "aoe": "burst 1"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_shock_and_awe_ultra",
+      "data": {
+        "id": "npcf_shock_and_awe_ultra",
+        "name": "Shock And Awe",
+        "origin": "npct_ultra",
+        "base": true,
+        "type": "Trait",
+        "effect": "<p>Redacted for fixture use.</p>",
+        "bonuses": [
+          {
+            "id": "activations",
+            "val": 1
+          },
+          {
+            "id": "activations_pct",
+            "val": 5
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_deadly_ultra",
+      "data": {
+        "id": "npcf_deadly_ultra",
+        "name": "Deadly",
+        "origin": "npct_ultra",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "active_effects": [
+          {
+            "name": "Deadly",
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_juggernaut_ultra",
+      "data": {
+        "id": "npcf_juggernaut_ultra",
+        "name": "Juggernaut",
+        "origin": "npct_ultra",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "active_effects": [
+          {
+            "name": "Juggernaut",
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_reinforced_ultra",
+      "data": {
+        "id": "npcf_reinforced_ultra",
+        "name": "Reinforced",
+        "origin": "npct_ultra",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "bonuses": [
+          {
+            "id": "structure",
+            "val": 3
+          },
+          {
+            "id": "stress",
+            "val": 3
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_legendary_ultra",
+      "data": {
+        "id": "npcf_legendary_ultra",
+        "name": "Legendary",
+        "origin": "npct_ultra",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "active_effects": [
+          {
+            "name": "Legendary",
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_resilient_ultra",
+      "data": {
+        "id": "npcf_resilient_ultra",
+        "name": "Resilient",
+        "origin": "npct_ultra",
+        "base": true,
+        "type": "Trait",
+        "effect": "The Ultra gains +5 HP.",
+        "bonuses": [
+          {
+            "id": "hp",
+            "val": 5
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_reflex_ultra",
+      "data": {
+        "id": "npcf_reflex_ultra",
+        "name": "Reflex",
+        "origin": "npct_ultra",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "active_effects": [
+          {
+            "name": "Reflex",
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_slivershielding_ultra",
+      "data": {
+        "id": "npcf_slivershielding_ultra",
+        "name": "Slivershielding",
+        "origin": "npct_ultra",
+        "type": "System",
+        "effect": "Redacted for fixture use.",
+        "mod": "npcf_resilient_ultra",
+        "bonuses": [
+          {
+            "id": "hp",
+            "val": -5
+          }
+        ],
+        "add_status": [
+          {
+            "id": "invisible",
+            "target": "self"
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_hellfire_projector_ultra",
+      "data": {
+        "id": "npcf_hellfire_projector_ultra",
+        "name": "Hellfire Projector",
+        "origin": "npct_ultra",
+        "type": "Weapon",
+        "attacks": 2,
+        "effect": "Redacted for fixture use.",
+        "weapon_type": "Heavy CQB",
+        "attack_bonus": [
+          2,
+          4,
+          6
+        ],
+        "damage": [
+          {
+            "type": "Energy",
+            "val": 3
+          },
+          {
+            "type": "Burn",
+            "val": [
+              4,
+              5,
+              6
+            ]
+          }
+        ],
+        "range": [
+          {
+            "type": "Cone",
+            "val": 5
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    }
+  ],
+  "class": {
+    "id": "npcc_engineer",
+    "data": {
+      "id": "npcc_engineer",
+      "name": "Engineer",
+      "role": "striker",
+      "info": {
+        "flavor": "Redacted for fixture use.",
+        "tactics": "Redacted for fixture use.",
+        "terse": "Redacted for fixture use."
+      },
+      "stats": {
+        "armor": [
+          0,
+          0,
+          0
+        ],
+        "hp": [
+          20,
+          20,
+          20
+        ],
+        "edef": [
+          10,
+          10,
+          12
+        ],
+        "heatcap": [
+          10,
+          12,
+          14
+        ],
+        "speed": [
+          3,
+          3,
+          3
+        ],
+        "hull": [
+          -1,
+          -1,
+          -1
+        ],
+        "activations": [
+          1,
+          1,
+          1
+        ],
+        "structure": [
+          1,
+          1,
+          1
+        ],
+        "stress": [
+          1,
+          1,
+          1
+        ],
+        "evasion": [
+          7,
+          9,
+          11
+        ],
+        "sensorRange": [
+          15,
+          15,
+          15
+        ],
+        "saveTarget": [
+          10,
+          12,
+          14
+        ],
+        "agi": [
+          -1,
+          -1,
+          -1
+        ],
+        "sys": [
+          1,
+          2,
+          3
+        ],
+        "eng": [
+          3,
+          4,
+          6
+        ],
+        "sizes": [
+          1,
+          1,
+          1
+        ]
+      }
+    }
+  },
+  "tier": 2,
+  "narrative": {
+    "textItems": [],
+    "labels": [],
+    "relationships": [],
+    "clocks": [],
+    "tables": []
+  },
+  "folder": {
+    "folder": "",
+    "sortIndex": 0
+  },
+  "brews": [
+    {
+      "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+      "LcpName": "Lancer CORE NPCs",
+      "LcpVersion": "2.0.2",
+      "Website": "https://massif-press.itch.io/corebook-pdf",
+      "Status": "MISSING",
+      "V3": true
+    }
+  ]
+}

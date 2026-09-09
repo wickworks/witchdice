@@ -1,0 +1,660 @@
+{
+  "id": "4ec233dd-6e39-4bb1-91b0-90e847c505af",
+  "group": "",
+  "sort_index": 14,
+  "isLocal": true,
+  "cloudID": "",
+  "cloudOwnerID": "",
+  "gistCode": "",
+  "gistOwner": "",
+  "lastSync": "",
+  "level": 12,
+  "callsign": "TALLOW",
+  "name": "Oren Blackwell",
+  "player_name": "Playtester",
+  "status": "Active",
+  "dead": false,
+  "text_appearance": "",
+  "notes": "",
+  "history": "",
+  "portrait": "",
+  "cloud_portrait": "",
+  "quirks": [],
+  "current_hp": 15,
+  "reserves": [],
+  "orgs": [],
+  "background": "Redacted for fixture use.",
+  "mechSkills": [
+    3,
+    3,
+    3,
+    1
+  ],
+  "licenses": [
+    {
+      "id": "mf_raleigh",
+      "rank": 3
+    },
+    {
+      "id": "mf_pegasus",
+      "rank": 3
+    },
+    {
+      "id": "mf_nelson",
+      "rank": 2
+    },
+    {
+      "id": "mf_lancaster",
+      "rank": 3
+    }
+  ],
+  "skills": [
+    {
+      "id": "sk_apply_fists_to_faces",
+      "rank": 1
+    },
+    {
+      "id": "sk_assault",
+      "rank": 1
+    },
+    {
+      "id": "sk_blow_something_up",
+      "rank": 1
+    },
+    {
+      "id": "sk_charm",
+      "rank": 1
+    },
+    {
+      "id": "sk_get_a_hold_of_something",
+      "rank": 1
+    },
+    {
+      "id": "sk_hack_or_fix",
+      "rank": 1
+    },
+    {
+      "id": "sk_investigate",
+      "rank": 1
+    },
+    {
+      "id": "sk_patch",
+      "rank": 1
+    },
+    {
+      "id": "sk_read_a_situation",
+      "rank": 1
+    },
+    {
+      "id": "sk_spot",
+      "rank": 1
+    },
+    {
+      "id": "sk_stay_cool",
+      "rank": 1
+    },
+    {
+      "id": "sk_survive",
+      "rank": 1
+    }
+  ],
+  "talents": [
+    {
+      "id": "t_combined_arms",
+      "rank": 1
+    },
+    {
+      "id": "t_vanguard",
+      "rank": 1
+    },
+    {
+      "id": "t_executioner",
+      "rank": 1
+    },
+    {
+      "id": "t_ace",
+      "rank": 1
+    },
+    {
+      "id": "t_bonded",
+      "rank": 1
+    },
+    {
+      "id": "t_brawler",
+      "rank": 1
+    },
+    {
+      "id": "t_brutal",
+      "rank": 2
+    },
+    {
+      "id": "t_crack_shot",
+      "rank": 1
+    },
+    {
+      "id": "t_centimane",
+      "rank": 1
+    },
+    {
+      "id": "t_duelist",
+      "rank": 1
+    },
+    {
+      "id": "t_spaceborn",
+      "rank": 1
+    }
+  ],
+  "core_bonuses": [
+    "cb_integrated_weapon",
+    "cb_mount_retrofitting",
+    "cb_reinforced_frame",
+    "cb_improved_armament"
+  ],
+  "loadout": {
+    "id": "7c3a6c79-c2d3-4a55-9ed4-8dd439652cf3",
+    "name": "Primary",
+    "armor": [
+      {
+        "id": "pg_assault_hardsuit",
+        "destroyed": false,
+        "uses": 0,
+        "cascading": false,
+        "customDamageType": null
+      }
+    ],
+    "weapons": [
+      {
+        "id": "pg_heavy_a_c",
+        "destroyed": false,
+        "uses": 0,
+        "cascading": false,
+        "customDamageType": null
+      },
+      {
+        "id": "pg_light_signature",
+        "destroyed": false,
+        "uses": 0,
+        "cascading": false,
+        "customDamageType": null
+      }
+    ],
+    "gear": [
+      {
+        "id": "pg_mag_clamps",
+        "destroyed": false,
+        "uses": 0,
+        "cascading": false,
+        "customDamageType": null
+      },
+      {
+        "id": "pg_corrective",
+        "destroyed": false,
+        "uses": 1,
+        "cascading": false,
+        "customDamageType": null
+      },
+      {
+        "id": "pg_thermite_charge",
+        "destroyed": false,
+        "uses": 1,
+        "cascading": false,
+        "customDamageType": null
+      }
+    ],
+    "extendedWeapons": [
+      null
+    ],
+    "extendedGear": [
+      null,
+      null
+    ]
+  },
+  "mechs": [
+    {
+      "id": "782b6975-f25f-44bd-8722-c3803f4c750b",
+      "name": "HAND ME DOWN",
+      "notes": "",
+      "gm_note": "",
+      "portrait": "",
+      "cloud_portrait": "",
+      "frame": "mf_raleigh",
+      "active": false,
+      "current_structure": 4,
+      "current_move": 4,
+      "boost": 0,
+      "current_hp": 22,
+      "overshield": 0,
+      "current_stress": 4,
+      "current_heat": 0,
+      "current_repairs": 6,
+      "current_overcharge": 0,
+      "current_core_energy": 1,
+      "loadouts": [
+        {
+          "id": "f6d527c2-9621-483b-83d9-3045255d4d7c",
+          "name": "Primary",
+          "systems": [
+            {
+              "id": "ms_hunter_lock",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            },
+            {
+              "id": "ms_sisyphus_class_nhp",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            },
+            {
+              "id": "ms_roland_chamber",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            },
+            {
+              "id": "ms_manipulators",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            }
+          ],
+          "integratedSystems": [
+            {
+              "id": "ms_spaceborn_1",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            }
+          ],
+          "mounts": [
+            {
+              "mount_type": "Aux/Aux",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Auxiliary",
+                  "weapon": {
+                    "id": "mw_segment_knife",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                },
+                {
+                  "size": "Auxiliary",
+                  "weapon": {
+                    "id": "mw_nexus_light",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            },
+            {
+              "mount_type": "Flex",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Main",
+                  "weapon": {
+                    "id": "mw_war_pike",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": {
+                      "id": "wm_thermal_charge",
+                      "uses": 3,
+                      "destroyed": false,
+                      "cascading": false
+                    },
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                },
+                {
+                  "size": "Auxiliary",
+                  "weapon": {
+                    "id": "mw_hand_cannon",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                }
+              ],
+              "extra": [
+                {
+                  "size": "Auxiliary",
+                  "weapon": null
+                }
+              ],
+              "bonus_effects": [
+                "cb_mount_retrofitting"
+              ]
+            },
+            {
+              "mount_type": "Heavy",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Heavy",
+                  "weapon": {
+                    "id": "mw_bolt_thrower",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            }
+          ],
+          "integratedMounts": [
+            {
+              "weapon": {
+                "id": "mw_raleigh_integrated",
+                "destroyed": false,
+                "cascading": false,
+                "loaded": true,
+                "mod": null,
+                "customDamageType": null,
+                "maxUseOverride": 0,
+                "uses": 0,
+                "selectedProfile": 0
+              }
+            }
+          ],
+          "improved_armament": {
+            "mount_type": "Flex",
+            "lock": false,
+            "slots": [
+              {
+                "size": "Flex",
+                "weapon": null
+              }
+            ],
+            "extra": [
+              {
+                "size": "Auxiliary",
+                "weapon": null
+              }
+            ],
+            "bonus_effects": []
+          },
+          "integratedWeapon": {
+            "mount_type": "Aux",
+            "lock": false,
+            "slots": [
+              {
+                "size": "Auxiliary",
+                "weapon": {
+                  "id": "mw_pistol",
+                  "destroyed": false,
+                  "cascading": false,
+                  "loaded": true,
+                  "mod": null,
+                  "customDamageType": null,
+                  "maxUseOverride": 0,
+                  "uses": 0,
+                  "selectedProfile": 0
+                }
+              }
+            ],
+            "extra": [],
+            "bonus_effects": []
+          }
+        }
+      ],
+      "active_loadout_index": 0,
+      "statuses": [],
+      "conditions": [],
+      "resistances": [],
+      "reactions": [],
+      "burn": 0,
+      "destroyed": false,
+      "defeat": "",
+      "activations": 1,
+      "meltdown_imminent": false,
+      "reactor_destroyed": false,
+      "core_active": false,
+      "cc_ver": "ERR"
+    },
+    {
+      "id": "01a5f7a5-2614-49cc-8f6a-7e65fa6603a7",
+      "name": "HONEST MISTAKE",
+      "notes": "",
+      "gm_note": "",
+      "portrait": "",
+      "cloud_portrait": "",
+      "frame": "mf_lancaster",
+      "active": false,
+      "current_structure": 4,
+      "current_move": 6,
+      "boost": 0,
+      "current_hp": 23,
+      "overshield": 0,
+      "current_stress": 4,
+      "current_heat": 0,
+      "current_repairs": 11,
+      "current_overcharge": 0,
+      "current_core_energy": 1,
+      "loadouts": [
+        {
+          "id": "3de4319f-3c46-4bf9-8096-b8bb1c3068b9",
+          "name": "Primary",
+          "systems": [],
+          "integratedSystems": [
+            {
+              "id": "ms_spaceborn_1",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            }
+          ],
+          "mounts": [
+            {
+              "mount_type": "Main/Aux",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Main",
+                  "weapon": {
+                    "id": "mw_war_pike",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                },
+                {
+                  "size": "Auxiliary",
+                  "weapon": {
+                    "id": "mw_pistol",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            }
+          ],
+          "integratedMounts": [
+            {
+              "weapon": {
+                "id": "mw_lancaster_integrated",
+                "destroyed": false,
+                "cascading": false,
+                "loaded": true,
+                "mod": null,
+                "customDamageType": null,
+                "maxUseOverride": 0,
+                "uses": 0,
+                "selectedProfile": 0
+              }
+            }
+          ],
+          "improved_armament": {
+            "mount_type": "Flex",
+            "lock": false,
+            "slots": [
+              {
+                "size": "Flex",
+                "weapon": {
+                  "id": "mw_nexus_light",
+                  "destroyed": false,
+                  "cascading": false,
+                  "loaded": true,
+                  "mod": null,
+                  "customDamageType": null,
+                  "maxUseOverride": 0,
+                  "uses": 0,
+                  "selectedProfile": 0
+                }
+              }
+            ],
+            "extra": [
+              {
+                "size": "Auxiliary",
+                "weapon": {
+                  "id": "mw_nexus_light",
+                  "destroyed": false,
+                  "cascading": false,
+                  "loaded": true,
+                  "mod": null,
+                  "customDamageType": null,
+                  "maxUseOverride": 0,
+                  "uses": 0,
+                  "selectedProfile": 0
+                }
+              }
+            ],
+            "bonus_effects": []
+          },
+          "integratedWeapon": {
+            "mount_type": "Aux",
+            "lock": false,
+            "slots": [
+              {
+                "size": "Auxiliary",
+                "weapon": {
+                  "id": "mw_pistol",
+                  "destroyed": false,
+                  "cascading": false,
+                  "loaded": true,
+                  "mod": null,
+                  "customDamageType": null,
+                  "maxUseOverride": 0,
+                  "uses": 0,
+                  "selectedProfile": 0
+                }
+              }
+            ],
+            "extra": [],
+            "bonus_effects": []
+          }
+        }
+      ],
+      "active_loadout_index": 0,
+      "statuses": [],
+      "conditions": [],
+      "resistances": [],
+      "reactions": [],
+      "burn": 0,
+      "destroyed": false,
+      "defeat": "",
+      "activations": 1,
+      "meltdown_imminent": false,
+      "reactor_destroyed": false,
+      "core_active": false,
+      "cc_ver": "ERR"
+    }
+  ],
+  "cc_ver": "",
+  "counter_data": [],
+  "custom_counters": [],
+  "special_equipment": {
+    "PilotArmor": [],
+    "PilotWeapons": [],
+    "PilotGear": [],
+    "Frames": [],
+    "MechWeapons": [],
+    "WeaponMods": [],
+    "MechSystems": [],
+    "SystemMods": []
+  },
+  "combat_history": {
+    "moves": 0,
+    "kills": 0,
+    "damage": 0,
+    "hp_damage": 0,
+    "structure_damage": 0,
+    "overshield": 0,
+    "heat_damage": 0,
+    "reactor_damage": 0,
+    "overcharge_uses": 0,
+    "core_uses": 0
+  },
+  "state": {
+    "active_mech_id": "",
+    "remote_mech_id": "",
+    "stage": "Narrative",
+    "turn": 1,
+    "actions": 2,
+    "braced": false,
+    "overcharged": false,
+    "prepare": false,
+    "bracedCooldown": false,
+    "redundant": false,
+    "stats": {
+      "moves": 0,
+      "kills": 0,
+      "damage": 0,
+      "hp_damage": 0,
+      "structure_damage": 0,
+      "overshield": 0,
+      "heat_damage": 0,
+      "reactor_damage": 0,
+      "overcharge_uses": 0,
+      "core_uses": 0
+    },
+    "deployed": []
+  },
+  "brews": []
+}

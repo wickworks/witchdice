@@ -1,18 +1,22 @@
 import React from 'react';
-import MechCentralDiamond from './MechCentralDiamond.jsx';
-import MechNumberLabel from './MechNumberLabel.jsx';
-import MechNumberBar from './MechNumberBar.jsx';
-import MechNumberIcon from './MechNumberIcon.jsx';
-import MechSingleStat from './MechSingleStat.jsx';
-import AbilityRollButton from './AbilityRollButton.jsx';
+import MechCentralDiamond from './MechCentralDiamond';
+import MechNumberLabel from './MechNumberLabel';
+import MechNumberBarUntyped from './MechNumberBar';
+import MechNumberIconUntyped from './MechNumberIcon';
+import MechSingleStat from './MechSingleStat';
+import AbilityRollButton from './AbilityRollButton';
 
-import { capitalize } from '../../../utils.js';
-import { blankDice } from '../../shared/DiceBag/DiceBagData.js';
+const MechNumberBar: any = MechNumberBarUntyped;
+const MechNumberIcon: any = MechNumberIconUntyped;
+
+import { capitalize } from '../../../utils';
+import { blankDice } from '../../shared/DiceBag/DiceBagData';
 import {
   OVERCHARGE_SEQUENCE,
   processDiceString,
-} from '../lancerData.js';
+} from '../lancerData';
 
+import type { RobotState, RobotStats, RobotInfo, UpdateMechState } from '../types';
 
 import './MechState.scss';
 
@@ -61,66 +65,68 @@ const MechState = ({
   updateMechState,
   setDistantDicebagData,
   setRollSummaryData,
+}: {
+  robotState: RobotState,
+  robotStats: RobotStats,
+  robotInfo: RobotInfo,
+  updateMechState: UpdateMechState,
+  setDistantDicebagData: (data: any) => void,
+  setRollSummaryData: (data: any) => void,
 }) => {
-  const currentOvershield = robotState.overshield;
-  const setCurrentOvershield = (overshield) => updateMechState({overshield: overshield})
+  const currentOvershield = parseInt(String(robotState.overshield));
+  const setCurrentOvershield = (overshield: number) => updateMechState({overshield: overshield})
 
-  const currentHP = robotState.hp;
-  const setCurrentHP = (current_hp) => updateMechState({current_hp: current_hp})
+  const currentHP = parseInt(String(robotState.hp));
+  const setCurrentHP = (current_hp: number) => updateMechState({current_hp: current_hp})
 
-  const currentHeat = robotState.heat;
-  const setCurrentHeat = (current_heat) => updateMechState({current_heat: current_heat})
+  const currentHeat = parseInt(String(robotState.heat));
+  const setCurrentHeat = (current_heat: number) => updateMechState({current_heat: current_heat})
 
-  const currentBurn = robotState.burn;
-  const setCurrentBurn = (burn) => updateMechState({burn: burn})
+  const currentBurn = parseInt(String(robotState.burn));
+  const setCurrentBurn = (burn: number) => updateMechState({burn: burn})
 
   const currentOverchargeIndex = robotState.overcharge;
-  // const setCurrentOverchargeIndex = (current_overcharge) => updateMechState({current_overcharge: current_overcharge}) // now done manually in a batch
 
   const currentCore = !!robotState.coreEnergy;
-  const setCurrentCore = (hasCoreEnergy) => updateMechState({current_core_energy: hasCoreEnergy ? 1 : 0})
+  const setCurrentCore = (hasCoreEnergy: boolean) => updateMechState({current_core_energy: hasCoreEnergy ? 1 : 0})
 
   const currentRepairs = robotState.repairs;
-  const setCurrentRepairs = (current_repairs) => updateMechState({current_repairs: current_repairs})
+  const setCurrentRepairs = (current_repairs: number) => updateMechState({current_repairs: current_repairs})
 
   const currentStructure = robotState.structure;
-  const setCurrentStructure = (current_structure) => updateMechState({current_structure: current_structure})
+  const setCurrentStructure = (current_structure: number) => updateMechState({current_structure: current_structure})
 
   const currentStress = robotState.stress;
-  const setCurrentStress = (current_stress) => updateMechState({current_stress: current_stress})
+  const setCurrentStress = (current_stress: number) => updateMechState({current_stress: current_stress})
 
 
-  const overshieldPlusHP = parseInt(currentHP) + parseInt(currentOvershield)
-  const overshieldPlusMaxHP = robotStats.maxHP + parseInt(currentOvershield)
+  const overshieldPlusHP = currentHP + currentOvershield
+  const overshieldPlusMaxHP = robotStats.maxHP + currentOvershield
 
   const overchargeDie = OVERCHARGE_SEQUENCE[currentOverchargeIndex]
 
-  const isInDangerZone = parseInt(currentHeat) >= Math.ceil(robotStats.maxHeat * .5)
+  const isInDangerZone = currentHeat >= Math.ceil(robotStats.maxHeat * .5)
 
-  const handleHPBarClick = (newValue) => {
-    var change = parseInt(newValue) - overshieldPlusHP
+  const handleHPBarClick = (newValue: number) => {
+    var change = parseInt(String(newValue)) - overshieldPlusHP
     changeHealth(change)
   }
 
-  function changeHealth(change) {
-    const overshield = parseInt(currentOvershield)
-    const hp = parseInt(currentHP)
+  function changeHealth(change: number) {
+    const overshield = currentOvershield
+    const hp = currentHP
     var newHP = hp;
     var newOvershield = overshield;
 
-    // DAMAGE
     if (change <= 0) {
-      // overshield takes all of it
       if (Math.abs(change) <= overshield) {
         newOvershield =overshield + change
 
-      // overshield takes some, rest goes to HP
       } else {
         change += overshield
         newOvershield = 0
         newHP = hp + change
       }
-    // HEALING
     } else if (change > 0) {
       newHP = hp + change
     }
@@ -129,23 +135,21 @@ const MechState = ({
     updateMechState({overshield: newOvershield, current_hp: newHP})
   }
 
-  // tick overshield up/down
-  const handleOvershieldIconClick = (rightClick) => {
-    var newShield = parseInt(currentOvershield)
+  const handleOvershieldIconClick = (rightClick: boolean) => {
+    var newShield = currentOvershield
     if (rightClick) { newShield -= 1 } else { newShield += 1 }
     newShield = Math.min(Math.max(newShield, 0), MAX_OVERSHIELD)
     setCurrentOvershield(newShield)
   }
 
-  // tick burn up/down
-  const handleBurnIconClick = (rightClick) => {
-    var newBurn = parseInt(currentBurn)
+  const handleBurnIconClick = (rightClick: boolean) => {
+    var newBurn = currentBurn
     if (rightClick) { newBurn -= 1 } else { newBurn += 1 }
     newBurn = Math.min(Math.max(newBurn, 0), MAX_BURN)
     setCurrentBurn(newBurn)
   }
 
-  const getOverchargeResultMessage = (result) => {
+  const getOverchargeResultMessage = (result: number) => {
     let finalHeat = (currentHeat + result)
     let stressCount = 0
     while ((finalHeat > robotStats.maxHeat) && (stressCount < 4)) {
@@ -157,32 +161,27 @@ const MechState = ({
     return message
   }
 
-  // roll the current for heat, increase the counter
-  const handleOverchargeClick = (rightClick) => {
+  const handleOverchargeClick = (rightClick: boolean) => {
     var direction = rightClick ? -1 : 1
     var newIndex = Math.max(Math.min(currentOverchargeIndex + direction, OVERCHARGE_SEQUENCE.length-1), 0);
 
-    var mechStatUpdate = {current_overcharge: newIndex}
+    var mechStatUpdate: Record<string, any> = {current_overcharge: newIndex}
 
-    // if counting up
     if (direction > 0) {
       const currentOvercharge = OVERCHARGE_SEQUENCE[currentOverchargeIndex]
 
-      // just do it; one of the few automatic updates the sheet does for you
       if (currentOverchargeIndex == 0) {
         setRollSummaryData({
       		type: 'text',
       		title: [robotInfo.frameSourceText, capitalize(robotInfo.frameName)].join(', '),
       		message: getOverchargeResultMessage(1)
       	})
-        mechStatUpdate.current_heat = (currentHeat+1) // roll this into the update
+        mechStatUpdate.current_heat = (currentHeat+1)
 
-      // queue up a roll
       } else if (currentOverchargeIndex > 0) {
         const overchargeDice = processDiceString(currentOvercharge)
-        let diceData = {...blankDice}
+        let diceData: Record<string, number> = {...blankDice}
 
-        // have to handle the custom d3 die format
         if (overchargeDice.dietype in diceData) {
           diceData[overchargeDice.dietype] = overchargeDice.count
         } else {
@@ -203,7 +202,6 @@ const MechState = ({
     updateMechState( mechStatUpdate );
   }
 
-  // player mechs default to frame images, npcs have blank image
   const defaultPortrait = robotInfo.frameID.startsWith('mf_') ? robotInfo.frameID : 'mf_standard_pattern_i_everest'
 
 
@@ -236,7 +234,7 @@ const MechState = ({
         <MechNumberLabel
           label="HP"
           maxNumber={robotStats.maxHP}
-          currentNumber={parseInt(currentHP)}
+          currentNumber={currentHP}
           setCurrentNumber={setCurrentHP}
           leftToRight={false}
         />
@@ -247,33 +245,33 @@ const MechState = ({
           maxNumber={overshieldPlusMaxHP}
           currentNumber={overshieldPlusHP}
           setCurrentNumber={handleHPBarClick}
-          overshield={parseInt(currentOvershield)}
+          overshield={currentOvershield}
           armor={robotStats.armor}
-          burn={parseInt(currentBurn)}
+          burn={currentBurn}
           leftToRight={false}
         />
 
         <div className='overshield-and-burn'>
           <MechNumberIcon
-            extraClass={`overshield ${parseInt(currentOvershield) > 0 ? 'active' : ''}`}
+            extraClass={`overshield ${currentOvershield > 0 ? 'active' : ''}`}
             icon={'overshield-outline'}
             onIconClick={() => handleOvershieldIconClick(false)}
             onIconRightClick={() => handleOvershieldIconClick(true)}
             iconTooltipData={overshieldTooltip}
             maxNumber={MAX_OVERSHIELD}
-            currentNumber={parseInt(currentOvershield)}
+            currentNumber={currentOvershield}
             setCurrentNumber={setCurrentOvershield}
             leftToRight={false}
           />
 
           {robotStats.maxHP > 1 && <MechNumberIcon
-            extraClass={`burning ${parseInt(currentBurn) > 0 ? 'active' : ''}`}
+            extraClass={`burning ${currentBurn > 0 ? 'active' : ''}`}
             icon='burn'
             onIconClick={() => handleBurnIconClick(false)}
             onIconRightClick={() => handleBurnIconClick(true)}
             iconTooltipData={burnTooltip}
             maxNumber={MAX_BURN}
-            currentNumber={parseInt(currentBurn)}
+            currentNumber={currentBurn}
             setCurrentNumber={setCurrentBurn}
             leftToRight={false}
           />}

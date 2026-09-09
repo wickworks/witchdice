@@ -1,24 +1,23 @@
 import React, { useState } from 'react';
-import { capitalize } from '../../../utils.js';
+import { capitalize } from '../../../utils';
+
+import type { RobotInfo, RobotStats, RobotState } from '../types';
 
 import './StatBroadcast.scss';
 
-// Frame Traits & Core System        Systems
 const StatBroadcast = ({
   robotInfo,
   robotStats,
   robotState,
   onBroadcast,
+}: {
+  robotInfo: RobotInfo,
+  robotStats: RobotStats,
+  robotState: RobotState,
+  onBroadcast: (data: any) => void,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
-  const [disabledBroadcasts, setDisabledBroadcasts] = useState([])
-
-  // [ STATS ]
-  //   HULL:1 AGI:0 SYS:1 ENGI:2
-  //   STRUCTURE:4 HP:12 ARMOR:1
-  //   STRESS:4 HEATCAP:8 REPAIR:10
-  //   TECH ATK:+2 LIMITED:+3
-  //   SPD:6 EVA:8 EDEF:9 SENSE:8 SAVE:14
+  const [disabledBroadcasts, setDisabledBroadcasts] = useState<string[]>([])
 
   const statsBasic =
     `〔 BASIC STATS 〕<br>` +
@@ -40,7 +39,7 @@ const StatBroadcast = ({
     `SPD:${robotStats.moveSpeed} EVA:${robotStats.evasion} EDEF:${robotStats.eDef} SENSE:${robotStats.sensorRange} SAVE:${robotStats.saveTarget}<br>`
 
 
-  function broadcastStats(statBlock, disableType) {
+  function broadcastStats(statBlock: string, disableType: string) {
     let newDisabled = [...disabledBroadcasts]
     newDisabled.push(disableType)
     setDisabledBroadcasts(newDisabled)

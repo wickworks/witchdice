@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { savePilotData } from '../lancerLocalStorage.js';
+import { savePilotData } from '../lancerLocalStorage';
 import { deepCopy } from '../../../utils.js';
 import BondSheet from './BondSheet.jsx';
 import ChooseNewBond from './ChooseNewBond.jsx';

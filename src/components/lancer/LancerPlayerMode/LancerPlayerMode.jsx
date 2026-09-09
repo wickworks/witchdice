@@ -7,7 +7,7 @@ import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import PilotDossier from './PilotDossier.jsx';
 import Bonds from '../Bonds/Bonds.jsx';
 import BondButton from './BondButton.jsx';
-import PlayerMechSheet from './PlayerMechSheet.jsx';
+import PlayerMechSheet from './PlayerMechSheet';
 import JumplinkPanel from '../JumplinkPanel.jsx';
 
 import {
@@ -18,12 +18,14 @@ import {
   STORAGE_ID_LENGTH,
   SELECTED_CHARACTER_KEY,
   LANCER_SQUAD_MECH_KEY,
-} from '../lancerLocalStorage.js';
+} from '../lancerLocalStorage';
 
 import { deepCopy } from '../../../utils.js';
 import { getIDFromStorageName } from '../../../localstorage.js';
-import { createSquadMech } from '../SquadPanel/squadUtils.js';
-import { applyUpdatesToPlayer } from './playerUtils.js';
+import { createSquadMech } from '../SquadPanel/squadUtils';
+import { applyUpdatesToPlayer, resetAllLimitedUses } from './playerUtils';
+import { parseCompconPilot, carryOverLocalPilotFields } from '../domain/parsePilot';
+import { registerPilotInlineContent } from '../lancerData';
 
 import compendiaJonesJson from './YOURGRACE.json';
 import './LancerPlayerMode.scss';
@@ -55,6 +57,7 @@ const LancerPlayerMode = ({
 
   // const activePilot = allPilotEntries.find(pilot => pilot.id === activePilotID);
   const activePilot = activePilotID && loadPilotData(activePilotID); // load the pilot data from local storage
+  if (activePilot) registerPilotInlineContent(activePilot);
   const allMechEntries = activePilot ? activePilot.mechs : [];
   const activeMech = allMechEntries.find(mech => mech.id === activeMechID);
 
@@ -77,7 +80,7 @@ const LancerPlayerMode = ({
 
     // Save some dummy data (it's my OC, okay? I can have this)
     if (pilotEntries.length === 0) {
-      savePilotData(compendiaJonesJson)
+      savePilotData(parseCompconPilot(compendiaJonesJson))
       pilotEntries.push({name: 'Compendia Jones', id: compendiaJonesJson.id})
     }
 
@@ -170,21 +173,26 @@ const LancerPlayerMode = ({
     setIsWaitingOnSharecodeResponse(true)
   }
 
-  const createNewPilot = (pilot, viaShareCode = null) => {
-    if (!pilot || !pilot.id || !pilot.mechs) return // sanity-check the pilot file
+  const createNewPilot = (rawPilot, viaShareCode = null) => {
+    let pilot
+    try {
+      pilot = parseCompconPilot(rawPilot) // handles both V2 and V3 (incl. envelope unwrap)
+    } catch (e) {
+      console.log('Failed to parse pilot file:', e.message)
+      return
+    }
+
+    registerPilotInlineContent(pilot)
+    resetAllLimitedUses(pilot)
 
     let newPilotEntries = [...allPilotEntries]
 
     // remove any existing pilots of this ID
-    let preserveBondData = null
     let pilotIndex = allPilotEntries.findIndex(entry => entry.id === pilot.id);
     if (pilotIndex >= 0) {
       // PRESERVE bond data; players should be able to use COMPCON to update mechs without clearing thier local bond stuff
       if (viaShareCode) {
-        const old = loadPilotData(activePilotID)
-        preserveBondData = {
-          bondId:old.bondId, xp:old.xp, stress:old.stress, burdens:old.burdens, bondPowers:old.bondPowers, bondAnswers:old.bondAnswers, minorIdeal:old.minorIdeal
-        }
+        pilot = carryOverLocalPilotFields(pilot, loadPilotData(pilot.id))
       }
       deletePilotData(allPilotEntries[pilotIndex].id, allPilotEntries[pilotIndex].name)
       newPilotEntries.splice(pilotIndex, 1)
@@ -192,8 +200,6 @@ const LancerPlayerMode = ({
 
     // add the sharecode to this pilot if we have one
     if (viaShareCode) pilot.shareCode = viaShareCode
-    // preserve bond data
-    if (preserveBondData) pilot = {...pilot, ...preserveBondData}
 
     // store the entry & set it to active
     newPilotEntries.push({name: pilot.name, id: pilot.id});

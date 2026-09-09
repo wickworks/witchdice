@@ -1,0 +1,301 @@
+{
+  "active": false,
+  "id": "575b55b7-2bce-4b58-831e-5bccd3a9d3e2",
+  "isLocal": true,
+  "cloudID": "",
+  "cloudOwnerID": "",
+  "lastSync": "",
+  "class": "npcc_mirage",
+  "tier": 2,
+  "name": "Furlong",
+  "subtitle": "",
+  "campaign": "",
+  "labels": [
+    "Label 1"
+  ],
+  "tag": "Mech",
+  "templates": [
+    "npct_commander",
+    "npct_elite"
+  ],
+  "items": [
+    {
+      "itemID": "npcf_warp_sensors_mirage",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_reality_flicker_mirage",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_dataveil_mirage",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_glitch_scanners_mirage",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_blip_mirage",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_reinforced_commander",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_voice_of_authority_commander",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_commander_traits_commander",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_warp_targeting_mirage",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_bolster_network_commander",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_metafold_shove_mirage",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_reinforced_elite",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_ready_and_waiting_elite",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_career_soldier_elite",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_specialist_kit_elite",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    }
+  ],
+  "stats": {
+    "activations": 1,
+    "armor": 0,
+    "structure": 1,
+    "stress": 1,
+    "hp": 12,
+    "evade": 12,
+    "edef": 15,
+    "heatcap": 6,
+    "speed": 6,
+    "sensor": 15,
+    "save": 14,
+    "hull": -2,
+    "agility": 2,
+    "systems": 3,
+    "engineering": 2,
+    "sizes": [
+      0.5
+    ],
+    "size": 0.5,
+    "reactions": [
+      "Overwatch"
+    ],
+    "bonuses": {
+      "activations": 1,
+      "armor": 0,
+      "structure": 2,
+      "stress": 2,
+      "hp": 0,
+      "evade": 0,
+      "edef": 0,
+      "heatcap": 0,
+      "speed": 0,
+      "sensor": 0,
+      "save": 0,
+      "hull": 0,
+      "agility": 0,
+      "systems": 0,
+      "engineering": 0,
+      "sizes": [],
+      "size": 0,
+      "reactions": []
+    },
+    "overrides": {
+      "activations": 0,
+      "armor": 0,
+      "structure": 0,
+      "stress": 0,
+      "hp": 0,
+      "evade": 0,
+      "edef": 0,
+      "heatcap": 0,
+      "speed": 0,
+      "sensor": 0,
+      "save": 0,
+      "hull": 0,
+      "agility": 0,
+      "systems": 0,
+      "engineering": 0,
+      "sizes": [],
+      "size": 0,
+      "reactions": []
+    }
+  },
+  "currentStats": {
+    "activations": 2,
+    "armor": 0,
+    "structure": 3,
+    "stress": 3,
+    "hp": 12,
+    "evade": 12,
+    "edef": 15,
+    "heatcap": 0,
+    "speed": 0,
+    "sensor": 15,
+    "save": 14,
+    "hull": -2,
+    "agility": 2,
+    "systems": 3,
+    "engineering": 2,
+    "sizes": [
+      0.5
+    ],
+    "size": 0.5,
+    "reactions": [
+      "Overwatch"
+    ],
+    "bonuses": {
+      "activations": 0,
+      "armor": 0,
+      "structure": 0,
+      "stress": 0,
+      "hp": 0,
+      "evade": 0,
+      "edef": 0,
+      "heatcap": 0,
+      "speed": 0,
+      "sensor": 0,
+      "save": 0,
+      "hull": 0,
+      "agility": 0,
+      "systems": 0,
+      "engineering": 0,
+      "sizes": [],
+      "size": 0,
+      "reactions": []
+    },
+    "overrides": {
+      "activations": 0,
+      "armor": 0,
+      "structure": 0,
+      "stress": 0,
+      "hp": 0,
+      "evade": 0,
+      "edef": 0,
+      "heatcap": 0,
+      "speed": 0,
+      "sensor": 0,
+      "save": 0,
+      "hull": 0,
+      "agility": 0,
+      "systems": 0,
+      "engineering": 0,
+      "sizes": [],
+      "size": 0,
+      "reactions": []
+    }
+  },
+  "note": "",
+  "side": "Enemy",
+  "cloudImage": "",
+  "localImage": "",
+  "statuses": [],
+  "conditions": [],
+  "resistances": [],
+  "burn": 0,
+  "overshield": 0,
+  "destroyed": false,
+  "defeat": "",
+  "actions": 2,
+  "counter_data": [],
+  "custom_counters": [],
+  "cc_ver": "UNKNOWN"
+}

@@ -10,7 +10,7 @@ import {
   getMechEvasion,
   getMechEDef,
   getMechSaveTarget,
-} from '../MechState/mechStateUtils.js';
+} from '../MechState/mechStateUtils';
 
 import {
   findFrameData,
@@ -19,43 +19,36 @@ import {
   findSystemData,
 	findWeaponData,
   OVERCHARGE_SEQUENCE,
-} from '../lancerData.js';
+} from '../lancerData';
 
-import { getWeaponsOnMount } from '../MechSheet/MechMount.jsx';
+import { getWeaponsOnMount } from '../MechSheet/MechMount';
 
-import { getMountsFromLoadout } from '../LancerPlayerMode/PlayerMechSheet.jsx';
+import { getMountsFromLoadout } from '../LancerPlayerMode/PlayerMechSheet';
 
-import { capitalize } from '../../../utils.js';
+import { capitalize } from '../../../utils';
 
-// makes a condensed form of mech + pilot to show to the rest of the squad
-export function createSquadMech(activeMech, activePilot) {
-  // console.log('activeMech', activeMech);
+import type { Mech, Pilot } from '../types';
 
+export function createSquadMech(activeMech: Mech, activePilot: Pilot) {
 	const frameData = findFrameData(activeMech.frame);
-	let squadMech = {
+	let squadMech: { detail: any; status: any } = {
     detail: {},
     status: {}
   }
 
-  // == DETAILS == things that don't change
 	squadMech.detail.id = activeMech.id
   squadMech.detail.name = activeMech.name
   squadMech.detail.callsign = activePilot.callsign
 
-  // starts with 'mf_' if it's a default one
 	squadMech.detail.portraitMech = activeMech.cloud_portrait ? activeMech.cloud_portrait : frameData.id
-	// TODO: should sanitize this on the receiving end
 	squadMech.detail.portraitPilot = activePilot.cloud_portrait
 
   squadMech.detail.hpMax = getMechMaxHP(activeMech, activePilot, frameData)
   squadMech.detail.heatMax = getMechMaxHeatCap(activeMech, activePilot, frameData)
 
-  let build = {}
-  // build.licenses = activePilot.licenses
+  let build: any = {}
   build.licenses = activePilot.licenses.map(license => `${findFrameData(license.id).name} ${license.rank}`).join(', ')
-  // build.core_bonuses = activePilot.core_bonuses
   build.core_bonuses = activePilot.core_bonuses.map(license => findCoreBonusData(license).name).join(', ')
-  // build.talents = activePilot.talents
   build.talents = activePilot.talents.map(talent => `${findTalentData(talent.id).name} ${talent.rank}`).join(', ')
   build.mechSkills = [
     `HULL:${activePilot.mechSkills[0]}`,
@@ -82,12 +75,12 @@ export function createSquadMech(activeMech, activePilot) {
     `LIMITED:${limitedBonus > 0 ? '+' : ''}${limitedBonus}`,
   ].join(' ')
 
-  let destroyedSystemNames = []
+  let destroyedSystemNames: string[] = []
 
-  let allWeaponNames = []
+  let allWeaponNames: string[] = []
   const mounts = getMountsFromLoadout(activeMech.loadouts[0])
-  mounts.forEach(mount => {
-    getWeaponsOnMount(mount).forEach(weapon => {
+  mounts.forEach((mount: any) => {
+    (getWeaponsOnMount(mount) || []).forEach((weapon: any) => {
       const weaponName = findWeaponData(weapon.id).name
       allWeaponNames.push(weaponName)
       if (weapon.destroyed) destroyedSystemNames.push(weaponName)
@@ -95,7 +88,7 @@ export function createSquadMech(activeMech, activePilot) {
   })
   build.weapons = allWeaponNames.join(', ')
 
-  let allSystemNames = []
+  let allSystemNames: string[] = []
   activeMech.loadouts[0].systems.forEach(system => {
     const systemName = findSystemData(system.id).name.toUpperCase()
     allSystemNames.push(systemName)
@@ -105,23 +98,20 @@ export function createSquadMech(activeMech, activePilot) {
 
   squadMech.detail.build = build
 
-  // == STATUS == things that change a lot
-  squadMech.status.id = activeMech.id // except for the id; it's gotta match up somehow
+  squadMech.status.id = activeMech.id
 	squadMech.status.hpCurrent = activeMech.current_hp
 	squadMech.status.heatCurrent = activeMech.current_heat
 	squadMech.status.structure = activeMech.current_structure
 	squadMech.status.stress = activeMech.current_stress
 
-	let statuses;
+	let statuses: string[];
 
-  // EXTERNAL statuses
   statuses = []
   if (activeMech.conditions) statuses = activeMech.conditions.map(condition => capitalize(condition.toLowerCase()))
   if (activeMech.burn) statuses.push(`Burn ${activeMech.burn}`)
 	if (activeMech.overshield) statuses.push(`Overshield ${activeMech.overshield}`)
 	squadMech.status.statusExternal = statuses.join(',')
 
-  // INTERNAL statuses
   statuses = []
   if (activePilot.custom_counters) {
     getCountersFromPilot(activePilot)
@@ -138,6 +128,5 @@ export function createSquadMech(activeMech, activePilot) {
 
 	squadMech.status.statusInternal = statuses.join(',')
 
-	// console.log('squad mech', squadMech);
 	return squadMech;
 }

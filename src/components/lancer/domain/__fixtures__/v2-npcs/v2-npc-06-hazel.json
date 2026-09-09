@@ -1,0 +1,273 @@
+{
+  "active": false,
+  "id": "59d34923-fb57-4b95-baf7-47bb07f3742c",
+  "isLocal": true,
+  "cloudID": "",
+  "cloudOwnerID": "",
+  "lastSync": "",
+  "class": "npcc_goliath",
+  "tier": 2,
+  "name": "Hazel",
+  "subtitle": "",
+  "campaign": "",
+  "labels": [
+    "Label 1"
+  ],
+  "tag": "Mech",
+  "templates": [
+    "npct_vehicle"
+  ],
+  "items": [
+    {
+      "itemID": "npcf_drum_shotgun_goliath",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_crush_targeting_goliath",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_heavy_frame_goliath",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_guardian_goliath",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_siege_armor_goliath",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_watchful_guardian_goliath",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_limited_handling_vehicle",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_crew_vehicle",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_no_manipulators_vehicle",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_limited_melee_vehicle",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_type_vehicle",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    },
+    {
+      "itemID": "npcf_transport_vehicle",
+      "tier": 2,
+      "flavorName": "",
+      "description": "",
+      "destroyed": false,
+      "charged": true,
+      "uses": 0
+    }
+  ],
+  "stats": {
+    "activations": 1,
+    "armor": 0,
+    "structure": 1,
+    "stress": 1,
+    "hp": 30,
+    "evade": 6,
+    "edef": 6,
+    "heatcap": 10,
+    "speed": 3,
+    "sensor": 10,
+    "save": 13,
+    "hull": 6,
+    "agility": -2,
+    "systems": 1,
+    "engineering": 0,
+    "sizes": [
+      3
+    ],
+    "size": 3,
+    "reactions": [
+      "Overwatch"
+    ],
+    "bonuses": {
+      "activations": 0,
+      "armor": 0,
+      "structure": 0,
+      "stress": 0,
+      "hp": 0,
+      "evade": 0,
+      "edef": 0,
+      "heatcap": 0,
+      "speed": 0,
+      "sensor": 0,
+      "save": 0,
+      "hull": 0,
+      "agility": 0,
+      "systems": 0,
+      "engineering": 0,
+      "sizes": [],
+      "size": 0,
+      "reactions": []
+    },
+    "overrides": {
+      "activations": 0,
+      "armor": 0,
+      "structure": 0,
+      "stress": 0,
+      "hp": 0,
+      "evade": 0,
+      "edef": 0,
+      "heatcap": 0,
+      "speed": 0,
+      "sensor": 0,
+      "save": 0,
+      "hull": 0,
+      "agility": 0,
+      "systems": 0,
+      "engineering": 0,
+      "sizes": [],
+      "size": 0,
+      "reactions": []
+    }
+  },
+  "currentStats": {
+    "activations": 1,
+    "armor": 0,
+    "structure": 1,
+    "stress": 1,
+    "hp": 30,
+    "evade": 6,
+    "edef": 6,
+    "heatcap": 0,
+    "speed": 0,
+    "sensor": 10,
+    "save": 13,
+    "hull": 6,
+    "agility": -2,
+    "systems": 1,
+    "engineering": 0,
+    "sizes": [
+      3
+    ],
+    "size": 3,
+    "reactions": [
+      "Overwatch"
+    ],
+    "bonuses": {
+      "activations": 0,
+      "armor": 0,
+      "structure": 0,
+      "stress": 0,
+      "hp": 0,
+      "evade": 0,
+      "edef": 0,
+      "heatcap": 0,
+      "speed": 0,
+      "sensor": 0,
+      "save": 0,
+      "hull": 0,
+      "agility": 0,
+      "systems": 0,
+      "engineering": 0,
+      "sizes": [],
+      "size": 0,
+      "reactions": []
+    },
+    "overrides": {
+      "activations": 0,
+      "armor": 0,
+      "structure": 0,
+      "stress": 0,
+      "hp": 0,
+      "evade": 0,
+      "edef": 0,
+      "heatcap": 0,
+      "speed": 0,
+      "sensor": 0,
+      "save": 0,
+      "hull": 0,
+      "agility": 0,
+      "systems": 0,
+      "engineering": 0,
+      "sizes": [],
+      "size": 0,
+      "reactions": []
+    }
+  },
+  "note": "",
+  "side": "Enemy",
+  "cloudImage": "",
+  "localImage": "",
+  "statuses": [],
+  "conditions": [],
+  "resistances": [],
+  "burn": 0,
+  "overshield": 0,
+  "destroyed": false,
+  "defeat": "",
+  "actions": 2,
+  "counter_data": [],
+  "custom_counters": [],
+  "cc_ver": "UNKNOWN"
+}

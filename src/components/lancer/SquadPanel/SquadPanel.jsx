@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SquadMech, AddSquadMechButton } from './SquadMech.jsx';
 import { deepCopy } from '../../../utils.js';
 
-import { LANCER_SQUAD_MECH_KEY } from '../lancerLocalStorage.js';
+import { LANCER_SQUAD_MECH_KEY } from '../lancerLocalStorage';
 
 import './SquadPanel.scss';
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MechNumberBar from '../MechState/MechNumberBar.jsx'
-import PerRoundBar, { getPerRoundCountShortString } from './PerRoundBar.jsx'
+import PerRoundBar, { getPerRoundCountShortString } from './PerRoundBar'
 import RechargeBar, { getRechargeString, getRechargeStatusShortString } from './RechargeBar.jsx'
 import { DestroySystemButton, BroadcastSystemButton } from './DestroySystemButton.jsx'
 import ReactHtmlParser from 'react-html-parser';

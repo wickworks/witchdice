@@ -1,0 +1,315 @@
+{
+  "id": "d28d744f-f84d-4013-9edd-72cae9dfc397",
+  "group": "",
+  "sort_index": 0,
+  "isLocal": true,
+  "cloudID": "",
+  "cloudOwnerID": "",
+  "gistCode": "",
+  "gistOwner": "",
+  "lastSync": "",
+  "level": 0,
+  "callsign": "RED MERIDIAN",
+  "name": "Dov Ferreira",
+  "player_name": "Playtester",
+  "status": "Active",
+  "dead": false,
+  "text_appearance": "",
+  "notes": "",
+  "history": "",
+  "portrait": "",
+  "cloud_portrait": "",
+  "quirks": [],
+  "current_hp": 6,
+  "reserves": [],
+  "orgs": [],
+  "background": "Redacted for fixture use.",
+  "mechSkills": [
+    0,
+    2,
+    0,
+    0
+  ],
+  "licenses": [],
+  "skills": [
+    {
+      "id": "sk_patch",
+      "rank": 1
+    },
+    {
+      "id": "PROTECT",
+      "rank": 1,
+      "custom": true,
+      "custom_desc": "Redacted for fixture use.",
+      "custom_detail": "Redacted for fixture use."
+    },
+    {
+      "id": "sk_stay_cool",
+      "rank": 1
+    },
+    {
+      "id": "sk_survive",
+      "rank": 1
+    }
+  ],
+  "talents": [
+    {
+      "id": "t_exemplar",
+      "rank": 1
+    },
+    {
+      "id": "t_duelist",
+      "rank": 1
+    },
+    {
+      "id": "t_combined_arms",
+      "rank": 1
+    }
+  ],
+  "core_bonuses": [],
+  "loadout": {
+    "id": "834e34d1-03dc-4204-b1c0-d249e3bb1896",
+    "name": "Primary",
+    "armor": [
+      null
+    ],
+    "weapons": [
+      null,
+      null
+    ],
+    "gear": [
+      null,
+      null,
+      null
+    ],
+    "extendedWeapons": [
+      null
+    ],
+    "extendedGear": [
+      null,
+      null
+    ]
+  },
+  "mechs": [
+    {
+      "id": "2095ecba-9000-4b29-a999-393c30a627bb",
+      "name": "SUNKEN BELL",
+      "notes": "",
+      "gm_note": "",
+      "portrait": "",
+      "cloud_portrait": "",
+      "frame": "mf_standard_pattern_i_everest",
+      "active": false,
+      "current_structure": 4,
+      "current_move": 4,
+      "boost": 0,
+      "current_hp": 10,
+      "overshield": 0,
+      "current_stress": 4,
+      "current_heat": 0,
+      "current_repairs": 5,
+      "current_overcharge": 0,
+      "current_core_energy": 1,
+      "loadouts": [
+        {
+          "id": "fc152b8a-b137-43d9-a047-21fbab003a21",
+          "name": "Primary",
+          "systems": [
+            {
+              "id": "ms_expanded_compartment",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            },
+            {
+              "id": "ms_rapid_burst_jump_jet_system",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            },
+            {
+              "id": "ms_stable_structure",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            },
+            {
+              "id": "ms_manipulators",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            }
+          ],
+          "integratedSystems": [],
+          "mounts": [
+            {
+              "mount_type": "Main",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Main",
+                  "weapon": {
+                    "id": "mw_charged_blade",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            },
+            {
+              "mount_type": "Flex",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Flex",
+                  "weapon": {
+                    "id": "mw_shotgun",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                }
+              ],
+              "extra": [
+                {
+                  "size": "Auxiliary",
+                  "weapon": null
+                }
+              ],
+              "bonus_effects": []
+            },
+            {
+              "mount_type": "Heavy",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Heavy",
+                  "weapon": {
+                    "id": "mw_thermal_lance",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            }
+          ],
+          "integratedMounts": [],
+          "improved_armament": {
+            "mount_type": "Flex",
+            "lock": false,
+            "slots": [
+              {
+                "size": "Flex",
+                "weapon": null
+              }
+            ],
+            "extra": [
+              {
+                "size": "Auxiliary",
+                "weapon": null
+              }
+            ],
+            "bonus_effects": []
+          },
+          "integratedWeapon": {
+            "mount_type": "Aux",
+            "lock": false,
+            "slots": [
+              {
+                "size": "Auxiliary",
+                "weapon": null
+              }
+            ],
+            "extra": [],
+            "bonus_effects": []
+          }
+        }
+      ],
+      "active_loadout_index": 0,
+      "statuses": [],
+      "conditions": [],
+      "resistances": [],
+      "reactions": [],
+      "burn": 0,
+      "destroyed": false,
+      "defeat": "",
+      "activations": 1,
+      "meltdown_imminent": false,
+      "reactor_destroyed": false,
+      "core_active": false,
+      "cc_ver": "ERR"
+    }
+  ],
+  "cc_ver": "",
+  "counter_data": [],
+  "custom_counters": [],
+  "special_equipment": {
+    "PilotArmor": [],
+    "PilotWeapons": [],
+    "PilotGear": [],
+    "Frames": [],
+    "MechWeapons": [],
+    "WeaponMods": [],
+    "MechSystems": [],
+    "SystemMods": []
+  },
+  "combat_history": {
+    "moves": 0,
+    "kills": 0,
+    "damage": 0,
+    "hp_damage": 0,
+    "structure_damage": 0,
+    "overshield": 0,
+    "heat_damage": 0,
+    "reactor_damage": 0,
+    "overcharge_uses": 0,
+    "core_uses": 0
+  },
+  "state": {
+    "active_mech_id": "",
+    "remote_mech_id": "",
+    "stage": "Narrative",
+    "turn": 1,
+    "actions": 2,
+    "braced": false,
+    "overcharged": false,
+    "prepare": false,
+    "bracedCooldown": false,
+    "redundant": false,
+    "stats": {
+      "moves": 0,
+      "kills": 0,
+      "damage": 0,
+      "hp_damage": 0,
+      "structure_damage": 0,
+      "overshield": 0,
+      "heat_damage": 0,
+      "reactor_damage": 0,
+      "overcharge_uses": 0,
+      "core_uses": 0
+    },
+    "deployed": []
+  },
+  "brews": []
+}

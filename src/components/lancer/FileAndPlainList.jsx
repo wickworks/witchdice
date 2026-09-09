@@ -48,11 +48,13 @@ const FileList = ({
 
     } else {
       try {
-        const pilot = JSON.parse(pastedString)
+        const parsed = JSON.parse(pastedString)
+        // V3 pilots are wrapped in an EXPORT_TYPE envelope; look through it to validate
+        const pilot = (parsed && parsed.EXPORT_TYPE === 'Save Pilot' && parsed.data) ? parsed.data : parsed
         // sanity-check the pilot file
         if (!pilot || !pilot.id || !pilot.mechs) throw new Error('Invalid pilot file!')
 
-        onFilePaste(pilot)
+        onFilePaste(parsed)
         reset()
         return
 

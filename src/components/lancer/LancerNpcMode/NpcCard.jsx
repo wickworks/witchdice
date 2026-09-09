@@ -1,7 +1,7 @@
 import React from 'react';
 import { capitalize } from '../../../utils.js';
 
-import { getStat, getMarkerFromFingerprint } from './npcUtils.js';
+import { getStat, getMarkerFromFingerprint } from './npcUtils';
 
 import {
   findNpcClassData,

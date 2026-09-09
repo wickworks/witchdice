@@ -1,22 +1,18 @@
-// import {
-//   getRandomInt,
-//   deepCopy
-// } from '../../../utils.js';
-
 import {
   getGrit,
   findSystemData,
   findCoreBonusData,
   findTalentData,
-} from '../lancerData.js';
+} from '../lancerData';
 
 import {
   getSynergiesFor,
   getSynergiesForAll,
-} from '../WeaponRoller/synergyUtils.js';
+} from '../WeaponRoller/synergyUtils';
 
+import type { Mech, Pilot, Loadout, Counter } from '../types';
 
-export function getMechMaxHP(activeMech, activePilot, frameData) {
+export function getMechMaxHP(activeMech: Mech, activePilot: Pilot, frameData: any) {
   var total = frameData.stats.hp
 
   if (activeMech.frame != 'mf_emperor') {
@@ -29,94 +25,81 @@ export function getMechMaxHP(activeMech, activePilot, frameData) {
   total += getValueFromSystems('hp', activeMech.loadouts[0])
   total += getValueFromCoreBonuses('hp', activePilot.core_bonuses)
 
-  return parseInt(total);
+  return parseInt(String(total));
 }
 
-export function getMechMaxHeatCap(activeMech, activePilot, frameData) {
+export function getMechMaxHeatCap(activeMech: Mech, activePilot: Pilot, frameData: any) {
   var total = frameData.stats.heatcap
 
   const engi = activePilot.mechSkills[3]
   total += engi
 
-  // total += getValueFromSystems('heatcap', activeMech.loadouts[0])
   total += getValueFromCoreBonuses('heatcap', activePilot.core_bonuses)
 
-  return parseInt(total);
+  return parseInt(String(total));
 }
 
-export function getMechMoveSpeed(activeMech, activePilot, frameData) {
+export function getMechMoveSpeed(activeMech: Mech, activePilot: Pilot, frameData: any) {
   var total = frameData.stats.speed
 
   const agi = activePilot.mechSkills[1]
   total += Math.floor(agi * .5)
 
-  // total += getValueFromSystems('speed', activeMech.loadouts[0])
-  // total += getValueFromCoreBonuses('speed', activePilot.core_bonuses)
-
-  return parseInt(total);
+  return parseInt(String(total));
 }
 
-export function getMechEvasion(activeMech, activePilot, frameData) {
+export function getMechEvasion(activeMech: Mech, activePilot: Pilot, frameData: any) {
   var total = frameData.stats.evasion
 
   const agi = activePilot.mechSkills[1]
   total += agi
 
-  // total += getValueFromSystems('evasion', activeMech.loadouts[0])
   total += getValueFromCoreBonuses('evasion', activePilot.core_bonuses)
 
-  return parseInt(total);
+  return parseInt(String(total));
 }
 
-export function getMechEDef(activeMech, activePilot, frameData) {
+export function getMechEDef(activeMech: Mech, activePilot: Pilot, frameData: any) {
   var total = frameData.stats.edef
 
   const sys = activePilot.mechSkills[2]
   total += sys
 
-  // total += getValueFromSystems('edef', activeMech.loadouts[0])
   total += getValueFromCoreBonuses('edef', activePilot.core_bonuses)
 
-  return parseInt(total);
+  return parseInt(String(total));
 }
 
-export function getMechSaveTarget(activeMech, activePilot, frameData) {
+export function getMechSaveTarget(activeMech: Mech, activePilot: Pilot, frameData: any) {
   var total = frameData.stats.save
 
   total += getGrit(activePilot)
 
-  // total += getValueFromSystems('save', activeMech.loadouts[0])
   total += getValueFromCoreBonuses('save', activePilot.core_bonuses)
 
-  return parseInt(total);
+  return parseInt(String(total));
 }
 
-export function getMechMaxRepairCap(activeMech, activePilot, frameData) {
+export function getMechMaxRepairCap(activeMech: Mech, activePilot: Pilot, frameData: any) {
   var total = frameData.stats.repcap
 
   const hull = activePilot.mechSkills[0]
   total += Math.floor(hull * .5)
 
-  // total += getValueFromSystems('repcap', activeMech.loadouts[0])
-  // total += getValueFromCoreBonuses('repcap', activePilot.core_bonuses)
-
-  return parseInt(total);
+  return parseInt(String(total));
 }
 
-export function getMechTechAttack(activeMech, activePilot, frameData) {
+export function getMechTechAttack(activeMech: Mech, activePilot: Pilot, frameData: any) {
   var total = frameData.stats.tech_attack
 
   const sys = activePilot.mechSkills[2]
   total += sys
 
-  // total += getValueFromSystems('sp', activeMech.loadouts[0])
-  // total += getValueFromCoreBonuses('sp', activePilot.core_bonuses)
-
-  return parseInt(total);
+  return parseInt(String(total));
 }
 
-export function getRangeSynergies(activeMech, activePilot, frameData) {
-  var bonuses = []
+export function getRangeSynergies(activeMech: Mech, activePilot: Pilot, frameData: any) {
+  var bonuses: any[] = []
 
   bonuses.push(...getBonusesFromSystems('range', activeMech.loadouts[0]))
   bonuses.push(...getBonusesFromCoreBonuses('range', activePilot.core_bonuses))
@@ -124,7 +107,7 @@ export function getRangeSynergies(activeMech, activePilot, frameData) {
   return bonuses;
 }
 
-export function getMechSP(activeMech, activePilot, frameData) {
+export function getMechSP(activeMech: Mech, activePilot: Pilot, frameData: any) {
   var total = frameData.stats.sp
 
   total += getGrit(activePilot)
@@ -132,49 +115,43 @@ export function getMechSP(activeMech, activePilot, frameData) {
   const sys = activePilot.mechSkills[2]
   total += Math.floor(sys * .5)
 
-  // total += getValueFromSystems('sp', activeMech.loadouts[0])
-  // total += getValueFromCoreBonuses('sp', activePilot.core_bonuses)
-
-  return parseInt(total);
+  return parseInt(String(total));
 }
 
-export function getMechArmor(activeMech, activePilot, frameData) {
+export function getMechArmor(activeMech: Mech, activePilot: Pilot, frameData: any) {
   var total = frameData.stats.armor
 
-  // total += getValueFromSystems('save', activeMech.loadouts[0])
   total += getValueFromCoreBonuses('armor', activePilot.core_bonuses)
 
-  return parseInt(total);
+  return parseInt(String(total));
 }
 
-export function getLimitedBonus(activeMech, activePilot, frameData) {
+export function getLimitedBonus(activeMech: Mech, activePilot: Pilot, frameData: any) {
   var total = 0
 
   const engi = activePilot.mechSkills[3]
   total += Math.floor(engi * .5)
 
-  // total += getValueFromSystems('limited', activeMech.loadouts[0])
-  total += parseInt(getValueFromCoreBonuses('limited_bonus', activePilot.core_bonuses))
+  total += parseInt(String(getValueFromCoreBonuses('limited_bonus', activePilot.core_bonuses)))
 
-  return parseInt(total);
+  return parseInt(String(total));
 }
 
-// look for systems that increase some stat
-function getValueFromSystems(bonusType, loadout) {
+function getValueFromSystems(bonusType: string, loadout: Loadout) {
   return getBonusesFromSystems(bonusType, loadout).reduce(
     (previousValue, bonus) => previousValue + parseInt(bonus.val),
     0
   )
 }
 
-function getBonusesFromSystems(bonusType, loadout) {
-  var bonuses = []
+function getBonusesFromSystems(bonusType: string, loadout: Loadout) {
+  var bonuses: any[] = []
 
   loadout.systems.forEach(system => {
     const systemBonuses = findSystemData(system.id).bonuses;
     if (systemBonuses && !system.destroyed) {
       bonuses.push(
-        ...systemBonuses.filter(bonus => bonus.id === bonusType)
+        ...systemBonuses.filter((bonus: any) => bonus.id === bonusType)
       )
     }
   })
@@ -182,22 +159,21 @@ function getBonusesFromSystems(bonusType, loadout) {
   return bonuses
 }
 
-// look for core bonuses that increase some stat
-function getValueFromCoreBonuses(bonusType, coreBonusIDs) {
+function getValueFromCoreBonuses(bonusType: string, coreBonusIDs: string[]) {
   return getBonusesFromCoreBonuses(bonusType, coreBonusIDs).reduce(
     (previousValue, bonus) => previousValue + parseInt(bonus.val),
     0
   )
 }
 
-function getBonusesFromCoreBonuses(bonusType, coreBonusIDs) {
-  var bonuses = []
+function getBonusesFromCoreBonuses(bonusType: string, coreBonusIDs: string[]) {
+  var bonuses: any[] = []
 
   coreBonusIDs.forEach(coreBonusID => {
     const coreBonusBonuses = findCoreBonusData(coreBonusID).bonuses;
     if (coreBonusBonuses) {
       bonuses.push(
-        ...coreBonusBonuses.filter(bonusBonus => bonusBonus.id === bonusType)
+        ...coreBonusBonuses.filter((bonusBonus: any) => bonusBonus.id === bonusType)
       )
     }
   })
@@ -205,34 +181,25 @@ function getBonusesFromCoreBonuses(bonusType, coreBonusIDs) {
   return bonuses
 }
 
-export function getSkillCheckAccuracy(skill, activeMech, activePilot, frameData) {
+export function getSkillCheckAccuracy(skill: string, activeMech: Mech, activePilot: Pilot, frameData: any) {
 
-  let synergies = []
+  let synergies: any[] = []
 
-  // Frame trait synergies
-  frameData.traits.forEach(trait =>
+  frameData.traits.forEach((trait: any) =>
     synergies.push(...getSynergiesForAll(['skill_check', skill], trait.synergies))
   )
 
-  // Pilot talent synergies
   activePilot.talents.forEach(talent => {
     const talentData = findTalentData(talent.id)
-    talentData.ranks.forEach(rank =>
+    talentData.ranks.forEach((rank: any) =>
       synergies.push(...getSynergiesForAll(['skill_check', skill], rank.synergies))
     )
   })
 
-  // Core bonus synergies (for some reason don't use 'skill_check' as a location)
   activePilot.core_bonuses.forEach(coreBonus => {
     const coreBonusData = findCoreBonusData(coreBonus)
     synergies.push(...getSynergiesFor(skill, coreBonusData.synergies))
   })
-
-
-  // Loadout synergies
-  // ??? Stable structure, I guess?
-
-  // console.log('skill synergies ', skill, synergies);
 
   let accuracy = 0
   synergies.forEach(synergy => {
@@ -245,11 +212,8 @@ export function getSkillCheckAccuracy(skill, activeMech, activePilot, frameData)
   return accuracy;
 }
 
-// Convert the custom counters stored in pilots (custom_counters and counter_data)
-// into a single array of objects.
-// This - ALSO - works for NPCs because they thankfully have the same keys.
-export function getCountersFromPilot(pilotData) {
-  let counters = [];
+export function getCountersFromPilot(pilotData: Pilot) {
+  let counters: Counter[] = [];
 
   if (pilotData.custom_counters && pilotData.counter_data) {
     pilotData.custom_counters.forEach(counter =>

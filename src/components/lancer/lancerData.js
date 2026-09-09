@@ -1,7 +1,5 @@
-import { getIDFromStorageName } from '../../localstorage.js';
-import { deepCopy, capitalize, snakeToCamel } from '../../utils.js';
-import { getNumberByTier } from './LancerNpcMode/npcUtils.js';
-import { loadLcpData, LCP_PREFIX, STORAGE_ID_LENGTH } from './lancerLocalStorage.js';
+import { deepCopy, capitalize } from '../../utils.js';
+import { getNumberByTier } from './LancerNpcMode/npcUtils';
 
 import allStatuses from '@massif/lancer-data/lib/statuses.json';
 
@@ -15,16 +13,14 @@ import sotw_data from '@massif/sotw-data';
 import ssmr_data from '@massif/ssmr-data';
 import wallflower_data from '@massif/wallflower-data';
 
-// converts the lcp's data array into a hash by the data's ID
-function hashLcpData(lcpData) {
-  //console.log('hashing LCP data ', lcpData.lcp_manifest);
-  const hashedLcpData = {}
-  Object.keys(lcpData).forEach(dataType => {
-    if (Array.isArray(lcpData[dataType])) {
-      hashedLcpData[dataType] = Object.fromEntries(lcpData[dataType].map(data => [data.id || data.name, data]))
+function hashContentPack(packData) {
+  const hashed = {}
+  Object.keys(packData).forEach(dataType => {
+    if (Array.isArray(packData[dataType])) {
+      hashed[dataType] = Object.fromEntries(packData[dataType].map(data => [data.id || data.name, data]))
     }
   })
-  return hashedLcpData
+  return hashed
 }
 
 const data = [
@@ -38,24 +34,24 @@ const data = [
 	ssmr_data,
 	wallflower_data,
 ].map(
-  lcpData => hashLcpData(lcpData)
+  packData => hashContentPack(packData)
 ).reduce(
-  (totalData, lcpData) => {
+  (totalData, packData) => {
     return {
-      actions: {...(totalData.actions) || {}, ...(lcpData.actions || {})},
-      weapons: {...(totalData.weapons) || {}, ...(lcpData.weapons || {})},
-      skills: {...(totalData.skills) || {}, ...(lcpData.skills || {})},
-      pilot_gear: {...(totalData.pilot_gear) || {}, ...(lcpData.pilot_gear || {})},
-      tags: {...(totalData.tags) || {}, ...(lcpData.tags || {})},
-      frames: {...(totalData.frames) || {}, ...(lcpData.frames || {})},
-      talents: {...(totalData.talents) || {}, ...(lcpData.talents || {})},
-      core_bonuses: {...(totalData.core_bonuses) || {}, ...(lcpData.core_bonuses || {})},
-      systems: {...(totalData.systems) || {}, ...(lcpData.systems || {})},
-      mods: {...(totalData.mods) || {}, ...(lcpData.mods || {})},
-      npc_classes: {...(totalData.npc_classes) || {}, ...(lcpData.npc_classes || {})},
-      npc_features: {...(totalData.npc_features) || {}, ...(lcpData.npc_features || {})},
-      npc_templates: {...(totalData.npc_templates) || {}, ...(lcpData.npc_templates || [])},
-      bonds: {...(totalData.bonds) || {}, ...(lcpData.bonds || {})},
+      actions: {...(totalData.actions) || {}, ...(packData.actions || {})},
+      weapons: {...(totalData.weapons) || {}, ...(packData.weapons || {})},
+      skills: {...(totalData.skills) || {}, ...(packData.skills || {})},
+      pilot_gear: {...(totalData.pilot_gear) || {}, ...(packData.pilot_gear || {})},
+      tags: {...(totalData.tags) || {}, ...(packData.tags || {})},
+      frames: {...(totalData.frames) || {}, ...(packData.frames || {})},
+      talents: {...(totalData.talents) || {}, ...(packData.talents || {})},
+      core_bonuses: {...(totalData.core_bonuses) || {}, ...(packData.core_bonuses || {})},
+      systems: {...(totalData.systems) || {}, ...(packData.systems || {})},
+      mods: {...(totalData.mods) || {}, ...(packData.mods || {})},
+      npc_classes: {...(totalData.npc_classes) || {}, ...(packData.npc_classes || {})},
+      npc_features: {...(totalData.npc_features) || {}, ...(packData.npc_features || {})},
+      npc_templates: {...(totalData.npc_templates) || {}, ...(packData.npc_templates || {})},
+      bonds: {...(totalData.bonds) || {}, ...(packData.bonds || {})},
     }
   },
   {}
@@ -193,142 +189,172 @@ const blankBond = {
   "powers": [],
 }
 
-var loadedLcpData = {};
-export function findAllGameDataFromUploadedLcp(gameDataType) {
-  // First, load into memory any LCPs from localstorage that we haven't gotten yet
-  for ( var i = 0, len = localStorage.length; i < len; ++i ) {
-    const key = localStorage.key(i)
-    if (key.startsWith(`${LCP_PREFIX}-`)) {
-      const lcpID = getIDFromStorageName(LCP_PREFIX, key, STORAGE_ID_LENGTH);
-
-      if (!loadedLcpData[lcpID]) {
-        const lcp = loadLcpData(lcpID)
-        const hashedLcp = {...lcp, data: hashLcpData(lcp.data)}
-        loadedLcpData[lcpID] = hashedLcp
-      }
-    }
-  }
-
-  // then collect data from all the lcps which have data of this type
-  let allGameDataOfType = {}
-  Object.keys(loadedLcpData).map(lcpID =>
-    loadedLcpData[lcpID].data[gameDataType]
-  ).filter(
-    gameData => gameData && Object.keys(gameData).length > 0
-  ).forEach(gameData =>
-    Object.assign(allGameDataOfType, gameData)
-  )
-
-  return allGameDataOfType;
-}
-
 export function findAllGameData(gameDataType) {
-  return {...data[gameDataType], ...findAllGameDataFromUploadedLcp(snakeToCamel(gameDataType))}
+  return data[gameDataType] || {}
 }
 
-function findGameDataFromUploadedLcp(gameDataType, gameDataID) {
-  const allGameDataOfType = findAllGameDataFromUploadedLcp(gameDataType)
+const inlineContentRegistry = {
+  frames: {},
+  weapons: {},
+  systems: {},
+  mods: {},
+  talents: {},
+  skills: {},
+  coreBonuses: {},
+  pilotGear: {},
+  npcClasses: {},
+  npcFeatures: {},
+  npcTemplates: {},
+}
 
-  // var lcpGameData
-  // allGameDataOfType.forEach(gameDataOfType =>
-  //   lcpGameData = gameDataOfType[gameDataID] || lcpGameData
-  // )
+export function registerInlineContent(type, id, data) {
+  if (id && data && inlineContentRegistry[type]) inlineContentRegistry[type][id] = data
+}
 
-  return allGameDataOfType[gameDataID]
+export function registerPilotInlineContent(pilot) {
+  if (!pilot) return
+
+  ;(pilot.skills || []).forEach(skill => registerInlineContent('skills', skill.id, skill.data))
+  ;(pilot.talents || []).forEach(talent => registerInlineContent('talents', talent.id, talent.data))
+  ;(pilot.core_bonus_data || []).forEach(coreBonus => registerInlineContent('coreBonuses', coreBonus.id, coreBonus))
+
+  ;[pilot.loadout, ...(pilot.loadouts || [])].filter(loadout => loadout).forEach(loadout => {
+    ;[...(loadout.gear || []), ...(loadout.armor || []), ...(loadout.weapons || [])].forEach(gear => {
+      if (gear) registerInlineContent('pilotGear', gear.id, gear.data)
+    })
+  })
+
+  ;(pilot.mechs || []).forEach(mech => {
+    registerInlineContent('frames', mech.frame, mech.frameData)
+
+    ;(mech.loadouts || []).forEach(loadout => {
+      ;[...(loadout.systems || []), ...(loadout.integratedSystems || [])].forEach(system =>
+        registerInlineContent('systems', system.id, system.data)
+      )
+
+      const containers = [
+        ...(loadout.mounts || []),
+        loadout.improved_armament,
+        loadout.superheavy_mounting,
+        loadout.integratedWeapon,
+      ].filter(mount => mount)
+
+      containers.forEach(mount => {
+        ;[...(mount.slots || []), ...(mount.extra || [])].forEach(slot => {
+          if (slot && slot.weapon) {
+            registerInlineContent('weapons', slot.weapon.id, slot.weapon.data)
+            if (slot.weapon.mod) registerInlineContent('mods', slot.weapon.mod.id, slot.weapon.mod.data)
+          }
+        })
+      })
+
+      ;(loadout.integratedMounts || []).forEach(slot => {
+        if (slot && slot.weapon) registerInlineContent('weapons', slot.weapon.id, slot.weapon.data)
+      })
+    })
+  })
+}
+
+export function registerNpcInlineContent(npc) {
+  if (!npc) return
+
+  registerInlineContent('npcClasses', npc.class, npc.classData)
+  ;(npc.templateData || []).forEach(template => registerInlineContent('npcTemplates', template.id, template))
+  ;(npc.items || []).forEach(item => registerInlineContent('npcFeatures', item.itemID, item.data))
+}
+
+export function registerNpcsInlineContent(npcs) {
+  ;(npcs || []).forEach(npc => registerNpcInlineContent(npc))
 }
 
 export const findFrameData = (frameID) => {
   var frameData = allFrames[frameID]
-  if (!frameData) frameData = findGameDataFromUploadedLcp('frames', frameID)
+  if (!frameData) frameData = inlineContentRegistry.frames[frameID]
   return frameData ? frameData : findFrameData('missing_frame')
 }
 
 // unless it's player-specific things should use getModdedWeaponData instead
 export const findWeaponData = (weaponID) => {
   var weaponData = allWeapons[weaponID]
-  if (!weaponData) weaponData = findGameDataFromUploadedLcp('weapons', weaponID)
   if (!weaponData) weaponData = baselineWeapons.find(baselineWeapon => baselineWeapon.id === weaponID)
+  if (!weaponData) weaponData = inlineContentRegistry.weapons[weaponID]
   return weaponData ? weaponData : findWeaponData('missing_mechweapon')
 }
 
 export const findTalentData = (talentID) => {
   var talentData = allTalents[talentID]
-  if (!talentData) talentData = findGameDataFromUploadedLcp('talents', talentID)
+  if (!talentData) talentData = inlineContentRegistry.talents[talentID]
   return talentData ? talentData : blankTalent
 }
 
 export const findSkillData = (skillID) => {
   var skillData = allSkills[skillID]
-  if (!skillData) skillData = findGameDataFromUploadedLcp('skills', skillID)
+  if (!skillData) skillData = inlineContentRegistry.skills[skillID]
   return skillData ? skillData : blankSkill
 }
 
 export const findPilotGearData = (pilotGearID) => {
   var pilotGearData = allPilotGear[pilotGearID]
-  if (!pilotGearData) pilotGearData = findGameDataFromUploadedLcp('pilotGear', pilotGearID)
+  if (!pilotGearData) pilotGearData = inlineContentRegistry.pilotGear[pilotGearID]
   return pilotGearData ? pilotGearData : blankPilotGear
 }
 
 export const findCoreBonusData = (coreBonusID) => {
   var coreBonusData = allCoreBonuses[coreBonusID]
-  if (!coreBonusData) coreBonusData = findGameDataFromUploadedLcp('coreBonuses', coreBonusID)
+  if (!coreBonusData) coreBonusData = inlineContentRegistry.coreBonuses[coreBonusID]
   return coreBonusData ? coreBonusData : findWeaponData('missing_corebonus')
 }
 
 export const findSystemData = (systemID) => {
   var systemData = allSystems[systemID]
-  if (!systemData) systemData = findGameDataFromUploadedLcp('systems', systemID)
+  if (!systemData) systemData = inlineContentRegistry.systems[systemID]
   return systemData ? systemData : findWeaponData('missing_mechsystem')
 }
 
 export const findModData = (modID) => {
   var modData = allMods[modID]
-  if (!modData) modData = findGameDataFromUploadedLcp('mods', modID)
+  if (!modData) modData = inlineContentRegistry.mods[modID]
   return modData ? modData : findModData('missing_weaponmod')
 }
 
 export const findStatusData = (statusName) => {
   var statusData = allStatuses.find(status => status.name.toUpperCase() === statusName.toUpperCase())
-  if (!statusData) statusData = findAllGameDataFromUploadedLcp('statuses')[statusName.toUpperCase()]
   return statusData ? statusData : blankStatus
 }
 export const findAllStatusData = () => {
-  return [...allStatuses, ...Object.values(findAllGameDataFromUploadedLcp('statuses'))]
+  return allStatuses
 }
 
 export const findActionData = (actionID) => {
   var actionData = allActions[actionID]
-  // if (!actionData) actionData = findGameDataFromUploadedLcp('actions', actionID) // new lcps can't really add new actions
   return actionData ? actionData : blankAction
 }
 
 export const findNpcClassData = (npcClassID) => {
   var npcClassData = allNpcClasses[npcClassID]
-  if (!npcClassData) npcClassData = findGameDataFromUploadedLcp('npcClasses', npcClassID)
+  if (!npcClassData) npcClassData = inlineContentRegistry.npcClasses[npcClassID]
   return npcClassData ? npcClassData : blankNpcClass
 }
 
 export const findNpcFeatureData = (npcFeatureID) => {
   var npcFeatureData = allNpcFeatures[npcFeatureID]
-  if (!npcFeatureData) npcFeatureData = findGameDataFromUploadedLcp('npcFeatures', npcFeatureID)
+  if (!npcFeatureData) npcFeatureData = inlineContentRegistry.npcFeatures[npcFeatureID]
   return npcFeatureData ? npcFeatureData : blankNpcFeature
 }
 
 export const findNpcTemplateData = (npcTemplateID) => {
   var npcTemplateData = allNpcTemplates[npcTemplateID]
-  if (!npcTemplateData) npcTemplateData = findGameDataFromUploadedLcp('npcTemplates', npcTemplateID)
+  if (!npcTemplateData) npcTemplateData = inlineContentRegistry.npcTemplates[npcTemplateID]
   return npcTemplateData ? npcTemplateData : blankNpcTemplate
 }
 
 export const findTagData = (tagID) => {
   var tagData = allTags[tagID]
-  if (!tagData) tagData = findGameDataFromUploadedLcp('tags', tagID)
   return tagData ? tagData : null
 }
 
 export const findBondData = (bondID) => {
   var bondData = allBonds[bondID]
-  if (!bondData) bondData = findGameDataFromUploadedLcp('bonds', bondID)
   return bondData ? bondData : blankBond
 }
 

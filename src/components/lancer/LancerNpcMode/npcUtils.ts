@@ -1,12 +1,11 @@
-
 import {
   findNpcFeatureData,
   getSystemLimited,
   hasTag
-} from '../lancerData.js';
+} from '../lancerData';
 
 
-export function getStat(key, npc) {
+export function getStat(key: string, npc: any) {
   let stat = npc.stats[key]
   if (npc.stats.overrides && npc.stats.overrides[key] > 0) {
     stat = npc.stats.overrides[key]
@@ -16,12 +15,11 @@ export function getStat(key, npc) {
   return stat
 }
 
-export function getNpcSkillCheckAccuracy(skill, npc) {
+export function getNpcSkillCheckAccuracy(skill: string, npc: any) {
   let accuracy = 0
-  npc.items.forEach(feature => {
+  npc.items.forEach((feature: any) => {
     const featureData = findNpcFeatureData(feature.itemID)
     const effect = [featureData.effect, feature.description].filter(text => text).join(' ').toLowerCase()
-    // something that is too long probably has something else going on
     const setInFeatureEffect = effect.includes(`${skill} save`) && featureData.effect < 200
     const setInCustomDescription = feature.description && feature.description.toLowerCase().includes(skill)
 
@@ -39,16 +37,14 @@ export function getNpcSkillCheckAccuracy(skill, npc) {
   return accuracy
 }
 
-export function getMarkerFromFingerprint(fingerprint) {
+export function getMarkerFromFingerprint(fingerprint: string) {
   const [ marker ] = fingerprint.indexOf('-') >= 0 ? fingerprint.split('-') : ['X','']
   return marker || 'X'
 }
 
-// gets A, B, C, etc depending on how many of these NPCs there are already
-export function getMarkerForNpcID(npcID, allNpcs) {
+export function getMarkerForNpcID(npcID: string, allNpcs: Record<string, any>) {
   let alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',]
 
-  // remove all values that we already have
   Object.values(allNpcs)
     .filter(npc => npc.id === npcID)
     .map(npc => getMarkerFromFingerprint(npc.fingerprint))
@@ -57,14 +53,13 @@ export function getMarkerForNpcID(npcID, allNpcs) {
   return alphabet[0] || 'Z'
 }
 
-// turns "{1/2/3}" into just 2 for a tier-2 enemy
-export function getNumberByTier(bracketedNumbers, npcTier) {
+export function getNumberByTier(bracketedNumbers: string, npcTier: number): string | number {
   if (bracketedNumbers[0] !== '{' || bracketedNumbers.slice(-1) !== '}') return bracketedNumbers
   const tierNumbers = bracketedNumbers.substr(1, bracketedNumbers.length-2).split('/')
   return parseInt(tierNumbers[npcTier-1]) || 0
 }
 
-export function setNumbersByTier(effectString, tier) {
+export function setNumbersByTier(effectString: string, tier?: number) {
   let returnString = effectString
   if (!tier) return returnString
 
@@ -80,7 +75,7 @@ export function setNumbersByTier(effectString, tier) {
   return returnString
 }
 
-export function getActivationType(featureData) {
+export function getActivationType(featureData: any) {
   let activation = ''
   if (featureData.type === 'Reaction') activation = 'Reaction'
   if (hasTag(featureData, 'tg_protocol')) activation = 'Protocol'
@@ -91,8 +86,7 @@ export function getActivationType(featureData) {
 
 
 
-// refresh limited uses, etc; modifies in place
-export function fullRepairNpc(npc) {
+export function fullRepairNpc(npc: any) {
   if (!npc) return
 
   const healedState = {
@@ -112,13 +106,10 @@ export function fullRepairNpc(npc) {
 
 
 
-// applies the changes to an npc object ~ in place ~
-export function applyUpdatesToNpc(mechUpdate, newNpc) {
+export function applyUpdatesToNpc(mechUpdate: Record<string, any>, newNpc: any) {
 
   Object.keys(mechUpdate).forEach(statKey => {
-    // console.log('statKey:',statKey, ' : ', mechUpdate[statKey]);
     switch (statKey) {
-      // attributes outside of the currentStats
       case 'conditions':
       case 'custom_counters':
       case 'counter_data':
@@ -127,7 +118,6 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
         newNpc[statKey] = mechUpdate[statKey]
         break;
 
-      // equipment features
       case 'systemUses':
         newNpc.items[mechUpdate[statKey].index].uses = mechUpdate[statKey].uses
         break;
@@ -143,7 +133,7 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
         if (mechUpdate[statKey].source) {
           perRoundState[mechUpdate[statKey].source] = Math.max(mechUpdate[statKey].uses || 0, 0)
         }
-        newNpc.per_round_uses = perRoundState // in case it was new
+        newNpc.per_round_uses = perRoundState
         break;
       case 'resetPerRoundCounts':
         newNpc.per_round_uses = {}
@@ -153,10 +143,7 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
       case 'weaponLoaded':
       case 'weaponDestroyed':
       case 'weaponUses':
-      case 'weaponModUses': // NPCs don't have weapon mods so this won't do anything
-        // find the item that generates this weapon
-        // const weaponItems = newNpc.items.filter(item => findNpcFeatureData(item.itemID).type === 'Weapon')
-        // let weaponItem = weaponItems[mechUpdate[statKey].weaponIndex]
+      case 'weaponModUses':
         let weaponItem = newNpc.items[mechUpdate[statKey].mountIndex]
         if (weaponItem) {
           if ('destroyed' in mechUpdate[statKey]) weaponItem.destroyed = mechUpdate[statKey].destroyed
@@ -165,7 +152,7 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
         }
         break;
       case 'repairAllWeaponsAndSystems':
-        newNpc.items.forEach(item => {
+        newNpc.items.forEach((item: any) => {
           const featureData = findNpcFeatureData(item.itemID)
           const limited = getSystemLimited(item, featureData)
           if (limited) item.uses = limited.max
@@ -173,16 +160,14 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
           item.destroyed = false
         });
         break;
-      // not relavant for npcs
       case 'current_overcharge':
       case 'current_core_energy':
       case 'current_repairs':
         console.log('    not relavant for npcs');
         break;
 
-      default: // change something in currentStats
-        // remove the 'current_' for keys that have it
-        const keyConversion = {
+      default:
+        const keyConversion: Record<string, string> = {
           'current_hp': 'hp',
           'current_heat': 'heatcap',
           'current_structure': 'structure',
@@ -190,6 +175,7 @@ export function applyUpdatesToNpc(mechUpdate, newNpc) {
           'activations': 'activations'
         }
         const convertedKey = keyConversion[statKey] || statKey
+        newNpc.currentStats = newNpc.currentStats || {}
         newNpc.currentStats[convertedKey] = mechUpdate[statKey]
 
         break;

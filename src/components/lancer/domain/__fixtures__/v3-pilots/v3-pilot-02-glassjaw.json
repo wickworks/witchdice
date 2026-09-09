@@ -1,0 +1,1758 @@
+{
+  "EXPORT_TYPE": "Save Pilot",
+  "data": {
+    "itemType": "pilot",
+    "id": "6b9a3f90-7a68-48d8-8d64-753ed09b9317",
+    "is_instance": false,
+    "instanceId": "",
+    "originId": "6b9a3f90-7a68-48d8-8d64-753ed09b9317",
+    "le": false,
+    "level": 9,
+    "callsign": "GLASSJAW",
+    "name": "Esme Lindqvist",
+    "player_name": "Playtester",
+    "status": "Active",
+    "text_appearance": "",
+    "notes": "",
+    "history": "",
+    "quirks": [],
+    "background": "",
+    "mechs": [
+      {
+        "id": "315e8894-73bc-4611-8070-407951a303cb",
+        "name": "SMALL MERCY",
+        "notes": "",
+        "frame": "mf_deaths_head",
+        "frameData": {
+          "id": "mf_deaths_head",
+          "license_level": 2,
+          "source": "SSC",
+          "name": "Death’s Head",
+          "mechtype": [
+            "Artillery"
+          ],
+          "y_pos": 40,
+          "description": "<p>Redacted for fixture use.</p>",
+          "mounts": [
+            "Main/Aux",
+            "Heavy"
+          ],
+          "stats": {
+            "size": 1,
+            "structure": 4,
+            "stress": 4,
+            "armor": 0,
+            "hp": 8,
+            "evasion": 10,
+            "edef": 8,
+            "heatcap": 6,
+            "repcap": 2,
+            "sensor_range": 20,
+            "tech_attack": 0,
+            "save": 10,
+            "speed": 5,
+            "sp": 6
+          },
+          "traits": [
+            {
+              "name": "Neurolink",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Neurolink",
+                  "frequency": "1/round",
+                  "condition": "You make a ranged attack",
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            },
+            {
+              "name": "Perfected Targeting",
+              "description": "Redacted for fixture use.",
+              "bonuses": [
+                {
+                  "id": "attack",
+                  "val": 1,
+                  "weapon_types": [
+                    "Rifle",
+                    "Cannon",
+                    "Launcher",
+                    "CQB",
+                    "Nexus"
+                  ]
+                }
+              ]
+            }
+          ],
+          "core_system": {
+            "name": "Precognitive Targeting",
+            "description": "Redacted for fixture use.",
+            "active_name": "Neural Shunt",
+            "active_effect": "Redacted for fixture use.",
+            "active_effects": [
+              {
+                "name": "Mark for Death Focus",
+                "detail": "Redacted for fixture use.",
+                "condition": "Redacted for fixture use."
+              }
+            ],
+            "active_actions": [
+              {
+                "name": "Mark for Death",
+                "activation": "Full",
+                "detail": "<p>Redacted for fixture use.</p>",
+                "range": [
+                  {
+                    "type": "Burst",
+                    "val": 30,
+                    "min": 5
+                  }
+                ],
+                "add_status": [
+                  {
+                    "id": "immobilized",
+                    "target": "self"
+                  }
+                ]
+              },
+              {
+                "name": "Cease Focus",
+                "activation": "Protocol",
+                "detail": "<p>Redacted for fixture use.</p>"
+              }
+            ],
+            "active_synergies": [
+              {
+                "locations": [
+                  "attack"
+                ],
+                "detail": "Redacted for fixture use."
+              }
+            ],
+            "use": "Encounter",
+            "activation": "Protocol"
+          },
+          "image_url": "",
+          "license_id": "mf_deaths_head"
+        },
+        "img": {
+          "portrait": "",
+          "cloud_portrait": ""
+        },
+        "loadouts": [
+          {
+            "id": "86e32264-1776-41a4-b289-f795a9c37797",
+            "name": "Primary",
+            "systems": [
+              {
+                "id": "ms_tempest_drone",
+                "data": {
+                  "id": "ms_tempest_drone",
+                  "name": "Tempest Drone",
+                  "type": "Drone",
+                  "sp": 2,
+                  "source": "HORUS",
+                  "license": "Hydra",
+                  "license_level": 2,
+                  "effect": "Redacted for fixture use.",
+                  "deployables": [
+                    {
+                      "type": "Drone",
+                      "name": "Tempest Drone",
+                      "size": 0.5,
+                      "hp": 5,
+                      "edef": 10,
+                      "evasion": 10,
+                      "detail": "<p>Redacted for fixture use.</p>",
+                      "recall": "Quick",
+                      "redeploy": "Quick",
+                      "damage": [
+                        {
+                          "type": "Energy",
+                          "val": 4,
+                          "save": "hull"
+                        }
+                      ],
+                      "tags": [
+                        {
+                          "id": "tg_resistall"
+                        }
+                      ]
+                    }
+                  ],
+                  "tags": [
+                    {
+                      "id": "tg_resistall"
+                    }
+                  ],
+                  "description": "Redacted for fixture use.",
+                  "license_id": "mf_hydra"
+                },
+                "flavorName": "",
+                "flavorDescription": "Redacted for fixture use.",
+                "maxUses": 0,
+                "currentUses": 0,
+                "destroyed": false,
+                "isUsed": false
+              },
+              {
+                "id": "ms_h0r_os_system_upgrade_i",
+                "data": {
+                  "id": "ms_h0r_os_system_upgrade_i",
+                  "name": "H0R_OS System Upgrade I",
+                  "type": "Tech",
+                  "sp": 2,
+                  "tags": [
+                    {
+                      "id": "tg_unique"
+                    }
+                  ],
+                  "source": "HORUS",
+                  "license": "Goblin",
+                  "license_level": 1,
+                  "actions": [
+                    {
+                      "name": "Puppet System",
+                      "activation": "Invade",
+                      "detail": "Redacted for fixture use."
+                    },
+                    {
+                      "name": "Eject Power Cores",
+                      "activation": "Invade",
+                      "detail": "Redacted for fixture use.",
+                      "add_status": [
+                        {
+                          "id": "jammed",
+                          "target": "target",
+                          "duration": "next_turn_end_target"
+                        }
+                      ],
+                      "damage": [
+                        {
+                          "type": "Energy",
+                          "val": 2,
+                          "aoe": true
+                        }
+                      ]
+                    }
+                  ],
+                  "description": "Redacted for fixture use.",
+                  "license_id": "mf_goblin"
+                },
+                "flavorName": "",
+                "flavorDescription": "Redacted for fixture use.",
+                "maxUses": 0,
+                "currentUses": 0,
+                "destroyed": false,
+                "isUsed": false
+              },
+              {
+                "id": "ms_auto_cooler",
+                "data": {
+                  "id": "ms_auto_cooler",
+                  "name": "Auto-Cooler",
+                  "sp": 2,
+                  "tags": [
+                    {
+                      "id": "tg_unique"
+                    }
+                  ],
+                  "source": "HA",
+                  "license": "Genghis",
+                  "license_level": 2,
+                  "actions": [
+                    {
+                      "activation": "Protocol",
+                      "detail": "Redacted for fixture use."
+                    }
+                  ],
+                  "description": "<p>Redacted for fixture use.</p>",
+                  "license_id": "mf_genghis"
+                },
+                "flavorName": "",
+                "flavorDescription": "<p>Redacted for fixture use.</p>",
+                "maxUses": 0,
+                "currentUses": 0,
+                "destroyed": false,
+                "isUsed": false
+              },
+              {
+                "id": "ms_agni_class_nhp",
+                "data": {
+                  "id": "ms_agni_class_nhp",
+                  "name": "AGNI-Class NHP",
+                  "type": "AI",
+                  "sp": 3,
+                  "tags": [
+                    {
+                      "id": "tg_ai"
+                    },
+                    {
+                      "id": "tg_unique"
+                    },
+                    {
+                      "id": "tg_limited",
+                      "val": 1
+                    }
+                  ],
+                  "source": "HA",
+                  "license": "Genghis",
+                  "license_level": 3,
+                  "effect": "Redacted for fixture use.",
+                  "actions": [
+                    {
+                      "name": "AGNI Protocol",
+                      "activation": "Protocol",
+                      "detail": "Redacted for fixture use.",
+                      "frequency": "1/scene",
+                      "damage": [
+                        {
+                          "type": "Burn",
+                          "val": 2,
+                          "aoe": true,
+                          "save": "sys",
+                          "save_half": true
+                        }
+                      ]
+                    }
+                  ],
+                  "description": "<p>Redacted for fixture use.</p>",
+                  "license_id": "mf_genghis"
+                },
+                "flavorName": "",
+                "flavorDescription": "<p>Redacted for fixture use.</p>",
+                "maxUses": 1,
+                "currentUses": 0,
+                "destroyed": false,
+                "isUsed": false
+              },
+              {
+                "id": "ms_high_stress_mag_clamps",
+                "data": {
+                  "id": "ms_high_stress_mag_clamps",
+                  "name": "High-Stress Mag Clamps",
+                  "sp": 1,
+                  "tags": [
+                    {
+                      "id": "tg_unique"
+                    }
+                  ],
+                  "source": "SSC",
+                  "license": "Death’s Head",
+                  "license_level": 1,
+                  "effect": "Redacted for fixture use.",
+                  "active_effects": [
+                    {
+                      "name": "High-Stress Mag Clamps",
+                      "detail": "Redacted for fixture use."
+                    }
+                  ],
+                  "description": "Redacted for fixture use.",
+                  "license_id": "mf_deaths_head"
+                },
+                "flavorName": "",
+                "flavorDescription": "Redacted for fixture use.",
+                "maxUses": 0,
+                "currentUses": 0,
+                "destroyed": false,
+                "isUsed": false
+              },
+              {
+                "id": "ms_assassin_drone",
+                "data": {
+                  "id": "ms_assassin_drone",
+                  "name": "Assassin Drone",
+                  "type": "Drone",
+                  "sp": 2,
+                  "source": "HORUS",
+                  "license": "Hydra",
+                  "license_level": 3,
+                  "effect": "Redacted for fixture use.",
+                  "deployables": [
+                    {
+                      "type": "Drone",
+                      "name": "Assassin Drone",
+                      "size": 0.5,
+                      "hp": 5,
+                      "edef": 10,
+                      "evasion": 10,
+                      "detail": "<p>Redacted for fixture use.</p>",
+                      "recall": "Quick",
+                      "redeploy": "Quick",
+                      "actions": [
+                        {
+                          "name": "Area Denial",
+                          "activation": "Reaction",
+                          "trigger": "Redacted for fixture use.",
+                          "detail": "Redacted for fixture use.",
+                          "damage": [
+                            {
+                              "type": "Kinetic",
+                              "val": 3,
+                              "attack": "ranged"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "description": "Redacted for fixture use.",
+                  "license_id": "mf_hydra"
+                },
+                "flavorName": "",
+                "flavorDescription": "Redacted for fixture use.",
+                "maxUses": 0,
+                "currentUses": 0,
+                "destroyed": false,
+                "isUsed": false
+              }
+            ],
+            "integratedSystems": [],
+            "mounts": [
+              {
+                "mount_type": "Main/Aux",
+                "lock": true,
+                "slots": [
+                  {
+                    "size": "Main",
+                    "weapon": null
+                  },
+                  {
+                    "size": "Auxiliary",
+                    "weapon": null
+                  }
+                ],
+                "extra": [],
+                "bonus_effects": []
+              },
+              {
+                "mount_type": "Heavy",
+                "lock": false,
+                "slots": [
+                  {
+                    "size": "Heavy",
+                    "weapon": {
+                      "id": "mw_annihilation_nexus",
+                      "data": {
+                        "id": "mw_annihilation_nexus",
+                        "name": "Annihilation Nexus",
+                        "mount": "Superheavy",
+                        "type": "Nexus",
+                        "damage": [
+                          {
+                            "type": "Energy",
+                            "val": "1d6+3"
+                          }
+                        ],
+                        "range": [
+                          {
+                            "type": "Burst",
+                            "val": 2
+                          }
+                        ],
+                        "tags": [
+                          {
+                            "id": "tg_ap"
+                          },
+                          {
+                            "id": "tg_smart"
+                          }
+                        ],
+                        "source": "HORUS",
+                        "license": "Hydra",
+                        "license_level": 3,
+                        "on_attack": "<p>Redacted for fixture use.</p>",
+                        "actions": [
+                          {
+                            "name": "Annihilation Nexus Secondary Attack",
+                            "activation": "Protocol",
+                            "detail": "<p>Redacted for fixture use.</p>"
+                          }
+                        ],
+                        "description": "Redacted for fixture use.",
+                        "license_id": "mf_hydra"
+                      },
+                      "flavorName": "",
+                      "flavorDescription": "Redacted for fixture use.",
+                      "selectedProfile": 0,
+                      "maxUseOverride": 0,
+                      "maxUses": 0,
+                      "currentUses": 0,
+                      "destroyed": false,
+                      "isUsed": false
+                    }
+                  }
+                ],
+                "extra": [],
+                "bonus_effects": [
+                  {
+                    "id": "cb_auto_stabilizing_hardpoints",
+                    "name": "Auto-Stabilizing Hardpoints",
+                    "source": "GMS",
+                    "effect": "Redacted for fixture use.",
+                    "bonuses": [
+                      {
+                        "id": "mount_accuracy",
+                        "val": 1
+                      }
+                    ],
+                    "synergies": [
+                      {
+                        "locations": [
+                          "mount"
+                        ],
+                        "detail": "Redacted for fixture use."
+                      }
+                    ],
+                    "description": "Redacted for fixture use.",
+                    "mounted_effect": "Redacted for fixture use."
+                  }
+                ]
+              }
+            ],
+            "integratedMounts": [
+              {
+                "weapon": {
+                  "id": "mw_prototype_3",
+                  "data": {
+                    "id": "mw_prototype_3",
+                    "name": "Prototype Weapon III",
+                    "mount": "Main",
+                    "type": "Special",
+                    "damage": [
+                      {
+                        "type": "Variable",
+                        "val": "1d6+4"
+                      }
+                    ],
+                    "range": [
+                      {
+                        "type": "Threat",
+                        "val": 1
+                      },
+                      {
+                        "type": "Range",
+                        "val": 10
+                      }
+                    ],
+                    "tags": [
+                      {
+                        "id": "tg_limited",
+                        "val": "2d6"
+                      },
+                      {
+                        "id": "tg_overkill"
+                      },
+                      {
+                        "id": "tg_set_max_uses"
+                      },
+                      {
+                        "id": "tg_set_damage_type"
+                      }
+                    ],
+                    "license": "GMS",
+                    "license_level": 0,
+                    "talent_item": true,
+                    "talent_id": "t_engineer",
+                    "talent_rank": 3,
+                    "effect": "<p>Redacted for fixture use.</p>",
+                    "description": "<p>Redacted for fixture use.</p>"
+                  },
+                  "flavorName": "",
+                  "flavorDescription": "<p>Redacted for fixture use.</p>",
+                  "selectedProfile": 0,
+                  "maxUseOverride": 0,
+                  "maxUses": 0,
+                  "currentUses": 0,
+                  "destroyed": false,
+                  "isUsed": false
+                }
+              },
+              {
+                "weapon": {
+                  "id": "mw_fuel_rod_gun",
+                  "data": {
+                    "id": "mw_fuel_rod_gun",
+                    "name": "Fuel Rod Gun",
+                    "mount": "Main",
+                    "type": "CQB",
+                    "damage": [
+                      {
+                        "type": "Energy",
+                        "val": "1d3+2"
+                      }
+                    ],
+                    "range": [
+                      {
+                        "type": "Range",
+                        "val": 3
+                      },
+                      {
+                        "type": "Threat",
+                        "val": 3
+                      }
+                    ],
+                    "tags": [
+                      {
+                        "id": "tg_limited",
+                        "val": 3
+                      },
+                      {
+                        "id": "tg_unique"
+                      }
+                    ],
+                    "license": "GMS",
+                    "license_level": 0,
+                    "talent_item": true,
+                    "talent_id": "t_nuclear_cavalier",
+                    "talent_rank": 3,
+                    "on_attack": "Clear 4 heat.",
+                    "description": "Redacted for fixture use."
+                  },
+                  "flavorName": "",
+                  "flavorDescription": "Redacted for fixture use.",
+                  "selectedProfile": 0,
+                  "maxUseOverride": 0,
+                  "maxUses": 3,
+                  "currentUses": 0,
+                  "destroyed": false,
+                  "isUsed": false
+                }
+              }
+            ],
+            "improved_armament": {
+              "mount_type": "Flex",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Flex",
+                  "weapon": null
+                }
+              ],
+              "extra": [
+                {
+                  "size": "Auxiliary",
+                  "weapon": null
+                }
+              ],
+              "bonus_effects": []
+            },
+            "integratedWeapon": {
+              "mount_type": "Aux",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Auxiliary",
+                  "weapon": null
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            },
+            "superheavy_mounting": {
+              "mount_type": "Superheavy",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Superheavy",
+                  "weapon": null
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            }
+          }
+        ],
+        "active_loadout_index": 0,
+        "stats": {
+          "stats": {},
+          "max": {
+            "activations": 1,
+            "size": 1,
+            "sizes": [
+              0.5,
+              1,
+              2,
+              3
+            ],
+            "structure": 4,
+            "hull": 4,
+            "agi": 2,
+            "sys": 3,
+            "eng": 2,
+            "hp": 21,
+            "armor": 0,
+            "stress": 4,
+            "heat": 0,
+            "speed": 6,
+            "evasion": 12,
+            "edef": 11,
+            "sensorRange": 20,
+            "saveTarget": 15,
+            "overshield": 0,
+            "overcharge": 0,
+            "burn": 0,
+            "limitedBonus": 1,
+            "attack": 6,
+            "techAttack": 3,
+            "grapple": 0,
+            "ram": 0,
+            "sp": 12,
+            "heatcap": 8,
+            "repairCapacity": 4
+          },
+          "current": {
+            "activations": 1,
+            "size": 1,
+            "sizes": [
+              0.5,
+              1,
+              2,
+              3
+            ],
+            "structure": 4,
+            "hull": 4,
+            "agi": 2,
+            "sys": 3,
+            "eng": 2,
+            "hp": 21,
+            "armor": 0,
+            "stress": 4,
+            "heat": 0,
+            "speed": 6,
+            "evasion": 12,
+            "edef": 11,
+            "sensorRange": 20,
+            "saveTarget": 15,
+            "overshield": 0,
+            "overcharge": 0,
+            "burn": 0,
+            "limitedBonus": 1,
+            "attack": 6,
+            "techAttack": 3,
+            "grapple": 0,
+            "ram": 0,
+            "sp": 12,
+            "heatcap": 0,
+            "repairCapacity": 4
+          },
+          "stat_version": 1,
+          "user_added_keys": []
+        },
+        "counters": {
+          "counter_data": [],
+          "custom_counters": []
+        },
+        "statuses": [],
+        "customStatuses": [],
+        "resistances": [],
+        "cover": "none",
+        "mounted": true,
+        "overwatch": false,
+        "braced": false,
+        "prepared": false,
+        "coreActive": false,
+        "corePower": true,
+        "aiControl": false,
+        "isInSelfDestruct": false,
+        "reactorDestroyed": false,
+        "isDead": false,
+        "combatActions": {
+          "Protocol": true,
+          "Full": true,
+          "Quick1": true,
+          "Quick2": true,
+          "Overcharge": true,
+          "Reaction": true
+        },
+        "combat_history": [],
+        "round": 1,
+        "turn": 1,
+        "usedActions": [],
+        "timed_effects": []
+      }
+    ],
+    "special_equipment": {
+      "PilotGear": [],
+      "Frames": [],
+      "MechWeapons": [],
+      "WeaponMods": [],
+      "MechSystems": []
+    },
+    "sortIndex": 22,
+    "config": null,
+    "favorite_mech": "",
+    "save": {
+      "lastModified": 1780681970002,
+      "deleteTime": 0,
+      "created": 1780681970002,
+      "remote_code": "",
+      "remote_author": "",
+      "remote_collection": ""
+    },
+    "cloud": {},
+    "skills": [
+      {
+        "id": "sk_apply_fists_to_faces",
+        "data": {
+          "id": "sk_apply_fists_to_faces",
+          "name": "Apply Fists to Faces",
+          "description": "Redacted for fixture use.",
+          "detail": "Redacted for fixture use.",
+          "family": "str"
+        },
+        "rank": 1
+      },
+      {
+        "id": "sk_charm",
+        "data": {
+          "id": "sk_charm",
+          "name": "Charm",
+          "description": "Redacted for fixture use.",
+          "detail": "Redacted for fixture use.",
+          "family": "cha"
+        },
+        "rank": 1
+      },
+      {
+        "id": "sk_get_a_hold_of_something",
+        "data": {
+          "id": "sk_get_a_hold_of_something",
+          "name": "Get a Hold of Something",
+          "description": "Redacted for fixture use.",
+          "detail": "Redacted for fixture use.",
+          "family": "cha"
+        },
+        "rank": 1
+      },
+      {
+        "id": "sk_stay_cool",
+        "data": {
+          "id": "sk_stay_cool",
+          "name": "Stay Cool",
+          "description": "Redacted for fixture use.",
+          "detail": "Redacted for fixture use.",
+          "family": "dex"
+        },
+        "rank": 1
+      }
+    ],
+    "talents": [
+      {
+        "id": "t_centimane",
+        "data": {
+          "id": "t_centimane",
+          "name": "Centimane",
+          "icon": "CENTIMANE",
+          "terse": "Redacted for fixture use.",
+          "description": "<p>Redacted for fixture use.</p>",
+          "ranks": [
+            {
+              "name": "Ten Thousand Teeth",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Ten Thousand Teeth",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "add_status": [
+                    {
+                      "id": "impaired",
+                      "duration": "next_turn_end_target",
+                      "save": "sys"
+                    },
+                    {
+                      "id": "slow",
+                      "duration": "next_turn_end_target",
+                      "save": "sys"
+                    }
+                  ]
+                }
+              ],
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "weapon_types": [
+                    "Nexus"
+                  ],
+                  "weapon_sizes": [
+                    "any"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            },
+            {
+              "name": "Expose Weakness",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Expose Weakness",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "add_status": [
+                    {
+                      "id": "shredded",
+                      "duration": "next_turn_start_target"
+                    }
+                  ]
+                }
+              ],
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon",
+                    "system"
+                  ],
+                  "weapon_types": [
+                    "Nexus"
+                  ],
+                  "system_types": [
+                    "Drone"
+                  ],
+                  "weapon_sizes": [
+                    "any"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            },
+            {
+              "name": "Tidal Suppression",
+              "description": "<p>Redacted for fixture use.</p>",
+              "active_effects": [
+                {
+                  "name": "Tidal Suppression: Harrying Swarm",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "frequency": "1/round",
+                  "add_status": [
+                    {
+                      "id": "impaired",
+                      "duration": "next_turn_end_target",
+                      "save": "sys"
+                    },
+                    {
+                      "id": "slow",
+                      "duration": "next_turn_end_target",
+                      "save": "sys"
+                    }
+                  ]
+                },
+                {
+                  "name": "Tidal Suppression: Blinding Swarm",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "frequency": "1/round",
+                  "save": "sys"
+                },
+                {
+                  "name": "Tidal Suppression: Virulent Swarm",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "frequency": "1/round",
+                  "add_status": [
+                    {
+                      "id": "shredded",
+                      "duration": "next_turn_end_target",
+                      "save": "sys",
+                      "aoe": true
+                    }
+                  ]
+                },
+                {
+                  "name": "Tidal Suppression: Restricting Swarm",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "frequency": "1/round",
+                  "save": "sys"
+                }
+              ],
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "weapon_types": [
+                    "Nexus"
+                  ],
+                  "weapon_sizes": [
+                    "any"
+                  ],
+                  "detail": "<p>Redacted for fixture use.</p>"
+                }
+              ]
+            }
+          ]
+        },
+        "rank": 3
+      },
+      {
+        "id": "t_engineer",
+        "data": {
+          "id": "t_engineer",
+          "name": "Engineer",
+          "icon": "ENGINEER",
+          "terse": "Redacted for fixture use.",
+          "description": "Redacted for fixture use.",
+          "ranks": [
+            {
+              "name": "Prototype",
+              "description": "<p>Redacted for fixture use.</p>",
+              "integrated": [
+                "mw_prototype_1"
+              ],
+              "exclusive": true
+            },
+            {
+              "name": "Revision",
+              "description": "<p>Redacted for fixture use.</p>",
+              "integrated": [
+                "mw_prototype_2"
+              ],
+              "exclusive": true
+            },
+            {
+              "name": "Final Draft",
+              "description": "Redacted for fixture use.",
+              "integrated": [
+                "mw_prototype_3"
+              ],
+              "exclusive": true
+            }
+          ]
+        },
+        "rank": 3
+      },
+      {
+        "id": "t_nuclear_cavalier",
+        "data": {
+          "id": "t_nuclear_cavalier",
+          "name": "Nuclear Cavalier",
+          "icon": "NUCLEAR CAVALIER",
+          "terse": "Redacted for fixture use.",
+          "description": "Redacted for fixture use.",
+          "ranks": [
+            {
+              "name": "Aggressive Heat Bleed",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Aggressive Heat Bleed",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "frequency": "1/turn",
+                  "damage": [
+                    {
+                      "val": 2,
+                      "type": "Heat"
+                    }
+                  ]
+                }
+              ],
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            },
+            {
+              "name": "Fusion Hemorrhage",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Fusion Hemorrhage",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "frequency": "1/turn",
+                  "bonus_damage": [
+                    {
+                      "detail": "Redacted for fixture use.",
+                      "val": "1d6",
+                      "type": "Energy"
+                    }
+                  ]
+                }
+              ],
+              "synergies": [
+                {
+                  "locations": [
+                    "attack"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            },
+            {
+              "name": "Here, Catch!",
+              "description": "Redacted for fixture use.",
+              "integrated": [
+                "mw_fuel_rod_gun"
+              ],
+              "exclusive": false
+            }
+          ]
+        },
+        "rank": 3
+      },
+      {
+        "id": "t_drone_commander",
+        "data": {
+          "id": "t_drone_commander",
+          "name": "Drone Commander",
+          "icon": "DRONE COMMANDER",
+          "terse": "Redacted for fixture use.",
+          "description": "Redacted for fixture use.",
+          "ranks": [
+            {
+              "name": "Shepherd",
+              "description": "<p>Redacted for fixture use.</p>",
+              "synergies": [
+                {
+                  "locations": [
+                    "system"
+                  ],
+                  "system_types": [
+                    "Drone"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ],
+              "actions": [
+                {
+                  "name": "Shepherd Drone",
+                  "activation": "Protocol",
+                  "detail": "Redacted for fixture use."
+                }
+              ],
+              "bonuses": [
+                {
+                  "id": "drone_hp",
+                  "val": 5
+                }
+              ]
+            },
+            {
+              "name": "Energized Swarm",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Energized Swarm",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "frequency": "1/round",
+                  "damage": [
+                    {
+                      "val": "1d6",
+                      "type": "Energy",
+                      "aoe": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Invigorate",
+              "description": "<p>Redacted for fixture use.</p>",
+              "actions": [
+                {
+                  "name": "Invigorate",
+                  "activation": "Quick",
+                  "detail": "Redacted for fixture use.",
+                  "damage": [
+                    {
+                      "val": 2,
+                      "type": "Energy",
+                      "aoe": true
+                    }
+                  ],
+                  "add_other": [
+                    {
+                      "type": "overshield",
+                      "val": 4,
+                      "aoe": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rank": 2
+      },
+      {
+        "id": "t_brutal",
+        "data": {
+          "id": "t_brutal",
+          "name": "Brutal",
+          "icon": "BRUTAL",
+          "terse": "Redacted for fixture use.",
+          "description": "Redacted for fixture use.",
+          "ranks": [
+            {
+              "name": "Predator",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Predator",
+                  "detail": "Redacted for fixture use."
+                }
+              ],
+              "synergies": [
+                {
+                  "locations": [
+                    "attack"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            },
+            {
+              "name": "Cull the Herd",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Cull the Herd",
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            },
+            {
+              "name": "Relentless",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Relentless",
+                  "detail": "Redacted for fixture use."
+                }
+              ],
+              "counters": [
+                {
+                  "id": "ctr_brutal",
+                  "name": "Brutal: Relentless Counter",
+                  "default_value": 0,
+                  "min": 0,
+                  "max": 100
+                }
+              ]
+            }
+          ]
+        },
+        "rank": 1
+      }
+    ],
+    "mechSkills": [
+      4,
+      2,
+      3,
+      2
+    ],
+    "core_bonuses": [
+      {
+        "id": "cb_the_lesson_of_the_held_image",
+        "name": "The Lesson of the Held Image",
+        "source": "HORUS",
+        "effect": "Redacted for fixture use.",
+        "description": "Redacted for fixture use.",
+        "actions": [
+          {
+            "name": "Lesson of the Held Image",
+            "activation": "Reaction",
+            "frequency": "1/round",
+            "trigger": "Redacted for fixture use.",
+            "detail": "Redacted for fixture use.",
+            "add_status": [
+              {
+                "id": "lockon"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cb_heatfall_coolant_system",
+        "name": "Heatfall Coolant System",
+        "source": "HA",
+        "effect": "Redacted for fixture use.",
+        "description": "Redacted for fixture use.",
+        "bonuses": [
+          {
+            "id": "overcharge",
+            "val": [
+              "1",
+              "1d3",
+              "1d6",
+              "1d6"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "cb_auto_stabilizing_hardpoints",
+        "name": "Auto-Stabilizing Hardpoints",
+        "source": "GMS",
+        "effect": "Redacted for fixture use.",
+        "bonuses": [
+          {
+            "id": "mount_accuracy",
+            "val": 1
+          }
+        ],
+        "synergies": [
+          {
+            "locations": [
+              "mount"
+            ],
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "description": "Redacted for fixture use.",
+        "mounted_effect": "Redacted for fixture use."
+      }
+    ],
+    "licenses": [
+      {
+        "id": "mf_hydra",
+        "rank": 3,
+        "stub": {
+          "id": "mf_hydra",
+          "name": "Hydra",
+          "source": "HORUS",
+          "frameName": "hydra",
+          "brew": {
+            "LcpId": "",
+            "LcpName": "Lancer Core Book",
+            "LcpVersion": "",
+            "Website": "",
+            "Status": "OK",
+            "V3": true
+          }
+        }
+      },
+      {
+        "id": "mf_genghis",
+        "rank": 3,
+        "stub": {
+          "id": "mf_genghis",
+          "name": "Genghis",
+          "source": "HA",
+          "frameName": "genghis",
+          "brew": {
+            "LcpId": "",
+            "LcpName": "Lancer Core Book",
+            "LcpVersion": "",
+            "Website": "",
+            "Status": "OK",
+            "V3": true
+          }
+        }
+      },
+      {
+        "id": "mf_deaths_head",
+        "rank": 2,
+        "stub": {
+          "id": "mf_deaths_head",
+          "name": "Death’s Head",
+          "source": "SSC",
+          "frameName": "death’s head",
+          "brew": {
+            "LcpId": "",
+            "LcpName": "Lancer Core Book",
+            "LcpVersion": "",
+            "Website": "",
+            "Status": "OK",
+            "V3": true
+          }
+        }
+      },
+      {
+        "id": "mf_goblin",
+        "rank": 1,
+        "stub": {
+          "id": "mf_goblin",
+          "name": "Goblin",
+          "source": "HORUS",
+          "frameName": "goblin",
+          "brew": {
+            "LcpId": "",
+            "LcpName": "Lancer Core Book",
+            "LcpVersion": "",
+            "Website": "",
+            "Status": "OK",
+            "V3": true
+          }
+        }
+      }
+    ],
+    "reserves": [],
+    "orgs": [],
+    "bond": {
+      "xp": 0,
+      "stress": 0,
+      "isBroken": false,
+      "burdens": [],
+      "bondPowers": [],
+      "powerSelections": 0,
+      "maxStress": 8,
+      "bondAnswers": [
+        "",
+        ""
+      ],
+      "minorIdeal": "",
+      "clocks": [],
+      "force": false
+    },
+    "img": {
+      "portrait": "",
+      "cloud_portrait": ""
+    },
+    "loadouts": [
+      {
+        "name": "Primary",
+        "armor": [
+          {
+            "id": "pg_assault_hardsuit",
+            "type": "PilotArmor",
+            "data": {
+              "id": "pg_assault_hardsuit",
+              "name": "Assault Hardsuit",
+              "type": "Armor",
+              "description": "Redacted for fixture use.",
+              "bonuses": [
+                {
+                  "id": "pilot_hp",
+                  "val": 3
+                },
+                {
+                  "id": "pilot_armor",
+                  "val": 1
+                },
+                {
+                  "id": "pilot_evasion",
+                  "val": 8,
+                  "replace": true
+                },
+                {
+                  "id": "pilot_edef",
+                  "val": 8,
+                  "replace": true
+                },
+                {
+                  "id": "pilot_speed",
+                  "val": 4,
+                  "replace": true
+                }
+              ],
+              "tags": [
+                {
+                  "id": "tg_personal_armor"
+                }
+              ]
+            },
+            "flavorName": "",
+            "flavorDescription": "",
+            "maxUses": 0,
+            "currentUses": 0,
+            "destroyed": false,
+            "isUsed": false
+          }
+        ],
+        "weapons": [
+          {
+            "id": "pg_heavy_a_c",
+            "type": "PilotWeapon",
+            "data": {
+              "id": "pg_heavy_a_c",
+              "name": "Heavy A/C",
+              "type": "Weapon",
+              "description": "Redacted for fixture use.",
+              "tags": [
+                {
+                  "id": "tg_inaccurate"
+                },
+                {
+                  "id": "tg_pilot_weapon"
+                }
+              ],
+              "range": [
+                {
+                  "type": "Threat",
+                  "val": 1
+                }
+              ],
+              "damage": [
+                {
+                  "type": "Kinetic",
+                  "val": 3
+                }
+              ]
+            },
+            "flavorName": "",
+            "flavorDescription": "",
+            "maxUses": 0,
+            "currentUses": 0,
+            "destroyed": false,
+            "isUsed": false
+          },
+          {
+            "id": "pg_light_signature",
+            "type": "PilotWeapon",
+            "data": {
+              "id": "pg_light_signature",
+              "name": "Light Signature",
+              "type": "Weapon",
+              "description": "Redacted for fixture use.",
+              "tags": [
+                {
+                  "id": "tg_sidearm"
+                },
+                {
+                  "id": "tg_set_damage_type"
+                },
+                {
+                  "id": "tg_pilot_weapon"
+                }
+              ],
+              "range": [
+                {
+                  "type": "Range",
+                  "val": 3
+                }
+              ],
+              "damage": [
+                {
+                  "type": "variable",
+                  "val": 1
+                }
+              ],
+              "effect": "Redacted for fixture use."
+            },
+            "flavorName": "",
+            "flavorDescription": "",
+            "maxUses": 0,
+            "currentUses": 0,
+            "destroyed": false,
+            "isUsed": false
+          }
+        ],
+        "gear": [
+          {
+            "id": "pg_mag_clamps",
+            "type": "PilotGear",
+            "data": {
+              "id": "pg_mag_clamps",
+              "name": "Mag-Clamps",
+              "type": "Gear",
+              "description": "Redacted for fixture use.",
+              "tags": [
+                {
+                  "id": "tg_gear"
+                }
+              ]
+            },
+            "flavorName": "",
+            "flavorDescription": "",
+            "maxUses": 0,
+            "currentUses": 0,
+            "destroyed": false,
+            "isUsed": false
+          },
+          {
+            "id": "pg_corrective",
+            "type": "PilotGear",
+            "data": {
+              "id": "pg_corrective",
+              "name": "Corrective",
+              "type": "Gear",
+              "effect": "Redacted for fixture use.",
+              "description": "Redacted for fixture use.",
+              "actions": [
+                {
+                  "name": "Use Corrective",
+                  "activation": "Full",
+                  "detail": "Redacted for fixture use."
+                }
+              ],
+              "tags": [
+                {
+                  "id": "tg_limited",
+                  "val": 1
+                },
+                {
+                  "id": "tg_gear"
+                }
+              ]
+            },
+            "flavorName": "",
+            "flavorDescription": "<p>Redacted for fixture use.</p>",
+            "maxUses": 1,
+            "currentUses": 0,
+            "destroyed": false,
+            "isUsed": false
+          },
+          {
+            "id": "pg_thermite_charge",
+            "type": "PilotGear",
+            "data": {
+              "id": "pg_thermite_charge",
+              "name": "Thermite Charge",
+              "type": "Gear",
+              "effect": "<p>Redacted for fixture use.</p>",
+              "deployables": [
+                {
+                  "name": "Thermite Charge",
+                  "type": "Mine",
+                  "detail": "Redacted for fixture use.",
+                  "actions": [
+                    {
+                      "name": "Detonate",
+                      "activation": "Quick",
+                      "detail": "Redacted for fixture use.",
+                      "damage": [
+                        {
+                          "type": "Energy",
+                          "val": 3,
+                          "ap": true,
+                          "save": "eng"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Detonate (vs. Object)",
+                      "activation": "Quick",
+                      "detail": "Redacted for fixture use.",
+                      "damage": [
+                        {
+                          "type": "Energy",
+                          "val": 10,
+                          "ap": true
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "tags": [
+                {
+                  "id": "tg_limited",
+                  "val": 1
+                },
+                {
+                  "id": "tg_gear"
+                }
+              ]
+            },
+            "flavorName": "",
+            "flavorDescription": "<p>Redacted for fixture use.</p>",
+            "maxUses": 1,
+            "currentUses": 0,
+            "destroyed": false,
+            "isUsed": false
+          }
+        ]
+      }
+    ],
+    "active_index": 0,
+    "stats": {
+      "stats": {},
+      "max": {
+        "activations": 1,
+        "size": 1,
+        "sizes": [
+          0.5,
+          1,
+          2,
+          3
+        ],
+        "structure": 0,
+        "hull": 0,
+        "agi": 0,
+        "sys": 0,
+        "eng": 0,
+        "hp": 14,
+        "armor": 1,
+        "stress": 0,
+        "heat": 0,
+        "speed": 4,
+        "evasion": 8,
+        "edef": 8,
+        "sensorRange": 0,
+        "saveTarget": 0,
+        "overshield": 0,
+        "overcharge": 0,
+        "burn": 0,
+        "grit": 5,
+        "limitedBonus": 1
+      },
+      "current": {
+        "activations": 1,
+        "size": 1,
+        "sizes": [
+          0.5,
+          1,
+          2,
+          3
+        ],
+        "structure": 0,
+        "hull": 0,
+        "agi": 0,
+        "sys": 0,
+        "eng": 0,
+        "hp": 14,
+        "armor": 1,
+        "stress": 0,
+        "heat": 0,
+        "speed": 4,
+        "evasion": 8,
+        "edef": 8,
+        "sensorRange": 0,
+        "saveTarget": 0,
+        "overshield": 0,
+        "overcharge": 0,
+        "burn": 0,
+        "grit": 5,
+        "limitedBonus": 1,
+        "heatcap": 0
+      },
+      "stat_version": 1,
+      "user_added_keys": []
+    },
+    "counters": {
+      "counter_data": [],
+      "custom_counters": []
+    },
+    "statuses": [],
+    "customStatuses": [],
+    "resistances": [],
+    "cover": "none",
+    "mounted": true,
+    "overwatch": false,
+    "braced": false,
+    "prepared": false,
+    "coreActive": false,
+    "corePower": true,
+    "aiControl": false,
+    "isInSelfDestruct": false,
+    "reactorDestroyed": false,
+    "isDead": false,
+    "combatActions": {
+      "Protocol": true,
+      "Full": true,
+      "Quick1": true,
+      "Quick2": true,
+      "Overcharge": true,
+      "Reaction": true
+    },
+    "combat_history": [],
+    "round": 1,
+    "turn": 1,
+    "usedActions": [],
+    "timed_effects": [],
+    "brews": []
+  }
+}

@@ -1,11 +1,12 @@
 {
 	"compilerOptions": {
-	  "allowJs": false,
+	  "allowJs": true,
+	  "checkJs": false,
 	  "allowSyntheticDefaultImports": true,
 	  "esModuleInterop": true,
 	  "forceConsistentCasingInFileNames": true,
 	  "isolatedModules": true,
-	  "jsx": "react-jsx",
+	  "jsx": "react",
 	  "lib": ["dom", "dom.iterable", "esnext"],
 	  "module": "esnext",
 	  "moduleResolution": "node",
@@ -15,7 +16,7 @@
 	  "skipLibCheck": true,
 	  "strict": true,
 	  "target": "ESNext",
-	  "types": ["vite/client"]
+	  "types": ["vite/client", "vitest/globals", "node"]
 	},
 	"include": ["src"]
   }

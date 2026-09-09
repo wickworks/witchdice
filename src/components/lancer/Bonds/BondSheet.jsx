@@ -4,7 +4,7 @@ import QAndA from './QAndA.jsx';
 import Ideals from './Ideals.jsx';
 import BondPowers from './BondPowers.jsx';
 import { findBondData } from '../lancerData.js';
-import { savePilotData } from '../lancerLocalStorage.js';
+import { savePilotData } from '../lancerLocalStorage';
 import { deepCopy } from '../../../utils.js';
 import { getRandomFingerprint } from '../../../localstorage.js';
 import './BondSheet.scss';

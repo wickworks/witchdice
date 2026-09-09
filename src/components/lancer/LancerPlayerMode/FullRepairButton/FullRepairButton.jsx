@@ -13,7 +13,7 @@ import {
 import {
   getMechMaxHP,
   getMechMaxRepairCap,
-} from '../../MechState/mechStateUtils.js';
+} from '../../MechState/mechStateUtils';
 
 import './FullRepairButton.scss';
 import './FullRepairDnaSync.scss';

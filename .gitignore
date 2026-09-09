@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# local fixture data (real character exports — kept out of git)
+/examples
+
 # production
 /build
 /dist

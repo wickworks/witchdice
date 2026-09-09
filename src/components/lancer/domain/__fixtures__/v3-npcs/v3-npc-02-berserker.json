@@ -1,0 +1,383 @@
+{
+  "npcType": "unit",
+  "id": "4d9ae81c-c881-4271-a2cb-f938d4ff0d29",
+  "is_instance": false,
+  "instanceId": "",
+  "originId": "",
+  "name": "",
+  "tag": "Mech",
+  "note": "",
+  "description": "",
+  "gmDescription": "",
+  "combat_data": {
+    "stats": {
+      "stats": {},
+      "max": {
+        "activations": 1,
+        "size": 1,
+        "sizes": 1,
+        "structure": 1,
+        "hull": 3,
+        "agi": 2,
+        "sys": -2,
+        "eng": -1,
+        "hp": 12,
+        "armor": 1,
+        "stress": 1,
+        "heat": 0,
+        "speed": 5,
+        "evasion": 8,
+        "edef": 6,
+        "sensorRange": 5,
+        "saveTarget": 10,
+        "overshield": 0,
+        "overcharge": 0,
+        "burn": 0,
+        "heatcap": 6,
+        "repairCapacity": 0,
+        "attackBonus": 1,
+        "techAttack": 0,
+        "limitedBonus": 0,
+        "saveBonus": 0,
+        "grapple": 1,
+        "ram": 1
+      },
+      "current": {
+        "activations": 1,
+        "size": 1,
+        "sizes": 1,
+        "structure": 1,
+        "hull": 3,
+        "agi": 2,
+        "sys": -2,
+        "eng": -1,
+        "hp": 12,
+        "armor": 1,
+        "stress": 1,
+        "heat": 0,
+        "speed": 5,
+        "evasion": 8,
+        "edef": 6,
+        "sensorRange": 5,
+        "saveTarget": 10,
+        "overshield": 0,
+        "overcharge": 0,
+        "burn": 0,
+        "heatcap": 0,
+        "repairCapacity": 0,
+        "attackBonus": 1,
+        "techAttack": 0,
+        "limitedBonus": 0,
+        "saveBonus": 0,
+        "grapple": 1,
+        "ram": 1
+      },
+      "stat_version": 1,
+      "user_added_keys": []
+    },
+    "counters": {
+      "counter_data": [],
+      "custom_counters": []
+    },
+    "statuses": [],
+    "customStatuses": [],
+    "resistances": [],
+    "cover": "none",
+    "mounted": true,
+    "overwatch": false,
+    "braced": false,
+    "prepared": false,
+    "coreActive": false,
+    "corePower": true,
+    "aiControl": false,
+    "isInSelfDestruct": false,
+    "reactorDestroyed": false,
+    "isDead": false,
+    "combatActions": {
+      "Protocol": true,
+      "Full": true,
+      "Quick1": true,
+      "Quick2": true,
+      "Overcharge": true,
+      "Reaction": true
+    },
+    "combat_history": [],
+    "round": 1,
+    "turn": 1,
+    "usedActions": [],
+    "timed_effects": []
+  },
+  "config": null,
+  "save": {
+    "lastModified": 1781478397059,
+    "deleteTime": 0,
+    "created": 1781478381584,
+    "remote_code": "",
+    "remote_author": "",
+    "remote_collection": ""
+  },
+  "cloud": {},
+  "img": {
+    "portrait": "",
+    "cloud_portrait": ""
+  },
+  "templates": [],
+  "features": [
+    {
+      "id": "npcf_chain_axe_berserker",
+      "data": {
+        "id": "npcf_chain_axe_berserker",
+        "name": "Chain Axe",
+        "origin": "npcc_berserker",
+        "base": true,
+        "type": "Weapon",
+        "on_crit": {
+          "detail": "Redacted for fixture use.",
+          "add_status": [
+            {
+              "id": "shredded",
+              "duration": "next_turn_end_target"
+            }
+          ]
+        },
+        "weapon_type": "Heavy Melee",
+        "attack_bonus": [
+          1,
+          2,
+          3
+        ],
+        "damage": [
+          {
+            "type": "Kinetic",
+            "val": [
+              7,
+              9,
+              11
+            ]
+          }
+        ],
+        "range": [
+          {
+            "type": "Threat",
+            "val": 1
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "MISSING",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_stampede_defense_berserker",
+      "data": {
+        "id": "npcf_stampede_defense_berserker",
+        "name": "Stampede Defense",
+        "origin": "npcc_berserker",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "active_effects": [
+          {
+            "name": "Stampede Defense",
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "add_resist": [
+          {
+            "resistance": "all"
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_aggression_berserker",
+      "data": {
+        "id": "npcf_aggression_berserker",
+        "name": "Aggression",
+        "origin": "npcc_berserker",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "active_effects": [
+          {
+            "name": "Aggression",
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_avalanche_charge_berserker",
+      "data": {
+        "id": "npcf_avalanche_charge_berserker",
+        "name": "Avalanche Charge",
+        "origin": "npcc_berserker",
+        "base": true,
+        "type": "Trait",
+        "actions": [
+          {
+            "name": "Avalanche Charge",
+            "activation": "Quick",
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "tags": [
+          {
+            "id": "tg_recharge",
+            "val": 5
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    }
+  ],
+  "class": {
+    "id": "npcc_berserker",
+    "data": {
+      "id": "npcc_berserker",
+      "name": "Berserker",
+      "role": "striker",
+      "info": {
+        "flavor": "Redacted for fixture use.",
+        "tactics": "Redacted for fixture use.",
+        "terse": "Redacted for fixture use."
+      },
+      "stats": {
+        "armor": [
+          1,
+          1,
+          1
+        ],
+        "hp": [
+          12,
+          16,
+          20
+        ],
+        "edef": [
+          6,
+          6,
+          6
+        ],
+        "heatcap": [
+          6,
+          6,
+          6
+        ],
+        "speed": [
+          5,
+          5,
+          5
+        ],
+        "hull": [
+          3,
+          4,
+          6
+        ],
+        "activations": [
+          1,
+          1,
+          1
+        ],
+        "structure": [
+          1,
+          1,
+          1
+        ],
+        "stress": [
+          1,
+          1,
+          1
+        ],
+        "evasion": [
+          8,
+          9,
+          10
+        ],
+        "sensorRange": [
+          5,
+          5,
+          5
+        ],
+        "saveTarget": [
+          10,
+          12,
+          14
+        ],
+        "agi": [
+          2,
+          4,
+          4
+        ],
+        "sys": [
+          -2,
+          -2,
+          -2
+        ],
+        "eng": [
+          -1,
+          -1,
+          0
+        ],
+        "sizes": [
+          1,
+          1,
+          1
+        ]
+      }
+    }
+  },
+  "tier": 1,
+  "narrative": {
+    "textItems": [],
+    "labels": [],
+    "relationships": [],
+    "clocks": [],
+    "tables": []
+  },
+  "folder": {
+    "folder": "",
+    "sortIndex": 0
+  },
+  "brews": [
+    {
+      "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+      "LcpName": "Lancer CORE NPCs",
+      "LcpVersion": "2.0.2",
+      "Website": "https://massif-press.itch.io/corebook-pdf",
+      "Status": "MISSING",
+      "V3": true
+    }
+  ]
+}

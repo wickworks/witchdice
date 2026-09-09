@@ -1,7 +1,6 @@
 
 const BACKUP_PREFIX_WHITELIST = [
   'pilot-',
-  'lcp-',
   'encounter-',
   'crafter-',
   'project-',

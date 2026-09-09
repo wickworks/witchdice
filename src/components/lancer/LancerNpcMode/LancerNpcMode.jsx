@@ -4,7 +4,7 @@ import { CharacterList } from '../../shared/CharacterAndMonsterList.jsx';
 import CollapsibleSection from '../../shared/CollapsibleSection.jsx';
 import { ActiveNpcBox, CondensedNpcBox } from './ActiveNpcBox.jsx';
 import EncounterControls from './EncounterControls.jsx';
-import NpcMechSheet from './NpcMechSheet.jsx';
+import NpcMechSheet from './NpcMechSheet';
 import NpcRoster from './NpcRoster.jsx';
 import JumplinkPanel from '../JumplinkPanel.jsx';
 import identityid from './identityid.png';
@@ -16,18 +16,23 @@ import {
   saveEncounterData,
   loadEncounterData,
   deleteEncounterData,
+  loadNpcLibrary,
+  saveNpcLibrary,
   ENCOUNTER_PREFIX,
   STORAGE_ID_LENGTH,
   NPC_LIBRARY_NAME,
-} from '../lancerLocalStorage.js';
+} from '../lancerLocalStorage';
+
+import { parseCompconNpc } from '../domain/parseNpc';
+import { npcsFromCompconBackup } from '../domain/compconArchive';
 
 import {
   getIDFromStorageName,
   getRandomFingerprint,
 } from '../../../localstorage.js';
 
-import { findNpcClassData, } from '../lancerData.js';
-import { getStat, getMarkerForNpcID, fullRepairNpc, applyUpdatesToNpc } from './npcUtils.js';
+import { registerNpcsInlineContent } from '../lancerData.js';
+import { getStat, getMarkerForNpcID, fullRepairNpc, applyUpdatesToNpc } from './npcUtils';
 
 import './LancerNpcMode.scss';
 
@@ -74,6 +79,9 @@ const LancerNpcMode = ({
   const activeEncounter = activeEncounterID && loadEncounterData(activeEncounterID);
   const activeNpc = (activeEncounter && activeNpcFingerprint) && activeEncounter.allNpcs[activeNpcFingerprint];
 
+  registerNpcsInlineContent(Object.values(npcLibrary))
+  if (activeEncounter) registerNpcsInlineContent(Object.values(activeEncounter.allNpcs))
+
   const startedWithEncounterOpen = !!localStorage.getItem(SELECTED_ENCOUNTER_KEY);
   // console.log('activeEncounter',activeEncounter);
 
@@ -90,7 +98,7 @@ const LancerNpcMode = ({
       }
 
       // load the npc library into memory
-      if (key === NPC_LIBRARY_NAME) setNpcLibrary( JSON.parse(localStorage.getItem(NPC_LIBRARY_NAME)) )
+      if (key === NPC_LIBRARY_NAME) setNpcLibrary( loadNpcLibrary() )
     }
 
     // // If we have no encounters, make a new one
@@ -114,8 +122,6 @@ const LancerNpcMode = ({
     }
   }, []);
 
-  const isMissingNpcLCP = findNpcClassData('npcc_ace').id === 'npcc_unknown'
-
   // =============== NPC ROSTER ==================
 
   const createNewNpcs = (npcList) => {
@@ -130,13 +136,18 @@ const LancerNpcMode = ({
         console.log("Skipping loading NPC because it's marked as deleted ::")
         console.log(npc);
       } else {
-        newNpcLibrary[npc.id] = npc;
+        try {
+          const domainNpc = parseCompconNpc(npc) // handles both V2 and V3
+          newNpcLibrary[domainNpc.id] = domainNpc;
+        } catch (e) {
+          console.error("Failed to parse NPC:", e.message, npc);
+        }
       }
     });
 
     // save the whole library to state & localstorage
     setNpcLibrary(newNpcLibrary)
-    localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
+    saveNpcLibrary(newNpcLibrary);
   }
 
   const deleteNpc = (npc) => {
@@ -145,7 +156,7 @@ const LancerNpcMode = ({
 
     // save the whole library to state & localstorage
     setNpcLibrary(newNpcLibrary)
-    localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
+    saveNpcLibrary(newNpcLibrary);
   }
 
   const deleteAllNpcsWithLabel = (label) => {
@@ -155,7 +166,7 @@ const LancerNpcMode = ({
 
     // save the whole library to state & localstorage
     setNpcLibrary(newNpcLibrary)
-    localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
+    saveNpcLibrary(newNpcLibrary);
   }
 
   const uploadNpcFile = e => {
@@ -167,18 +178,12 @@ const LancerNpcMode = ({
 
       console.log('fileName',fileName);
 
-      // compcon backups — have a lot of stuff we don't need
       if (fileName.endsWith('.compcon')) {
-        const compconBackup = JSON.parse(e.target.result)
-        const npcFile = compconBackup.find(backupFile => backupFile.filename.startsWith('npcs'))
-        const npcArray = JSON.parse(npcFile.data)
-
-        // create ALL the new npcs & save them to localstorage
-        if (npcArray && npcArray.length > 0) {
-          let newNpcLibrary = {...npcLibrary}
-          npcArray.forEach(npc => newNpcLibrary[npc.id] = npc);
-          setNpcLibrary(newNpcLibrary)
-          localStorage.setItem(NPC_LIBRARY_NAME, JSON.stringify(newNpcLibrary));
+        const npcArray = npcsFromCompconBackup(JSON.parse(e.target.result))
+        if (npcArray.length > 0) {
+          createNewNpcs(npcArray)
+        } else {
+          console.error('No NPCs found in COMP/CON backup')
         }
 
       // single json npc; just create it
@@ -268,6 +273,7 @@ const LancerNpcMode = ({
   const createNewEncounter = () => {
     let newEncounter = buildNewEncounter()
     setActiveEncounterID(newEncounter.id)
+    localStorage.setItem(SELECTED_ENCOUNTER_KEY, newEncounter.id.slice(0,STORAGE_ID_LENGTH));
 
     let encounterEntries = [...allEncounterEntries]
     encounterEntries.push({name: newEncounter.name, id: newEncounter.id})
@@ -411,30 +417,6 @@ const LancerNpcMode = ({
 
   return (
     <div className='LancerNpcMode'>
-      {isMissingNpcLCP &&
-        <div className='missing-lcp-warning'>
-          <h2>Warning: missing NPC LCP</h2>
-          <p>
-            Massif Press generously provides the player-facing rules for Lancer for free, but
-            to access GM content you must purchase the game.
-          </p>
-          <p>
-            You'll need to add the Lancer Content Pack (LCP) for NPCs to see their data here.
-          </p>
-          <ol>
-            <li>
-              <a href="https://massif-press.itch.io/corebook-pdf" target="_blank" rel="noopener noreferrer">
-                Purchase Lancer on itch.io
-              </a>
-            </li>
-            <li>Download <strong>LANCER NPC data for COMP/CON</strong></li>
-            <li>Click the <span className='fake-button'>— Core LCP Data —</span> button up above this warning. ⤴</li>
-
-            <li>Click <span className='fake-new'>New <span className="asset plus"/></span> and upload the <strong>Lancer_CORE_NPCs</strong> .lcp</li>
-          </ol>
-        </div>
-      }
-
       { (jumplinks.length > 0) &&
         <JumplinkPanel jumplinks={jumplinks} partyConnected={partyConnected} />
       }

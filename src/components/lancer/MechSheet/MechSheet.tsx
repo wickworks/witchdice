@@ -1,35 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import MechTraits from './MechTraits.jsx';
-import StatBroadcast from './StatBroadcast.jsx';
-import MechState from '../MechState/MechState.jsx';
-import ConditionsAndCounters from '../MechState/ConditionsAndCounters.jsx';
-import WeaponRoller from '../WeaponRoller/WeaponRoller.jsx';
-import TechRoller from '../WeaponRoller/TechRoller.jsx';
+import MechTraitsUntyped from './MechTraits';
+import StatBroadcast from './StatBroadcast';
+import MechState from '../MechState/MechState';
+import ConditionsAndCounters from '../MechState/ConditionsAndCounters';
+import WeaponRollerUntyped from '../WeaponRoller/WeaponRoller';
+import TechRoller from '../WeaponRoller/TechRoller';
+
+const MechTraits: any = MechTraitsUntyped;
+const WeaponRoller: any = WeaponRollerUntyped;
 
 import {
   getWeaponsOnMount,
   TechAttack,
   MechMount
-} from './MechMount.jsx';
+} from './MechMount';
 
 import {
   getSystemLimited,
   getAllWeaponRanges,
   getModdedWeaponData,
   findModData,
-} from '../lancerData.js';
+} from '../lancerData';
 
 import {
   getAvailableBonusDamageSources,
-} from '../WeaponRoller/bonusDamageSourceUtils.js';
+} from '../WeaponRoller/bonusDamageSourceUtils';
+
+import type {
+  RobotState,
+  RobotStats,
+  RobotInfo,
+  RobotLoadout,
+  UpdateMechState,
+} from '../types';
 
 import './MechSheet.scss';
 
 
 const MechSheet = ({
-  // activeMech,
-  // activePilot,
-
   robotState,
   robotStats,
   robotInfo,
@@ -42,69 +50,73 @@ const MechSheet = ({
   setPartyLastAttackTimestamp,
   setRollSummaryData,
   setDistantDicebagData,
+}: {
+  robotState: RobotState,
+  robotStats: RobotStats,
+  robotInfo: RobotInfo,
+  robotLoadout: RobotLoadout,
+  updateMechState: UpdateMechState,
+  accuracyAndDamageSourceInputs: any,
+  setPartyLastAttackKey: (key: any) => void,
+  setPartyLastAttackTimestamp: (timestamp: any) => void,
+  setRollSummaryData: (data: any) => void,
+  setDistantDicebagData: (data: any) => void,
 }) => {
-  const [activeMountIndex, setActiveMountIndex] = useState(null);
+  const [activeMountIndex, setActiveMountIndex] = useState<number | null>(null);
   const [activeWeaponIndex, setActiveWeaponIndex] = useState(0);
 
-  const [activeInvadeIndex, setActiveInvadeIndex] = useState(null)
+  const [activeInvadeIndex, setActiveInvadeIndex] = useState<number | null>(null)
 
-  // =============== CHANGE MECH / WEAPON ==================
   useEffect(() => {
     setActiveMountIndex(null);
     setActiveWeaponIndex(0);
   }, [robotInfo.id]);
 
-  const changeMountAndWeapon = (mountIndex, weaponIndex) => {
+  const changeMountAndWeapon = (mountIndex: number, weaponIndex: number) => {
     setActiveMountIndex(mountIndex)
     setActiveWeaponIndex(weaponIndex)
     setActiveInvadeIndex(null)
 
-    // the next attack roll will be a new entry in the summary
     newAttackSummary()
   }
 
-  const activateInvade = (invadeIndex) => {
+  const activateInvade = (invadeIndex: number) => {
     setActiveMountIndex(null)
     setActiveWeaponIndex(0)
     setActiveInvadeIndex(invadeIndex)
 
-    // the next attack roll will be a new entry in the summary
     newAttackSummary()
   }
 
-  // =============== SUMMARY DATA ==================
-  // inject the mech name to summary data before sending it up
-  const setRollSummaryDataWithName = (rollSummaryData, forceNewEntry = false) => {
+  const setRollSummaryDataWithName = (rollSummaryData: any, forceNewEntry = false) => {
     rollSummaryData.characterName = robotInfo.name
     rollSummaryData.forceNewEntry = forceNewEntry
     setRollSummaryData(rollSummaryData)
   }
 
-  // the next attack roll will be a new entry in the summary
   const newAttackSummary = () => {
     setPartyLastAttackKey('')
     setPartyLastAttackTimestamp(0)
   }
 
 
-  // functions to update mech system states
-  const setLimitedCountForSystem = (count, systemIndex) => {
+  const setLimitedCountForSystem = (count: number, systemIndex: number) => {
     updateMechState({
       systemUses: {index: systemIndex, uses: count}
     })
   }
-  const setDestroyedForSystem = (destroyed, systemIndex) => {
+  const setDestroyedForSystem = (destroyed: boolean, systemIndex: number) => {
     updateMechState({
       systemDestroyed: {index: systemIndex, destroyed: destroyed}
     })
   }
-  const setRechargedForSystem = (charged, systemIndex) => {
+  const setRechargedForSystem = (charged: boolean, systemIndex: number) => {
     updateMechState({
       systemCharged: {index: systemIndex, charged: charged}
     })
   }
 
-  const setPerRoundCount = (source, uses) => {
+  const setPerRoundCount = (source: string, uses: number) => {
     updateMechState({
       systemPerRoundCount: {source: source, uses: uses}
     })
@@ -112,40 +124,32 @@ const MechSheet = ({
 
   const resetPerRoundCounts = () => updateMechState({resetPerRoundCounts: true})
 
-  // =============== GET THE DATA FOR THE SHEET ==================
-  const activeMount = robotLoadout.mounts[activeMountIndex];
+  const activeMount = activeMountIndex != null ? robotLoadout.mounts[activeMountIndex] : undefined;
   const activeMountWeapons = getWeaponsOnMount(activeMount);
   const activeWeapon = activeMountWeapons && activeMountWeapons[activeWeaponIndex];
 
   const activeWeaponData = getModdedWeaponData(activeWeapon)
-  const activeInvadeData = robotLoadout.invades[activeInvadeIndex]
+  const activeInvadeData = activeInvadeIndex != null ? robotLoadout.invades[activeInvadeIndex] : undefined
 
   const weaponLimited = activeWeaponData ? getSystemLimited(activeWeapon, activeWeaponData, robotStats.limitedBonus) : null
   const modLimited = activeWeaponData && activeWeapon.mod ? getSystemLimited(activeWeapon.mod, findModData(activeWeapon.mod.id), robotStats.limitedBonus) : null
 
   const bonusDamageSources = getAvailableBonusDamageSources(accuracyAndDamageSourceInputs, activeMount, activeWeapon, activeInvadeData);
 
-  // console.log('activeWeapon',activeWeapon);
-
   let totalAttackBonus = robotStats.attackBonus
 
   if (robotStats.attackBonusRanged) {
     const weaponRanges = getAllWeaponRanges(activeWeaponData)
-    const isActiveWeaponRanged = weaponRanges.some(range => (range.type !== 'Threat'))
+    const isActiveWeaponRanged = weaponRanges.some((range: any) => (range.type !== 'Threat'))
     if (isActiveWeaponRanged) totalAttackBonus += robotStats.attackBonusRanged
   }
   if (activeWeapon && activeWeapon.npcAttackBonus) totalAttackBonus += activeWeapon.npcAttackBonus
 
-  // I try not to discriminate, but in some cases it's convenient to.
   const looksLikeAnNPC = robotState.coreEnergy < 0
 
   return (
     <div className="MechSheet">
       <div className="mech-container">
-
-        {/*<div className="portrait asset ssc-watermark">
-          <img src={activeMech.cloud_portrait} alt={'mech portrait'} />
-        </div>*/}
 
         <h2>{robotInfo.name}</h2>
 
@@ -174,14 +178,14 @@ const MechSheet = ({
           robotInfo={robotInfo}
           updateMechState={updateMechState}
           setDistantDicebagData={setDistantDicebagData}
-          setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
+          setRollSummaryData={(summaryData: any) => setRollSummaryDataWithName(summaryData, true)}
         />
 
         <ConditionsAndCounters
           activeConditions={robotState.conditions}
           activeCounters={robotState.counters}
           updateMechState={updateMechState}
-          setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
+          setRollSummaryData={(summaryData: any) => setRollSummaryDataWithName(summaryData, true)}
         />
 
         { robotInfo.hasMultipleLoadouts &&
@@ -192,19 +196,18 @@ const MechSheet = ({
           <MechTraits
             sectionTitle='Pilot Traits'
             frameTraits={robotLoadout.pilotTraits}
-            setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
+            setRollSummaryData={(summaryData: any) => setRollSummaryDataWithName(summaryData, true)}
             setPerRoundCount={setPerRoundCount}
             showResetPerRoundCounts={true}
             resetPerRoundCounts={resetPerRoundCounts}
           />
         }
 
-        {/* Frame Traits & Core Systems -- not destructable! */}
         { robotLoadout.frameTraits.length > 0 &&
           <MechTraits
             sectionTitle='Frame Traits'
             frameTraits={robotLoadout.frameTraits}
-            setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
+            setRollSummaryData={(summaryData: any) => setRollSummaryDataWithName(summaryData, true)}
             setLimitedCountForSystem={setLimitedCountForSystem}
             setRechargedForSystem={setRechargedForSystem}
             setPerRoundCount={setPerRoundCount}
@@ -217,7 +220,7 @@ const MechSheet = ({
           <MechTraits
             sectionTitle='Systems'
             frameTraits={robotLoadout.systems}
-            setRollSummaryData={(summaryData) => setRollSummaryDataWithName(summaryData, true)}
+            setRollSummaryData={(summaryData: any) => setRollSummaryDataWithName(summaryData, true)}
             setLimitedCountForSystem={setLimitedCountForSystem}
             setDestroyedForSystem={setDestroyedForSystem}
             setRechargedForSystem={setRechargedForSystem}
@@ -229,14 +232,14 @@ const MechSheet = ({
         <div className="mounts-label">Mounts & Attacks</div>
 
         <div className="mounts-list">
-          { robotLoadout.mounts.map((mount, i) =>
+          { robotLoadout.mounts.map((mount: any, i: number) =>
             <MechMount
               key={`${robotInfo.name}-mount-${i}`}
               mount={mount}
               limitedBonus={robotStats.limitedBonus}
-              setActiveWeaponIndex={(weaponIndex) => changeMountAndWeapon(i, weaponIndex)}
+              setActiveWeaponIndex={(weaponIndex: number) => changeMountAndWeapon(i, weaponIndex)}
               activeWeaponIndex={activeMountIndex === i ? activeWeaponIndex : -1}
-              setDestroyedForWeapon={(destroyed, weaponIndex) =>
+              setDestroyedForWeapon={(destroyed: boolean, weaponIndex: number) =>
                 updateMechState({
                   weaponDestroyed: {
                     mountSource: mount.source,
@@ -250,7 +253,7 @@ const MechSheet = ({
             />
           )}
 
-          { robotLoadout.invades.map((invade, i) =>
+          { robotLoadout.invades.map((invade: any, i: number) =>
             <TechAttack
               key={`invade-${i}`}
               invadeData={invade}
@@ -275,7 +278,7 @@ const MechSheet = ({
           gritBonus={totalAttackBonus}
           allRangeSynergies={robotStats.rangeSynergies}
           weaponLimited={weaponLimited}
-          setLimitedCount={(count) =>
+          setLimitedCount={(count: number) =>
             updateMechState({
               weaponUses: {
                 mountSource: activeMount.source,
@@ -286,7 +289,7 @@ const MechSheet = ({
             })
           }
           modLimited={modLimited}
-          setModLimitedCount={(count) =>
+          setModLimitedCount={(count: number) =>
             updateMechState({
               weaponModUses: {
                 mountSource: activeMount.source,
@@ -297,7 +300,7 @@ const MechSheet = ({
             })
           }
           isLoaded={activeWeapon.loaded}
-          setIsLoaded={(isLoaded) =>
+          setIsLoaded={(isLoaded: boolean) =>
             updateMechState({
               weaponLoaded: {
                 mountSource: activeMount.source,

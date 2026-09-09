@@ -1,0 +1,585 @@
+{
+  "npcType": "unit",
+  "id": "eee9cf92-fee5-4154-93c0-f676c86a3235",
+  "is_instance": false,
+  "instanceId": "",
+  "originId": "",
+  "name": "",
+  "tag": "Mech",
+  "note": "",
+  "description": "",
+  "gmDescription": "",
+  "combat_data": {
+    "stats": {
+      "stats": {},
+      "max": {
+        "activations": 1,
+        "size": 2,
+        "sizes": 2,
+        "structure": 1,
+        "hull": 2,
+        "agi": -3,
+        "sys": 0,
+        "eng": 2,
+        "hp": 10,
+        "armor": 3,
+        "stress": 1,
+        "heat": 0,
+        "speed": 4,
+        "evasion": 8,
+        "edef": 8,
+        "sensorRange": 5,
+        "saveTarget": 8,
+        "overshield": 0,
+        "overcharge": 0,
+        "burn": 0,
+        "heatcap": 8,
+        "repairCapacity": 0,
+        "attackBonus": 1,
+        "techAttack": 0,
+        "limitedBonus": 0,
+        "saveBonus": 0,
+        "grapple": 1,
+        "ram": 1
+      },
+      "current": {
+        "activations": 1,
+        "size": 2,
+        "sizes": 2,
+        "structure": 1,
+        "hull": 2,
+        "agi": -3,
+        "sys": 0,
+        "eng": 2,
+        "hp": 10,
+        "armor": 3,
+        "stress": 1,
+        "heat": 0,
+        "speed": 4,
+        "evasion": 8,
+        "edef": 8,
+        "sensorRange": 5,
+        "saveTarget": 8,
+        "overshield": 0,
+        "overcharge": 0,
+        "burn": 0,
+        "heatcap": 0,
+        "repairCapacity": 0,
+        "attackBonus": 1,
+        "techAttack": 0,
+        "limitedBonus": 0,
+        "saveBonus": 0,
+        "grapple": 1,
+        "ram": 1
+      },
+      "stat_version": 1,
+      "user_added_keys": []
+    },
+    "counters": {
+      "counter_data": [],
+      "custom_counters": []
+    },
+    "statuses": [],
+    "customStatuses": [],
+    "resistances": [],
+    "cover": "none",
+    "mounted": true,
+    "overwatch": false,
+    "braced": false,
+    "prepared": false,
+    "coreActive": false,
+    "corePower": true,
+    "aiControl": false,
+    "isInSelfDestruct": false,
+    "reactorDestroyed": false,
+    "isDead": false,
+    "combatActions": {
+      "Protocol": true,
+      "Full": true,
+      "Quick1": true,
+      "Quick2": true,
+      "Overcharge": true,
+      "Reaction": true
+    },
+    "combat_history": [],
+    "round": 1,
+    "turn": 1,
+    "usedActions": [],
+    "timed_effects": []
+  },
+  "config": null,
+  "save": {
+    "lastModified": 1784578069395,
+    "deleteTime": 0,
+    "created": 1784495016357,
+    "remote_code": "",
+    "remote_author": "",
+    "remote_collection": ""
+  },
+  "cloud": {},
+  "img": {
+    "portrait": "",
+    "cloud_portrait": ""
+  },
+  "templates": [
+    {
+      "id": "npct_elite",
+      "data": {
+        "id": "npct_elite",
+        "template": true,
+        "name": "Elite",
+        "tactics": "Redacted for fixture use.",
+        "prohibitTemplates": [
+          "npct_ultra",
+          "npct_grunt"
+        ],
+        "optionalClassMin": 1,
+        "optionalClassMax": 1
+      }
+    }
+  ],
+  "features": [
+    {
+      "id": "npcf_rotary_grenade_launcher_bastion",
+      "data": {
+        "id": "npcf_rotary_grenade_launcher_bastion",
+        "name": "Rotary Grenade Launcher",
+        "origin": "npcc_bastion",
+        "base": true,
+        "type": "Weapon",
+        "tags": [
+          {
+            "id": "tg_arcing"
+          },
+          {
+            "id": "tg_loading"
+          }
+        ],
+        "weapon_type": "Main Launcher",
+        "attack_bonus": [
+          1,
+          2,
+          3
+        ],
+        "damage": [
+          {
+            "type": "Explosive",
+            "val": [
+              4,
+              6,
+              8
+            ]
+          }
+        ],
+        "range": [
+          {
+            "type": "Range",
+            "val": 8
+          },
+          {
+            "type": "Blast",
+            "val": 1
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "MISSING",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_heavy_assault_shield_bastion",
+      "data": {
+        "id": "npcf_heavy_assault_shield_bastion",
+        "name": "Heavy Assault Shield",
+        "origin": "npcc_bastion",
+        "base": true,
+        "type": "Weapon",
+        "tags": [
+          {
+            "id": "tg_knockback",
+            "val": 1
+          }
+        ],
+        "weapon_type": "Heavy Melee",
+        "attack_bonus": [
+          1,
+          2,
+          3
+        ],
+        "damage": [
+          {
+            "type": "Kinetic",
+            "val": [
+              3,
+              6,
+              9
+            ]
+          }
+        ],
+        "range": [
+          {
+            "type": "Threat",
+            "val": 1
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_friendly_interdiction_bastion",
+      "data": {
+        "id": "npcf_friendly_interdiction_bastion",
+        "name": "Friendly Interdiction",
+        "origin": "npcc_bastion",
+        "base": true,
+        "type": "Trait",
+        "actions": [
+          {
+            "name": "Mark Interdiction Target",
+            "activation": "Protocol",
+            "detail": "Redacted for fixture use.",
+            "add_special": [
+              {
+                "attribute": "Interdiction Target",
+                "detail": "Redacted for fixture use."
+              }
+            ]
+          },
+          {
+            "name": "Mark Interdiction Ally",
+            "activation": "Protocol",
+            "detail": "Redacted for fixture use.",
+            "add_special": [
+              {
+                "attribute": "Interdiction Ally",
+                "detail": "Redacted for fixture use."
+              }
+            ]
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_guardian_bastion",
+      "data": {
+        "id": "npcf_guardian_bastion",
+        "name": "Guardian",
+        "origin": "npcc_bastion",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "active_effects": [
+          {
+            "name": "Guardian",
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_fearless_defender_bastion",
+      "data": {
+        "id": "npcf_fearless_defender_bastion",
+        "name": "Fearless Defender",
+        "origin": "npcc_bastion",
+        "type": "Reaction",
+        "actions": [
+          {
+            "name": "Fearless Defender",
+            "activation": "Reaction",
+            "frequency": "1/round",
+            "trigger": "Redacted for fixture use.",
+            "detail": "Redacted for fixture use.",
+            "range": [
+              {
+                "type": "Range",
+                "val": 5
+              }
+            ]
+          }
+        ],
+        "tags": [
+          {
+            "id": "tg_npc_trait"
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_reinforced_elite",
+      "data": {
+        "id": "npcf_reinforced_elite",
+        "name": "Reinforced",
+        "origin": "npct_elite",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "bonuses": [
+          {
+            "id": "structure",
+            "val": 1
+          },
+          {
+            "id": "stress",
+            "val": 1
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_ready_and_waiting_elite",
+      "data": {
+        "id": "npcf_ready_and_waiting_elite",
+        "name": "Ready And Waiting",
+        "origin": "npct_elite",
+        "base": true,
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "bonuses": [
+          {
+            "id": "activations",
+            "val": 1
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_pause_engine_bastion",
+      "data": {
+        "id": "npcf_pause_engine_bastion",
+        "name": "“Pause” Engine",
+        "origin": "npcc_bastion",
+        "type": "System",
+        "actions": [
+          {
+            "name": "Activate Pause Engine",
+            "activation": "Full",
+            "detail": "Redacted for fixture use.",
+            "add_special": [
+              {
+                "attribute": "Pause Engine Target",
+                "detail": "Redacted for fixture use."
+              }
+            ]
+          }
+        ],
+        "tags": [
+          {
+            "id": "tg_recharge",
+            "val": 5
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    },
+    {
+      "id": "npcf_siege_guardian_bastion",
+      "data": {
+        "id": "npcf_siege_guardian_bastion",
+        "name": "Siege Guardian",
+        "origin": "npcc_bastion",
+        "type": "Trait",
+        "effect": "Redacted for fixture use.",
+        "active_effects": [
+          {
+            "name": "Siege Guardian",
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "brew": {
+          "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+          "LcpName": "Lancer CORE NPCs",
+          "LcpVersion": "2.0.2",
+          "Website": "https://massif-press.itch.io/corebook-pdf",
+          "Status": "OK",
+          "V3": true
+        },
+        "isUsed": false
+      }
+    }
+  ],
+  "class": {
+    "id": "npcc_bastion",
+    "data": {
+      "id": "npcc_bastion",
+      "name": "Bastion",
+      "role": "defender",
+      "info": {
+        "flavor": "Redacted for fixture use.",
+        "tactics": "Redacted for fixture use.",
+        "terse": "Redacted for fixture use."
+      },
+      "stats": {
+        "armor": [
+          3,
+          3,
+          4
+        ],
+        "hp": [
+          10,
+          10,
+          10
+        ],
+        "edef": [
+          8,
+          8,
+          8
+        ],
+        "heatcap": [
+          8,
+          10,
+          12
+        ],
+        "speed": [
+          4,
+          4,
+          4
+        ],
+        "hull": [
+          2,
+          4,
+          6
+        ],
+        "activations": [
+          1,
+          1,
+          1
+        ],
+        "structure": [
+          1,
+          1,
+          1
+        ],
+        "stress": [
+          1,
+          1,
+          1
+        ],
+        "evasion": [
+          8,
+          10,
+          10
+        ],
+        "sensorRange": [
+          5,
+          5,
+          5
+        ],
+        "saveTarget": [
+          8,
+          10,
+          12
+        ],
+        "agi": [
+          -3,
+          -3,
+          -2
+        ],
+        "sys": [
+          0,
+          0,
+          0
+        ],
+        "eng": [
+          2,
+          3,
+          4
+        ],
+        "sizes": [
+          2,
+          2,
+          2
+        ]
+      }
+    }
+  },
+  "tier": 1,
+  "narrative": {
+    "textItems": [],
+    "labels": [],
+    "relationships": [],
+    "clocks": [],
+    "tables": []
+  },
+  "folder": {
+    "folder": "",
+    "sortIndex": 0
+  },
+  "brews": [
+    {
+      "LcpId": "g5h+/y8Aw10EzSftJ+QUHzk/Fe0=",
+      "LcpName": "Lancer CORE NPCs",
+      "LcpVersion": "2.0.2",
+      "Website": "https://massif-press.itch.io/corebook-pdf",
+      "Status": "MISSING",
+      "V3": true
+    }
+  ]
+}

@@ -1,10 +1,10 @@
 import React from 'react';
-import MechSheet from '../MechSheet/MechSheet.jsx';
-import FullRepairButton from './FullRepairButton/FullRepairButton.jsx';
+import MechSheet from '../MechSheet/MechSheet';
+import FullRepairButton from './FullRepairButton/FullRepairButton';
 
 import {
   isSystemTechAttack,
-} from '../MechSheet/MechMount.jsx';
+} from '../MechSheet/MechMount';
 
 import {
   getMechMaxHP,
@@ -20,11 +20,11 @@ import {
   getSkillCheckAccuracy,
   getMechTechAttack,
   getCountersFromPilot,
-} from '../MechState/mechStateUtils.js';
+} from '../MechState/mechStateUtils';
 
 import {
   getToHitBonusFromMech,
-} from '../WeaponRoller/bonusDamageSourceUtils.js';
+} from '../WeaponRoller/bonusDamageSourceUtils';
 
 import {
   getGrit,
@@ -39,14 +39,16 @@ import {
   getSystemPerRoundCount,
   getSelfHeat,
   getUsesPerRound,
-} from '../lancerData.js';
+} from '../lancerData';
 
-import { applyUpdatesToPlayer } from './playerUtils.js';
+import { applyUpdatesToPlayer } from './playerUtils';
 
-import { deepCopy } from '../../../utils.js';
+import { deepCopy } from '../../../utils';
 import {
   savePilotData,
-} from '../lancerLocalStorage.js';
+} from '../lancerLocalStorage';
+
+import type { Mech, Pilot } from '../types';
 
 
 const PlayerMechSheet = ({
@@ -60,12 +62,20 @@ const PlayerMechSheet = ({
   setPartyLastAttackTimestamp,
   setRollSummaryData,
   setDistantDicebagData,
+}: {
+  activePilot: Pilot,
+  activeMech: Mech,
+  setTriggerRerender: (value: boolean) => void,
+  triggerRerender: boolean,
+  setPartyLastAttackKey: (key: any) => void,
+  setPartyLastAttackTimestamp: (timestamp: any) => void,
+  setRollSummaryData: (data: any) => void,
+  setDistantDicebagData: (data: any) => void,
 }) => {
 
   const frameData = findFrameData(activeMech.frame);
   const loadout = activeMech.loadouts[0];
 
-  // weird special case looking for an un-used custom paint job
   const customPaintJobSystem = loadout.systems.find(system => system.id === 'ms_custom_paint_job')
   const hasIntactCustomPaintJob = customPaintJobSystem && (customPaintJobSystem.uses === 0)
 
@@ -139,19 +149,16 @@ const PlayerMechSheet = ({
   }
 
 
-  // anything the weapon roller setup will need to determine available sources of accuracy/difficulty
   const accuracyAndDamageSourceInputs = {
     frameID: activeMech.frame,
     mechSystems: loadout.systems,
     npcFeatures: [],
     pilotTalents: activePilot.talents,
-    isImpaired: activeMech.conditions.includes('IMPAIRED'),
-    currentHeat: robotState.heat, // may replace this with the rest of state if we ever need it
+    isImpaired: activeMech.conditions?.includes('IMPAIRED'),
+    currentHeat: robotState.heat,
   }
 
-  // =============== MECH STATE ==================
-
-  const updateMechState = (mechUpdate) => {
+  const updateMechState = (mechUpdate: Record<string, any>) => {
     const newPilotData = deepCopy(activePilot);
     const mechIndex = activePilot.mechs.findIndex(mech => mech.id === activeMech.id)
 
@@ -159,7 +166,7 @@ const PlayerMechSheet = ({
       const newMechData = newPilotData.mechs[mechIndex]
       applyUpdatesToPlayer(mechUpdate, newPilotData, newMechData)
 
-      savePilotData(newPilotData) // update it in localstorage
+      savePilotData(newPilotData)
 
       setTriggerRerender(!triggerRerender)
     } else {
@@ -191,12 +198,10 @@ const PlayerMechSheet = ({
 
 
 
-// Harvest the many frame traits and actions available in core systems
-function getFrameTraits(traitList, coreSystem, perRoundState) {
-  let frameTraits = []
+function getFrameTraits(traitList: any, coreSystem: any, perRoundState: any) {
+  let frameTraits: any[] = []
 
-  // -- ACTIVE CORE SYSTEM --
-  let activeTrait = {
+  let activeTrait: any = {
     name: coreSystem.active_name,
     activation: `Active (1 CP), ${coreSystem.activation}`,
     description: coreSystem.active_effect,
@@ -204,7 +209,7 @@ function getFrameTraits(traitList, coreSystem, perRoundState) {
   }
   if (coreSystem.active_actions) {
     activeTrait.subTraits = []
-    coreSystem.active_actions.forEach(activeAction => {
+    coreSystem.active_actions.forEach((activeAction: any) => {
       activeTrait.subTraits.push({
         name: activeAction.name,
         activation: activeAction.activation,
@@ -213,7 +218,6 @@ function getFrameTraits(traitList, coreSystem, perRoundState) {
       })
     })
 
-    // YO if we only have one action/deployable and nothing to say about it, just use that subcard instead of us
     if (!activeTrait.description && activeTrait.subTraits.length === 1) {
       activeTrait = {...activeTrait.subTraits[0]}
       activeTrait.subTraits = []
@@ -221,16 +225,15 @@ function getFrameTraits(traitList, coreSystem, perRoundState) {
   }
   frameTraits.push(activeTrait)
 
-  // -- PASSIVE CORE SYSTEM --
   if (coreSystem.passive_effect || coreSystem.passive_actions) {
-    let passiveTrait = {
+    let passiveTrait: any = {
       name: coreSystem.passive_name,
       description: coreSystem.passive_effect,
       isCP: true,
     }
     if (coreSystem.passive_actions) {
       passiveTrait.subTraits = []
-      coreSystem.passive_actions.forEach(passiveAction => {
+      coreSystem.passive_actions.forEach((passiveAction: any) => {
         passiveTrait.subTraits.push({
           name: passiveAction.name,
           activation: passiveAction.activation,
@@ -239,7 +242,6 @@ function getFrameTraits(traitList, coreSystem, perRoundState) {
         })
       })
     }
-    // YO if we only have one action/deployable and nothing to say about it, just use that subcard instead of us
     if (!passiveTrait.description && passiveTrait.subTraits.length === 1) {
       passiveTrait = {...passiveTrait.subTraits[0]}
       passiveTrait.subTraits = []
@@ -248,12 +250,10 @@ function getFrameTraits(traitList, coreSystem, perRoundState) {
     frameTraits.push(passiveTrait)
   }
 
-  // -- CORE SYSTEM DEPLOYABLES --
   addDeployableTraits(coreSystem.deployables, frameTraits)
 
-  // -- FRAME TRAITS --
-  traitList.forEach(trait => {
-    let traitTrait = {
+  traitList.forEach((trait: any) => {
+    let traitTrait: any = {
       name: trait.name.toLowerCase(),
       isTitleCase: true,
       description: trait.description,
@@ -261,7 +261,7 @@ function getFrameTraits(traitList, coreSystem, perRoundState) {
     }
     if (trait.actions) {
       traitTrait.subTraits = []
-      trait.actions.forEach(traitAction =>
+      trait.actions.forEach((traitAction: any) =>
         traitTrait.subTraits.push({
           name: traitAction.name,
           activation: traitAction.activation,
@@ -271,7 +271,6 @@ function getFrameTraits(traitList, coreSystem, perRoundState) {
         })
       )
     }
-    // YO if we only have one action/deployable and nothing to say about it, just use that subcard instead of us
     if (!traitTrait.description && traitTrait.subTraits.length === 1) {
       traitTrait = {...traitTrait.subTraits[0]}
       traitTrait.subTraits = []
@@ -284,12 +283,10 @@ function getFrameTraits(traitList, coreSystem, perRoundState) {
 }
 
 
-// Harvest the actions and whatnot from a mech's loadout
-function getSystemTraits(systems, limitedBonus, perRoundState) {
-  let systemTraits = []
+function getSystemTraits(systems: any, limitedBonus: any, perRoundState: any) {
+  let systemTraits: any[] = []
 
-  // PASSIVES and TECH first
-  systems.forEach((system, systemIndex) => {
+  systems.forEach((system: any, systemIndex: number) => {
     const systemData = findSystemData(system.id)
     const grantsTechAttacks = isSystemTechAttack(systemData)
     const grantsInvades = isSystemTechAttack(systemData, true)
@@ -298,7 +295,7 @@ function getSystemTraits(systems, limitedBonus, perRoundState) {
     const limited = getSystemLimited(system, systemData, limitedBonus)
     const perRoundCount = getSystemPerRoundCount(systemData, perRoundState, `${system.id}-${systemIndex}`)
 
-    let systemTrait = {
+    let systemTrait: any = {
       systemIndex: systemIndex,
       name: (system.flavorName || systemData.name).toLowerCase(),
       selfHeat: selfHeat,
@@ -311,14 +308,12 @@ function getSystemTraits(systems, limitedBonus, perRoundState) {
       perRoundCount: perRoundCount,
       isTitleCase: true,
     }
-    let systemSubTraits = []
+    let systemSubTraits: any[] = []
 
-    // system actions
     if (systemData.actions) {
-      // (invades & tech attacks go into the mounts list; only allow non-attack tech here)
       if (!grantsTechAttacks) {
-        systemData.actions.forEach((action, i) => {
-          if (action.name && action.name.includes('Grenade')) limited.icon = 'grenade'
+        systemData.actions.forEach((action: any, i: number) => {
+          if (action.name && action.name.includes('Grenade') && limited) limited.icon = 'grenade'
 
           systemSubTraits.push({
             systemIndex: systemIndex,
@@ -336,30 +331,24 @@ function getSystemTraits(systems, limitedBonus, perRoundState) {
       }
     }
 
-    // system deployables
     addDeployableTraits(systemData.deployables, systemSubTraits, limited, systemIndex)
 
-    // -- post-processing depending on the subtraits ---
-    // YO if we only have one action/deployable and nothing to say about it, just use that subcard instead of us
     if (!systemTrait.description && systemSubTraits.length === 1) {
       systemSubTraits[0].isDestructable = !hasTag(systemData, 'tg_indestructible')
       systemSubTraits[0].isDestroyed = system.destroyed
       systemTrait = {...systemTrait, ...systemSubTraits[0]}
 
     } else {
-      // add actions and deployable sub cards
       systemTrait.subTraits = systemSubTraits
 
-      // harvest any action types of the subtraits
       systemTrait.activation = getActivationTypes(systemTrait)
     }
 
-    // tech ATTACKS — they're described down in the attacks section, no need to repeat them here.
     if (grantsTechAttacks) {
       systemTrait.description = grantsInvades ?
-        `Gain the following options for Invade: ${systemData.actions.map(action => action.name).join(', ')}`
+        `Gain the following options for Invade: ${systemData.actions.map((action: any) => action.name).join(', ')}`
       :
-        `Gain the following tech attacks: ${systemData.actions.map(action => action.name || systemData.name).join(', ')}`
+        `Gain the following tech attacks: ${systemData.actions.map((action: any) => action.name || systemData.name).join(', ')}`
     }
 
     systemTraits.push(systemTrait)
@@ -368,16 +357,14 @@ function getSystemTraits(systems, limitedBonus, perRoundState) {
   return systemTraits
 }
 
-// makes subtraits for deployables
-function addDeployableTraits(deployables, addToTraits, limited = null, systemIndex = -1) {
-  // system deployables
+function addDeployableTraits(deployables: any, addToTraits: any, limited: any = null, systemIndex = -1) {
   if (deployables) {
-    deployables.forEach((deployable, i) => {
+    deployables.forEach((deployable: any, i: number) => {
       if (deployable.type === 'Mine' && limited) limited.icon = 'mine'
 
-      let deployableSubTraits = [];
+      let deployableSubTraits: any[] = [];
       if (deployable.actions) {
-        deployable.actions.forEach(action => {
+        deployable.actions.forEach((action: any) => {
           deployableSubTraits.push({
             systemIndex: systemIndex,
             name: action.name,
@@ -413,33 +400,29 @@ function addDeployableTraits(deployables, addToTraits, limited = null, systemInd
 }
 
 
-// Harvest the traits for each pilot talent
-function getPilotTraits(pilotTalents, pilotCoreBonuses, perRoundState) {
-  let pilotTraits = []
+function getPilotTraits(pilotTalents: any, pilotCoreBonuses: any, perRoundState: any) {
+  let pilotTraits: any[] = []
 
-  // TALENTS
-  pilotTalents.forEach(pilotTalent => {
+  pilotTalents.forEach((pilotTalent: any) => {
     const talentData = findTalentData(pilotTalent.id)
-    const perRoundCount = getSystemPerRoundCount(talentData, perRoundState, `${pilotTalent.id}-${pilotTalent.rank}`) // HACK: RANK IS LAST CHAR
+    const perRoundCount = getSystemPerRoundCount(talentData, perRoundState, `${pilotTalent.id}-${pilotTalent.rank}`)
     let overallActivation = '';
 
-    let talentRankTraits = [];
-    talentData.ranks.forEach((rankData,i) => {
+    let talentRankTraits: any[] = [];
+    talentData.ranks.forEach((rankData: any, i: number) => {
       if (pilotTalent.rank > i) {
 
-        // const rankChars = ['Ⅰ','Ⅱ','Ⅲ']
         const rankChar = "I"
-        const talentTrait = {
+        const talentTrait: any = {
           name: `${rankChar.repeat(i+1)} — ${rankData.name.toLowerCase()}`,
           description: rankData.description,
           isTitleCase: true,
         }
 
-        // add any sub-actions from this trait
         if (rankData.actions) {
           talentTrait.subTraits = []
 
-          rankData.actions.forEach(action => {
+          rankData.actions.forEach((action: any) => {
             overallActivation = overallActivation || action.activation
             talentTrait.subTraits.push({
               name: action.name,
@@ -464,23 +447,21 @@ function getPilotTraits(pilotTalents, pilotCoreBonuses, perRoundState) {
     })
   })
 
-  // CORE BONUSES
-  pilotCoreBonuses.forEach(coreBonus => {
+  pilotCoreBonuses.forEach((coreBonus: any) => {
     const coreBonusData = findCoreBonusData(coreBonus)
     const perRoundCount = getSystemPerRoundCount(coreBonusData, perRoundState, coreBonus)
 
-    const coreBonusTrait = {
+    const coreBonusTrait: any = {
       name: coreBonusData.name.toLowerCase(),
       description: coreBonusData.effect,
       perRoundCount: perRoundCount,
       isTitleCase: true,
     }
 
-    // add any sub-actions from this trait
     if (coreBonusData.actions) {
       coreBonusTrait.subTraits = []
 
-      coreBonusData.actions.forEach(action => {
+      coreBonusData.actions.forEach((action: any) => {
         coreBonusTrait.activation = coreBonusTrait.activation || action.activation
         coreBonusTrait.subTraits.push({
           name: action.name,
@@ -498,28 +479,25 @@ function getPilotTraits(pilotTalents, pilotCoreBonuses, perRoundState) {
   return pilotTraits
 }
 
-// return a string of all activation types of a trait and its subs (e.g. "Quick, Full")
-function getActivationTypes(trait) {
+function getActivationTypes(trait: any) {
   if (!trait.subTraits || trait.subTraits.length === 0) return trait.activation || ''
 
   const activationSet = [
     ...new Set([
       trait.activation,
-      ...trait.subTraits.map(subtrait => subtrait.activation)
+      ...trait.subTraits.map((subtrait: any) => subtrait.activation)
     ])
   ]
   return activationSet.filter(activation => activation).join(', ')
 }
 
-export function getMountsFromLoadout(loadout) {
-  let mounts = [];
+export function getMountsFromLoadout(loadout: any) {
+  let mounts: any[] = [];
 
-  // STANDARD MOUNTS
-  mounts = loadout.mounts.map((mount, i) =>
+  mounts = loadout.mounts.map((mount: any, i: number) =>
     ({...mount, source: 'mounts', index: i})
   )
 
-  // IMPROVED improved_armament
   if (loadout.improved_armament.slots && loadout.improved_armament.slots[0].weapon) {
     let improved_armament = deepCopy(loadout.improved_armament)
     improved_armament.bonus_effects.push('cb_improved_armament')
@@ -528,7 +506,6 @@ export function getMountsFromLoadout(loadout) {
     mounts.push(improved_armament)
   }
 
-  // SUPERHEAVY superheavy_mounting
   if (loadout.superheavy_mounting && loadout.superheavy_mounting.slots && loadout.superheavy_mounting.slots[0].weapon) {
     let superheavy_mounting = deepCopy(loadout.superheavy_mounting)
     superheavy_mounting.bonus_effects.push('cb_superheavy_mounting')
@@ -537,7 +514,6 @@ export function getMountsFromLoadout(loadout) {
     mounts.push(superheavy_mounting)
   }
 
-  // give the integrated weapon a bonus_effect and source to make it clear where it came from
   if (loadout.integratedWeapon.slots.length > 0 && loadout.integratedWeapon.slots[0].weapon) {
     let integratedWeapon = deepCopy(loadout.integratedWeapon)
     integratedWeapon.bonus_effects = ['cb_integrated_weapon']
@@ -546,10 +522,9 @@ export function getMountsFromLoadout(loadout) {
     mounts.push(integratedWeapon)
   }
 
-  // gotta make a dummy mount for integrated mounts
   if (loadout.integratedMounts.length > 0) {
     const integratedMounts =
-      loadout.integratedMounts.map((integratedMountWeapon, i) => {
+      loadout.integratedMounts.map((integratedMountWeapon: any, i: number) => {
         return {
           mount_type: "Integrated",
           lock: false,
@@ -566,25 +541,24 @@ export function getMountsFromLoadout(loadout) {
   return mounts;
 }
 
-function getInvadeAndTechAttacks(loadout, pilotTalents, coreSystem) {
-  let invades = [];
+function getInvadeAndTechAttacks(loadout: any, pilotTalents: any, coreSystem: any) {
+  let invades: any[] = [];
 
-  loadout.systems.forEach(system => {
+  loadout.systems.forEach((system: any) => {
     const systemData = findSystemData(system.id)
     if (!system.destroyed && isSystemTechAttack(systemData, false)) {
-      // not all actions have unique names e.g. Markerlight; in these cases, inherit from the system
-      const techAttacks = systemData.actions.map(action => {
+      const techAttacks = systemData.actions.map((action: any) => {
         return {...action, name: (action.name || systemData.name)}
       })
       invades.push(...techAttacks)
     }
   })
 
-  pilotTalents.forEach(pilotTalent => {
+  pilotTalents.forEach((pilotTalent: any) => {
     const talentData = findTalentData(pilotTalent.id)
-    talentData.ranks.forEach((rank,i) => {
+    talentData.ranks.forEach((rank: any, i: number) => {
       if (pilotTalent.rank > i &&  rank.actions) {
-        rank.actions.forEach(action => {
+        rank.actions.forEach((action: any) => {
           if (['Invade', 'Quick Tech', 'Full Tech'].includes(action.activation)) {
             invades.push(action)
           }
@@ -593,9 +567,8 @@ function getInvadeAndTechAttacks(loadout, pilotTalents, coreSystem) {
     });
   })
 
-  // CHOMOLUNGMA core system
   if (coreSystem.passive_actions) {
-    coreSystem.passive_actions.forEach(action => {
+    coreSystem.passive_actions.forEach((action: any) => {
       if (['Invade', 'Quick Tech', 'Full Tech'].includes(action.activation)) {
         invades.push(action)
       }

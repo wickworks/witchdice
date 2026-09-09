@@ -1,0 +1,1533 @@
+{
+  "EXPORT_TYPE": "Save Pilot",
+  "data": {
+    "itemType": "pilot",
+    "id": "ba34d216-d814-4203-90be-a241a5a0d56b",
+    "is_instance": false,
+    "instanceId": "",
+    "originId": "ba34d216-d814-4203-90be-a241a5a0d56b",
+    "le": false,
+    "level": 6,
+    "callsign": "MOTH HOUR",
+    "name": "Cyra Alcott",
+    "player_name": "Playtester",
+    "status": "Active",
+    "text_appearance": "",
+    "notes": "",
+    "history": "",
+    "quirks": [],
+    "background": "Redacted for fixture use.",
+    "mechs": [
+      {
+        "id": "0aea0dc5-0573-448e-8b16-13ec71db1898",
+        "name": "GOOD DOG",
+        "notes": "",
+        "frame": "mf_störtebeker",
+        "frameData": {
+          "id": "mf_störtebeker",
+          "variant": "RALEIGH",
+          "license_level": 2,
+          "source": "IPS-N",
+          "name": "Störtebeker",
+          "mechtype": [
+            "Striker"
+          ],
+          "y_pos": 12.5,
+          "description": "<p>Redacted for fixture use.</p>",
+          "mounts": [
+            "Flex",
+            "Flex",
+            "Heavy"
+          ],
+          "stats": {
+            "size": 1,
+            "structure": 4,
+            "stress": 4,
+            "armor": 1,
+            "hp": 8,
+            "evasion": 10,
+            "edef": 7,
+            "heatcap": 5,
+            "repcap": 5,
+            "sensor_range": 8,
+            "tech_attack": 0,
+            "save": 10,
+            "speed": 5,
+            "sp": 5
+          },
+          "traits": [
+            {
+              "name": "Dynamic Reload",
+              "description": "<p>Redacted for fixture use.</p>",
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "weapon_types": [
+                    "Rifle",
+                    "Cannon",
+                    "Launcher",
+                    "CQB",
+                    "Nexus"
+                  ],
+                  "weapon_sizes": [
+                    "Main",
+                    "Heavy",
+                    "Superheavy"
+                  ],
+                  "detail": "Redacted for fixture use."
+                },
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "weapon_types": [
+                    "Melee"
+                  ],
+                  "weapon_sizes": [
+                    "Main",
+                    "Heavy",
+                    "Superheavy"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            },
+            {
+              "name": "Truesilver",
+              "description": "<p>Redacted for fixture use.</p>",
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "weapon_types": [
+                    "any"
+                  ],
+                  "weapon_sizes": [
+                    "any"
+                  ],
+                  "detail": "<p>Redacted for fixture use.</p>"
+                }
+              ]
+            }
+          ],
+          "core_system": {
+            "name": "Truesilver Weaponry",
+            "description": "<p>Redacted for fixture use.</p>",
+            "active_name": "Truesilver Arsenal",
+            "active_effect": "Redacted for fixture use.",
+            "activation": "Protocol",
+            "passive_name": "Hopkins Doctrine",
+            "passive_effect": "Redacted for fixture use.",
+            "passive_actions": [
+              {
+                "name": "Reprise",
+                "activation": "Quick",
+                "detail": "Redacted for fixture use."
+              },
+              {
+                "name": "Renewal",
+                "activation": "Quick",
+                "detail": "Redacted for fixture use."
+              }
+            ],
+            "use": "Encounter"
+          },
+          "image_url": "",
+          "brew": {
+            "LcpId": "05B2PGxewZ193c4GaHDBoE2sl8U=",
+            "LcpName": "LANCER: Dustgrave",
+            "LcpVersion": "1.3.0",
+            "Website": "https://massif-press.itch.io/dustgrave",
+            "Status": "MISSING",
+            "V3": false
+          }
+        },
+        "img": {
+          "portrait": "",
+          "cloud_portrait": ""
+        },
+        "loadouts": [
+          {
+            "id": "fc5f53a9-df06-4338-ad6b-0a1e00664eb0",
+            "name": "Primary",
+            "systems": [
+              {
+                "id": "ms_personalizations",
+                "data": {
+                  "id": "ms_personalizations",
+                  "name": "Personalizations",
+                  "sp": 1,
+                  "tags": [
+                    {
+                      "id": "tg_unique"
+                    }
+                  ],
+                  "source": "GMS",
+                  "license": "GMS",
+                  "license_level": 0,
+                  "effect": "<p>Redacted for fixture use.</p>",
+                  "bonuses": [
+                    {
+                      "id": "hp",
+                      "val": 2
+                    }
+                  ],
+                  "active_effects": [
+                    {
+                      "name": "Personalizations",
+                      "detail": "Redacted for fixture use."
+                    }
+                  ]
+                },
+                "flavorName": "",
+                "flavorDescription": "",
+                "maxUses": 0,
+                "currentUses": 0,
+                "destroyed": false,
+                "isUsed": false
+              },
+              {
+                "id": "ms_roland_chamber",
+                "data": {
+                  "id": "ms_roland_chamber",
+                  "name": "“Roland” Chamber",
+                  "sp": 3,
+                  "tags": [
+                    {
+                      "id": "tg_unique"
+                    }
+                  ],
+                  "source": "IPS-N",
+                  "license": "Raleigh",
+                  "license_level": 2,
+                  "effect": "<p>Redacted for fixture use.</p>",
+                  "actions": [
+                    {
+                      "name": "Roland Chamber",
+                      "activation": "None",
+                      "trigger": "Redacted for fixture use.",
+                      "detail": "Redacted for fixture use.",
+                      "add_status": [
+                        {
+                          "id": "prone",
+                          "save": "hull"
+                        }
+                      ],
+                      "damage": [
+                        {
+                          "type": "Explosive",
+                          "val": "1d6"
+                        }
+                      ]
+                    }
+                  ],
+                  "description": "Redacted for fixture use.",
+                  "license_id": "mf_raleigh"
+                },
+                "flavorName": "",
+                "flavorDescription": "Redacted for fixture use.",
+                "maxUses": 0,
+                "currentUses": 0,
+                "destroyed": false,
+                "isUsed": false
+              },
+              {
+                "id": "ms_custom_paint_job",
+                "data": {
+                  "id": "ms_custom_paint_job",
+                  "name": "Custom Paint Job",
+                  "sp": 1,
+                  "tags": [
+                    {
+                      "id": "tg_unique"
+                    },
+                    {
+                      "id": "tg_indestructible"
+                    }
+                  ],
+                  "source": "GMS",
+                  "license": "GMS",
+                  "license_level": 0,
+                  "effect": "<p>Redacted for fixture use.</p>",
+                  "active_effects": [
+                    {
+                      "name": "Custom Paint Job",
+                      "detail": "Redacted for fixture use."
+                    }
+                  ]
+                },
+                "flavorName": "",
+                "flavorDescription": "",
+                "maxUses": 0,
+                "currentUses": 0,
+                "destroyed": false,
+                "isUsed": false
+              }
+            ],
+            "integratedSystems": [],
+            "mounts": [
+              {
+                "mount_type": "Flex",
+                "lock": false,
+                "slots": [
+                  {
+                    "size": "Flex",
+                    "weapon": {
+                      "id": "mw_variable_sword",
+                      "data": {
+                        "id": "mw_variable_sword",
+                        "name": "Variable Sword",
+                        "mount": "Main",
+                        "type": "Melee",
+                        "damage": [
+                          {
+                            "type": "Kinetic",
+                            "val": 3
+                          }
+                        ],
+                        "range": [
+                          {
+                            "type": "Threat",
+                            "val": 2
+                          }
+                        ],
+                        "tags": [
+                          {
+                            "id": "tg_accurate"
+                          }
+                        ],
+                        "source": "SSC",
+                        "license": "Mourning Cloak",
+                        "license_level": 3,
+                        "on_crit": {
+                          "detail": "Deal +1d6 bonus damage.",
+                          "bonus_damage": {
+                            "val": "1d6",
+                            "hit_type": "crit"
+                          }
+                        },
+                        "description": "Redacted for fixture use.",
+                        "license_id": "mf_mourning_cloak"
+                      },
+                      "flavorName": "",
+                      "flavorDescription": "Redacted for fixture use.",
+                      "selectedProfile": 0,
+                      "maxUseOverride": 0,
+                      "maxUses": 0,
+                      "currentUses": 0,
+                      "destroyed": false,
+                      "isUsed": false
+                    }
+                  }
+                ],
+                "extra": [
+                  {
+                    "size": "Auxiliary",
+                    "weapon": null
+                  }
+                ],
+                "bonus_effects": [
+                  {
+                    "id": "cb_overpower_caliber",
+                    "name": "Overpower Caliber",
+                    "source": "GMS",
+                    "effect": "Redacted for fixture use.",
+                    "actions": [
+                      {
+                        "name": "Overpower Caliber",
+                        "activation": "None",
+                        "frequency": "1/round",
+                        "trigger": "Redacted for fixture use.",
+                        "detail": "Redacted for fixture use.",
+                        "bonus_damage": {
+                          "detail": "Redacted for fixture use.",
+                          "val": "1d6"
+                        }
+                      }
+                    ],
+                    "description": "Redacted for fixture use.",
+                    "mounted_effect": "Redacted for fixture use."
+                  }
+                ]
+              },
+              {
+                "mount_type": "Flex",
+                "lock": false,
+                "slots": [
+                  {
+                    "size": "Flex",
+                    "weapon": {
+                      "id": "mw_variable_sword",
+                      "data": {
+                        "id": "mw_variable_sword",
+                        "name": "Variable Sword",
+                        "mount": "Main",
+                        "type": "Melee",
+                        "damage": [
+                          {
+                            "type": "Kinetic",
+                            "val": 3
+                          }
+                        ],
+                        "range": [
+                          {
+                            "type": "Threat",
+                            "val": 2
+                          }
+                        ],
+                        "tags": [
+                          {
+                            "id": "tg_accurate"
+                          }
+                        ],
+                        "source": "SSC",
+                        "license": "Mourning Cloak",
+                        "license_level": 3,
+                        "on_crit": {
+                          "detail": "Deal +1d6 bonus damage.",
+                          "bonus_damage": {
+                            "val": "1d6",
+                            "hit_type": "crit"
+                          }
+                        },
+                        "description": "Redacted for fixture use.",
+                        "license_id": "mf_mourning_cloak"
+                      },
+                      "mod": {
+                        "id": "wm_uncle_class_comp_con",
+                        "data": {
+                          "id": "wm_uncle_class_comp_con",
+                          "name": "UNCLE-Class Comp/Con",
+                          "sp": 3,
+                          "allowed_types": [
+                            "Melee",
+                            "CQB",
+                            "Rifle",
+                            "Launcher",
+                            "Cannon",
+                            "Nexus"
+                          ],
+                          "source": "IPS-N",
+                          "license": "Raleigh",
+                          "license_level": 3,
+                          "effect": "<p>Redacted for fixture use.</p>",
+                          "actions": [
+                            {
+                              "name": "UNCLE",
+                              "activation": "Free",
+                              "frequency": "1/turn",
+                              "detail": "Redacted for fixture use."
+                            }
+                          ],
+                          "description": "<p>Redacted for fixture use.</p>",
+                          "tags": [
+                            {
+                              "id": "tg_unique"
+                            },
+                            {
+                              "id": "tg_ai"
+                            },
+                            {
+                              "id": "tg_no_cascade"
+                            }
+                          ],
+                          "restricted_sizes": [
+                            "Superheavy"
+                          ],
+                          "license_id": "mf_raleigh"
+                        }
+                      },
+                      "flavorName": "",
+                      "flavorDescription": "Redacted for fixture use.",
+                      "selectedProfile": 0,
+                      "maxUseOverride": 0,
+                      "maxUses": 0,
+                      "currentUses": 0,
+                      "destroyed": false,
+                      "isUsed": false
+                    }
+                  }
+                ],
+                "extra": [
+                  {
+                    "size": "Auxiliary",
+                    "weapon": null
+                  }
+                ],
+                "bonus_effects": [
+                  {
+                    "id": "cb_auto_stabilizing_hardpoints",
+                    "name": "Auto-Stabilizing Hardpoints",
+                    "source": "GMS",
+                    "effect": "Redacted for fixture use.",
+                    "bonuses": [
+                      {
+                        "id": "mount_accuracy",
+                        "val": 1
+                      }
+                    ],
+                    "synergies": [
+                      {
+                        "locations": [
+                          "mount"
+                        ],
+                        "detail": "Redacted for fixture use."
+                      }
+                    ],
+                    "description": "Redacted for fixture use.",
+                    "mounted_effect": "Redacted for fixture use."
+                  }
+                ]
+              },
+              {
+                "mount_type": "Heavy",
+                "lock": false,
+                "slots": [
+                  {
+                    "size": "Heavy",
+                    "weapon": {
+                      "id": "mw_bolt_thrower",
+                      "data": {
+                        "id": "mw_bolt_thrower",
+                        "name": "Bolt Thrower",
+                        "mount": "Heavy",
+                        "type": "Cannon",
+                        "damage": [
+                          {
+                            "type": "Kinetic",
+                            "val": "2d6"
+                          },
+                          {
+                            "type": "Explosive",
+                            "val": "1d6"
+                          }
+                        ],
+                        "range": [
+                          {
+                            "type": "Range",
+                            "val": 8
+                          }
+                        ],
+                        "tags": [
+                          {
+                            "id": "tg_loading"
+                          },
+                          {
+                            "id": "tg_reliable",
+                            "val": 2
+                          }
+                        ],
+                        "source": "IPS-N",
+                        "license": "Raleigh",
+                        "license_level": 2,
+                        "description": "Redacted for fixture use.",
+                        "license_id": "mf_raleigh"
+                      },
+                      "flavorName": "",
+                      "flavorDescription": "Redacted for fixture use.",
+                      "selectedProfile": 0,
+                      "maxUseOverride": 0,
+                      "maxUses": 0,
+                      "currentUses": 0,
+                      "destroyed": false,
+                      "isUsed": false
+                    }
+                  }
+                ],
+                "extra": [],
+                "bonus_effects": []
+              }
+            ],
+            "integratedMounts": [],
+            "improved_armament": {
+              "mount_type": "Flex",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Flex",
+                  "weapon": null
+                }
+              ],
+              "extra": [
+                {
+                  "size": "Auxiliary",
+                  "weapon": null
+                }
+              ],
+              "bonus_effects": []
+            },
+            "integratedWeapon": {
+              "mount_type": "Aux",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Auxiliary",
+                  "weapon": null
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            },
+            "superheavy_mounting": {
+              "mount_type": "Superheavy",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Superheavy",
+                  "weapon": null
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            }
+          }
+        ],
+        "active_loadout_index": 0,
+        "stats": {
+          "stats": {},
+          "max": {
+            "activations": 1,
+            "size": 1,
+            "sizes": [
+              0.5,
+              1,
+              2,
+              3
+            ],
+            "structure": 4,
+            "hull": 2,
+            "agi": 5,
+            "sys": 0,
+            "eng": 1,
+            "hp": 17,
+            "armor": 1,
+            "stress": 4,
+            "heat": 0,
+            "speed": 7,
+            "evasion": 15,
+            "edef": 7,
+            "sensorRange": 8,
+            "saveTarget": 13,
+            "overshield": 0,
+            "overcharge": 0,
+            "burn": 0,
+            "limitedBonus": 0,
+            "attack": 3,
+            "techAttack": 0,
+            "grapple": 0,
+            "ram": 0,
+            "sp": 8,
+            "heatcap": 6,
+            "repairCapacity": 6
+          },
+          "current": {
+            "activations": 1,
+            "size": 1,
+            "sizes": [
+              0.5,
+              1,
+              2,
+              3
+            ],
+            "structure": 4,
+            "hull": 2,
+            "agi": 5,
+            "sys": 0,
+            "eng": 1,
+            "hp": 17,
+            "armor": 1,
+            "stress": 4,
+            "heat": 0,
+            "speed": 7,
+            "evasion": 15,
+            "edef": 7,
+            "sensorRange": 8,
+            "saveTarget": 13,
+            "overshield": 0,
+            "overcharge": 0,
+            "burn": 0,
+            "limitedBonus": 0,
+            "attack": 3,
+            "techAttack": 0,
+            "grapple": 0,
+            "ram": 0,
+            "sp": 8,
+            "heatcap": 0,
+            "repairCapacity": 6
+          },
+          "stat_version": 1,
+          "user_added_keys": []
+        },
+        "counters": {
+          "counter_data": [
+            {
+              "id": "ctr_duelist",
+              "name": "Blademaster Dice",
+              "default_value": 0,
+              "min": 0,
+              "max": 3
+            }
+          ],
+          "custom_counters": []
+        },
+        "statuses": [],
+        "customStatuses": [],
+        "resistances": [],
+        "cover": "none",
+        "mounted": true,
+        "overwatch": false,
+        "braced": false,
+        "prepared": false,
+        "coreActive": false,
+        "corePower": true,
+        "aiControl": false,
+        "isInSelfDestruct": false,
+        "reactorDestroyed": false,
+        "isDead": false,
+        "combatActions": {
+          "Protocol": true,
+          "Full": true,
+          "Quick1": true,
+          "Quick2": true,
+          "Overcharge": true,
+          "Reaction": true
+        },
+        "combat_history": [],
+        "round": 1,
+        "turn": 1,
+        "usedActions": [],
+        "timed_effects": []
+      }
+    ],
+    "special_equipment": {
+      "PilotGear": [],
+      "Frames": [],
+      "MechWeapons": [],
+      "WeaponMods": [],
+      "MechSystems": []
+    },
+    "sortIndex": 39,
+    "config": null,
+    "favorite_mech": "",
+    "save": {
+      "lastModified": 1780681968649,
+      "deleteTime": 0,
+      "created": 1780681968649,
+      "remote_code": "",
+      "remote_author": "",
+      "remote_collection": ""
+    },
+    "cloud": {},
+    "skills": [
+      {
+        "id": "sk_act_unseen_or_unheard",
+        "data": {
+          "id": "sk_act_unseen_or_unheard",
+          "name": "Act Unseen or Unheard",
+          "description": "Redacted for fixture use.",
+          "detail": "Redacted for fixture use.",
+          "family": "dex"
+        },
+        "rank": 2
+      },
+      {
+        "id": "sk_assault",
+        "data": {
+          "id": "sk_assault",
+          "name": "Assault",
+          "description": "Redacted for fixture use.",
+          "detail": "Redacted for fixture use.",
+          "family": "str"
+        },
+        "rank": 3
+      },
+      {
+        "id": "sk_get_somewhere_quickly",
+        "data": {
+          "id": "sk_get_somewhere_quickly",
+          "name": "Get Somewhere Quickly",
+          "description": "Redacted for fixture use.",
+          "detail": "Redacted for fixture use.",
+          "family": "dex"
+        },
+        "rank": 2
+      },
+      {
+        "id": "sk_investigate",
+        "data": {
+          "id": "sk_investigate",
+          "name": "Investigate",
+          "description": "Redacted for fixture use.",
+          "detail": "Redacted for fixture use.",
+          "family": "int"
+        },
+        "rank": 3
+      }
+    ],
+    "talents": [
+      {
+        "id": "t_combined_arms",
+        "data": {
+          "id": "t_combined_arms",
+          "name": "Combined Arms",
+          "icon": "COMBINED ARMS",
+          "terse": "Redacted for fixture use.",
+          "description": "Redacted for fixture use.",
+          "ranks": [
+            {
+              "name": "Shield of Blades",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Shield of Blades",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "You are Engaged"
+                }
+              ]
+            },
+            {
+              "name": "CQB-Trained",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "CQB-Trained",
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            },
+            {
+              "name": "Storm of Violence",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Storm of Violence",
+                  "condition": "Redacted for fixture use.",
+                  "detail": "Redacted for fixture use."
+                }
+              ],
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            }
+          ]
+        },
+        "rank": 3
+      },
+      {
+        "id": "t_duelist",
+        "data": {
+          "id": "t_duelist",
+          "name": "Duelist",
+          "icon": "DUELIST",
+          "terse": "Redacted for fixture use.",
+          "description": "Redacted for fixture use.",
+          "ranks": [
+            {
+              "name": "Partisan",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Partisan",
+                  "condition": "Redacted for fixture use.",
+                  "detail": "Redacted for fixture use.",
+                  "frequency": "1/turn"
+                }
+              ],
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "weapon_types": [
+                    "Melee"
+                  ],
+                  "weapon_sizes": [
+                    "Main"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            },
+            {
+              "name": "Blademaster",
+              "description": "<p>Redacted for fixture use.</p>",
+              "active_effects": [
+                {
+                  "name": "Blademaster",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "frequency": "1/round"
+                }
+              ],
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "weapon_types": [
+                    "Melee"
+                  ],
+                  "weapon_sizes": [
+                    "Main"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ],
+              "actions": [
+                {
+                  "name": "Blademaster: Parry",
+                  "activation": "Reaction",
+                  "trigger": "You are hit by a melee attack",
+                  "detail": "Redacted for fixture use."
+                },
+                {
+                  "name": "Blademaster: Deflect",
+                  "activation": "Reaction",
+                  "trigger": "Redacted for fixture use.",
+                  "detail": "Redacted for fixture use."
+                },
+                {
+                  "name": "Blademaster: Feint",
+                  "activation": "Free",
+                  "detail": "Redacted for fixture use."
+                },
+                {
+                  "name": "Blademaster: Trip",
+                  "activation": "Quick",
+                  "detail": "Redacted for fixture use."
+                }
+              ],
+              "counters": [
+                {
+                  "id": "ctr_duelist",
+                  "name": "Blademaster Dice",
+                  "default_value": 0,
+                  "min": 0,
+                  "max": 3
+                }
+              ]
+            },
+            {
+              "name": "Unstoppable",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Unstoppable",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "frequency": "1/round"
+                }
+              ],
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "weapon_types": [
+                    "Melee"
+                  ],
+                  "weapon_sizes": [
+                    "any"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            }
+          ]
+        },
+        "rank": 2
+      },
+      {
+        "id": "t_pankrati",
+        "data": {
+          "id": "t_pankrati",
+          "name": "Pankrati",
+          "terse": "Redacted for fixture use.",
+          "description": "Redacted for fixture use.",
+          "ranks": [
+            {
+              "name": "Veni",
+              "description": "Redacted for fixture use.",
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "detail": "Redacted for fixture use.",
+                  "weapon_types": [
+                    "Melee"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Vidi",
+              "description": "Redacted for fixture use.",
+              "actions": [
+                {
+                  "name": "Valiant Charge",
+                  "activation": "Free",
+                  "frequency": "1/scene",
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            },
+            {
+              "name": "Vici",
+              "description": "Redacted for fixture use."
+            }
+          ],
+          "brew": {
+            "LcpId": "l2LyED6bpwu6FATD80SCqegdxvE=",
+            "LcpName": "Lancer KTB Data",
+            "LcpVersion": "1.2.3",
+            "Website": "https://massif-press.itch.io/field-guide-the-karrakin-trade-baronies",
+            "Status": "OK",
+            "V3": false
+          }
+        },
+        "rank": 2
+      },
+      {
+        "id": "t_siege_specialist",
+        "data": {
+          "id": "t_siege_specialist",
+          "name": "Siege Specialist",
+          "icon": "SIEGE SPECIALIST",
+          "terse": "Redacted for fixture use.",
+          "description": "Redacted for fixture use.",
+          "ranks": [
+            {
+              "name": "Jackhammer",
+              "description": "Redacted for fixture use.",
+              "actions": [
+                {
+                  "name": "Jackhammer Round",
+                  "activation": "Quick",
+                  "detail": "Redacted for fixture use.",
+                  "damage": [
+                    {
+                      "val": 10,
+                      "type": "Kinetic",
+                      "ap": true
+                    },
+                    {
+                      "val": 2,
+                      "type": "Kinetic",
+                      "aoe": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Impact",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Impact",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "frequency": "1/round",
+                  "add_status": [
+                    {
+                      "id": "prone",
+                      "save": "hull",
+                      "aoe": true
+                    }
+                  ]
+                }
+              ],
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "weapon_types": [
+                    "Cannon"
+                  ],
+                  "weapon_sizes": [
+                    "any"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            },
+            {
+              "name": "Collateral Damage",
+              "description": "Redacted for fixture use.",
+              "active_effects": [
+                {
+                  "name": "Collateral Damage",
+                  "detail": "Redacted for fixture use.",
+                  "condition": "Redacted for fixture use.",
+                  "frequency": "1/round",
+                  "damage": [
+                    {
+                      "val": 2,
+                      "type": "Explosive",
+                      "aoe": true
+                    }
+                  ],
+                  "add_status": [
+                    {
+                      "id": "prone",
+                      "aoe": true
+                    }
+                  ]
+                }
+              ],
+              "synergies": [
+                {
+                  "locations": [
+                    "weapon"
+                  ],
+                  "weapon_types": [
+                    "Cannon"
+                  ],
+                  "weapon_sizes": [
+                    "any"
+                  ],
+                  "detail": "Redacted for fixture use."
+                }
+              ]
+            }
+          ]
+        },
+        "rank": 2
+      }
+    ],
+    "mechSkills": [
+      2,
+      5,
+      0,
+      1
+    ],
+    "core_bonuses": [
+      {
+        "id": "cb_overpower_caliber",
+        "name": "Overpower Caliber",
+        "source": "GMS",
+        "effect": "Redacted for fixture use.",
+        "actions": [
+          {
+            "name": "Overpower Caliber",
+            "activation": "None",
+            "frequency": "1/round",
+            "trigger": "Redacted for fixture use.",
+            "detail": "Redacted for fixture use.",
+            "bonus_damage": {
+              "detail": "Redacted for fixture use.",
+              "val": "1d6"
+            }
+          }
+        ],
+        "description": "Redacted for fixture use.",
+        "mounted_effect": "Redacted for fixture use."
+      },
+      {
+        "id": "cb_auto_stabilizing_hardpoints",
+        "name": "Auto-Stabilizing Hardpoints",
+        "source": "GMS",
+        "effect": "Redacted for fixture use.",
+        "bonuses": [
+          {
+            "id": "mount_accuracy",
+            "val": 1
+          }
+        ],
+        "synergies": [
+          {
+            "locations": [
+              "mount"
+            ],
+            "detail": "Redacted for fixture use."
+          }
+        ],
+        "description": "Redacted for fixture use.",
+        "mounted_effect": "Redacted for fixture use."
+      }
+    ],
+    "licenses": [
+      {
+        "id": "mf_raleigh",
+        "rank": 3,
+        "stub": {
+          "id": "mf_raleigh",
+          "name": "Raleigh",
+          "source": "IPS-N",
+          "frameName": "raleigh",
+          "brew": {
+            "LcpId": "",
+            "LcpName": "Lancer Core Book",
+            "LcpVersion": "",
+            "Website": "",
+            "Status": "OK",
+            "V3": true
+          }
+        }
+      },
+      {
+        "id": "mf_mourning_cloak",
+        "rank": 3,
+        "stub": {
+          "id": "mf_mourning_cloak",
+          "name": "Mourning Cloak",
+          "source": "SSC",
+          "frameName": "mourning cloak",
+          "brew": {
+            "LcpId": "",
+            "LcpName": "Lancer Core Book",
+            "LcpVersion": "",
+            "Website": "",
+            "Status": "OK",
+            "V3": true
+          }
+        }
+      }
+    ],
+    "reserves": [],
+    "orgs": [],
+    "bond": {
+      "xp": 0,
+      "stress": 0,
+      "isBroken": false,
+      "burdens": [],
+      "bondPowers": [],
+      "powerSelections": 0,
+      "maxStress": 8,
+      "bondAnswers": [
+        "",
+        ""
+      ],
+      "minorIdeal": "",
+      "clocks": [],
+      "force": false
+    },
+    "img": {
+      "portrait": "",
+      "cloud_portrait": ""
+    },
+    "loadouts": [
+      {
+        "name": "Primary",
+        "armor": [
+          {
+            "id": "pg_assault_hardsuit",
+            "type": "PilotArmor",
+            "data": {
+              "id": "pg_assault_hardsuit",
+              "name": "Assault Hardsuit",
+              "type": "Armor",
+              "description": "Redacted for fixture use.",
+              "bonuses": [
+                {
+                  "id": "pilot_hp",
+                  "val": 3
+                },
+                {
+                  "id": "pilot_armor",
+                  "val": 1
+                },
+                {
+                  "id": "pilot_evasion",
+                  "val": 8,
+                  "replace": true
+                },
+                {
+                  "id": "pilot_edef",
+                  "val": 8,
+                  "replace": true
+                },
+                {
+                  "id": "pilot_speed",
+                  "val": 4,
+                  "replace": true
+                }
+              ],
+              "tags": [
+                {
+                  "id": "tg_personal_armor"
+                }
+              ]
+            },
+            "flavorName": "",
+            "flavorDescription": "",
+            "maxUses": 0,
+            "currentUses": 0,
+            "destroyed": false,
+            "isUsed": false
+          }
+        ],
+        "weapons": [
+          {
+            "id": "pg_medium_a_c",
+            "type": "PilotWeapon",
+            "data": {
+              "id": "pg_medium_a_c",
+              "name": "Medium A/C",
+              "type": "Weapon",
+              "description": "Redacted for fixture use.",
+              "tags": [
+                {
+                  "id": "tg_pilot_weapon"
+                }
+              ],
+              "range": [
+                {
+                  "type": "Threat",
+                  "val": 1
+                }
+              ],
+              "damage": [
+                {
+                  "type": "Kinetic",
+                  "val": 2
+                }
+              ]
+            },
+            "flavorName": "",
+            "flavorDescription": "",
+            "maxUses": 0,
+            "currentUses": 0,
+            "destroyed": false,
+            "isUsed": false
+          },
+          {
+            "id": "pg_heavy_signature",
+            "type": "PilotWeapon",
+            "data": {
+              "id": "pg_heavy_signature",
+              "name": "Heavy Signature",
+              "type": "Weapon",
+              "description": "Redacted for fixture use.",
+              "tags": [
+                {
+                  "id": "tg_ordnance"
+                },
+                {
+                  "id": "tg_loading"
+                },
+                {
+                  "id": "tg_set_damage_type"
+                },
+                {
+                  "id": "tg_pilot_weapon"
+                }
+              ],
+              "range": [
+                {
+                  "type": "Range",
+                  "val": 10
+                }
+              ],
+              "damage": [
+                {
+                  "type": "variable",
+                  "val": 4
+                }
+              ],
+              "effect": "Redacted for fixture use."
+            },
+            "flavorName": "",
+            "flavorDescription": "",
+            "maxUses": 0,
+            "currentUses": 0,
+            "destroyed": false,
+            "isUsed": false
+          }
+        ],
+        "gear": [
+          {
+            "id": "pg_player_two_neural_bypass",
+            "type": "PilotGear",
+            "data": {
+              "id": "pg_player_two_neural_bypass",
+              "name": "Player_Two Neural Bypass",
+              "type": "Gear",
+              "description": "Redacted for fixture use.",
+              "brew": {
+                "LcpId": "qP3AAOpi2QKYEONm8CMBMZpmsnw=",
+                "LcpName": "Legionnaire",
+                "LcpVersion": "1.0.0",
+                "Website": "",
+                "Status": "OK",
+                "V3": false
+              }
+            },
+            "flavorName": "",
+            "flavorDescription": "",
+            "maxUses": 0,
+            "currentUses": 0,
+            "destroyed": false,
+            "isUsed": false
+          },
+          {
+            "id": "pg_prosocollar",
+            "type": "PilotGear",
+            "data": {
+              "id": "pg_prosocollar",
+              "name": "Prosocollar",
+              "type": "Gear",
+              "description": "Redacted for fixture use.",
+              "tags": [
+                {
+                  "id": "tg_gear"
+                }
+              ]
+            },
+            "flavorName": "",
+            "flavorDescription": "",
+            "maxUses": 0,
+            "currentUses": 0,
+            "destroyed": false,
+            "isUsed": false
+          },
+          {
+            "id": "pg_dataplating",
+            "type": "PilotGear",
+            "data": {
+              "id": "pg_dataplating",
+              "name": "Dataplating",
+              "type": "Gear",
+              "description": "Redacted for fixture use.",
+              "tags": [
+                {
+                  "id": "tg_gear"
+                }
+              ]
+            },
+            "flavorName": "",
+            "flavorDescription": "",
+            "maxUses": 0,
+            "currentUses": 0,
+            "destroyed": false,
+            "isUsed": false
+          }
+        ]
+      }
+    ],
+    "active_index": 0,
+    "stats": {
+      "stats": {},
+      "max": {
+        "activations": 1,
+        "size": 1,
+        "sizes": [
+          0.5,
+          1,
+          2,
+          3
+        ],
+        "structure": 0,
+        "hull": 0,
+        "agi": 0,
+        "sys": 0,
+        "eng": 0,
+        "hp": 12,
+        "armor": 1,
+        "stress": 0,
+        "heat": 0,
+        "speed": 4,
+        "evasion": 8,
+        "edef": 8,
+        "sensorRange": 0,
+        "saveTarget": 0,
+        "overshield": 0,
+        "overcharge": 0,
+        "burn": 0,
+        "grit": 3,
+        "limitedBonus": 0
+      },
+      "current": {
+        "activations": 1,
+        "size": 1,
+        "sizes": [
+          0.5,
+          1,
+          2,
+          3
+        ],
+        "structure": 0,
+        "hull": 0,
+        "agi": 0,
+        "sys": 0,
+        "eng": 0,
+        "hp": 12,
+        "armor": 1,
+        "stress": 0,
+        "heat": 0,
+        "speed": 4,
+        "evasion": 8,
+        "edef": 8,
+        "sensorRange": 0,
+        "saveTarget": 0,
+        "overshield": 0,
+        "overcharge": 0,
+        "burn": 0,
+        "grit": 3,
+        "limitedBonus": 0,
+        "heatcap": 0
+      },
+      "stat_version": 1,
+      "user_added_keys": []
+    },
+    "counters": {
+      "counter_data": [
+        {
+          "id": "ctr_duelist",
+          "name": "Blademaster Dice",
+          "default_value": 0,
+          "min": 0,
+          "max": 3
+        }
+      ],
+      "custom_counters": []
+    },
+    "statuses": [],
+    "customStatuses": [],
+    "resistances": [],
+    "cover": "none",
+    "mounted": true,
+    "overwatch": false,
+    "braced": false,
+    "prepared": false,
+    "coreActive": false,
+    "corePower": true,
+    "aiControl": false,
+    "isInSelfDestruct": false,
+    "reactorDestroyed": false,
+    "isDead": false,
+    "combatActions": {
+      "Protocol": true,
+      "Full": true,
+      "Quick1": true,
+      "Quick2": true,
+      "Overcharge": true,
+      "Reaction": true
+    },
+    "combat_history": [],
+    "round": 1,
+    "turn": 1,
+    "usedActions": [],
+    "timed_effects": [],
+    "brews": [
+      {
+        "LcpId": "05B2PGxewZ193c4GaHDBoE2sl8U=",
+        "LcpName": "LANCER: Dustgrave",
+        "LcpVersion": "1.3.0",
+        "Website": "https://massif-press.itch.io/dustgrave",
+        "Status": "MISSING",
+        "V3": false
+      }
+    ]
+  }
+}

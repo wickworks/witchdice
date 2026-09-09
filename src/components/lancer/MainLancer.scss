@@ -6,7 +6,7 @@
   flex-direction: column;
   width: 100%;
 
-  .game-mode-and-lcp-container {
+  .game-mode-container {
     // @include standard_side_margin;
     max-width: 800px;
     width: 100%;
@@ -41,33 +41,6 @@
           color: white;
         }
       }
-    }
-  }
-
-  .lcp-container {
-    margin: 10px 0;
-    &.expanded { width: 100%; }
-
-    button.lcp-list-collapsed {
-      margin: auto;
-      padding: 4px 12px;
-      font-size: 20px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      color: $pink_logo_light;
-      background-color: $crushed_velvet;
-      border-radius: 6px;
-      max-width: 800px;
-
-      &:hover { background-color: $pink_logo_dark; }
-
-      span { margin-left: 4px; }
-    }
-
-    .FileList.content-packs {
-      margin: 0;
-      .id-core .DeleteButton { display: none; }
     }
   }
 

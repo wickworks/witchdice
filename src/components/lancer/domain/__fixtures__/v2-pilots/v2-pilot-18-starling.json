@@ -1,0 +1,331 @@
+{
+  "id": "07a67adb-679b-4af4-9a4a-875f39716a30",
+  "group": "",
+  "sort_index": 3,
+  "isLocal": true,
+  "lastSync": "",
+  "level": 0,
+  "callsign": "STARLING",
+  "name": "Tamsin Ellory",
+  "player_name": "Playtester",
+  "status": "Active",
+  "dead": false,
+  "text_appearance": "",
+  "notes": "",
+  "history": "",
+  "portrait": "",
+  "cloud_portrait": "",
+  "quirks": [],
+  "current_hp": 6,
+  "reserves": [],
+  "orgs": [],
+  "background": "Redacted for fixture use.",
+  "mechSkills": [
+    1,
+    0,
+    0,
+    1
+  ],
+  "licenses": [],
+  "skills": [
+    {
+      "id": "sk_act_unseen_or_unheard",
+      "rank": 1
+    },
+    {
+      "id": "sk_invent_or_create",
+      "rank": 1
+    },
+    {
+      "id": "sk_investigate",
+      "rank": 1
+    },
+    {
+      "id": "sk_spot",
+      "rank": 1
+    }
+  ],
+  "talents": [
+    {
+      "id": "t_centimane",
+      "rank": 1
+    },
+    {
+      "id": "t_engineer",
+      "rank": 1
+    },
+    {
+      "id": "t_gunslinger",
+      "rank": 1
+    }
+  ],
+  "core_bonuses": [],
+  "loadout": {
+    "id": "f937b225-4b02-4f3c-99be-70d35cbc904a",
+    "name": "Primary",
+    "armor": [
+      null
+    ],
+    "weapons": [
+      null,
+      null
+    ],
+    "gear": [
+      null,
+      null,
+      null
+    ],
+    "extendedWeapons": [
+      null
+    ],
+    "extendedGear": [
+      null,
+      null
+    ]
+  },
+  "mechs": [
+    {
+      "id": "d80900c2-8195-4a46-a318-676b8977d029",
+      "name": "BRIGHT ARREARS",
+      "notes": "",
+      "gm_note": "",
+      "portrait": "",
+      "cloud_portrait": "",
+      "frame": "mf_standard_pattern_i_everest",
+      "active": false,
+      "current_structure": 4,
+      "current_move": 4,
+      "boost": 0,
+      "current_hp": 14,
+      "overshield": 0,
+      "current_stress": 4,
+      "current_heat": 0,
+      "current_repairs": 5,
+      "current_overcharge": 0,
+      "current_core_energy": 1,
+      "loadouts": [
+        {
+          "id": "bc8401e8-d55f-4299-b4f9-ebb800fc4790",
+          "name": "Primary",
+          "systems": [
+            {
+              "id": "ms_custom_paint_job",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            },
+            {
+              "id": "ms_pattern_a_jericho_deployable_cover",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            },
+            {
+              "id": "ms_pattern_b_hex_charges",
+              "uses": 3,
+              "destroyed": false,
+              "cascading": false
+            },
+            {
+              "id": "ms_personalizations",
+              "uses": 0,
+              "destroyed": false,
+              "cascading": false
+            }
+          ],
+          "integratedSystems": [],
+          "mounts": [
+            {
+              "mount_type": "Main",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Main",
+                  "weapon": {
+                    "id": "mw_nexus_hunter_killer",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            },
+            {
+              "mount_type": "Flex",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Flex",
+                  "weapon": {
+                    "id": "mw_missile_rack",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                }
+              ],
+              "extra": [
+                {
+                  "size": "Auxiliary",
+                  "weapon": {
+                    "id": "mw_nexus_light",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                }
+              ],
+              "bonus_effects": []
+            },
+            {
+              "mount_type": "Heavy",
+              "lock": false,
+              "slots": [
+                {
+                  "size": "Heavy",
+                  "weapon": {
+                    "id": "mw_heavy_melee_weapon",
+                    "destroyed": false,
+                    "cascading": false,
+                    "loaded": true,
+                    "mod": null,
+                    "customDamageType": null,
+                    "maxUseOverride": 0,
+                    "uses": 0,
+                    "selectedProfile": 0
+                  }
+                }
+              ],
+              "extra": [],
+              "bonus_effects": []
+            }
+          ],
+          "integratedMounts": [
+            {
+              "weapon": {
+                "id": "mw_prototype_1",
+                "destroyed": false,
+                "cascading": false,
+                "loaded": true,
+                "mod": null,
+                "customDamageType": null,
+                "maxUseOverride": 0,
+                "uses": 0,
+                "selectedProfile": 0
+              }
+            }
+          ],
+          "improved_armament": {
+            "mount_type": "Flex",
+            "lock": false,
+            "slots": [
+              {
+                "size": "Flex",
+                "weapon": null
+              }
+            ],
+            "extra": [
+              {
+                "size": "Auxiliary",
+                "weapon": null
+              }
+            ],
+            "bonus_effects": []
+          },
+          "integratedWeapon": {
+            "mount_type": "Aux",
+            "lock": false,
+            "slots": [
+              {
+                "size": "Auxiliary",
+                "weapon": null
+              }
+            ],
+            "extra": [],
+            "bonus_effects": []
+          }
+        }
+      ],
+      "active_loadout_index": 0,
+      "statuses": [],
+      "conditions": [],
+      "resistances": [],
+      "reactions": [],
+      "burn": 0,
+      "destroyed": false,
+      "defeat": "",
+      "activations": 1,
+      "meltdown_imminent": false,
+      "reactor_destroyed": false,
+      "core_active": false,
+      "cc_ver": "ERR"
+    }
+  ],
+  "counter_data": [],
+  "custom_counters": [],
+  "special_equipment": {
+    "PilotArmor": [],
+    "PilotWeapons": [],
+    "PilotGear": [],
+    "Frames": [],
+    "MechWeapons": [],
+    "WeaponMods": [],
+    "MechSystems": [],
+    "SystemMods": []
+  },
+  "combat_history": {
+    "moves": 0,
+    "kills": 0,
+    "damage": 0,
+    "hp_damage": 0,
+    "structure_damage": 0,
+    "overshield": 0,
+    "heat_damage": 0,
+    "reactor_damage": 0,
+    "overcharge_uses": 0,
+    "core_uses": 0
+  },
+  "state": {
+    "active_mech_id": "",
+    "remote_mech_id": "",
+    "stage": "Narrative",
+    "turn": 1,
+    "actions": 2,
+    "braced": false,
+    "overcharged": false,
+    "prepare": false,
+    "bracedCooldown": false,
+    "redundant": false,
+    "stats": {
+      "moves": 0,
+      "kills": 0,
+      "damage": 0,
+      "hp_damage": 0,
+      "structure_damage": 0,
+      "overshield": 0,
+      "heat_damage": 0,
+      "reactor_damage": 0,
+      "overcharge_uses": 0,
+      "core_uses": 0
+    },
+    "deployed": []
+  },
+  "brews": []
+}

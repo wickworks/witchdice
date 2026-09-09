@@ -2,11 +2,18 @@ import React from 'react';
 
 import './PerRoundBar.scss';
 
-function dotIsFilled(perRoundCount, i) {
+export interface PerRoundCount {
+  source: string;
+  max: number;
+  current: number;
+  interval: string;
+}
+
+function dotIsFilled(perRoundCount: PerRoundCount, i: number) {
 	return (perRoundCount.max - i) <= (perRoundCount.max - perRoundCount.current)
 }
 
-export function getPerRoundCountShortString(perRoundCount) {
+export function getPerRoundCountShortString(perRoundCount: PerRoundCount) {
 	return (
 		<>
 			{ [...Array(perRoundCount.max || 0)].map((undef, i) =>
@@ -19,6 +26,9 @@ export function getPerRoundCountShortString(perRoundCount) {
 const PerRoundBar = ({
 	perRoundCount,
 	setPerRoundCount,
+}: {
+	perRoundCount: PerRoundCount,
+	setPerRoundCount: (source: string, current: number) => void,
 }) => {
   return (
     <label className='PerRoundBar'>
@@ -27,7 +37,7 @@ const PerRoundBar = ({
 	        checked={dotIsFilled(perRoundCount, i)}
 	        onChange={(e) => setPerRoundCount(
 						perRoundCount.source,
-						perRoundCount.current + ((-1) ** e.target.checked) // turns true/false into 1/-1
+						perRoundCount.current + (e.target.checked ? -1 : 1)
 					)}
 					key={i}
 	      />
