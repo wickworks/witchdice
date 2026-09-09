@@ -432,9 +432,9 @@ const LancerNpcMode = ({
               extraClass='npcs'
               acceptFileType='application/JSON,.compcon'
               onFileUpload={uploadNpcFile}
-              onShareCodePaste={importAllNpcsFromUserID}
-              shareCodeLength={EXAMPLE_IDENTITYID.length}
-              shareCodeName={'comp/con identityid'}
+              //onShareCodePaste={importAllNpcsFromUserID}
+              //shareCodeLength={EXAMPLE_IDENTITYID.length}
+              //shareCodeName={'comp/con identityid'}
               isUploadingNewFile={isUploadingNewFile}
               setIsUploadingNewFile={setIsUploadingNewFile}
               instructions={
@@ -443,7 +443,7 @@ const LancerNpcMode = ({
                   <ul>
                     <li>Upload a single npc data file (.json)</li>
                     <li>Upload a full data backup (.compcon)</li>
-                    <li>
+                    {/*<li>
                       Enter your <span className='hover-help'>COMP/CON
                       IDENTITYID<img alt="Location on COMP/CON Account for identity ID" src={identityid}/></span> to import
                       all npcs saved in your cloud account.
@@ -455,7 +455,7 @@ const LancerNpcMode = ({
                           <span className='asset refresh' />
                         </button>
                       </li>
-                    }
+                    }*/}
                   </ul>
                 </>
               }
