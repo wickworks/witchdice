@@ -1,4 +1,5 @@
 import { deepCopy } from '../../../utils';
+import { featureDataFromV3 } from './parseNpc';
 
 export interface LegacyNpcContent {
   classes: Record<string, any>;
@@ -32,7 +33,7 @@ export function backfillNpcInlineContent(npc: any, content: LegacyNpcContent): b
 
   (npc.items || []).forEach((item: any) => {
     if (item && !item.data && content.features[item.itemID]) {
-      item.data = deepCopy(content.features[item.itemID]);
+      item.data = featureDataFromV3(deepCopy(content.features[item.itemID]));
       changed = true;
     }
   });

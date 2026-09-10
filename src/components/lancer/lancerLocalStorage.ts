@@ -6,7 +6,7 @@ import {
 } from '../../localstorage.js';
 
 import type { Encounter } from './types';
-import { parseCompconPilot } from './domain/parsePilot';
+import { parseCompconPilot, flattenV3Bond } from './domain/parsePilot';
 import { parseCompconNpc, defaultNpcName } from './domain/parseNpc';
 import {
   npcContentFromLegacyLcps,
@@ -85,7 +85,10 @@ export function savePilotData(pilot: DomainPilot) {
 export function loadPilotData(pilotID: string): DomainPilot | null {
   const raw: any = loadLocalData(PILOT_PREFIX, pilotID.slice(0,STORAGE_ID_LENGTH));
   if (!raw) return null;
-  if (raw._model === MODEL_TAG) return raw as DomainPilot;
+  if (raw._model === MODEL_TAG) {
+    if (flattenV3Bond(raw)) savePilotData(raw);
+    return raw as DomainPilot;
+  }
   try {
     const domain = parseCompconPilot(raw);
     savePilotData(domain);

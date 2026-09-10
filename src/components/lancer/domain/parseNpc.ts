@@ -60,6 +60,93 @@ function tierArray(value: any): any {
   return Array.isArray(value) ? value : [value, value, value];
 }
 
+function tierText(value: any): string {
+  return Array.isArray(value) ? `{${value.join('/')}}` : String(value);
+}
+
+const ACTIVATION_TAGS: Record<string, string> = {
+  Quick: 'tg_quick_action',
+  Full: 'tg_full_action',
+  Protocol: 'tg_protocol',
+};
+
+function hasTagId(feature: any, tagID: string): boolean {
+  return Array.isArray(feature.tags) && feature.tags.some((tag: any) => tag && tag.id === tagID);
+}
+
+function addTag(feature: any, tag: { id: string; val?: any }) {
+  if (hasTagId(feature, tag.id)) return;
+  feature.tags = [...(feature.tags || []), tag];
+}
+
+function mentions(text: string, word: string): boolean {
+  return typeof word === 'string' && text.toLowerCase().includes(word.toLowerCase());
+}
+
+function damageText(damage: any, alreadyIn = ''): string {
+  if (!Array.isArray(damage)) return '';
+  return damage
+    .filter((d: any) => d && !mentions(alreadyIn, d.type))
+    .map((d: any) => `${tierText('val' in d ? d.val : d.damage)} ${d.type}`).join(' + ');
+}
+
+function rangeText(range: any, alreadyIn = ''): string {
+  if (!Array.isArray(range)) return '';
+  return range
+    .filter((r: any) => r && !mentions(alreadyIn, r.type))
+    .map((r: any) => `${r.type} ${tierText(r.val)}`).join(', ');
+}
+
+function actionText(action: any, withHeader: boolean): string {
+  const detail = action.detail || '';
+  const qualifiers = [action.activation, action.frequency].filter(q => q).join(', ');
+  const header = withHeader ? `<strong>${action.name}</strong>${qualifiers ? ` (${qualifiers})` : ''}` : '';
+  const trigger = action.trigger ? `<strong>Trigger:</strong> ${action.trigger}` : '';
+  const numbers = [rangeText(action.range, detail), damageText(action.damage, detail)].filter(t => t).join(' · ');
+  return [header, trigger, detail, numbers].filter(t => t).join('<br>');
+}
+
+function deployableText(deployable: any): string {
+  const stats = [
+    deployable.type,
+    deployable.size !== undefined ? `Size ${deployable.size}` : '',
+    deployable.hp !== undefined ? `HP ${tierText(deployable.hp)}` : '',
+    deployable.armor !== undefined ? `Armor ${tierText(deployable.armor)}` : '',
+    deployable.evasion !== undefined ? `Evasion ${tierText(deployable.evasion)}` : '',
+    deployable.edef !== undefined ? `E-Def ${tierText(deployable.edef)}` : '',
+    deployable.speed !== undefined ? `Speed ${tierText(deployable.speed)}` : '',
+  ].filter(s => s).join(', ');
+  const qualifiers = [deployable.activation, stats].filter(q => q).join(' · ');
+  const header = `<strong>${deployable.name}</strong>${qualifiers ? ` (${qualifiers})` : ''}`;
+  const numbers = [rangeText(deployable.range), damageText(deployable.damage)].filter(t => t).join(' · ');
+  return [header, deployable.detail || '', numbers].filter(t => t).join('<br>');
+}
+
+function deriveEffectFromV3(feature: any) {
+  if (typeof feature.effect === 'string' && feature.effect.trim() !== '') return;
+  const actions = Array.isArray(feature.actions) ? feature.actions : [];
+  const deployables = Array.isArray(feature.deployables) ? feature.deployables : [];
+  if (actions.length === 0 && deployables.length === 0) return;
+
+  if (actions.length === 1) {
+    const [action] = actions;
+    if (action.trigger && !feature.trigger) feature.trigger = action.trigger;
+    if (action.activation in ACTIVATION_TAGS) addTag(feature, { id: ACTIVATION_TAGS[action.activation] });
+    if (feature.type === 'Tech' && typeof action.activation === 'string' && action.activation.endsWith(' Tech')) {
+      feature.tech_type = feature.tech_type || action.activation.replace(/ Tech$/, '');
+    }
+    const perRound = typeof action.frequency === 'string' && action.frequency.match(/^(\d+)\/round$/i);
+    if (perRound) addTag(feature, { id: 'tg_round', val: parseInt(perRound[1]) });
+    feature.effect = actionText({ ...action, trigger: undefined }, false);
+    return;
+  }
+
+  feature.effect = [
+    ...actions.map((action: any) => actionText(action, true)),
+    ...deployables.map(deployableText),
+  ].join('<br><br>');
+}
+
 export function featureDataFromV3(data: any): any {
   if (!data) return undefined;
   const feature = { ...data };
@@ -71,6 +158,7 @@ export function featureDataFromV3(data: any): any {
   }
   if ('accuracy' in feature && feature.accuracy !== undefined) feature.accuracy = tierArray(feature.accuracy);
   if ('attack_bonus' in feature && feature.attack_bonus !== undefined) feature.attack_bonus = tierArray(feature.attack_bonus);
+  deriveEffectFromV3(feature);
   return feature;
 }
 
@@ -94,7 +182,8 @@ export function parseCompconNpc(raw: any): DomainNpc {
     throw new Error('Invalid NPC file: missing id or class');
   }
 
-  const isV3 = 'combat_data' in src;
+  const alreadyDomain = Array.isArray(src.items) && !Array.isArray(src.features) && src.stats && typeof src.class === 'string';
+  const isV3 = 'combat_data' in src && !alreadyDomain;
 
   if (!isV3) {
     src.class = refId(src.class);

@@ -24,6 +24,7 @@ export function loadFixture(kind: FixtureKind, name: string): any {
 }
 
 export const INLINE_LCP_PILOT = 'v3-pilot-inline-lcp-content.json';
+export const BONDED_V3_PILOT = 'v3-pilot-bonded.json';
 
 export const v2Pilots = loadFixtures('v2-pilots');
 export const v3Pilots = loadFixtures('v3-pilots');

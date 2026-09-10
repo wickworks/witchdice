@@ -2,9 +2,10 @@ import {
   savePilotData, loadPilotData, MODEL_TAG, loadNpcLibrary, loadEncounterData,
 } from '../lancerLocalStorage';
 import { parseCompconPilot } from './parsePilot';
+import { parseCompconNpc } from './parseNpc';
 import { applyUpdatesToPlayer } from '../LancerPlayerMode/playerUtils';
 import { getStat } from '../LancerNpcMode/npcUtils';
-import { v2Pilots, v3Pilots, v2Npcs, v3Npcs } from './__fixtures__/fixtures';
+import { v2Pilots, v3Pilots, v2Npcs, v3Npcs, loadFixture, BONDED_V3_PILOT } from './__fixtures__/fixtures';
 
 class LocalStorageMock {
   store: Record<string, string> = {};
@@ -44,6 +45,24 @@ describe('pilot storage round-trip', () => {
       expect(typeof loaded.mechs[0].current_hp, name).toBe('number');
       expect(Number.isNaN(loaded.mechs[0].current_hp), name).toBe(false);
     }
+  });
+
+  it('flattens a nested V3 bond left on an already-migrated stored pilot', () => {
+    const raw = loadFixture('v3-pilots', BONDED_V3_PILOT);
+    const stale: any = { ...parseCompconPilot(raw), _model: MODEL_TAG };
+    for (const field of ['bondId', 'bondData', 'bondPowers', 'burdens', 'bondAnswers', 'minorIdeal', 'xp', 'stress']) delete stale[field];
+    stale.bond = raw.data.bond;
+    (globalThis as any).localStorage.setItem(`pilot-${stale.id.slice(0, 6)}-${stale.name}`, JSON.stringify(stale));
+
+    const loaded = loadPilotData(stale.id) as any;
+    expect(loaded.bond).toBeUndefined();
+    expect(loaded.bondId).toBe(raw.data.bond.bondId);
+    expect(loaded.bondData.id).toBe(raw.data.bond.bondId);
+    expect(loaded.bondPowers.length).toBe(raw.data.bond.bondPowers.length);
+
+    const persisted = JSON.parse((globalThis as any).localStorage.getItem(`pilot-${stale.id.slice(0, 6)}-${stale.name}`));
+    expect(persisted.bond).toBeUndefined();
+    expect(persisted.bondId).toBe(raw.data.bond.bondId);
   });
 
   it('round-trips a mutation through applyUpdatesToPlayer + save + reload', () => {
@@ -103,6 +122,21 @@ describe('encounter storage round-trip', () => {
       per_round_uses: { something: 1 },
     };
   }
+
+  it('keeps items on an untagged domain NPC that was copied into an encounter before the library reloaded', () => {
+    const domain: any = parseCompconNpc(v3Npcs[0].json);
+    expect(domain.items.length).toBeGreaterThan(0);
+    const instance = { ...JSON.parse(JSON.stringify(domain)), fingerprint: 'A-123456', currentStats: { hp: 3, heatcap: 1, structure: 1, stress: 1, activations: 1 } };
+    const encounter = { id: '999999', name: 'Fresh', active: [], reinforcements: ['A-123456'], casualties: [], allNpcs: { 'A-123456': instance }, roundCount: 1 };
+    (globalThis as any).localStorage.setItem('encounter-999999-Fresh', JSON.stringify(encounter));
+
+    const loaded: any = loadEncounterData('999999');
+    const npc = loaded.allNpcs['A-123456'];
+    expect(npc._model).toBe(MODEL_TAG);
+    expect(npc.items.length).toBe(domain.items.length);
+    expect(npc.items.every((i: any) => i.data)).toBe(true);
+    expect(npc.currentStats.hp).toBe(3);
+  });
 
   it('migrates raw V3 NPC instances left in an encounter by the pre-domain build', () => {
     const v3 = v3Npcs.find(f => f.name.includes('engineer'))!.json;

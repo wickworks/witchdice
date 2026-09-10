@@ -76,8 +76,25 @@ function normalizeMech(mech: any) {
 }
 
 const LOCAL_PILOT_FIELDS = [
-  'bondId', 'xp', 'stress', 'burdens', 'bondPowers', 'bondAnswers', 'minorIdeal',
+  'bondId', 'xp', 'stress', 'burdens', 'bondPowers', 'bondAnswers', 'minorIdeal', 'clocks',
 ] as const;
+
+const V3_BOND_FIELDS = [
+  'xp', 'stress', 'burdens', 'bondPowers', 'bondAnswers', 'minorIdeal', 'clocks',
+  'powerSelections', 'maxStress', 'isBroken',
+] as const;
+
+export function flattenV3Bond(pilot: any): boolean {
+  const bond = pilot.bond;
+  if (!bond || typeof bond !== 'object') return false;
+  pilot.bondId = bond.bondId || pilot.bondId || '';
+  if (bond.data && bond.data.id) pilot.bondData = bond.data;
+  V3_BOND_FIELDS.forEach(field => {
+    if (bond[field] !== undefined) pilot[field] = bond[field];
+  });
+  delete pilot.bond;
+  return true;
+}
 
 export function carryOverLocalPilotFields(parsed: DomainPilot, existing: any): DomainPilot {
   if (!existing) return parsed;
@@ -110,6 +127,7 @@ export function parseCompconPilot(raw: any): DomainPilot {
   }
 
   pilot.mechs = pilot.mechs.map(normalizeMech);
+  flattenV3Bond(pilot);
 
   return PilotSchema.parse(pilot);
 }

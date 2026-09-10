@@ -205,6 +205,7 @@ const inlineContentRegistry = {
   npcClasses: {},
   npcFeatures: {},
   npcTemplates: {},
+  bonds: {},
 }
 
 export function registerInlineContent(type, id, data) {
@@ -217,6 +218,7 @@ export function registerPilotInlineContent(pilot) {
   ;(pilot.skills || []).forEach(skill => registerInlineContent('skills', skill.id, skill.data))
   ;(pilot.talents || []).forEach(talent => registerInlineContent('talents', talent.id, talent.data))
   ;(pilot.core_bonus_data || []).forEach(coreBonus => registerInlineContent('coreBonuses', coreBonus.id, coreBonus))
+  if (pilot.bondData) registerInlineContent('bonds', pilot.bondData.id, pilot.bondData)
 
   ;[pilot.loadout, ...(pilot.loadouts || [])].filter(loadout => loadout).forEach(loadout => {
     ;[...(loadout.gear || []), ...(loadout.armor || []), ...(loadout.weapons || [])].forEach(gear => {
@@ -355,7 +357,12 @@ export const findTagData = (tagID) => {
 
 export const findBondData = (bondID) => {
   var bondData = allBonds[bondID]
+  if (!bondData) bondData = inlineContentRegistry.bonds[bondID]
   return bondData ? bondData : blankBond
+}
+
+export const findAllBondData = () => {
+  return {...allBonds, ...inlineContentRegistry.bonds}
 }
 
 export const OVERCHARGE_SEQUENCE = ['1','1d3','1d6','1d6+4']

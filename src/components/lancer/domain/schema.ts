@@ -53,12 +53,14 @@ export const PilotSchema = z.looseObject({
   counter_data: z.array(z.any()).optional(),
   shareCode: z.string().optional(),
   bondId: z.string().optional(),
+  bondData: z.looseObject({ id: z.string() }).optional(),
   xp: num.optional(),
   stress: num.optional(),
   burdens: z.array(z.any()).optional(),
   bondPowers: z.array(z.any()).optional(),
   bondAnswers: z.array(z.any()).optional(),
   minorIdeal: z.string().optional(),
+  clocks: z.array(z.any()).optional(),
 });
 
 export const NpcSchema = z.looseObject({
