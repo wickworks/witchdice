@@ -6,7 +6,7 @@ import SquadPanel from './SquadPanel/SquadPanel.jsx';
 
 import {
   LANCER_SQUAD_MECH_KEY,
-  purgeLegacyLcpData,
+  migrateLegacyLcpData,
 } from './lancerLocalStorage';
 
 import './MainLancer.scss';
@@ -51,7 +51,7 @@ const MainLancer = ({
   }
 
   useEffect(() => {
-    purgeLegacyLcpData()
+    migrateLegacyLcpData()
   }, []);
 
   return (

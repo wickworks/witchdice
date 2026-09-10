@@ -2,11 +2,18 @@ import {
   loadLocalData,
   saveLocalData,
   getStorageName,
+  getIDFromStorageName,
 } from '../../localstorage.js';
 
 import type { Encounter } from './types';
 import { parseCompconPilot } from './domain/parsePilot';
 import { parseCompconNpc, defaultNpcName } from './domain/parseNpc';
+import {
+  npcContentFromLegacyLcps,
+  backfillNpcInlineContent,
+  hasNpcContent,
+  type LegacyNpcContent,
+} from './domain/legacyLcp';
 import { applyUpdatesToNpc, getStat } from './LancerNpcMode/npcUtils';
 import { registerNpcInlineContent } from './lancerData';
 import type { DomainPilot, DomainNpc } from './domain/schema';
@@ -22,14 +29,52 @@ export const LANCER_SQUAD_MECH_KEY = 'lancer-squad-mech'
 
 const LEGACY_LCP_PREFIX = 'lcp-';
 
-export function purgeLegacyLcpData() {
-  const staleKeys: string[] = [];
+function storageKeysWithPrefix(prefix: string): string[] {
+  const keys: string[] = [];
   for (let i = 0; i < localStorage.length; i++) {
     const key = localStorage.key(i);
-    if (key && key.startsWith(LEGACY_LCP_PREFIX)) staleKeys.push(key);
+    if (key && key.startsWith(prefix)) keys.push(key);
   }
-  staleKeys.forEach(key => localStorage.removeItem(key));
-  return staleKeys.length;
+  return keys;
+}
+
+function loadLegacyLcps(keys: string[]): any[] {
+  return keys.map(key => {
+    try {
+      return JSON.parse(localStorage.getItem(key) || 'null');
+    } catch (e) {
+      console.error('Could not read legacy LCP; skipping', key, e);
+      return null;
+    }
+  }).filter(lcp => lcp);
+}
+
+function backfillStoredNpcsFromLegacyLcps(content: LegacyNpcContent) {
+  const library = loadNpcLibrary();
+  const libraryChanged = Object.values(library)
+    .map(npc => backfillNpcInlineContent(npc, content))
+    .some(changed => changed);
+  if (libraryChanged) saveNpcLibrary(library);
+
+  storageKeysWithPrefix(`${ENCOUNTER_PREFIX}-`).forEach(key => {
+    const encounter = loadEncounterData(getIDFromStorageName(ENCOUNTER_PREFIX, key, STORAGE_ID_LENGTH));
+    if (!encounter) return;
+    const encounterChanged = Object.values(encounter.allNpcs || {})
+      .map(npc => backfillNpcInlineContent(npc, content))
+      .some(changed => changed);
+    if (encounterChanged) saveEncounterData(encounter);
+  });
+}
+
+export function migrateLegacyLcpData() {
+  const lcpKeys = storageKeysWithPrefix(LEGACY_LCP_PREFIX);
+  if (lcpKeys.length === 0) return 0;
+
+  const content = npcContentFromLegacyLcps(loadLegacyLcps(lcpKeys));
+  if (hasNpcContent(content)) backfillStoredNpcsFromLegacyLcps(content);
+
+  lcpKeys.forEach(key => localStorage.removeItem(key));
+  return lcpKeys.length;
 }
 
 export function savePilotData(pilot: DomainPilot) {
