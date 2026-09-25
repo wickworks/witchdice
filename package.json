@@ -42,6 +42,7 @@
     "start": "vite",
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:old": "tsc && vite build --outDir dist-old",
     "typecheck": "tsc --noEmit",
     "test": "vitest",
     "test:run": "vitest run",

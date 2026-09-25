@@ -1,5 +1,18 @@
 {
   "projects": {
     "default": "roll-to-hit"
-  }
+  },
+  "targets": {
+    "roll-to-hit": {
+      "hosting": {
+        "main": [
+          "witchdice"
+        ],
+        "old": [
+          "witchdice-old"
+        ]
+      }
+    }
+  },
+  "etags": {}
 }
