@@ -14,6 +14,11 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
+          <div className='version-label'>v2.0.0 — Sept 2026</div>
+          <ul>
+            <li>Added v3 support for pilots and NPCs from COMP/CON. This will likely break some existing data, but LCPs should no longer be required.</li>
+          </ul>
+
           <div className='version-label'>v1.3.8 — May 2025</div>
           <ul>
             <li>Added a Lancer Tactics banner ad. You can dismiss it by clicking it. :)</li>
