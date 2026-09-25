@@ -14,9 +14,10 @@ const ChangeLog = () => {
 
       {isOpen &&
         <div className="change-container">
-          <div className='version-label'>v2.0.0 — Sept 2026</div>
+          <div className='version-label'>v2.0.0–1 — Sept 2026</div>
           <ul>
             <li>Added v3 support for pilots and NPCs from COMP/CON. This will likely break some existing data, but LCPs should no longer be required.</li>
+            <li>Put pre-v3 version of the site up at <a href='https://old.witchdice.com' target="_blank">old.witchdice.com</a></li>
           </ul>
 
           <div className='version-label'>v1.3.8 — May 2025</div>
@@ -52,7 +53,7 @@ const ChangeLog = () => {
             <li>Added Winter Scar player-facing LCP by default.</li>
           </ul>
 
-          <div className='version-label'>v1.2.13-14 — Nov 2024</div>
+          <div className='version-label'>v1.2.13–14 — Nov 2024</div>
           <ul>
             <li>Fix crash when Lucifer NHP is applied to a profiled weapon.</li>
             <li>Skip loading deleted cloud NPCs from compcon.</li>
@@ -84,7 +85,7 @@ const ChangeLog = () => {
             <li>Fixed crash on selecting weapon with no tags // terishima blade.</li>
           </ul>
 
-          <div className='version-label'>v1.2.0-1 — Jan 2024</div>
+          <div className='version-label'>v1.2.0–1 — Jan 2024</div>
           <ul>
             <li>Include all first-party LCPs automatically.</li>
             <li>Added secret /draft url for prototype NPC PvP gamemode.</li>
@@ -101,7 +102,7 @@ const ChangeLog = () => {
             <li>Track thermal charge uses.</li>
           </ul>
 
-          <div className='version-label'>v1.1.20-21 — Oct-Nov 2023</div>
+          <div className='version-label'>v1.1.20–21 — Oct-Nov 2023</div>
           <ul>
             <li>Fix detection of NPC tech actions vs invades.</li>
             <li>First overcharge bumps up the heat for you.</li>
@@ -111,13 +112,13 @@ const ChangeLog = () => {
             <li>Fix the same skill roll popping back up multiple times.</li>
           </ul>
 
-          <div className='version-label'>v1.1.18-19 — Aug-Sept 2023</div>
+          <div className='version-label'>v1.1.18–19 — Aug-Sept 2023</div>
           <ul>
             <li>NPC tech attack rolls use listed bonuses instead of SYS score.</li>
             <li>Added plain roll history page (for iframes) at /view?r=room-name</li>
           </ul>
 
-          <div className='version-label'>v1.1.14-17 — July 2023</div>
+          <div className='version-label'>v1.1.14–17 — July 2023</div>
           <ul>
             <li>Can leave joined rooms (it refreshes the page)</li>
             <li>OBR extension can input what room they would like to join.</li>
@@ -137,7 +138,7 @@ const ChangeLog = () => {
             <li>Add x/round tracking checkboxes and corresponding reset button.</li>
           </ul>
 
-          <div className='version-label'>v1.1.0-12 — May 2023</div>
+          <div className='version-label'>v1.1.0–12 — May 2023</div>
           <ul>
             <li>Support for Owlbear Rodeo extension.</li>
             <li>Collapsible pilot card for Lancer sheet.</li>
@@ -167,7 +168,7 @@ const ChangeLog = () => {
             <li>Can expand conditions to get detailed rules text.</li>
           </ul>
 
-          <div className='version-label'>v0.13.9-11 — Nov 2022</div>
+          <div className='version-label'>v0.13.9–11 — Nov 2022</div>
           <ul>
             <li>Mech list pays attention to and saves which one is active.</li>
             <li>Fixed the wrong weapon getting destroyed for npcs.</li>
@@ -198,7 +199,7 @@ const ChangeLog = () => {
             <li>Mechs in squad panel can be clicked for detailed build.</li>
           </ul>
 
-          <div className='version-label'>v0.12.1-10 — May, June 2022</div>
+          <div className='version-label'>v0.12.1–10 — May, June 2022</div>
           <ul>
             <li>Added status/condition indicator for statuses/conditions.</li>
             <li>Added a generic action "cheat sheet".</li>

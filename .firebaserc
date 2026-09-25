@@ -5,11 +5,11 @@
   "targets": {
     "roll-to-hit": {
       "hosting": {
-        "main": [
-          "witchdice"
-        ],
         "old": [
           "witchdice-old"
+        ],
+        "main": [
+          "roll-to-hit"
         ]
       }
     }

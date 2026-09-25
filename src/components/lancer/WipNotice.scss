@@ -6,7 +6,9 @@
   max-width: 800px;
   text-align: center;
   color: $rust_dark;
-  // font-size: 20px;
+  font-size: 20px;
+
+  @include below_max_width { font-size: 14px; }
 
   a {
     margin: 0 4px;
