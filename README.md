@@ -20,13 +20,20 @@ http://localhost:4000
 update ChangeLog.jsx and version.js and owlbear_ext/manifest.js
 make a version commit
 move deployed branch up to main
+
 npm run build
+
+npm run build:old
+
 
 # preview the deploy
 firebase hosting:channel:deploy eye-of-newt
 
 # actually deploy
-firebase deploy
+firebase deploy --only hosting:main
+
+firebase deploy --only hosting:old
+
 
 ### NEW ENVIRONMENT ###
 - create a .env file in the root directory:
