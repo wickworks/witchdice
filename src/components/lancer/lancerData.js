@@ -672,7 +672,7 @@ export function getModdedWeaponData(weapon) {
     }
 
     // Say what the effect will be ahead of time.
-    weaponData.effect = [weaponData.effect, weaponData.on_hit].filter(effect => effect).join(' ')
+    weaponData.effect = [weaponData.effect, weaponData.on_hit.detail].filter(effect => effect).join(' ')
 
   // Normal weapon
   } else {
